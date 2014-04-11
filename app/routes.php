@@ -11,17 +11,33 @@
 |
 */
 
-Route::any('/', array(
-    "as" => "user/login",
-    "uses" => "UserController@loginAction"
-));
+Route::group(array("before" => "guest"), function()
+{
+	Route::any('/', array(
+	    "as" => "user/login",
+	    "uses" => "UserController@loginAction"
+	));
 
-Route::any("/request", array(
-    "as"   => "user/request",
-    "uses" => "UserController@requestAction"
-));
+	Route::any("/request", array(
+	    "as"   => "user/request",
+	    "uses" => "UserController@requestAction"
+	));
 
-Route::any("/reset", array(
-    "as"   => "user/reset",
-    "uses" => "UserController@resetAction"
-));
+	Route::any("/reset", array(
+	    "as"   => "user/reset",
+	    "uses" => "UserController@resetAction"
+	));
+});
+
+Route::group(array("before" => "auth"), function()
+{
+    Route::any("/profile", array(
+        "as"   => "user/profile",
+        "uses" => "UserController@profileAction"
+    ));
+
+    Route::any("/logout", array(
+        "as"   => "user/logout",
+        "uses" => "UserController@logoutAction"
+    ));
+});

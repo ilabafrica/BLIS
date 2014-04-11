@@ -55,7 +55,7 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'lara_tutorial',
+			'database'  => 'iblis',
 			'username'  => 'lara',
 			'password'  => 'password',
 			'charset'   => 'utf8',

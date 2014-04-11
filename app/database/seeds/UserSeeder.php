@@ -7,8 +7,8 @@ extends DatabaseSeeder
     {
         $users = array(
         	array(
-                "username" => "thomas.mapesa",
-                "password" => Hash::make("n:nih:i"),
+                "username" => "thomas",
+                "password" => Hash::make("password"),
                 "email"    => "mapesa@gmail.com"
             )
         );

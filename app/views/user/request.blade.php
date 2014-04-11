@@ -6,9 +6,9 @@
 	)) }}
 	{{ Form::label("email", "Email")}}
 	{{ Form::text("email", Input::get("email"), array(
-		"placeholder" => "jciku@example.com"
+		"placeholder" => "j.siku@example.com"
 	)) }}
-	{{ Form:submit("reset") }}
+	{{ Form::submit("reset") }}
 {{ Form::close() }}
 @stop
 @section("footer")
