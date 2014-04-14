@@ -11,5 +11,5 @@ Quick Start
 3. Update the application configuration files to suit your local settings:
   <ul><li>Set the "Application URL" in /app/config/app.php</li>
     <li>Set the database connection details in /app/config/database.php</li></ul>
-4. Run the migrations to create the required tables.
+4. Run the migrations to create the required database tables.
     <blockquote>php artisan migrate</blockquote>
