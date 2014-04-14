@@ -32,10 +32,12 @@
                         "class" => "text-field"
                     )) }}
                     </div>
-                    <div class="form-row"><i class="icon white right-arrow"></i>
-                    {{ Form::submit("Login", array(
-                        "class" => "btn-green"
-                    )) }}
+                    <div class="form-row">
+                        <div class="btn-wrap"><i class="icon white right-arrow"></i>
+                            {{ Form::submit("Login", array(
+                                "class" => "btn-green"
+                            )) }}
+                        </div>
                     </div>
                 {{ Form::close() }}
                 <div class="smaller-text alone help">
