@@ -25,7 +25,7 @@
 					"route"		   => "user/request",
 					"autocomplete" => "off"
 					)) }}
-					<div class="form-row"><i class="icon user"></i>
+					<div class="form-row"><span class="icon user"></span>
 						{{ Form::text("email", Input::get("email"), array(
 						"placeholder" => "j.siku@example.com",
 						"class" => "text-field"
@@ -33,11 +33,11 @@
 					</div>
 					<div class="form-row">
 						<div class="btn-wrap">
-							<i class="icon white right-arrow"></i>
+							<span class="icon white right-arrow"></span>
 							{{ Form::submit("Reset", ["class" => "btn-red"]) }}
 						</div>
 						<div class="btn-wrap icon-left">
-							<i class="icon white left-arrow"></i>
+							<span class="icon white left-arrow"></span>
 							<a href="/" class="btn-green">Back</a>
 						</div>
 					</div>

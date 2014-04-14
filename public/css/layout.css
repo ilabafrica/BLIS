@@ -100,6 +100,7 @@ label, input, .error{
 }
 
 /* ICONS */
+/*  16x16   */
 .icon {
     height: 16px;
     width: 16px;
@@ -109,6 +110,17 @@ label, input, .error{
 }
 .icon.white {
     background-image:url("/i/glyphicons-halflings-white.png");
+}
+/*  22x20   */
+.icon-2 {
+    background-image:url("/i/glyphish-half-icons-dark.png");
+    height: 20px;
+    width: 22px;
+    position: absolute;
+    z-index: 1;
+}
+.icon-2.white {
+    background-image:url("/i/glyphish-half-icons-light.png");
 }
 .icon.user {
     background-position: -166px 2px;
@@ -121,6 +133,19 @@ label, input, .error{
 }
 .icon.right-arrow {
     background-position: -241px -144px;
+}
+/*      Sidebar Icons   */
+.icon-2.home {
+    background-position: -75px -173px;
+}
+.icon-2.test {
+    background-position: -7px -306px;
+}
+.icon-2.report {
+    background-position: -206px -40px;
+}
+.icon-2.inventory {
+    background-position: 93px 93px;
 }
 
 /* LOGIN PAGE */
@@ -274,23 +299,65 @@ label, input, .error{
 .main-body{
     margin-top: 45px;
 }
+/*      Side Menubar Left*/
     .main-body .left-side-bar{
-         background-color: #3d3d3d;
-         color: #bababa;
+         background-color: #3D3D3D;
+         color: #D1D1D1;
          max-width: 225px;
     }
         .main-body .left-side-bar ul {
             list-style-type: none;
         }
-        .main-body .left-side-bar .main-menu {
-            height: 40px;
-            line-height: 40px;
-            border-bottom: 1px solid #cccccc;
+        .main-body .left-side-bar > ul {
+            padding-left: 0;
+            margin-top: 40px;
         }
+            .main-body .left-side-bar > ul > li {
+                border-bottom: 1px solid #636363;
+            }
+                .main-body .left-side-bar .main-menu {
+                    height: 40px;
+                    line-height: 40px;
+                    padding-left: 40px;
+                    position: relative;
+                }
+                .main-body .left-side-bar .main-menu:hover {
+                    background-color: #313131;
+                    cursor: pointer;
+                }
+                .main-body .left-side-bar .main-menu.active {
+                    background-color: #E02222;
+                }
+                    .main-body .left-side-bar .main-menu > .icon-2 {
+                        left: 15px;
+                        top: 8px;
+                    }
         .main-body .left-side-bar .sub-menu {
             height: 30px;
+            line-height: 30px;
+            padding-left: 20px;
+        }
+        .main-body .left-side-bar .sub-menu:hover {
+            background-color: #313131;
+        }
+        .main-body .left-side-bar .sub-menu-items {
+            padding-left: 25px            
         }
             .main-body .left-side-bar .sub-menu-items li {
-                height: 20px;
                 display: :inline-block;
             }
+                .main-body .left-side-bar .sub-menu-items li div{
+                    position: relative;
+                    padding-left: 25px;
+                    height: 30px;
+                    line-height: 30px;
+                }
+                .main-body .left-side-bar .sub-menu-items li div:hover{
+                    background-color: #313131;
+                    cursor: pointer;
+                }
+                .main-body .left-side-bar .sub-menu-items li div .icon-2{
+                    background-position: -141px -37px;
+                    left: 2px;
+                    top: 5px;
+                }

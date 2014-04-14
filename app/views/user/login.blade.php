@@ -21,19 +21,19 @@
                     "route"        => "user/login",
                     "autocomplete" => "off"
                 )) }}
-                    <div class="form-row"><i class="icon user"></i>
+                    <div class="form-row"><span class="icon user"></span>
                     {{ Form::text("username", Input::old("username"), array(
                         "placeholder" => "Username",
                         "class" => "text-field"
                     )) }}</div>
-                    <div class="form-row"><i class="icon pass"></i>
+                    <div class="form-row"><span class="icon pass"></span>
                     {{ Form::password("password", array(
                         "placeholder" => "Password",
                         "class" => "text-field"
                     )) }}
                     </div>
                     <div class="form-row">
-                        <div class="btn-wrap"><i class="icon white right-arrow"></i>
+                        <div class="btn-wrap"><span class="icon white right-arrow"></span>
                             {{ Form::submit("Login", array(
                                 "class" => "btn-green"
                             )) }}
