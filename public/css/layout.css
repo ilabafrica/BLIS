@@ -22,19 +22,6 @@ a:hover{
     margin   : 0 auto;
 }
 
-.footer{
-    background  : #000;
-    line-height : 50px;
-    height      : 50px;
-    width       : 100%;
-    color       : #fff;
-}
-
-.footer{
-    position : absolute;
-    bottom   : 0;
-}
-
 .content{
     padding : 25px 0;
 }
@@ -148,7 +135,11 @@ label, input, .error{
     background-position: 93px 93px;
 }
 
-/* LOGIN PAGE */
+/*
+*
+* LOGIN PAGE 
+*
+*/
 
 .login-page {
     background: #444;
@@ -278,32 +269,111 @@ label, input, .error{
         position: absolute;
     }
 
-/* GLOBAL LAYOUTS PAGE*/
+/*
+*
+* GLOBAL LAYOUTS VIEW
+*
+*/
 .header {
     background: #000000;
     width: 100%;
+    min-width: 500px;
     height: 45px;
     position: fixed;
     top:0;
+    z-index: 3;
 }
+    .header .grid .grid-2{
+        min-width: 250px;
+        width: auto;
+    }
     .header .app-heading{
         padding-left: 20px;
         font-weight: 100;
-        color: #f1f1f1;
+        color: #636363;
     }
     .header .user-profile {
-        text-align: right;
-        padding-right: 10px;
         line-height: 45px;
+        float: right;
+        position: relative;
     }
+        .header .user-profile a {
+            color: #999999;
+            display: inline-block;
+            width: 100%;
+        }
+        .header .user-profile a:hover {
+            text-decoration: none;
+        }
+        .header .user-profile .user-link {
+            height: 45px;
+            width: 155px;
+            overflow: hidden;
+            float: right;
+            padding-left: 35px;
+            position: relative;
+        }
+        .header .user-profile .user-link:hover {
+            background-color: #313131;
+            cursor: pointer;
+        }
+            .header .user-profile .user-link .icon-2 {
+                left: 10px;
+                top: 11px;
+                background-position: -5px 294px;
+            }
+        .header .user-profile .user-settings {
+            display: none;
+            background-color: #313131;
+            width: 190px;
+            float: right;
+            top: 45px;
+            position: absolute;
+            right: 0px;
+            z-index: 2;
+        }
+            .header .user-profile .user-settings div{
+                background-color: #000000;
+                padding-left: 40px;
+                position: relative;
+            }
+            .header .user-profile .user-settings > div:hover{
+                background-color: #313131;
+                cursor: pointer;
+            }
+                .header .user-profile .user-settings div span{
+                    position: absolute;
+                    left: 5px;
+                    top: 11px;
+                }
+                .header .user-profile .user-settings div .icon-2.user-edit {
+                    background-position: 130px 60px;
+                }
+                .header .user-profile .user-settings div .icon-2.user-logout {
+                    background-position: 31px -73px;
+                }
+/*
+*
+*
+* BODY
+*
+*/                
 .main-body{
     margin-top: 45px;
+    min-width: 1024px;
+    min-height: 673px;
+    overflow: hidden;
+    border-bottom: 1px solid #F1F1F1;
 }
-/*      Side Menubar Left*/
+/*
+*      Side Menubar Left
+*/
     .main-body .left-side-bar{
          background-color: #3D3D3D;
          color: #D1D1D1;
          max-width: 225px;
+         min-width: 225px;
+         margin-right: 10px;
     }
         .main-body .left-side-bar ul {
             list-style-type: none;
@@ -327,6 +397,9 @@ label, input, .error{
                 }
                 .main-body .left-side-bar .main-menu.active {
                     background-color: #E02222;
+                    background-image: url("/i/white-triangle.png");
+                    background-repeat: no-repeat;
+                    background-position: right center;
                 }
                     .main-body .left-side-bar .main-menu > .icon-2 {
                         left: 15px;
@@ -361,3 +434,76 @@ label, input, .error{
                     left: 2px;
                     top: 5px;
                 }
+    .main-body .main-area {
+        min-width: 760px;
+        margin-top: 10px;
+    }
+/*
+*
+* FOOTER
+*/
+.footer{
+    line-height : 50px;
+    height      : 50px;
+    width       : 100%;
+    min-width: 1024px;
+    position : relative;
+    font-size: 0.9em;
+    text-align: center;
+    overflow: hidden;
+}
+
+/*
+*
+*   ERRORS PAGE (404)
+*
+*/
+.error-page {
+    text-align: center;
+    padding-top: 40px;
+}
+    .error-page a {
+        display: inline-block;
+        height: 40px;
+        line-height: 40px;
+        padding: 0px 20px;
+        padding-left: 40px;
+        border: 1px solid #F1F1F1;
+        border-radius: 3px;
+        margin-top: 20px;
+        position: relative;
+    }
+    .error-page a:hover {
+        background-color: #F1F1F1;
+        text-decoration: none;
+    }
+        .error-page a span {
+            top:13px;
+            left: 20px;
+        }
+
+/*
+*
+*   PROFILE PAGE
+*
+*/
+.section {
+    border: 1px solid #1C94C4;
+}
+    .section .section-title {
+        border-bottom: 1px solid #1C94C4;
+        background-color: #1C94C4;
+        color: #FFFFFF;
+        height: 38px;
+        line-height: 38px;
+        padding-left: 40px;
+        font-weight: bold;
+        position: relative;
+    }
+        .section .section-title .icon-2 {
+            left: 5px;
+            top: 9px;
+        }
+        .section .section-title .user-edit {
+            background-position: 130px 60px;
+        }

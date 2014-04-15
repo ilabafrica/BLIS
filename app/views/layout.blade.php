@@ -3,6 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="/css/layout.css" />
+        <link rel="stylesheet" type="text/css" href="/css/ui-lightness/jquery-ui-min.css" />
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery-ui-min.js"></script>
+        <script type="text/javascript" src="js/script.js"></script>
         <title>iBLIS 1.0</title>
     </head>
     <body>
@@ -11,7 +15,7 @@
             <div class="left-side-bar grid-3">
                 @include("sidebar")
             </div>
-            <div class="content grid-3-2">
+            <div class="content grid-3-2 main-area">
                 <div class="container">
                     @yield("content")
                 </div>

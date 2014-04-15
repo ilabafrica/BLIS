@@ -1,7 +1,7 @@
 @section("footer")
     <div class="footer">
         <div class="container">
-            Powered by <a href="http://laravel.com">Laravel</a>
+            <a href="http://www.ilabafrica.ac.ke">iLabAfrica</a> &copy; 2014
         </div>
     </div>
 @show

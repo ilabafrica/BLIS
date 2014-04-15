@@ -41,3 +41,4 @@ Route::group(array("before" => "auth"), function()
         "uses" => "UserController@logoutAction"
     ));
 });
+
