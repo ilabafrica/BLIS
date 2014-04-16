@@ -2,17 +2,59 @@
 @section("content")
 	<div class="section">
 		<div class="section-title"><span class="icon-2 white user-edit"></span>Edit Profile</div>
-		<div id="user-profile-tabs">
-			<ul>
-				<li><a href="#tabs-1">User Profile</a></li>
-				<li><a href="#tabs-2">Change Password</a></li>
-			</ul>
-			<div id="tabs-1">
-				<p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
-			</div>
-			<div id="tabs-2">
-				<p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
-			</div>
+		<div class="user-profile-form">
+			{{ Form::open(array(
+                    "route"        => "user/login",
+                    "autocomplete" => "off"
+                )) }}
+                <div class="form-row">
+                	{{ Form::label('username', 'Username: ') }}
+                    {{ Form::text("username", Input::old("username"), array(
+                        "placeholder" => "jsiku",
+                        "class" => "text-field"
+                    )) }}</div>
+                <div class="form-row">
+                	{{ Form::label('name', 'Full Names: ') }}
+                    {{ Form::text("name", Input::old("name"), array(
+                        "placeholder" => "Jay Siku",
+                        "class" => "text-field"
+                    )) }}</div>
+                <div class="form-row">
+                	{{ Form::label('email', 'Email Address: ') }}
+                    {{ Form::text("email", Input::old("email"), array(
+                        "placeholder" => "j.siku@ilabafrica.ac.ke",
+                        "class" => "text-field"
+                    )) }}</div>
+                <div class="form-row">
+                	{{ Form::label('designation', 'Designation: ') }}
+                    {{ Form::text("designation", Input::old("designation"), array(
+                        "placeholder" => "Lab Technologist",
+                        "class" => "text-field"
+                    )) }}</div>
+                <div class="form-row">
+                	{{ Form::label('gender', 'Gender: ') }}
+                    {{ Form::text("gender", Input::old("gender"), array(
+                        "class" => "text-field"
+                    )) }}</div>
+                <div class="form-row">
+                	{{ Form::label('image', 'Photo: ') }}
+                    {{ Form::text("image", Input::old("image"), array(
+                        "class" => "text-field"
+                    )) }}</div>
+                <div class="form-row">
+                    <div class="btn-wrap">
+                        {{ Form::submit("Change Password", array(
+                            "class" => "btn-green"
+                        )) }}
+                    </div>
+                    <div class="btn-wrap">
+                        {{ Form::submit("Save", array(
+                            "class" => "btn-green"
+                        )) }}
+                    </div>
+                </div>
+
+            {{ Form::close() }}
 		</div>
 	</div>
 @stop

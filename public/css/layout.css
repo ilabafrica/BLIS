@@ -86,7 +86,9 @@ label, input, .error{
     background-color: #AA3547;
 }
 
-/* ICONS */
+/* 
+*ICONS 
+*/
 /*  16x16   */
 .icon {
     height: 16px;
@@ -134,6 +136,61 @@ label, input, .error{
 .icon-2.inventory {
     background-position: 93px 93px;
 }
+
+/*
+*   FORMS
+*
+*/
+
+.form-row{
+    overflow: hidden;
+    position: relative;
+}
+    .form-row label {
+        height: 34px;
+        line-height: 34px;
+        width: 200px;
+    }
+    .form-row input.text-field {
+        width: 270px;
+        padding-left: 20px;
+        font-size: 14px;
+        border: 1px solid #CCCCCC;
+        height: 34px;
+    }
+    .form-row input.text-field:focus {
+        border: 1px solid #999999; 
+    }
+    .form-row .btn-wrap {
+        display: inline-block;
+        width: 80px;
+        font-size: 14px;
+        height: 34px;
+        overflow: hidden;
+        position: relative;
+    }
+    .form-row .btn-wrap:hover,
+    .form-row .btn-wrap input:hover {
+        cursor: pointer;
+    }
+    .form-row .btn-wrap input,
+    .form-row .btn-wrap a {
+        border: 0;
+        display: inline-block;
+        height: 100%;
+        line-height: 34px;
+        margin: 0;
+        padding-left: 10px;
+        text-align: left;
+        width: 100%;
+    }
+    .form-row .btn-wrap.icon-left input,
+    .form-row .btn-wrap.icon-left a {
+        padding-left: 20px;
+    }
+    .form-row .btn-wrap a:hover {
+        text-decoration: none;
+    }
 
 /*
 *
@@ -188,10 +245,6 @@ label, input, .error{
             margin-bottom: 10px;
             padding-left: 15px;
             padding-right: 15px;
-        }
-        .login-page .login-form .form-row {
-            position: relative;
-            overflow: hidden;
         }
         .login-page .login-form input.text-field {
             width: 270px;
@@ -489,6 +542,7 @@ label, input, .error{
 */
 .section {
     border: 1px solid #1C94C4;
+    overflow: hidden;
 }
     .section .section-title {
         border-bottom: 1px solid #1C94C4;
@@ -506,4 +560,17 @@ label, input, .error{
         }
         .section .section-title .user-edit {
             background-position: 130px 60px;
+        }
+    .section .user-profile-form {
+        margin: 10px 25px;
+        overflow: hidden;
+    }
+        .section .user-profile-form .form-row label,
+        .section .user-profile-form .form-row input {
+            float: left;
+            clear: none;
+        }
+        .section .user-profile-form .form-row .btn-wrap{
+            width: 120px;
+            text-align: center;
         }
