@@ -44,7 +44,7 @@
                     <p><a href="{{ URL::route("user/request") }}">Need help?</a></p>
                 </div>
                 <div class="smaller-text alone foot">
-                    <p><a href="#">User Guide</a> | <a href="#">Comments</a></p>
+                    <p><a href="userguide/" target="_blank">User Guide</a> | <a href="#">Comments</a></p>
                     <p>
                         iBLIS - a port of the Basic Laboratory Information System (BLIS) to Laravel by iLabAfrica.
                         BLIS was originally developed by C4G.

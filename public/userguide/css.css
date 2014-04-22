@@ -1,0 +1,23 @@
+/* 
+ * <link href="css.css" media="all" rel="stylesheet" type="text/css">
+ * 
+ */
+body
+{
+width:90%;
+margin:auto;
+}
+
+img {
+    max-width:100%;
+}
+
+
+.article > .titlepage {
+	text-align:center;
+}
+
+.article > .titlepage ~ .titlepage {
+    text-align:center;
+}
+

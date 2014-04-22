@@ -1,0 +1,411 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title></title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link href="css.css" media="all" rel="stylesheet" type="text/css">
+</head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="article"><div class="titlepage"><div><div><h2 class="title"><a name="id476555"></a>
+    <img src="img/bliskenya.png" align="middle" >
+  </h2></div><div><p class="releaseinfo">
+      <span class="bold"><strong>System Documentation</strong></span>
+    </p></div><div><p class="releaseinfo">BLIS-Kenya v2.5 - A joint initiative of C4G @ Georgia Tech, the CDC, </p></div><div><p class="releaseinfo">@iLabAfrica - Strathmore University , Association of Public Health Laboratories (APHL) and participating countries</p></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="#id540036">Introduction</a></span></dt><dd><dl><dt><span class="section"><a href="#id540042">Purpose</a></span></dt><dt><span class="section"><a href="#id540056">Scope</a></span></dt></dl></dd><dt><span class="section"><a href="#id540068">System Design</a></span></dt><dd><dl><dt><span class="section"><a href="#id540078">System Architecture</a></span></dt><dt><span class="section"><a href="#id540098">Data Flow Model</a></span></dt><dt><span class="section"><a href="#id540110">Entity Relationship Model</a></span></dt><dt><span class="section"><a href="#id540126">System Modules</a></span></dt><dt><span class="section"><a href="#id540278">System Use-Case</a></span></dt></dl></dd><dt><span class="section"><a href="#id540291">Functional Requirements</a></span></dt><dd><dl><dt><span class="section"><a href="#id540301">Specimen Registration and Processing</a></span></dt><dt><span class="section"><a href="#id540646">Specimen Tracking</a></span></dt><dt><span class="section"><a href="#id540709">Testing and Results Entry</a></span></dt><dt><span class="section"><a href="#id540868">Reporting</a></span></dt><dt><span class="section"><a href="#id541116">Quality Assurance/Quality Control</a></span></dt><dt><span class="section"><a href="#id541227">External Quality Assessment (EQA)</a></span></dt><dt><span class="section"><a href="#id541238">Laboratory Equipment and Personnel Data Inventory</a></span></dt><dt><span class="section"><a href="#id541549">Tests</a></span></dt><dt><span class="section"><a href="#id550885"></a></span></dt></dl></dd><dt><span class="section"><a href="#id551002">Operational Requirements</a></span></dt><dd><dl><dt><span class="section"><a href="#id551011">Minimum System Requirements</a></span></dt><dt><span class="section"><a href="#id551207">Training</a></span></dt><dt><span class="section"><a href="#id551218">Operations Monitoring</a></span></dt><dt><span class="section"><a href="#id551229">Storage, Back-Up and Disaster Recovery</a></span></dt><dt><span class="section"><a href="#id551239">Security</a></span></dt><dt><span class="section"><a href="#id551268">Support</a></span></dt><dt><span class="section"><a href="#id551290">Procedures while System is Down</a></span></dt></dl></dd></dl></div><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id540036"></a>Introduction</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id540042"></a>Purpose</h3></div></div></div><p>Basic Laboratory Information System (BLIS) is a free open-source laboratory information system (LIS). It is primarily utilized in Africa, is an initiative of the Computing for Good (C4G) program at Georgia Institute of Technology, the CDC and participating countries. BLIS was chosen by APHL/CDC and Kenya LIMS stakeholders as the laboratory information system to be implemented for a pilot roll-out in Bungoma and Kapsabet District Hospitals. </p><p> 
+This document describes in detail the system design, requirements specification and implementation details. The described system design also captures the modifications that are being as it is customized BLIS to fit the requirements for Bungoma and Kapsabet Laboratories.
+</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id540056"></a>Scope</h3></div></div></div><p>This project focuses on the implementation and customization of BLIS for the Kenya LIMS project. The initial version supports the lab procedures which include order management, inventory/commodity management and reporting. The system design supports the addition of additional modules and data types as they emerge. The availability of an open source LIMS will ultimately allow a distributed development model in which additional modules can be contributed by other centers and ability to interface with other EMR systems can be easily achieved. 
+</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id540068"></a>System Design</h2></div></div></div><p>This section describes the system architecture, system process flow, data model and system components.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id540078"></a>System Architecture</h3></div></div></div><p>BLIS operates in a networked environment as illustrated  </p><div align="center"><img src="img/sys_doc/blis-network.png" align="middle"></div><p>BLIS can be hosted in a laboratory server and can be accessible from any computer and instrument on the LAN. Lab equipment is interfaced through the network for instruments that are equipped with a NIC card. Lab equipment that is equipped with RS-232 serial connectors for passing data are connected to the lab PC. BLIS pulls the database periodically for any new results so that they are aggregated for report generation and submission to clinicians.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id540098"></a>Data Flow Model</h3></div></div></div><div align="center"><img src="img/sys_doc/data_flow_model.png" align="middle"></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id540110"></a>Entity Relationship Model</h3></div></div></div><p>The figure below illustrates a simplified entity relationship diagram for BLIS. The diagram captures the system entities and data that are captured by the system. </p><div align="center"><img src="img/sys_doc/er_diagram.png" align="middle"></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id540126"></a>System Modules</h3></div></div></div><p>The system includes different modules to handle specific functions in the laboratory environment. The following figure indicates modules that have been implemented and modified in BLIS to meet the requirements of Bungoma and Kapsabet District Hospitals.</p><div align="center"><img src="img/sys_doc/modules.png" align="middle"></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540140"></a>Laboratory Equipment</h4></div></div></div><p>These are the instruments that are used in carrying out the various tests on different specimens collected in the hospital laboratory. A module  interfaces the instruments with BLIS so that results are sent directly to the system.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540151"></a>Other Systems (EMR)</h4></div></div></div><p>This is where electronic data interchange has been implemented. The module created facilitates data exchange between the LIS and other systems. The LIS receives laboratory orders from Electronic Medical Records (EMR) systems and sends results to EMR. It is operable with other information systems</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540162"></a>Users</h4></div></div></div><p>This module manages system users, roles, permissions and access levels.  This ensures that any user that interacts with the LIS is limited to specialized roles and permissions. This prevents cross-functional conflicts between different laboratory user roles.</p><p>
+Different users have access to the LIS based upon their role in the organization and the data they need access to. Users can log in using a username and a password. This provides a standard level of security in the system so that non-authorized users cannot have access to lab information or be able to change any data. Also users can be added or deleted at any time.
+</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540176"></a>Patients</h4></div></div></div><p>The LIS maintains information on all individuals that are assigned any tests in the lab. Certain users may be able to change patient information depending on their roles. The patient management function allows for all lab tests done for a specific person over time to be linked to that particular individual. It also handles patient data imports from other EMR systems.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540187"></a>Providers</h4></div></div></div><p>Providers are either individuals or organizations that submit specimens for testing to a lab. The LIS keeps a record of all providers that have the ability to send specimens and receive results.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540198"></a>Tests</h4></div></div></div><p>The LIS manages all the tests and procedures that are carried out by the lab, allowing for different tests to be grouped into categories if needed. Tests may be identified using standard codes such as LOINC (Logical Observations Identifiers Names and Codes) or CPT (Current Procedural Terminology). The LIS allows for tests to be added, deleted or modified from the Test Catalog.</p><p>
+It also includes the functional requirements of the processes after a specimen has been received and registered in the LIS and before the result data is available for dissemination. Manual entry of results or automatic capture from a lab instrument, flagging of abnormal values etc. are all required functions of the LIS.
+</p><p>The LIS also maintains information related to the test results including entry and reporting. Users have limited access to results based on their roles and only certain individuals have the authority to modify results. Reference ranges are also included.
+</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540216"></a>Specimen</h4></div></div></div><p>The LIS allows for information regarding the handling of specimens from the time they are received at the lab all the way to disposal. Unique identification, including labeling of the sample and all of its aliquots, is required so that results can be matched back to the originating sample. Additionally, samples may be sent to third parties for confirmatory testing or as overflow.
+</p><p>Besides the sequential processing from receiving through testing, specimens and samples may spend time in intermediate storage, as well as be stored for subsequent testing following the initial testing or stored as evidence. Long-term specimen and sample storage may also be required, including products/organisms grown from them.  This LIS keeps track of every stage that the specimen goes through including registration, short term and long term storage.
+</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540230"></a>Inventory</h4></div></div></div><p>The LIS provides capability to manage various aspects of inventory control such as ordering, tracking, and distribution for all items inventoried by a laboratory. Examples include specimen and sample collection kits, testing kits, lab supplies, chemicals, equipment, and forms.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540241"></a>Billing</h4></div></div></div><p>The LIS obtains billing information from the submitter requesting the test or other entities, tabulate the items to be billed, apply appropriate billing rates, and create the invoices and supporting billing documentation.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540252"></a>Quality Assurance/Quality Controls</h4></div></div></div><p>The system maintains quality control checking (directly from instruments or via manual input) and cumulative weekly and monthly quality control reports. The laboratory  defines QC parameters and features test procedure type.</p><p>
+It also allows for managing the maintenance of laboratory equipment, maintenance records etc. including reminders for maintenance and servicing.
+</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540266"></a>Reports</h4></div></div></div><p>The LIS generates and delivers reports in either hard copy or electronic format to authorized users. These reports are stored or generated ad hoc and allows the user to view data on requests received, specimens registered, pending results, workload etc. The user is  able to define the types of reports they need.</p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id540278"></a>System Use-Case</h3></div></div></div><div align="center"><img src="img/sys_doc/sys_use-case.png" align="middle"></div></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id540291"></a>Functional Requirements</h2></div></div></div><p>The functional requirements for a system describe what the system should do. They are statements of services the system should provide, how the system should react to particular inputs, and how the system should behave in particular situations. Below is an outline of the services the LIS should provide.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id540301"></a>Specimen Registration and Processing</h3></div></div></div><p>Patients who require laboratory services must be referred for those services by a doctor, nurse or other medical care provider.  Consequently, patients must see one of these individuals before laboratory services can be performed.  These clinicians see patients in a variety of places including at separate clinics or wards within hospitals and at standalone clinics or health stations. Typically, laboratory test request orders are initiated by a clinician who fills out a test request.  While the data required in the form is usually the same, the format of request forms used within the health care system may vary from place to place.  The sample may be taken in the ward for in-patients or in a sample collection area for out-patients.  Often these sample collection areas are a part of the laboratory reception area, although that is not always the case. The physical orientation of the hospital and the logistics of the laboratory often determine where the sample collection takes place.  In addition, some samples are taken external to the hospital (for example, at home for stool samples) and brought to the laboratory.  Regardless of where the sample is taken, the sample request information must be logged into the LIS, along with required demographic information, and matched with the patient sample.
+</p><p>A unique specimen identifier for each sample (or sample number) that can be placed on the sample and the sample request form should be generated through the LIS.
+</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540314"></a></h4></div></div></div><p>System should allow for rejection of specimen right at specimen receipt.  This will complete the testing cycle for this specimen.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540324"></a></h4></div></div></div><p>System should support the ability to perform a quick entry (not all patient demographics are entered) so that a specimen ID is assigned, tests are assigned, barcode labels printed and testing can begin.  Full demographics can be entered at any time before reporting is done</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540333"></a></h4></div></div></div><p>System should support complete order entry and assigns a unique specimen identifier with a bar coded label to each sample</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540343"></a></h4></div></div></div><p>The system should maintain a complete audit trail of order process.  This audit trail MUST be visibly accessible to an authorized LIMS user Auditing should  include:
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Status of each change that an order undergoes
+</p></li><li class="listitem"><p>Date and time of event change
+</p></li><li class="listitem"><p>ID of person who changed the order</p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540379"></a></h4></div></div></div><p>The system should have the ability to search for previous patient information to link current request with previous demographics; when a returning patient is found, system must be able to pre-populate demographic information with the ability to edit and save.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540388"></a></h4></div></div></div><p>The system should have the ability to refer samples to another laboratory for testing if the testing is not performed at their laboratory.  The system must be able to maintain the record of this referral and allow for the entering of result data when received from referral laboratory</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540398"></a></h4></div></div></div><p>Generally requisition forms used by hospitals and clinicians to request laboratory analysis in the Kenya public health laboratories are standardized, although there may be slight differences between laboratories.  The Kenya TWG has tentative plans to standardize these requisition forms across the country. The following patient and specimen data fields should be expected in this standardized form and required in a LIS:
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Specimen Identification Number &#8211; a unique sample identifier which should be generated in the laboratory at the time of sample receipt and used to identify a specific sample.</p></li><li class="listitem"><p>Date Received/Time Received &#8211; Date and time the sample was received by the laboratory
+</p></li><li class="listitem"><p>Patient Name/ID Number &#8211; Name of patient or patient identifier if the sample is collected without name.
+</p></li><li class="listitem"><p>Patient Sex &#8211; Sex of the patient.
+</p></li><li class="listitem"><p>Patient&#8217;s Date of Birth (Age) &#8211; Patients birth date should also show calculation of age.  While the use of birth dates is becoming more prevalent in Kenya, birth dates are often not known. Currently the age of the patient or birth year is logged with the sample and with the patient information. If a birth date is supplied the age should be calculated. A mechanism for retroactively determining the age of the patient at specimen collection time must be provided; </p></li><li class="listitem"><p>Patient address: village or address of patient
+</p></li><li class="listitem"><p>Ward &#8211; Ward (if sample was collected in a hospital)
+</p></li><li class="listitem"><p>Medical Registration Number &#8211; Chart number of hospital patient
+</p></li><li class="listitem"><p>NID &#8211; National Identifier
+</p></li><li class="listitem"><p>District &#8211;  Name of district where the sample was collected
+</p></li><li class="listitem"><p>Region &#8211; Name of region where the sample was collected
+</p></li><li class="listitem"><p>Name of Hospital &#8211; Hospital or clinic where the sample was collected
+</p></li><li class="listitem"><p>External Lab Number &#8211; If the sample is received from another location there is the need to track the ID supplied by the external source.
+</p></li><li class="listitem"><p>Collection Date &#8211; Date sample was collected
+</p></li><li class="listitem"><p>Collection Time &#8211; Time sample was collected
+</p></li><li class="listitem"><p>Sample Type &#8211; Type of sample presented for analysis
+</p></li><li class="listitem"><p>Receipt Number &#8211; Receipt number for patients who have paid for the analysis
+</p></li><li class="listitem"><p>Amount Paid or Receipt Number &#8211; The amount paid by the patient for the test
+</p></li><li class="listitem"><p>Investigation Required &#8211; Tests requested
+Requested by &#8211; Name of person requesting test
+</p></li><li class="listitem"><p>Date requested &#8211; Date the test was requested
+</p></li><li class="listitem"><p>Comments about sample(s)
+</p></li><li class="listitem"><p>Clinical history and provisional diagnosis
+</p></li><li class="listitem"><p>Priority&#8212;Routine or Urgent
+</p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540579"></a></h4></div></div></div><p>System should allow the ability to prioritize testing of a specimen.  Priorities should be user definable and modifiable</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540589"></a></h4></div></div></div><p>The system should support duplicate order checking during order processing that:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Detects duplicates of currently active orders
+</p></li><li class="listitem"><p>Detects duplicates of inactive or already performed orders
+</p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540616"></a></h4></div></div></div><p>The capability for the electronic referral of specimens to external laboratories and the capability for electronic receipt of reported data.  </p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540626"></a></h4></div></div></div><p>LIS systems installed in laboratories which receive referrals from other laboratories should have the capability of the electronic receipt of referred specimens and the capability of electronic reporting of sample results along with the requisite tracking mechanisms to ensure that both the samples and the results get to the appropriate locations efficiently.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540636"></a></h4></div></div></div><p>The ability to provide for electronic laboratory orders from the ward for in-patients and the reporting to the ward of laboratory results.</p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id540646"></a>Specimen Tracking</h3></div></div></div><p>Below is a summary of specimen tracking</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540656"></a></h4></div></div></div><p>System should provide The ability to track samples:
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Within a laboratory, i.e. workstations, refrigerators, incubators, etc. </p></li><li class="listitem"><p>Between labs or lab sections and into specimen racks or storage containers </p></li><li class="listitem"><p>To storage locations via rack or container ID.
+</p></li><li class="listitem"><p>Track when a specimen is removed from storage.
+Track specimen to destruction.
+</p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540698"></a></h4></div></div></div><p>System to provide the ability to create user-definable bar code labels and parameters for storage locations, storage containers and specimen racks.</p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id540709"></a>Testing and Results Entry</h3></div></div></div><p>Every effort should be made to decrease the amount of data entry required for analysts.  Data that have been previously entered into the LIS should not have to be re-keyed for any reason.  Data required by analytical instrumentation to ensure sample identification and to meet QA/QC requirements should be uploaded from the instrument if the instrumentation supports electronic transfer of data.  In addition, results of analyses should be subsequently downloaded into the LIS along with identifying information to link test results with the correct sample.  When automatic uploading and/or downloading of data are not possible, steps should be introduced to simplify and automate the transmission of data into or from the LIS application. The table below summarizes the above. Users should comment and add any notes/information.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540718"></a></h4></div></div></div><p>System should allow for rejection at any time during the testing process</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540728"></a></h4></div></div></div><p>The ability to cancel specific tests and reject specimens must be allowed.  A reason for a canceled test or rejected specimen should be able to be entered and the reason reported back to the submitter.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540738"></a></h4></div></div></div><p>The ability to repeat a test on a specimen and have it appear on the next work list</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540747"></a></h4></div></div></div><p>Access to results data should be based on user roles and privileges</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540757"></a></h4></div></div></div><p>System should Automatically capture workload and test statistics</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540766"></a></h4></div></div></div><p>The system should provide for a supervisor verification step prior to releasing patient results.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540776"></a></h4></div></div></div><p>System must also provide for <span class="bold"><strong>manual result entry</strong></span>.  This will accept an accession (manually or via bar code) and allow the analyst to enter results.  </p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540790"></a></h4></div></div></div><p>System should provide user-defined reflex testing protocols, test calculations and interpretive reporting. </p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540800"></a></h4></div></div></div><p>System should be able to produce a printable 
+&#8220;work list&#8221; for each test area.  This will identify the specimens ordered and ready for testing in this area (including any repeat samples)
+</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540810"></a></h4></div></div></div><p>System must be able to allow for specimens to be referred to a secondary laboratory for further testing if initial test results (or testing algorithm) require further confirmation or follow up testing.  The system must be able to maintain the record of this referral and allow for the entering of result data when received from referral laboratory.  In remote laboratories, testing is referred to the referral laboratories for the areas below.  Some specimens are also referred to Phase III laboratories when facilities for some tests are not available or instrumentation is down:
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Cytology/Histopathology
+</p></li><li class="listitem"><p>Viral Load
+</p></li><li class="listitem"><p>HIV
+</p></li><li class="listitem"><p>Infant PCR (Dried blood spot)
+</p></li><li class="listitem"><p>Mycobacterium Tuberculosis Culture and Confirmation
+</p></li><li class="listitem"><p>CD4 (for only some sites)
+</p></li></ul></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id540868"></a>Reporting</h3></div></div></div><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Reports should be generated by the LIS as aggregate data and patient reports.  </p></li><li class="listitem"><p>New reports should be created by the LIS laboratory personnel according to their preferences by specifying the necessary datasets on the go. Essentially, the LIS service provider can design new reports as requested and the lab personnel will subsequently generate the reports.
+</p></li><li class="listitem"><p>Provision for any third party software that is utilized by the facility for the generation of reports should be considered too. This conforms to the interoperability of the system with others already in place at the facility.
+</p></li></ol></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540902"></a></h4></div></div></div><p>Once the requested test has been completed and result data entered into the LIS, a printed report of analysis should be produced for delivery to the clinician and client.  In addition, data required to reproduce the report in the future must be stored within the application.  </p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540912"></a></h4></div></div></div><p>The system must produce pending result reports, which include:
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>If the results have not been verified and accepted
+</p></li><li class="listitem"><p>If the tests have been ordered but not performed
+</p></li><li class="listitem"><p>If a test procedure has gone beyond the normal turnaround time 
+</p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540946"></a></h4></div></div></div><p>The system must produce reports for positive test results and de-identified aggregate health data for any given time period</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540956"></a></h4></div></div></div><p>The system must produce workload statistics reports.  This should be a summary list for selected time periods (days, hours, etc.), submitters, tests, laboratory sections and instruments. This includes, but is not limited to the following reports:
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Tests performed
+</p></li><li class="listitem"><p>Rejected test results </p></li><li class="listitem"><p>QC samples tested </p></li><li class="listitem"><p>Turnaround time reports
+</p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id540998"></a></h4></div></div></div><p>The ability to print interim reports that contain preliminary result findings.</p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id541008"></a></h4></div></div></div><p>System should have the ability to produce reports in either an on-going, real-time process or printed on-demand in batches. </p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id541017"></a></h4></div></div></div><p>When multiple tests are ordered on the same specimen, the LIS should support the option to do the following:
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Issue an interim report with available results and an indication that a test is pending and will follow
+</p></li><li class="listitem"><p>Interim reports would be issued until all tests are complete for that specimen and each interim report will contain all completed test results to date, along with indication of any tests that are pending
+</p></li><li class="listitem"><p>When all tests are completed, a final report will be issued which contains all completed test results
+</p></li><li class="listitem"><p>Hold all test results for a specimen until all work is complete and a final report issued
+</p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id541059"></a></h4></div></div></div><p>System should support transmitting reports and results to other systems. </p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id541069"></a></h4></div></div></div><p>The system should provide data mining techniques and reports selected by:
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Date range
+</p></li><li class="listitem"><p>Test procedure
+</p></li><li class="listitem"><p>Submitter
+</p></li><li class="listitem"><p>Other criteria identified by the laboratories
+</p></li></ul></div><p>
+These reports are stored or generated ad hoc and allows the user to view data on requests received, specimens registered, pending results, workload etc.
+</p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id541116"></a>Quality Assurance/Quality Control</h3></div></div></div><p>QA/QC capabilities and functions included in the LIS and how QC parameters and features are defined</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id541125"></a></h4></div></div></div><p>System should maintain quality control checking for instruments and manual input.  </p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id541135"></a></h4></div></div></div><p>The QC parameters and features should be user definable by laboratory, and test type/method.  </p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id541144"></a></h4></div></div></div><p>QC methodology should be capable of linking any specific sample with the quality control measures employed by the analysis and recording within the software all aspects of the analytical process, including analysts.  </p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id541154"></a></h4></div></div></div><p>System should maintain a complete audit trail of the result process including:
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Date and time of event change and initial result entry
+</p></li><li class="listitem"><p>Record each step that occurred in the processing of a test procedure
+</p></li><li class="listitem"><p>User who performed the step
+</p></li><li class="listitem"><p>Quality control
+</p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id541197"></a></h4></div></div></div><p>System should produce cumulative weekly and monthly quality control reports.  </p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id541207"></a></h4></div></div></div><p>System should have ability to flag samples as external quality control samples or proficiency samples; these results should not be included in aggregate reports (should not skew test statistics) </p></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id541216"></a></h4></div></div></div><p>System should show clearly the turnaround time per test</p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id541227"></a>External Quality Assessment (EQA)</h3></div></div></div><p>With the laboratory currently in the process of working toward accreditation which uses the LIS to store and report data elements vital to maintaining laboratory certification,  proficiency samples are prepared and sent out to remote laboratories assist in the accreditation.  The LIS should be capable of monitoring and managing these external proficiency samples and the data elements variable for the LIS should be flexible enough to allow for changes.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id541238"></a>Laboratory Equipment and Personnel Data Inventory</h3></div></div></div><p>The LIS should support the management of laboratory supplies inventory, equipment inventory, and personnel data.  Possible data elements to be captured in these areas are provided  below.  These data elements may change and the LIS must be flexible enough to allow for changes.</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id541248"></a></h4></div></div></div><p>System should have ability to manage laboratory inventory.  Below are data elements that may be tracked as part of the inventory management at the laboratories. </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Date
+</p></li><li class="listitem"><p>Shift
+</p></li><li class="listitem"><p>Commodity
+</p></li><li class="listitem"><p>Unit of issue
+</p></li><li class="listitem"><p>Beginning Balance
+</p></li><li class="listitem"><p>Quantity Received
+</p></li><li class="listitem"><p>Origin
+</p></li><li class="listitem"><p>Batch No.
+</p></li><li class="listitem"><p>Expiration Date
+</p></li><li class="listitem"><p>No. of Tests Done
+</p></li><li class="listitem"><p>Quantity used
+</p></li><li class="listitem"><p>Losses/Adjustments
+</p></li><li class="listitem"><p>Ending Balance
+</p></li><li class="listitem"><p>Remarks
+</p></li><li class="listitem"><p>Name of person making entry
+</p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id541370"></a></h4></div></div></div><p>System should have ability to manage equipment inventory. Below are possible data elements that may be tracked for equipment.
+</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Equipment Name
+</p></li><li class="listitem"><p>Department
+</p></li><li class="listitem"><p>Manufacturer
+</p></li><li class="listitem"><p>Model
+</p></li><li class="listitem"><p>Serial number
+</p></li><li class="listitem"><p>Date Received
+</p></li><li class="listitem"><p>Date Inspected
+</p></li><li class="listitem"><p>Calibration Date
+</p></li><li class="listitem"><p>Dates or interval of required calibration or maintenance
+</p></li><li class="listitem"><p>Date of Next Inspection
+</p></li><li class="listitem"><p>Date of Next Calibration
+</p></li><li class="listitem"><p>Warranty End Date
+</p></li><li class="listitem"><p>Status
+</p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id541477"></a></h4></div></div></div><p>System should have ability to manage personnel inventory. The following are the initial data elements maintained for personnel: </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Name
+</p></li><li class="listitem"><p>Location/Facility
+</p></li><li class="listitem"><p>Education Level
+</p></li><li class="listitem"><p>Specialty
+</p></li><li class="listitem"><p>Department
+</p></li><li class="listitem"><p>General Notes and Training record
+</p></li><li class="listitem"><p>Start Date
+</p></li><li class="listitem"><p>End Date
+</p></li></ul></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id541549"></a>Tests</h3></div></div></div><p>LIS should have the capability of capturing and reporting data for the range of clinical diagnostic tests associated with diseases of public health.  The following list represents potential tests that could be analyzed in the Kenya Phase III laboratories and should be included in any LIS application.  Not all laboratories have the capability of performing all these tests and there may be other tests performed that are not on this list.  This list, however, represents the majority of tests performed in the Kenya laboratories.</p><div class="table"><a name="id541558"></a><p class="title"><b>Table 1. </b></p><div class="table-contents"><table summary="" border="1"><colgroup><col class="c1"><col class="c2"></colgroup><tbody><tr><td>
+                <span class="bold"><strong>Test Category/Lab section</strong></span>
+              </td><td>
+                <span class="bold"><strong>Tests</strong></span>
+              </td></tr><tr><td>
+                <span class="bold"><strong>Parasitology</strong></span>
+              </td><td> Parasite identification (microscopic)</td></tr><tr><td>
+                <span class="bold"><strong>Clinical Chemistry</strong></span>
+              </td><td><p>Fasting blood sugar</p><p>Random blood sugar</p><p>Glucose tolerance test</p><p>Urea</p><p>Creatinine</p><p>Sodium</p><p>Potassium</p><p>Chloride</p><p>Calcium</p><p>Bilirubin total</p><p>Bilirubin direct</p><p>Bilirubin indirect</p><p>ASAT</p><p>Alkaline Phosphatase</p><p>Acid Phosphatase</p><p>Cholesterol</p><p>Protein total</p><p>Albumin</p><p>Globulin</p>Uric Acid<p>
+Amylase</p><p>Triglyceride</p><p>Gamma GT
+</p><p>HCG</p><p>PSA
+</p></td></tr><tr><td>
+                <span class="bold"><strong>Urine Analysis</strong></span>
+              </td><td>
+                <p>Macroscopic Appearance
+</p>
+                <p>pH
+</p>
+                <p>Sp. Gravity
+</p>
+                <p>Glucose
+</p>
+                <p>Protein
+</p>
+                <p>Bilirubin
+</p>
+                <p>Nitrite
+</p>
+                <p>Ketones
+</p>
+                <p>Urobilinogen
+</p>
+                <p>Blood
+</p>
+                <p>Leucocytes
+</p>
+                <p>Microscopic Results
+</p>
+              </td></tr><tr><td>
+                <span class="bold"><strong>Hematology</strong></span>
+              </td><td>
+                <p>Hb
+</p>
+                <p>Hct (PCV)
+</p>
+                <p>MCV
+</p>
+                <p>MCH
+</p>
+                <p>MCHC
+</p>
+                <p>RBC Total
+</p>
+                <p>WBC Total
+</p>
+                <p>ESR
+</p>
+                <p>Hb Electrophoresis
+</p>
+                <p>Blood Parasites
+</p>
+                <p>Sickle Cell Test
+</p>
+                <p>Reticulocytes
+</p>
+                <p>Platelets
+</p>
+                <p>Differential Ct
+</p>
+                <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Neutrophils
+</p></li><li class="listitem"><p>Eosinophils
+</p></li><li class="listitem"><p>Basophils
+</p></li><li class="listitem"><p>Lymphocytes
+</p></li><li class="listitem"><p>Monocytes
+</p></li></ul></div>
+                <p>Smear comments
+</p>
+                <p>Prothrombin time
+</p>
+                <p>P.T.T.
+</p>
+                <p>Clotting time
+</p>
+                <p>Bleeding time
+</p>
+              </td></tr><tr><td>
+                <span class="bold"><strong>Histopathology and Cytology</strong></span>
+              </td><td>
+                <p>Gross
+</p>
+                <p>Biopsy
+</p>
+                <p>OVA
+</p>
+                <p>Aspirate
+</p>
+                <p>FNA
+</p>
+                <p>BMA
+</p>
+                <p>Pap Smear
+</p>
+                <p>Seminal Fluid
+</p>
+                <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Volume
+</p></li><li class="listitem"><p>MA
+</p></li><li class="listitem"><p>Macrosopy
+</p></li><li class="listitem"><p>Morphology
+</p></li><li class="listitem"><p>Motility
+</p></li><li class="listitem"><p>Count
+</p></li><li class="listitem"><p>Smear
+</p></li><li class="listitem"><p>pH
+</p></li></ul></div>
+                <p>Buccal Smear</p>
+              </td></tr><tr><td>
+                <span class="bold"><strong>Serology</strong></span>
+              </td><td>
+                <p>HIV Rapid Tests
+</p>
+                <p>VDRL
+</p>
+                <p>TPHA\ASPT
+</p>
+                <p>RA Test
+</p>
+                <p>Hep A Antigen
+</p>
+                <p>Hep B Antigen
+</p>
+                <p>Hep C Antigen
+</p>
+                <p>Pregnancy Test
+</p>
+                <p>Extended Widal
+</p>
+                <p>Salm Typhil O</p>
+                <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Widal
+</p></li></ul></div>
+                <p>Sam Typhil H
+</p>
+                <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Widal</p></li></ul></div>
+                <p>Brucella A (abortus)
+</p>
+                <p>Brucella M
+</p>
+                <p>Proteus OX 19
+</p>
+                <p>T3
+</p>
+                <p>T4
+</p>
+                <p>TSH
+</p>
+                <p>PSA
+</p>
+                <p>CEA
+</p>
+                <p>FSH
+</p>
+                <p>AFP
+</p>
+                <p>LH
+</p>
+                <p>HCG
+</p>
+                <p>Prolactin (PRL)
+</p>
+                <p>Progesterone
+</p>
+                <p>Testosterone
+</p>
+                <p>HIV Screen
+</p>
+                <p>HIV &#8211; Elisa (PCR amplification)
+</p>
+                <p>HIV &#8211; Western Blot
+</p>
+                <p>Viral Load
+</p>
+                <p>DNA-PCR (early infant diagnosis)
+</p>
+                <p>CD4
+</p>
+                <p>CD8
+</p>
+                <p>Total CD3
+</p>
+                <p>CD4/CD8
+</p>
+                <p>CD4/CD3</p>
+                <p>CD8/CD3
+</p>
+                <p>Cryptococcal Ag </p>
+                <p>Syphillis </p>
+                <p>Rheumatoid Factor 
+</p>
+              </td></tr><tr><td>
+                <span class="bold"><strong>Bacteriology</strong></span>
+              </td><td>
+                <p>Macroscopic
+</p>
+                <p>Gram stain
+</p>
+                <p>ZN
+</p>
+                <p>India ink
+</p>
+                <p>Wet mount
+</p>
+                <p>Biochemistry testing
+</p>
+                <p>Media
+</p>
+                <p>Isolate identified
+</p>
+                <p>Bacterial Count
+</p>
+                <p>Resistance/Sensitivity
+</p>
+                <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Penicillin
+</p></li><li class="listitem"><p>Ampicillin
+</p></li><li class="listitem"><p>Cloxacillin
+</p></li><li class="listitem"><p>Chloramphenical
+</p></li><li class="listitem"><p>Tetracycline
+</p></li><li class="listitem"><p>Erythromycin
+</p></li><li class="listitem"><p>Co- trimoxazole
+</p></li><li class="listitem"><p>Gentamicin
+</p></li><li class="listitem"><p>Nitrofurantoin
+</p></li><li class="listitem"><p>Amikacin
+</p></li><li class="listitem"><p>Amoxicillin-Clavulanic Acid
+</p></li><li class="listitem"><p>Cefuroxime
+</p></li><li class="listitem"><p>Ciprofloxacin
+</p></li><li class="listitem"><p>Nalidixic Acid
+</p></li></ul></div>
+              </td></tr><tr><td>
+                <span class="bold"><strong>Mycobacteriology</strong></span>
+              </td><td>
+                <p>AFB smear
+</p>
+                <p>TB culture and identification
+</p>
+                <p>TB drug sensitivity
+</p>
+              </td></tr></tbody></table></div></div><br class="table-break"></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id550885"></a></h3></div></div></div><p>The table below provides the instrumentation available at the Kenya Phase III laboratories.  Each instrument listed should be interfaced to the LIS directly for uploading and downloading of data, if possible.</p><div class="table"><a name="id550893"></a><p class="title"><b>Table 2. </b></p><div class="table-contents"><table summary="" border="1"><colgroup><col class="c0"><col class="c1"></colgroup><tbody><tr><td>Level 5 District Hospital Laboratory</td><td>Instrumentation</td></tr><tr><td>Hematology</td><td>
+                  <p>Nihon Kohden Celltac F
+</p>
+                  <p>Beckman Coulter AcT2 Diff
+</p>
+                </td></tr><tr><td>Biochemistry</td><td>
+                  <p>Eurolyzer
+</p>
+                  <p>Humalyzer
+</p>
+                </td></tr><tr><td>CD4</td><td>
+                  <p>Becton-Dickenson FACS Count
+</p>
+                  <p>Becton-Dickenson FACS Calibur
+</p>
+                </td></tr><tr><td>Microbiology</td><td>
+                  <p>Becton Dickenson BACTEC</p>
+                </td></tr></tbody></table></div></div><p><br class="table-break"></p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id551002"></a>Operational Requirements</h2></div></div></div><p>These are constraints on the services or functions offered by the system. They include timing constraints, constraints on the development process, and constraints imposed by standards. They include;</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id551011"></a>Minimum System Requirements</h3></div></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id551017"></a>Server - Hardware:</h4></div></div></div><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>1x Dual-Core Server-CPU
+</p></li><li class="listitem"><p>8 GB working storage (RAM)
+</p></li><li class="listitem"><p>500 GB free hard disc capacity
+</p></li><li class="listitem"><p>Network TCP/IP, 1000 Mbit </p></li><li class="listitem"><p>Graphic resolution 1024 x 768 pixels, 16-bit colours
+</p></li><li class="listitem"><p>Keyboard, Mouse
+</p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id551073"></a>Server - Software</h4></div></div></div><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Ubuntu 12.04 LTS or Microsoft Windows Server 2008
+</p></li><li class="listitem"><p>VM Ware
+</p></li><li class="listitem"><p>Apache2
+</p></li><li class="listitem"><p>PHP5
+</p></li><li class="listitem"><p>Java Runtime Environment 7 (JRE7)
+</p></li><li class="listitem"><p>MySQL Server 5.1
+</p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id551127"></a>Client - Hardware</h4></div></div></div><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>CPU minimum Pentium 4, 1.66 GHz
+</p></li><li class="listitem"><p>1 GB working storage (RAM)</p></li><li class="listitem"><p>40GB MB free hard disc capacity
+</p></li><li class="listitem"><p>Network TCP/IP, 100 Mbit </p></li><li class="listitem"><p>Graphic resolution 1024 x 768 Pixel, 16-bit colours,
+</p></li><li class="listitem"><p>Keyboard, Mouse
+</p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="id551181"></a>Client - Software:</h4></div></div></div><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>Microsoft Windows XP Professional or Windows 7 Professional
+</p></li><li class="listitem"><p>Mozilla Firefox or Google Chrome or Internet Explorer
+</p></li></ul></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id551207"></a>Training</h3></div></div></div><p>Adequate training must be performed before authorized users are allowed to use the system in a production environment.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id551218"></a>Operations Monitoring</h3></div></div></div><p>Comprehensive monitoring of the entire production LIS environment (hardware, network, application, OS, security, etc.) is critical. An effective monitoring solution can often predict and fix problems before they adversely affect the end users of the application. An effective monitoring system should be implemented and operated by support personnel.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id551229"></a>Storage, Back-Up and Disaster Recovery</h3></div></div></div><p>The LIS should have the capability to perform routine backups of the data in the system. The LIS must have the ability to do both manual and scheduled data backups. The data backups must be done to a storage media that can be stored off-site and should also provide for the ability to do backups to remote connected devices as well. The system must provide for data restore and recovery capabilities as well.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id551239"></a>Security</h3></div></div></div><p>Server user login accounts should be limited to few trusted personnel involved in the setup and/or maintenance of the LIS application.
+</p><p>An anti-virus application should be installed, running and kept up to date with virus signatures on all LIS servers, and should be configured to perform weekly full scans of the system. The anti-virus application should also be configured to automatically trigger alerts to support personnel in the event of virus detection.
+</p><p>The LIS production server should be hosted behind an Internet firewall that enforces and monitors all Internet traffic to the application. The LIS servers should be configured to open only the TCP/IP ports that are required by the application.
+</p><p>The system needs to authenticate, enforce and maintain unique system wide user id and password credentials, for every user that has been granted access to the system. The application should only allow authenticated users access to system. The system automatically logs off users after a certain amount of inactivity. All user passwords in the database are encrypted and can be deciphered only by backend server modules. All passwords are transmitted and stored in encrypted fashion.
+</p><p>Every user that has been granted access to the LIS must be assigned a specific Role to play in the system. The user role defines a set of privileges for the particular user.
+</p><p>The system needs to track and log all critical interactions with the user including capturing the identity of the user, the user's action, and the timestamp of the action.
+</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id551268"></a>Support</h3></div></div></div><p>The facility management should appoint an internal resource to oversee the day to day running of the LIS and installation of updates from the vendor.
+</p><p>The LIS server infrastructure should be hosted in a controlled environment with adequate power, physical security, cooling, and UPS battery backup in the event of temporary power interruption.</p><p>The facility management should define a technical support process to enable the laboratory to submit support requests in the event of problems or issues with the LIS. Incidents should be submitted either by phone, email, or using a web form. The vendor and management should agree on a technical support process.
+</p><p>Procedures for change control need to be put in place to address application software upgrades such as resolving of critical bugs related to the LIS in a timely fashion and implementation of any minor enhancements or updates related to the application.
+</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="id551290"></a>Procedures while System is Down</h3></div></div></div><p>In case of a system or database breakdown the users must have the ability to manually accession the specimens and enter data into a separate local database or tool designed for temporary use. Upon successful restoration of the database following the outage there must be a mechanism to transmit the manually collected data to the LIS system or reenter it with the assigned accession numbers.</p></div></div></div></body></html>
