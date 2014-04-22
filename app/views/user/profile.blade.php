@@ -51,7 +51,7 @@
                         <a class="btn-green" href="javascript:void()">Change Password</a>
                     </div>
                     <div class="btn-wrap">
-                        <a class="btn-green" href="javascript:void()">Cancel</a>
+                        <a class="btn btn-primary" href="javascript:void()">Cancel</a>
                     </div>
                 </div>
 
