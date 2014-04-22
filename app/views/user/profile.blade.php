@@ -43,14 +43,15 @@
                     )) }}</div>
                 <div class="form-row">
                     <div class="btn-wrap">
-                        {{ Form::submit("Change Password", array(
+                        {{ Form::submit("Save", array(
                             "class" => "btn-green"
                         )) }}
                     </div>
                     <div class="btn-wrap">
-                        {{ Form::submit("Save", array(
-                            "class" => "btn-green"
-                        )) }}
+                        <a class="btn-green" href="javascript:void()">Change Password</a>
+                    </div>
+                    <div class="btn-wrap">
+                        <a class="btn-green" href="javascript:void()">Cancel</a>
                     </div>
                 </div>
 
