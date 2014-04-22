@@ -5,11 +5,11 @@
         <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css" />
         <link rel="stylesheet" type="text/css" href="/css/layout.css" />
-        <title>lBLIS 1.0</title>
+        <title>lara BLIS 1.0</title>
     </head>
     <body>
-        <div class="content login-page">
-            <div class="container login-form">
+        <div class="container login-page">
+            <div class="login-form">
                 <div class="form-head">
                     <img src="/i/logo_300.png" alt="" height="90" width="90">
                     <h2>Bungoma District Hospital Laboratory </h2>
@@ -21,24 +21,26 @@
                 </div>
                 {{ Form::open(array(
                     "route"        => "user/login",
-                    "autocomplete" => "off"
+                    "autocomplete" => "off",
+                    "class" => "form-signin",
+                    "role" => "form"
                 )) }}
                     <div class="form-row"><span class="icon user"></span>
                     {{ Form::text("username", Input::old("username"), array(
                         "placeholder" => "Username",
-                        "class" => "text-field"
+                        "class" => "text-field form-control"
                     )) }}</div>
                     <div class="form-row"><span class="icon pass"></span>
                     {{ Form::password("password", array(
                         "placeholder" => "Password",
-                        "class" => "text-field"
+                        "class" => "text-field form-control"
                     )) }}
                     </div>
                     <div class="form-row">
                         <div>
-                            {{ Form::submit("Login", array(
+                            {{ Form::button("Login", array(
                                 "type" => "submit",
-                                "class" => "btn btn-success float-r"
+                                "class" => "btn btn-lg btn-primary btn-block"
                             )) }}
                         </div>
                     </div>

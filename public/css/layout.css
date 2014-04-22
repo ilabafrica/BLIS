@@ -128,7 +128,7 @@ label, input, .error{
     .form-row input.text-field:focus {
         border: 1px solid #999999; 
     }
-*/
+
 /*
 *
 * LOGIN PAGE 
@@ -148,11 +148,12 @@ label, input, .error{
     .login-page .login-form {
         background: #ffffff;
         width: 351px;
-        height: 517px;
+        height: 530px;
         margin: auto;
         margin-top:30px;
         border: 1px solid #666;
         text-align: center;
+        position:relative;
     }
 
         .login-page .login-form .form-head,
@@ -161,19 +162,15 @@ label, input, .error{
             margin: auto;
         }
         .login-page .login-form .form-head {
-            height: 180px;
+            height: 240px;
             margin-top: 20px;
             overflow: hidden;
         }
             .login-page .login-form .form-head h2{
-                font-weight: 400;
-                margin-bottom: 10px;
+                font-weight: 100;
             }
-            .login-page .login-form .form-head .error{
-                width: 100%;
-                text-align: center;
-                font-size: 0.9em;
-                font-weight: bold;
+            .login-page .login-form .form-head .alert{
+                padding: 10px;
             }
         .login-page .login-form .info {
             color:#999;
@@ -184,7 +181,7 @@ label, input, .error{
             padding-right: 15px;
         }
         .login-page .login-form input.text-field {
-            width: 270px;
+            width: 100%;
             padding-left: 20px;
             font-size: 14px;
             border: 1px solid #ccc;
@@ -197,19 +194,6 @@ label, input, .error{
             border-top: 1px solid #999; 
             border-right: 1px solid #999; 
             border-bottom: 1px solid #999; 
-        }
-        .login-page .login-form .icon.user,
-        .login-page .login-form .icon.pass {
-            top: 16px;
-            left: 4px;
-        }
-        .login-page .login-form .icon.left-arrow {
-            top: 10px;
-            left: 4px;
-        }
-        .login-page .login-form .icon.right-arrow {
-            top: 10px;
-            right: 10px;
         }
     .login-page .help {
         text-align:right;

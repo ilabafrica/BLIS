@@ -27,8 +27,6 @@ Route::group(array("before" => "guest"), function()
 	    "as"   => "user/reset",
 	    "uses" => "UserController@resetAction"
 	));
-
-	Route::resource('patient', 'PatientController');
 });
 
 Route::group(array("before" => "auth"), function()
@@ -42,5 +40,7 @@ Route::group(array("before" => "auth"), function()
         "as"   => "user/logout",
         "uses" => "UserController@logoutAction"
     ));
+
+	Route::resource('patient', 'PatientController');
 });
 

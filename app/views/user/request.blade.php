@@ -5,14 +5,14 @@
         <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css" />
         <link rel="stylesheet" type="text/css" href="/css/layout.css" />
-        <title>lBLIS 1.0</title>
+        <title>lara BLIS 1.0</title>
     </head>
     <body>
         <div class="content login-page">
             <div class="container login-form">
                 <div class="form-head">
                     <img src="/i/logo_300.png" alt="" height="90" width="90">
-                    <h2>Bungoma District Hospital Laboratory </h2>
+                    <h3>Bungoma District Hospital Laboratory </h3>
                     @if($error = $errors->first("password"))
                         <div class="alert alert-danger">
                             {{ $error }}
@@ -34,8 +34,8 @@
 					)) }}
 					</div>
 					<div class="form-row float-r">
-                            {{ Form::button("Back", ["url" => "/" type" => "submit", "class" => "btn btn-success"]) }}
-                            {{ Form::button("Reset", ["type" => "submit", "class" => "btn btn-danger"]) }}
+                            {{ Form::button("Back",  ["name" => "back",  "value" => "1", "type" => "submit", "class" => "btn btn-success"]) }}
+                            {{ Form::button("Reset", ["name" => "reset", "value" => "2", "type" => "submit", "class" => "btn btn-danger"]) }}
 					</div>
 				{{ Form::close() }}
                 <div class="smaller-text alone foot">

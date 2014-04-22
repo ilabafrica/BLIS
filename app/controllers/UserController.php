@@ -13,6 +13,7 @@ class UserController extends Controller {
 
         $data = array( "errors" => $errors );
 
+        Log::info(Input::server("REQUEST_METHOD"));
         if (Input::server("REQUEST_METHOD") == "POST") 
         {
             $validator = Validator::make(Input::all(), array(
@@ -39,17 +40,23 @@ class UserController extends Controller {
                 ));
 
             $data["username"] = Input::get("username");
-
-            return Redirect::route("user/login")->withInput($data);
+            Log::info($data["errors"]);
+            return Redirect::to("/")->withInput($data);
         }
-
+        Log::info($data);
         return View::make("user/login", $data);
     }
 
     public function requestAction(){
         $data = array("requested" => Input::old("requested"));
 
-        if(Input::server("REQUEST_METHOD") == "POST"){
+Log::info(Input::all());
+
+        if(Input::get("back", false) ){
+            return Redirect::route("user/login");
+        }
+        else if(Input::get("reset", false) && Input::server("REQUEST_METHOD") == "POST")
+        {
             $validator = Validator::make(Input::all(), array("email" => "required"));
             if($validator->passes()){
                 $credentials = array("email" => Input::get("email"));
@@ -113,8 +120,7 @@ class UserController extends Controller {
         return View::make("user/profile");
     }
 
-    public function logoutAction()
-    {
+    public function logoutAction(){
         Auth::logout();
         return Redirect::route("user/login");
     }    
