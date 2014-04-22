@@ -1,8 +1,8 @@
 @extends("layout")
 @section("content")
-	<div class="section">
-		<div class="section-title"><span class="icon-2 white user-edit"></span>Edit Profile</div>
-		<div class="user-profile-form">
+	<div class="panel panel-primary">
+		<div class="panel-heading "><h3>Edit Profile</h3></div>
+		<div class="panel-body">
 			{{ Form::open(array(
                     "route"        => "user/login",
                     "autocomplete" => "off"
@@ -42,17 +42,12 @@
                         "class" => "text-field"
                     )) }}</div>
                 <div class="form-row">
-                    <div class="btn-wrap">
-                        {{ Form::submit("Save", array(
-                            "class" => "btn-green"
-                        )) }}
-                    </div>
-                    <div class="btn-wrap">
-                        <a class="btn-green" href="javascript:void()">Change Password</a>
-                    </div>
-                    <div class="btn-wrap">
-                        <a class="btn btn-primary" href="javascript:void()">Cancel</a>
-                    </div>
+                    {{ Form::button("Change Password", [ "class" => "btn btn-primary", "type" => "submit"]) }}
+                    {{ Form::button("Save", array(
+                        "type" => "submit",
+                        "class" => "btn btn-success"
+                    )) }}
+                    {{ Form::button("Cancel", [ "class" => "btn btn-default", "type" => "submit"]) }}
                 </div>
 
             {{ Form::close() }}

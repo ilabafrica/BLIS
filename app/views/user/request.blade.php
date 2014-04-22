@@ -2,8 +2,10 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css" />
         <link rel="stylesheet" type="text/css" href="/css/layout.css" />
-        <title>iBLIS 1.0</title>
+        <title>lBLIS 1.0</title>
     </head>
     <body>
         <div class="content login-page">
@@ -12,7 +14,7 @@
                     <img src="/i/logo_300.png" alt="" height="90" width="90">
                     <h2>Bungoma District Hospital Laboratory </h2>
                     @if($error = $errors->first("password"))
-                        <div class="error">
+                        <div class="alert alert-danger">
                             {{ $error }}
                         </div>
                     @endif
@@ -31,15 +33,9 @@
 						"class" => "text-field"
 					)) }}
 					</div>
-					<div class="form-row">
-						<div class="btn-wrap">
-							<span class="icon white right-arrow"></span>
-							{{ Form::submit("Reset", ["class" => "btn-red"]) }}
-						</div>
-						<div class="btn-wrap icon-left">
-							<span class="icon white left-arrow"></span>
-							<a href="/" class="btn-green">Back</a>
-						</div>
+					<div class="form-row float-r">
+                            {{ Form::button("Back", ["url" => "/" type" => "submit", "class" => "btn btn-success"]) }}
+                            {{ Form::button("Reset", ["type" => "submit", "class" => "btn btn-danger"]) }}
 					</div>
 				{{ Form::close() }}
                 <div class="smaller-text alone foot">

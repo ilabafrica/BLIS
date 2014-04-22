@@ -14,12 +14,12 @@
     </head>
     <body>
         @include("header")
-        <div class="main-body grid">
-            <div class="left-side-bar grid-3">
-                @include("sidebar")
-            </div>
-            <div class="content grid-3-2 main-area">
-                <div class="container">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    @include("sidebar")
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                     @yield("content")
                 </div>
             </div>

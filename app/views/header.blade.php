@@ -1,15 +1,18 @@
 @section ("header")
-    <div class="header">
-        <div class="container grid">
-            <div class="grid-2"><h1 class="app-heading">iBLIS 1.0</h1></div>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand"><i>lara</i> BLIS 1.0</a>
+            </div>
             <div class="grid-2  user-profile">
                 @if (Auth::check())
-                    <div class="user-link">
-                        <span class="icon-2 white user"></span>
-                        <a href="javascript:void()">
-                            <strong>{{ Auth::user()->username }}</strong>
-                        </a>
-                    </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="user-link">
+                            <a href="javascript:void()">
+                                <strong>{{ Auth::user()->username }}</strong>
+                            </a>
+                        </li>
+                    </ul>
                     <div class="user-settings">
                         <div><span class="icon-2 white user-edit"></span><a href="{{ URL::route("user/profile") }}">Edit Profile</a></div>
                         <div><span class="icon-2 white user-logout"></span><a href="{{ URL::route("user/logout") }}">Logout</a></div>
