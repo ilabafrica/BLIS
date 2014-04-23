@@ -14,8 +14,14 @@
                         </li>
                     </ul>
                     <div class="user-settings">
-                        <div><span class="icon-2 user-edit"></span><a href="{{ URL::route("user/profile") }}">Edit Profile</a></div>
-                        <div><span class="icon-2 user-logout"></span><a href="{{ URL::route("user/logout") }}">Logout</a></div>
+                        <div>
+                            <span class="glyphicon glyphicon-edit"></span>
+                            <a href="{{ URL::route("user/profile") }}">Edit Profile</a>
+                        </div>
+                        <div>
+                            <span class="glyphicon glyphicon-log-out"></span>
+                            <a href="{{ URL::route("user/logout") }}">Logout</a>
+                        </div>
                     </div>
                 @endif
             </div>

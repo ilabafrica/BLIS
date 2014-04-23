@@ -21,82 +21,23 @@ label, input {
 }
 
 /*
-*ICONS 
-*/
-/*  16x16   */
-.icon {
-    height: 16px;
-    width: 16px;
-    background:url("/i/glyphicons-halflings.png");
-    position: absolute;
-    z-index: 1;
-}
-.icon.white {
-    background-image:url("/i/glyphicons-halflings-white.png");
-}
-/*  22x20   */
-.icon-2 {
-    background-image:url("/i/glyphish-half-icons-dark.png");
-    height: 20px;
-    width: 22px;
-    position: absolute;
-    z-index: 1;
-}
-.icon-2.white {
-    background-image:url("/i/glyphish-half-icons-light.png");
-}
-.icon.user {
-    background-position: -166px 2px;
-}
-.icon.pass {
-    background-position: -286px -22px;
-}
-.icon.left-arrow {
-    background-position: -265px -144px;
-}
-.icon.right-arrow {
-    background-position: -241px -144px;
-}
-/*      Sidebar Icons   */
-.icon-2.home {
-    background-position: -75px -173px;
-}
-.icon-2.test {
-    background-position: -7px -306px;
-}
-.icon-2.report {
-    background-position: -206px -40px;
-}
-.icon-2.inventory {
-    background-position: 93px 93px;
-}
-
-/*
 *   FORMS
 *
 */
 
-.form-row{
+.form-group{
     overflow: hidden;
     position: relative;
-    margin-bottom: 5px;
 }
-    .form-row label {
-        height: 34px;
-        line-height: 34px;
+.form-group.actions-row {
+    padding-left: 200px;
+}
+    .form-group label {
         width: 200px;
     }
-    .form-row input.text-field {
+    .form-group .form-control {
         width: 270px;
-        padding-left: 20px;
-        font-size: 14px;
-        border: 1px solid #CCCCCC;
-        height: 34px;
     }
-    .form-row input.text-field:focus {
-        border: 1px solid #999999; 
-    }
-
 /*
 *
 * LOGIN PAGE 
@@ -151,29 +92,15 @@ label, input {
             padding-left: 15px;
             padding-right: 15px;
         }
-        .login-page .login-form input.text-field {
-            width: 100%;
-            padding-left: 20px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-left: 2px solid #339933;
-            height: 34px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .login-page .login-form input.text-field:focus {
-            border-top: 1px solid #999; 
-            border-right: 1px solid #999; 
-            border-bottom: 1px solid #999; 
-        }
-        .login-page .login-form .icon {
-            left: 5px;
-            top:12px;
-        }
-        .login-page .login-form .btn-lg {
-            font-size: 16px;
-            padding: 5px 0;
-        }
+            .login-page .login-form .form-group .form-control {
+                padding-left: 25px;
+                width: 100%;
+            }
+            .login-page .login-form .form-group .glyphicon {
+                position: absolute;
+                left: 5px;
+                top:16px;
+            }
     .login-page .help {
         text-align:right;
         padding-right: 27px;
@@ -207,7 +134,6 @@ label, input {
             .user-settings div{
                 background-color: #FFFFFF;
                 border-bottom: 1px solid #CCCCCC;
-                padding-left: 35px;
                 position: relative;
                 height: 40px;
             }
@@ -217,18 +143,18 @@ label, input {
             }
                 .user-settings div a{
                     line-height: 35px;
+                    padding-left: 35px;
                     color: #333333;
+                    display: inline-block;
+                    width: 100%;
+                }
+                .user-settings div a:hover{
+                    text-decoration: none;
                 }
                 .user-settings div span{
                     position: absolute;
                     left: 5px;
                     top: 11px;
-                }
-                .user-settings div .icon-2.user-edit {
-                    background-position: 130px 60px;
-                }
-                .user-settings div .icon-2.user-logout {
-                    background-position: 31px -73px;
                 }
 /*
 *
@@ -259,7 +185,7 @@ label, input {
                 .sidebar .main-menu {
                     height: 40px;
                     line-height: 40px;
-                    padding-left: 40px;
+                    padding-left: 20px;
                     position: relative;
                 }
                 .sidebar .main-menu:hover {
@@ -272,10 +198,6 @@ label, input {
                     background-repeat: no-repeat;
                     background-position: right center;
                 }
-                    .sidebar .main-menu > .icon-2 {
-                        left: 15px;
-                        top: 8px;
-                    }
         .sidebar .sub-menu {
             height: 30px;
             line-height: 30px;
@@ -292,7 +214,7 @@ label, input {
             }
                 .sidebar .sub-menu-items li div{
                     position: relative;
-                    padding-left: 25px;
+                    padding-left: 15px;
                     height: 30px;
                     line-height: 30px;
                 }
@@ -300,15 +222,23 @@ label, input {
                     background-color: #313131;
                     cursor: pointer;
                 }
-                .sidebar .sub-menu-items li div .icon-2{
-                    background-position: -141px -37px;
-                    left: 2px;
-                    top: 5px;
-                }
     .row .main {
         top: 51px;
         min-height: 600px;
+        margin-top: 20px;
     }
+    
+        .main .panel .panel-heading {
+            border-bottom: 1px solid #1C94C4;
+            background-color: #1C94C4;
+            color: #FFFFFF;
+            height: 38px;
+            line-height: 38px;
+            padding: 0;
+            padding-left: 20px;
+            font-weight: bold;
+            position: relative;
+        }
 /*
 *
 * FOOTER
@@ -339,27 +269,16 @@ label, input {
 *   PROFILE PAGE
 *
 */
-.main .user-profile {
-    margin-top: 20px;
+
+/*
+*
+*   CREATE PATIENT
+*
+*/
+
+.patient-create .form-control {
+    max-width: 340px;
 }
-    .panel .panel-heading {
-        border-bottom: 1px solid #1C94C4;
-        background-color: #1C94C4;
-        color: #FFFFFF;
-        height: 38px;
-        line-height: 38px;
-        padding: 0;
-        padding-left: 40px;
-        font-weight: bold;
-        position: relative;
-    }
-        .panel .panel-heading .icon-2 {
-            left: 5px;
-            top: 9px;
-        }
-        .panel .panel-heading .user-edit {
-            background-position: 130px 60px;
-        }
-        .panel .panel-body .actions-row {
-            padding-left: 200px;
-        }
+.patient-create .form-group {
+    clear: both;
+}

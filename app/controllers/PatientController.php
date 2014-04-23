@@ -10,10 +10,10 @@ class PatientController extends \BaseController {
 	public function index()
 	{
 		// List all the patients
-		$patients = Patient::all();
+			$patients = Patient::all();
 
 		// Load the view and pass the patients
-		return View::make('patients.index')->with($patients);
+		return View::make('patient.index')->with('patients', $patients);
 	}
 
 	/**
@@ -23,7 +23,8 @@ class PatientController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		//Create Patient
+		return View::make('patient.create');
 	}
 
 	/**
@@ -34,6 +35,32 @@ class PatientController extends \BaseController {
 	public function store()
 	{
 		//
+		$rules = array(
+			'name'       => 'required',
+			'email'      => 'required|email',
+			'patient_number' => 'required',
+			'gender' => 'required',
+			'dob' => 'required'
+		);
+		$validator = Validator::make(Input::all(), $rules);
+
+		// process the login
+		if ($validator->fails()) {
+			return Redirect::to('patient/create')
+				->withErrors($validator)
+				->withInput(Input::except('password'));
+		} else {
+			// store
+			$patient = new Patient;
+			$patient->name       = Input::get('name');
+			$patient->email      = Input::get('email');
+			$patient->patient_number = Input::get('patient_number');
+			$patient->save();
+
+			// redirect
+			Session::flash('message', 'Successfully created patient!');
+			return Redirect::to('patient');
+		}
 	}
 
 	/**

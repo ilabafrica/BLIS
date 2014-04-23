@@ -25,12 +25,14 @@
                 </div>
 				{{ Form::open(array(
 					"route"		   => "user/request",
-					"autocomplete" => "off"
+					"autocomplete" => "off",
+                    "role" => "form"
 					)) }}
-					<div class="form-row"><span class="icon user"></span>
+					<div class="form-group">
+                        <span class="glyphicon glyphicon-envelope"></span>
 						{{ Form::text("email", Input::get("email"), array(
 						"placeholder" => "j.siku@example.com",
-						"class" => "text-field"
+						"class" => "form-control"
 					)) }}
 					</div>
 					<div class="form-row float-r">

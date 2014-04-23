@@ -14,6 +14,6 @@ $(function(){
 		$(this).closest('ul').parent().siblings('.main-menu').addClass('active');
 	});
 
-	/* User profile tabs */
-	$( "#user-profile-tabs" ).tabs();
+	/* Patient Create */
+	$( ".patient-create .date-of-birth").datepicker();
 });

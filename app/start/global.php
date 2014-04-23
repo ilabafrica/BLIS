@@ -80,7 +80,11 @@ App::down(function()
 
 require app_path().'/filters.php';
 
-App::error(function($exception, $code)
+/*
+*	Trap all errors and display the custom errors page instead of unsavoury error stack trace.
+*/
+/*App::error(function($exception, $code)
 {
     return Response::view('errors', array(), $code);
  });
+*/

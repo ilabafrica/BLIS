@@ -5,7 +5,7 @@
         <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css" />
         <link rel="stylesheet" type="text/css" href="/css/layout.css" />
-        <title>lBLIS 1.0</title>
+        <title>lara BLIS 1.0</title>
     </head>
     <body>
         <div class="content error-page">

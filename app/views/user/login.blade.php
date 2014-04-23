@@ -25,22 +25,25 @@
                     "class" => "form-signin",
                     "role" => "form"
                 )) }}
-                    <div class="form-row"><span class="icon user"></span>
-                    {{ Form::text("username", Input::old("username"), array(
-                        "placeholder" => "Username",
-                        "class" => "text-field form-control"
-                    )) }}</div>
-                    <div class="form-row"><span class="icon pass"></span>
-                    {{ Form::password("password", array(
-                        "placeholder" => "Password",
-                        "class" => "text-field form-control"
-                    )) }}
+                    <div class="form-group">
+                        <span class="glyphicon glyphicon-user"></span>
+                        {{ Form::text("username", Input::old("username"), array(
+                            "placeholder" => "Username",
+                            "class" => "form-control"
+                        )) }}
                     </div>
-                    <div class="form-row">
+                    <div class="form-group">
+                        <span class="glyphicon glyphicon-lock"></span>
+                        {{ Form::password("password", array(
+                            "placeholder" => "Password",
+                            "class" => "form-control"
+                        )) }}
+                    </div>
+                    <div class="form-group">
                         <div>
                             {{ Form::button("Login", array(
                                 "type" => "submit",
-                                "class" => "btn btn-lg btn-primary btn-block"
+                                "class" => "btn btn-primary btn-block"
                             )) }}
                         </div>
                     </div>
