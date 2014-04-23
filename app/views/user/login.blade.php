@@ -12,7 +12,7 @@
             <div class="login-form">
                 <div class="form-head">
                     <img src="/i/logo_300.png" alt="" height="90" width="90">
-                    <h2>Bungoma District Hospital Laboratory </h2>
+                    <h3>Bungoma District Hospital Laboratory </h3>
                     @if($error = $errors->first("password"))
                         <div class="alert alert-danger">
                             {{ $error }}

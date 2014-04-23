@@ -1,19 +1,8 @@
 /* General Tag Styling */
 
-.container{
-    width    : 960px;
-    position : relative;
-    margin   : 0 auto;
-}
-
-.content{
-    padding : 25px 0;
-}
-
-label, input, .error{
-    clear  : both;
-    float  : left;
+label, input {
     margin : 5px 0;
+    float: left;
 }
 
 .smaller-text {
@@ -24,25 +13,6 @@ label, input, .error{
     clear: both;
 }
 
-/* GENERAL LAYOUTS */
-
-.grid{
-    width: 100%;
-    height: 100%;
-}
-    .grid .grid-2 {
-        width: 49.5%;
-        float: left;
-    }
-    .grid .grid-3 {
-        width: 33%;
-        float: left;
-    }
-    .grid .grid-3-2 {
-        width: 66%;
-        float: left;
-    }
-
 .float-l {
     float: left;
 }
@@ -50,9 +20,7 @@ label, input, .error{
     float: right;
 }
 
-/* BUTTONS */
-*/
-/* 
+/*
 *ICONS 
 */
 /*  16x16   */
@@ -136,22 +104,24 @@ label, input, .error{
 */
 
 .login-page {
-    background: #444;
+    background: #444444;
+    color: #F1F1F1;
     width: 100%;
     height: 100%;
     margin: 0;
-    padding: 0;
+    padding: 0; 
     bottom: 0;
     top:0;
     position: absolute;
 }
     .login-page .login-form {
-        background: #ffffff;
+        background: #FFFFFF;
+        color: #333333;
         width: 351px;
         height: 530px;
         margin: auto;
         margin-top:30px;
-        border: 1px solid #666;
+        border: 1px solid #666666;
         text-align: center;
         position:relative;
     }
@@ -162,20 +132,21 @@ label, input, .error{
             margin: auto;
         }
         .login-page .login-form .form-head {
-            height: 240px;
+            height: auto;
+            max-height: 210px;
             margin-top: 20px;
             overflow: hidden;
         }
-            .login-page .login-form .form-head h2{
+            .login-page .login-form .form-head h3{
                 font-weight: 100;
             }
             .login-page .login-form .form-head .alert{
-                padding: 10px;
+                padding: 5px;
             }
         .login-page .login-form .info {
             color:#999;
-            border-top: 1px solid #cccccc;
-            border-bottom: 1px solid #cccccc;
+            border-top: 1px solid #CCCCCC;
+            border-bottom: 1px solid #CCCCCC;
             margin-bottom: 10px;
             padding-left: 15px;
             padding-right: 15px;
@@ -185,8 +156,8 @@ label, input, .error{
             padding-left: 20px;
             font-size: 14px;
             border: 1px solid #ccc;
-            height: 34px;
             border-left: 2px solid #339933;
+            height: 34px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -195,17 +166,26 @@ label, input, .error{
             border-right: 1px solid #999; 
             border-bottom: 1px solid #999; 
         }
+        .login-page .login-form .icon {
+            left: 5px;
+            top:12px;
+        }
+        .login-page .login-form .btn-lg {
+            font-size: 16px;
+            padding: 5px 0;
+        }
     .login-page .help {
         text-align:right;
         padding-right: 27px;
     }
     .login-page .foot {
-        color:#999;
+        color:#999999;
         bottom: 0;
-        border-top: 1px solid #cccccc;
+        border-top: 1px solid #CCCCCC;
         margin-bottom: 5px;
         padding-left: 15px;
         padding-right: 15px;
+        padding-top: 15px;
         position: absolute;
     }
 
@@ -214,82 +194,40 @@ label, input, .error{
 * GLOBAL LAYOUTS VIEW
 *
 */
-.header {
-    background: #000000;
-    width: 100%;
-    min-width: 500px;
-    height: 45px;
-    position: fixed;
-    top:0;
-    z-index: 3;
-}
-    .header .grid .grid-2{
-        min-width: 250px;
-        width: auto;
-    }
-    .header .app-heading{
-        padding-left: 20px;
-        font-weight: 100;
-        color: #636363;
-    }
-    .header .user-profile {
-        line-height: 45px;
-        float: right;
-        position: relative;
-    }
-        .header .user-profile a {
-            color: #999999;
-            display: inline-block;
-            width: 100%;
-        }
-        .header .user-profile a:hover {
-            text-decoration: none;
-        }
-        .header .user-profile .user-link {
-            height: 45px;
-            width: 155px;
-            overflow: hidden;
-            float: right;
-            padding-left: 35px;
-            position: relative;
-        }
-        .header .user-profile .user-link:hover {
-            background-color: #313131;
-            cursor: pointer;
-        }
-            .header .user-profile .user-link .icon-2 {
-                left: 10px;
-                top: 11px;
-                background-position: -5px 294px;
-            }
-        .header .user-profile .user-settings {
+        .user-settings {
             display: none;
             background-color: #313131;
+            border: 1px solid #CCCCCC;
             width: 190px;
-            float: right;
-            top: 45px;
+            top: 52px;
             position: absolute;
-            right: 0px;
+            right: 5px;
             z-index: 2;
         }
-            .header .user-profile .user-settings div{
-                background-color: #000000;
-                padding-left: 40px;
+            .user-settings div{
+                background-color: #FFFFFF;
+                border-bottom: 1px solid #CCCCCC;
+                padding-left: 35px;
                 position: relative;
+                height: 40px;
             }
-            .header .user-profile .user-settings > div:hover{
-                background-color: #313131;
+            .user-settings > div:hover{
+                background-color: #F1F1F1;
                 cursor: pointer;
             }
-                .header .user-profile .user-settings div span{
+                .user-settings div a{
+                    line-height: 35px;
+                    color: #333333;
+                }
+                .user-settings div span{
                     position: absolute;
                     left: 5px;
                     top: 11px;
                 }
-                .header .user-profile .user-settings div .icon-2.user-edit {
+                .user-settings div .icon-2.user-edit {
                     background-position: 130px 60px;
                 }
-                .header .user-profile .user-settings div .icon-2.user-logout {
+                .user-settings div .icon-2.user-logout {
                     background-position: 31px -73px;
                 }
 /*
@@ -298,85 +236,78 @@ label, input, .error{
 * BODY
 *
 */                
-.main-body{
-    margin-top: 45px;
-    min-width: 1024px;
-    min-height: 673px;
-    overflow: hidden;
-    border-bottom: 1px solid #F1F1F1;
-}
 /*
 *      Side Menubar Left
 */
-    .main-body .left-side-bar{
+    .sidebar{
          background-color: #3D3D3D;
          color: #D1D1D1;
-         max-width: 225px;
-         min-width: 225px;
-         margin-right: 10px;
+         top: 51px;
+         position: fixed;
+         padding: 0;
     }
-        .main-body .left-side-bar ul {
+        .sidebar ul {
             list-style-type: none;
         }
-        .main-body .left-side-bar > ul {
+        .sidebar > ul {
             padding-left: 0;
             margin-top: 40px;
         }
-            .main-body .left-side-bar > ul > li {
+            .sidebar > ul > li {
                 border-bottom: 1px solid #636363;
             }
-                .main-body .left-side-bar .main-menu {
+                .sidebar .main-menu {
                     height: 40px;
                     line-height: 40px;
                     padding-left: 40px;
                     position: relative;
                 }
-                .main-body .left-side-bar .main-menu:hover {
+                .sidebar .main-menu:hover {
                     background-color: #313131;
                     cursor: pointer;
                 }
-                .main-body .left-side-bar .main-menu.active {
+                .sidebar .main-menu.active {
                     background-color: #E02222;
                     background-image: url("/i/white-triangle.png");
                     background-repeat: no-repeat;
                     background-position: right center;
                 }
-                    .main-body .left-side-bar .main-menu > .icon-2 {
+                    .sidebar .main-menu > .icon-2 {
                         left: 15px;
                         top: 8px;
                     }
-        .main-body .left-side-bar .sub-menu {
+        .sidebar .sub-menu {
             height: 30px;
             line-height: 30px;
             padding-left: 20px;
         }
-        .main-body .left-side-bar .sub-menu:hover {
+        .sidebar .sub-menu:hover {
             background-color: #313131;
         }
-        .main-body .left-side-bar .sub-menu-items {
+        .sidebar .sub-menu-items {
             padding-left: 25px            
         }
-            .main-body .left-side-bar .sub-menu-items li {
+            .sidebar .sub-menu-items li {
                 display: :inline-block;
             }
-                .main-body .left-side-bar .sub-menu-items li div{
+                .sidebar .sub-menu-items li div{
                     position: relative;
                     padding-left: 25px;
                     height: 30px;
                     line-height: 30px;
                 }
-                .main-body .left-side-bar .sub-menu-items li div:hover{
+                .sidebar .sub-menu-items li div:hover{
                     background-color: #313131;
                     cursor: pointer;
                 }
-                .main-body .left-side-bar .sub-menu-items li div .icon-2{
+                .sidebar .sub-menu-items li div .icon-2{
                     background-position: -141px -37px;
                     left: 2px;
                     top: 5px;
                 }
-    .main-body .main-area {
-        min-width: 760px;
-        margin-top: 10px;
+    .row .main {
+        top: 51px;
+        min-height: 600px;
     }
 /*
 *
@@ -408,33 +339,27 @@ label, input, .error{
 *   PROFILE PAGE
 *
 */
-.section {
-    border: 1px solid #1C94C4;
-    overflow: hidden;
+.main .user-profile {
+    margin-top: 20px;
 }
-    .section .section-title {
+    .panel .panel-heading {
         border-bottom: 1px solid #1C94C4;
         background-color: #1C94C4;
         color: #FFFFFF;
         height: 38px;
         line-height: 38px;
+        padding: 0;
         padding-left: 40px;
         font-weight: bold;
         position: relative;
     }
-        .section .section-title .icon-2 {
+        .panel .panel-heading .icon-2 {
             left: 5px;
             top: 9px;
         }
-        .section .section-title .user-edit {
+        .panel .panel-heading .user-edit {
             background-position: 130px 60px;
         }
-    .section .user-profile-form {
-        margin: 10px 25px;
-        overflow: hidden;
-    }
-        .section .user-profile-form .form-row label,
-        .section .user-profile-form .form-row input {
-            float: left;
-            clear: none;
+        .panel .panel-body .actions-row {
+            padding-left: 200px;
         }

@@ -8,14 +8,14 @@
                 @if (Auth::check())
                     <ul class="nav navbar-nav navbar-right">
                         <li class="user-link">
-                            <a href="javascript:void()">
+                            <a href="javascript:void(0);">
                                 <strong>{{ Auth::user()->username }}</strong>
                             </a>
                         </li>
                     </ul>
                     <div class="user-settings">
-                        <div><span class="icon-2 white user-edit"></span><a href="{{ URL::route("user/profile") }}">Edit Profile</a></div>
-                        <div><span class="icon-2 white user-logout"></span><a href="{{ URL::route("user/logout") }}">Logout</a></div>
+                        <div><span class="icon-2 user-edit"></span><a href="{{ URL::route("user/profile") }}">Edit Profile</a></div>
+                        <div><span class="icon-2 user-logout"></span><a href="{{ URL::route("user/logout") }}">Logout</a></div>
                     </div>
                 @endif
             </div>

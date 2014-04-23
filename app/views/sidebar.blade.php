@@ -1,10 +1,10 @@
 @section("sidebar")
 	<ul class="nav nav-sidebar">
 		<li>
-			<a href="#">Home</a>
+			<div class="main-menu active"><span class="icon-2 white home"></span>Home</div>
 		</li>
 		<li>
-			<a href="#">Tests</a>
+			<div class="main-menu"><span class="icon-2 white test"></span>Tests</div>
 		</li>
 		<li>
 			<div class="main-menu"><span class="icon-2 white report"></span>Reports</div>
@@ -23,8 +23,8 @@
 				</ul>
 			</div>
 		</li>
-		<li class="active">
-			<a href="#">Inventory</a>
+		<li>
+			<div class="main-menu"><span class="icon-2 white inventory"></span>Inventory</div>
 		</li>
 	</ul>
 @show

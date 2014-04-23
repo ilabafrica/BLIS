@@ -1,7 +1,7 @@
 @extends("layout")
 @section("content")
-	<div class="panel panel-primary">
-		<div class="panel-heading "><h3>Edit Profile</h3></div>
+	<div class="panel panel-primary user-profile">
+		<div class="panel-heading "><span class="icon-2 white user-edit"></span>Edit Profile</div>
 		<div class="panel-body">
 			{{ Form::open(array(
                     "route"        => "user/login",
@@ -32,16 +32,14 @@
                         "class" => "text-field"
                     )) }}</div>
                 <div class="form-row">
-                	{{ Form::label('gender', 'Gender: ') }}
-                    {{ Form::text("gender", Input::old("gender"), array(
-                        "class" => "text-field"
-                    )) }}</div>
+                    {{ Form::label('gender', 'Gender: ') }}
+                    <div>{{ Form::radio('gender', 'm', true) }} Male</div>
+                    <div>{{ Form::radio("gender", 'f', false) }} Female</div>
+                </div>
                 <div class="form-row">
                 	{{ Form::label('image', 'Photo: ') }}
-                    {{ Form::text("image", Input::old("image"), array(
-                        "class" => "text-field"
-                    )) }}</div>
-                <div class="form-row">
+                    {{ Form::file("image") }}</div>
+                <div class="form-row actions-row">
                     {{ Form::button("Change Password", [ "class" => "btn btn-primary", "type" => "submit"]) }}
                     {{ Form::button("Save", array(
                         "type" => "submit",
