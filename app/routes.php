@@ -14,33 +14,46 @@
 Route::group(array("before" => "guest"), function()
 {
 	Route::any('/', array(
-	    "as" => "user/login",
+	    "as" => "user.login",
 	    "uses" => "UserController@loginAction"
 	));
 
 	Route::any("/request", array(
-	    "as"   => "user/request",
+	    "as"   => "user.request",
 	    "uses" => "UserController@requestAction"
 	));
 
 	Route::any("/reset", array(
-	    "as"   => "user/reset",
+	    "as"   => "user.reset",
 	    "uses" => "UserController@resetAction"
 	));
 });
 
 Route::group(array("before" => "auth"), function()
 {
+	Route::resource('user', 'UserController');
+
+    Route::get("/user/{id}/delete", array(
+        "as"   => "user.delete",
+        "uses" => "PatientController@delete"
+    ));
+
     Route::any("/profile", array(
-        "as"   => "user/profile",
+        "as"   => "user.profile",
         "uses" => "UserController@profileAction"
     ));
 
     Route::any("/logout", array(
-        "as"   => "user/logout",
+        "as"   => "user.logout",
         "uses" => "UserController@logoutAction"
     ));
 
 	Route::resource('patient', 'PatientController');
+
+    Route::get("/patient/{id}/delete", array(
+        "as"   => "patient.delete",
+        "uses" => "PatientController@delete"
+    ));
+
 });
 

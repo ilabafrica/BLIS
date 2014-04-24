@@ -23,7 +23,9 @@ class CreatePatientsTable extends Migration {
 			$table->string('address', 150)->nullable();
 			$table->string('phone_number')->nullable();
 			$table->string('external_patient_number')->nullable();
+			$table->tinyInteger('active')->default(0);
 
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}

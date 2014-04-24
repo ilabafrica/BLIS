@@ -7,7 +7,7 @@
         </div>
 		<div class="panel-body">
 			{{ Form::open(array(
-                    "route"        => "user/login",
+                    "route"        => "user.login",
                     "autocomplete" => "off"
                 )) }}
                 <div class="form-group">
@@ -44,10 +44,7 @@
                     {{ Form::file("image") }}</div>
                 <div class="form-group actions-row">
                     {{ Form::button("Change Password", [ "class" => "btn btn-primary", "type" => "submit"]) }}
-                    {{ Form::button("Save", array(
-                        "type" => "submit",
-                        "class" => "btn btn-success"
-                    )) }}
+                    {{ Form::button("Save", ["type" => "submit", "class" => "btn btn-success"]) }}
                     {{ Form::button("Cancel", [ "class" => "btn btn-default", "type" => "submit"]) }}
                 </div>
 

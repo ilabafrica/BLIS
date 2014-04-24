@@ -6,6 +6,6 @@
     <body>
         <h1>Password Reset</h1>
         To reset your password, complete this form:
-        {{ URL::route("user/reset") . "?token=" . $token }}
+        {{ URL::route("user.reset") . "?token=" . $token }}
     </body>
 </html>

@@ -20,7 +20,7 @@
                     @endif
                 </div>
                 {{ Form::open(array(
-                    "route"        => "user/login",
+                    "route"        => "user.login",
                     "autocomplete" => "off",
                     "class" => "form-signin",
                     "role" => "form"
@@ -49,7 +49,7 @@
                     </div>
                 {{ Form::close() }}
                 <div class="smaller-text alone help">
-                    <p><a href="{{ URL::route("user/request") }}">Need help?</a></p>
+                    <p><a href="{{ URL::route("user.request") }}">Need help?</a></p>
                 </div>
                 <div class="smaller-text alone foot">
                     <p><a href="userguide/" target="_blank">User Guide</a> | <a href="#">Comments</a></p>

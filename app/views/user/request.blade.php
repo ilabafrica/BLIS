@@ -24,7 +24,7 @@
                 		alllowing you to reset the password.</p>
                 </div>
 				{{ Form::open(array(
-					"route"		   => "user/request",
+					"route"		   => "user.request",
 					"autocomplete" => "off",
                     "role" => "form"
 					)) }}

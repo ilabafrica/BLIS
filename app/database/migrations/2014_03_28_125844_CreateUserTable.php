@@ -24,6 +24,7 @@ class CreateUserTable extends Migration {
             $table->string("designation", 100)->nullable();
             $table->binary("image")->nullable();
 
+            $table->softDeletes();
             $table->timestamps();
 
         });

@@ -13,6 +13,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	protected $table = 'user';
 
 	/**
+	 * Enabling soft deletes on the user table.
+	 *
+	 * @var boolean
+	 */
+	protected $softDelete = true;
+
+	/**
 	 * The attributes excluded from the model's JSON form.
 	 *
 	 * @var array

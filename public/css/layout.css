@@ -1,5 +1,19 @@
 /* General Tag Styling */
-
+html,
+body {
+  height: 100%;
+}
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto;
+  height: 100%;
+  /* Negative indent footer by its height */
+  margin: 0 auto -50px;
+  /* Pad bottom by footer height */
+  padding: 0 0 50px;
+  overflow: hidden;
+}
 label, input {
     margin : 5px 0;
     float: left;
@@ -28,6 +42,7 @@ label, input {
 .form-group{
     overflow: hidden;
     position: relative;
+    clear: both;
 }
 .form-group.actions-row {
     padding-left: 200px;
@@ -223,9 +238,8 @@ label, input {
                     cursor: pointer;
                 }
     .row .main {
-        top: 51px;
-        min-height: 600px;
-        margin-top: 20px;
+/*        top: 51px;*/
+        margin-top: 71px;
     }
     
         .main .panel .panel-heading {
@@ -246,12 +260,8 @@ label, input {
 .footer{
     line-height : 50px;
     height      : 50px;
-    width       : 100%;
-    min-width: 1024px;
-    position : relative;
     font-size: 0.9em;
     text-align: center;
-    overflow: hidden;
 }
 
 /*
@@ -272,13 +282,15 @@ label, input {
 
 /*
 *
-*   CREATE PATIENT
+*   PATIENTS
 *
 */
 
 .patient-create .form-control {
     max-width: 340px;
 }
-.patient-create .form-group {
-    clear: both;
+
+.display-details strong {
+    display: inline-block;
+    width: 200px;
 }

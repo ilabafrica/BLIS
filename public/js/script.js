@@ -15,5 +15,5 @@ $(function(){
 	});
 
 	/* Patient Create */
-	$( ".patient-create .date-of-birth").datepicker();
+	$( ".patient-create .date-of-birth").datepicker({ dateFormat: "yy-mm-dd" });
 });
