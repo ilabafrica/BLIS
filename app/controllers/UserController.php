@@ -29,7 +29,7 @@ class UserController extends Controller {
                     );
 
                 if(Auth::attempt($credentials)){
-                    return Redirect::route("user.profile");
+                    return Redirect::route("user.index");
                 }
             }
             
@@ -41,7 +41,7 @@ class UserController extends Controller {
 
             $data["username"] = Input::get("username");
             Log::info($data["errors"]);
-            return Redirect::to("/")->withInput($data);
+            return Redirect::route("user.login")->withInput($data);
         }
 
         return View::make("user.login", $data);
@@ -101,7 +101,7 @@ class UserController extends Controller {
 
                     Auth::login($user);
 
-                    return Redirect::route("user.profile");
+                    return Redirect::route("user.index");
                 });
             }
 
@@ -112,10 +112,6 @@ class UserController extends Controller {
         }
 
         return View::make("user.reset", $data);
-    }
-
-    public function profileAction(){
-        return View::make("user.profile");
     }
 
     public function logoutAction(){

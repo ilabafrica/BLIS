@@ -35,12 +35,7 @@ Route::group(array("before" => "auth"), function()
 
     Route::get("/user/{id}/delete", array(
         "as"   => "user.delete",
-        "uses" => "PatientController@delete"
-    ));
-
-    Route::any("/profile", array(
-        "as"   => "user.profile",
-        "uses" => "UserController@profileAction"
+        "uses" => "UserController@delete"
     ));
 
     Route::any("/logout", array(
