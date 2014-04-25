@@ -50,5 +50,12 @@ Route::group(array("before" => "auth"), function()
         "uses" => "PatientController@delete"
     ));
 
+	Route::resource('specimentype', 'SpecimenTypeController');
+
+    Route::get("/specimentype/{id}/delete", array(
+        "as"   => "specimentype.delete",
+        "uses" => "SpecimenTypeController@delete"
+    ));
+
 });
 
