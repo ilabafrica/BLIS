@@ -9,10 +9,10 @@ extends DatabaseSeeder
         
         $users = array(
         	array(
-                "username" => "thomas",
+                "username" => "administrator",
                 "password" => Hash::make("password"),
-                "email"    => "mapesa@gmail.com",
-                "name"     => "Thomas Mapesa",
+                "email"    => "admin@example.com",
+                "name"     => "kBLIS Administrator",
                 "designation" => "Programmer"
             )
         );

@@ -5,7 +5,7 @@
         <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css" />
         <link rel="stylesheet" type="text/css" href="/css/layout.css" />
-        <title>lara BLIS 1.0</title>
+        <title>{{ Config::get('kblis.name') }} {{ Config::get('kblis.version') }}</title>
     </head>
     <body>
         <div class="content error-page">

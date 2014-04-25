@@ -5,14 +5,14 @@
         <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css" />
         <link rel="stylesheet" type="text/css" href="/css/layout.css" />
-        <title>lara BLIS 1.0</title>
+        <title>{{ Config::get('kblis.name') }} {{ Config::get('kblis.version') }}</title>
     </head>
     <body>
         <div class="content login-page">
             <div class="container login-form">
                 <div class="form-head">
                     <img src="/i/logo_300.png" alt="" height="90" width="90">
-                    <h3>Bungoma District Hospital Laboratory </h3>
+                    <h3>{{ Config::get('kblis.organization') }}</h3>
                     @if($error = $errors->first("password"))
                         <div class="alert alert-danger">
                             {{ $error }}
@@ -43,7 +43,7 @@
                 <div class="smaller-text alone foot">
                     <p><a href="#">User Guide</a> | <a href="#">Comments</a></p>
                     <p>
-                        iBLIS - a port of the Basic Laboratory Information System (BLIS) to Laravel by iLabAfrica.
+                        {{ Config::get('kblis.name') }} - a port of the Basic Laboratory Information System (BLIS) to Laravel by iLabAfrica.
                         BLIS was originally developed by C4G.
                     </p>
                 </div>

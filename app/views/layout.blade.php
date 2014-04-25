@@ -10,7 +10,7 @@
         <script type="text/javascript" src="/js/jquery-ui-min.js"></script>
         <script type="text/javascript" src="/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/js/script.js"></script>
-        <title> lara BLIS 1.0</title>
+        <title>{{ Config::get('kblis.name') }} {{ Config::get('kblis.version') }}</title>
     </head>
     <body>
         <div id="wrap">

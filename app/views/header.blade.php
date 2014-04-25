@@ -2,7 +2,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand"><i>lara</i> BLIS 1.0</a>
+                <a class="navbar-brand">{{ Config::get('kblis.name') }} {{ Config::get('kblis.version') }}</a>
             </div>
             <div class="grid-2  user-profile">
                 @if (Auth::check())
