@@ -53,7 +53,7 @@
 					{{ Form::email('email', Input::old('email'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group actions-row">
-					{{ Form::submit('Create Patient', array('class' => 'btn btn-primary')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', array('class' => 'btn btn-primary', 'type' => 'submit')) }}
 				</div>
 
 			{{ Form::close() }}

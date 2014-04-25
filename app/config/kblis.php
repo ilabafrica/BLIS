@@ -27,4 +27,13 @@ return array(
 	*/
 
 	'organization' => 'Bungoma District Hospital Laboratory',
+	
+	/*
+	|--------------------------------------------------------------------------
+	|	Organization Name
+	|--------------------------------------------------------------------------
+	|
+	*/
+
+	'organization-logo' => '/i/org_logo_90x90.png',
 );

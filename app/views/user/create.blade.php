@@ -49,7 +49,7 @@
                     {{ Form::file("image") }}
                 </div>
 				<div class="form-group actions-row">
-					{{ Form::submit('Create User', array('class' => 'btn btn-primary')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', array('class' => 'btn btn-primary', 'type' => 'submit')) }}
 				</div>
 
 			{{ Form::close() }}

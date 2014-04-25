@@ -13,6 +13,11 @@
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-user"></span>
 			List Users
+			<div class="panel-btn">
+				<a class="btn btn-sm btn-info" href="{{ URL::to('user/create') }}">
+					New User
+				</a>
+			</div>
 		</div>
 		<div class="panel-body">
 			<table class="table table-striped table-hover table-condensed">

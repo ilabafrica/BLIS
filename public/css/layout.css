@@ -294,3 +294,8 @@ label, input {
     display: inline-block;
     width: 200px;
 }
+
+.panel-btn {
+    display: inline-block;
+    margin-left: 40px;
+}

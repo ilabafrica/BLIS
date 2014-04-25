@@ -180,6 +180,19 @@ class UserController extends Controller {
             $user->image = Input::get('image');
             /* Set default password*/
 
+            if (Input::hasFile('image')) {
+                try {
+                    $extension = Input::file('image')->getClientOriginalExtension();
+                    $destination = public_path().'/i/users/';
+                    $filename = "user-$id.$extension";
+
+                    $file = Input::file('image')->move($destination, $filename);
+                    $user->image = "/i/users/$filename";
+
+                } catch (Exception $e) {
+                }
+            }
+
             try{
                 $user->save();
                 Session::flash('message', 'Successfully created the user!');
@@ -239,7 +252,8 @@ class UserController extends Controller {
         $rules = array(
             'username' => 'required',
             'name'       => 'required',
-            'email' => 'required|email'
+            'email' => 'required|email',
+            'image' => 'image|max:500'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -256,7 +270,21 @@ class UserController extends Controller {
             $user->gender = Input::get('gender');
             $user->designation = Input::get('designation');
             $user->email = Input::get('email');
-            $user->image = Input::get('image');
+
+            if (Input::hasFile('image')) {
+                try {
+                    $extension = Input::file('image')->getClientOriginalExtension();
+                    $destination = public_path().'/i/users/';
+                    $filename = "user-$id.$extension";
+
+                    $file = Input::file('image')->move($destination, $filename);
+                    $user->image = "/i/users/$filename";
+
+                } catch (Exception $e) {
+                    
+                }
+            }
+
             $user->save();
 
             // redirect

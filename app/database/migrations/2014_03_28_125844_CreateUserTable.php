@@ -22,7 +22,7 @@ class CreateUserTable extends Migration {
             $table->string("name", 100)->nullable();
             $table->tinyInteger("gender")->default(0);
             $table->string("designation", 100)->nullable();
-            $table->binary("image")->nullable();
+            $table->string("image", 100)->nullable();
 
             $table->softDeletes();
             $table->timestamps();

@@ -11,6 +11,12 @@
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-user"></span>
 			Patient Details
+			<div class="panel-btn">
+				<a class="btn btn-sm btn-info" href="{{ URL::to('patient/'. $patient->id .'/edit') }}">
+					<span class="glyphicon glyphicon-edit"></span>
+					Edit
+				</a>
+			</div>
 		</div>
 		<div class="panel-body">
 			<div class="display-details">

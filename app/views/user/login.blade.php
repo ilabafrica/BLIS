@@ -11,7 +11,7 @@
         <div class="container login-page">
             <div class="login-form">
                 <div class="form-head">
-                    <img src="/i/logo_300.png" alt="" height="90" width="90">
+                    <img src="{{ Config::get('kblis.organization-logo') }}" alt="" height="90" width="90">
                     <h3> {{ Config::get('kblis.organization') }} </h3>
                     @if($error = $errors->first("password"))
                         <div class="alert alert-danger">
