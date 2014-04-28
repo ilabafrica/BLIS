@@ -63,6 +63,13 @@ Route::group(array("before" => "auth"), function()
         "as"   => "test_category.delete",
         "uses" => "TestCategoryController@delete"
     ));
+	
+	Route::resource('measure', 'MeasureController');
+	
+	Route::get("/measure/{id}/delete", array(
+        "as"   => "measure.delete",
+        "uses" => "MeasureController@delete"
+    ));
 
 });
 
