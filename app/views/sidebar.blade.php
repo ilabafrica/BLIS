@@ -3,7 +3,7 @@
 		<li>
 			<div class="main-menu active">
 				<span class="glyphicon glyphicon-home"></span>
-				Home
+				<a href="{{ URL::route('user.home')}}">Home</a>
 			</div>
 		</li>
 		<li>
@@ -14,11 +14,61 @@
 		</li>
 		<li>
 			<div class="main-menu">
+				<span class="glyphicon glyphicon-wrench"></span>
+				Lab Configuration
+			</div>
+			<div class="sub-menu">
+				<ul class="sub-menu-items">
+					<li>
+						<div>
+							<span class="glyphicon glyphicon-tag"></span>
+							<a href="javascript:void(0);" onclick="pageloader('{{ URL::route("user.index")}}')">User Accounts</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<span class="glyphicon glyphicon-tag"></span>
+							Reports
+						</div>
+					</li>
+				</ul>
+			</div>
+		</li>
+		<li>
+			<div class="main-menu">
+				<span class="glyphicon glyphicon-cog"></span>
+				Test Catalog
+			</div>
+			<div class="sub-menu">
+				<ul class="sub-menu-items">
+					<li>
+						<div>
+							<span class="glyphicon glyphicon-tag"></span>
+							Lab Sections
+						</div>
+					</li>
+					<li>
+						<div>
+							<span class="glyphicon glyphicon-tag"></span>
+							<a href="javascript:void(0);" onclick="pageloader('{{ URL::route("testtype.index")}}')">Test Types</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<span class="glyphicon glyphicon-tag"></span>
+							<a href="javascript:void(0);" onclick="pageloader('{{ URL::route("specimentype.index")}}')">Specimen Types</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</li>
+		<li>
+			<div class="main-menu">
 				<span class="glyphicon glyphicon-stats"></span>
 				Reports
 			</div>
-			<div>
-				<div class="sub-menu">Daily Reports</div>
+			<div class="sub-menu">
+				<div class="sub-menu-title">Daily Reports</div>
 				<ul class="sub-menu-items">
 					<li>
 						<div>
@@ -33,7 +83,7 @@
 						</div>
 					</li>
 				</ul>
-				<div class="sub-menu">Aggregate Reports</div>
+				<div class="sub-menu-title">Aggregate Reports</div>
 				<ul class="sub-menu-items">
 					<li>
 						<div>

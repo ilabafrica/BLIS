@@ -1,9 +1,7 @@
-@extends("layout")
-@section("content")
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
-		  <li><a href="{{ URL::to('user') }}">User</a></li>
+		  <li><a href="javascript:void(0);" onclick="pageloader('{{ URL::to("user") }}')">User</a></li>
 		  <li class="active">Edit User</li>
 		</ol>
 	</div>
@@ -18,7 +16,11 @@
 					{{ HTML::ul($errors->all()) }}
 				</div>
 			@endif
-			{{ Form::model($user, array('route' => array('user.update', $user->id), 'method' => 'PUT', 'role' => 'form', 'files' => true )) }}
+			{{ Form::model($user, array(
+				'route' => array('user.update', $user->id), 
+				'method' => 'PUT', 'role' => 'form', 'files' => true,
+				'id' => 'form-edit-user'
+			 )) }}
 
 			<div class="container-fluid">
 				<div class="row">
@@ -51,14 +53,15 @@
 		                    {{ Form::file("image") }}
 		                </div>
 		                <div class="form-group">
-		                	<img class="img-responsive img-thumbnail" src="{{ $user->image }}" alt="No photo available"></img>
+		                	<img class="img-responsive img-thumbnail user-image" src="{{ $user->image }}" alt="No photo available"></img>
 		                </div>
 		            </div>
 		        </div>
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group actions-row">
-							{{ Form::button('<span class="glyphicon glyphicon-save"></span> Update', array('class' => 'btn btn-primary', 'type' => 'submit')) }}
+							{{ Form::button('<span class="glyphicon glyphicon-save"></span> Update', array(
+								'class' => 'btn btn-primary', 'onclick' => 'multipartformsubmit("form-edit-user")')) }}
 						</div>
 					</div>
 				</div>
@@ -66,4 +69,3 @@
 			{{ Form::close() }}
 		</div>
 	</div>
-@stop

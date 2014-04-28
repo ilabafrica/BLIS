@@ -1,9 +1,7 @@
-@extends("layout")
-@section("content")
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
-		  <li><a href="{{ URL::to('user') }}">User</a></li>
+		  <li><a href="javascript:void(0);" onclick="pageloader('{{ URL::to("user") }}')">User</a></li>
 		  <li class="active">Create User</li>
 		</ol>
 	</div>
@@ -21,7 +19,7 @@
 				</div>
 			@endif
 
-			{{ Form::open(array('url' => 'user')) }}
+			{{ Form::open(array('url' => 'user', 'id' => 'form-create-user')) }}
 
 				<div class="form-group">
 					{{ Form::label('username', 'Username') }}
@@ -49,10 +47,11 @@
                     {{ Form::file("image") }}
                 </div>
 				<div class="form-group actions-row">
-					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', array('class' => 'btn btn-primary', 'type' => 'submit')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', 
+						['class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-create-user")']
+					) }}
 				</div>
 
 			{{ Form::close() }}
 		</div>
 	</div>
-@stop

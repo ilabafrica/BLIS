@@ -10,7 +10,7 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-
+/* Routes accessible before logging in */
 Route::group(array("before" => "guest"), function()
 {
 	Route::any('/', array(
@@ -29,8 +29,14 @@ Route::group(array("before" => "guest"), function()
 	));
 });
 
+/* Routes accessible AFTER logging in */
 Route::group(array("before" => "auth"), function()
 {
+    Route::any('/home', array(
+        "as" => "user.home",
+        "uses" => "UserController@homeAction"
+        ));
+
 	Route::resource('user', 'UserController');
 
     Route::get("/user/{id}/delete", array(
@@ -50,11 +56,18 @@ Route::group(array("before" => "auth"), function()
         "uses" => "PatientController@delete"
     ));
 
-	Route::resource('specimentype', 'SpecimenTypeController');
+    Route::resource('specimentype', 'SpecimenTypeController');
 
     Route::get("/specimentype/{id}/delete", array(
         "as"   => "specimentype.delete",
         "uses" => "SpecimenTypeController@delete"
+    ));
+
+    Route::resource('testtype', 'TestTypeController');
+
+    Route::get("/testtype/{id}/delete", array(
+        "as"   => "testtype.delete",
+        "uses" => "TestTypeController@delete"
     ));
 
 });

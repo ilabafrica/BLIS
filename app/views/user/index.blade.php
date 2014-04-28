@@ -1,5 +1,3 @@
-@extends("layout")
-@section("content")
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
@@ -14,7 +12,7 @@
 			<span class="glyphicon glyphicon-user"></span>
 			List Users
 			<div class="panel-btn">
-				<a class="btn btn-sm btn-info" href="{{ URL::to('user/create') }}">
+				<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to("user/create") }}')">
 					New User
 				</a>
 			</div>
@@ -43,18 +41,21 @@
 						<td>
 
 							<!-- show the user (uses the show method found at GET /user/{id} -->
-							<a class="btn btn-sm btn-success" href="{{ URL::to('user/' . $value->id) }}">
+							<a class="btn btn-sm btn-success" href="javascript:void(0);" 
+								onclick="pageloader('{{ URL::to("user/" . $value->id) }}')">
 								<span class="glyphicon glyphicon-user"></span>
 								Show
 							</a>
 
 							<!-- edit this user (uses the edit method found at GET /user/{id}/edit -->
-							<a class="btn btn-sm btn-info" href="{{ URL::to('user/' . $value->id . '/edit') }}">
+							<a class="btn btn-sm btn-info" href="javascript:void(0);" 
+								onclick="pageloader('{{ URL::to("user/" . $value->id . "/edit") }}')">
 								<span class="glyphicon glyphicon-edit"></span>
 								Edit
 							</a>
 							<!-- delete this user (uses the delete method found at GET /user/{id}/delete -->
-							<a class="btn btn-sm btn-danger" href="{{ URL::to('user/' . $value->id . '/delete') }}">
+							<a class="btn btn-sm btn-danger" href="javascript:void(0);" 
+								onclick="pageloader('{{ URL::to("user/" . $value->id . "/delete") }}')">
 								<span class="glyphicon glyphicon-remove"></span>
 								Delete
 							</a>
@@ -66,4 +67,3 @@
 			</table>
 		</div>
 	</div>
-@stop

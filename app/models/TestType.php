@@ -1,14 +1,14 @@
 
 <?php
 
-class SpecimenType extends Eloquent
+class TestType extends Eloquent
 {
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'specimen_type';
+	protected $table = 'test_type';
 
 	/**
 	 * Enabling soft deletes for specimen type details.

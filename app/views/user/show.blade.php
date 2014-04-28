@@ -1,9 +1,7 @@
-@extends("layout")
-@section("content")
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
-		  <li><a href="{{ URL::to('user') }}">User</a></li>
+		  <li><a href="javascript:void(0);" onclick="pageloader('{{ URL::to("user") }}')">User</a></li>
 		  <li class="active">User Details</li>
 		</ol>
 	</div>
@@ -12,7 +10,7 @@
 			<span class="glyphicon glyphicon-user"></span>
 			User Details
 			<div class="panel-btn">
-				<a class="btn btn-sm btn-info" href="{{ URL::to('user/'. $user->id .'/edit') }}">
+				<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to("user/". $user->id ."/edit") }}')">
 					<span class="glyphicon glyphicon-edit"></span>
 					Edit
 				</a>
@@ -32,10 +30,9 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<img class="img-responsive img-thumbnail" src="{{ $user->image }}" alt="No photo available"></img>
+						<img class="img-responsive img-thumbnail user-image" src="{{ $user->image }}" alt="No photo available"></img>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-@stop

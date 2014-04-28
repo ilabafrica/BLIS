@@ -214,11 +214,14 @@ label, input {
                     background-position: right center;
                 }
         .sidebar .sub-menu {
+            display: none;
+        }
+        .sidebar .sub-menu-title {
             height: 30px;
             line-height: 30px;
             padding-left: 20px;
         }
-        .sidebar .sub-menu:hover {
+        .sidebar .sub-menu-title:hover {
             background-color: #313131;
         }
         .sidebar .sub-menu-items {
@@ -237,9 +240,16 @@ label, input {
                     background-color: #313131;
                     cursor: pointer;
                 }
+                .sidebar a{
+                    color: #F1F1F1;
+                    cursor: pointer;
+                }
+                .sidebar a:hover{
+                    text-decoration: none;
+                }
     .row .main {
-/*        top: 51px;*/
         margin-top: 71px;
+        overflow-y: auto;
     }
     
         .main .panel .panel-heading {
@@ -274,22 +284,6 @@ label, input {
     padding-top: 40px;
 }
 
-/*
-*
-*   PROFILE PAGE
-*
-*/
-
-/*
-*
-*   PATIENTS
-*
-*/
-
-.patient-create .form-control {
-    max-width: 340px;
-}
-
 .display-details strong {
     display: inline-block;
     width: 200px;
@@ -298,4 +292,11 @@ label, input {
 .panel-btn {
     display: inline-block;
     margin-left: 40px;
+}
+
+.user-image {
+    max-width: 300px;
+    max-height: 300px;
+    min-width: 150px;
+    min-height: 150px;
 }

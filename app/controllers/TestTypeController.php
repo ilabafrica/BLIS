@@ -1,0 +1,168 @@
+<?php
+
+use Illuminate\Support\MessageBag;
+use Illuminate\Database\QueryException;
+
+class TestTypeController extends \BaseController {
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function index()
+	{
+		// List all the active testtypes
+			$testtypes = TestType::all();
+
+		// Load the view and pass the testtypes
+		return View::make('testtype.index')->with('testtypes', $testtypes);
+	}
+
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		//Create TestType
+		return View::make('testtype.create');
+	}
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function store()
+	{
+		//
+		$rules = array(
+			'name'       => 'required'
+		);
+		$validator = Validator::make(Input::all(), $rules);
+
+		// process the login
+		if ($validator->fails()) {
+			return Redirect::to('testtype/create')
+				->withErrors($validator);
+		} else {
+			// store
+			$testtype = new TestType;
+			$testtype->name = Input::get('name');
+			$testtype->description = Input::get('description');
+			$testtype->section_id = Input::get('section_id');
+			$testtype->targetTAT = Input::get('targetTAT');
+			$testtype->prevalence_threshold = Input::get('prevalence_threshold');
+
+			try{
+				$testtype->save();
+				Session::flash('message', 'Successfully created test type!');
+				return Redirect::to('testtype');
+			}catch(QueryException $e){
+				$errors = new MessageBag(array(
+                	"Ensure that the test type name is unique."
+                ));
+				return Redirect::to('testtype/create')
+					->withErrors($errors);
+			}
+			
+			// redirect
+		}
+	}
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		//Show a testtype
+		$testtype = TestType::find($id);
+
+		//Show the view and pass the $testtype to it
+		return View::make('testtype.show')->with('testtype', $testtype);
+	}
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function edit($id)
+	{
+		//Get the testtype
+		$testtype = TestType::find($id);
+
+		//Open the Edit View and pass to it the $testtype
+		return View::make('testtype.edit')->with('testtype', $testtype);
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id)
+	{
+		//
+		$rules = array(
+			'name'       => 'required'
+		);
+		$validator = Validator::make(Input::all(), $rules);
+
+		// process the login
+		if ($validator->fails()) {
+			return Redirect::to('testtype/' . $id . '/edit')
+				->withErrors($validator);
+		} else {
+			// Update
+			$testtype = TestType::find($id);
+			$testtype->name = Input::get('name');
+			$testtype->description = Input::get('description');
+			$testtype->section_id = Input::get('section_id');
+			$testtype->targetTAT = Input::get('targetTAT');
+			$testtype->prevalence_threshold = Input::get('prevalence_threshold');
+			$testtype->save();
+
+			// redirect
+			Session::flash('message', 'The test type details were successfully updated!');
+			return Redirect::to('testtype');
+		}
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		//
+	}
+
+	/**
+	 * Remove the specified resource from storage (soft delete).
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function delete($id)
+	{
+		//Soft delete the testtype
+		$testtype = TestType::find($id);
+
+		$testtype->delete();
+
+		// redirect
+		Session::flash('message', 'The test type was successfully deleted!');
+		return Redirect::to('testtype');
+	}
+
+}

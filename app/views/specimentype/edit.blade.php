@@ -1,9 +1,7 @@
-@extends("layout")
-@section("content")
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
-		  <li><a href="{{ URL::to('specimentype') }}">Specimen Type</a></li>
+		  <li><a href="javascript:void(0);" onclick="pageloader('{{ URL::to("specimentype") }}')">Specimen Type</a></li>
 		  <li class="active">Edit Specimen Type</li>
 		</ol>
 	</div>
@@ -18,7 +16,10 @@
 					{{ HTML::ul($errors->all()) }}
 				</div>
 			@endif
-			{{ Form::model($specimentype, array('route' => array('specimentype.update', $specimentype->id), 'method' => 'PUT')) }}
+			{{ Form::model($specimentype, array(
+					'route' => array('specimentype.update', $specimentype->id), 'method' => 'PUT',
+					'id' => 'form-edit-specimentype'
+				)) }}
 
 				<div class="form-group">
 					{{ Form::label('name', 'Name') }}
@@ -29,10 +30,11 @@
 					{{ Form::textarea('description', Input::old('description'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group actions-row">
-					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', array('class' => 'btn btn-primary', 'type' => 'submit')) }}
 				</div>
+					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', 
+						['class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-edit-specimentype")']
+					) }}
 
 			{{ Form::close() }}
 		</div>
 	</div>
-@stop

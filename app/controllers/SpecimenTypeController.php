@@ -46,13 +46,12 @@ class SpecimenTypeController extends \BaseController {
 		// process the login
 		if ($validator->fails()) {
 			return Redirect::to('specimentype/create')
-				->withErrors($validator)
-				->withInput(Input::except('password'));
+				->withErrors($validator);
 		} else {
 			// store
 			$specimentype = new SpecimenType;
 			$specimentype->name = Input::get('name');
-			$specimentype->designation = Input::get('designation');
+			$specimentype->description = Input::get('description');
 
 			try{
 				$specimentype->save();
@@ -63,8 +62,7 @@ class SpecimenTypeController extends \BaseController {
                 	"Ensure that the specimen type name is unique."
                 ));
 				return Redirect::to('specimentype/create')
-					->withErrors($errors)
-					->withInput(Input::except('password'));
+					->withErrors($errors);
 			}
 			
 			// redirect
@@ -118,8 +116,7 @@ class SpecimenTypeController extends \BaseController {
 		// process the login
 		if ($validator->fails()) {
 			return Redirect::to('specimentype/' . $id . '/edit')
-				->withErrors($validator)
-				->withInput(Input::except('password'));
+				->withErrors($validator);
 		} else {
 			// Update
 			$specimentype = SpecimenType::find($id);
@@ -128,7 +125,7 @@ class SpecimenTypeController extends \BaseController {
 			$specimentype->save();
 
 			// redirect
-			Session::flash('message', 'The speciment ype details were successfully updated!');
+			Session::flash('message', 'The specimen type details were successfully updated!');
 			return Redirect::to('specimentype');
 		}
 	}
@@ -158,7 +155,7 @@ class SpecimenTypeController extends \BaseController {
 		$specimentype->delete();
 
 		// redirect
-		Session::flash('message', 'The specimen type was successfully deleted!');
+		Session::flash('message', 'The specimen 	type was successfully deleted!');
 		return Redirect::to('specimentype');
 	}
 

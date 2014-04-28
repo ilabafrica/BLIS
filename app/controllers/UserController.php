@@ -29,7 +29,7 @@ class UserController extends Controller {
                     );
 
                 if(Auth::attempt($credentials)){
-                    return Redirect::route("user.index");
+                    return Redirect::route("user.home");
                 }
             }
             
@@ -117,7 +117,11 @@ class UserController extends Controller {
     public function logoutAction(){
         Auth::logout();
         return Redirect::route("user.login");
-    }    
+    }
+
+    public function homeAction(){
+        return View::make("user.home");
+    }
 
 
     /**
@@ -277,7 +281,7 @@ class UserController extends Controller {
                     $user->image = "/i/users/$filename";
 
                 } catch (Exception $e) {
-                    
+                    Log.info($e);
                 }
             }
 

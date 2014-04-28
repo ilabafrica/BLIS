@@ -1,7 +1,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
-		  <li class="active">Specimen Type</li>
+		  <li class="active">Test Type</li>
 		</ol>
 	</div>
 	@if (Session::has('message'))
@@ -10,10 +10,10 @@
 	<div class="panel panel-primary">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-user"></span>
-			List Specimen Types
+			List Test Types
 			<div class="panel-btn">
-				<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to("specimentype/create") }}')">
-					New Specimen Type
+				<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to("testtype/create") }}')">
+					New Test Type
 				</a>
 			</div>
 		</div>
@@ -26,26 +26,26 @@
 					</tr>
 				</thead>
 				<tbody>
-				@foreach($specimentypes as $key => $value)
+				@foreach($testtypes as $key => $value)
 					<tr>
 						<td>{{ $value->name }}</td>
 						<td>{{ $value->description }}</td>
 
 						<td>
 
-							<!-- show the specimentype (uses the show method found at GET /specimentype/{id} -->
-							<a class="btn btn-sm btn-success" href="javascript:void(0);" onclick="pageloader('{{ URL::to("specimentype/" . $value->id) }}')">
+							<!-- show the testtype (uses the show method found at GET /testtype/{id} -->
+							<a class="btn btn-sm btn-success" href="javascript:void(0);" onclick="pageloader('{{ URL::to("testtype/" . $value->id) }}')">
 								<span class="glyphicon glyphicon-user"></span>
 								Show
 							</a>
 
-							<!-- edit this specimentype (uses the edit method found at GET /specimentype/{id}/edit -->
-							<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to("specimentype/" . $value->id . "/edit") }}')">
+							<!-- edit this testtype (uses the edit method found at GET /testtype/{id}/edit -->
+							<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to("testtype/" . $value->id . "/edit") }}')">
 								<span class="glyphicon glyphicon-edit"></span>
 								Edit
 							</a>
-							<!-- delete this specimentype (uses the delete method found at GET /specimentype/{id}/delete -->
-							<a class="btn btn-sm btn-danger" href="javascript:void(0);" onclick="pageloader('{{ URL::to("specimentype/" . $value->id . '/delete') }}')">
+							<!-- delete this testtype (uses the delete method found at GET /testtype/{id}/delete -->
+							<a class="btn btn-sm btn-danger" href="javascript:void(0);" onclick="pageloader('{{ URL::to("testtype/" . $value->id . '/delete') }}')">
 								<span class="glyphicon glyphicon-remove"></span>
 								Delete
 							</a>

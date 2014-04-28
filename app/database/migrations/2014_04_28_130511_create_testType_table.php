@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSpecimenTypeTable extends Migration {
+class CreateTestTypeTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,14 @@ class CreateSpecimenTypeTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('specimen_type', function(Blueprint $table)
+		Schema::create('test_type', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('name', 45);
+			$table->string('name', 100);
 			$table->string('description', 100)->nullable();
+			$table->smallInteger('section_id');
+			$table->string('targetTAT', 50)->nullable();
+			$table->string('prevalence_threshold', 50)->nullable();
 			
 			$table->softDeletes();
 			$table->timestamps();
@@ -30,7 +33,7 @@ class CreateSpecimenTypeTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('specimen_type');
+		Schema::drop('test_type');
 	}
 
 }

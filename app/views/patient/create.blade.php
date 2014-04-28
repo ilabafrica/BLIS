@@ -7,7 +7,7 @@
 		  <li class="active">Create Patient</li>
 		</ol>
 	</div>
-	<div class="panel panel-primary patient-create">
+	<div class="panel panel-primary">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-user"></span>
 			Create Patient
@@ -33,7 +33,7 @@
 				</div>
 				<div class="form-group">
 					{{ Form::label('dob', 'Date of Birth') }}
-					{{ Form::text('dob', Input::old('dob'), array('class' => 'form-control date-of-birth')) }}
+					{{ Form::text('dob', Input::old('dob'), array('class' => 'form-control standard-datepicker')) }}
 				</div>
                 <div class="form-group">
                     {{ Form::label('gender', 'Gender: ') }}
