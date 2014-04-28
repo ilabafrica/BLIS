@@ -41,5 +41,24 @@ extends DatabaseSeeder
         {
             SpecimenType::create($specType);
         }
+		
+		DB::table('test_category')->delete();
+        
+        $test_categories = array(
+			array("name" => "HAEMATOLOGY","description" => ""),
+			array("name" => "MCH","description" => ""),
+			array("name" => "VIROLOGY","description" => ""),
+			array("name" => "HISTOLOGY AND CYTOLOGY","description" => ""),
+			array("name" => "BIOCHEMISTRY","description" => ""),
+			array("name" => "MICROBIOLOGY","description" => ""),
+			array("name" => "OTHER","description" => ""),
+			array("name" => "CLINICAL CHEMISTRY","description" => "")
+        );
+
+        foreach ($test_categories as $test_category)
+        {
+            TestCategory::create($test_category);
+        }
+		
     }
 }
