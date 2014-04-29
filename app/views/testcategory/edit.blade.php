@@ -1,5 +1,3 @@
-@extends("layout")
-@section("content")
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
@@ -18,7 +16,7 @@
 					{{ HTML::ul($errors->all()) }}
 				</div>
 			@endif
-			{{ Form::model($testcategory, array('route' => array('testcategory.update', $testcategory->id), 'method' => 'PUT')) }}
+			{{ Form::model($testcategory, array('route' => array('testcategory.update', $testcategory->id), 'method' => 'PUT', 'id' => 'form-edit-testcategory')) }}
 
 				<div class="form-group">
 					{{ Form::label('name', 'Name') }}
@@ -31,10 +29,10 @@
 					{{ Form::text('description', Input::old('description'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group actions-row">
-					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', array('class' => 'btn btn-primary', 'type' => 'submit')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', 
+						['class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-edit-testcategory")']) }}
 				</div>
 
 			{{ Form::close() }}
 		</div>
 	</div>
-@stop

@@ -1,5 +1,3 @@
-@extends("layout")
-@section("content")
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
@@ -38,4 +36,3 @@
 			{{ Form::close() }}
 		</div>
 	</div>
-@stop

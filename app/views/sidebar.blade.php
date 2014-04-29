@@ -44,7 +44,7 @@
 					<li>
 						<div>
 							<span class="glyphicon glyphicon-tag"></span>
-							Lab Sections
+							<a href="javascript:void(0);" onclick="pageloader('{{ URL::route("testcategory.index")}}')">Lab Sections</a>
 						</div>
 					</li>
 					<li>

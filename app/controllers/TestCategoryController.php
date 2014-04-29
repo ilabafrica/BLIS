@@ -13,9 +13,9 @@ class TestCategoryController extends \BaseController {
 	public function index()
 	{
 		//List all test categories
-		$test = TestCategory::all();
+		$testcategory = TestCategory::all();
 		//Load the view and pass the test categories
-		return View::make('testcategory.index')->with('test',$test);
+		return View::make('testcategory.index')->with('testcategory',$testcategory);
 	}
 
 	/**
@@ -70,7 +70,7 @@ class TestCategoryController extends \BaseController {
 	{
 		//show a test category
 		$testcategory = TestCategory::find($id);
-		//show the view and pass $testcategory to it
+		//show the view and pass the $testcategory to it
 		return View::make('testcategory.show')->with('testcategory',$testcategory);
 	}
 
@@ -146,7 +146,7 @@ class TestCategoryController extends \BaseController {
 		$testcategory->delete();
 
 		// redirect
-		Session::flash('message', 'The test category was successfully deleted!');
+		Session::flash('message', 'The lab section was successfully deleted!');
 		return Redirect::to('testcategory');
 	}
 

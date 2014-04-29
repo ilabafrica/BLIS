@@ -1,5 +1,3 @@
-@extends("layout")
-@section("content")
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
@@ -14,7 +12,7 @@
 			<span class="glyphicon glyphicon-user"></span>
 			List Test Categories
 			<div class="panel-btn">
-				<a class="btn btn-sm btn-info" href="{{ URL::to('testcategory/create') }}">
+				<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to("testcategory/create") }}')">
 					New Test Category
 				</a>
 			</div>
@@ -28,30 +26,29 @@
 					</tr>
 				</thead>
 				<tbody>
-				@foreach($test as $key => $value)
+				@foreach($testcategory as $key => $value)
 					<tr>
 						<td>{{ $value->name }}</td>
 						<td>{{ $value->description }}</td>
 						
 						<td>
 
-							<!-- show the patient (uses the show method found at GET /patient/{id} -->
-							<a class="btn btn-sm btn-success" href="{{ URL::to('testcategory/' . $value->id) }}">
+							<!-- show the test category (uses the show method found at GET /testcategory/{id} -->
+							<a class="btn btn-sm btn-success" href="javascript:void(0);" onclick="pageloader('{{ URL::to("testcategory/" . $value->id) }}')">
 								<span class="glyphicon glyphicon-user"></span>
 								Show
 							</a>
 
-							<!-- edit this patient (uses the edit method found at GET /patient/{id}/edit -->
-							<a class="btn btn-sm btn-info" href="{{ URL::to('testcategory/' . $value->id . '/edit') }}">
+							<!-- edit this test category (uses the edit method found at GET /testcategory/{id}/edit -->
+							<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to("testcategory/" . $value->id . "/edit") }}')">
 								<span class="glyphicon glyphicon-edit"></span>
 								Edit
 							</a>
-							<!-- delete this patient (uses the delete method found at GET /patient/{id}/delete -->
-							<a class="btn btn-sm btn-danger" href="{{ URL::to('testcategory/' . $value->id . '/delete') }}">
+							<!-- delete this test category (uses the delete method found at GET /testcategory/{id}/delete -->
+							<a class="btn btn-sm btn-danger" href="javascript:void(0);" onclick="pageloader('{{ URL::to("testcategory/" . $value->id . "/delete") }}')">
 								<span class="glyphicon glyphicon-remove"></span>
 								Delete
 							</a>
-
 						</td>
 					</tr>
 				@endforeach
@@ -59,4 +56,3 @@
 			</table>
 		</div>
 	</div>
-@stop
