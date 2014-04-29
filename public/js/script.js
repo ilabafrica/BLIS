@@ -3,15 +3,22 @@ $(function(){
 	$('.user-link').click(function(){
 		$('.user-settings').toggle();
 	});
-	/*	Left Sidebar Functions	*/
-	$('.main-menu').click(function(){
+
+	/*	LEFT SIDEBAR FUNCTIONS	*/
+	
+	/* Click main menu */
+	$('.main-menu').click(function(event){
+
 		$('.main-menu').removeClass('active');
 		$(this).addClass('active');
 
 		$('.main-menu').siblings().hide();
 		$(this).siblings().show();
+
+		$(this).children('a').first().trigger('click');
 	});
 
+	/* Click submenu */
 	$('.sub-menu-items div').click(function(){
 		$('.main-menu').removeClass('active');
 		var mm = $(this).closest('ul').parent().siblings('.main-menu');
@@ -19,6 +26,19 @@ $(function(){
 
 		$('.main-menu').siblings().hide();
 		mm.siblings().show();
+
+		$(this).children('a').first().trigger('click');
+	});
+
+	/* Load appropriate page when div on left side bar is clicked*/
+	$('.sidebar a').click(function(event){
+		event.stopPropagation();
+		thispage = $(this).attr("href");
+		if($(this).attr("title") == "Home"){
+			window.location.href = thispage;
+		}else{
+			pageloader(thispage);
+		}
 	});
 
 	/* Datepicker */
