@@ -30,10 +30,10 @@
 					{{ Form::textarea('description', Input::old('description'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group actions-row">
-				</div>
 					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', 
 						['class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-edit-specimentype")']
 					) }}
+				</div>
 
 			{{ Form::close() }}
 		</div>

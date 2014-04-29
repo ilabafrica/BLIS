@@ -12,8 +12,7 @@ body {
   margin: 0 auto -50px;
   /* Pad bottom by footer height */
   padding: 0 0 50px;
-  overflow: hidden;
-}
+ }
 label, input {
     margin : 5px 0;
     float: left;
@@ -240,13 +239,12 @@ label, input {
                     background-color: #313131;
                     cursor: pointer;
                 }
-                .sidebar a{
-                    color: #F1F1F1;
-                    cursor: pointer;
-                }
-                .sidebar a:hover{
-                    text-decoration: none;
-                }
+        .sidebar a{
+            color: #D1D1D1;
+        }
+        .sidebar a:hover{
+            text-decoration: none;
+        }
     .row .main {
         margin-top: 71px;
         overflow-y: auto;

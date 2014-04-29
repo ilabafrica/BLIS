@@ -2,14 +2,15 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="/css/ui-lightness/jquery-ui-min.css" />
-        <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css" />
-        <link rel="stylesheet" type="text/css" href="/css/layout.css" />
-        <script type="text/javascript" src="/js/jquery.js"></script>
-        <script type="text/javascript" src="/js/jquery-ui-min.js"></script>
-        <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="/js/script.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/ui-lightness/jquery-ui-min.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/bootstrap-theme.min.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/layout.css') }}" />
+        <script type="text/javascript" src="{{ URL::asset('js/jquery.js') }}"></script>
+        <script type="text/javascript" src="{{ URL::asset('js/jquery-ui-min.js') }}"></script>
+        <script type="text/javascript" src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ URL::asset('js/script.js') }}    "></script>
         <title>{{ Config::get('kblis.name') }} {{ Config::get('kblis.version') }}</title>
     </head>
     <body>

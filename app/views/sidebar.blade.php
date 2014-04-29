@@ -3,7 +3,7 @@
 		<li>
 			<div class="main-menu active">
 				<span class="glyphicon glyphicon-home"></span>
-				<a href="{{ URL::route('user.home')}}">Home</a>
+				<a href="{{ URL::route('user.home')}}" title="Home">Home</a>
 			</div>
 		</li>
 		<li>
