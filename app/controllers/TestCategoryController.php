@@ -71,6 +71,7 @@ class TestCategoryController extends \BaseController {
 		//show a test category
 		$testcategory = TestCategory::find($id);
 		//show the view and pass the $testcategory to it
+//		return View::make('testcategory.create');;
 		return View::make('testcategory.show')->with('testcategory',$testcategory);
 	}
 

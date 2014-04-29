@@ -26,8 +26,9 @@ class TestTypeController extends \BaseController {
 	 */
 	public function create()
 	{
+		$labsections = DB::table('test_category')->orderBy('name', 'asc')->lists('name','id');
 		//Create TestType
-		return View::make('testtype.create');
+		return View::make('testtype.create', array('labsections' => $labsections));
 	}
 
 	/**
@@ -98,8 +99,10 @@ class TestTypeController extends \BaseController {
 		//Get the testtype
 		$testtype = TestType::find($id);
 
+		$labsections = DB::table('test_category')->orderBy('name', 'asc')->lists('name','id');
+
 		//Open the Edit View and pass to it the $testtype
-		return View::make('testtype.edit')->with('testtype', $testtype);
+		return View::make('testtype.edit', array('labsections' => $labsections))->with('testtype', $testtype);
 	}
 
 	/**
@@ -128,7 +131,7 @@ class TestTypeController extends \BaseController {
 			$testtype->section_id = Input::get('section_id');
 			$testtype->targetTAT = Input::get('targetTAT');
 			$testtype->prevalence_threshold = Input::get('prevalence_threshold');
-			$testtype->save();
+				$testtype->save();
 
 			// redirect
 			Session::flash('message', 'The test type details were successfully updated!');

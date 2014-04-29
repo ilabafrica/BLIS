@@ -35,6 +35,19 @@ extends DatabaseSeeder
             array("name" => "Plasma EDTA"),
             array("name" => "Pleural Tap"),
             array("name" => "Pus Swab"),
+            array("name" => "Rectal Swab"),
+            array("name" => "Semen"),
+            array("name" => "Serum"),
+            array("name" => "Skin"),
+            array("name" => "Sputum"),
+            array("name" => "Stool"),
+            array("name" => "Synovial Fluid"),
+            array("name" => "Throat Swab"),
+            array("name" => "Urethral Smear"),
+            array("name" => "Urine"),
+            array("name" => "Vaginal Smear"),
+            array("name" => "Water"),
+            array("name" => "Whole Blood"),
         );
 
         foreach ($specTypes as $specType)

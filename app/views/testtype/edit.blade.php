@@ -31,7 +31,7 @@
 				</div>
 				<div class="form-group">
 					{{ Form::label('section_id', 'Section') }}
-					{{ Form::text('section_id', Input::old('section_id'), array('class' => 'form-control')) }}
+					{{ Form::select('section_id', $labsections, Input::old('section_id')) }}
 				</div>
 				<div class="form-group">
 					{{ Form::label('targetTAT', 'Target Turnaround Time') }}
