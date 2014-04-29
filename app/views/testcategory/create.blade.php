@@ -3,7 +3,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
-		  <li><a href="{{ URL::to('test_category') }}">Test Category</a></li>
+		  <li><a href="{{ URL::to('testcategory') }}">Test Category</a></li>
 		  <li class="active">Create Patient</li>
 		</ol>
 	</div>
@@ -21,7 +21,7 @@
 				</div>
 			@endif
 
-			{{ Form::open(array('url' => 'test_category')) }}
+			{{ Form::open(array('url' => 'testcategory')) }}
 
 				<div class="form-group">
 					{{ Form::label('name', 'Name') }}
