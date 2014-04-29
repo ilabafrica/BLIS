@@ -1,14 +1,14 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
-		  <li><a href="{{ URL::to('testcategory') }}">Test Category</a></li>
-		  <li class="active">Edit Test Category</li>
+		  <li><a href="{{ URL::to('testcategory') }}">Lab Section</a></li>
+		  <li class="active">Edit Lab Section</li>
 		</ol>
 	</div>
 	<div class="panel panel-primary patient-create">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-edit"></span>
-			Edit Test Category Details
+			Edit Lab Section Details
 		</div>
 		<div class="panel-body">
 			@if($errors->all())

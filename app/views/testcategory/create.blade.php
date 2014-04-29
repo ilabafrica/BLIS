@@ -1,14 +1,14 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
-		  <li><a href="{{ URL::to('testcategory') }}">Test Category</a></li>
-		  <li class="active">Create Patient</li>
+		  <li><a href="{{ URL::to('testcategory') }}">Lab Section</a></li>
+		  <li class="active">Create Lab Section</li>
 		</ol>
 	</div>
 	<div class="panel panel-primary patient-create">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-user"></span>
-			Create Patient
+			Create Lab Section
 		</div>
 		<div class="panel-body">
 		<!-- if there are creation errors, they will show here -->

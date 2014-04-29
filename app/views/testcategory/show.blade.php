@@ -1,14 +1,14 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
-		  <li><a href="javascript:void(0);" onclick="pageloader('{{ URL::to("testcategory") }}')">Test Category</a></li>
-		  <li class="active">Test Category Details</li>
+		  <li><a href="javascript:void(0);" onclick="pageloader('{{ URL::to("testcategory") }}')">Lab Sections</a></li>
+		  <li class="active">Lab Section Details</li>
 		</ol>
 	</div>
 	<div class="panel panel-primary ">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-user"></span>
-			Test Category Details
+			Lab Section Details
 			<div class="panel-btn">
 				<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to("testcategory/" . $value->id . "/edit") }}')">
 					<span class="glyphicon glyphicon-edit"></span>

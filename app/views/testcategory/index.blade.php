@@ -1,7 +1,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
-		  <li class="active">Test Category</li>
+		  <li class="active">Lab Section</li>
 		</ol>
 	</div>
 	@if (Session::has('message'))
@@ -10,10 +10,10 @@
 	<div class="panel panel-primary patient-create">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-user"></span>
-			List Test Categories
+			List Lab Sections
 			<div class="panel-btn">
 				<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to("testcategory/create") }}')">
-					New Test Category
+					New Lab Section
 				</a>
 			</div>
 		</div>

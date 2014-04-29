@@ -54,7 +54,7 @@ class TestCategoryController extends \BaseController {
 				Session::flash('message','Successfully created test category');
 				return Redirect::to('testcategory');
 			}catch(QueryException $e){
-				$errors = new MessageBag(array('The test category your registering already exists!'));
+				$errors = new MessageBag(array('The lab section your registering already exists!'));
 				return Redirect::to(test/create)->withErrors($errors)->withInput(Input::except('password'));
 			}
 		}
@@ -116,7 +116,7 @@ class TestCategoryController extends \BaseController {
 			$testcategory->save();
 
 			// redirect
-			Session::flash('message', 'The test category were successfully updated!');
+			Session::flash('message', 'The lab section were successfully updated!');
 			return Redirect::to('testcategory');
 		}
 	}
