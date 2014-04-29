@@ -3,7 +3,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
-		  <li><a href="{{ URL::to('test_category') }}">Patient</a></li>
+		  <li><a href="{{ URL::to('testcategory') }}">Test Category</a></li>
 		  <li class="active">Edit Test Category</li>
 		</ol>
 	</div>
@@ -18,7 +18,7 @@
 					{{ HTML::ul($errors->all()) }}
 				</div>
 			@endif
-			{{ Form::model($test_category, array('route' => array('test_category.update', $test_category->id), 'method' => 'PUT')) }}
+			{{ Form::model($testcategory, array('route' => array('testcategory.update', $testcategory->id), 'method' => 'PUT')) }}
 
 				<div class="form-group">
 					{{ Form::label('name', 'Name') }}

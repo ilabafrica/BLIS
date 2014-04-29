@@ -63,10 +63,10 @@ Route::group(array("before" => "auth"), function()
         "uses" => "SpecimenTypeController@delete"
     ));
 	
-	Route::resource('test_category', 'TestCategoryController');
+	Route::resource('testcategory', 'TestCategoryController');
 	
-	Route::get("/test_category/{id}/delete", array(
-        "as"   => "test_category.delete",
+	Route::get("/testcategory/{id}/delete", array(
+        "as"   => "testcategory.delete",
         "uses" => "TestCategoryController@delete"
     ));
 	

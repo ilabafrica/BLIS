@@ -15,7 +15,7 @@ class TestCategoryController extends \BaseController {
 		//List all test categories
 		$test = TestCategory::all();
 		//Load the view and pass the test categories
-		return View::make('test_category.index')->with('test',$test);
+		return View::make('testcategory.index')->with('test',$test);
 	}
 
 	/**
@@ -26,7 +26,7 @@ class TestCategoryController extends \BaseController {
 	public function create()
 	{
 		//Create test category
-		return View::make('test_category.create');
+		return View::make('testcategory.create');
 	}
 
 	/**
@@ -46,13 +46,13 @@ class TestCategoryController extends \BaseController {
 			return Redirect::to('test/create')->withErrors($validator)->withErrors(Input::except('password'));
 		}else{
 			//store
-			$test_category = new TestCategory;
-			$test_category->name = Input::get('name');
-			$test_category->description = Input::get('description');
+			$testcategory = new TestCategory;
+			$testcategory->name = Input::get('name');
+			$testcategory->description = Input::get('description');
 			try{
-				$test_category->save();
+				$testcategory->save();
 				Session::flash('message','Successfully created test category');
-				return Redirect::to('test_category');
+				return Redirect::to('testcategory');
 			}catch(QueryException $e){
 				$errors = new MessageBag(array('The test category your registering already exists!'));
 				return Redirect::to(test/create)->withErrors($errors)->withInput(Input::except('password'));
@@ -69,9 +69,9 @@ class TestCategoryController extends \BaseController {
 	public function show($id)
 	{
 		//show a test category
-		$test_category = TestCategory::find($id);
-		//show the view and pass $test_category to it
-		return View::make('test_category.show')->with('test_category',$test_category);
+		$testcategory = TestCategory::find($id);
+		//show the view and pass $testcategory to it
+		return View::make('testcategory.show')->with('testcategory',$testcategory);
 	}
 
 	/**
@@ -83,10 +83,10 @@ class TestCategoryController extends \BaseController {
 	public function edit($id)
 	{
 		//Get the patient
-		$test_category = TestCategory::find($id);
+		$testcategory = TestCategory::find($id);
 
 		//Open the Edit View and pass to it the $patient
-		return View::make('test_category.edit')->with('test_category', $test_category);
+		return View::make('testcategory.edit')->with('testcategory', $testcategory);
 	}
 
 	/**
@@ -105,19 +105,19 @@ class TestCategoryController extends \BaseController {
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::to('test_category/' . $id . '/edit')
+			return Redirect::to('testcategory/' . $id . '/edit')
 				->withErrors($validator)
 				->withInput(Input::except('password'));
 		} else {
 			// Update
-			$test_category = TestCategory::find($id);
-			$test_category->name = Input::get('name');
-			$test_category->description = Input::get('description');
-			$test_category->save();
+			$testcategory = TestCategory::find($id);
+			$testcategory->name = Input::get('name');
+			$testcategory->description = Input::get('description');
+			$testcategory->save();
 
 			// redirect
 			Session::flash('message', 'The test category were successfully updated!');
-			return Redirect::to('test_category');
+			return Redirect::to('testcategory');
 		}
 	}
 
@@ -141,13 +141,13 @@ class TestCategoryController extends \BaseController {
 	public function delete($id)
 	{
 		//Soft delete the test category
-		$test_category = TestCategory::find($id);
+		$testcategory = TestCategory::find($id);
 
-		$test_category->delete();
+		$testcategory->delete();
 
 		// redirect
 		Session::flash('message', 'The test category was successfully deleted!');
-		return Redirect::to('test_category');
+		return Redirect::to('testcategory');
 	}
 
 

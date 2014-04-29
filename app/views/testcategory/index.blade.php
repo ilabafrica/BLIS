@@ -14,7 +14,7 @@
 			<span class="glyphicon glyphicon-user"></span>
 			List Test Categories
 			<div class="panel-btn">
-				<a class="btn btn-sm btn-info" href="{{ URL::to('test_category/create') }}">
+				<a class="btn btn-sm btn-info" href="{{ URL::to('testcategory/create') }}">
 					New Test Category
 				</a>
 			</div>
@@ -36,18 +36,18 @@
 						<td>
 
 							<!-- show the patient (uses the show method found at GET /patient/{id} -->
-							<a class="btn btn-sm btn-success" href="{{ URL::to('test_category/' . $value->id) }}">
+							<a class="btn btn-sm btn-success" href="{{ URL::to('testcategory/' . $value->id) }}">
 								<span class="glyphicon glyphicon-user"></span>
 								Show
 							</a>
 
 							<!-- edit this patient (uses the edit method found at GET /patient/{id}/edit -->
-							<a class="btn btn-sm btn-info" href="{{ URL::to('test_category/' . $value->id . '/edit') }}">
+							<a class="btn btn-sm btn-info" href="{{ URL::to('testcategory/' . $value->id . '/edit') }}">
 								<span class="glyphicon glyphicon-edit"></span>
 								Edit
 							</a>
 							<!-- delete this patient (uses the delete method found at GET /patient/{id}/delete -->
-							<a class="btn btn-sm btn-danger" href="{{ URL::to('test_category/' . $value->id . '/delete') }}">
+							<a class="btn btn-sm btn-danger" href="{{ URL::to('testcategory/' . $value->id . '/delete') }}">
 								<span class="glyphicon glyphicon-remove"></span>
 								Delete
 							</a>
