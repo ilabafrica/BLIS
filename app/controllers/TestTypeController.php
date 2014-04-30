@@ -3,6 +3,10 @@
 use Illuminate\Support\MessageBag;
 use Illuminate\Database\QueryException;
 
+/**
+ *Contains functions for managing test types
+ *
+ */
 class TestTypeController extends \BaseController {
 
 	/**

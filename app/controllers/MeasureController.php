@@ -3,6 +3,10 @@
 use Illuminate\Support\MessageBag;
 use Illuminate\Database\QueryException;
 
+/**
+ * Contains measure resources  
+ * Measures are standard units and ranges of test results
+ */
 class MeasureController extends \BaseController {
 
 	/**

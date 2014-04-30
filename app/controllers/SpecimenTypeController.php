@@ -3,6 +3,10 @@
 use Illuminate\Support\MessageBag;
 use Illuminate\Database\QueryException;
 
+/**
+ *Contains functions for managing specimen types  
+ *
+ */
 class SpecimenTypeController extends \BaseController {
 
 	/**

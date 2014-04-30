@@ -2,6 +2,10 @@
 
 use Illuminate\Support\MessageBag;
 
+/**
+ *Contains functions for managing users 
+ *
+ */
 class UserController extends Controller {
     
     public function loginAction(){

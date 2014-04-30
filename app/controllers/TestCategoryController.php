@@ -3,6 +3,10 @@
 use Illuminate\Support\MessageBag;
 use Illuminate\Database\QueryException;
 
+/**
+ * Contains test categories a.k.a lab sections
+ * A classification of test types
+ */
 class TestCategoryController extends \BaseController {
 
 	/**
