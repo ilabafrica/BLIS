@@ -1,5 +1,3 @@
-@extends("layout")
-@section("content")
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
@@ -14,7 +12,7 @@
 			<span class="glyphicon glyphicon-user"></span>
 			List Patients
 			<div class="panel-btn">
-				<a class="btn btn-sm btn-info" href="{{ URL::to('patient/create') }}">
+				<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to('patient/create') }}')">
 					New Patient
 				</a>
 			</div>
@@ -43,18 +41,18 @@
 						<td>
 
 							<!-- show the patient (uses the show method found at GET /patient/{id} -->
-							<a class="btn btn-sm btn-success" href="{{ URL::to('patient/' . $value->id) }}">
+							<a class="btn btn-sm btn-success" href="javascript:viod(0);" onclick="pageloader('{{ URL::to('patient/' . $value->id) }}')">
 								<span class="glyphicon glyphicon-user"></span>
 								Show
 							</a>
 
 							<!-- edit this patient (uses the edit method found at GET /patient/{id}/edit -->
-							<a class="btn btn-sm btn-info" href="{{ URL::to('patient/' . $value->id . '/edit') }}">
+							<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to('patient/' . $value->id . '/edit') }}')">
 								<span class="glyphicon glyphicon-edit"></span>
 								Edit
 							</a>
 							<!-- delete this patient (uses the delete method found at GET /patient/{id}/delete -->
-							<a class="btn btn-sm btn-danger" href="{{ URL::to('patient/' . $value->id . '/delete') }}">
+							<a class="btn btn-sm btn-danger" href="javascript:void(0);" onclick="pageloader('{{ URL::to('patient/' . $value->id . '/delete') }}')">
 								<span class="glyphicon glyphicon-remove"></span>
 								Delete
 							</a>
@@ -66,4 +64,3 @@
 			</table>
 		</div>
 	</div>
-@stop

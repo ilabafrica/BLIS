@@ -1,9 +1,7 @@
-@extends("layout")
-@section("content")
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
-		  <li><a href="{{ URL::to('patient') }}">Patient</a></li>
+		  <li><a href="javascript:void(0);" onclick="pageloader('{{ URL::to('patient') }}')">Patient</a></li>
 		  <li class="active">Patient Details</li>
 		</ol>
 	</div>
@@ -12,7 +10,7 @@
 			<span class="glyphicon glyphicon-user"></span>
 			Patient Details
 			<div class="panel-btn">
-				<a class="btn btn-sm btn-info" href="{{ URL::to('patient/'. $patient->id .'/edit') }}">
+				<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to('patient/'. $patient->id .'/edit') }}')">
 					<span class="glyphicon glyphicon-edit"></span>
 					Edit
 				</a>
@@ -32,4 +30,3 @@
 			</div>
 		</div>
 	</div>
-@stop

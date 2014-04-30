@@ -8,6 +8,12 @@
 		</li>
 		<li>
 			<div class="main-menu">
+				<span class="glyphicon glyphicon-download-alt"></span>
+				<a href="javascript:void(0);" onclick="pageloader('{{ URL::route("patient.index")}}')">Reception</a>
+			</div>
+		</li>
+		<li>
+			<div class="main-menu">
 				<span class="glyphicon glyphicon-filter"></span>
 				Tests
 			</div>

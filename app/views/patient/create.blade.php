@@ -1,9 +1,7 @@
-@extends("layout")
-@section("content")
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
-		  <li><a href="{{ URL::to('patient') }}">Patient</a></li>
+		  <li><a href="javascript:void(0);" onclick="pageloader('{{ URL::to('patient') }}')">Patient</a></li>
 		  <li class="active">Create Patient</li>
 		</ol>
 	</div>
@@ -21,7 +19,7 @@
 				</div>
 			@endif
 
-			{{ Form::open(array('url' => 'patient')) }}
+			{{ Form::open(array('url' => 'patient', 'id' => 'form-create-patient')) }}
 
 				<div class="form-group">
 					{{ Form::label('patient_number', 'Patient Number') }}
@@ -53,10 +51,10 @@
 					{{ Form::email('email', Input::old('email'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group actions-row">
-					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', array('class' => 'btn btn-primary', 'type' => 'submit')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', 
+						['class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-create-patient")']) }}
 				</div>
 
 			{{ Form::close() }}
 		</div>
 	</div>
-@stop
