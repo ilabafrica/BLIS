@@ -109,5 +109,53 @@ extends DatabaseSeeder
             Measure::create($measure);
         }
 		
+		DB::table('test_type')->delete();
+        
+        $tesTypes = array(
+			array("name" => "Grams stain"),
+			array("name" => "ZN stain"),
+			array("name" => "urine chemistry"),
+			array("name" => "SERUM AMYLASE"),
+			array("name" => "calcium"),
+			array("name" => "CALCIUM"),
+			array("name" => "URIC ACID"),
+			array("name" => "calcium"),
+			array("name" => "Glucose"),
+			array("name" => "Protein"),
+			array("name" => "Ascitic tap for biochemistry"),
+			array("name" => "Glucose"),
+			array("name" => "Protein"),
+			array("name" => "CSF for biochemistry"),
+			array("name" => "PSA"),
+			array("name" => "Total"),
+			array("name" => "Albumin"),
+			array("name" => "Alkaline Phosphate"),
+			array("name" => "ASAT"),
+			array("name" => "SGOT"),
+			array("name" => "ALAT"),
+			array("name" => "Direct"),
+			array("name" => "Total Proteins"),
+			array("name" => "Bilirubin"),
+			array("name" => "LFTS")
+        );
+
+        foreach ($tesTypes as $testType)
+        {
+            TestType::create($testType);
+        }
+		
+		DB::table('patient')->delete();
+        
+        $patients = array(
+			array("name" => "Wakinu James", "email" => "jwakinu@example.com", "patient_number" => "1001"),
+			array("name" => "Jamkizi Felix", "email" => "fjamkizi@example.com", "patient_number" => "1002"),
+			array("name" => "Amolo Judith", "email" => "jamolo@example.com", "patient_number" => "1003")
+        );
+
+        foreach ($patients as $patient)
+        {
+            Patient::create($patient);
+        }
+
     }
 }
