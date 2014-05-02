@@ -30,9 +30,10 @@ class TestTypeController extends \BaseController {
 	 */
 	public function create()
 	{
+		$measures = Measure::all();
 		$labsections = DB::table('test_category')->orderBy('name', 'asc')->lists('name','id');
 		//Create TestType
-		return View::make('testtype.create', array('labsections' => $labsections));
+		return View::make('testtype.create', array('labsections' => $labsections))->with('measures', $measures);
 	}
 
 	/**
@@ -53,7 +54,7 @@ class TestTypeController extends \BaseController {
 			return Redirect::to('testtype/create')
 				->withErrors($validator);
 		} else {
-			// store
+			// store 
 			$testtype = new TestType;
 			$testtype->name = Input::get('name');
 			$testtype->description = Input::get('description');
@@ -72,7 +73,6 @@ class TestTypeController extends \BaseController {
 				return Redirect::to('testtype/create')
 					->withErrors($errors);
 			}
-			
 			// redirect
 		}
 	}
