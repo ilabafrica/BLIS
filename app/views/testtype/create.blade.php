@@ -41,6 +41,16 @@
 					{{ Form::label('prevalence_threshold', 'Prevalence Threshold') }}
 					{{ Form::text('prevalence_threshold', Input::old('prevalence_threshold'), array('class' => 'form-control')) }}
 				</div>
+				<label for="measure-form">Measures</label>
+				<div class="row measure-form" style="margin-left: 180px; width: 500px">
+					@foreach($measures  as $key=>$value)
+					<div class="col-md-6">
+						<label  class="checkbox" style="font-weight:normal;">
+							<input type="checkbox" value="{{$value->id}}" />{{$value->name}}
+						</label>
+					</div>
+					@endforeach
+				</div>
 				<div class="form-group actions-row">
 					{{ Form::button(
 						'<span class="glyphicon glyphicon-save"></span> Save',
@@ -50,7 +60,6 @@
 						] 
 					) }}
 				</div>
-
 			{{ Form::close() }}
 		</div>
 	</div>
