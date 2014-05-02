@@ -47,6 +47,36 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	/**
+	 * Get the token value for the "remember me" session.
+	 *
+	 * @return string
+	 */
+	public function getRememberToken()
+	{
+		return "";
+	}
+
+	/**
+	 * Set the token value for the "remember me" session.
+	 *
+	 * @return void
+	 */
+	public function setRememberToken($value)
+	{
+		
+	}
+
+	/**
+	 * Get the column name for the "remember me" token.
+	 *
+	 * @return string
+	 */
+	public function getRememberTokenName()
+	{
+		return "";
+	}
+
+	/**
 	 * Get the e-mail address where password reminders are sent.
 	 *
 	 * @return string
