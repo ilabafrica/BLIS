@@ -30,9 +30,10 @@ class TestTypeController extends \BaseController {
 	 */
 	public function create()
 	{
+		$measures = Measure::all();
 		$labsections = DB::table('test_category')->orderBy('name', 'asc')->lists('name','id');
 		//Create TestType
-		return View::make('testtype.create', array('labsections' => $labsections));
+		return View::make('testtype.create', array('labsections' => $labsections))->with('measures', $measures);
 	}
 
 	/**
@@ -53,8 +54,28 @@ class TestTypeController extends \BaseController {
 			return Redirect::to('testtype/create')
 				->withErrors($validator);
 		} else {
-			// store
+			// store 
 			$testtype = new TestType;
+			$testtype->name = Input::get('name');
+			$testtype->description = Input::get('description');
+			$testtype->section_id = Input::get('section_id');
+			$testtype->targetTAT = Input::get('targetTAT');
+			$testtype->prevalence_threshold = Input::get('prevalence_threshold');
+
+			try{
+				$testtype->save();
+				Session::flash('message', 'Successfully created test type!');
+				return Redirect::to('testtype');
+			}catch(QueryException $e){
+				$errors = new MessageBag(array(
+                	"Ensure that the test type name is unique."
+                ));
+				return Redirect::to('testtype/create')
+					->withErrors($errors);
+			}
+			
+			//store measures
+			$testtype_measure = new TesttypeMeasure;
 			$testtype->name = Input::get('name');
 			$testtype->description = Input::get('description');
 			$testtype->section_id = Input::get('section_id');
