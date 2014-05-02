@@ -13,6 +13,7 @@
 			List Users
 			<div class="panel-btn">
 				<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to("user/create") }}')">
+					<span class="glyphicon glyphicon-plus-sign"></span>
 					New User
 				</a>
 			</div>
@@ -43,8 +44,8 @@
 							<!-- show the user (uses the show method found at GET /user/{id} -->
 							<a class="btn btn-sm btn-success" href="javascript:void(0);" 
 								onclick="pageloader('{{ URL::to("user/" . $value->id) }}')">
-								<span class="glyphicon glyphicon-user"></span>
-								Show
+								<span class="glyphicon glyphicon-eye-open"></span>
+								View
 							</a>
 
 							<!-- edit this user (uses the edit method found at GET /user/{id}/edit -->
@@ -54,9 +55,9 @@
 								Edit
 							</a>
 							<!-- delete this user (uses the delete method found at GET /user/{id}/delete -->
-							<a class="btn btn-sm btn-danger" href="javascript:void(0);" 
-								onclick="pageloader('{{ URL::to("user/" . $value->id . "/delete") }}')">
-								<span class="glyphicon glyphicon-remove"></span>
+							<a class="btn btn-sm btn-danger delete-item-link" href="javascript:void(0);" data-toggle="modal"
+								data-target=".confirm-delete-modal"	data-id='{{ URL::to("user/" . $value->id . "/delete") }}'>
+								<span class="glyphicon glyphicon-trash"></span>
 								Delete
 							</a>
 

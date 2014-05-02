@@ -42,8 +42,21 @@ $(function(){
 	});
 
 	/* Datepicker */
-	$( ".standard-datepicker").datepicker({ dateFormat: "yy-mm-dd" });
+	$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
+
 });
+
+/*	
+*	Alert on irreversible delete
+*/
+	$(document).on("click", '.delete-item-link', function(){
+		$('#delete-url').val($(this).data('id'));
+	});
+
+	$(document).on("click", '.btn-delete', function(){
+		$('.confirm-delete-modal').modal('toggle');
+		pageloader($('#delete-url').val());
+	});
 
 	/* Controller function: Loads requested page in to the central div (#the-one-main)
 	*  via an asynchronous ajax call.
@@ -87,8 +100,14 @@ $(function(){
 	    });
 	}
 
-/*For closing profile div*/
+/*Loads URL then toggles (closes) an element (div), given the element's class. For closing profile div */
 	function loadandclose(url, classtoclose){
 		pageloader(url);
 		$("." + classtoclose).toggle();
+	}
+
+/* Delete with modal: Warns before the actual delete. */
+	function warnbeforedelete(url){
+//		$('#myModal').modal('show');
+alert(url);
 	}

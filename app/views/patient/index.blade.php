@@ -13,6 +13,7 @@
 			List Patients
 			<div class="panel-btn">
 				<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to('patient/create') }}')">
+					<span class="glyphicon glyphicon-plus-sign"></span>
 					New Patient
 				</a>
 			</div>
@@ -42,8 +43,8 @@
 
 							<!-- show the patient (uses the show method found at GET /patient/{id} -->
 							<a class="btn btn-sm btn-success" href="javascript:viod(0);" onclick="pageloader('{{ URL::to('patient/' . $value->id) }}')">
-								<span class="glyphicon glyphicon-user"></span>
-								Show
+								<span class="glyphicon glyphicon-eye-open"></span>
+								View
 							</a>
 
 							<!-- edit this patient (uses the edit method found at GET /patient/{id}/edit -->
@@ -52,8 +53,9 @@
 								Edit
 							</a>
 							<!-- delete this patient (uses the delete method found at GET /patient/{id}/delete -->
-							<a class="btn btn-sm btn-danger" href="javascript:void(0);" onclick="pageloader('{{ URL::to('patient/' . $value->id . '/delete') }}')">
-								<span class="glyphicon glyphicon-remove"></span>
+							<a class="btn btn-sm btn-danger delete-item-link" href="javascript:void(0);" data-toggle="modal"
+								data-target=".confirm-delete-modal"	data-id="{{ URL::to('patient/' . $value->id . '/delete') }}">
+								<span class="glyphicon glyphicon-trash"></span>
 								Delete
 							</a>
 
