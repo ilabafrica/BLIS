@@ -15,6 +15,7 @@
 			List Measures
 			<div class="panel-btn">
 				<a class="btn btn-sm btn-info" href="{{ URL::to('measure/create') }}">
+					<span class="glyphicon glyphicon-plus-sign"></span>
 					New Measure
 				</a>
 			</div>
@@ -39,8 +40,8 @@
 						<td>
 							<!-- show the measure (uses the show method found at GET /measure/{id} -->
 							<a class="btn btn-sm btn-success" href="{{ URL::to('measure/' . $value->id) }}">
-								<span class="glyphicon glyphicon-user"></span>
-								Show
+								<span class="glyphicon glyphicon-eye-open"></span>
+								View
 							</a>
 
 							<!-- edit this measure (uses the edit method found at GET /measure/{id}/edit -->
@@ -49,8 +50,10 @@
 								Edit
 							</a>
 							<!-- delete this measure (uses the delete method found at GET /measure/{id}/delete -->
-							<a class="btn btn-sm btn-danger" href="{{ URL::to('measure/' . $value->id . '/delete') }}">
-								<span class="glyphicon glyphicon-remove"></span>
+							<a class="btn btn-sm btn-danger delete-item-link" href="javascript:void(0);" 
+								data-toggle="modal" data-target=".confirm-delete-modal"	
+								data-id='{{ URL::to("measure/" . $value->id . "/delete") }}'>
+								<span class="glyphicon glyphicon-trash"></span>
 								Delete
 							</a>
 						</td>
@@ -58,6 +61,7 @@
 				@endforeach
 				</tbody>
 			</table>
+			<?php echo $measures->links(); ?>
 		</div>
 	</div>
 @stop

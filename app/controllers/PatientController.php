@@ -17,7 +17,7 @@ class PatientController extends \BaseController {
 	public function index()
 	{
 		// List all the active patients
-			$patients = Patient::all();
+			$patients = Patient::paginate(Config::get('kblis.page-items'));
 
 		// Load the view and pass the patients
 		return View::make('patient.index')->with('patients', $patients);

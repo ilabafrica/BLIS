@@ -17,7 +17,7 @@ class TestTypeController extends \BaseController {
 	public function index()
 	{
 		// List all the active testtypes
-			$testtypes = TestType::all();
+			$testtypes = TestType::paginate(Config::get('kblis.page-items'));
 
 		// Load the view and pass the testtypes
 		return View::make('testtype.index')->with('testtypes', $testtypes);

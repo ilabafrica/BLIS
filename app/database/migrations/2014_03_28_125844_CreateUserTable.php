@@ -12,7 +12,6 @@ class CreateUserTable extends Migration {
      */
     public function up()
     {
-        Schema::dropIfExists('user');
         Schema::create('user', function(Blueprint $table)
         {
             $table->increments("id")->unsigned();

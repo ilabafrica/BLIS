@@ -14,7 +14,7 @@ class CreateSpecimenTypeTable extends Migration {
 	{
 		Schema::create('specimen_type', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->increments('id')->unsigned();;
 			$table->string('name', 45);
 			$table->string('description', 100)->nullable();
 			

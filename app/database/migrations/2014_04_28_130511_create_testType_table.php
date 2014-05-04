@@ -14,13 +14,15 @@ class CreateTestTypeTable extends Migration {
 	{
 		Schema::create('test_type', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->increments('id')->unsigned();
 			$table->string('name', 100);
 			$table->string('description', 100)->nullable();
-			$table->smallInteger('section_id');
+			$table->integer('section_id')->unsigned();
 			$table->string('targetTAT', 50)->nullable();
 			$table->string('prevalence_threshold', 50)->nullable();
 			
+			$table->foreign('section_id')->references('id')->on('test_category');
+
 			$table->softDeletes();
 			$table->timestamps();
 		});

@@ -5,7 +5,18 @@ extends DatabaseSeeder
 {
     public function run()
     {
+        /* Truncate from linking tables */
+        DB::table('testtype_measure')->truncate();
+        DB::table('testtype_specimentype')->truncate();
+        /* Delete from tables referenced by foreign key constraints */
+        DB::table('measure')->delete();
+        DB::table('test_type')->delete();
+        DB::table('specimen_type')->delete();
+        DB::table('test_category')->delete();
+        DB::table('patient')->delete();
         DB::table('user')->delete();
+
+        /* Users table */
         
         $users = array(
             array(
@@ -22,7 +33,7 @@ extends DatabaseSeeder
             User::create($user);
         }
 
-        DB::table('specimen_type')->delete();
+        /* Specimen Types table */
         
         $specTypes = array(
             array("name" => "Ascitic Tap"),
@@ -55,17 +66,17 @@ extends DatabaseSeeder
             SpecimenType::create($specType);
         }
 		
-		DB::table('test_category')->delete();
+        /* Test Categories table - These map on to the lab sections */
         
         $test_categories = array(
+            array("name" => "BIOCHEMISTRY","description" => ""),
+            array("name" => "CLINICAL CHEMISTRY","description" => ""),
 			array("name" => "HAEMATOLOGY","description" => ""),
+            array("name" => "HISTOLOGY AND CYTOLOGY","description" => ""),
 			array("name" => "MCH","description" => ""),
-			array("name" => "VIROLOGY","description" => ""),
-			array("name" => "HISTOLOGY AND CYTOLOGY","description" => ""),
-			array("name" => "BIOCHEMISTRY","description" => ""),
-			array("name" => "MICROBIOLOGY","description" => ""),
-			array("name" => "OTHER","description" => ""),
-			array("name" => "CLINICAL CHEMISTRY","description" => "")
+            array("name" => "MICROBIOLOGY","description" => ""),
+            array("name" => "OTHER","description" => ""),
+			array("name" => "VIROLOGY","description" => "")
         );
 
         foreach ($test_categories as $test_category)
@@ -73,7 +84,7 @@ extends DatabaseSeeder
             TestCategory::create($test_category);
         }
 		
-		DB::table('measure')->delete();
+        /* Measures table */
         
         $measures = array(
 		
@@ -108,43 +119,8 @@ extends DatabaseSeeder
         {
             Measure::create($measure);
         }
-		
-		DB::table('test_type')->delete();
-        
-        $tesTypes = array(
-			array("name" => "Grams stain"),
-			array("name" => "ZN stain"),
-			array("name" => "urine chemistry"),
-			array("name" => "SERUM AMYLASE"),
-			array("name" => "calcium"),
-			array("name" => "CALCIUM"),
-			array("name" => "URIC ACID"),
-			array("name" => "calcium"),
-			array("name" => "Glucose"),
-			array("name" => "Protein"),
-			array("name" => "Ascitic tap for biochemistry"),
-			array("name" => "Glucose"),
-			array("name" => "Protein"),
-			array("name" => "CSF for biochemistry"),
-			array("name" => "PSA"),
-			array("name" => "Total"),
-			array("name" => "Albumin"),
-			array("name" => "Alkaline Phosphate"),
-			array("name" => "ASAT"),
-			array("name" => "SGOT"),
-			array("name" => "ALAT"),
-			array("name" => "Direct"),
-			array("name" => "Total Proteins"),
-			array("name" => "Bilirubin"),
-			array("name" => "LFTS")
-        );
-
-        foreach ($tesTypes as $testType)
-        {
-            TestType::create($testType);
-        }
-		
-		DB::table('patient')->delete();
+				
+        /* Patients table */
         
         $patients = array(
 			array("name" => "Wakinu James", "email" => "jwakinu@example.com", "patient_number" => "1001"),

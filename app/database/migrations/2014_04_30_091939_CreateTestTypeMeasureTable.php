@@ -14,10 +14,14 @@ class CreateTestTypeMeasureTable extends Migration {
 	{
 		Schema::create('testtype_measure', function(Blueprint $table)
 		{
-			$table->integer('testtype_id');
-			$table->integer('measure_id');
+			$table->increments('id')->unsigned();
+			$table->integer('testtype_id')->unsigned();
+			$table->integer('measure_id')->unsigned();
 			$table->tinyInteger('ordering');
 			$table->tinyInteger('nesting');
+
+			$table->foreign('testtype_id')->references('id')->on('test_type');
+			$table->foreign('measure_id')->references('id')->on('measure');
 		});
 	}
 

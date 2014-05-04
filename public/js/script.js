@@ -30,10 +30,10 @@ $(function(){
 		$(this).children('a').first().trigger('click');
 	});
 
-	/* Load appropriate page when div on left side bar is clicked*/
+	/* Load appropriate page when div on side bar is clicked*/
 	$('.sidebar a').click(function(event){
 		event.stopPropagation();
-		thispage = $(this).attr("href");
+		var thispage = $(this).attr("href");
 		if($(this).attr("title") == "Home"){
 			window.location.href = thispage;
 		}else{
@@ -41,10 +41,21 @@ $(function(){
 		}
 	});
 
-	/* Datepicker */
-	$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
+	UIComponents();
 
 });
+
+/*
+*
+*/
+	function UIComponents(){
+		/* Datepicker */
+		$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
+	}
+
+	$( document ).ajaxComplete(function() {
+		UIComponents();
+	});
 
 /*	
 *	Alert on irreversible delete
@@ -64,9 +75,8 @@ $(function(){
 	function pageloader(mypage){
 		$.ajax({
 			url: mypage,
-			data: {},
 			success: function( data ) {
-				$( "#the-one-main" ).html( data );
+				$( "#the-one-main" ).html(data);
 			}
 		});
 	}
@@ -106,8 +116,3 @@ $(function(){
 		$("." + classtoclose).toggle();
 	}
 
-/* Delete with modal: Warns before the actual delete. */
-	function warnbeforedelete(url){
-//		$('#myModal').modal('show');
-alert(url);
-	}

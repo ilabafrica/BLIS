@@ -23,7 +23,8 @@
 
 				<div class="form-group">
 					{{ Form::label('patient_number', 'Patient Number') }}
-					{{ Form::text('patient_number', Input::old('patient_number'), array('class' => 'form-control')) }}
+					{{ Form::text('patient_number', Input::old('patient_number'), 
+						array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">
 					{{ Form::label('name', 'Name') }}
@@ -31,7 +32,8 @@
 				</div>
 				<div class="form-group">
 					{{ Form::label('dob', 'Date of Birth') }}
-					{{ Form::text('dob', Input::old('dob'), array('class' => 'form-control standard-datepicker')) }}
+					{{ Form::text('dob', Input::old('dob'), 
+						array('class' => 'form-control standard-datepicker')) }}
 				</div>
                 <div class="form-group">
                     {{ Form::label('gender', 'Gender: ') }}

@@ -14,7 +14,7 @@ class CreatePatientsTable extends Migration {
 	{
 		Schema::create('patient', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->increments('id')->unsigned();;
 			$table->string('patient_number')->unique();
 			$table->string('name', 100);
 			$table->date('dob');
@@ -23,7 +23,6 @@ class CreatePatientsTable extends Migration {
 			$table->string('address', 150)->nullable();
 			$table->string('phone_number')->nullable();
 			$table->string('external_patient_number')->nullable();
-			$table->tinyInteger('active')->default(0);
 
 			$table->softDeletes();
 			$table->timestamps();

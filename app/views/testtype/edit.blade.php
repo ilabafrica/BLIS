@@ -27,7 +27,8 @@
 				</div>
 				<div class="form-group">
 					{{ Form::label('description', 'Description') }}
-					{{ Form::textarea('description', Input::old('description'), array('class' => 'form-control')) }}
+					{{ Form::textarea('description', Input::old('description'), 
+						array('class' => 'form-control', 'rows' => '2' )) }}
 				</div>
 				<div class="form-group">
 					{{ Form::label('section_id', 'Section') }}
@@ -39,7 +40,8 @@
 				</div>
 				<div class="form-group">
 					{{ Form::label('prevalence_threshold', 'Prevalence Threshold') }}
-					{{ Form::text('prevalence_threshold', Input::old('prevalence_threshold'), array('class' => 'form-control')) }}
+					{{ Form::text('prevalence_threshold', Input::old('prevalence_threshold'), 
+						array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group actions-row">
 				</div>
