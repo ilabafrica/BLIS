@@ -7,7 +7,7 @@
 	</div>
 	<div class="panel panel-primary">
 		<div class="panel-heading ">
-			<span class="glyphicon glyphicon-user"></span>
+			<span class="glyphicon glyphicon-cog"></span>
 			Test Type Details
 			<div class="panel-btn">
 				<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to("testtype/". $testtype->id ."/edit") }}')">

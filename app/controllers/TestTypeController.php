@@ -31,9 +31,13 @@ class TestTypeController extends \BaseController {
 	public function create()
 	{
 		$measures = Measure::all();
+		$specimentypes = SpecimenType::all();
 		$labsections = DB::table('test_category')->orderBy('name', 'asc')->lists('name','id');
 		//Create TestType
-		return View::make('testtype.create', array('labsections' => $labsections))->with('measures', $measures);
+		return View::make('testtype.create')
+					->with('labsections', $labsections)
+					->with('measures', $measures)
+					->with('specimentypes', $specimentypes);
 	}
 
 	/**
@@ -45,7 +49,10 @@ class TestTypeController extends \BaseController {
 	{
 		//
 		$rules = array(
-			'name'       => 'required'
+			'name' => 'required',
+			'section_id' => 'required',
+			'specimentypes' => 'required',
+			'measures' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -64,6 +71,20 @@ class TestTypeController extends \BaseController {
 
 			try{
 				$testtype->save();
+
+//Log::info(Input::get('measures'));
+				foreach (Input::get('measures') as $key => $value) {
+					$testtypemeasure = new TestTypeMeasure;
+					$testtypemeasure->testtype_id = $testtype->id;
+					$testtypemeasure->measure_id = $value;
+				}
+
+				foreach (Input::get('specimentypes') as $key => $value) {
+					$testtypespecimentype = new TestTypeSpecimenType;
+					$testtypespecimentype->testtype_id = $testtype->id;
+					$testtypespecimentype->specimentype_id = $value;
+				}
+
 				Session::flash('message', 'Successfully created test type!');
 				return Redirect::to('testtype');
 			}catch(QueryException $e){
