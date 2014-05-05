@@ -178,14 +178,14 @@ label, input {
                 top: 11px;
             }
 /*
-*
-*
-* BODY
-*
-*/                
+ *
+ *
+ * BODY
+ *
+ */                
 /*
-*      Side Menubar Left
-*/
+ *      Side Menubar Left
+ */
     .sidebar{
          background-color: #3D3D3D;
          color: #D1D1D1;
@@ -304,4 +304,18 @@ label, input {
     max-height: 300px;
     min-width: 150px;
     min-height: 150px;
+}
+
+/*
+ *MEASURE VIEW
+ *
+ *
+ */
+.measurerange{
+    margin-left: 180px;
+}
+
+.input-small{
+    width: 60px;
+    
 }

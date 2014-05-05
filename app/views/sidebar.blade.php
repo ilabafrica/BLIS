@@ -62,6 +62,12 @@
 					<li>
 						<div>
 							<span class="glyphicon glyphicon-tag"></span>
+							<a href="javascript:void(0);" onclick="pageloader('{{ URL::route("measure.index")}}')">Measures</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<span class="glyphicon glyphicon-tag"></span>
 							<a href="javascript:void(0);" onclick="pageloader('{{ URL::route("specimentype.index")}}')">Specimen Types</a>
 						</div>
 					</li>
