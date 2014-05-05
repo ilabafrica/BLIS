@@ -1,9 +1,7 @@
-@extends("layout")
-@section("content")
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="#">Home</a></li>
-		  <li><a href="{{ URL::to('measure') }}">Measure</a></li>
+		  <li><a href="javascript:void(0);" onclick="pageloader('{{ URL::to('measure') }}')">Measure</a></li>
 		  <li class="active">Create Measure</li>
 		</ol>
 	</div>
@@ -21,7 +19,7 @@
 				</div>
 			@endif
 
-			{{ Form::open(array('url' => 'measure')) }}
+			{{ Form::open(array('url' => 'measure', 'id' => 'form-create-measure')) }}
 				<div class="form-group">
 					{{ Form::label('name', 'Name') }}
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
@@ -36,13 +34,12 @@
 				</div>
 				<div class="form-group">
 					{{ Form::label('description', 'Description') }}
-					{{ Form::email('description', Input::old('description'), array('class' => 'form-control')) }}
+					{{ Form::textarea('description', Input::old('description'), array('class' => 'form-control', 'rows'=>'2')) }}
 				</div>
 				<div class="form-group actions-row">
-					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', array('class' => 'btn btn-primary', 'type' => 'submit')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', array('class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-create-measure")')) }}
 				</div>
 
 			{{ Form::close() }}
 		</div>
 	</div>
-@stop
