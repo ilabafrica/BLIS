@@ -72,17 +72,20 @@ class TestTypeController extends \BaseController {
 			try{
 				$testtype->save();
 
-//Log::info(Input::get('measures'));
-				foreach (Input::get('measures') as $key => $value) {
+				$measures = Input::get('measures');
+				foreach ($measures as $key => $value) {
 					$testtypemeasure = new TestTypeMeasure;
 					$testtypemeasure->testtype_id = $testtype->id;
 					$testtypemeasure->measure_id = $value;
+					$testtypemeasure->save();
 				}
 
-				foreach (Input::get('specimentypes') as $key => $value) {
+				$specimentypes = Input::get('specimentypes');
+				foreach ($specimentypes as $key => $value) {
 					$testtypespecimentype = new TestTypeSpecimenType;
 					$testtypespecimentype->testtype_id = $testtype->id;
 					$testtypespecimentype->specimentype_id = $value;
+					$testtypespecimentype->save();
 				}
 
 				Session::flash('message', 'Successfully created test type!');
@@ -123,12 +126,17 @@ class TestTypeController extends \BaseController {
 	{
 		//Get the testtype
 		$testtype = TestType::find($id);
-
+		$measures = Measure::all();
+		$specimentypes = SpecimenType::all();
 		$labsections = DB::table('test_category')->orderBy('name', 'asc')->lists('name','id');
 
 		//Open the Edit View and pass to it the $testtype
-		return View::make('testtype.edit', array('labsections' => $labsections))->with('testtype', $testtype);
-	}
+		return View::make('testtype.edit')
+					->with('testtype', $testtype)
+					->with('labsections', $labsections)
+					->with('measures', $measures)
+					->with('specimentypes', $specimentypes);
+}
 
 	/**
 	 * Update the specified resource in storage.
@@ -140,7 +148,9 @@ class TestTypeController extends \BaseController {
 	{
 		//
 		$rules = array(
-			'name'       => 'required'
+			'name' => 'required',
+			'section_id' => 'required',
+			'specimentypes' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -156,7 +166,10 @@ class TestTypeController extends \BaseController {
 			$testtype->section_id = Input::get('section_id');
 			$testtype->targetTAT = Input::get('targetTAT');
 			$testtype->prevalence_threshold = Input::get('prevalence_threshold');
-				$testtype->save();
+
+			$testtype->save();
+
+			$testtype->setSpecimenTypes(Input::get('specimentypes'));
 
 			// redirect
 			Session::flash('message', 'The test type details were successfully updated!');

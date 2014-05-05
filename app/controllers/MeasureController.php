@@ -85,7 +85,7 @@ class MeasureController extends \BaseController {
 	public function show($id)
 	{
 		//Show a measure
-		$measure = measure::find($id);
+		$measure = Measure::find($id);
 
 		//Show the view and pass the $measure to it
 		return View::make('measure.show')->with('measure', $measure);
@@ -100,7 +100,7 @@ class MeasureController extends \BaseController {
 	public function edit($id)
 	{
 		//Get the measure
-		$measure = measure::find($id);
+		$measure = Measure::find($id);
 
 		//Open the Edit View and pass to it the $measure
 		return View::make('measure.edit')->with('measure', $measure);
@@ -160,7 +160,7 @@ class MeasureController extends \BaseController {
 	public function delete($id)
 	{
 		//Soft delete the measure
-		$measure = measure::find($id);
+		$measure = Measure::find($id);
 
 		$measure->delete();
 

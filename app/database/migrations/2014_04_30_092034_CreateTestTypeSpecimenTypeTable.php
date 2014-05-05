@@ -18,6 +18,7 @@ class CreateTestTypeSpecimenTypeTable extends Migration {
 			$table->integer('testtype_id')->unsigned();
 			$table->integer('specimentype_id')->unsigned();
 
+			$table->unique('testtype_id', 'specimentype_id');
 			$table->foreign('testtype_id')->references('id')->on('test_type');
 			$table->foreign('specimentype_id')->references('id')->on('specimen_type');
 		});

@@ -25,6 +25,8 @@
 				<tr>
 					<th>Name</th>
 					<th>Description</th>
+					<th>Target Turnaround Time</th>
+					<th>Prevalence Threshold</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -32,6 +34,8 @@
 				<tr>
 					<td>{{ $value->name }}</td>
 					<td>{{ $value->description }}</td>
+					<td>{{ $value->targetTAT }}</td>
+					<td>{{ $value->prevalence_threshold }}</td>
 
 					<td>
 

@@ -38,10 +38,13 @@
 			<div class="form-group">
 				{{ Form::label('specimen_types', 'Compatible Specimen Types') }}
 				<div class="form-pane panel panel-default">
+					<?php $tst = $testtype->getSpecimenTypes()->lists('id'); ?>
 				@foreach($specimentypes as $key=>$value)
 					<div class="col-md-3">
 						<label  class="checkbox">
-							<input type="checkbox" name="st_{{ $value->id}}" />{{$value->name}}
+							<input type="checkbox" name="specimentypes[]" value="{{ $value->id}}" 
+								{{ in_array($value->id, $tst)?"checked":"" }} />
+								{{$value->name }}
 						</label>
 					</div>
 				@endforeach
