@@ -72,21 +72,8 @@ class TestTypeController extends \BaseController {
 			try{
 				$testtype->save();
 
-				$measures = Input::get('measures');
-				foreach ($measures as $key => $value) {
-					$testtypemeasure = new TestTypeMeasure;
-					$testtypemeasure->testtype_id = $testtype->id;
-					$testtypemeasure->measure_id = $value;
-					$testtypemeasure->save();
-				}
-
-				$specimentypes = Input::get('specimentypes');
-				foreach ($specimentypes as $key => $value) {
-					$testtypespecimentype = new TestTypeSpecimenType;
-					$testtypespecimentype->testtype_id = $testtype->id;
-					$testtypespecimentype->specimentype_id = $value;
-					$testtypespecimentype->save();
-				}
+				$testtype->setMeasures(Input::get('measures'));
+				$testtype->setSpecimenTypes(Input::get('specimentypes'));
 
 				Session::flash('message', 'Successfully created test type!');
 				return Redirect::to('testtype');
@@ -94,10 +81,8 @@ class TestTypeController extends \BaseController {
 				$errors = new MessageBag(array(
                 	"Ensure that the test type name is unique."
                 ));
-				return Redirect::to('testtype/create')
-					->withErrors($errors);
+				return Redirect::to('testtype/create')->withErrors($errors);
 			}
-			// redirect
 		}
 	}
 
@@ -136,7 +121,7 @@ class TestTypeController extends \BaseController {
 					->with('labsections', $labsections)
 					->with('measures', $measures)
 					->with('specimentypes', $specimentypes);
-}
+	}
 
 	/**
 	 * Update the specified resource in storage.

@@ -16,4 +16,13 @@ class Measure extends Eloquent
 	 * @var boolean
 	 */
 	protected $softDelete = true;
+
+	/**
+	 * TestType relationship
+	 */
+	public function testType()
+	{
+		return $this->belongsTo('TestType');
+	}
+
 }
