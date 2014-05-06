@@ -116,3 +116,29 @@ $(function(){
 		$("." + classtoclose).toggle();
 	}
 
+
+
+
+	function addmeasure(){
+	$( ".measurevalue" ).append( 
+			'<div class="col-md-4">'
+				+'<label for="agemin" class="hide">agemin</label>'						
+				+'<input class="form-control input-small" name="agemin" type="text" id="agemin"><label for="agemax" class="">:</label>'						
+				+'<input class="form-control input-small" name="agemax" type="text" id="agemax">'						
+			+'</div>'
+			+'<div class="col-md-4">'
+				+'<label for="gender" class="hide">gender</label>'						
+				+'<select class="form-control input-small" id="gender" name="gender">'
+				+'<option value="1">M</option>'
+				+'<option value="2">F</option>'
+				+'<option value="3">B</option>'
+				+'</select>'						
+			+'</div>'
+			+'<div class="col-md-4">'
+				+'<label for="rangemin" class="hide">Min</label>'						
+				+'<input class="form-control input-small" name="rangemin" type="text" id="rangemin">'
+				+'<label for="rangemax" class="">:</label>'						
+				+'<input class="form-control input-small" name="rangemax" type="text" id="rangemax">'						
+			+'</div>'
+	);
+  }

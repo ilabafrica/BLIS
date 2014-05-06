@@ -311,11 +311,6 @@ label, input {
  *
  *
  */
-.measurerange{
-    margin-left: 180px;
-}
-
 .input-small{
-    width: 60px;
-    
+    width: 120px !important;
 }
