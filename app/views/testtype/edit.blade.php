@@ -38,7 +38,7 @@
 			<div class="form-group">
 				{{ Form::label('specimen_types', 'Compatible Specimen Types') }}
 				<div class="form-pane panel panel-default">
-					<?php $tst = $testtype->specimenTypes()->lists('id'); ?>
+					<?php $tst = $testtype->specimenTypes->lists('id'); ?>
 				@foreach($specimentypes as $key=>$value)
 					<div class="col-md-3">
 						<label  class="checkbox">

@@ -40,7 +40,7 @@ class TestType extends Eloquent
 	 */
 	public function getSpecimenTypes(){
 		return DB::table('testtype_specimentype')
-					->join('specimen_type', 'testtype_specimentype.specimentype_id', '=', 'specimen_type.id')
+					->join('specimen_type', 'testtype_specimentype.specimen_type_id', '=', 'specimen_type.id')
 					->select('specimen_type.id', 'specimen_type.name')
 					->where('testtype_specimentype.testtype_id', '=', $this->id);
 	}
@@ -57,8 +57,8 @@ class TestType extends Eloquent
 		if(is_array($specimentypes)){
 			foreach ($specimentypes as $key => $value) {
 				$specimentypesadded[] = array(
-					'testtype_id' => (int)$this->id,
-					'specimentype_id' => (int)$value
+					'test_type_id' => (int)$this->id,
+					'specimen_type_id' => (int)$value
 					);
 			}
 
@@ -75,7 +75,7 @@ class TestType extends Eloquent
 		return DB::table('testtype_measure')
 					->join('measure', 'testtype_measure.measure_id', '=', 'measure.id')
 					->select('measure.id', 'measure.name', 'measure.description', 'measure.unit', 'measure.measure_range')
-					->where('testtype_measure.testtype_id', '=', $this->id);
+					->where('testtype_measure.test_type_id', '=', $this->id);
 	}
 
 	/**
@@ -90,7 +90,7 @@ class TestType extends Eloquent
 		if(is_array($measures)){
 			foreach ($measures as $key => $value) {
 				$measuresadded[] = array(
-					'testtype_id' => (int)$this->id,
+					'test_type_id' => (int)$this->id,
 					'measure_id' => (int)$value
 					);
 			}

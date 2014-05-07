@@ -15,12 +15,12 @@ class CreateTestTypeSpecimenTypeTable extends Migration {
  		Schema::create('testtype_specimentype', function(Blueprint $table)
 		{
 			$table->increments('id')->unsigned();
-			$table->integer('testtype_id')->unsigned();
-			$table->integer('specimentype_id')->unsigned();
+			$table->integer('test_type_id')->unsigned();
+			$table->integer('specimen_type_id')->unsigned();
 
-			$table->unique('testtype_id', 'specimentype_id');
-			$table->foreign('testtype_id')->references('id')->on('test_type');
-			$table->foreign('specimentype_id')->references('id')->on('specimen_type');
+			$table->unique('test_type_id', 'specimen_type_id');
+			$table->foreign('test_type_id')->references('id')->on('test_type');
+			$table->foreign('specimen_type_id')->references('id')->on('specimen_type');
 		});
 	}
 
