@@ -44,28 +44,32 @@
 					<div class="form-pane panel panel-default">
 						<div class="panel-body">
 							<div class="row measurerange" name="measurerange">
-								<div class="col-md-12 measurevalue">
-									<div class="col-md-4">
-									{{ Form::label('agemin', 'agemin', array('class'=>'hide')) }}
-									{{ Form::text('agemin', Input::old('agemin[]'), array('class' => 'form-control input-small')) }}
-									{{ Form::label('agemax', ':', array('class'=>'')) }}
-									{{ Form::text('agemax', Input::old('agemax[]'), array('class' => 'form-control input-small')) }}
-									</div>
-									<div class="col-md-4">
-									{{ Form::label('gender', 'gender', array('class'=>'hide')) }}
-									{{ Form::select('gender', array('1'=>'M', '2'=>'F', '3'=>'B'), Input::old('gender[]'), array('class' => 'form-control input-small')) }}
-									</div>
-									<div class="col-md-4">
-									{{ Form::label('rangemin', 'Min', array('class'=>'hide')) }}
-									{{ Form::text('rangemin', Input::old('rangemin[]'), array('class' => 'form-control input-small')) }}
-									{{ Form::label('rangemax', ':', array('class'=>'')) }}
-									{{ Form::text('rangemax', Input::old('rangemax[]'), array('class' => 'form-control input-small')) }}
-									</div>
-								</div>
 								<div class="col-md-12">
 									<div class="col-md-4">Age Range</div>
 									<div class="col-md-4">Gender</div>
 									<div class="col-md-4">Measure Range</div>
+								</div>
+								<div class="col-md-12 measurevalue">
+									<div class="col-md-4">
+										<label for="agemin" class="hide">agemin</label>						
+										<input class="form-control input-small" name="agemin[]" type="text">
+										<label for="agemax" class="">:</label>						
+										<input class="form-control input-small" name="agemax[]" type="text">						
+									</div>
+									<div class="col-md-4">
+										<label for="gender" class="hide">gender</label>						
+										<select class="form-control input-small" name="gender[]">
+										<option value="1">M</option>
+										<option value="2">F</option>
+										<option value="3">B</option>
+										</select>						
+									</div>
+									<div class="col-md-4">
+										<label for="rangemin" class="hide">Min</label>						
+										<input class="form-control input-small" name="rangemin[]" type="text">
+										<label for="rangemax" class="">:</label>						
+										<input class="form-control input-small" name="rangemax[]" type="text">						
+									</div>
 								</div>
 							</div>
 						</div>

@@ -56,26 +56,38 @@ class MeasureController extends \BaseController {
 			// store
 			$measure = new Measure;
 			$measure->name = Input::get('name');
-			$measure->measure_range = Input::get('measure_range');
+			$measure->type_id = Input::get('type');
 			$measure->unit = Input::get('unit');
 			$measure->description = Input::get('description');
+
 			try{
 				$measure->save();
-				Session::flash('message', 'Successfully created measure!');
-				return Redirect::to('measure');
 			}catch(QueryException $e){
 				$errors = new MessageBag(array(
                 	"Ensure that the measure number is unique."
                 ));
-				return Redirect::to('measure/create')
-					->withErrors($errors)
-					->withInput(Input::except('password'));
+				return Redirect::to('measure/create')->withErrors($errors);
 			}
-			
-			// redirect
+			$val['agemin'] = Input::get('agemin');
+			$val['agemax'] = Input::get('agemax');
+			$val['gender'] = Input::get('gender');
+			$val['rangemin'] = Input::get('rangemin');
+			$val['rangemax'] = Input::get('rangemax');
+
+			for ($i=0; $i < count($val['agemin']); $i++) { 
+				$measurerange = new MeasureRange;
+			 	$measurerange->measure_id = $measure->id;
+			 	$measurerange->age_min = $val['agemin'][$i];
+				$measurerange->age_max = $val['agemax'][$i];
+				$measurerange->sex = $val['gender'][$i];
+				$measurerange->range_lower = $val['rangemin'][$i];
+				$measurerange->range_upper = $val['rangemax'][$i];
+				$measurerange->save();
+			 }
+				Session::flash('message', 'Successfully created measure!');
+				return Redirect::to('measure');
 		}
 	}
-
 	/**
 	 * Display the specified resource.
 	 *
