@@ -119,6 +119,19 @@ extends DatabaseSeeder
         {
             Measure::create($measure);
         }
+        
+        /* Measure Types */
+        $measure_types = array(
+            array("id" => 1, "name" => "numeric range"),
+            array("id" => 2, "name" => "alphanumeric values"),
+            array("id" => 3, "name" => "autocomplete"),
+            array("id" => 4, "name" => "free text")
+        );
+
+        foreach ($measure_types as $measure_type)
+        {
+            MeasureType::create($measure_type);
+        }
 				
         /* Patients table */
         

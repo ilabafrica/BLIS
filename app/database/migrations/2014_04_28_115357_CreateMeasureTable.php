@@ -15,6 +15,7 @@ class CreateMeasureTable extends Migration {
 		Schema::create('measure', function(Blueprint $table)
 		{
 			$table->increments('id')->unsigned();
+			$table->integer('type_id')->unsigned();
 			$table->string('name', 100);
 			$table->string('measure_range', 60)->nullable();
 			$table->string('unit', 30);
