@@ -120,26 +120,47 @@ $(function(){
  *Loads measure values form to 'add measure view' 
  */
 	function addmeasure(){
-	$( ".measurevalue" ).append( 
-		'<div class="col-md-4">'
-			+'<label for="agemin" class="hide">agemin</label>'						
-			+'<input class="form-control input-small" name="agemin[]" type="text">'
-			+'<label for="agemax" class="">:</label>'						
-			+'<input class="form-control input-small" name="agemax[]" type="text">'						
-		+'</div>'
-		+'<div class="col-md-4">'
-			+'<label for="gender" class="hide">gender</label>'						
-			+'<select class="form-control input-small" name="gender[]">'
-			+'<option value="1">M</option>'
-			+'<option value="2">F</option>'
-			+'<option value="3">B</option>'
-			+'</select>'						
-		+'</div>'
-		+'<div class="col-md-4">'
-			+'<label for="rangemin" class="hide">Min</label>'						
-			+'<input class="form-control input-small" name="rangemin[]" type="text">'
-			+'<label for="rangemax" class="">:</label>'						
-			+'<input class="form-control input-small" name="rangemax[]" type="text">'						
-		+'</div>'
-	);
-  }
+		if ($("#measuretype").val() === '1') 
+				{
+					$( ".measurevalue" ).append( 
+						'<div class="col-md-4">'
+							+'<label for="agemin" class="hide">agemin</label>'						
+							+'<input class="form-control input-small" name="agemin[]" type="text">'
+							+'<label for="agemax" class="">:</label>'						
+							+'<input class="form-control input-small" name="agemax[]" type="text">'						
+						+'</div>'
+						+'<div class="col-md-4">'
+							+'<label for="gender" class="hide">gender</label>'						
+							+'<select class="form-control input-small" name="gender[]">'
+							+'<option value="1">M</option>'
+							+'<option value="2">F</option>'
+							+'<option value="3">B</option>'
+							+'</select>'						
+						+'</div>'
+						+'<div class="col-md-4">'
+							+'<label for="rangemin" class="hide">Min</label>'						
+							+'<input class="form-control input-small" name="rangemin[]" type="text">'
+							+'<label for="rangemax" class="">:</label>'						
+							+'<input class="form-control input-small" name="rangemax[]" type="text">'						
+						+'</div>'
+					);
+				}
+				else if ($("#measuretype").val() === '2') 
+				{
+					$( ".measurevalue" ).append( 
+						'<div class="col-md-4">'
+							+'<label for="val" class="hide"></label>'						
+							+'<input class="form-control input-small" name="val" type="text">/'
+						+'</div>'
+					);
+				}
+				else if ($("#measuretype").val() === '3') 
+				{
+					$( ".measurevalue" ).append( 
+						'<div class="col-md-4">'
+							+'<label for="val" class="hide"></label>'						
+							+'<input class="form-control input-small" name="val" type="text">'
+						+'</div>'
+					);
+				}
+		}
