@@ -1,4 +1,4 @@
-/* General Tag Styling */
+/* General Page layout */
 html,
 body {
   height: 100%;
@@ -13,6 +13,8 @@ body {
   /* Pad bottom by footer height */
   padding: 0 0 50px;
  }
+
+ /*  General and Miscellaneous Tag Styles */
 label, input {
     margin : 5px 0;
     float: left;
@@ -32,6 +34,35 @@ label, input {
 .float-r {
     float: right;
 }
+
+.display-details strong {
+    display: inline-block;
+    width: 200px;
+}
+
+.panel-btn {
+    display: inline-block;
+    margin-left: 40px;
+}
+
+.user-image {
+    max-width: 300px;
+    max-height: 300px;
+    min-width: 150px;
+    min-height: 150px;
+}
+
+/* Zebra grid on some div displays */
+.form-pane .row {
+    border-bottom: 1px solid #DDDDDD;
+}
+.form-pane .row:hover {
+    background-color: #F5F5F5;
+}
+.form-pane .row-striped {
+    background-color: #F9F9F9;
+}
+
 
 /*
 *   FORMS
@@ -233,9 +264,6 @@ label, input {
         .sidebar .sub-menu-items {
             padding-left: 25px            
         }
-            .sidebar .sub-menu-items li {
-                display: :inline-block;
-            }
                 .sidebar .sub-menu-items li div{
                     position: relative;
                     padding-left: 15px;
@@ -252,22 +280,14 @@ label, input {
         .sidebar a:hover{
             text-decoration: none;
         }
+
+/*  Main area*/
+
     .row .main {
         margin-top: 71px;
         overflow-y: auto;
     }
     
-        .main .panel .panel-heading {
-            border-bottom: 1px solid #1C94C4;
-            background-color: #1C94C4;
-            color: #FFFFFF;
-            height: 38px;
-            line-height: 38px;
-            padding: 0;
-            padding-left: 20px;
-            font-weight: bold;
-            position: relative;
-        }
 /*
 *
 * FOOTER
@@ -287,23 +307,6 @@ label, input {
 .error-page {
     text-align: center;
     padding-top: 40px;
-}
-
-.display-details strong {
-    display: inline-block;
-    width: 200px;
-}
-
-.panel-btn {
-    display: inline-block;
-    margin-left: 40px;
-}
-
-.user-image {
-    max-width: 300px;
-    max-height: 300px;
-    min-width: 150px;
-    min-height: 150px;
 }
 
 /*

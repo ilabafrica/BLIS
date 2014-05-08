@@ -10,4 +10,12 @@ class MeasureRange extends Eloquent
 	protected $table = 'measure_range';
 
 	public $timestamps = false;
+
+	/**
+	 * Measure relationship
+	 */
+	public function measure()
+	{
+	  return $this->belongsTo('Measure');
+	}
 }

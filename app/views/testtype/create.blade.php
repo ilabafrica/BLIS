@@ -31,39 +31,56 @@
 			</div>
 			<div class="form-group">
 				{{ Form::label('section_id', 'Lab Section') }}
-				{{ Form::select('section_id', $labsections, Input::old('section_id'), 
+				{{ Form::select('section_id', $labsections->lists('name', 'id'), Input::old('section_id'), 
 					array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('specimen_types', 'Compatible Specimen Types') }}
+				{{ Form::label('specimen_types', 'Select Specimen Types') }}
 				<div class="form-pane panel panel-default">
-				@foreach($specimentypes as $key=>$value)
-					<div class="col-md-3">
-						<label  class="checkbox">
-							<input type="checkbox" name="specimentypes[]" value="{{ $value->id}}" />{{$value->name}}
-						</label>
+					<div class="container-fluid">
+						<?php 
+							$cnt = 0;
+							$zebra = "";
+						?>
+					@foreach($specimentypes as $key=>$value)
+						{{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
+						<?php
+							$cnt++;
+							$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
+						?>
+						<div class="col-md-3">
+							<label  class="checkbox">
+								<input type="checkbox" name="specimentypes[]" value="{{ $value->id}}" />{{$value->name}}
+							</label>
+						</div>
+						{{ ($cnt%4==0)?"</div>":"" }}
+					@endforeach
 					</div>
-				@endforeach
 				</div>
 			</div>
 			<div class="form-group">
-				{{ Form::label('measures', 'Measures') }}
+				{{ Form::label('measures', 'Select Measures') }}
 				<div class="form-pane panel panel-default">
 					<div class="panel-body">
-					@foreach($measures as $key=>$value)
-						<div class="col-md-3">
-							<label  class="checkbox">
-								<input type="checkbox" name="measures[]" value="{{ $value->id}}" />{{$value->name}}
-							</label>
+						<div class="container-fluid">
+							<?php 
+								$cnt = 0;
+								$zebra = "";
+							?>
+						@foreach($measures as $key=>$value)
+							{{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
+							<?php
+								$cnt++;
+								$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
+							?>
+							<div class="col-md-3">
+								<label  class="checkbox">
+									<input type="checkbox" name="measures[]" value="{{ $value->id}}" />{{$value->name}}
+								</label>
+							</div>
+							{{ ($cnt%4==0)?"</div>":"" }}
+						@endforeach
 						</div>
-					@endforeach
-					</div>
-					<div class="panel-footer">
-						<a class="btn btn-sm btn-info" href="javascript:void(0);" 
-							onclick="">
-							<span class="glyphicon glyphicon-plus-sign"></span>
-							Create New Measure
-						</a>
 					</div>
 				</div>
 			</div>
