@@ -19,8 +19,19 @@
 		<div class="panel-body">
 			<div class="display-details">
 				<h3><strong>Name:</strong>{{ $measure->name }} </h3>
-				<p><strong>Measure Range:</strong>{{ $measure->measure_range }}</p>
 				<p><strong>Description:</strong>{{ $measure->description }}</p>
+				<p><strong>Measure Type:</strong>{{ $measure->measureType->name }}</p>
+				<p><strong>Measure Range:</strong>{{ $measure->measure_range }}</p>
+				<p><ul>
+					<?php $gender = ['Male', 'Female', 'Both']; ?>
+					@foreach($measure->measureRanges as $range)
+					<li>Minimum Age: {{ $range->age_min }}</li>
+					<li>Maximum Age: {{ $range->age_max }}</li>
+					<li>Gender: {{ $gender[$range->sex - 1] }}</li>
+					<li>Upper Limit: {{ $range->range_upper }}</li>
+					<li>Lower Limit: {{ $range->range_lower }}</li>
+					@endforeach
+				</ul></p>
 			</div>
 		</div>
 	</div>

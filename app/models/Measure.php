@@ -18,11 +18,19 @@ class Measure extends Eloquent
 	protected $softDelete = true;
 
 	/**
-	 * TestCategory relationship
+	 * Measure Range relationship
+	 */
+	public function measureRanges()
+	{
+	  return $this->hasMany('MeasureRange');
+	}
+
+	/**
+	 * Measure Type relationship
 	 */
 	public function measureType()
 	{
-	  return $this->belongsTo('MeasureType');
+	  return $this->belongsTo('MeasureType','type_id');
 	}
 
 	/**

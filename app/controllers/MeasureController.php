@@ -70,24 +70,32 @@ class MeasureController extends \BaseController {
                 ));
 				return Redirect::to('measure/create')->withErrors($errors);
 			}
-			$val['agemin'] = Input::get('agemin');
-			$val['agemax'] = Input::get('agemax');
-			$val['gender'] = Input::get('gender');
-			$val['rangemin'] = Input::get('rangemin');
-			$val['rangemax'] = Input::get('rangemax');
+			
+			if ($measure->measureType->id == 1) {
+				$val['agemin'] = Input::get('agemin');
+				$val['agemax'] = Input::get('agemax');
+				$val['gender'] = Input::get('gender');
+				$val['rangemin'] = Input::get('rangemin');
+				$val['rangemax'] = Input::get('rangemax');
 
-			for ($i=0; $i < count($val['agemin']); $i++) { 
-				$measurerange = new MeasureRange;
-			 	$measurerange->measure_id = $measure->id;
-			 	$measurerange->age_min = $val['agemin'][$i];
-				$measurerange->age_max = $val['agemax'][$i];
-				$measurerange->sex = $val['gender'][$i];
-				$measurerange->range_lower = $val['rangemin'][$i];
-				$measurerange->range_upper = $val['rangemax'][$i];
+				for ($i=0; $i < count($val['agemin']); $i++) { 
+					$measurerange = new MeasureRange;
+				 	$measurerange->measure_id = $measure->id;
+				 	$measurerange->age_min = $val['agemin'][$i];
+					$measurerange->age_max = $val['agemax'][$i];
+					$measurerange->sex = $val['gender'][$i];
+					$measurerange->range_lower = $val['rangemin'][$i];
+					$measurerange->range_upper = $val['rangemax'][$i];
+					$measurerange->save();
+				 }
+			}else if (Input::get('type') == 2) {
+				$values = Input::get('val');
+				$measure->measure_range = join('/', $values);
 				$measurerange->save();
-			 }
+			}
 				Session::flash('message', 'Successfully created measure!');
 				return Redirect::to('measure');
+			
 		}
 	}
 	/**

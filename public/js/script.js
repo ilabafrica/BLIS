@@ -95,7 +95,7 @@ $(function(){
 				$(".measurevalue").html(
 					'<div class="col-md-4">'
 						+'<label for="val" class="hide"></label>'						
-						+'<input class="form-control input-small" name="val" type="text">/'
+						+'<input class="form-control input-small" name="val[]" type="text">/'
 					+'</div>'
 				);
 				$( ".addanother" ).show();
@@ -105,7 +105,7 @@ $(function(){
 				$(".measurevalue").html(
 					'<div class="col-md-4">'
 						+'<label for="val" class="hide"></label>'						
-						+'<input class="form-control input-small" name="val" type="text">'
+						+'<input class="form-control input-small" name="val[]" type="text">'
 					+'</div>'
 				);
 				$( ".addanother" ).show();
