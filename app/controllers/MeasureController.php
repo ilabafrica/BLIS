@@ -30,8 +30,10 @@ class MeasureController extends \BaseController {
 	 */
 	public function create()
 	{
+		$measuretype = DB::table('measure_type')->orderBy('id', 'asc')->lists('name','id');
 		//Create measure
-		return View::make('measure.create');
+		return View::make('measure.create')
+					->with('measuretype', $measuretype);
 	}
 
 	/**

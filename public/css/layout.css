@@ -311,6 +311,6 @@ label, input {
  *
  *
  */
-.input-small{
-    width: 120px !important;
+ .form-group .form-control.input-small{
+    width: 120px;
 }
