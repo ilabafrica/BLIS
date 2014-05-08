@@ -18,6 +18,14 @@ class TestType extends Eloquent
 	protected $softDelete = true;
 
 	/**
+	 * TestCategory relationship
+	 */
+	public function testCategory()
+	{
+	  return $this->belongsTo('TestCategory', 'section_id');
+	}
+
+	/**
 	 * SpecimenType relationship
 	 */
 	public function specimenTypes()
@@ -31,18 +39,6 @@ class TestType extends Eloquent
 	public function measures()
 	{
 	  return $this->belongsToMany('Measure', 'testtype_measure');	
-	}
-
-	/**
-	 * Get compatible specimen types
-	 *
-	 * @return array
-	 */
-	public function getSpecimenTypes(){
-		return DB::table('testtype_specimentype')
-					->join('specimen_type', 'testtype_specimentype.specimen_type_id', '=', 'specimen_type.id')
-					->select('specimen_type.id', 'specimen_type.name')
-					->where('testtype_specimentype.testtype_id', '=', $this->id);
 	}
 
 	/**
@@ -64,18 +60,6 @@ class TestType extends Eloquent
 
 		}
 		DB::table('testtype_specimentype')->insert($specimentypesadded);
-	}
-
-	/**
-	 * Get test type measures
-	 *
-	 * @return array
-	 */
-	public function getMeasures(){
-		return DB::table('testtype_measure')
-					->join('measure', 'testtype_measure.measure_id', '=', 'measure.id')
-					->select('measure.id', 'measure.name', 'measure.description', 'measure.unit', 'measure.measure_range')
-					->where('testtype_measure.test_type_id', '=', $this->id);
 	}
 
 	/**

@@ -32,7 +32,7 @@ class TestTypeController extends \BaseController {
 	{
 		$measures = Measure::all();
 		$specimentypes = SpecimenType::all();
-		$labsections = DB::table('test_category')->orderBy('name', 'asc')->lists('name','id');
+		$labsections = TestCategory::all();
 		//Create TestType
 		return View::make('testtype.create')
 					->with('labsections', $labsections)
@@ -113,7 +113,8 @@ class TestTypeController extends \BaseController {
 		$testtype = TestType::find($id);
 		$measures = Measure::all();
 		$specimentypes = SpecimenType::all();
-		$labsections = DB::table('test_category')->orderBy('name', 'asc')->lists('name','id');
+		$labsections = TestCategory::all();
+//		$labsections = DB::table('test_category')->orderBy('name', 'asc')->lists('name','id');
 
 		//Open the Edit View and pass to it the $testtype
 		return View::make('testtype.edit')
@@ -155,6 +156,7 @@ class TestTypeController extends \BaseController {
 			$testtype->save();
 
 			$testtype->setSpecimenTypes(Input::get('specimentypes'));
+			$testtype->setMeasures(Input::get('measures'));
 
 			// redirect
 			Session::flash('message', 'The test type details were successfully updated!');
