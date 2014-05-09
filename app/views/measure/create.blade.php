@@ -43,8 +43,7 @@
 					<div class="form-pane panel panel-default">
 						<div class="panel-body">
 							<div class="row measurerange" name="measurerange">
-								<div class="col-md-12 measurevalue">
-								</div>
+								<div class="col-md-12 measurevalue"></div>
 							</div>
 						</div>
 						<div class="panel-footer">
@@ -62,7 +61,3 @@
 			{{ Form::close() }}
 		</div>
 	</div>
-
-	<script type="text/javascript">
-		
-	</script>

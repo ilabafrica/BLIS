@@ -122,10 +122,11 @@ extends DatabaseSeeder
         
         /* Measure Types */
         $measure_types = array(
-            array("id" => 1, "name" => "numeric range"),
-            array("id" => 2, "name" => "alphanumeric values"),
-            array("id" => 3, "name" => "autocomplete"),
-            array("id" => 4, "name" => "free text")
+            array("id" => 0, "name" => ""),
+            array("id" => 1, "name" => "Numeric Range"),
+            array("id" => 2, "name" => "Alphanumeric Values"),
+            array("id" => 3, "name" => "Autocomplete"),
+            array("id" => 4, "name" => "Free Fext")
         );
 
         foreach ($measure_types as $measure_type)

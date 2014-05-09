@@ -309,11 +309,15 @@ label, input {
     padding-top: 40px;
 }
 
-/*
+/**
  *MEASURE VIEW
- *
- *
  */
- .form-group .form-control.input-small{
+.alphanumericInput{
+    float: left;
+}
+.alphanumericSlash{
+    font-size:30px;
+}
+.form-group .form-control.input-small{
     width: 120px;
 }

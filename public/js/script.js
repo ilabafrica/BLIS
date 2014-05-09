@@ -44,10 +44,52 @@ $(function(){
 
 
 });
+	
+	/**
+	 * HTML ELEMENTS
+	 */
+	 
+	 /*Measures*/
+	var numericInputHead ='<div class="col-md-12">'
+								+'<div class="col-md-4">Age Range</div>'
+								+'<div class="col-md-4">Gender</div>'
+								+'<div class="col-md-4">Measure Range</div>'
+							+'</div>';
 
-/*
-*
-*/
+	var numericInputBody ='<div class="col-md-4">'
+								+'<label for="agemin" class="hide">agemin</label>'						
+								+'<input class="form-control input-small" name="agemin[]" type="text">'
+								+'<label for="agemax" class="">:</label>'						
+								+'<input class="form-control input-small" name="agemax[]" type="text">'						
+							+'</div>'
+							+'<div class="col-md-4">'
+								+'<label for="gender" class="hide">gender</label>'						
+								+'<select class="form-control input-small" name="gender[]">'
+								+'<option value="1">M</option>'
+								+'<option value="2">F</option>'
+								+'<option value="3">B</option>'
+								+'</select>'						
+							+'</div>'
+							+'<div class="col-md-4">'
+								+'<label for="rangemin" class="hide">Min</label>'						
+								+'<input class="form-control input-small" name="rangemin[]" type="text">'
+								+'<label for="rangemax" class="">:</label>'						
+								+'<input class="form-control input-small" name="rangemax[]" type="text">'						
+							+'</div>';
+
+	var alphanumericInput = '<div class="alphanumericInput">'
+								+'<label for="val" class="hide"></label>'						
+								+'<input class="form-control input-small" name="val[]" type="text">'
+								+'<span class="alphanumericSlash">/</span>'
+							+'</div>';
+
+	var autocompleteInput = '<div class="col-md-4">'
+								+'<label for="val" class="hide"></label>'						
+								+'<input class="form-control" name="val[]" type="text">'
+							+'</div>';
+
+	var freetextInput = 	'<p>A text box will appear for result entry</p>';
+
 	function UIComponents(){
 		/* Datepicker */
 		$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
@@ -57,72 +99,36 @@ $(function(){
 	$( document ).ajaxComplete(function() {
 		UIComponents();
 
+		
 		/* load measure range input UI for the selected measure type */
+
 		$( "#measuretype" ).change(function() {
 			if ($(this).val() === '1') 
 			{
-				$( ".measurevalue" ).html(
-					'<div class="col-md-12">'
-						+'<div class="col-md-4">Age Range</div>'
-						+'<div class="col-md-4">Gender</div>'
-						+'<div class="col-md-4">Measure Range</div>'
-					+'</div>'
-					+'<div class="col-md-4">'
-						+'<label for="agemin" class="hide">agemin</label>'						
-						+'<input class="form-control input-small" name="agemin[]" type="text">'
-						+'<label for="agemax" class="">:</label>'						
-						+'<input class="form-control input-small" name="agemax[]" type="text">'						
-					+'</div>'
-					+'<div class="col-md-4">'
-						+'<label for="gender" class="hide">gender</label>'						
-						+'<select class="form-control input-small" name="gender[]">'
-						+'<option value="1">M</option>'
-						+'<option value="2">F</option>'
-						+'<option value="3">B</option>'
-						+'</select>'						
-					+'</div>'
-					+'<div class="col-md-4">'
-						+'<label for="rangemin" class="hide">Min</label>'						
-						+'<input class="form-control input-small" name="rangemin[]" type="text">'
-						+'<label for="rangemax" class="">:</label>'						
-						+'<input class="form-control input-small" name="rangemax[]" type="text">'						
-					+'</div>'
-					);
+				$( ".measurevalue" ).html(numericInputHead+numericInputBody);
 					$( ".addanother" ).show();
 			}
 			else if ($(this).val() === '2') 
 			{
-				$(".measurevalue").html(
-					'<div class="col-md-4">'
-						+'<label for="val" class="hide"></label>'						
-						+'<input class="form-control input-small" name="val[]" type="text">/'
-					+'</div>'
-				);
+				$(".measurevalue").html(alphanumericInput);
 				$( ".addanother" ).show();
 			}
 			else if ($(this).val() === '3') 
 			{
-				$(".measurevalue").html(
-					'<div class="col-md-4">'
-						+'<label for="val" class="hide"></label>'						
-						+'<input class="form-control input-small" name="val[]" type="text">'
-					+'</div>'
-				);
+				$(".measurevalue").html(autocompleteInput);
 				$( ".addanother" ).show();
 			}
 			else if ($(this).val() === '4') 
 			{
-				$(".measurevalue").html(
-					'<p>A text box will appear for result entry</p>'
-				);
+				$(".measurevalue").html(freetextInput);
 				$( ".addanother" ).hide();
 			}
 		});
 	});
 
-/*	
-*	Alert on irreversible delete
-*/
+	/**	
+	 *	Alert on irreversible delete
+	 */
 	$(document).on("click", '.delete-item-link', function(){
 		$('#delete-url').val($(this).data('id'));
 	});
@@ -132,9 +138,10 @@ $(function(){
 		pageloader($('#delete-url').val());
 	});
 
-	/* Controller function: Loads requested page in to the central div (#the-one-main)
-	*  via an asynchronous ajax call.
-	*/
+	/**
+	 * Controller function: Loads requested page in to the central div (#the-one-main)
+	 *  via an asynchronous ajax call.
+	 */
 	function pageloader(mypage){
 		$.ajax({
 			url: mypage,
@@ -173,57 +180,26 @@ $(function(){
 	    });
 	}
 
-/*Loads URL then toggles (closes) an element (div), given the element's class. For closing profile div */
+	/*Loads URL then toggles (closes) an element (div), given the element's class. For closing profile div */
 	function loadandclose(url, classtoclose){
 		pageloader(url);
 		$("." + classtoclose).toggle();
 	}
 
-/**
- *Loads measure values form to 'add measure view' 
- */
+	/**
+	 *Loads measure values form to 'add measure view' 
+	 */
 	function addmeasure(){
 		if ($("#measuretype").val() === '1') 
 				{
-					$( ".measurevalue" ).append( 
-						'<div class="col-md-4">'
-							+'<label for="agemin" class="hide">agemin</label>'						
-							+'<input class="form-control input-small" name="agemin[]" type="text">'
-							+'<label for="agemax" class="">:</label>'						
-							+'<input class="form-control input-small" name="agemax[]" type="text">'						
-						+'</div>'
-						+'<div class="col-md-4">'
-							+'<label for="gender" class="hide">gender</label>'						
-							+'<select class="form-control input-small" name="gender[]">'
-							+'<option value="1">M</option>'
-							+'<option value="2">F</option>'
-							+'<option value="3">B</option>'
-							+'</select>'						
-						+'</div>'
-						+'<div class="col-md-4">'
-							+'<label for="rangemin" class="hide">Min</label>'						
-							+'<input class="form-control input-small" name="rangemin[]" type="text">'
-							+'<label for="rangemax" class="">:</label>'						
-							+'<input class="form-control input-small" name="rangemax[]" type="text">'						
-						+'</div>'
-					);
+					$( ".measurevalue" ).append(numericInputBody);
 				}
 				else if ($("#measuretype").val() === '2') 
 				{
-					$( ".measurevalue" ).append( 
-						'<div class="col-md-4">'
-							+'<label for="val" class="hide"></label>'						
-							+'<input class="form-control input-small" name="val" type="text">/'
-						+'</div>'
-					);
+					$( ".measurevalue" ).append(alphanumericInput);
 				}
 				else if ($("#measuretype").val() === '3') 
 				{
-					$( ".measurevalue" ).append( 
-						'<div class="col-md-4">'
-							+'<label for="val" class="hide"></label>'						
-							+'<input class="form-control input-small" name="val" type="text">'
-						+'</div>'
-					);
+					$( ".measurevalue" ).append(autocompleteInput);
 				}
 		}

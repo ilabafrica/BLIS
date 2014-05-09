@@ -91,7 +91,7 @@ class MeasureController extends \BaseController {
 			}else if (Input::get('type') == 2) {
 				$values = Input::get('val');
 				$measure->measure_range = join('/', $values);
-				$measurerange->save();
+				$measure->save();
 			}
 				Session::flash('message', 'Successfully created measure!');
 				return Redirect::to('measure');
