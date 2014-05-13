@@ -321,3 +321,13 @@ label, input {
 .form-group .form-control.input-small{
     width: 120px;
 }
+/*View page for measures*/
+.showmeasure .col-md-6 div, .showmeasure .col-md-12 div{
+    border-top:1px solid #ddd;
+    height: 30px;
+    padding: 4px;
+}
+
+.showmeasure .col-md-6 div:hover, .showmeasure .col-md-12 div:hover {
+    background-color: #F5F5F5;
+}

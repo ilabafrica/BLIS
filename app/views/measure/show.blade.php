@@ -17,13 +17,17 @@
 			</div>
 		</div>
 		<div class="panel-body">
-			<div class="row">
+			<div class="row showmeasure">
 				<div class="col-md-6">
-					<div class="col-md-6"><strong>Name:</strong></div><div class="col-md-6">{{ $measure->name }}</div>
-					<div class="col-md-6"><strong>Description:</strong></div><div class="col-md-6">{{ $measure->description }}</div>
-					<div class="col-md-6"><strong>Measure Type:</strong></div><div class="col-md-6">{{ $measure->measureType->name }}</div>
+					<div class="col-md-6"><strong>Name:</strong></div>
+					<div class="col-md-6">{{ $measure->name }}</div>
+					<div class="col-md-6"><strong>Description:</strong></div>
+					<div class="col-md-6">{{ $measure->description }}</div>
+					<div class="col-md-6"><strong>Measure Type:</strong></div>
+					<div class="col-md-6">{{ $measure->measureType->name }}</div>
 					<?php if ($measure->measureType->id == 2) { ?>
-					<div class="col-md-6">Measure Range:</div>{{ $measure->measure_range }}<div class="col-md-6"></div>
+					<div class="col-md-6">Measure Range:</div>
+					<div class="col-md-6">{{ $measure->measure_range }}</div>
 					<?php } ?>
 				</div>
 				<div class="col-md-6">
@@ -32,10 +36,13 @@
 
 				<div class="col-md-12">
 				<br>
-				<br>
 					<?php $gender = ['Male', 'Female', 'Both']; ?>
-					<div class="col-md-4"><strong>Age Range</strong></div><div class="col-md-4"><strong>Gender</strong></div><div class="col-md-4"><strong>Measure Range</strong></div>
-					<div class="col-md-2">Min</div><div class="col-md-2">Max</div><div class="col-md-4">Gender</div><div class="col-md-2">Lower Limit</div><div class="col-md-2">Upper Limit</div>
+					<div class="col-md-4"><strong>Age Range</strong></div>
+					<div class="col-md-4"><strong>Gender</strong></div>
+					<div class="col-md-4"><strong>Measure Range</strong></div>
+					<div class="col-md-2">Min</div><div class="col-md-2">Max</div>
+					<div class="col-md-4">Gender</div>
+					<div class="col-md-2">Lower Limit</div><div class="col-md-2">Upper Limit</div>
 					@foreach($measure->measureRanges as $range)
 					<div class="col-md-2">{{ $range->age_min }}</div>
 					<div class="col-md-2">{{ $range->age_max }}</div>

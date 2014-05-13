@@ -58,7 +58,7 @@ class MeasureController extends \BaseController {
 			// store
 			$measure = new Measure;
 			$measure->name = Input::get('name');
-			$measure->type_id = Input::get('type');
+			$measure->type_id = Input::get('type_id');
 			$measure->unit = Input::get('unit');
 			$measure->description = Input::get('description');
 
@@ -88,7 +88,7 @@ class MeasureController extends \BaseController {
 					$measurerange->range_upper = $val['rangemax'][$i];
 					$measurerange->save();
 				 }
-			}else if (Input::get('type') == 2) {
+			}else if (Input::get('type_id') == 2) {
 				$values = Input::get('val');
 				$measure->measure_range = join('/', $values);
 				$measure->save();
@@ -124,8 +124,20 @@ class MeasureController extends \BaseController {
 		//Get the measure
 		$measure = Measure::find($id);
 
+		$measuretype = DB::table('measure_type')->orderBy('id', 'asc')->lists('name','id');
+
+		if ($measure->type_id == 1) {
+			$measurerange = Measure::find($measure->id)->measureRanges;
+			//Open the Edit View and pass to it the $measure
+			return View::make('measure.edit')
+							->with('measure', $measure)
+							->with('measurerange', $measurerange)	
+							->with('measuretype', $measuretype);	
+		}
 		//Open the Edit View and pass to it the $measure
-		return View::make('measure.edit')->with('measure', $measure);
+		return View::make('measure.edit')
+						->with('measure', $measure)
+						->with('measuretype', $measuretype);
 	}
 
 	/**
@@ -149,12 +161,45 @@ class MeasureController extends \BaseController {
 				->withInput(Input::except('password'));
 		} else {
 			// Update
-			$measure = new Measure;
+			$measure = Measure::find($id);
 			$measure->name = Input::get('name');
-			$measure->measure_range = Input::get('measure_range');
+			$measure->type_id = Input::get('type_id');
 			$measure->unit = Input::get('unit');
+			if (Input::get('type_id') == 2) {
+				$values = Input::get('val');
+				$measure->measure_range = join('/', $values);
+			}
 			$measure->description = Input::get('description');
 			$measure->save();
+
+			if ($measure->measureType->id == 1) {
+				$val['agemin'] = Input::get('agemin');
+				$val['agemax'] = Input::get('agemax');
+				$val['gender'] = Input::get('gender');
+				$val['rangemin'] = Input::get('rangemin');
+				$val['rangemax'] = Input::get('rangemax');
+				$val['measurerangeid'] = Input::get('measurerangeid');
+
+				for ($i=0; $i < count($val['agemin']); $i++) { 
+					try
+					{
+						$measurerange = MeasureRange::find($val['measurerangeid'][$i]);
+						Log::info($measurerange);
+					} 
+					catch (Exception $e) 
+					{
+						$measurerange = new MeasureRange;
+					 	$measurerange->measure_id = $measure->id;
+					}
+				 	$measurerange->age_min = $val['agemin'][$i];
+					$measurerange->age_max = $val['agemax'][$i];
+					$measurerange->sex = $val['gender'][$i];
+					$measurerange->range_lower = $val['rangemin'][$i];
+					$measurerange->range_upper = $val['rangemax'][$i];
+					$measurerange->save();
+				 }
+			}
+
 
 			// redirect
 			Session::flash('message', 'The measure details were successfully updated!');

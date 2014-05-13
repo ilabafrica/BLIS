@@ -25,8 +25,8 @@
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">
-					{{ Form::label('type', 'Type') }}
-					{{ Form::select('type', $measuretype, 
+					{{ Form::label('type_id', 'Type') }}
+					{{ Form::select('type_id', $measuretype, 
 						Input::old('type_id'), array('class' => 'form-control', 'id' => 'measuretype')) 
 					}}
 				</div>
@@ -57,7 +57,6 @@
 				<div class="form-group actions-row">
 					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', array('class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-create-measure")')) }}
 				</div>
-
 			{{ Form::close() }}
 		</div>
 	</div>
