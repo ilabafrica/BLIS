@@ -184,7 +184,6 @@ class MeasureController extends \BaseController {
 					try
 					{
 						$measurerange = MeasureRange::find($val['measurerangeid'][$i]);
-						Log::info($measurerange);
 					} 
 					catch (Exception $e) 
 					{

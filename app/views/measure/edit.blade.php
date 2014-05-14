@@ -72,16 +72,20 @@
 										<input class="form-control input-small" value="<?php echo $value->range_upper; ?>" name="rangemax[]" type="text">						
 									</div>
 									@endforeach
-									<?php } else if ($measure->type_id == 2) { ?>
+									<?php } else if ($measure->type_id == 2) { 
+										$val = explode('/', $measure->measure_range);
+									?>
+									@foreach($val as $key => $value)
 									<div class="alphanumericInput">
 										<label for="val" class="hide"></label>						
-										<input class="form-control input-small" value="<?php echo "booh"; ?>" name="val[]" type="text">
+										<input class="form-control input-small" value="<?php echo $value; ?>" name="val[]" type="text">
 										<span class="alphanumericSlash">/</span>
 									</div>
+									@endforeach
 									<?php } else if ($measure->type_id == 3) { ?>
 									<div class="col-md-4">
 										<label for="val" class="hide"></label>						
-										<input class="form-control" value="<?php echo "booh"; ?>" name="val[]" type="text">
+										<input class="form-control" value="<?php echo "None"; ?>" name="val[]" type="text">
 									</div>
 									<?php } ?>
 								</div>
