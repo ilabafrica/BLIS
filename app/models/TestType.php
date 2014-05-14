@@ -48,7 +48,7 @@ class TestType extends Eloquent
 	 */
 	public function setSpecimenTypes($specimentypes){
 
-		$pecimentypesadded = array();
+		$specimentypesadded = array();
 
 		if(is_array($specimentypes)){
 			foreach ($specimentypes as $key => $value) {
