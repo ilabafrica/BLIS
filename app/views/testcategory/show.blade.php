@@ -19,8 +19,8 @@
 		</div>
 		<div class="panel-body">
 			<div class="display-details">
-				<h3><strong>Name:</strong>{{ $testcategory->name }} </h3>
-				<p><strong>Description:</strong>{{ $testcategory->description }}</p>
+				<h3 class="view"><strong>Name:</strong>{{ $testcategory->name }} </h3>
+				<p class="view-striped"><strong>Description:</strong>{{ $testcategory->description }}</p>
 				
 			</div>
 		</div>

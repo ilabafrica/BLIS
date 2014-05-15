@@ -18,9 +18,9 @@
 		</div>
 		<div class="panel-body">
 			<div class="display-details">
-				<h3><strong>Name:</strong>{{ $specimentype->name }} </h3>
-				<p><strong>Description:</strong>{{ $specimentype->description }}</p>
-				<p><strong>Date Created:</strong>{{ $specimentype->created_at }}</p>
+				<h3 class="view"><strong>Name:</strong>{{ $specimentype->name }} </h3>
+				<p class="view-striped"><strong>Description:</strong>{{ $specimentype->description }}</p>
+				<p class="view"><strong>Date Created:</strong>{{ $specimentype->created_at }}</p>
 			</div>
 		</div>
 	</div>

@@ -18,15 +18,15 @@
 		</div>
 		<div class="panel-body">
 			<div class="display-details">
-				<h3><strong>Name:</strong>{{ $patient->name }} </h3>
-				<p><strong>Patient Number:</strong>{{ $patient->patient_number }}</p>
-				<p><strong>External Patient Number:</strong>{{ $patient->external_patient_number }}</p>
-				<p><strong>Date of Birth:</strong>{{ $patient->dob }}</p>
-				<p><strong>Gender:</strong>{{ ($patient->gender==0?"Male":"Female") }}</p>
-				<p><strong>Physical Address:</strong>{{ $patient->address }}</p>
-				<p><strong>Phone Number:</strong>{{ $patient->phone_number }}</p>
-				<p><strong>Email Address:</strong>{{ $patient->email }}</p>
-				<p><strong>Date Created:</strong>{{ $patient->created_at }}</p>
+				<h3 class="view"><strong>Name:</strong>{{ $patient->name }} </h3>
+				<p class="view-striped"><strong>Patient Number:</strong>{{ $patient->patient_number }}</p>
+				<p class="view"><strong>External Patient Number:</strong>{{ $patient->external_patient_number }}</p>
+				<p class="view-striped"><strong>Date of Birth:</strong>{{ $patient->dob }}</p>
+				<p class="view"><strong>Gender:</strong>{{ ($patient->gender==0?"Male":"Female") }}</p>
+				<p class="view-striped"><strong>Physical Address:</strong>{{ $patient->address }}</p>
+				<p class="view"><strong>Phone Number:</strong>{{ $patient->phone_number }}</p>
+				<p class="view-striped"><strong>Email Address:</strong>{{ $patient->email }}</p>
+				<p class="view"><strong>Date Created:</strong>{{ $patient->created_at }}</p>
 			</div>
 		</div>
 	</div>

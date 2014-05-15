@@ -65,10 +65,10 @@ label, input {
 
 .view, .view-striped {
     border-top: 1px solid #DDDDDD;
-    height: 30px;
+    min-height: 30px;
     padding: 4px;
 }
-.view:hover {
+.view-striped:hover,.view:hover {
     background-color: #F5F5F5;
 }
 .view-striped {
