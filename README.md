@@ -15,8 +15,11 @@ Quick Start
 1. Install the above mentioned requirements.
 2. Extract this git repository to a local folder
     <blockquote>git clone https://github.com/ilabafrica/iBLIS.git </blockquote>
-3. Change directory to the root folder of the application then run 'composer' to install the application dependencies.
-    <blockquote>composer install</blockquote>
+3. Change directory to the root folder of the application. Update **composer** then run it in order to install the application dependencies. You may need root permissions to update composer.
+    <blockquote>
+      composer self-update
+      composer install
+    </blockquote>
 4. Update the application configuration files to suit your local settings:
   <ul>
     <li>Set the "Application URL" in /app/config/app.php</li>
@@ -27,6 +30,8 @@ Quick Start
     <blockquote>php artisan migrate</blockquote>
 6. Load the basic seed data
     <blockquote> php artisan db:seed </blockquote>
+   If #5 or #6 above fails, you may need to run the following command then repeat the two commands again.
+    <blockquote> composer dumpautoload </blockquote>
 7. If you are running the application on a webserver eg. apache, ensure that the webserver has write permissions to the /app/storage folder.
    Ideally the web-root should be the /public folder.
    The default login is 'administrator' 'password'.
