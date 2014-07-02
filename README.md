@@ -17,7 +17,7 @@ Quick Start
     <blockquote>git clone https://github.com/ilabafrica/iBLIS.git </blockquote>
 3. Change directory to the root folder of the application. Update **composer** then run it in order to install the application dependencies. You may need root permissions to update composer.
     <blockquote>
-      composer self-update
+      composer self-update<br />
       composer install
     </blockquote>
 4. Update the application configuration files to suit your local settings:
@@ -34,4 +34,4 @@ Quick Start
     <blockquote> composer dumpautoload </blockquote>
 7. If you are running the application on a webserver eg. apache, ensure that the webserver has write permissions to the /app/storage folder.
    Ideally the web-root should be the /public folder.
-   The default login is 'administrator' 'password'.
+   The default login credentials are '*administrator*' '*password*'.
