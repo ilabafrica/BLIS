@@ -9,5 +9,12 @@ class MeasureType extends Eloquent
 	 */
 	protected $table = 'measure_type';
 
+	/**
+	 * Enabling soft deletes for patient details.
+	 *
+	 * @var boolean
+	 */
+	protected $softDelete = true;
+
 	public $timestamps = false;
 }
