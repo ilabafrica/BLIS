@@ -41,8 +41,6 @@ $(function(){
 		}
 	});
 
-
-
 });
 	
 	/**
@@ -97,7 +95,13 @@ $(function(){
 	}
 
 	$( document ).ajaxComplete(function() {
+
 		UIComponents();
+
+		/* Clicking the label of an radio/checkbox, checks the control*/
+		$('span.input-tag').click(function(){
+			$(this).siblings('input').trigger('click');
+		});
 
 		
 		/* load measure range input UI for the selected measure type */
@@ -124,6 +128,7 @@ $(function(){
 				$( ".addanother" ).hide();
 			}
 		});
+
 	});
 
 	/**	
@@ -191,15 +196,15 @@ $(function(){
 	 */
 	function addmeasure(){
 		if ($("#measuretype").val() === '1') 
-				{
-					$( ".measurevalue" ).append(numericInputBody);
-				}
-				else if ($("#measuretype").val() === '2') 
-				{
-					$( ".measurevalue" ).append(alphanumericInput);
-				}
-				else if ($("#measuretype").val() === '3') 
-				{
-					$( ".measurevalue" ).append(autocompleteInput);
-				}
+		{
+			$( ".measurevalue" ).append(numericInputBody);
 		}
+		else if ($("#measuretype").val() === '2') 
+		{
+			$( ".measurevalue" ).append(alphanumericInput);
+		}
+		else if ($("#measuretype").val() === '3') 
+		{
+			$( ".measurevalue" ).append(autocompleteInput);
+		}
+	}

@@ -181,7 +181,9 @@ class UserController extends Controller {
             $user->gender = Input::get('gender');
             $user->designation = Input::get('designation');
             $user->email = Input::get('email');
-            $user->image = Input::get('image');
+
+            $user->save();
+            $id = $user->id;
             /* Set default password*/
 
             if (Input::hasFile('image')) {

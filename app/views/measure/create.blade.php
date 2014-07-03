@@ -1,6 +1,6 @@
 	<div>
 		<ol class="breadcrumb">
-		  <li><a href="#">Home</a></li>
+		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
 		  <li><a href="javascript:void(0);" onclick="pageloader('{{ URL::to('measure') }}')">Measure</a></li>
 		  <li class="active">Create Measure</li>
 		</ol>

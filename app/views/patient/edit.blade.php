@@ -1,6 +1,6 @@
 	<div>
 		<ol class="breadcrumb">
-		  <li><a href="#">Home</a></li>
+		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
 		  <li><a href="javascript:void(0);" onclick="pageloader('{{ URL::to('patient') }}')">Patient</a></li>
 		  <li class="active">Edit Patient</li>
 		</ol>
@@ -32,8 +32,8 @@
 				</div>
                 <div class="form-group">
                     {{ Form::label('gender', 'Gender: ') }}
-                    <div>{{ Form::radio('gender', '0', true) }} Male</div>
-                    <div>{{ Form::radio("gender", '1', false) }} Female</div>
+                    <div>{{ Form::radio('gender', '0', true) }}<span class="input-tag">Male</span></div>
+                    <div>{{ Form::radio("gender", '1', false) }}<span class="input-tag">Female</span></div>
                 </div>
 				<div class="form-group">
 					{{ Form::label('address', 'Physical Address') }}
