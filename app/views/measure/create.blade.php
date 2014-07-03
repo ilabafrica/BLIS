@@ -25,9 +25,9 @@
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">
-					{{ Form::label('type_id', 'Type') }}
-					{{ Form::select('type_id', $measuretype, 
-						Input::old('type_id'), array('class' => 'form-control', 'id' => 'measuretype')) 
+					{{ Form::label('measure_type_id', 'Type') }}
+					{{ Form::select('measure_type_id', $measuretype, 
+						Input::old('measure_type_id'), array('class' => 'form-control', 'id' => 'measuretype')) 
 					}}
 				</div>
 				<div class="form-group">
@@ -39,15 +39,15 @@
 					{{ Form::textarea('description', Input::old('description'), array('class' => 'form-control', 'rows'=>'2')) }}
 				</div>
 				<div class="form-group">
-				<label for="measurerange">Value</label>				
-					<div class="form-pane panel panel-default">
-						<div class="panel-body">
+					<label for="measurerange">Measure Value</label>				
+					<div class="form-pane ">
+						<div class="">
 							<div class="row measurerange" name="measurerange">
 								<div class="col-md-12 measurevalue"></div>
 							</div>
 						</div>
-						<div class="panel-footer">
-							<a class="btn btn-sm btn-info addanother" href="javascript:void(0);" id="addmeasure" onclick="addmeasure()">
+						<div class="">
+							<a class="btn btn-sm btn-info add-another-measure" href="javascript:void(0);">
 								<span class="glyphicon glyphicon-plus-sign"></span>
 								Add another
 							</a>

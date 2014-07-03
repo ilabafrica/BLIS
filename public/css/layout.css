@@ -342,3 +342,21 @@ label, input {
 .form-group .form-control.input-small{
     width: 120px;
 }
+.measurevalue div {
+    overflow: hidden;
+}
+.measurevalue .numeric-range-measure {
+    width: 250px;
+    float: left;
+}
+    .measurevalue div input{
+        width: 40px;
+        border-radius: 2;
+    }
+    .measurevalue div span{
+        float: left;
+        line-height: 40px;
+    }
+    .measurevalue div span.range-title{
+        min-width: 120px;
+    }

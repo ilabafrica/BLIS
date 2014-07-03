@@ -23,9 +23,9 @@
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">
-					{{ Form::label('type_id', 'Type') }}
-					{{ Form::select('type_id', $measuretype, 
-						Input::old('type_id'), array('class' => 'form-control', 'id' => 'measuretype')) 
+					{{ Form::label('measure_type_id', 'Type') }}
+					{{ Form::select('measure_type_id', $measuretype, 
+						Input::old('measure_type_id'), array('class' => 'form-control', 'id' => 'measuretype')) 
 					}}
 				</div>
 				<div class="form-group">
@@ -42,7 +42,7 @@
 						<div class="panel-body">
 							<div class="row measurerange" name="measurerange">
 								<div class="col-md-12 measurevalue">
-								<?php if ($measure->type_id == 1) { ?>
+								<?php if ($measure->measure_type_id == 1) { ?>
 									<div class="col-md-12">
 										<div class="col-md-4">Age Range</div>
 										<div class="col-md-4">Gender</div>
@@ -72,7 +72,7 @@
 										<input class="form-control input-small" value="<?php echo $value->range_upper; ?>" name="rangemax[]" type="text">						
 									</div>
 									@endforeach
-									<?php } else if ($measure->type_id == 2) { 
+									<?php } else if ($measure->measure_type_id == 2) { 
 										$val = explode('/', $measure->measure_range);
 									?>
 									@foreach($val as $key => $value)
@@ -82,7 +82,7 @@
 										<span class="alphanumericSlash">/</span>
 									</div>
 									@endforeach
-									<?php } else if ($measure->type_id == 3) { ?>
+									<?php } else if ($measure->measure_type_id == 3) { ?>
 									<div class="col-md-4">
 										<label for="val" class="hide"></label>						
 										<input class="form-control" value="<?php echo "None"; ?>" name="val[]" type="text">

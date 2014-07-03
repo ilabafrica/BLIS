@@ -58,7 +58,7 @@ class MeasureController extends \BaseController {
 			// store
 			$measure = new Measure;
 			$measure->name = Input::get('name');
-			$measure->type_id = Input::get('type_id');
+			$measure->measure_type_id = Input::get('measure_type_id');
 			$measure->unit = Input::get('unit');
 			$measure->description = Input::get('description');
 
@@ -88,7 +88,7 @@ class MeasureController extends \BaseController {
 					$measurerange->range_upper = $val['rangemax'][$i];
 					$measurerange->save();
 				 }
-			}else if (Input::get('type_id') == 2) {
+			}else if (Input::get('measure_type_id') == 2) {
 				$values = Input::get('val');
 				$measure->measure_range = join('/', $values);
 				$measure->save();
@@ -126,7 +126,7 @@ class MeasureController extends \BaseController {
 
 		$measuretype = DB::table('measure_type')->orderBy('id', 'asc')->lists('name','id');
 
-		if ($measure->type_id == 1) {
+		if ($measure->measure_type_id == 1) {
 			$measurerange = Measure::find($measure->id)->measureRanges;
 			//Open the Edit View and pass to it the $measure
 			return View::make('measure.edit')
@@ -163,9 +163,9 @@ class MeasureController extends \BaseController {
 			// Update
 			$measure = Measure::find($id);
 			$measure->name = Input::get('name');
-			$measure->type_id = Input::get('type_id');
+			$measure->measure_type_id = Input::get('measure_type_id');
 			$measure->unit = Input::get('unit');
-			if (Input::get('type_id') == 2) {
+			if (Input::get('measure_type_id') == 2) {
 				$values = Input::get('val');
 				$measure->measure_range = join('/', $values);
 			}
@@ -173,12 +173,12 @@ class MeasureController extends \BaseController {
 			$measure->save();
 
 			if ($measure->measureType->id == 1) {
-				$val['agemin'] = Input::get('agemin');
-				$val['agemax'] = Input::get('agemax');
-				$val['gender'] = Input::get('gender');
-				$val['rangemin'] = Input::get('rangemin');
-				$val['rangemax'] = Input::get('rangemax');
-				$val['measurerangeid'] = Input::get('measurerangeid');
+				$val['agemin'][] = Input::get('agemin');
+				$val['agemax'][] = Input::get('agemax');
+				$val['gender'][] = Input::get('gender');
+				$val['rangemin'][] = Input::get('rangemin');
+				$val['rangemax'][] = Input::get('rangemax');
+				$val['measurerangeid'][] = Input::get('measurerangeid');
 
 				for ($i=0; $i < count($val['agemin']); $i++) { 
 					try

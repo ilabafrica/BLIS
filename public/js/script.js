@@ -47,46 +47,31 @@ $(function(){
 	 * HTML ELEMENTS
 	 */
 	 
-	 /*Measures*/
-	var numericInputHead ='<div class="col-md-12">'
-								+'<div class="col-md-4">Age Range</div>'
-								+'<div class="col-md-4">Gender</div>'
-								+'<div class="col-md-4">Measure Range</div>'
-							+'</div>';
+	 /*Measure Inputs*/
 
-	var numericInputBody ='<div class="col-md-4">'
-								+'<label for="agemin" class="hide">agemin</label>'						
-								+'<input class="form-control input-small" name="agemin[]" type="text">'
-								+'<label for="agemax" class="">:</label>'						
-								+'<input class="form-control input-small" name="agemax[]" type="text">'						
-							+'</div>'
-							+'<div class="col-md-4">'
-								+'<label for="gender" class="hide">gender</label>'						
-								+'<select class="form-control input-small" name="gender[]">'
-								+'<option value="1">Male</option>'
-								+'<option value="2">Female</option>'
-								+'<option value="3">Both</option>'
-								+'</select>'						
-							+'</div>'
-							+'<div class="col-md-4">'
-								+'<label for="rangemin" class="hide">Min</label>'						
-								+'<input class="form-control input-small" name="rangemin[]" type="text">'
-								+'<label for="rangemax" class="">:</label>'						
-								+'<input class="form-control input-small" name="rangemax[]" type="text">'						
-							+'</div>';
+	var numericInput ='<div class="numeric-range-measure well">'
+		+'<div><span class="range-title">Age Range:</span>'
+			+'<input name="agemin[]" type="text"><span>:</span>'
+			+'<input name="agemax[]" type="text">'
+		+'</div><div><span class="range-title">Gender:</span>'
+			+'<select name="gender[]">'
+				+'<option value="1">Male</option>'
+				+'<option value="2">Female</option>'
+				+'<option value="3">Both</option>'
+			+'</select>'
+		+'</div><div><span class="range-title">Measure Range:</span>'
+			+'<input name="rangemin[]" type="text"><span>:</span>'
+			+'<input name="rangemax[]" type="text">'
+		+'</div></div>';
 
 	var alphanumericInput = '<div class="alphanumericInput">'
-								+'<label for="val" class="hide"></label>'						
-								+'<input class="form-control input-small" name="val[]" type="text">'
-								+'<span class="alphanumericSlash">/</span>'
-							+'</div>';
+								+'<input name="val[]" type="text">'
+								+'<span class="alphanumericSlash">/</span></div>';
 
-	var autocompleteInput = '<div class="col-md-4">'
-								+'<label for="val" class="hide"></label>'						
-								+'<input class="form-control" name="val[]" type="text">'
-							+'</div>';
+	var autocompleteInput = '<div class="autocompleteInput">'
+								+'<input name="val[]" type="text"></div>';
 
-	var freetextInput = 	'<p>A text box will appear for result entry</p>';
+	var freetextInput = '<p>A text box will appear for results entry</p>';
 
 	function UIComponents(){
 		/* Datepicker */
@@ -103,32 +88,46 @@ $(function(){
 			$(this).siblings('input').trigger('click');
 		});
 
+		/* Add another measure button */
+		$('.add-another-measure').click(function(){
+			if($("#measuretype").val() === '1') 
+			{
+				$(".measurevalue" ).append(numericInput);
+			}
+			else if($("#measuretype").val() === '2') 
+			{
+				$(".measurevalue" ).append(alphanumericInput);
+			}
+			else if($("#measuretype").val() === '3') 
+			{
+				$(".measurevalue" ).append(autocompleteInput);
+			}
+		});
 		
 		/* load measure range input UI for the selected measure type */
 
 		$( "#measuretype" ).change(function() {
 			if ($(this).val() === '1') 
 			{
-				$( ".measurevalue" ).html(numericInputHead+numericInputBody);
-					$( ".addanother" ).show();
+				$( ".measurevalue" ).html(numericInput);
+					// $( ".addanother" ).show();
 			}
 			else if ($(this).val() === '2') 
 			{
 				$(".measurevalue").html(alphanumericInput);
-				$( ".addanother" ).show();
+				// $( ".addanother" ).show();
 			}
 			else if ($(this).val() === '3') 
 			{
 				$(".measurevalue").html(autocompleteInput);
-				$( ".addanother" ).show();
+				// $( ".addanother" ).show();
 			}
 			else if ($(this).val() === '4') 
 			{
 				$(".measurevalue").html(freetextInput);
-				$( ".addanother" ).hide();
+				// $( ".addanother" ).hide();
 			}
 		});
-
 	});
 
 	/**	
