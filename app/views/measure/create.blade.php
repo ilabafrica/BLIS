@@ -39,18 +39,15 @@
 					{{ Form::textarea('description', Input::old('description'), array('class' => 'form-control', 'rows'=>'2')) }}
 				</div>
 				<div class="form-group">
-					<label for="measurerange">Measure Value</label>				
-					<div class="form-pane ">
-						<div class="">
-							<div class="row measurerange" name="measurerange">
-								<div class="col-md-12 measurevalue"></div>
+					<label for="measurerange">Range Values</label>				
+					<div class="form-pane panel panel-default">
+						<div class="panel-body">
+							<div class="measurevalue">
 							</div>
 						</div>
-						<div class="">
-							<a class="btn btn-sm btn-info add-another-measure" href="javascript:void(0);">
-								<span class="glyphicon glyphicon-plus-sign"></span>
-								Add another
-							</a>
+						<div class="panel-footer">
+							<a class="btn btn-sm btn-info add-another-range" href="javascript:void(0);">
+								<span class="glyphicon glyphicon-plus-sign"></span>Add Measure Range</a>
 						</div>
 					</div>
 				</div>

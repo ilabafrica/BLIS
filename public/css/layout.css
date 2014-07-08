@@ -344,13 +344,14 @@ label, input {
 }
 .measurevalue div {
     overflow: hidden;
+    margin-right: 2px;
 }
 .measurevalue .numeric-range-measure {
-    width: 250px;
+    width: 300px;
     float: left;
 }
     .measurevalue div input{
-        width: 40px;
+        width: 60px;
         border-radius: 2;
     }
     .measurevalue div span{

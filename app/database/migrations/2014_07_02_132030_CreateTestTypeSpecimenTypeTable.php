@@ -20,6 +20,7 @@ class CreateTestTypeSpecimenTypeTable extends Migration {
 
 			$table->foreign('test_type_id')->references('id')->on('test_type');
 			$table->foreign('specimen_type_id')->references('id')->on('specimen_type');
+			$table->unique(array('test_type_id','specimen_type_id'));
 		});
 	}
 

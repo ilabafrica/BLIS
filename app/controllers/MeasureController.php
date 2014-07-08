@@ -83,7 +83,7 @@ class MeasureController extends \BaseController {
 				 	$measurerange->measure_id = $measure->id;
 				 	$measurerange->age_min = $val['agemin'][$i];
 					$measurerange->age_max = $val['agemax'][$i];
-					$measurerange->sex = $val['gender'][$i];
+					$measurerange->gender = $val['gender'][$i];
 					$measurerange->range_lower = $val['rangemin'][$i];
 					$measurerange->range_upper = $val['rangemax'][$i];
 					$measurerange->save();
@@ -173,12 +173,12 @@ class MeasureController extends \BaseController {
 			$measure->save();
 
 			if ($measure->measureType->id == 1) {
-				$val['agemin'][] = Input::get('agemin');
-				$val['agemax'][] = Input::get('agemax');
-				$val['gender'][] = Input::get('gender');
-				$val['rangemin'][] = Input::get('rangemin');
-				$val['rangemax'][] = Input::get('rangemax');
-				$val['measurerangeid'][] = Input::get('measurerangeid');
+				$val['agemin'] = Input::get('agemin');
+				$val['agemax'] = Input::get('agemax');
+				$val['gender'] = Input::get('gender');
+				$val['rangemin'] = Input::get('rangemin');
+				$val['rangemax'] = Input::get('rangemax');
+				$val['measurerangeid'] = Input::get('measurerangeid');
 
 				for ($i=0; $i < count($val['agemin']); $i++) { 
 					try
@@ -192,9 +192,11 @@ class MeasureController extends \BaseController {
 					}
 				 	$measurerange->age_min = $val['agemin'][$i];
 					$measurerange->age_max = $val['agemax'][$i];
-					$measurerange->sex = $val['gender'][$i];
+					$measurerange->gender = $val['gender'][$i];
 					$measurerange->range_lower = $val['rangemin'][$i];
 					$measurerange->range_upper = $val['rangemax'][$i];
+					Log::info($measurerange);
+					Log::info($val);
 					$measurerange->save();
 				 }
 			}

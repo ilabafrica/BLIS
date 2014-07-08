@@ -17,57 +17,40 @@
 			</div>
 		</div>
 		<div class="panel-body">
-			<div class="row showmeasure">
-					<div class="col-md-6">
-					<div class="view">
-						<div class="col-md-6"><strong>Name</strong></div>
-						<div class="col-md-6">{{ $measure->name }}</div>
-					</div>
-					<div class="view-striped">
-						<div class="col-md-6"><strong>Description</strong></div>
-						<div class="col-md-6">{{ $measure->description }}</div>
-					</div>
-					<div class="view">
-						<div class="col-md-6"><strong>Measure Type</strong></div>
-						<div class="col-md-6">{{ $measure->measureType->name }}</div>
-					</div>
-					<?php if ($measure->measureType->id == 2) { ?>
-					<div class="view-striped">
-						<div class="col-md-6"><strong>Measure Range</strong></div>
-						<div class="col-md-6">{{ $measure->measure_range }}</div>
-					</div>
-					<?php } ?>				
-				</div>
-				<div class="col-md-6">
-				</div>
-				<?php if ($measure->measureType->id == 1) { ?>
-
-				<div class="col-md-12">
-				<br>
+			<div class="display-details">
+				<h3 class="view"><strong>Name</strong>{{ $measure->name }}</h3>
+				<p class="view-striped"><strong>Description</strong>{{ $measure->description }}</p>
+				<p class="view"><strong>Measure Type</strong>{{ $measure->measureType->name }}</p>
+				@if ($measure->measureType->id == 2)
+				<p class="view-striped"><strong>Measure Range</strong>{{ $measure->measure_range }}</p>
+				@elseif ($measure->measureType->id == 1)
+				<p class="view-striped"><strong>Range Values</strong></p>
+				<div class="table-responsive panel panel-default">
 					<?php $gender = ['Male', 'Female', 'Both']; ?>
-					<div class="view">
-						<div class="col-md-4"><strong>Age Range</strong></div>
-						<div class="col-md-4"><strong>Gender</strong></div>
-						<div class="col-md-4"><strong>Measure Range</strong></div>
-					</div>
-					<div class="view-striped">
-						<div class="col-md-2">Min</div><div class="col-md-2">Max</div>
-						<div class="col-md-4">Gender</div>
-						<div class="col-md-2">Lower Limit</div><div class="col-md-2">Upper Limit</div>
-					</div>
-					<?php $cnt = 0;?>
-					@foreach($measure->measureRanges as $range)
-					<div class='{{ ($cnt==0)?"view":"view-striped"}}'>
-						<div class="col-md-2">{{ $range->age_min }}</div>
-						<div class="col-md-2">{{ $range->age_max }}</div>
-						<div class="col-md-4">{{ $gender[$range->sex - 1] }}</div>
-						<div class="col-md-2">{{ $range->range_lower }}</div>
-						<div class="col-md-2">{{ $range->range_upper }}</div>
-					</div>
-					<?php $cnt == 0? $cnt++ : $cnt--;?>
-					@endforeach
+					<table class="table table-condensed table-hover table-striped">
+						<thead>
+							<tr>
+								<th>Age Min</th>
+								<th>Age Max</th>
+								<th>Gender</th>
+								<th>Range Lower Limit</th>
+								<th>Range Upper Limit</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($measure->measureRanges as $range)
+							<tr>
+								<td>{{ $range->age_min }}</td>
+								<td>{{ $range->age_max }}</td>
+								<td>{{ $gender[$range->gender] }}</td>
+								<td>{{ $range->range_lower }}</td>
+								<td>{{ $range->range_upper }}</td>
+							</tr>
+							@endforeach
+						</tbody>
+					</table>
 				</div>
-				<?php } ?>
+				@endif
 			</div>			
 		</div>
 	</div>

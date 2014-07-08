@@ -22,6 +22,7 @@ class CreateTestTypeMeasureTable extends Migration {
 
 			$table->foreign('test_type_id')->references('id')->on('test_type');
 			$table->foreign('measure_id')->references('id')->on('measure');
+			$table->unique(array('test_type_id','measure_id'));
 		});
 	}
 

@@ -55,9 +55,9 @@ $(function(){
 			+'<input name="agemax[]" type="text">'
 		+'</div><div><span class="range-title">Gender:</span>'
 			+'<select name="gender[]">'
-				+'<option value="1">Male</option>'
-				+'<option value="2">Female</option>'
-				+'<option value="3">Both</option>'
+				+'<option value="0">Male</option>'
+				+'<option value="1">Female</option>'
+				+'<option value="2">Both</option>'
 			+'</select>'
 		+'</div><div><span class="range-title">Measure Range:</span>'
 			+'<input name="rangemin[]" type="text"><span>:</span>'
@@ -89,7 +89,7 @@ $(function(){
 		});
 
 		/* Add another measure button */
-		$('.add-another-measure').click(function(){
+		$('.add-another-range').click(function(){
 			if($("#measuretype").val() === '1') 
 			{
 				$(".measurevalue" ).append(numericInput);
@@ -110,22 +110,18 @@ $(function(){
 			if ($(this).val() === '1') 
 			{
 				$( ".measurevalue" ).html(numericInput);
-					// $( ".addanother" ).show();
 			}
 			else if ($(this).val() === '2') 
 			{
 				$(".measurevalue").html(alphanumericInput);
-				// $( ".addanother" ).show();
 			}
 			else if ($(this).val() === '3') 
 			{
 				$(".measurevalue").html(autocompleteInput);
-				// $( ".addanother" ).show();
 			}
 			else if ($(this).val() === '4') 
 			{
 				$(".measurevalue").html(freetextInput);
-				// $( ".addanother" ).hide();
 			}
 		});
 	});
@@ -188,22 +184,4 @@ $(function(){
 	function loadandclose(url, classtoclose){
 		pageloader(url);
 		$("." + classtoclose).toggle();
-	}
-
-	/**
-	 *Loads measure values form to 'add measure view' 
-	 */
-	function addmeasure(){
-		if ($("#measuretype").val() === '1') 
-		{
-			$( ".measurevalue" ).append(numericInputBody);
-		}
-		else if ($("#measuretype").val() === '2') 
-		{
-			$( ".measurevalue" ).append(alphanumericInput);
-		}
-		else if ($("#measuretype").val() === '3') 
-		{
-			$( ".measurevalue" ).append(autocompleteInput);
-		}
 	}

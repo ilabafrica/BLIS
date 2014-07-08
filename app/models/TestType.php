@@ -46,20 +46,26 @@ class TestType extends Eloquent
 	 *
 	 * @return void
 	 */
-	public function setSpecimenTypes($specimentypes){
+	public function setSpecimenTypes($specimenTypes){
 
-		$specimentypesadded = array();
+		$specimenTypesAdded = array();
+		$testTypeID = 0;	
 
-		if(is_array($specimentypes)){
-			foreach ($specimentypes as $key => $value) {
-				$specimentypesadded[] = array(
+		if(is_array($specimenTypes)){
+			foreach ($specimenTypes as $key => $value) {
+				$specimenTypesAdded[] = array(
 					'test_type_id' => (int)$this->id,
 					'specimen_type_id' => (int)$value
 					);
+				$testTypeID = (int)$this->id;
 			}
 
 		}
-		DB::table('testtype_specimentype')->insert($specimentypesadded);
+		// Delete existing test_type measure mappings
+		DB::table('testtype_specimentype')->where('test_type_id', '=', $testTypeID)->delete();
+
+		// Add the new mapping
+		DB::table('testtype_specimentype')->insert($specimenTypesAdded);
 	}
 
 	/**
@@ -69,16 +75,22 @@ class TestType extends Eloquent
 	 */
 	public function setMeasures($measures){
 
-		$measuresadded = array();
+		$measuresAdded = array();
+		$testTypeID = 0;	
 
 		if(is_array($measures)){
 			foreach ($measures as $key => $value) {
-				$measuresadded[] = array(
+				$measuresAdded[] = array(
 					'test_type_id' => (int)$this->id,
 					'measure_id' => (int)$value
 					);
+				$testTypeID = (int)$this->id;
 			}
 		}
-		DB::table('testtype_measure')->insert($measuresadded);
+		// Delete existing test_type measure mappings
+		DB::table('testtype_measure')->where('test_type_id', '=', $testTypeID)->delete();
+
+		// Add the new mapping
+		DB::table('testtype_measure')->insert($measuresAdded);
 	}
 }

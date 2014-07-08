@@ -18,7 +18,7 @@ class CreateMeasureRangeTable extends Migration {
 			$table->integer('measure_id')->unsigned();
 			$table->integer('age_min')->unsigned();
 			$table->integer('age_max')->unsigned();
-			$table->char('gender', 1);
+			$table->tinyInteger('gender')->unsigned();
 			$table->decimal('range_lower', 7, 3);
 			$table->decimal('range_upper', 7, 3);
 			
