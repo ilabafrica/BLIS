@@ -1,6 +1,6 @@
 	<div>
 		<ol class="breadcrumb">
-		  <li><a href="#">Home</a></li>
+		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
 		  <li><a href="javascript:void(0);" onclick="pageloader('{{ URL::to("user") }}')">User</a></li>
 		  <li class="active">Create User</li>
 		</ol>
@@ -19,7 +19,7 @@
 				</div>
 			@endif
 
-			{{ Form::open(array('url' => 'user', 'id' => 'form-create-user')) }}
+			{{ Form::open(array('url' => 'user', 'id' => 'form-create-user', 'files' => true)) }}
 
 				<div class="form-group">
 					{{ Form::label('username', 'Username') }}
@@ -39,8 +39,8 @@
 				</div>
                 <div class="form-group">
                     {{ Form::label('gender', 'Gender: ') }}
-                    <div>{{ Form::radio('gender', '0', true) }} Male</div>
-                    <div>{{ Form::radio("gender", '1', false) }} Female</div>
+                    <div>{{ Form::radio('gender', '0', true) }}<span class='input-tag'>Male</span></div>
+                    <div>{{ Form::radio("gender", '1', false) }}<span class='input-tag'>Female</span></div>
                 </div>
                 <div class="form-group">
                 	{{ Form::label('image', 'Photo: ') }}
@@ -48,7 +48,7 @@
                 </div>
 				<div class="form-group actions-row">
 					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', 
-						['class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-create-user")']
+						['class' => 'btn btn-primary', 'onclick' => 'multipartformsubmit("form-create-user")']
 					) }}
 				</div>
 

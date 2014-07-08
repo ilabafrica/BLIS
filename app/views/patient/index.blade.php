@@ -1,6 +1,6 @@
 <div>
 	<ol class="breadcrumb">
-	  <li><a href="#">Home</a></li>
+	  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
 	  <li class="active">Patient</li>
 	</ol>
 </div>

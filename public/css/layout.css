@@ -102,6 +102,15 @@ label, input {
         .form-group .form-pane label {
             font-weight: 100;
         }
+         .form-group span.input-tag{
+            display: inline-block;
+            padding-left: 15px;
+            min-width: 60px;
+         }
+         .form-group span.input-tag:hover{
+            cursor: pointer;
+         }
+
 /*
 *
 * LOGIN PAGE 
@@ -333,3 +342,22 @@ label, input {
 .form-group .form-control.input-small{
     width: 120px;
 }
+.measurevalue div {
+    overflow: hidden;
+    margin-right: 2px;
+}
+.measurevalue .numeric-range-measure {
+    width: 300px;
+    float: left;
+}
+    .measurevalue div input{
+        width: 60px;
+        border-radius: 2;
+    }
+    .measurevalue div span{
+        float: left;
+        line-height: 40px;
+    }
+    .measurevalue div span.range-title{
+        min-width: 120px;
+    }

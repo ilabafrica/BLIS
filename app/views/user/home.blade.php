@@ -17,19 +17,19 @@
 			  <!-- Wrapper for slides -->
 			  <div class="carousel-inner">
 			    <div class="item active">
-			      <img src="{{ URL::asset('i/carousel-1.jpg') }}" alt="...">
+			      <img class="img-responsive" src="{{ URL::asset('i/carousel-1.jpg') }}" alt="...">
 			      <div class="carousel-caption">
 			        <em>Jacquemontia pentanthos</em> on <em>Bougainvillea spectabilis</em> hedges
 			      </div>
 			    </div>
 			    <div class="item">
-			      <img src="{{ URL::asset('i/carousel-2.jpg') }}" alt="...">
+			      <img class="img-responsive" src="{{ URL::asset('i/carousel-2.jpg') }}" alt="...">
 			      <div class="carousel-caption">
 			        <em>Leucanthemum maximum</em>
 			      </div>
 			    </div>
 			    <div class="item">
-			      <img src="{{ URL::asset('i/carousel-3.jpg') }}" alt="...">
+			      <img class="img-responsive" src="{{ URL::asset('i/carousel-3.jpg') }}" alt="...">
 			      <div class="carousel-caption">
 			        Ipsum solum de collem
 			      </div>

@@ -15,7 +15,11 @@ class CreateMeasureTypeTable extends Migration {
 		Schema::create('measure_type', function(Blueprint $table)
 		{
 			$table->integer('id')->unsigned();
-			$table->string('name');
+			$table->primary('id');
+			$table->string('name',100)->unique();
+
+			$table->softDeletes();
+			$table->timestamps();
 		});
 	}
 

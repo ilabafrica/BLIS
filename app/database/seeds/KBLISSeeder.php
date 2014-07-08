@@ -8,13 +8,18 @@ extends DatabaseSeeder
         /* Truncate from linking tables */
         DB::table('testtype_measure')->truncate();
         DB::table('testtype_specimentype')->truncate();
+
+        DB::table('measure_range')->truncate();
         /* Delete from tables referenced by foreign key constraints */
         DB::table('measure')->delete();
+        DB::table('measure_type')->delete();
+
         DB::table('test_type')->delete();
         DB::table('specimen_type')->delete();
         DB::table('test_category')->delete();
-        DB::table('patient')->delete();
-        DB::table('user')->delete();
+        DB::table('patient')->truncate();
+        /* Delete from tables referenced by foreign key constraints */
+        DB::table('user')->truncate();
 
         /* Users table */
         
@@ -84,35 +89,48 @@ extends DatabaseSeeder
             TestCategory::create($test_category);
         }
 		
+        /* Measure Types */
+        $measure_types = array(
+            array("id" => "1", "name" => "Numeric Range"),
+            array("id" => "2", "name" => "Alphanumeric Values"),
+            array("id" => "3", "name" => "Autocomplete"),
+            array("id" => "4", "name" => "Free Text")
+        );
+
+        foreach ($measure_types as $measure_type)
+        {
+            MeasureType::create($measure_type);
+        }
+                
         /* Measures table */
         
         $measures = array(
 		
-			array("type_id" => "2", "name" => "Grams stain", "measure_range" => "Positive/Negative", "unit" => ""),
-			array("type_id" => "2", "name" => "SERUM AMYLASE", "measure_range" => "Low/Normal/High", "unit" => ""),
-			array("type_id" => "2", "name" => "calcium", "measure_range" => "Low/Normal/High", "unit" => ""),
-			array("type_id" => "1", "name" => "URIC ACID", "measure_range" => "", "unit" => "mg/dl"),
-			array("type_id" => "4", "name" => "CSF for biochemistry", "measure_range" => "", "unit" => ""),
-			array("type_id" => "4", "name" => "PSA", "measure_range" => "", "unit" => ""),
-			array("type_id" => "1", "name" => "Total", "measure_range" => "", "unit" => "mg/dl"),
-			array("type_id" => "1", "name" => "Alkaline Phosphate", "measure_range" => "", "unit" => "u/l"),
-			array("type_id" => "2", "name" => "SGOT", "measure_range" => "Low/Normal/High", "unit" => ""),
-			array("type_id" => "1", "name" => "Direct", "measure_range" => "", "unit" => "mg/dl"),
-			array("type_id" => "1", "name" => "Total Proteins", "measure_range" => "", "unit" => ""),
-			array("type_id" => "4", "name" => "LFTS", "measure_range" => "", "unit" => "NULL"),
-			array("type_id" => "1", "name" => "Chloride", "measure_range" => "", "unit" => "mmol/l"),
-			array("type_id" => "1", "name" => "Potassium", "measure_range" => "", "unit" => "mmol/l"),
-			array("type_id" => "1", "name" => "Sodium", "measure_range" => "", "unit" => "mmol/l"),
-			array("type_id" => "4", "name" => "Electrolytes", "measure_range" => "", "unit" => ""),
-			array("type_id" => "1", "name" => "Creatinine", "measure_range" => "", "unit" => "mg/dl"),
-			array("type_id" => "1", "name" => "Urea", "measure_range" => "", "unit" => "mg/dl"),
-			array("type_id" => "4", "name" => "RFTS", "measure_range" => "", "unit" => ""),
-			array("type_id" => "4", "name" => "TFT", "measure_range" => "", "unit" => ""),
-			array("type_id" => "4", "name" => "GXM", "measure_range" => "", "unit" => ""),
-			array("type_id" => "2", "name" => "Indirect COOMBS test", "measure_range" => "Positive/Negative", "unit" => ""),
-			array("type_id" => "2", "name" => "Direct COOMBS test", "measure_range" => "Positive/Negative", "unit" => ""),
-			array("type_id" => "2", "name" => "Du test", "measure_range" => "Positive/Negative", "unit" => ""),
-			array("type_id" => "2", "name" => "Blood Grouping", "measure_range" => "O-/O+/A-/A+/B-/B+/AB-/AB+", "unit" => "")
+			array("measure_type_id" => "2", "name" => "Grams stain", "measure_range" => "Positive/Negative", "unit" => ""),
+			array("measure_type_id" => "2", "name" => "SERUM AMYLASE", "measure_range" => "Low/Normal/High", "unit" => ""),
+			array("measure_type_id" => "2", "name" => "calcium", "measure_range" => "Low/Normal/High", "unit" => ""),
+			array("measure_type_id" => "1", "name" => "URIC ACID", "measure_range" => "", "unit" => "mg/dl"),
+			array("measure_type_id" => "4", "name" => "CSF for biochemistry", "measure_range" => "", "unit" => ""),
+			array("measure_type_id" => "4", "name" => "PSA", "measure_range" => "", "unit" => ""),
+			array("measure_type_id" => "1", "name" => "Total", "measure_range" => "", "unit" => "mg/dl"),
+			array("measure_type_id" => "1", "name" => "Alkaline Phosphate", "measure_range" => "", "unit" => "u/l"),
+			array("measure_type_id" => "2", "name" => "SGOT", "measure_range" => "Low/Normal/High", "unit" => ""),
+			array("measure_type_id" => "1", "name" => "Direct", "measure_range" => "", "unit" => "mg/dl"),
+			array("measure_type_id" => "1", "name" => "Total Proteins", "measure_range" => "", "unit" => ""),
+			array("measure_type_id" => "4", "name" => "LFTS", "measure_range" => "", "unit" => "NULL"),
+			array("measure_type_id" => "1", "name" => "Chloride", "measure_range" => "", "unit" => "mmol/l"),
+			array("measure_type_id" => "1", "name" => "Potassium", "measure_range" => "", "unit" => "mmol/l"),
+			array("measure_type_id" => "1", "name" => "Sodium", "measure_range" => "", "unit" => "mmol/l"),
+			array("measure_type_id" => "4", "name" => "Electrolytes", "measure_range" => "", "unit" => ""),
+			array("measure_type_id" => "1", "name" => "Creatinine", "measure_range" => "", "unit" => "mg/dl"),
+			array("measure_type_id" => "1", "name" => "Urea", "measure_range" => "", "unit" => "mg/dl"),
+			array("measure_type_id" => "4", "name" => "RFTS", "measure_range" => "", "unit" => ""),
+			array("measure_type_id" => "4", "name" => "TFT", "measure_range" => "", "unit" => ""),
+			array("measure_type_id" => "4", "name" => "GXM", "measure_range" => "", "unit" => ""),
+			array("measure_type_id" => "2", "name" => "Indirect COOMBS test", "measure_range" => "Positive/Negative", "unit" => ""),
+			array("measure_type_id" => "2", "name" => "Direct COOMBS test", "measure_range" => "Positive/Negative", "unit" => ""),
+			array("measure_type_id" => "2", "name" => "Du test", "measure_range" => "Positive/Negative", "unit" => ""),
+			array("measure_type_id" => "2", "name" => "Blood Grouping", "measure_range" => "O-/O+/A-/A+/B-/B+/AB-/AB+", "unit" => "")
         );
 
         foreach ($measures as $measure)
@@ -120,20 +138,6 @@ extends DatabaseSeeder
             Measure::create($measure);
         }
         
-        /* Measure Types */
-        $measure_types = array(
-            array("id" => 0, "name" => ""),
-            array("id" => 1, "name" => "Numeric Range"),
-            array("id" => 2, "name" => "Alphanumeric Values"),
-            array("id" => 3, "name" => "Autocomplete"),
-            array("id" => 4, "name" => "Free Text")
-        );
-
-        foreach ($measure_types as $measure_type)
-        {
-            MeasureType::create($measure_type);
-        }
-				
         /* Patients table */
         
         $patients = array(

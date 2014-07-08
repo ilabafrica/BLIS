@@ -30,7 +30,7 @@ class Measure extends Eloquent
 	 */
 	public function measureType()
 	{
-	  return $this->belongsTo('MeasureType','type_id');
+	  return $this->belongsTo('MeasureType');
 	}
 
 	/**

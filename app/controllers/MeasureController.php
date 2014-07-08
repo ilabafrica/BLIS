@@ -58,7 +58,7 @@ class MeasureController extends \BaseController {
 			// store
 			$measure = new Measure;
 			$measure->name = Input::get('name');
-			$measure->type_id = Input::get('type_id');
+			$measure->measure_type_id = Input::get('measure_type_id');
 			$measure->unit = Input::get('unit');
 			$measure->description = Input::get('description');
 
@@ -83,12 +83,12 @@ class MeasureController extends \BaseController {
 				 	$measurerange->measure_id = $measure->id;
 				 	$measurerange->age_min = $val['agemin'][$i];
 					$measurerange->age_max = $val['agemax'][$i];
-					$measurerange->sex = $val['gender'][$i];
+					$measurerange->gender = $val['gender'][$i];
 					$measurerange->range_lower = $val['rangemin'][$i];
 					$measurerange->range_upper = $val['rangemax'][$i];
 					$measurerange->save();
 				 }
-			}else if (Input::get('type_id') == 2) {
+			}else if (Input::get('measure_type_id') == 2) {
 				$values = Input::get('val');
 				$measure->measure_range = join('/', $values);
 				$measure->save();
@@ -126,7 +126,7 @@ class MeasureController extends \BaseController {
 
 		$measuretype = DB::table('measure_type')->orderBy('id', 'asc')->lists('name','id');
 
-		if ($measure->type_id == 1) {
+		if ($measure->measure_type_id == 1) {
 			$measurerange = Measure::find($measure->id)->measureRanges;
 			//Open the Edit View and pass to it the $measure
 			return View::make('measure.edit')
@@ -163,9 +163,9 @@ class MeasureController extends \BaseController {
 			// Update
 			$measure = Measure::find($id);
 			$measure->name = Input::get('name');
-			$measure->type_id = Input::get('type_id');
+			$measure->measure_type_id = Input::get('measure_type_id');
 			$measure->unit = Input::get('unit');
-			if (Input::get('type_id') == 2) {
+			if (Input::get('measure_type_id') == 2) {
 				$values = Input::get('val');
 				$measure->measure_range = join('/', $values);
 			}
@@ -192,9 +192,11 @@ class MeasureController extends \BaseController {
 					}
 				 	$measurerange->age_min = $val['agemin'][$i];
 					$measurerange->age_max = $val['agemax'][$i];
-					$measurerange->sex = $val['gender'][$i];
+					$measurerange->gender = $val['gender'][$i];
 					$measurerange->range_lower = $val['rangemin'][$i];
 					$measurerange->range_upper = $val['rangemax'][$i];
+					Log::info($measurerange);
+					Log::info($val);
 					$measurerange->save();
 				 }
 			}

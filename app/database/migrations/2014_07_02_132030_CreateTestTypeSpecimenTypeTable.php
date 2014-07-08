@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTestTypeMeasureTable extends Migration {
+class CreateTestTypeSpecimenTypeTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,16 +12,15 @@ class CreateTestTypeMeasureTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('testtype_measure', function(Blueprint $table)
+ 		Schema::create('testtype_specimentype', function(Blueprint $table)
 		{
 			$table->increments('id')->unsigned();
 			$table->integer('test_type_id')->unsigned();
-			$table->integer('measure_id')->unsigned();
-			$table->tinyInteger('ordering');
-			$table->tinyInteger('nesting');
+			$table->integer('specimen_type_id')->unsigned();
 
 			$table->foreign('test_type_id')->references('id')->on('test_type');
-			$table->foreign('measure_id')->references('id')->on('measure');
+			$table->foreign('specimen_type_id')->references('id')->on('specimen_type');
+			$table->unique(array('test_type_id','specimen_type_id'));
 		});
 	}
 
@@ -32,7 +31,7 @@ class CreateTestTypeMeasureTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('testtype_measure');
+		Schema::drop('testtype_specimentype');
 	}
 
 }
