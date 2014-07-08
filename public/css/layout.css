@@ -274,6 +274,9 @@ label, input {
         .sidebar .sub-menu {
             display: none;
         }
+        .sidebar .sub-menu.active {
+            display: block;
+        }
         .sidebar .sub-menu-title {
             height: 30px;
             line-height: 30px;

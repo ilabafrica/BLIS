@@ -32,13 +32,13 @@ $(function(){
 
 	/* Load appropriate page when div on side bar is clicked*/
 	$('.sidebar a').click(function(event){
-		event.stopPropagation();
+		// event.stopPropagation();
 		var thispage = $(this).attr("href");
-		if($(this).attr("title") == "Home"){
+		// if($(this).attr("title") == "Home"){
 			window.location.href = thispage;
-		}else{
-			pageloader(thispage);
-		}
+		// }else{
+		// 	pageloader(thispage);
+		// }
 	});
 
 });
