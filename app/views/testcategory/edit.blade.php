@@ -2,9 +2,7 @@
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
 		  <li>
-		  	<a href="javascript:void(0);" onclick="pageloader('{{ URL::to("testcategory") }}')">
-		  		Lab Section
-		  	</a>
+		  	<a href="{{ URL::route('testcategory.index') }}">Lab Section</a>
 		  </li>
 		  <li class="active">Edit Lab Section</li>
 		</ol>
