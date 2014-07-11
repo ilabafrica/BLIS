@@ -19,35 +19,33 @@
 	<ul class="nav nav-sidebar">
 		<li>
 			<div class="main-menu {{$active[0]}}">
-				<span class="glyphicon glyphicon-home"></span>
-				<a href="{{ URL::route('user.home')}}" title="Home">Home</a>
+				<a href="{{ URL::route('user.home')}}" title="Home">
+					<span class="glyphicon glyphicon-home"></span> Home</a>
 			</div>
 		</li>
 		<li>
 			<div class="main-menu {{$active[1]}}">
-				<span class="glyphicon glyphicon-download-alt"></span>
-				<a href="{{ URL::route('patient.index')}}">Reception</a>
-				<!-- <a href="javascript:void(0);" onclick="pageloader('{{ URL::route("patient.index")}}')">Reception</a> -->
+				<a href="{{ URL::route('patient.index')}}">
+					<span class="glyphicon glyphicon-download-alt"></span> Reception</a>
 			</div>
 		</li>
 		<li>
 			<div class="main-menu {{$active[2]}}">
-				<span class="glyphicon glyphicon-filter"></span>
-				Tests
+				<a href="javascript:void(0);">
+					<span class="glyphicon glyphicon-filter"></span> Tests</a>
 			</div>
 		</li>
 		<li>
 			<div class="main-menu {{$active[3]}}">
-				<span class="glyphicon glyphicon-wrench"></span>
-				Lab Configuration
+				<a href="javascript:void(0);">
+					<span class="glyphicon glyphicon-wrench"></span> Lab Configuration</a>
 			</div>
 			<div class="sub-menu {{$active[3]}}">
 				<ul class="sub-menu-items">
 					<li>
 						<div>
-							<span class="glyphicon glyphicon-tag"></span>
-							<a href="{{ URL::route("user.index")}}">User Accounts</a>
-							<!-- <a href="javascript:void(0);" onclick="pageloader('{{ URL::route("user.index")}}')">User Accounts</a> -->
+							<a href="{{ URL::route("user.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> User Accounts</a>
 						</div>
 					</li>
 					<li>
@@ -61,37 +59,33 @@
 		</li>
 		<li>
 			<div class="main-menu {{$active[4]}}">
-				<span class="glyphicon glyphicon-cog"></span>
-				Test Catalog
+				<a href="javascript:void(0);">
+					<span class="glyphicon glyphicon-cog"></span> Test Catalog</a>
 			</div>
 			<div class="sub-menu {{$active[4]}}">
 				<ul class="sub-menu-items">
 					<li>
 						<div>
-							<span class="glyphicon glyphicon-tag"></span>
-							<a href="{{ URL::route("testcategory.index")}}">Lab Sections</a>
-							<!-- <a href="javascript:void(0);" onclick="pageloader('{{ URL::route("testcategory.index")}}')">Lab Sections</a> -->
+							<a href="{{ URL::route("testcategory.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> Lab Sections</a>
 						</div>
 					</li>
 					<li>
 						<div>
-							<span class="glyphicon glyphicon-tag"></span>
-							<a href="{{ URL::route("testtype.index")}}">Test Types</a>
-							<!-- <a href="javascript:void(0);" onclick="pageloader('{{ URL::route("testtype.index")}}')">Test Types</a> -->
+							<a href="{{ URL::route("testtype.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> Test Types</a>
 						</div>
 					</li>
 					<li>
 						<div>
-							<span class="glyphicon glyphicon-tag"></span>
-							<a href="{{ URL::route("measure.index")}}" >Measures</a>
-							<!-- <a href="javascript:void(0);" onclick="pageloader('{{ URL::route("measure.index")}}')">Measures</a> -->
+							<a href="{{ URL::route("measure.index")}}" >
+								<span class="glyphicon glyphicon-tag"></span> Measures</a>
 						</div>
 					</li>
 					<li>
 						<div>
-							<span class="glyphicon glyphicon-tag"></span>
-							<a href="{{ URL::route("specimentype.index")}}">Specimen Types</a>
-							<!-- <a href="javascript:void(0);" onclick="pageloader('{{ URL::route("specimentype.index")}}')">Specimen Types</a> -->
+							<a href="{{ URL::route("specimentype.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> Specimen Types</a>
 						</div>
 					</li>
 				</ul>
@@ -99,8 +93,8 @@
 		</li>
 		<li>
 			<div class="main-menu {{$active[5]}}">
-				<span class="glyphicon glyphicon-stats"></span>
-				Reports
+				<a href="javascript:void(0);">
+					<span class="glyphicon glyphicon-stats"></span> Reports</a>
 			</div>
 			<div class="sub-menu {{$active[5]}}">
 				<div class="sub-menu-title">Daily Reports</div>
@@ -149,8 +143,8 @@
 		</li>
 		<li>
 			<div class="main-menu {{$active[6]}}">
-				<span class="glyphicon glyphicon-briefcase"></span>
-				Inventory
+				<a href="javascript:void(0);">
+					<span class="glyphicon glyphicon-briefcase"></span> Inventory</a>
 			</div>
 		</li>
 	</ul>

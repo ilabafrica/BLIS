@@ -14,8 +14,8 @@ class MeasureRange extends Eloquent
 	/**
 	 * Measure relationship
 	 */
-	public function measure()
-	{
-	  return $this->belongsTo('Measure');
-	}
+	// public function measure()
+	// {
+	//   return $this->belongsTo('Measure');
+	// }
 }

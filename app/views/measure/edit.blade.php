@@ -43,7 +43,8 @@
 							<div class="measurevalue">
 							@if ($measure->measure_type_id == 1)
 								@foreach($measurerange as $key=>$value)
-								<div class="numeric-range-measure well">
+								<div class="numeric-range-measure">
+									<button class="close" aria-hidden="true" type="button" title="Delete">×</button>
 									<input value="{{{$value->id}}}" name="measurerangeid[]" type="hidden">
 									<div>
 										<span class="range-title">Age Range:</span>
@@ -84,15 +85,13 @@
 							@endif
 							</div>
 						</div>
-						<div class="panel-footer">
-							<a class="btn btn-sm btn-info add-another-range" href="javascript:void(0);">
-								<span class="glyphicon glyphicon-plus-sign"></span>Add another
-							</a>
-						</div>
 					</div>
 				</div>
 				<div class="form-group actions-row">
-					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Update', array('class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-edit-measure")')) }}
+					<a class="btn btn-default add-another-range" href="javascript:void(0);">
+						<span class="glyphicon glyphicon-plus-sign"></span>Add Range</a>
+					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Update Measure', 
+						array('class' => 'btn btn-default', 'onclick' => 'formsubmit("form-edit-measure")')) }}
 				</div>
 
 			{{ Form::close() }}

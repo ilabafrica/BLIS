@@ -78,6 +78,10 @@ class MeasureController extends \BaseController {
 				$val['rangemin'] = Input::get('rangemin');
 				$val['rangemax'] = Input::get('rangemax');
 
+				 // TODO: First, delete any existing ranges for this measure_id.
+				// Ideally there should be none since its new.
+
+				// Add ranges for this measure
 				for ($i=0; $i < count($val['agemin']); $i++) { 
 					$measurerange = new MeasureRange;
 				 	$measurerange->measure_id = $measure->id;
@@ -180,25 +184,42 @@ class MeasureController extends \BaseController {
 				$val['rangemax'] = Input::get('rangemax');
 				$val['measurerangeid'] = Input::get('measurerangeid');
 
-				for ($i=0; $i < count($val['agemin']); $i++) { 
-					try
-					{
-						$measurerange = MeasureRange::find($val['measurerangeid'][$i]);
-					} 
-					catch (Exception $e) 
-					{
+				$allRangeIDs = array();
+
+				for ($i=0; $i < count($val['agemin']); $i++) {
+					if ($val['measurerangeid'][$i]==0) {
 						$measurerange = new MeasureRange;
-					 	$measurerange->measure_id = $measure->id;
+					}else{
+						$measurerange = MeasureRange::find($val['measurerangeid'][$i]);
 					}
+
+				 	$measurerange->measure_id = $measure->id;
 				 	$measurerange->age_min = $val['agemin'][$i];
 					$measurerange->age_max = $val['agemax'][$i];
 					$measurerange->gender = $val['gender'][$i];
 					$measurerange->range_lower = $val['rangemin'][$i];
 					$measurerange->range_upper = $val['rangemax'][$i];
-					Log::info($measurerange);
-					Log::info($val);
+					// Log::info($measurerange);
 					$measurerange->save();
+
+					$allRangeIDs[] = $measurerange->id;
 				 }
+			 // Delete any pre-existing ranges for this measure_id that were not captured in the above loop.
+				$allMeasureRanges = MeasureRange::where('measure_id', '=', $measure->id)->get(array('id'));
+				$deleteRanges = array();
+				Log::info("------------------------------------");
+				foreach ($allMeasureRanges as $key => $value) {
+					if (!in_array($value->id, $allRangeIDs)) {
+						$deleteRanges[] = $value->id;
+						Log::info($value->id);
+					}
+				}
+				if(count($deleteRanges)>0)MeasureRange::destroy($deleteRanges);
+
+				Log::info("------------ MEASURE_RANGE_ID ------------");
+				Log::info($allMeasureRanges);
+				Log::info($allRangeIDs);
+				Log::info($deleteRanges);
 			}
 
 
