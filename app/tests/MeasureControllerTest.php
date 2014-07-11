@@ -142,7 +142,7 @@ class MeasureControllerTest extends TestCase
   	/**
   	 * Tests the update funtion in the MeasureController
      * @depends testStore
-	 * @param  testing Sample from the constructor
+	 * @param  testMeasureIDs from teststore,testing Sample from the constructor
 	 * @return void
      */
 	public function testUpdate($testMeasureId)
@@ -190,13 +190,25 @@ class MeasureControllerTest extends TestCase
 
 	
 	
-	/*
-	public function testDelete()
+	/**
+  	 * Tests the update funtion in the MeasureController
+     * @depends testStore
+	 * @param  testMeasureIDs from teststore
+	 * @return void
+     */
+	public function testDelete($testMeasureId)
 	{
-		$measure = new MeasureController($id = 1);
-		$this->assertTrue(is_object($measure->delete($id)));   
+		$this->runDelete($testMeasureId['numeric']);
+		$this->runDelete($testMeasureId['alphanumeric']);
+		$this->runDelete($testMeasureId['autocomplete']);
+		$this->runDelete($testMeasureId['freetext']);
+		$measuresSaved = Measure::withTrashed()->orderBy('id','desc')->take(4)->get();
+		foreach ($measuresSaved as $measureSaved) {
+			$this->assertNotNull($measureSaved->deleted_at);
+		}   
+		// $this->removeTestData(??);
 	}
-	*/
+	
 	
   	/**
   	 *Executes the store funtion in the MeasureController
@@ -234,10 +246,32 @@ class MeasureControllerTest extends TestCase
     	$measure->update($id);
 	}
 
+	/**
+	 * Executes the delete funtion in the MeasureController
+	 * @param  Id(s) of the test Mesures stored
+	 * @return void
+	 */
+	public function runDelete($id)
+	{
+		/**
+		 * Separates the measureID of numeric measures from it's numericRangesID(s) 
+		 */
+		if ($id['measurerangeid'] != NULL) {
+			$id = $id['id'];
+		}
+    	$measure = new MeasureController;
+    	$measure->delete($id);
+	}
+
+	 /**
+	 * Force delete all sample Measures from the database
+	 * @param  Id(s) of the sample Mesures stored
+	 * @return void
+	 */
 	/*
 	public function removeTestData($id)
 	{
-		//Force delete the measure
+	//DONT USE THE WORD TEST TO REFER TO THE TEST DATA
 		$measure = Measure::find($id);
 		$measure->forceDelete();
 	}

@@ -227,7 +227,6 @@ class MeasureController extends \BaseController {
 	{
 		//Soft delete the measure
 		$measure = Measure::find($id);
-
 		$measure->delete();
 
 		// redirect
