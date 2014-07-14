@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Tests the MeasureController functions that store, edit and delete measures 
+ * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
+ */
 class MeasureControllerTest extends TestCase 
 {
 	/**
@@ -87,8 +90,8 @@ class MeasureControllerTest extends TestCase
 	
 	/**
 	 * Tests the store funtion in the MeasureController
-	 * @param  testing Sample from the constructor
-	 * @return Id(s) of the test Mesures stored; used in testUpdate() to identify test for update
+	 * @param  array $testMeasureId Measure IDs from testStore(), testing Sample from the constructor
+	 * @return array $testMeasureId IDs of Mesures stored; used in testUpdate() to identify test for update
 	 */    
  	public function testStore() 
   	{
@@ -142,7 +145,7 @@ class MeasureControllerTest extends TestCase
   	/**
   	 * Tests the update funtion in the MeasureController
      * @depends testStore
-	 * @param  testMeasureIDs from teststore,testing Sample from the constructor
+	 * @param  array $testMeasureId Measure IDs from testStore(), testing Sample from the constructor
 	 * @return void
      */
 	public function testUpdate($testMeasureId)
@@ -193,7 +196,7 @@ class MeasureControllerTest extends TestCase
 	/**
   	 * Tests the update funtion in the MeasureController
      * @depends testStore
-	 * @param  testMeasureIDs from teststore
+	 * @param  array $testMeasureId Measure IDs from testStore()
 	 * @return void
      */
 	public function testDelete($testMeasureId)
@@ -205,14 +208,14 @@ class MeasureControllerTest extends TestCase
 		$measuresSaved = Measure::withTrashed()->orderBy('id','desc')->take(4)->get();
 		foreach ($measuresSaved as $measureSaved) {
 			$this->assertNotNull($measureSaved->deleted_at);
-		}   
-		// $this->removeTestData(??);
+		} 
+	    $this->removeTestData($testMeasureId);
 	}
 	
 	
   	/**
   	 *Executes the store funtion in the MeasureController
-  	 * @param  array of sample measure details $input
+  	 * @param  array $input Measure details
 	 * @return void
   	 */
 	public function runStore($input)
@@ -224,14 +227,14 @@ class MeasureControllerTest extends TestCase
 
   	/**
   	 * Executes the update funtion in the MeasureController
-  	 * @param  array of sample measure details, Id(s) of the test Mesures stored
+  	 * @param  array $input Measure details, int $id ID of the Mesure stored (array for numeric Measure)
 	 * @return void
   	 */
 	public function runUpdate($input, $id)
 	{
 		/**
-		 * Separates the measureID of numeric measures from it's numericRangesID(s) 
-		 * Adds the measureRangeIDs in to the test Measure array
+		 * Separates the measure ID of numeric measures from it's numeric ranges IDs 
+		 * Adds the measure range IDs in to the test Measure array
 		 */
 		if ($id['measurerangeid'] != NULL) {
 			array_push($input, $id['measurerangeid']);
@@ -248,7 +251,7 @@ class MeasureControllerTest extends TestCase
 
 	/**
 	 * Executes the delete funtion in the MeasureController
-	 * @param  Id(s) of the test Mesures stored
+	 * @param  int $id IDs of Mesures stored (array $id for numeric Measures)
 	 * @return void
 	 */
 	public function runDelete($id)
@@ -256,24 +259,27 @@ class MeasureControllerTest extends TestCase
 		/**
 		 * Separates the measureID of numeric measures from it's numericRangesID(s) 
 		 */
-		if ($id['measurerangeid'] != NULL) {
+    	if ($id['measurerangeid'] != NULL) {
 			$id = $id['id'];
-		}
-    	$measure = new MeasureController;
+		} 
+		$measure = new MeasureController;
     	$measure->delete($id);
 	}
 
 	 /**
-	 * Force delete all sample Measures from the database
-	 * @param  Id(s) of the sample Mesures stored
-	 * @return void
-	 */
-	/*
-	public function removeTestData($id)
+	  * Force delete all sample Measures from the database
+	  * @param  array $ids Measure IDs
+	  * @return void
+	  */
+	public function removeTestData($ids)
 	{
-	//DONT USE THE WORD TEST TO REFER TO THE TEST DATA
-		$measure = Measure::find($id);
-		$measure->forceDelete();
+		$measure = new Measure;
+		foreach ($ids as $id) {
+			if ($id['id'] != NULL) {
+				$id = $id['id'];
+				DB::table('measure_range')->where('measure_id', $id)->delete();
+			} 
+			DB::table('measure')->delete($id);
+		}
 	}
-	*/
 }
