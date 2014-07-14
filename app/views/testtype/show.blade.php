@@ -1,7 +1,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
-		  <li><a href="{{ URL::route('testtype') }}">Test Type</a></li>
+		  <li><a href="{{ URL::route('testtype.index') }}">Test Type</a></li>
 		  <li class="active">Test Type Details</li>
 		</ol>
 	</div>

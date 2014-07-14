@@ -287,7 +287,7 @@ class UserController extends Controller {
                     $user->image = "/i/users/$filename";
 
                 } catch (Exception $e) {
-                    Log.info($e);
+                    Log::info($e);
                 }
             }
 

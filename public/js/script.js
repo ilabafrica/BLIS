@@ -18,21 +18,6 @@ $(function(){
 		$(this).children('a').first().trigger('click');
 	});
 
-	/* Click submenu */
-	$('.sub-menu-items div').click(function(){
-		// $('.main-menu').removeClass('active');
-		// var mm = $(this).closest('ul').parent().siblings('.main-menu');
-		// mm.addClass('active');
-
-		// $('.main-menu').siblings().hide();
-		// mm.siblings().show();
-
-		// $(this).children('a').first().trigger('click');
-		var e = jQuery.Event( "click" );
-		// e.stopPropagation();
-		$(this).children('a').first().trigger(e);
-	});
-
 });
 	
 	/**
@@ -131,7 +116,7 @@ $(function(){
 
 	function formsubmit(formid){
 		var myform = $("#" + formid);
-		url = myform.attr( "action" );
+		var url = myform.attr( "action" );
 		
 		$.post(url, myform.serialize())
 			.done(function(data){
@@ -141,7 +126,7 @@ $(function(){
 
 	function multipartformsubmit(formid){
 		var myform = $("#" + formid);
-		url = myform.attr( "action" );
+		var url = myform.attr( "action" );
 		var formData = new FormData(myform[0]);
 
 	    $.ajax({
@@ -154,7 +139,7 @@ $(function(){
 	        processData: false
 	    })
 	    .done(function(data){
-	    	$( "#the-one-main" ).html( data );
+	    	location.reload(true);
 	    });
 	}
 

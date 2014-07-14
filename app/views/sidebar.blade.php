@@ -37,7 +37,7 @@
 		</li>
 		<li>
 			<div class="main-menu {{$active[3]}}">
-				<a href="javascript:void(0);">
+				<a href="{{ URL::route("user.index")}}">
 					<span class="glyphicon glyphicon-wrench"></span> Lab Configuration</a>
 			</div>
 			<div class="sub-menu {{$active[3]}}">
@@ -59,7 +59,7 @@
 		</li>
 		<li>
 			<div class="main-menu {{$active[4]}}">
-				<a href="javascript:void(0);">
+				<a href="{{ URL::route("testcategory.index")}}">
 					<span class="glyphicon glyphicon-cog"></span> Test Catalog</a>
 			</div>
 			<div class="sub-menu {{$active[4]}}">

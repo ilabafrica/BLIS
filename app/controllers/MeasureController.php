@@ -205,6 +205,9 @@ class MeasureController extends \BaseController {
 					}
 				}
 				if(count($deleteRanges)>0)MeasureRange::destroy($deleteRanges);
+			}else{
+				// Since its not a numeric range, delete any references to this id in the measure_range table
+				MeasureRange::where('measure_id', '=', $measure->id)->delete();
 			}
 
 
