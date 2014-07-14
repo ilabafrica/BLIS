@@ -42,7 +42,7 @@
 						<div class="panel-body">
 							<div class="measurevalue">
 							@if ($measure->measure_type_id == 1)
-								@foreach($measurerange as $key=>$value)
+								@foreach($measure->measureRanges as $key=>$value)
 								<div class="numeric-range-measure">
 									<button class="close" aria-hidden="true" type="button" title="Delete">×</button>
 									<input value="{{{$value->id}}}" name="measurerangeid[]" type="hidden">

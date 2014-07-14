@@ -98,8 +98,8 @@ $(function(){
 		/**	
 		 *	Alert on irreversible delete
 		 */
-		$('.delete-item-link').click(function(){
-			$('#delete-url').val($(this).data('id'));
+		$('.confirm-delete-modal').on('show.bs.modal', function(e) {
+		    $('#delete-url').val($(e.relatedTarget).data('id'));
 		});
 
 		$('.btn-delete').click(function(){
