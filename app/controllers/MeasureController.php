@@ -88,7 +88,7 @@ class MeasureController extends \BaseController {
 					$measurerange->range_upper = $val['rangemax'][$i];
 					$measurerange->save();
 				 }
-			}else if (Input::get('measure_type_id') == 2) {
+			}else if (Input::get('measure_type_id') == 2 || Input::get('measure_type_id') == 3) {
 				$values = Input::get('val');
 				$measure->measure_range = join('/', $values);
 				$measure->save();
@@ -165,7 +165,7 @@ class MeasureController extends \BaseController {
 			$measure->name = Input::get('name');
 			$measure->measure_type_id = Input::get('measure_type_id');
 			$measure->unit = Input::get('unit');
-			if (Input::get('measure_type_id') == 2) {
+			if (Input::get('measure_type_id') == 2 || Input::get('measure_type_id') == 3) {
 				$values = Input::get('val');
 				$measure->measure_range = join('/', $values);
 			}
@@ -195,8 +195,6 @@ class MeasureController extends \BaseController {
 					$measurerange->gender = $val['gender'][$i];
 					$measurerange->range_lower = $val['rangemin'][$i];
 					$measurerange->range_upper = $val['rangemax'][$i];
-					Log::info($measurerange);
-					Log::info($val);
 					$measurerange->save();
 				 }
 			}
@@ -229,7 +227,6 @@ class MeasureController extends \BaseController {
 	{
 		//Soft delete the measure
 		$measure = Measure::find($id);
-
 		$measure->delete();
 
 		// redirect
