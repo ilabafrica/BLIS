@@ -12,7 +12,7 @@ class CreateMeasureTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('measure', function(Blueprint $table)
+		Schema::create('measures', function(Blueprint $table)
 		{
 			$table->increments('id')->unsigned();
 			$table->integer('measure_type_id')->unsigned();
@@ -21,7 +21,7 @@ class CreateMeasureTable extends Migration {
 			$table->string('unit', 30);
 			$table->string('description', 150)->nullable();
 
-			$table->foreign('measure_type_id')->references('id')->on('measure_type');
+			$table->foreign('measure_type_id')->references('id')->on('measure_types');
 
 			$table->softDeletes();
 			$table->timestamps();
@@ -34,7 +34,7 @@ class CreateMeasureTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('measure');
+		Schema::dropIfExists('measures');
 	}
 
 }

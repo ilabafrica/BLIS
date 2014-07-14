@@ -12,7 +12,7 @@ class CreateMeasureTypeTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('measure_type', function(Blueprint $table)
+		Schema::create('measure_types', function(Blueprint $table)
 		{
 			$table->integer('id')->unsigned();
 			$table->primary('id');
@@ -30,7 +30,7 @@ class CreateMeasureTypeTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('measure_type');
+		Schema::drop('measure_types');
 	}
 
 }

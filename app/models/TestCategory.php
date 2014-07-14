@@ -8,7 +8,7 @@ class TestCategory extends Eloquent
 	 *
 	 * @var string
 	 */
-	protected $table = 'test_category';
+	protected $table = 'test_categories';
 
 	/**
 	 * Enabling soft deletes for patient details.

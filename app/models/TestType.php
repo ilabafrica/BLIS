@@ -8,7 +8,7 @@ class TestType extends Eloquent
 	 *
 	 * @var string
 	 */
-	protected $table = 'test_type';
+	protected $table = 'test_types';
 
 	/**
 	 * Enabling soft deletes for specimen type details.
@@ -22,7 +22,7 @@ class TestType extends Eloquent
 	 */
 	public function testCategory()
 	{
-	  return $this->belongsTo('TestCategory', 'section_id');
+	  return $this->belongsTo('TestCategories', 'section_id');
 	}
 
 	/**
@@ -30,7 +30,7 @@ class TestType extends Eloquent
 	 */
 	public function specimenTypes()
 	{
-	  return $this->belongsToMany('SpecimenType', 'testtype_specimentype');
+	  return $this->belongsToMany('SpecimenTypes', 'testtype_specimentypes');
 	}
 
 	/**
@@ -38,7 +38,7 @@ class TestType extends Eloquent
 	 */
 	public function measures()
 	{
-	  return $this->belongsToMany('Measure', 'testtype_measure');	
+	  return $this->belongsToMany('Measures', 'testtype_measures');	
 	}
 
 	/**
@@ -62,10 +62,10 @@ class TestType extends Eloquent
 
 		}
 		// Delete existing test_type measure mappings
-		DB::table('testtype_specimentype')->where('test_type_id', '=', $testTypeID)->delete();
+		DB::table('testtype_specimentypes')->where('test_type_id', '=', $testTypeID)->delete();
 
 		// Add the new mapping
-		DB::table('testtype_specimentype')->insert($specimenTypesAdded);
+		DB::table('testtype_specimentypes')->insert($specimenTypesAdded);
 	}
 
 	/**
@@ -88,9 +88,9 @@ class TestType extends Eloquent
 			}
 		}
 		// Delete existing test_type measure mappings
-		DB::table('testtype_measure')->where('test_type_id', '=', $testTypeID)->delete();
+		DB::table('testtype_measures')->where('test_type_id', '=', $testTypeID)->delete();
 
 		// Add the new mapping
-		DB::table('testtype_measure')->insert($measuresAdded);
+		DB::table('testtype_measures')->insert($measuresAdded);
 	}
 }

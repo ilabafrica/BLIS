@@ -8,7 +8,7 @@ class Patient extends Eloquent
 	 *
 	 * @var string
 	 */
-	protected $table = 'patient';
+	protected $table = 'patients';
 
 	/**
 	 * Enabling soft deletes for patient details.

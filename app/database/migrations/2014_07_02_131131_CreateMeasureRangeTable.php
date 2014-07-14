@@ -12,7 +12,7 @@ class CreateMeasureRangeTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('measure_range', function(Blueprint $table)
+		Schema::create('measure_ranges', function(Blueprint $table)
 		{
 			$table->increments('id')->unsigned();
 			$table->integer('measure_id')->unsigned();
@@ -22,7 +22,7 @@ class CreateMeasureRangeTable extends Migration {
 			$table->decimal('range_lower', 7, 3);
 			$table->decimal('range_upper', 7, 3);
 			
-			$table->foreign('measure_id')->references('id')->on('measure');
+			$table->foreign('measure_id')->references('id')->on('measures');
 		});
 	}
 
@@ -33,7 +33,7 @@ class CreateMeasureRangeTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('measure_range');
+		Schema::drop('measure_ranges');
 	}
 
 }

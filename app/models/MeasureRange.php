@@ -7,7 +7,7 @@ class MeasureRange extends Eloquent
 	 *
 	 * @var string
 	 */
-	protected $table = 'measure_range';
+	protected $table = 'measure_ranges';
 
 	public $timestamps = false;
 
@@ -16,6 +16,6 @@ class MeasureRange extends Eloquent
 	 */
 	public function measure()
 	{
-	  return $this->belongsTo('Measure');
+	  return $this->belongsTo('Measures');
 	}
 }

@@ -12,7 +12,7 @@ class CreateTestCategoryTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('test_category', function(Blueprint $table)
+		Schema::create('test_categories', function(Blueprint $table)
 		{
 			$table->increments('id')->unsigned();
 			$table->string('name',100)->unique();
@@ -30,7 +30,7 @@ class CreateTestCategoryTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('test_category');
+		Schema::dropIfExists('test_categories');
 	}
 
 }

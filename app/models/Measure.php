@@ -8,7 +8,7 @@ class Measure extends Eloquent
 	 *
 	 * @var string
 	 */
-	protected $table = 'measure';
+	protected $table = 'measures';
 
 	/**
 	 * Enabling soft deletes for patient details.
@@ -22,7 +22,7 @@ class Measure extends Eloquent
 	 */
 	public function measureRanges()
 	{
-	  return $this->hasMany('MeasureRange');
+	  return $this->hasMany('MeasureRanges');
 	}
 
 	/**
@@ -30,7 +30,7 @@ class Measure extends Eloquent
 	 */
 	public function measureType()
 	{
-	  return $this->belongsTo('MeasureType');
+	  return $this->belongsTo('MeasureTypes');
 	}
 
 	/**
@@ -38,6 +38,6 @@ class Measure extends Eloquent
 	 */
 	public function testTypes()
 	{
-	  return $this->belongsToMany('TestType', 'testtype_measure');
+	  return $this->belongsToMany('TestTypes', 'testtype_measures');
 	}
 }
