@@ -22,7 +22,7 @@ class Measure extends Eloquent
 	 */
 	public function measureRanges()
 	{
-	  return $this->hasMany('MeasureRanges');
+	  return $this->hasMany('MeasureRange');
 	}
 
 	/**
@@ -30,7 +30,7 @@ class Measure extends Eloquent
 	 */
 	public function measureType()
 	{
-	  return $this->belongsTo('MeasureTypes');
+	  return $this->belongsTo('MeasureType');
 	}
 
 	/**
@@ -38,6 +38,6 @@ class Measure extends Eloquent
 	 */
 	public function testTypes()
 	{
-	  return $this->belongsToMany('TestTypes', 'testtype_measures');
+	  return $this->belongsToMany('TestType', 'testtype_measures');
 	}
 }

@@ -22,6 +22,6 @@ class SpecimenType extends Eloquent
 	 */
 	public function testTypes()
 	{
-	  return $this->belongsToMany('TestTypes', 'testtype_specimentypes');
+	  return $this->belongsToMany('TestType', 'testtype_specimentypes');
 	}
 }

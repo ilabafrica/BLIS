@@ -22,7 +22,7 @@ class TestType extends Eloquent
 	 */
 	public function testCategory()
 	{
-	  return $this->belongsTo('TestCategories', 'section_id');
+	  return $this->belongsTo('TestCategory', 'section_id');
 	}
 
 	/**
@@ -30,7 +30,7 @@ class TestType extends Eloquent
 	 */
 	public function specimenTypes()
 	{
-	  return $this->belongsToMany('SpecimenTypes', 'testtype_specimentypes');
+	  return $this->belongsToMany('SpecimenType', 'testtype_specimentypes');
 	}
 
 	/**
@@ -38,7 +38,7 @@ class TestType extends Eloquent
 	 */
 	public function measures()
 	{
-	  return $this->belongsToMany('Measures', 'testtype_measures');	
+	  return $this->belongsToMany('Measure', 'testtype_measures');	
 	}
 
 	/**
