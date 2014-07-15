@@ -258,7 +258,6 @@ label, input {
                 .sidebar .main-menu {
                     height: 40px;
                     line-height: 40px;
-                    padding-left: 20px;
                     position: relative;
                 }
                 .sidebar .main-menu:hover {
@@ -271,8 +270,14 @@ label, input {
                     background-repeat: no-repeat;
                     background-position: right center;
                 }
+                .sidebar .main-menu > a {
+                    margin-left: 20px;
+                }
         .sidebar .sub-menu {
             display: none;
+        }
+        .sidebar .sub-menu.active {
+            display: block;
         }
         .sidebar .sub-menu-title {
             height: 30px;
@@ -285,18 +290,19 @@ label, input {
         .sidebar .sub-menu-items {
             padding-left: 25px            
         }
-                .sidebar .sub-menu-items li div{
+                .sidebar .sub-menu-items >li >div{
                     position: relative;
                     padding-left: 15px;
                     height: 30px;
                     line-height: 30px;
                 }
-                .sidebar .sub-menu-items li div:hover{
-                    background-color: #313131;
-                    cursor: pointer;
-                }
         .sidebar a{
             color: #D1D1D1;
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            outline-style: none;
         }
         .sidebar a:hover{
             text-decoration: none;
@@ -319,6 +325,27 @@ label, input {
     font-size: 0.9em;
     text-align: center;
 }
+
+/*
+*
+* MODALS
+*/
+.modal-primary{
+    border-color: #428BCA;
+}
+    .modal-primary .modal-header{
+        color: #FFF;
+        background-color: #428BCA;
+        border-radius: 4px 4px 0 0;
+    }
+    .modal-primary .modal-header .close{
+        color: #FFF;
+        opacity: 0.8;
+    }
+    .modal-primary .modal-header .close:hover{
+        color: #FFF;
+        opacity: 1;
+    }
 
 /*
 *
@@ -347,8 +374,11 @@ label, input {
     margin-right: 2px;
 }
 .measurevalue .numeric-range-measure {
-    width: 300px;
+    border: 1px solid #D1D1D1;
+    border-radius: 3px;
     float: left;
+    padding:5px 10px;
+    width: 300px;
 }
     .measurevalue div input{
         width: 60px;

@@ -114,7 +114,6 @@ class TestTypeController extends \BaseController {
 		$measures = Measure::all();
 		$specimentypes = SpecimenType::all();
 		$labsections = TestCategory::all();
-//		$labsections = DB::table('test_category')->orderBy('name', 'asc')->lists('name','id');
 
 		//Open the Edit View and pass to it the $testtype
 		return View::make('testtype.edit')

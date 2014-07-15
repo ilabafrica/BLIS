@@ -1,7 +1,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
-		  <li><a href="javascript:void(0);" onclick="pageloader('{{ URL::to("user") }}')">User</a></li>
+		  <li><a href="{{ URL::route('user.index') }}">User</a></li>
 		  <li class="active">User Details</li>
 		</ol>
 	</div>

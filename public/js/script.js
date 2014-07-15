@@ -18,29 +18,6 @@ $(function(){
 		$(this).children('a').first().trigger('click');
 	});
 
-	/* Click submenu */
-	$('.sub-menu-items div').click(function(){
-		$('.main-menu').removeClass('active');
-		var mm = $(this).closest('ul').parent().siblings('.main-menu');
-		mm.addClass('active');
-
-		$('.main-menu').siblings().hide();
-		mm.siblings().show();
-
-		$(this).children('a').first().trigger('click');
-	});
-
-	/* Load appropriate page when div on side bar is clicked*/
-	$('.sidebar a').click(function(event){
-		event.stopPropagation();
-		var thispage = $(this).attr("href");
-		if($(this).attr("title") == "Home"){
-			window.location.href = thispage;
-		}else{
-			pageloader(thispage);
-		}
-	});
-
 });
 	
 	/**
@@ -49,7 +26,9 @@ $(function(){
 	 
 	 /*Measure Inputs*/
 
-	var numericInput ='<div class="numeric-range-measure well">'
+	var numericInput ='<div class="numeric-range-measure">'
+		+'<input name="measurerangeid[]" type="hidden" value="0">'
+		+'<button class="close" aria-hidden="true" type="button" title="Delete">×</button>'
 		+'<div><span class="range-title">Age Range:</span>'
 			+'<input name="agemin[]" type="text"><span>:</span>'
 			+'<input name="agemax[]" type="text">'
@@ -73,10 +52,11 @@ $(function(){
 
 	var freetextInput = '<p>A text box will appear for results entry</p>';
 
+	var measureInputs = [numericInput, alphanumericInput, autocompleteInput, freetextInput]; 
+
 	function UIComponents(){
 		/* Datepicker */
 		$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
-
 	}
 
 	$( document ).ajaxComplete(function() {
@@ -90,52 +70,37 @@ $(function(){
 
 		/* Add another measure button */
 		$('.add-another-range').click(function(){
-			if($("#measuretype").val() === '1') 
-			{
-				$(".measurevalue" ).append(numericInput);
-			}
-			else if($("#measuretype").val() === '2') 
-			{
-				$(".measurevalue" ).append(alphanumericInput);
-			}
-			else if($("#measuretype").val() === '3') 
-			{
-				$(".measurevalue" ).append(autocompleteInput);
-			}
+			var mtval = $("#measuretype").val() - 1;
+			$(".measurevalue" ).append(measureInputs[mtval]);
 		});
 		
 		/* load measure range input UI for the selected measure type */
-
 		$( "#measuretype" ).change(function() {
-			if ($(this).val() === '1') 
-			{
-				$( ".measurevalue" ).html(numericInput);
-			}
-			else if ($(this).val() === '2') 
-			{
-				$(".measurevalue").html(alphanumericInput);
-			}
-			else if ($(this).val() === '3') 
-			{
-				$(".measurevalue").html(autocompleteInput);
-			}
-			else if ($(this).val() === '4') 
-			{
-				$(".measurevalue").html(freetextInput);
-			}
+			var mtval = $(this).val() - 1;
+			$(".measurevalue" ).html(measureInputs[mtval]);
 		});
-	});
 
-	/**	
-	 *	Alert on irreversible delete
-	 */
-	$(document).on("click", '.delete-item-link', function(){
-		$('#delete-url').val($(this).data('id'));
-	});
+		/**	
+		 *	Alert on irreversible delete
+		 */
+		$('.confirm-delete-modal').on('show.bs.modal', function(e) {
+		    $('#delete-url').val($(e.relatedTarget).data('id'));
+		});
 
-	$(document).on("click", '.btn-delete', function(){
-		$('.confirm-delete-modal').modal('toggle');
-		pageloader($('#delete-url').val());
+		$('.btn-delete').click(function(){
+			$('.confirm-delete-modal').modal('toggle');
+			$.ajax({url: $('#delete-url').val()})
+				.done(function(data){
+					location.reload(true);
+				});
+		});
+
+		// Delete numeric range
+
+		$("body").on("click", ".numeric-range-measure .close", function(){
+			$(this).parent().remove();
+		});
+
 	});
 
 	/**
@@ -143,27 +108,25 @@ $(function(){
 	 *  via an asynchronous ajax call.
 	 */
 	function pageloader(mypage){
-		$.ajax({
-			url: mypage,
-			success: function( data ) {
+		$.ajax({url: mypage })
+			.done(function( data ) {
 				$( "#the-one-main" ).html(data);
-			}
 		});
 	}
 
 	function formsubmit(formid){
 		var myform = $("#" + formid);
-		url = myform.attr( "action" );
+		var url = myform.attr( "action" );
 		
 		$.post(url, myform.serialize())
 			.done(function(data){
-				$( "#the-one-main" ).html( data );
+				location.reload(true);
 			});
 	}
 
 	function multipartformsubmit(formid){
 		var myform = $("#" + formid);
-		url = myform.attr( "action" );
+		var url = myform.attr( "action" );
 		var formData = new FormData(myform[0]);
 
 	    $.ajax({
@@ -176,7 +139,7 @@ $(function(){
 	        processData: false
 	    })
 	    .done(function(data){
-	    	$( "#the-one-main" ).html( data );
+	    	location.reload(true);
 	    });
 	}
 

@@ -2,9 +2,7 @@
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
 	  <li>
-	  	<a href="javascript:void(0);" onclick="pageloader('{{ URL::to("specimentype") }}')">
-	  		Specimen Type
-	  	</a>
+	  	<a href="{{ URL::route('specimentype.index') }}">Specimen Type</a>
 	  </li>
 	  <li class="active">Create Specimen Type</li>
 	</ol>

@@ -1,3 +1,5 @@
+@extends("layout")
+@section("content")
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
@@ -68,3 +70,4 @@
 		<?php echo $testtypes->links(); ?>
 	</div>
 </div>
+@stop

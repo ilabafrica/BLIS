@@ -1,7 +1,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
-		  <li><a href="javascript:void(0);" onclick="pageloader('{{ URL::to('measure') }}')">Measure</a></li>
+		  <li><a href="{{URL::route('measure.index')}}">Measure</a></li>
 		  <li class="active">Edit Measure</li>
 		</ol>
 	</div>
@@ -42,8 +42,9 @@
 						<div class="panel-body">
 							<div class="measurevalue">
 							@if ($measure->measure_type_id == 1)
-								@foreach($measurerange as $key=>$value)
-								<div class="numeric-range-measure well">
+								@foreach($measure->measureRanges as $key=>$value)
+								<div class="numeric-range-measure">
+									<button class="close" aria-hidden="true" type="button" title="Delete">×</button>
 									<input value="{{{$value->id}}}" name="measurerangeid[]" type="hidden">
 									<div>
 										<span class="range-title">Age Range:</span>
@@ -84,15 +85,13 @@
 							@endif
 							</div>
 						</div>
-						<div class="panel-footer">
-							<a class="btn btn-sm btn-info add-another-range" href="javascript:void(0);">
-								<span class="glyphicon glyphicon-plus-sign"></span>Add another
-							</a>
-						</div>
 					</div>
 				</div>
 				<div class="form-group actions-row">
-					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Update', array('class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-edit-measure")')) }}
+					<a class="btn btn-default add-another-range" href="javascript:void(0);">
+						<span class="glyphicon glyphicon-plus-sign"></span>Add Range</a>
+					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Update Measure', 
+						array('class' => 'btn btn-default', 'onclick' => 'formsubmit("form-edit-measure")')) }}
 				</div>
 
 			{{ Form::close() }}

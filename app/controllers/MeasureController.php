@@ -30,10 +30,10 @@ class MeasureController extends \BaseController {
 	 */
 	public function create()
 	{
-		$measuretype = DB::table('measure_type')->orderBy('id', 'asc')->lists('name','id');
+		$measuretype = MeasureType::all()->sortBy('id')->lists('name','id');
+
 		//Create measure
-		return View::make('measure.create')
-					->with('measuretype', $measuretype);
+		return View::make('measure.create')->with('measuretype', $measuretype);
 	}
 
 	/**
@@ -78,6 +78,7 @@ class MeasureController extends \BaseController {
 				$val['rangemin'] = Input::get('rangemin');
 				$val['rangemax'] = Input::get('rangemax');
 
+				// Add ranges for this measure
 				for ($i=0; $i < count($val['agemin']); $i++) { 
 					$measurerange = new MeasureRange;
 				 	$measurerange->measure_id = $measure->id;
@@ -124,16 +125,8 @@ class MeasureController extends \BaseController {
 		//Get the measure
 		$measure = Measure::find($id);
 
-		$measuretype = DB::table('measure_type')->orderBy('id', 'asc')->lists('name','id');
+		$measuretype = MeasureType::all()->sortBy('id')->lists('name','id');
 
-		if ($measure->measure_type_id == 1) {
-			$measurerange = Measure::find($measure->id)->measureRanges;
-			//Open the Edit View and pass to it the $measure
-			return View::make('measure.edit')
-							->with('measure', $measure)
-							->with('measurerange', $measurerange)	
-							->with('measuretype', $measuretype);	
-		}
 		//Open the Edit View and pass to it the $measure
 		return View::make('measure.edit')
 						->with('measure', $measure)
@@ -165,6 +158,7 @@ class MeasureController extends \BaseController {
 			$measure->name = Input::get('name');
 			$measure->measure_type_id = Input::get('measure_type_id');
 			$measure->unit = Input::get('unit');
+			$measure->measure_range = "";
 			if (Input::get('measure_type_id') == 2) {
 				$values = Input::get('val');
 				$measure->measure_range = join('/', $values);
@@ -180,25 +174,40 @@ class MeasureController extends \BaseController {
 				$val['rangemax'] = Input::get('rangemax');
 				$val['measurerangeid'] = Input::get('measurerangeid');
 
-				for ($i=0; $i < count($val['agemin']); $i++) { 
-					try
-					{
-						$measurerange = MeasureRange::find($val['measurerangeid'][$i]);
-					} 
-					catch (Exception $e) 
-					{
+				$allRangeIDs = array();
+
+				for ($i=0; $i < count($val['agemin']); $i++) {
+					if ($val['measurerangeid'][$i]==0) {
 						$measurerange = new MeasureRange;
-					 	$measurerange->measure_id = $measure->id;
+					}else{
+						$measurerange = MeasureRange::find($val['measurerangeid'][$i]);
 					}
+
+				 	$measurerange->measure_id = $measure->id;
 				 	$measurerange->age_min = $val['agemin'][$i];
 					$measurerange->age_max = $val['agemax'][$i];
 					$measurerange->gender = $val['gender'][$i];
 					$measurerange->range_lower = $val['rangemin'][$i];
 					$measurerange->range_upper = $val['rangemax'][$i];
-					Log::info($measurerange);
-					Log::info($val);
+
 					$measurerange->save();
+
+					$allRangeIDs[] = $measurerange->id;
 				 }
+			 // Delete any pre-existing ranges for this measure_id that were not captured in the above loop.
+				$allMeasureRanges = MeasureRange::where('measure_id', '=', $measure->id)->get(array('id'));
+				$deleteRanges = array();
+
+				foreach ($allMeasureRanges as $key => $value) {
+					if (!in_array($value->id, $allRangeIDs)) {
+						$deleteRanges[] = $value->id;
+						Log::info($value->id);
+					}
+				}
+				if(count($deleteRanges)>0)MeasureRange::destroy($deleteRanges);
+			}else{
+				// Since its not a numeric range, delete any references to this id in the measure_range table
+				MeasureRange::where('measure_id', '=', $measure->id)->delete();
 			}
 
 
@@ -216,7 +225,7 @@ class MeasureController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		// 
 	}
 
 	/**
@@ -229,7 +238,6 @@ class MeasureController extends \BaseController {
 	{
 		//Soft delete the measure
 		$measure = Measure::find($id);
-
 		$measure->delete();
 
 		// redirect

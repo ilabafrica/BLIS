@@ -1,3 +1,5 @@
+@extends("layout")
+@section("content")
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
@@ -7,12 +9,13 @@
 	@if (Session::has('message'))
 		<div class="alert alert-info">{{ Session::get('message') }}</div>
 	@endif
-	<div class="panel panel-primary patient-create">
+	<div class="panel panel-primary measure-create">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-user"></span>
 			List Measures
 			<div class="panel-btn">
-				<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to('measure/create') }}')">
+				<a class="btn btn-sm btn-info new-item-link" href="javascript:void(0)"
+					onclick="pageloader('{{ URL::to('measure/create') }}')">
 					<span class="glyphicon glyphicon-plus-sign"></span>
 					New Measure
 				</a>
@@ -62,3 +65,4 @@
 			<?php echo $measures->links(); ?>
 		</div>
 	</div>
+@stop

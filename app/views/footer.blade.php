@@ -1,4 +1,5 @@
 @section("footer")
+
 	<!-- Delete Modal-->
 	<div class="modal fade confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" 
 			aria-hidden="true">
@@ -23,6 +24,7 @@
 			</div>
 		</div>
 	</div>
+
     <footer class="footer">
         <div><a href="http://www.ilabafrica.ac.ke">iLabAfrica</a> &copy; 2014</div>
     </footer>
