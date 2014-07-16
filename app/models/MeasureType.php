@@ -7,7 +7,7 @@ class MeasureType extends Eloquent
 	 *
 	 * @var string
 	 */
-	protected $table = 'measure_type';
+	protected $table = 'measure_types';
 
 	/**
 	 * Enabling soft deletes for patient details.

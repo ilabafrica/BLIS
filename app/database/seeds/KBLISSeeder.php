@@ -6,20 +6,20 @@ extends DatabaseSeeder
     public function run()
     {
         /* Truncate from linking tables */
-        DB::table('testtype_measure')->truncate();
-        DB::table('testtype_specimentype')->truncate();
+        DB::table('testtype_measures')->truncate();
+        DB::table('testtype_specimentypes')->truncate();
 
-        DB::table('measure_range')->truncate();
+        DB::table('measure_ranges')->truncate();
         /* Delete from tables referenced by foreign key constraints */
-        DB::table('measure')->delete();
-        DB::table('measure_type')->delete();
+        DB::table('measures')->delete();
+        DB::table('measure_types')->delete();
 
-        DB::table('test_type')->delete();
-        DB::table('specimen_type')->delete();
-        DB::table('test_category')->delete();
-        DB::table('patient')->truncate();
+        DB::table('test_types')->delete();
+        DB::table('specimen_types')->delete();
+        DB::table('test_categories')->delete();
+        DB::table('patients')->truncate();
         /* Delete from tables referenced by foreign key constraints */
-        DB::table('user')->truncate();
+        DB::table('users')->truncate();
 
         /* Users table */
         

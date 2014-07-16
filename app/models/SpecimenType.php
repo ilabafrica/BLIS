@@ -8,7 +8,7 @@ class SpecimenType extends Eloquent
 	 *
 	 * @var string
 	 */
-	protected $table = 'specimen_type';
+	protected $table = 'specimen_types';
 
 	/**
 	 * Enabling soft deletes for specimen type details.
@@ -22,6 +22,6 @@ class SpecimenType extends Eloquent
 	 */
 	public function testTypes()
 	{
-	  return $this->belongsToMany('TestType', 'testtype_specimentype');
+	  return $this->belongsToMany('TestType', 'testtype_specimentypes');
 	}
 }

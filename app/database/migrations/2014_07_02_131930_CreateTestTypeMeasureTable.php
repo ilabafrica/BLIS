@@ -12,7 +12,7 @@ class CreateTestTypeMeasureTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('testtype_measure', function(Blueprint $table)
+		Schema::create('testtype_measures', function(Blueprint $table)
 		{
 			$table->increments('id')->unsigned();
 			$table->integer('test_type_id')->unsigned();
@@ -20,8 +20,8 @@ class CreateTestTypeMeasureTable extends Migration {
 			$table->tinyInteger('ordering');
 			$table->tinyInteger('nesting');
 
-			$table->foreign('test_type_id')->references('id')->on('test_type');
-			$table->foreign('measure_id')->references('id')->on('measure');
+			$table->foreign('test_type_id')->references('id')->on('test_types');
+			$table->foreign('measure_id')->references('id')->on('measures');
 			$table->unique(array('test_type_id','measure_id'));
 		});
 	}
@@ -33,7 +33,7 @@ class CreateTestTypeMeasureTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('testtype_measure');
+		Schema::drop('testtype_measures');
 	}
 
 }

@@ -12,7 +12,7 @@ class CreateSpecimenTypeTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('specimen_type', function(Blueprint $table)
+		Schema::create('specimen_types', function(Blueprint $table)
 		{
 			$table->increments('id')->unsigned();;
 			$table->string('name', 45);
@@ -30,7 +30,7 @@ class CreateSpecimenTypeTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('specimen_type');
+		Schema::drop('specimen_types');
 	}
 
 }

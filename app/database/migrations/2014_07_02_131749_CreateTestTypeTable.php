@@ -12,7 +12,7 @@ class CreateTestTypeTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('test_type', function(Blueprint $table)
+		Schema::create('test_types', function(Blueprint $table)
 		{
 			$table->increments('id')->unsigned();
 			$table->string('name', 100);
@@ -21,7 +21,7 @@ class CreateTestTypeTable extends Migration {
 			$table->string('targetTAT', 50)->nullable();
 			$table->string('prevalence_threshold', 50)->nullable();
 			
-			$table->foreign('section_id')->references('id')->on('test_category');
+			$table->foreign('section_id')->references('id')->on('test_categories');
 
 			$table->softDeletes();
 			$table->timestamps();
@@ -35,7 +35,7 @@ class CreateTestTypeTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('test_type');
+		Schema::drop('test_types');
 	}
 
 }
