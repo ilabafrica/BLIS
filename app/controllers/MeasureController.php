@@ -89,7 +89,7 @@ class MeasureController extends \BaseController {
 					$measurerange->range_upper = $val['rangemax'][$i];
 					$measurerange->save();
 				 }
-			}else if (Input::get('measure_type_id') == 2) {
+			}else if (Input::get('measure_type_id') == 2 || Input::get('measure_type_id') == 3) {
 				$values = Input::get('val');
 				$measure->measure_range = join('/', $values);
 				$measure->save();
@@ -159,7 +159,7 @@ class MeasureController extends \BaseController {
 			$measure->measure_type_id = Input::get('measure_type_id');
 			$measure->unit = Input::get('unit');
 			$measure->measure_range = "";
-			if (Input::get('measure_type_id') == 2) {
+			if (Input::get('measure_type_id') == 2 || Input::get('measure_type_id') == 3) {
 				$values = Input::get('val');
 				$measure->measure_range = join('/', $values);
 			}
