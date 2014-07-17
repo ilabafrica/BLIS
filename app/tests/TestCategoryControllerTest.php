@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests the TestCategoryController functions that store, edit and delete testCategorys 
+ * Tests the TestCategoryController functions that store, edit and delete testCategories 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
 class TestCategoryControllerTest extends TestCase 
