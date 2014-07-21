@@ -134,6 +134,6 @@ class TestCategoryControllerTest extends TestCase
 	  */
 	public function removeTestData($id)
 	{
-		DB::table('test_category')->delete($id);
+		DB::table('test_categories')->delete($id);
 	}
 }

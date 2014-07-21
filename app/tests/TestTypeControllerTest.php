@@ -92,13 +92,13 @@ class TestTypeControllerTest extends TestCase
 			$this->assertEquals($testTypeSaved->prevalence_threshold , $this->input['prevalence_threshold']);
 			$this->assertEquals($testTypeSaved->section_id , $this->input['section_id']);
 
-			$testTypeMeasures = DB::table('testtype_measure')->where('test_type_id', '=', $this->testTypeId)->orderBy('id','desc')->skip(2)->take(2)->get();
+			$testTypeMeasures = DB::table('testtype_measures')->where('test_type_id', '=', $this->testTypeId)->orderBy('id','desc')->skip(2)->take(2)->get();
 			$cnt = 1;
 			foreach ($testTypeMeasures as $testTypeMeasure) {
 				$this->assertEquals($testTypeMeasure->measure_id, $this->input['measures'][$cnt]);
 				$cnt--;
 			}
-			$testTypeSpecimenTypes = DB::table('testtype_specimentype')->where('test_type_id', '=', $this->testTypeId)->orderBy('id','desc')->skip(2)->take(2)->get();
+			$testTypeSpecimenTypes = DB::table('testtype_specimentypes')->where('test_type_id', '=', $this->testTypeId)->orderBy('id','desc')->skip(2)->take(2)->get();
 			$cnt = 1;
 			foreach ($testTypeSpecimenTypes as $testTypeSpecimenType) {
 				$this->assertEquals($testTypeSpecimenType->specimen_type_id, $this->input['specimentypes'][$cnt]);
@@ -151,13 +151,13 @@ class TestTypeControllerTest extends TestCase
 			$this->assertEquals($testTypeSaved->prevalence_threshold , $this->inputUpdate['prevalence_threshold']);
 			$this->assertEquals($testTypeSaved->section_id , $this->inputUpdate['section_id']);
 			
-			$testTypeMeasures = DB::table('testtype_measure')->where('test_type_id', '=', $testTypeId)->orderBy('id','desc')->take(2)->get();
+			$testTypeMeasures = DB::table('testtype_measures')->where('test_type_id', '=', $testTypeId)->orderBy('id','desc')->take(2)->get();
 			$cnt = 1;
 			foreach ($testTypeMeasures as $testTypeMeasure) {
 				$this->assertEquals($testTypeMeasure->measure_id, $this->inputUpdate['measures'][$cnt]);
 				$cnt--;
 			}
-			$testTypeSpecimenTypes = DB::table('testtype_specimentype')->where('test_type_id', '=', $testTypeId)->orderBy('id','desc')->take(2)->get();
+			$testTypeSpecimenTypes = DB::table('testtype_specimentypes')->where('test_type_id', '=', $testTypeId)->orderBy('id','desc')->take(2)->get();
 			$cnt = 1;
 			foreach ($testTypeSpecimenTypes as $testTypeSpecimenType) {
 				$this->assertEquals($testTypeSpecimenType->specimen_type_id, $this->inputUpdate['specimentypes'][$cnt]);
@@ -230,7 +230,7 @@ class TestTypeControllerTest extends TestCase
 		$id = array();
 		$cnt=0;
 		foreach ($inputTestCategories as $inputTestCategory) {
-			$id[$cnt] = DB::table('test_category')->insertGetId($inputTestCategory);
+			$id[$cnt] = DB::table('test_categories')->insertGetId($inputTestCategory);
 			$cnt++;
 		}
 			return $id;
@@ -246,7 +246,7 @@ class TestTypeControllerTest extends TestCase
 		$id = array();
 		$cnt=0;
 		foreach ($inputMeasures as $inputMeasure) {
-			$id[$cnt] = DB::table('measure')->insertGetId($inputMeasure);
+			$id[$cnt] = DB::table('measures')->insertGetId($inputMeasure);
 			$cnt++;
 		}
 			return $id;
@@ -262,7 +262,7 @@ class TestTypeControllerTest extends TestCase
 		$id = array();
 		$cnt=0;
 		foreach ($inputSpecimenTypes as $inputSpecimenType) {
-			$id[$cnt] = DB::table('specimen_type')->insertGetId($inputSpecimenType);
+			$id[$cnt] = DB::table('specimen_types')->insertGetId($inputSpecimenType);
 			$cnt++;
 		}
 			return $id;
@@ -276,18 +276,18 @@ class TestTypeControllerTest extends TestCase
 	  */
 	public function removeTestData($testTypeId)
 	{			
-		DB::table('testtype_measure')->where('test_type_id', '=', $testTypeId['testtype'])->delete();
-		DB::table('testtype_specimentype')->where('test_type_id', '=', $testTypeId['testtype'])->delete();
-		DB::table('measure')->delete($testTypeId['dependencies']['measure'][0]);
-		DB::table('measure')->delete($testTypeId['dependencies']['measure'][1]);
-		DB::table('measure')->delete($testTypeId['dependencies']['measure'][2]);
-		DB::table('measure')->delete($testTypeId['dependencies']['measure'][3]);
-		DB::table('specimen_type')->delete($testTypeId['dependencies']['specimen_type'][0]);
-		DB::table('specimen_type')->delete($testTypeId['dependencies']['specimen_type'][1]);
-		DB::table('specimen_type')->delete($testTypeId['dependencies']['specimen_type'][2]);
-		DB::table('specimen_type')->delete($testTypeId['dependencies']['specimen_type'][3]);
-		DB::table('test_type')->delete($testTypeId['testtype']);
-		DB::table('test_category')->delete($testTypeId['dependencies']['test_category'][0]);
-		DB::table('test_category')->delete($testTypeId['dependencies']['test_category'][1]);
+		DB::table('testtype_measures')->where('test_type_id', '=', $testTypeId['testtype'])->delete();
+		DB::table('testtype_specimentypes')->where('test_type_id', '=', $testTypeId['testtype'])->delete();
+		DB::table('measures')->delete($testTypeId['dependencies']['measure'][0]);
+		DB::table('measures')->delete($testTypeId['dependencies']['measure'][1]);
+		DB::table('measures')->delete($testTypeId['dependencies']['measure'][2]);
+		DB::table('measures')->delete($testTypeId['dependencies']['measure'][3]);
+		DB::table('specimen_types')->delete($testTypeId['dependencies']['specimen_type'][0]);
+		DB::table('specimen_types')->delete($testTypeId['dependencies']['specimen_type'][1]);
+		DB::table('specimen_types')->delete($testTypeId['dependencies']['specimen_type'][2]);
+		DB::table('specimen_types')->delete($testTypeId['dependencies']['specimen_type'][3]);
+		DB::table('test_types')->delete($testTypeId['testtype']);
+		DB::table('test_categories')->delete($testTypeId['dependencies']['test_category'][0]);
+		DB::table('test_categories')->delete($testTypeId['dependencies']['test_category'][1]);
 	}
 }

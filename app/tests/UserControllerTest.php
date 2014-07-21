@@ -145,6 +145,6 @@ class UserControllerTest extends TestCase
 	  */
 	public function removeTestData($id)
 	{
-		DB::table('user')->delete($id);
+		DB::table('users')->delete($id);
 	}
 }

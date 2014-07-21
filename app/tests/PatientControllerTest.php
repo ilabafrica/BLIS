@@ -153,6 +153,6 @@ class PatientControllerTest extends TestCase
 	  */
 	public function removeTestData($id)
 	{
-		DB::table('patient')->delete($id);
+		DB::table('patients')->delete($id);
 	}
 }

@@ -129,6 +129,6 @@ class SpecimenTypeControllerTest extends TestCase
 	  */
 	public function removeTestData($id)
 	{
-		DB::table('specimen_type')->delete($id);
+		DB::table('specimen_types')->delete($id);
 	}
 }

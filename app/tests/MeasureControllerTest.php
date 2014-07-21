@@ -247,7 +247,7 @@ class MeasureControllerTest extends TestCase
 		 * Separates the measure ID of numeric measures from it's numeric ranges IDs 
 		 * Adds the measure range IDs in to the test Measure array
 		 */
-		if ($id['measurerangeid'] != NULL) {
+		if (isset($id['measurerangeid'])) {
 			array_push($input, $id['measurerangeid']);
 			// Sorts an index issue of the array index "measurerangeid" being replaced by "0"
 			if ($input['0'] != NULL) {
@@ -270,7 +270,7 @@ class MeasureControllerTest extends TestCase
 		/**
 		 * Separates the measureID of numeric measures from it's numericRangesID(s) 
 		 */
-    	if ($id['measurerangeid'] != NULL) {
+    	if (isset($id['measurerangeid'])) {
 			$id = $id['id'];
 		} 
 		$measure = new MeasureController;
@@ -286,11 +286,11 @@ class MeasureControllerTest extends TestCase
 	{
 		$measure = new Measure;
 		foreach ($ids as $id) {
-			if ($id['id'] != NULL) {
+			if (isset($id['id'])) {
 				$id = $id['id'];
-				DB::table('measure_range')->where('measure_id', $id)->delete();
+				DB::table('measure_ranges')->where('measure_id', $id)->delete();
 			} 
-			DB::table('measure')->delete($id);
+			DB::table('measures')->delete($id);
 		}
 	}
 }
