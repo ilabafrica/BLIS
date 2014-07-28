@@ -24,7 +24,7 @@ Quick Start
   <ul>
     <li>Set the "Application URL" in /app/config/app.php</li>
     <li>Set the database connection details in /app/config/database.php</li>
-    <li>The organization name in /app/config/kblis.conf</li>
+    <li>The organization name in /app/config/kblis.php</li>
 </ul>
 5. Run the migrations to create the required database tables.
     <blockquote>php artisan migrate</blockquote>
