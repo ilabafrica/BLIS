@@ -48,7 +48,6 @@ extends DatabaseSeeder
         {
             User::create($user);
         }
-
         $this->command->info('users seeded');
         
 
@@ -126,44 +125,186 @@ extends DatabaseSeeder
         $this->command->info('patients seeded');
 
         /* Test Phase table */
-        $test_phases = TestPhase::create(array("name" => "whoolan"));
+        $test_phases = array(
+          array("id" => "1", "name" => "Pre-Analytical"),
+          array("id" => "2", "name" => "Analytical"),
+          array("id" => "3", "name" => "Post-Analytical")
+        );
+        foreach ($test_phases as $test_phase)
+        {
+            TestPhase::create($test_phase);
+        }
         $this->command->info('test_phases seeded');
 
         /* Test Status table */
-        $test_statuses = TestStatus::create(array("name" => "booh!","test_phase_id" => $test_phases->id));
+        $test_statuses = array(
+          array("id" => "1","name" => "Pending","test_phase_id" => "1"),//Pre-Analytical
+          array("id" => "2","name" => "Started","test_phase_id" => "2"),//Analytical
+          array("id" => "3","name" => "Completed","test_phase_id" => "3"),//Post-Analytical
+          array("id" => "4","name" => "Verified","test_phase_id" => "3")//Post-Analytical
+        );
+        foreach ($test_statuses as $test_status)
+        {
+            TestStatus::create($test_status);
+        }
         $this->command->info('test_statuses seeded');
 
         /* Specimen Status table */
-        $specimen_statuses = SpecimenStatus::create(array("name" => "boohdan"));
+        $specimen_statuses = array(
+          array("id" => "1", "name" => "Accepted"),
+          array("id" => "2", "name" => "Rejected")
+        );
+        foreach ($specimen_statuses as $specimen_status)
+        {
+            SpecimenStatus::create($specimen_status);
+        }
         $this->command->info('specimen_statuses seeded');
 
         /* Visits table */
-        $visits = Visit::create(array("patient_id" => $patients->id));
+        $visits_accepted_pending = Visit::create(array("patient_id" => $patients->id));
+        $visits_accepted_started = Visit::create(array("patient_id" => $patients->id));
+        $visits_accepted_completed = Visit::create(array("patient_id" => $patients->id));
+        $visits_accepted_verified = Visit::create(array("patient_id" => $patients->id));
+        $visits_rejected_pending = Visit::create(array("patient_id" => $patients->id));
+        $visits_rejected_started = Visit::create(array("patient_id" => $patients->id));
+        $visits_rejected_completed = Visit::create(array("patient_id" => $patients->id));
         $this->command->info('visits seeded');
 
         /* Rejection Reasons table */
-        $rejection_reasons = RejectionReason::create(array("reason" => "Looked Funny!"));
+        $rejection_reasons_pre_analytic = RejectionReason::create(array("reason" => "Looked kinda funny!"));
+        $rejection_reasons_analytic = RejectionReason::create(array("reason" => "Looked funny actually!"));
+        $rejection_reasons_post_analytic = RejectionReason::create(array("reason" => "Looked like super funny!"));
         $this->command->info('rejection_reasons seeded');
 
         /* Specimen table */
-        $specimens = Specimen::create(
+        $specimens_accepted_pre_analytic = Specimen::create(
             array(
                 "specimen_type_id" => $specimen_types->id,
-                "specimen_status_id" => $specimen_statuses->id,
-                "rejection_reason_id" => $rejection_reasons->id,
-                "test_phase_id" => $test_phases->id,
+                "specimen_status_id" => "1",//accepted
+                "test_phase_id" => "1",//Pre-Analytical for test_status:pending
+            )
+        );        
+        
+        $specimens_accepted_analytic = Specimen::create(
+            array(
+                "specimen_type_id" => $specimen_types->id,
+                "specimen_status_id" => "1",//accepted
+                "test_phase_id" => "2",//Analytical for test_status:started
+            )
+        );        
+        
+        $specimens_accepted_post_analytic = Specimen::create(
+            array(
+                "specimen_type_id" => $specimen_types->id,
+                "specimen_status_id" => "1",//accepted
+                "test_phase_id" => "3",//Post-Analytical for test_status:completed
+            )
+        );        
+        
+        $specimens_accepted_post_analytic_verified = Specimen::create(
+            array(
+                "specimen_type_id" => $specimen_types->id,
+                "specimen_status_id" => "1",//accepted
+                "test_phase_id" => "3",//Post-Analytical for test_status:verified
+            )
+        );        
+        
+        $specimens_rejected_pre_analytic = Specimen::create(
+            array(
+                "specimen_type_id" => $specimen_types->id,
+                "specimen_status_id" => "2",//rejected
+                "rejection_reason_id" => $rejection_reasons_pre_analytic->id,
+                "test_phase_id" => "1",//Pre-Analytical
+            )
+        );
+
+        $specimens_rejected_analytic = Specimen::create(
+            array(
+                "specimen_type_id" => $specimen_types->id,
+                "specimen_status_id" => "2",//rejected
+                "rejection_reason_id" => $rejection_reasons_analytic->id,
+                "test_phase_id" => "2",//Analytical
+            )
+        );
+
+        $specimens_rejected_post_analytic = Specimen::create(
+            array(
+                "specimen_type_id" => $specimen_types->id,
+                "specimen_status_id" => "2",//rejected
+                "rejection_reason_id" => $rejection_reasons_post_analytic->id,
+                "test_phase_id" => "3",//Post-Analytical
             )
         );        
         $this->command->info('specimens seeded');
 
         /* Test table */
-        $tests = Test::create(
+        $tests_accepted_pending = Test::create(
             array(
-                "visit_id" => $visits->id,
-                "test_type_id" => $test_types->id,
-                "specimen_id" => $specimens->id,
+                "visit_id" => $visits_accepted_pending->id,
+                "test_type_id" => $test_types->id,//BS for MPS
+                "specimen_id" => $specimens_accepted_pre_analytic->id,
                 "interpretation" => "Budda Boss",
-                "test_status_id" => $test_statuses->id,
+                "test_status_id" => "1",//Pending
+            )
+        );        
+        
+        $tests_accepted_started = Test::create(
+            array(
+                "visit_id" => $visits_accepted_started->id,
+                "test_type_id" => $test_types->id,//BS for MPS
+                "specimen_id" => $specimens_accepted_analytic->id,
+                "interpretation" => "Budda Boss",
+                "test_status_id" => "2",//Started
+            )
+        );        
+        
+        $tests_accepted_completed = Test::create(
+            array(
+                "visit_id" => $visits_accepted_completed->id,
+                "test_type_id" => $test_types->id,//BS for MPS
+                "specimen_id" => $specimens_accepted_post_analytic->id,
+                "interpretation" => "Budda Boss",
+                "test_status_id" => "3",//Completed
+            )
+        );        
+        
+        $tests_accepted_verified = Test::create(
+            array(
+                "visit_id" => $visits_accepted_verified->id,
+                "test_type_id" => $test_types->id,//BS for MPS
+                "specimen_id" => $specimens_accepted_post_analytic_verified->id,
+                "interpretation" => "Budda Boss",
+                "test_status_id" => "4",//Verified
+            )
+        );        
+        
+        $tests_rejected_pending = Test::create(
+            array(
+                "visit_id" => $visits_rejected_pending->id,
+                "test_type_id" => $test_types->id,//BS for MPS
+                "specimen_id" => $specimens_rejected_pre_analytic->id,
+                "interpretation" => "Budda Boss",
+                "test_status_id" => "1",//Pending
+            )
+        );        
+        
+        $tests_rejected_started = Test::create(
+            array(
+                "visit_id" => $visits_rejected_started->id,
+                "test_type_id" => $test_types->id,//BS for MPS
+                "specimen_id" => $specimens_rejected_analytic->id,
+                "interpretation" => "Budda Boss",
+                "test_status_id" => "2",//Started
+            )
+        );        
+        
+        $tests_rejected_completed = Test::create(
+            array(
+                "visit_id" => $visits_rejected_completed->id,
+                "test_type_id" => $test_types->id,//BS for MPS
+                "specimen_id" => $specimens_rejected_post_analytic->id,
+                "interpretation" => "Budda Boss",
+                "test_status_id" => "3",//Completed
             )
         );        
         $this->command->info('tests seeded');
