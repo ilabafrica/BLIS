@@ -35,4 +35,4 @@ Quick Start
 7. If you are running the application on a webserver eg. apache, ensure that the webserver has write permissions to the /app/storage folder.
    Ideally the web-root should be the /public folder.
    The default login credentials are '*administrator*' '*password*'.
-8. There are config files that you want to change but don't want to commit, i.e `/app/config/app.php` and `/app/config/database.php` you can prevent yorself from accidentally commiting these files by doing `git update-index --assume-unchanged /path/to/file.ext` your changes will no longer be tracked. Read more [here] (http://archive.robwilkerson.org/2010/03/02/git-tip-ignore-changes-to-tracked-files/). 
+8. There are config files that you want to change but don't want to commit, i.e `/app/config/app.php` and `/app/config/database.php` you can prevent yourself from accidentally commiting these files by doing `git update-index --assume-unchanged /path/to/file.ext` your changes will no longer be tracked. Read more [here] (http://archive.robwilkerson.org/2010/03/02/git-tip-ignore-changes-to-tracked-files/). 
