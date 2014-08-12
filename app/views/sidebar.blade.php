@@ -31,7 +31,8 @@
 		</li>
 		<li>
 			<div class="main-menu {{$active[2]}}">
-				<a href="javascript:void(0);">
+				<a href="{{ URL::route('test.index')}}">
+				<!-- <a href="javascript:void(0);"> -->
 					<span class="glyphicon glyphicon-filter"></span> Tests</a>
 			</div>
 		</li>

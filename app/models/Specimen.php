@@ -17,7 +17,7 @@ class Specimen extends Eloquent
 	 *
 	 * @var boolean
 	 */
-	protected $softDelete = true;
+	// protected $softDelete = true;//it wants deleted at fills,
 
 	/**
 	 * Test Phase relationship

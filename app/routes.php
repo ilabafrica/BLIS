@@ -84,6 +84,39 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestTypeController@delete"
     ));
 
+    /*Route::resource('test', 'TestController');*/
+
+    Route::get("/test", array(
+        "as"   => "test.index",
+        "uses" => "TestController@index"
+    ));
+
+
+    Route::get("/test/reject", array(
+        "as"   => "test.reject",
+        "uses" => "TestController@reject"
+    ));
+
+    Route::get("/test/enterResults", array(
+        "as"   => "test.enterResults",
+        "uses" => "TestController@enterResults"
+    ));
+
+    Route::get("/test/viewDetails", array(
+        "as"   => "test.viewDetails",
+        "uses" => "TestController@viewDetails"
+    ));
+
+    Route::get("/test/edit", array(
+        "as"   => "test.edit",
+        "uses" => "TestController@edit"
+    ));
+    
+    Route::get("/test/verify", array(
+        "as"   => "test.verify",
+        "uses" => "TestController@verify"
+    ));
+
 });
 
 // Display all SQL executed in Eloquent
