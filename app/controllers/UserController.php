@@ -8,6 +8,7 @@ use Illuminate\Support\MessageBag;
  */
 class UserController extends Controller {
     
+    //Function for user authentication logic
     public function loginAction(){
 
         $errors = new MessageBag();
@@ -33,6 +34,7 @@ class UserController extends Controller {
                     );
 
                 if(Auth::attempt($credentials)){
+                    //To do: redirect to the URL they came from
                     return Redirect::route("user.home");
                 }
             }

@@ -48,9 +48,6 @@
                         </div>
                     </div>
                 {{ Form::close() }}
-                <div class="smaller-text alone help">
-                    <p><a href="{{ URL::route("user.request") }}">Need help?</a></p>
-                </div>
                 <div class="smaller-text alone foot">
                     <p><a href="#">User Guide in progress</a></p>
                     <p>
