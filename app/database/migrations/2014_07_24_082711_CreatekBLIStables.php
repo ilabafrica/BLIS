@@ -105,7 +105,8 @@ class CreatekBLIStables extends Migration {
             $table->tinyInteger('gender')->unsigned();
             $table->decimal('range_lower', 7, 3);
             $table->decimal('range_upper', 7, 3);
-            
+
+            $table->softDeletes();
             $table->foreign('measure_id')->references('id')->on('measures');
         });
 

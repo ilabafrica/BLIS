@@ -14,14 +14,14 @@ class TestCategoryControllerTest extends TestCase
     {
     	// Initial sample storage data
 		$this->input = array(
-			'name' => 'Parasitlogy',
+			'name' => 'Karasitlogy',
 			'description' => 'Lets see',
 		);
 
 		
 		// Edition sample data
 		$this->inputUpdate = array(
-			'name' => 'Parasitology',
+			'name' => 'Karasitology',
 			'description' => 'I honestly have no idea',
 		);
 
