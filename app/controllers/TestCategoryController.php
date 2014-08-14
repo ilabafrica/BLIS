@@ -47,7 +47,7 @@ class TestCategoryController extends \BaseController {
 		$validator = Validator::make(Input::all(), $rules);
 		//process
 		if($validator->fails()){
-			return Redirect::to('test/create')->withErrors($validator)->withErrors(Input::except('password'));
+			return Redirect::to('testcategory/create')->withErrors($validator);
 		}else{
 			//store
 			$testcategory = new TestCategory;
@@ -75,7 +75,6 @@ class TestCategoryController extends \BaseController {
 		//show a test category
 		$testcategory = TestCategory::find($id);
 		//show the view and pass the $testcategory to it
-//		return View::make('testcategory.create');;
 		return View::make('testcategory.show')->with('testcategory',$testcategory);
 	}
 
