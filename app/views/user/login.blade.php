@@ -48,11 +48,8 @@
                         </div>
                     </div>
                 {{ Form::close() }}
-                <div class="smaller-text alone help">
-                    <p><a href="{{ URL::route("user.request") }}">Need help?</a></p>
-                </div>
                 <div class="smaller-text alone foot">
-                    <p><a href="userguide/" target="_blank">User Guide</a></p>
+                    <p><a href="#">User Guide in progress</a></p>
                     <p>
                         {{ Config::get('kblis.name') }} - a port of the Basic Laboratory Information System (BLIS) to Laravel by iLabAfrica.
                         BLIS was originally developed by C4G.
