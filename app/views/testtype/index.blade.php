@@ -14,8 +14,7 @@
 		<span class="glyphicon glyphicon-cog"></span>
 		List Test Types
 		<div class="panel-btn">
-			<a class="btn btn-sm btn-info" href="javascript:void(0);" 
-				onclick="pageloader('{{ URL::to("testtype/create") }}')">
+			<a class="btn btn-sm btn-info" href="{{ URL::to("testtype/create") }}" >
 				<span class="glyphicon glyphicon-plus-sign"></span>
 				New Test Type
 			</a>
@@ -42,15 +41,13 @@
 					<td>
 
 						<!-- show the testtype (uses the show method found at GET /testtype/{id} -->
-						<a class="btn btn-sm btn-success" href="javascript:void(0);" 
-							onclick="pageloader('{{ URL::to("testtype/" . $value->id) }}')">
+						<a class="btn btn-sm btn-success" href="{{ URL::to("testtype/" . $value->id) }}">
 							<span class="glyphicon glyphicon-eye-open"></span>
 							View
 						</a>
 
 						<!-- edit this testtype (uses the edit method found at GET /testtype/{id}/edit -->
-						<a class="btn btn-sm btn-info" href="javascript:void(0);" 
-							onclick="pageloader('{{ URL::to("testtype/" . $value->id . "/edit") }}')">
+						<a class="btn btn-sm btn-info" href="{{ URL::to("testtype/" . $value->id . "/edit") }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							Edit
 						</a>
