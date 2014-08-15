@@ -14,8 +14,7 @@
 			<span class="glyphicon glyphicon-user"></span>
 			List Measures
 			<div class="panel-btn">
-				<a class="btn btn-sm btn-info new-item-link" href="javascript:void(0)"
-					onclick="pageloader('{{ URL::to('measure/create') }}')">
+				<a class="btn btn-sm btn-info new-item-link" href="{{ URL::to('measure/create') }}">
 					<span class="glyphicon glyphicon-plus-sign"></span>
 					New Measure
 				</a>
@@ -40,13 +39,13 @@
 						<td>{{ $value->description }}</td>
 						<td>
 							<!-- show the measure (uses the show method found at GET /measure/{id} -->
-							<a class="btn btn-sm btn-success" href="javascript:void(0);" onclick="pageloader('{{ URL::to('measure/' . $value->id) }}')">
+							<a class="btn btn-sm btn-success" href="{{ URL::to('measure/' . $value->id) }}">
 								<span class="glyphicon glyphicon-eye-open"></span>
 								View
 							</a>
 
 							<!-- edit this measure (uses the edit method found at GET /measure/{id}/edit -->
-							<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to('measure/' . $value->id . '/edit') }}')">
+							<a class="btn btn-sm btn-info" href="{{ URL::to('measure/' . $value->id . '/edit') }}" >
 								<span class="glyphicon glyphicon-edit"></span>
 								Edit
 							</a>

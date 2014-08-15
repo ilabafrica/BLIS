@@ -72,6 +72,12 @@
 					</li>
 					<li>
 						<div>
+							<a href="{{ URL::route("specimentype.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> Specimen Types</a>
+						</div>
+					</li>
+					<li>
+						<div>
 							<a href="{{ URL::route("testtype.index")}}">
 								<span class="glyphicon glyphicon-tag"></span> Test Types</a>
 						</div>
@@ -80,12 +86,6 @@
 						<div>
 							<a href="{{ URL::route("measure.index")}}" >
 								<span class="glyphicon glyphicon-tag"></span> Measures</a>
-						</div>
-					</li>
-					<li>
-						<div>
-							<a href="{{ URL::route("specimentype.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> Specimen Types</a>
 						</div>
 					</li>
 				</ul>

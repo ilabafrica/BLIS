@@ -1,3 +1,5 @@
+@extends("layout")
+@section("content")
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
@@ -10,7 +12,7 @@
 			<span class="glyphicon glyphicon-user"></span>
 			Specimen Type Details
 			<div class="panel-btn">
-				<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to("specimentype/". $specimentype->id ."/edit") }}')">
+				<a class="btn btn-sm btn-info" href="{{ URL::to("specimentype/". $specimentype->id ."/edit") }}">
 					<span class="glyphicon glyphicon-edit"></span>
 					Edit
 				</a>
@@ -24,3 +26,4 @@
 			</div>
 		</div>
 	</div>
+@stop
