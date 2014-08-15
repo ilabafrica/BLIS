@@ -1,62 +1,36 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
-		  <li><a href="{{ URL::route('patient.index') }}">Patient</a></li>
-		  <li class="active">Create Patient</li>
+		  <li><a href="{{ URL::route('test.index') }}">Test</a></li>
+		  <li class="active">Edit</li>
 		</ol>
 	</div>
 	<div class="panel panel-primary">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-user"></span>
-			Create Patient
+			Edit
 		</div>
 		<div class="panel-body">
 		<!-- if there are creation errors, they will show here -->
-			
 			@if($errors->all())
 				<div class="alert alert-danger">
 					{{ HTML::ul($errors->all()) }}
 				</div>
 			@endif
-
-			{{ Form::open(array('url' => 'patient', 'id' => 'form-create-patient')) }}
-
+			{{ Form::open(array('url' => 'test', 'id' => 'form-enter-results')) }}
 				<div class="form-group">
-					{{ Form::label('patient_number', 'Patient Number') }}
-					{{ Form::text('patient_number', Input::old('patient_number'), 
+					{{ Form::label('testType', 'BS for mps') }}
+					{{ Form::text('testType', Input::old('testType'), 
 						array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">
-					{{ Form::label('name', 'Name') }}
-					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
-				</div>
-				<div class="form-group">
-					{{ Form::label('dob', 'Date of Birth') }}
-					{{ Form::text('dob', Input::old('dob'), 
-						array('class' => 'form-control standard-datepicker')) }}
-				</div>
-                <div class="form-group">
-                    {{ Form::label('gender', 'Gender: ') }}
-                    <div>{{ Form::radio('gender', '0', true) }}<span class="input-tag">Male</span></div>
-                    <div>{{ Form::radio("gender", '1', false) }}<span class="input-tag">Female</span></div>
-                </div>
-				<div class="form-group">
-					{{ Form::label('address', 'Physical Address') }}
-					{{ Form::text('address', Input::old('address'), array('class' => 'form-control')) }}
-				</div>
-				<div class="form-group">
-					{{ Form::label('phone_number', 'Phone Number') }}
-					{{ Form::text('phone_number', Input::old('phone_number'), array('class' => 'form-control')) }}
-				</div>
-				<div class="form-group">
-					{{ Form::label('email', 'Email Address') }}
-					{{ Form::email('email', Input::old('email'), array('class' => 'form-control')) }}
+					{{ Form::label('interpretation', 'Result Interpretation') }}
+					{{ Form::text('interpretation', Input::old('interpretation'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group actions-row">
 					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', 
-						['class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-create-patient")']) }}
+						['class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-create-test")']) }}
 				</div>
-
 			{{ Form::close() }}
 		</div>
 	</div>

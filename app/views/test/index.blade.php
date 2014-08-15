@@ -35,45 +35,103 @@
 				<tbody>
 				@foreach($tests as $key => $value)
 					<tr>
-						<?php $patient_id = Visit::find($value->visit_id)->patient_id; ?>
-						<?php $specimen_type_id = Specimen::find($value->specimen_id)->specimen_type_id; ?>
+						<?php 
+							$patientId = Visit::find($value->visit_id)->patient_id; 
+							$specimen_type_id = Specimen::find($value->specimen_id)->specimen_type_id; 
+							$specimenTypeName = SpecimenType::find($specimen_type_id)->name;
+							$patientNumber = Patient::find($patientId)->patient_number;
+							$testTypeName = TestType::find($value->test_type_id)->name;
+							$patientName = Patient::find($patientId)->name;
+						 ?>
 						<td>{{ $value->specimen_id }}</td><!--Specimen ID-->
 						<td>{{ $value->time_created }}</td><!--Date Ordered-->
-						<td>{{ $patient_id }}</td><!--Patient No-->
+						<td>{{ $patientNumber }}</td><!--Patient No-->
 						<td>{{ $value->visit_id }}</td><!--Visit No-->
-						<td>{{ Patient::find($patient_id)->name }}</td><!--Patient Name-->
-						<td>{{ SpecimenType::find($specimen_type_id)->name }}</td><!--Specimen Type-->
-						<td>{{ TestType::find($value->test_type_id)->name }}</td><!--Test-->
+						<td>{{ $patientName }}</td><!--Patient Name-->
+						<td>{{ $specimenTypeName }}</td><!--Specimen Type-->
+						<td>{{ $testTypeName }}</td><!--Test-->
 						<td>{{ $value->visit_id }}</td><!--Order Stage|???????from the test?????-->
-						<td>{{ TestStatus::find($value->test_status_id)->name }}</td><!--Status-->
-		
+						<!--Status-->
+						@if (Specimen::find($value->specimen_id)->specimen_status_id == 2)
+						<td>{{ SpecimenStatus::find(2)->name }}</td>
 						<td>
-							<a class="btn btn-sm btn-danger new-item-link" href="javascript:void(0)"
-								onclick="pageloader('{{ URL::to('test/reject') }}')">
-								<span class="glyphicon glyphicon-thumbs-down"></span>
-								Reject
+							<a class="btn btn-sm btn-success new-item-link" href="javascript:void(0)"
+								onclick="pageloader('{{ URL::to('test/viewDetails') }}')">
+								<span class="glyphicon glyphicon-eye-open"></span>
+								View Details
 							</a>
+						</td>
+						@elseif ($value->test_status_id == 1)<!-- Pending -->
+						<td>{{ TestStatus::find($value->test_status_id)->name }}</td>
+						<td>
+<a class="btn btn-sm btn-danger new-item-link" href="javascript:void(0)"
+	onclick="pageloader('{{ URL::to('test/'.$value->specimen_id.'/'.$patientId.'/'.$patientNumber.'/'.$patientName.'/'.$specimenTypeName.'/reject') }}')">
+	<span class="glyphicon glyphicon-thumbs-down"></span>
+	Reject
+</a>
+							<a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/'.$value->id.'/start') }}"
+								<span class="glyphicon glyphicon-eye-open"></span>
+								Start Test
+							</a>	
+							<a class="btn btn-sm btn-success new-item-link" href="javascript:void(0)"
+								onclick="pageloader('{{ URL::to('test/viewDetails') }}')">
+								<span class="glyphicon glyphicon-eye-open"></span>
+								View Details
+							</a>
+						</td>
+						@elseif ($value->test_status_id == 2)<!-- Started -->
+						<td>{{ TestStatus::find($value->test_status_id)->name }}</td>
+						<td>
 							<a class="btn btn-sm btn-info new-item-link" href="javascript:void(0)"
 								onclick="pageloader('{{ URL::to('test/enterResults') }}')">
 								<span class="glyphicon glyphicon-pencil"></span>
 								Enter Results
 							</a>
+<a class="btn btn-sm btn-danger new-item-link" href="javascript:void(0)"
+	onclick="pageloader('{{ URL::to('test/'.$value->specimen_id.'/'.$patientId.'/'.$patientNumber.'/'.$patientName.'/'.$specimenTypeName.'/reject') }}')">
+	<span class="glyphicon glyphicon-thumbs-down"></span>
+	Reject
+</a>
 							<a class="btn btn-sm btn-success new-item-link" href="javascript:void(0)"
 								onclick="pageloader('{{ URL::to('test/viewDetails') }}')">
 								<span class="glyphicon glyphicon-eye-open"></span>
 								View Details
+							</a>
+						</td>
+						@elseif ($value->test_status_id == 3)<!-- Completed -->
+						<td>{{ TestStatus::find($value->test_status_id)->name }}</td>
+						<td>
+							<a class="btn btn-sm btn-success new-item-link" href="javascript:void(0)"
+								onclick="pageloader('{{ URL::to('test/viewDetails') }}')">
+								<span class="glyphicon glyphicon-thumbs-up"></span>
+								Verify
 							</a>
 							<a class="btn btn-sm btn-info new-item-link" href="javascript:void(0)"
 								onclick="pageloader('{{ URL::to('test/viewDetails') }}')">
 								<span class="glyphicon glyphicon-edit"></span>
 								Edit
 							</a>
+<a class="btn btn-sm btn-danger new-item-link" href="javascript:void(0)"
+	onclick="pageloader('{{ URL::to('test/'.$value->specimen_id.'/'.$patientId.'/'.$patientNumber.'/'.$patientName.'/'.$specimenTypeName.'/reject') }}')">
+	<span class="glyphicon glyphicon-thumbs-down"></span>
+	Reject
+</a>
 							<a class="btn btn-sm btn-success new-item-link" href="javascript:void(0)"
 								onclick="pageloader('{{ URL::to('test/viewDetails') }}')">
-								<span class="glyphicon glyphicon-thumbs-up"></span>
-								Verify
+								<span class="glyphicon glyphicon-eye-open"></span>
+								View Details
 							</a>
 						</td>
+						@else<!-- Verified -->
+						<td>{{ TestStatus::find($value->test_status_id)->name }}</td>
+						<td>
+							<a class="btn btn-sm btn-success new-item-link" href="javascript:void(0)"
+								onclick="pageloader('{{ URL::to('test/viewDetails') }}')">
+								<span class="glyphicon glyphicon-eye-open"></span>
+								View Details
+							</a>
+						</td>
+						@endif
 					</tr>
 				@endforeach
 				</tbody>

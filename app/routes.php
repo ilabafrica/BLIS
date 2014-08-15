@@ -91,13 +91,17 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@index"
     ));
 
-
-    Route::get("/test/reject", array(
+    Route::get("/test/{specimenId}/{patientId}/{patientNumber}/{patientName}/{specimenTypeName}/reject", array(
         "as"   => "test.reject",
         "uses" => "TestController@reject"
     ));
 
-    Route::get("/test/enterResults", array(
+    Route::get("/test/{id}/start", array(
+        "as"   => "test.start",
+        "uses" => "TestController@start"
+    ));
+
+     Route::get("/test/enterResults", array(
         "as"   => "test.enterResults",
         "uses" => "TestController@enterResults"
     ));
