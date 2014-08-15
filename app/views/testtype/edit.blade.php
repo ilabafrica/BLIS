@@ -105,7 +105,7 @@
 					['class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-edit-testtype")']
 				) }}
 				{{ Form::button('Cancel', 
-					['class' => 'btn btn-default', 'onclick' => 'pageloader("'.URL::to('testtype').'")']
+					['class' => 'btn btn-default', 'onclick' => 'javascript:history.go(-1)']
 				) }}
 			</div>
 		</div>
