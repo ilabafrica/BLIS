@@ -30,11 +30,43 @@ class TestController extends \BaseController {
 	 * @param
 	 * @return
 	 */
-	public function reject()
+	public function reject($specimenId, $patientId, $patientNumber, $patientName, $specimenTypeName)
 	{
-		return View::make('test.reject');//->with('', $);
+		return View::make('test.reject')
+								->with('specimenId', $specimenId)
+								->with('patientId', $patientId)
+								->with('patientNumber', $patientNumber)
+								->with('patientName', $patientName)
+								->with('specimenTypeName', $specimenTypeName);
 	}
 
+	/**
+	 * Executes Rejection
+	 *
+	 * @param
+	 * @return
+	 */
+	public function rejectAction($specimenId)
+	{
+		$specimen = Specimen::find($specimenId);
+		$specimen->rejection_reason_id = Input::get('rejectionReason');
+		$specimen->specimen_status_id = 2;//Rejected
+		//redirect?
+	}
+
+	/**
+	 * Starts Test
+	 *
+	 * @param
+	 * @return
+	 */
+	public function start($testId)
+	{
+		$test = Test::find($testId);
+		$test->test_status_id = 2;//Started
+		$test->save();
+		//redirect?
+	}
 
 	/**
 	 * Display Result Entry page
