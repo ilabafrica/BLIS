@@ -66,6 +66,9 @@ class TestController extends \BaseController {
 		$test = Test::find($testId);
 		$test->test_status_id = 2;//Started
 		$test->save();
+		// redirect
+		Session::flash('message', 'Test started!');
+		return Redirect::to('test');
 	}
 
 	/**
