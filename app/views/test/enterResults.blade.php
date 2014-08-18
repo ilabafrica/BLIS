@@ -18,10 +18,10 @@
 					{{ HTML::ul($errors->all()) }}
 				</div>
 			@endif
-			{{ Form::open(array('url' => 'test', 'id' => 'form-enter-results')) }}
+			{{ Form::open(array('url' => 'test/'.$testId.'/saveResults', 'method' => 'GET', 'id' => 'form-enter-results')) }}
 				<div class="form-group">
-					{{ Form::label('testType', 'BS for mps') }}
-					{{ Form::text('testType', Input::old('testType'), 
+					{{ Form::label('result', $testType) }}
+					{{ Form::text('result', Input::old('result'), 
 						array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">
@@ -29,8 +29,7 @@
 					{{ Form::text('interpretation', Input::old('interpretation'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group actions-row">
-					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', 
-						['class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-create-test")']) }}
+					{{ Form::submit('Save',['class' => 'btn btn-primary',]) }}
 				</div>
 			{{ Form::close() }}
 		</div>

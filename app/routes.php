@@ -106,9 +106,14 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@start"
     ));
 
-     Route::get("/test/enterResults", array(
+     Route::get("/test/{id}/enterResults", array(
         "as"   => "test.enterResults",
         "uses" => "TestController@enterResults"
+    ));
+
+     Route::get("/test/{id}/saveResults", array(
+        "as"   => "test.saveResults",
+        "uses" => "TestController@saveResults"
     ));
 
     Route::get("/test/viewDetails", array(

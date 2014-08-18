@@ -75,7 +75,7 @@ extends DatabaseSeeder
         $this->command->info('measure_types seeded');
                 
         /* Measures table */
-        
+        $measureBSforMPS = Measure::create(array("measure_type_id" => "2", "name" => "BS for mps", "measure_range" => "Positive/Negative", "unit" => ""));
         $measures = array(
             array("measure_type_id" => "2", "name" => "Grams stain", "measure_range" => "Positive/Negative", "unit" => ""),
             array("measure_type_id" => "2", "name" => "SERUM AMYLASE", "measure_range" => "Low/Normal/High", "unit" => ""),
@@ -113,7 +113,10 @@ extends DatabaseSeeder
         /* Test Types table */
         $test_types = TestType::create(array("name" => "BS for mps", "section_id" => $test_categories->id));
         $this->command->info('test_types seeded');
-        
+
+        /* TestType Measure table */
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_types->id, "measure_id" => $measureBSforMPS->id));
+
         /* Patients table */
         $patients = Patient::create(
             array(

@@ -83,7 +83,7 @@
 						<td>{{ TestStatus::find($value->test_status_id)->name }}</td>
 						<td>
 							<a class="btn btn-sm btn-info new-item-link" href="javascript:void(0)"
-								onclick="pageloader('{{ URL::to('test/enterResults') }}')">
+								onclick="pageloader('{{ URL::to('test/'.$value->id.'/enterResults') }}')">
 								<span class="glyphicon glyphicon-pencil"></span>
 								Enter Results
 							</a>

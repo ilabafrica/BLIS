@@ -77,9 +77,38 @@ class TestController extends \BaseController {
 	 * @param
 	 * @return
 	 */
-	public function enterResults()
+	public function enterResults($testId)
 	{
-		return View::make('test.enterResults');//->with('', $);
+		$testTypeId = Test::find($testId)->test_type_id;
+		$testType = TestType::find($testTypeId);
+		return View::make('test.enterResults')->with('testType', $testType->name)
+											->with('testId', $testId);
+	}
+
+	/**
+	 * Saves Test Results
+	 *
+	 * @param
+	 * @return
+	 */
+	public function saveResults($testId)
+	{
+		$test = Test::find($testId);
+		$test->test_status_id = 3;//Completed
+		$test->interpretation = Input::get('interpretation');
+		$test->save();
+		$testType = TestType::find($test->test_type_id);
+		
+		// $testResult = TestResult::find($testId);
+		// $testResult = new TestResult;
+	 	// $testResult->test_id = $testId;
+	 	// $testResult->measure_id = $testType->measures()->where('test_type_id', $testType->id)->measure_id;
+	 	// $testResult->result = Input::get('result');
+		// $testResult->save();
+
+		// redirect
+		Session::flash('message', 'Results successfully saved!');
+		return Redirect::to('test');
 	}
 
 
