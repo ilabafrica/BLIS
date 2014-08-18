@@ -50,10 +50,10 @@
 						<td>{{ $patientName }}</td><!--Patient Name-->
 						<td>{{ $specimenTypeName }}</td><!--Specimen Type-->
 						<td>{{ $testTypeName }}</td><!--Test-->
-						<td>{{ $value->visit_id }}</td><!--Order Stage|???????from the test?????-->
+						<td>{{ $value->visit_id }}</td><!--Order Stage|Need OrderStage Resource-->
 						<!--Status-->
-						@if (Specimen::find($value->specimen_id)->specimen_status_id == 2)
-						<td>{{ SpecimenStatus::find(2)->name }}</td>
+						@if (Specimen::find($value->specimen_id)->specimen_status_id == 2)<!-- Rejected -->
+						<td>{{ SpecimenStatus::find(2)->name }}</td><!-- Rejected -->
 						<td>
 							<a class="btn btn-sm btn-success new-item-link" href="javascript:void(0)"
 								onclick="pageloader('{{ URL::to('test/viewDetails') }}')">
@@ -64,11 +64,11 @@
 						@elseif ($value->test_status_id == 1)<!-- Pending -->
 						<td>{{ TestStatus::find($value->test_status_id)->name }}</td>
 						<td>
-<a class="btn btn-sm btn-danger new-item-link" href="javascript:void(0)"
-	onclick="pageloader('{{ URL::to('test/'.$value->specimen_id.'/'.$patientId.'/'.$patientNumber.'/'.$patientName.'/'.$specimenTypeName.'/reject') }}')">
-	<span class="glyphicon glyphicon-thumbs-down"></span>
-	Reject
-</a>
+							<a class="btn btn-sm btn-danger new-item-link" href="javascript:void(0)"
+								onclick="pageloader('{{ URL::to('test/'.$value->specimen_id.'/reject') }}')">
+								<span class="glyphicon glyphicon-thumbs-down"></span>
+								Reject
+							</a>
 							<a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/'.$value->id.'/start') }}"
 								<span class="glyphicon glyphicon-eye-open"></span>
 								Start Test
@@ -87,11 +87,11 @@
 								<span class="glyphicon glyphicon-pencil"></span>
 								Enter Results
 							</a>
-<a class="btn btn-sm btn-danger new-item-link" href="javascript:void(0)"
-	onclick="pageloader('{{ URL::to('test/'.$value->specimen_id.'/'.$patientId.'/'.$patientNumber.'/'.$patientName.'/'.$specimenTypeName.'/reject') }}')">
-	<span class="glyphicon glyphicon-thumbs-down"></span>
-	Reject
-</a>
+							<a class="btn btn-sm btn-danger new-item-link" href="javascript:void(0)"
+								onclick="pageloader('{{ URL::to('test/'.$value->specimen_id.'/reject') }}')">
+								<span class="glyphicon glyphicon-thumbs-down"></span>
+								Reject
+							</a>
 							<a class="btn btn-sm btn-success new-item-link" href="javascript:void(0)"
 								onclick="pageloader('{{ URL::to('test/viewDetails') }}')">
 								<span class="glyphicon glyphicon-eye-open"></span>
@@ -107,15 +107,15 @@
 								Verify
 							</a>
 							<a class="btn btn-sm btn-info new-item-link" href="javascript:void(0)"
-								onclick="pageloader('{{ URL::to('test/viewDetails') }}')">
+								onclick="pageloader('{{ URL::to('test/edit') }}')">
 								<span class="glyphicon glyphicon-edit"></span>
 								Edit
 							</a>
-<a class="btn btn-sm btn-danger new-item-link" href="javascript:void(0)"
-	onclick="pageloader('{{ URL::to('test/'.$value->specimen_id.'/'.$patientId.'/'.$patientNumber.'/'.$patientName.'/'.$specimenTypeName.'/reject') }}')">
-	<span class="glyphicon glyphicon-thumbs-down"></span>
-	Reject
-</a>
+							<a class="btn btn-sm btn-danger new-item-link" href="javascript:void(0)"
+								onclick="pageloader('{{ URL::to('test/'.$value->specimen_id.'/reject') }}')">
+								<span class="glyphicon glyphicon-thumbs-down"></span>
+								Reject
+							</a>
 							<a class="btn btn-sm btn-success new-item-link" href="javascript:void(0)"
 								onclick="pageloader('{{ URL::to('test/viewDetails') }}')">
 								<span class="glyphicon glyphicon-eye-open"></span>

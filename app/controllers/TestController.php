@@ -30,14 +30,12 @@ class TestController extends \BaseController {
 	 * @param
 	 * @return
 	 */
-	public function reject($specimenId, $patientId, $patientNumber, $patientName, $specimenTypeName)
+	public function reject($specimenId)
 	{
-		return View::make('test.reject')
-								->with('specimenId', $specimenId)
-								->with('patientId', $patientId)
-								->with('patientNumber', $patientNumber)
-								->with('patientName', $patientName)
-								->with('specimenTypeName', $specimenTypeName);
+		
+		$rejectionReason = RejectionReason::all();
+		return View::make('test.reject')->with('specimenId', $specimenId)
+								->with('rejectionReason', $rejectionReason);
 	}
 
 	/**
@@ -51,7 +49,10 @@ class TestController extends \BaseController {
 		$specimen = Specimen::find($specimenId);
 		$specimen->rejection_reason_id = Input::get('rejectionReason');
 		$specimen->specimen_status_id = 2;//Rejected
-		//redirect?
+		$specimen->save();
+		// redirect
+		Session::flash('message', 'Specimen was successfully rejected!');
+		return Redirect::to('test');
 	}
 
 	/**
@@ -65,7 +66,6 @@ class TestController extends \BaseController {
 		$test = Test::find($testId);
 		$test->test_status_id = 2;//Started
 		$test->save();
-		//redirect?
 	}
 
 	/**
