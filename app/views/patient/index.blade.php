@@ -14,8 +14,7 @@
 		<span class="glyphicon glyphicon-user"></span>
 		List Patients
 		<div class="panel-btn">
-			<a class="btn btn-sm btn-info" href="javascript:void(0);" 
-				onclick="pageloader('{{ URL::to('patient/create') }}')">
+			<a class="btn btn-sm btn-info" href="{{ URL::to('patient/create') }}">
 				<span class="glyphicon glyphicon-plus-sign"></span>
 				New Patient
 			</a>
@@ -45,15 +44,13 @@
 					<td>
 
 						<!-- show the patient (uses the show method found at GET /patient/{id} -->
-						<a class="btn btn-sm btn-success" href="javascript:viod(0);" 
-							onclick="pageloader('{{ URL::to('patient/' . $value->id) }}')">
+						<a class="btn btn-sm btn-success" href="{{ URL::to('patient/' . $value->id) }}" >
 							<span class="glyphicon glyphicon-eye-open"></span>
 							View
 						</a>
 
 						<!-- edit this patient (uses the edit method found at GET /patient/{id}/edit -->
-						<a class="btn btn-sm btn-info" href="javascript:void(0);" 
-							onclick="pageloader('{{ URL::to('patient/' . $value->id . '/edit') }}')">
+						<a class="btn btn-sm btn-info" href="{{ URL::to('patient/' . $value->id . '/edit') }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							Edit
 						</a>

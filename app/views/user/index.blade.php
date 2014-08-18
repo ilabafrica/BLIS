@@ -14,8 +14,7 @@
 		<span class="glyphicon glyphicon-user"></span>
 		List Users
 		<div class="panel-btn">
-			<a class="btn btn-sm btn-info" href="javascript:void(0);" 
-				onclick="pageloader('{{ URL::to("user/create") }}')">
+			<a class="btn btn-sm btn-info" href="{{ URL::to("user/create") }}" >
 				<span class="glyphicon glyphicon-plus-sign"></span>
 				New User
 			</a>
@@ -45,15 +44,13 @@
 					<td>
 
 						<!-- show the user (uses the show method found at GET /user/{id} -->
-						<a class="btn btn-sm btn-success" href="javascript:void(0);" 
-							onclick="pageloader('{{ URL::to("user/" . $value->id) }}')">
+						<a class="btn btn-sm btn-success" href="{{ URL::to("user/" . $value->id) }}">
 							<span class="glyphicon glyphicon-eye-open"></span>
 							View
 						</a>
 
 						<!-- edit this user (uses the edit method found at GET /user/{id}/edit -->
-						<a class="btn btn-sm btn-info" href="javascript:void(0);" 
-							onclick="pageloader('{{ URL::to("user/" . $value->id . "/edit") }}')">
+						<a class="btn btn-sm btn-info" href="{{ URL::to("user/" . $value->id . "/edit") }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							Edit
 						</a>

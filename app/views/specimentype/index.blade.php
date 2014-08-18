@@ -14,8 +14,7 @@
 		<span class="glyphicon glyphicon-user"></span>
 		List Specimen Types
 		<div class="panel-btn">
-			<a class="btn btn-sm btn-info" href="javascript:void(0);" 
-				onclick="pageloader('{{ URL::to("specimentype/create") }}')">
+			<a class="btn btn-sm btn-info" href="{{ URL::to("specimentype/create") }}" >
 				<span class="glyphicon glyphicon-plus-sign"></span>
 				New Specimen Type
 			</a>
@@ -38,15 +37,13 @@
 					<td>
 
 					<!-- show the specimentype (uses the show method found at GET /specimentype/{id} -->
-						<a class="btn btn-sm btn-success" href="javascript:void(0);" 
-							onclick="pageloader('{{ URL::to("specimentype/" . $value->id) }}')">
+						<a class="btn btn-sm btn-success" href="{{ URL::to("specimentype/" . $value->id) }}" >
 							<span class="glyphicon glyphicon-eye-open"></span>
 							View
 						</a>
 
 					<!-- edit this specimentype (uses the edit method found at GET /specimentype/{id}/edit -->
-						<a class="btn btn-sm btn-info" href="javascript:void(0);" 
-							onclick="pageloader('{{ URL::to("specimentype/" . $value->id . "/edit") }}')">
+						<a class="btn btn-sm btn-info" href="{{ URL::to("specimentype/" . $value->id . "/edit") }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							Edit
 						</a>

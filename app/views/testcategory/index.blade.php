@@ -14,8 +14,7 @@
 		<span class="glyphicon glyphicon-user"></span>
 		List Lab Sections
 		<div class="panel-btn">
-			<a class="btn btn-sm btn-info" href="javascript:void(0);" 
-				onclick="pageloader('{{ URL::to("testcategory/create") }}')">
+			<a class="btn btn-sm btn-info" href="{{ URL::to("testcategory/create") }}" >
 				<span class="glyphicon glyphicon-plus-sign"></span>
 				New Lab Section
 			</a>
@@ -38,15 +37,13 @@
 					<td>
 
 					<!-- show the test category (uses the show method found at GET /testcategory/{id} -->
-						<a class="btn btn-sm btn-success" href="javascript:void(0);" 
-							onclick="pageloader('{{ URL::to("testcategory/" . $value->id) }}')">
+						<a class="btn btn-sm btn-success" href="{{ URL::to("testcategory/" . $value->id) }}" >
 							<span class="glyphicon glyphicon-eye-open"></span>
 							View
 						</a>
 
 					<!-- edit this test category (uses edit method found at GET /testcategory/{id}/edit -->
-						<a class="btn btn-sm btn-info" href="javascript:void(0);" 
-							onclick="pageloader('{{ URL::to("testcategory/" . $value->id . "/edit") }}')">
+						<a class="btn btn-sm btn-info" href="{{ URL::to("testcategory/" . $value->id . "/edit") }}" >							
 							<span class="glyphicon glyphicon-edit"></span>
 							Edit
 						</a>

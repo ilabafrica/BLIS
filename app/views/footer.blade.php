@@ -1,5 +1,5 @@
 @section("footer")
-
+	<!-- Begin footer section -->
 	<!-- Delete Modal-->
 	<div class="modal fade confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" 
 			aria-hidden="true">
@@ -30,4 +30,5 @@
         		{{ HTML::link('http://www.ilabafrica.ac.ke', 'iLabAfrica')}} &copy; 2014
         </div>
     </footer>
+    <!-- End footer section-->
 @show

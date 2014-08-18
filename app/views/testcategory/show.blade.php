@@ -1,3 +1,10 @@
+@extends("layout")
+@section("content")
+
+@if (Session::has('message'))
+	<div class="alert alert-info">{{ Session::get('message') }}</div>
+@endif
+
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
@@ -10,8 +17,7 @@
 			<span class="glyphicon glyphicon-user"></span>
 			Lab Section Details
 			<div class="panel-btn">
-				<a class="btn btn-sm btn-info" href="javascript:void(0);"
-					onclick="pageloader('{{ URL::to("testcategory/" . $testcategory->id . "/edit") }}')">
+				<a class="btn btn-sm btn-info" href="{{ URL::to("testcategory/" . $testcategory->id . "/edit") }}">
 					<span class="glyphicon glyphicon-edit"></span>
 					Edit
 				</a>
@@ -25,3 +31,4 @@
 			</div>
 		</div>
 	</div>
+@stop

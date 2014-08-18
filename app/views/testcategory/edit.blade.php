@@ -1,3 +1,9 @@
+@extends("layout")
+@section("content")
+
+	@if (Session::has('message'))
+		<div class="alert alert-info">{{ Session::get('message') }}</div>
+	@endif
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
@@ -40,3 +46,4 @@
 			{{ Form::close() }}
 		</div>
 	</div>
+@stop	

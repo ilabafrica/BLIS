@@ -1,3 +1,6 @@
+@extends("layout")
+@section("content")
+
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
@@ -14,10 +17,10 @@
 		</div>
 		<div class="panel-body">
 		<!-- if there are creation errors, they will show here -->
-			
-			@if($errors->all())
+			@if($errors->any())
+				{{dd($errors)}}
 				<div class="alert alert-danger">
-					{{ HTML::ul($errors->all()) }}
+					{{ $errors->first('name') }}
 				</div>
 			@endif
 
@@ -40,3 +43,4 @@
 			{{ Form::close() }}
 		</div>
 	</div>
+@stop	

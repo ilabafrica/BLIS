@@ -1,3 +1,5 @@
+@extends("layout")
+@section("content")
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
@@ -60,3 +62,4 @@
 			{{ Form::close() }}
 		</div>
 	</div>
+@stop	

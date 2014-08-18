@@ -1,3 +1,5 @@
+@extends("layout")
+@section("content")
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
@@ -103,9 +105,10 @@
 					['class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-edit-testtype")']
 				) }}
 				{{ Form::button('Cancel', 
-					['class' => 'btn btn-default', 'onclick' => 'pageloader("'.URL::to('testtype').'")']
+					['class' => 'btn btn-default', 'onclick' => 'javascript:history.go(-1)']
 				) }}
 			</div>
 		</div>
 	{{ Form::close() }}
 </div>
+@stop
