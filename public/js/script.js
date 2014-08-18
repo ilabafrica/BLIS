@@ -14,8 +14,6 @@ $(function(){
 
 		$('.main-menu').siblings().hide();
 		$(this).siblings().show();
-
-		$(this).children('a').first().trigger('click');
 	});
 
 });
