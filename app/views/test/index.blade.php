@@ -55,8 +55,7 @@
 						@if (Specimen::find($value->specimen_id)->specimen_status_id == 2)<!-- Rejected -->
 						<td>{{ SpecimenStatus::find(2)->name }}</td><!-- Rejected -->
 						<td>
-							<a class="btn btn-sm btn-success new-item-link" href="javascript:void(0)"
-								onclick="pageloader('{{ URL::to('test/viewDetails') }}')">
+							<a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/viewdetails') }}">
 								<span class="glyphicon glyphicon-eye-open"></span>
 								View Details
 							</a>
@@ -73,8 +72,7 @@
 								<span class="glyphicon glyphicon-eye-open"></span>
 								Start Test
 							</a>	
-							<a class="btn btn-sm btn-success new-item-link" href="javascript:void(0)"
-								onclick="pageloader('{{ URL::to('test/viewDetails') }}')">
+							<a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/viewdetails') }}">
 								<span class="glyphicon glyphicon-eye-open"></span>
 								View Details
 							</a>
@@ -82,8 +80,7 @@
 						@elseif ($value->test_status_id == 2)<!-- Started -->
 						<td>{{ TestStatus::find($value->test_status_id)->name }}</td>
 						<td>
-							<a class="btn btn-sm btn-info new-item-link" href="javascript:void(0)"
-								onclick="pageloader('{{ URL::to('test/'.$value->id.'/enterResults') }}')">
+							<a class="btn btn-sm btn-info new-item-link" href="{{ URL::to('test/'.$value->id.'/enterresults') }}">
 								<span class="glyphicon glyphicon-pencil"></span>
 								Enter Results
 							</a>
@@ -92,8 +89,7 @@
 								<span class="glyphicon glyphicon-thumbs-down"></span>
 								Reject
 							</a>
-							<a class="btn btn-sm btn-success new-item-link" href="javascript:void(0)"
-								onclick="pageloader('{{ URL::to('test/viewDetails') }}')">
+							<a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/viewdetails') }}">
 								<span class="glyphicon glyphicon-eye-open"></span>
 								View Details
 							</a>
@@ -101,13 +97,11 @@
 						@elseif ($value->test_status_id == 3)<!-- Completed -->
 						<td>{{ TestStatus::find($value->test_status_id)->name }}</td>
 						<td>
-							<a class="btn btn-sm btn-success new-item-link" href="javascript:void(0)"
-								onclick="pageloader('{{ URL::to('test/viewDetails') }}')">
+							<a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/viewdetails') }}">
 								<span class="glyphicon glyphicon-thumbs-up"></span>
 								Verify
 							</a>
-							<a class="btn btn-sm btn-info new-item-link" href="javascript:void(0)"
-								onclick="pageloader('{{ URL::to('test/edit') }}')">
+							<a class="btn btn-sm btn-info new-item-link" href="{{ URL::to('test/edit') }}">
 								<span class="glyphicon glyphicon-edit"></span>
 								Edit
 							</a>
@@ -116,8 +110,7 @@
 								<span class="glyphicon glyphicon-thumbs-down"></span>
 								Reject
 							</a>
-							<a class="btn btn-sm btn-success new-item-link" href="javascript:void(0)"
-								onclick="pageloader('{{ URL::to('test/viewDetails') }}')">
+							<a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/viewdetails') }}">
 								<span class="glyphicon glyphicon-eye-open"></span>
 								View Details
 							</a>
@@ -125,8 +118,7 @@
 						@else<!-- Verified -->
 						<td>{{ TestStatus::find($value->test_status_id)->name }}</td>
 						<td>
-							<a class="btn btn-sm btn-success new-item-link" href="javascript:void(0)"
-								onclick="pageloader('{{ URL::to('test/viewDetails') }}')">
+							<a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/viewdetails') }}">
 								<span class="glyphicon glyphicon-eye-open"></span>
 								View Details
 							</a>

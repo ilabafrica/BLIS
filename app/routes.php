@@ -96,7 +96,7 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@reject"
     ));
 
-    Route::get("/test/{id}/rejectAction", array(
+    Route::get("/test/{id}/rejectaction", array(
         "as"   => "test.rejectAction",
         "uses" => "TestController@rejectAction"
     ));
@@ -106,17 +106,17 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@start"
     ));
 
-     Route::get("/test/{id}/enterResults", array(
+     Route::get("/test/{id}/enterresults", array(
         "as"   => "test.enterResults",
         "uses" => "TestController@enterResults"
     ));
 
-     Route::get("/test/{id}/saveResults", array(
+     Route::get("/test/{id}/saveresults", array(
         "as"   => "test.saveResults",
         "uses" => "TestController@saveResults"
     ));
 
-    Route::get("/test/viewDetails", array(
+    Route::get("/test/viewdetails", array(
         "as"   => "test.viewDetails",
         "uses" => "TestController@viewDetails"
     ));

@@ -10,7 +10,7 @@
 			<span class="glyphicon glyphicon-cog"></span>
 			Test Details
 			<div class="panel-btn">
-				<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to("testtype/". $testtype->id ."/edit") }}')">
+				<a class="btn btn-sm btn-info" href="{{ URL::to("testtype/". $testtype->id ."/edit") }}">
 					<span class="glyphicon glyphicon-edit"></span>
 					Edit
 				</a>
