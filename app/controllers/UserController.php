@@ -14,8 +14,8 @@ class UserController extends Controller {
         if (Input::server("REQUEST_METHOD") == "POST") 
         {
             $validator = Validator::make(Input::all(), array(
-                "username" => "required",
-                "password" => "required"
+                "username" => "required|min:6",
+                "password" => "required|min:6"
             ));
 
             if ($validator->passes())
@@ -29,11 +29,14 @@ class UserController extends Controller {
                     //To do: redirect to the URL they came from
                     return Redirect::route("user.home");
                 }
-            }            
+
+            }
+            return Redirect::back()->withInput(Input::except('password'))
+                ->withErrors($validator)
+                ->with('message', 'Username and/or password invalid.');
         }
 
-        return Redirect::back()->withInput(Input::except('password'))
-                ->with('message', 'Username and/or password invalid.');
+        return View::make("user.login");
     }
 
     public function requestAction(){
