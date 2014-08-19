@@ -149,18 +149,21 @@ class CreatekBLIStables extends Migration {
             $table->unique(array('test_type_id','specimen_type_id'));
         });
 
-		Schema::create('test_phases', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->string('name',45);
-		});
+        Schema::create('test_phases', function(Blueprint $table)
+        {
+            $table->integer('id')->unsigned();
+            $table->string('name',45);
+            $table->primary('id');
+            
+        });
 
-		Schema::create('test_statuses', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->string('name',45);
-			$table->integer('test_phase_id')->unsigned();
-			
+        Schema::create('test_statuses', function(Blueprint $table)
+        {
+            $table->integer('id')->unsigned();
+            $table->string('name',45);
+            $table->integer('test_phase_id')->unsigned();
+            
+            $table->primary('id');
 			$table->foreign('test_phase_id')->references('id')->on('test_phases');
 		});
 
@@ -192,7 +195,7 @@ class CreatekBLIStables extends Migration {
 			$table->increments('id');
 			$table->integer('specimen_type_id')->unsigned();
 			$table->integer('specimen_status_id')->unsigned();
-			$table->integer('rejection_reason_id')->unsigned();
+			$table->integer('rejection_reason_id')->unsigned()->nullable();
 			$table->integer('test_phase_id')->unsigned();
 			$table->integer('created_by');
 			$table->integer('referred_from');
