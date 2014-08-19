@@ -40,7 +40,7 @@
 				</div>
 				<div class="form-group actions-row">
 					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', 
-						['class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-edit-testcategory")']) }}
+						['class' => 'btn btn-primary', 'onclick' => 'submit()']) }}
 				</div>
 
 			{{ Form::close() }}

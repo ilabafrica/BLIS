@@ -1,10 +1,15 @@
-
 <?php
+
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class TestCategory extends Eloquent
 {
+	/**
+	 * Enabling soft deletes for test categories.
+	 *
+	 */
 	use SoftDeletingTrait;
-    	protected $dates = ['deleted_at'];
+	protected $dates = ['deleted_at'];
     	
 	/**
 	 * The database table used by the model.
@@ -14,9 +19,8 @@ class TestCategory extends Eloquent
 	protected $table = 'test_categories';
 
 	/**
-	 * Enabling soft deletes for patient details.
+	 * Validation rules for test categories
 	 *
-	 * @var boolean
 	 */
-	protected $softDelete = true;
+	public static $rules = array('name' => 'required|unique:test_categories,name');
 }

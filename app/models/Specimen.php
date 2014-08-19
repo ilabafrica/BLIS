@@ -1,4 +1,3 @@
-
 <?php
 
 class Specimen extends Eloquent

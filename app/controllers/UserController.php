@@ -11,14 +11,6 @@ class UserController extends Controller {
     //Function for user authentication logic
     public function loginAction(){
 
-        $errors = new MessageBag();
-        if ($old = Input::old("errors")) {
-            $errors = $old;
-        }
-
-        $data = array( "errors" => $errors );
-
-        Log::info(Input::server("REQUEST_METHOD"));
         if (Input::server("REQUEST_METHOD") == "POST") 
         {
             $validator = Validator::make(Input::all(), array(
@@ -37,20 +29,11 @@ class UserController extends Controller {
                     //To do: redirect to the URL they came from
                     return Redirect::route("user.home");
                 }
-            }
-            
-            $data["errors"] = new MessageBag(array(
-                "password" => array(
-                    "Username and/or password invalid."
-                    ) 
-                ));
-
-            $data["username"] = Input::get("username");
-            Log::info($data["errors"]);
-            return Redirect::route("user.login")->withInput($data);
+            }            
         }
 
-        return View::make("user.login", $data);
+        return Redirect::back()->withInput(Input::except('password'))
+                ->with('message', 'Username and/or password invalid.');
     }
 
     public function requestAction(){
@@ -164,8 +147,8 @@ class UserController extends Controller {
     {
         //
         $rules = array(
-            'username' => 'required',
-            'name'       => 'required',
+            'username' => 'required|unique:users,username',
+            'name' => 'required',
             'email' => 'required|email'
         );
         $validator = Validator::make(Input::all(), $rules);
@@ -203,15 +186,13 @@ class UserController extends Controller {
 
             try{
                 $user->save();
-                Session::flash('message', 'Successfully created the user!');
-                return Redirect::to('user');
+                return Redirect::to('user')->with('message', 'Successfully created the user!');
             }catch(QueryException $e){
-                $errors = new MessageBag(array(
-                    "Please select another username."
-                ));
+                Log::error($e);
                 return Redirect::to('user/create')
                     ->withErrors($errors)
-                    ->withInput(Input::except('password'));
+                    ->withInput(Input::except('password'))
+                    ->with('message', "Please select another username.");
             }
             
             // redirect
@@ -296,8 +277,7 @@ class UserController extends Controller {
             $user->save();
 
             // redirect
-            Session::flash('message', 'The user details were successfully updated!');
-            return Redirect::to('user');
+            return Redirect::to('user')->with('message', 'The user details were successfully updated!');
         }
     }
 
@@ -326,7 +306,6 @@ class UserController extends Controller {
         $user->delete();
 
         // redirect
-        Session::flash('message', 'The user was successfully deleted!');
-        return Redirect::to('user');
+        return Redirect::to('user')->with('message', 'The user was successfully deleted!');
     }
 }

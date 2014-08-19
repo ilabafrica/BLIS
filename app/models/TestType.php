@@ -1,11 +1,16 @@
-
 <?php
+
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class TestType extends Eloquent
 {
 
+	/**
+	 * Enabling soft deletes for specimen type details.
+	 *
+	 */
 	use SoftDeletingTrait;
-    	protected $dates = ['deleted_at'];
+	protected $dates = ['deleted_at'];
     	
 	/**
 	 * The database table used by the model.
@@ -13,13 +18,6 @@ class TestType extends Eloquent
 	 * @var string
 	 */
 	protected $table = 'test_types';
-
-	/**
-	 * Enabling soft deletes for specimen type details.
-	 *
-	 * @var boolean
-	 */
-	protected $softDelete = true;
 
 	/**
 	 * TestCategory relationship

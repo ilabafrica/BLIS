@@ -16,7 +16,7 @@
                     <div class="user-settings">
                         <div>
                             <span class="glyphicon glyphicon-edit"></span>
-                            <a href="javascript:void(0);" onclick="loadandclose('{{ URL::to("user/".Auth::user()->id."/edit") }}', 'user-settings');">Edit Profile</a>
+                            <a href='{{ URL::to("user/".Auth::user()->id."/edit") }}'>Edit Profile</a>
                         </div>
                         <div>
                             <span class="glyphicon glyphicon-log-out"></span>

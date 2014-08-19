@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\MessageBag;
 use Illuminate\Database\QueryException;
 
 /**
@@ -42,15 +41,12 @@ class SpecimenTypeController extends \BaseController {
 	public function store()
 	{
 		//
-		$rules = array(
-			'name'       => 'required'
-		);
+		$rules = array('name' => 'required|unique:specimen_types,name');
 		$validator = Validator::make(Input::all(), $rules);
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::to('specimentype/create')
-				->withErrors($validator);
+			return Redirect::back()->withErrors($validator);
 		} else {
 			// store
 			$specimentype = new SpecimenType;
@@ -59,14 +55,10 @@ class SpecimenTypeController extends \BaseController {
 
 			try{
 				$specimentype->save();
-				Session::flash('message', 'Successfully created specimen type!');
-				return Redirect::to('specimentype');
+				return Redirect::route('specimentype.index')
+                        ->with('message', 'Successfully created specimen type!');
 			}catch(QueryException $e){
-				$errors = new MessageBag(array(
-                	"Ensure that the specimen type name is unique."
-                ));
-				return Redirect::to('specimentype/create')
-					->withErrors($errors);
+                Log::error($e);
 			}
 			
 			// redirect
@@ -112,15 +104,12 @@ class SpecimenTypeController extends \BaseController {
 	public function update($id)
 	{
 		//
-		$rules = array(
-			'name'       => 'required'
-		);
+		$rules = array('name' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::to('specimentype/' . $id . '/edit')
-				->withErrors($validator);
+			return Redirect::back()->withErrors($validator);
 		} else {
 			// Update
 			$specimentype = SpecimenType::find($id);
@@ -129,8 +118,8 @@ class SpecimenTypeController extends \BaseController {
 			$specimentype->save();
 
 			// redirect
-			Session::flash('message', 'The specimen type details were successfully updated!');
-			return Redirect::to('specimentype');
+			return Redirect::route('specimentype.index')
+                    ->with('message', 'The specimen type details were successfully updated!');
 		}
 	}
 
@@ -159,8 +148,8 @@ class SpecimenTypeController extends \BaseController {
 		$specimentype->delete();
 
 		// redirect
-		Session::flash('message', 'The specimen 	type was successfully deleted!');
-		return Redirect::to('specimentype');
+		return Redirect::route('specimentype.index')
+                    ->with('message', 'The specimen type was successfully deleted!');
 	}
 
 }

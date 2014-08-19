@@ -1,4 +1,3 @@
-
 <?php
 
 class TestResult extends Eloquent

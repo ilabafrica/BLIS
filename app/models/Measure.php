@@ -1,10 +1,16 @@
-
 <?php
+
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class Measure extends Eloquent
 {
+	/**
+	 * Enabling soft deletes for Measures.
+	 *
+	 */
+
 	use SoftDeletingTrait;
-    	protected $dates = ['deleted_at'];
+	protected $dates = ['deleted_at'];
     	
 	/**
 	 * The database table used by the model.
@@ -12,13 +18,6 @@ class Measure extends Eloquent
 	 * @var string
 	 */
 	protected $table = 'measures';
-
-	/**
-	 * Enabling soft deletes for patient details.
-	 *
-	 * @var boolean
-	 */
-	protected $softDelete = true;
 
 	/**
 	 * Measure Range relationship

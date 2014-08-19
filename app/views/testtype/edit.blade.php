@@ -102,7 +102,7 @@
 		<div class="panel-footer">
 			<div class="form-group actions-row">
 				{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', 
-					['class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-edit-testtype")']
+					['class' => 'btn btn-primary', 'onclick' => 'submit()']
 				) }}
 				{{ Form::button('Cancel', 
 					['class' => 'btn btn-default', 'onclick' => 'javascript:history.go(-1)']

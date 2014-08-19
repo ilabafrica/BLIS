@@ -4,6 +4,10 @@ $(function(){
 		$('.user-settings').toggle();
 	});
 
+	$('.user-profile .user-settings a').click(function(){
+		$('.user-settings').toggle();
+	});
+
 	/*	LEFT SIDEBAR FUNCTIONS	*/
 	
 	/* Click main menu */
@@ -14,6 +18,18 @@ $(function(){
 
 		$('.main-menu').siblings().hide();
 		$(this).siblings().show();
+	});
+
+	/* Add another measure button */
+	$('.add-another-range').click(function(){
+		var mtval = $("#measuretype").val() - 1;
+		$(".measurevalue" ).append(measureInputs[mtval]);
+	});
+	
+	/* load measure range input UI for the selected measure type */
+	$( "#measuretype" ).change(function() {
+		var mtval = $(this).val() - 1;
+		$(".measurevalue" ).html(measureInputs[mtval]);
 	});
 
 });
@@ -64,18 +80,6 @@ $(function(){
 		/* Clicking the label of an radio/checkbox, checks the control*/
 		$('span.input-tag').click(function(){
 			$(this).siblings('input').trigger('click');
-		});
-
-		/* Add another measure button */
-		$('.add-another-range').click(function(){
-			var mtval = $("#measuretype").val() - 1;
-			$(".measurevalue" ).append(measureInputs[mtval]);
-		});
-		
-		/* load measure range input UI for the selected measure type */
-		$( "#measuretype" ).change(function() {
-			var mtval = $(this).val() - 1;
-			$(".measurevalue" ).html(measureInputs[mtval]);
 		});
 
 		/**	

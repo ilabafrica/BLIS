@@ -1,4 +1,3 @@
-
 <?php
 
 class TestTypeMeasure extends Eloquent

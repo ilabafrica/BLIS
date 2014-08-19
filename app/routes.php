@@ -136,5 +136,5 @@ Route::group(array("before" => "auth"), function()
 // Display all SQL executed in Eloquent
 Event::listen('illuminate.query', function($query)
 {
-    Log::info($query);
+        Log::info($query);
 });
