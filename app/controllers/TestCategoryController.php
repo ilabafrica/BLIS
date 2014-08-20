@@ -112,7 +112,7 @@ class TestCategoryController extends \BaseController {
 			$testcategory->save();
 
 			// redirect
-			return Redirect::route('testcategory.index')->with('message', 'success-updating-test-category');
+			return Redirect::route('testcategory.index')->with('message', 'messages.success-updating-test-category');
 		}
 	}
 
@@ -141,7 +141,7 @@ class TestCategoryController extends \BaseController {
 		$testcategory->delete();
 
 		// redirect
-		return Redirect::route('testcategory.index')->with('message', 'success-deleting-test-category');
+		return Redirect::route('testcategory.index')->with('message', 'messages.success-deleting-test-category');
 	}
 
 
