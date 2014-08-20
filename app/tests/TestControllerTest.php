@@ -16,8 +16,8 @@ class TestControllerTest extends TestCase
   	{
 		echo "\nTEST CONTROLLER TEST\n\n";
   		 // start the test
-		$this->runStart(15);
-		$test = Test::find(15);
+		$this->runStart(2);
+		$test = Test::find(2);
 		$this->assertEquals($test->test_status_id , 2);
   	}
   	public function runStart($testId)

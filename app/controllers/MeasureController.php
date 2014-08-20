@@ -49,7 +49,7 @@ class MeasureController extends \BaseController {
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
+            return Redirect::route("measure.create")->withErrors($validator)->withInput(Input::except('password'));
         } else {
             // store
             $measure = new Measure;
@@ -89,7 +89,7 @@ class MeasureController extends \BaseController {
                 $measure->save();
                 return Redirect::route('measure.index')->with('message', 'Successfully created measure!');
             }
-            return Redirect::back()->with('message', 'Error occured while creating measure!');
+            return Redirect::route("measure.create")->with('message', 'Error occured while creating measure!');
         }
     }
     /**
