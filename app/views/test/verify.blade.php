@@ -1,4 +1,6 @@
-<div>
+@extends("layout")
+@section("content")
+	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
 		  <li><a href="{{ URL::route('test.index') }}">Test</a></li>
@@ -29,3 +31,4 @@
 			</div>
 		</div>
 	</div>
+@stop

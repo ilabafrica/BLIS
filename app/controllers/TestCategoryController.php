@@ -52,7 +52,8 @@ class TestCategoryController extends \BaseController {
 			$testcategory->description = Input::get('description');
 			try{
 				$testcategory->save();
-				return Redirect::route('testcategory.index')->with('message','Successfully created test category');
+				return Redirect::route('testcategory.index')
+							->with('message', 'messages.success-creating-test-category');
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -111,7 +112,7 @@ class TestCategoryController extends \BaseController {
 			$testcategory->save();
 
 			// redirect
-			return Redirect::route('testcategory.index')->with('message', 'The lab section was successfully updated!');
+			return Redirect::route('testcategory.index')->with('message', 'success-updating-test-category');
 		}
 	}
 
@@ -140,7 +141,7 @@ class TestCategoryController extends \BaseController {
 		$testcategory->delete();
 
 		// redirect
-		return Redirect::route('testcategory.index')->with('message', 'The lab section was successfully deleted!');
+		return Redirect::route('testcategory.index')->with('message', 'success-deleting-test-category');
 	}
 
 
