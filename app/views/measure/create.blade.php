@@ -50,7 +50,7 @@
 			<a class="btn btn-default add-another-range" href="javascript:void(0);">
 					<span class="glyphicon glyphicon-plus-sign"></span> Add New Range</a>
 			{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save Measure', 
-				array('class' => 'btn btn-default', 'onclick' => 'formsubmit("form-create-measure")')) }}
+				array('class' => 'btn btn-default', 'onclick' => 'submit()')) }}
 		</div>
 	{{ Form::close() }}
 	</div>

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\MessageBag;
 use Illuminate\Database\QueryException;
 
 /**
@@ -49,7 +48,7 @@ class TestTypeController extends \BaseController {
 	{
 		//
 		$rules = array(
-			'name' => 'required',
+			'name' => 'required|unique:test_types,name',
 			'section_id' => 'required',
 			'specimentypes' => 'required',
 			'measures' => 'required',
@@ -58,8 +57,7 @@ class TestTypeController extends \BaseController {
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::to('testtype/create')
-				->withErrors($validator);
+			return Redirect::back()->withErrors($validator);
 		} else {
 			// store 
 			$testtype = new TestType;
@@ -75,13 +73,9 @@ class TestTypeController extends \BaseController {
 				$testtype->setMeasures(Input::get('measures'));
 				$testtype->setSpecimenTypes(Input::get('specimentypes'));
 
-				Session::flash('message', 'Successfully created test type!');
-				return Redirect::to('testtype');
+				return Redirect::route('testtype.index')->with('message', 'Successfully created test type!');
 			}catch(QueryException $e){
-				$errors = new MessageBag(array(
-                	"Ensure that the test type name is unique."
-                ));
-				return Redirect::to('testtype/create')->withErrors($errors);
+				Log::error($e);
 			}
 		}
 	}
@@ -141,8 +135,7 @@ class TestTypeController extends \BaseController {
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::to('testtype/' . $id . '/edit')
-				->withErrors($validator);
+			return Redirect::back()->withErrors($validator);
 		} else {
 			// Update
 			$testtype = TestType::find($id);
@@ -158,8 +151,8 @@ class TestTypeController extends \BaseController {
 			$testtype->setMeasures(Input::get('measures'));
 
 			// redirect
-			Session::flash('message', 'The test type details were successfully updated!');
-			return Redirect::to('testtype');
+			return Redirect::route('testtype.index')
+						->with('message', 'The test type details were successfully updated!');
 		}
 	}
 
@@ -188,8 +181,7 @@ class TestTypeController extends \BaseController {
 		$testtype->delete();
 
 		// redirect
-		Session::flash('message', 'The test type was successfully deleted!');
-		return Redirect::to('testtype');
+		return Redirect::route('testtype.index')->with('message', 'The test type was successfully deleted!');
 	}
 
 }

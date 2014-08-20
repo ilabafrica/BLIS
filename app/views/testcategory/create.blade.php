@@ -17,14 +17,13 @@
 		</div>
 		<div class="panel-body">
 		<!-- if there are creation errors, they will show here -->
-			@if($errors->any())
-				{{dd($errors)}}
+			@if($errors->all())
 				<div class="alert alert-danger">
-					{{ $errors->first('name') }}
+					{{ HTML::ul($errors->all()) }}
 				</div>
 			@endif
 
-			{{ Form::open(array('url' => 'testcategory', 'id' => 'form-create-testcategory')) }}
+			{{ Form::open(array('route' => 'testcategory.store', 'id' => 'form-create-testcategory')) }}
 
 				<div class="form-group">
 					{{ Form::label('name', 'Name') }}
@@ -37,7 +36,7 @@
 				</div>
 				<div class="form-group actions-row">
 					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', 
-						array('class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-create-testcategory")')) }}
+						array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
 				</div>
 
 			{{ Form::close() }}

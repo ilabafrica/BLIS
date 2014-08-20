@@ -102,7 +102,7 @@
 					'<span class="glyphicon glyphicon-save"></span> Save',
 					[
 						'class' => 'btn btn-primary', 
-						'onclick' => 'formsubmit("form-create-testtype")'
+						'onclick' => 'submit()'
 					] 
 				) }}
 			</div>

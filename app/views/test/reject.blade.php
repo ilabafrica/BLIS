@@ -11,7 +11,7 @@
 			Reject Specimen
 		</div>
 		<div class="panel-body">
-		{{ Form::open(array('url' => 'test/'.$specimenId.'/rejectAction', 'method' => 'GET', 'id' => 'form-reject-specimen')) }}
+		{{ Form::open(array('url' => 'test/'.$specimenId.'/rejectaction', 'method' => 'GET', 'id' => 'form-reject-specimen')) }}
 			<div class="panel-body">
 				<div class="form-group">
 					{{ Form::label('rejectionReason', 'Rejection Reason') }}

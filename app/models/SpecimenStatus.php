@@ -1,4 +1,3 @@
-
 <?php
 
 class SpecimenStatus extends Eloquent

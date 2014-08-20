@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\MessageBag;
 use Illuminate\Database\QueryException;
 
 /**
@@ -82,7 +81,7 @@ class TestController extends \BaseController {
 		$testTypeId = Test::find($testId)->test_type_id;
 		$testType = TestType::find($testTypeId);
 		return View::make('test.enterResults')->with('testType', $testType->name)
-											->with('testId', $testId);
+						->with('testId', $testId);
 	}
 
 	/**
@@ -108,7 +107,7 @@ class TestController extends \BaseController {
 
 		// redirect
 		Session::flash('message', 'Results successfully saved!');
-		return Redirect::to('test');
+		return Redirect::route('test.index');
 	}
 
 

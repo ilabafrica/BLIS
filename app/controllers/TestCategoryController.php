@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\MessageBag;
 use Illuminate\Database\QueryException;
 
 /**
@@ -41,13 +40,11 @@ class TestCategoryController extends \BaseController {
 	public function store()
 	{
 		//
-		$rules =array(
-			'name' => 'required'
-		);
-		$validator = Validator::make(Input::all(), $rules);
+		$validator = Validator::make(Input::all(), TestCategory::$rules);
+	
 		//process
 		if($validator->fails()){
-			return Redirect::to('testcategory/create')->withErrors($validator);
+			return Redirect::back()->withErrors($validator);
 		}else{
 			//store
 			$testcategory = new TestCategory;
@@ -55,11 +52,9 @@ class TestCategoryController extends \BaseController {
 			$testcategory->description = Input::get('description');
 			try{
 				$testcategory->save();
-				Session::flash('message','Successfully created test category');
-				return Redirect::to('testcategory');
+				return Redirect::route('testcategory.index')->with('message','Successfully created test category');
 			}catch(QueryException $e){
-				$errors = new MessageBag(array('The lab section your registering already exists!'));
-				return Redirect::to(test/create)->withErrors($errors)->withInput(Input::except('password'));
+				Log::error($e);
 			}
 		}
 	}
@@ -102,16 +97,12 @@ class TestCategoryController extends \BaseController {
 	public function update($id)
 	{
 		//
-		$rules = array(
-			'name'       => 'required'
-		);
+		$rules = array('name' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::to('testcategory/' . $id . '/edit')
-				->withErrors($validator)
-				->withInput(Input::except('password'));
+			return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
 		} else {
 			// Update
 			$testcategory = TestCategory::find($id);
@@ -120,8 +111,7 @@ class TestCategoryController extends \BaseController {
 			$testcategory->save();
 
 			// redirect
-			Session::flash('message', 'The lab section were successfully updated!');
-			return Redirect::to('testcategory');
+			return Redirect::route('testcategory.index')->with('message', 'The lab section was successfully updated!');
 		}
 	}
 
@@ -150,8 +140,7 @@ class TestCategoryController extends \BaseController {
 		$testcategory->delete();
 
 		// redirect
-		Session::flash('message', 'The lab section was successfully deleted!');
-		return Redirect::to('testcategory');
+		return Redirect::route('testcategory.index')->with('message', 'The lab section was successfully deleted!');
 	}
 
 

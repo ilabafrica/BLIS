@@ -54,7 +54,7 @@
 				</div>
 				<div class="form-group actions-row">
 					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', 
-						['class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-create-patient")']) }}
+						['class' => 'btn btn-primary', 'onclick' => 'submit()']) }}
 				</div>
 
 			{{ Form::close() }}

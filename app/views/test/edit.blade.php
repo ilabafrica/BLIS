@@ -1,3 +1,5 @@
+@extends("layout")
+@section("content")
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
@@ -17,11 +19,10 @@
 					{{ HTML::ul($errors->all()) }}
 				</div>
 			@endif
-			{{ Form::open(array('url' => 'test', 'id' => 'form-enter-results')) }}
+			{{ Form::open(array('route' => 'test.saveResults', 'id' => 'form-enter-results')) }}
 				<div class="form-group">
 					{{ Form::label('testType', 'BS for mps') }}
-					{{ Form::text('testType', Input::old('testType'), 
-						array('class' => 'form-control')) }}
+					{{ Form::text('testType', Input::old('testType'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">
 					{{ Form::label('interpretation', 'Result Interpretation') }}
@@ -29,8 +30,9 @@
 				</div>
 				<div class="form-group actions-row">
 					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', 
-						['class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-create-test")']) }}
+						['class' => 'btn btn-primary', 'onclick' => 'submit()']) }}
 				</div>
 			{{ Form::close() }}
 		</div>
 	</div>
+@stop

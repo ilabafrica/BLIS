@@ -13,9 +13,9 @@
                 <div class="form-head">
                     <img src="{{ Config::get('kblis.organization-logo') }}" alt="" height="90" width="90">
                     <h3> {{ Config::get('kblis.organization') }} </h3>
-                    @if($error = $errors->first("password"))
+                    @if($errors->all())
                         <div class="alert alert-danger">
-                            {{ $error }}
+                            {{ HTML::ul($errors->all()) }}
                         </div>
                     @endif
                 </div>

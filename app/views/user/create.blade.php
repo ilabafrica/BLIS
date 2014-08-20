@@ -50,7 +50,7 @@
                 </div>
 				<div class="form-group actions-row">
 					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', 
-						['class' => 'btn btn-primary', 'onclick' => 'multipartformsubmit("form-create-user")']
+						['class' => 'btn btn-primary', 'onclick' => 'submit()']
 					) }}
 				</div>
 

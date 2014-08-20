@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\MessageBag;
 use Illuminate\Database\QueryException;
 
 /**
@@ -43,7 +42,7 @@ class PatientController extends \BaseController {
 	{
 		//
 		$rules = array(
-			'patient_number' => 'required',
+			'patient_number' => 'required|unique:patients,patient_number',
 			'name'       => 'required',
 			'gender' => 'required',
 			'dob' => 'required'
@@ -52,8 +51,7 @@ class PatientController extends \BaseController {
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::to('patient/create')
-				->withErrors($validator)
+			return Redirect::back()->withErrors($validator)
 				->withInput(Input::except('password'));
 		} else {
 			// store
@@ -68,15 +66,9 @@ class PatientController extends \BaseController {
 
 			try{
 				$patient->save();
-				Session::flash('message', 'Successfully created patient!');
-				return Redirect::to('patient');
+				return Redirect::to('patient')->with('message', 'Successfully created patient!');
 			}catch(QueryException $e){
-				$errors = new MessageBag(array(
-                	"Ensure that the patient number is unique."
-                ));
-				return Redirect::to('patient/create')
-					->withErrors($errors)
-					->withInput(Input::except('password'));
+				Log::error($e);
 			}
 			
 			// redirect
@@ -148,8 +140,7 @@ class PatientController extends \BaseController {
 			$patient->save();
 
 			// redirect
-			Session::flash('message', 'The patient details were successfully updated!');
-			return Redirect::to('patient');
+			return Redirect::to('patient')->with('message', 'The patient details were successfully updated!');
 		}
 	}
 
@@ -178,8 +169,7 @@ class PatientController extends \BaseController {
 		$patient->delete();
 
 		// redirect
-		Session::flash('message', 'The patient was successfully deleted!');
-		return Redirect::to('patient');
+		return Redirect::to('patient')->with('message', 'The patient was successfully deleted!');
 	}
 
 }

@@ -50,7 +50,8 @@
 					{{ Form::email('email', Input::old('email'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group actions-row">
-					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', array('class' => 'btn btn-primary', 'onclick' => 'formsubmit("form-edit-patient")')) }}
+					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save',
+						 array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
 				</div>
 
 			{{ Form::close() }}

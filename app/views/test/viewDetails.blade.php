@@ -1,4 +1,6 @@
-<div>
+@extends("layout")
+@section("content")
+	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
 		  <li><a href="{{ URL::route('test.index') }}">Test</a></li>
@@ -10,7 +12,7 @@
 			<span class="glyphicon glyphicon-cog"></span>
 			Test Details
 			<div class="panel-btn">
-				<a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="pageloader('{{ URL::to("#") }}')">
+				<a class="btn btn-sm btn-info" href="{{ URL::to("#") }}">
 					<span class="glyphicon glyphicon-edit"></span>
 					Edit
 				</a>
@@ -34,3 +36,4 @@
 			</div>
 		</div>
 	</div>
+@stop

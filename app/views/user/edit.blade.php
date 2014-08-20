@@ -63,7 +63,7 @@
 					<div class="col-md-12">
 						<div class="form-group actions-row">
 							{{ Form::button('<span class="glyphicon glyphicon-save"></span> Update', array(
-								'class' => 'btn btn-primary', 'onclick' => 'multipartformsubmit("form-edit-user")')) }}
+								'class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
 						</div>
 					</div>
 				</div>
