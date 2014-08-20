@@ -50,12 +50,12 @@
 								Edit
 							</a>
 							<!-- delete this measure (uses the delete method found at GET /measure/{id}/delete -->
-							<a class="btn btn-sm btn-danger delete-item-link" href="javascript:void(0);" 
+							<button class="btn btn-sm btn-danger delete-item-link" 
 								data-toggle="modal" data-target=".confirm-delete-modal"	
 								data-id='{{ URL::to("measure/" . $value->id . "/delete") }}'>
 								<span class="glyphicon glyphicon-trash"></span>
 								Delete
-							</a>
+							</button>
 						</td>
 					</tr>
 				@endforeach
