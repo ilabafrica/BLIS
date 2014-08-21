@@ -30,7 +30,7 @@
 
     <footer class="footer">
         <div>
-        		{{ HTML::link('http://www.ilabafrica.ac.ke', 'iLabAfrica')}} &copy; 2014
+        		{{ HTML::link('http://www.ilabafrica.ac.ke', 'iLabAfrica')}} &copy; {{date("Y")}}
         </div>
     </footer>
     <!-- End footer section-->

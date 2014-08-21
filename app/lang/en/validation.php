@@ -99,6 +99,11 @@ return array(
 	|
 	*/
 
-	'attributes' => array(),
+	'attributes' => array(
+		'email' => 'Email',
+		'name' => 'Name',
+		'password' => 'Password',
+		'username' => 'Username',
+		),
 
 );
