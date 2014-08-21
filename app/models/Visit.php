@@ -10,4 +10,21 @@ class Visit extends Eloquent
 	protected $table = 'visits';
 
 	public $timestamps = false;
+
+	/**
+	 * Test relationship
+	 */
+    public function tests()
+    {
+        return $this->hasMany('Test');
+    }
+
+	/**
+	 * Patient relationship
+	 */
+	public function patient()
+	{
+		return $this->belongsTo('Patient');
+	}
+
 }

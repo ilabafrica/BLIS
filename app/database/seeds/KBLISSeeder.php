@@ -120,9 +120,11 @@ extends DatabaseSeeder
         /* Patients table */
         $patients = Patient::create(
             array(
-                "name" => "Jamkizi Felix", 
-                "email" => "fjamkizi@example.com", 
-                "patient_number" => "1002"
+                "name" => "Jam Felix", "email" => "fjamkizi@x.com", "patient_number" => "1002", "dob" => "2000-01-01",
+                "name" => "Emma Wallace", "email" => "emma@snd.com", "patient_number" => "1003", "dob" => "1990-03-01",
+                "name" => "Jack Tee", "email" => "info@jt.co.ke", "patient_number" => "1004", "dob" => "1999-12-18",
+                "name" => "Hu Jintao", "email" => "hu@.un.org", "patient_number" => "1005", "dob" => "1956-10-28",
+                "name" => "Lance Opiyo", "email" => "lance@x.com", "patient_number" => "2150", "dob" => "2012-01-01",
             )
         );
         $this->command->info('patients seeded');

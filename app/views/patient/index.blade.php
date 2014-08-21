@@ -9,7 +9,7 @@
 @if (Session::has('message'))
 	<div class="alert alert-info">{{ Session::get('message') }}</div>
 @endif
-<div class="panel panel-primary patient-create">
+<div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
 		List Patients

@@ -116,7 +116,7 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@saveResults"
     ));
 
-    Route::get("/test/viewdetails", array(
+    Route::get("/test/{id}/viewdetails", array(
         "as"   => "test.viewDetails",
         "uses" => "TestController@viewDetails"
     ));
@@ -125,10 +125,15 @@ Route::group(array("before" => "auth"), function()
         "as"   => "test.edit",
         "uses" => "TestController@edit"
     ));
-    
+
     Route::get("/test/verify", array(
         "as"   => "test.verify",
         "uses" => "TestController@verify"
+    ));
+
+    Route::get("/test/create", array(
+        "as"   => "test.create",
+        "uses" => "TestController@create"
     ));
 
 });

@@ -7,7 +7,7 @@
 		  <li class="active">Measure Details</li>
 		</ol>
 	</div>
-	<div class="panel panel-primary patient-create">
+	<div class="panel panel-primary">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-user"></span>
 			Measure Details
