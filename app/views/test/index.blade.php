@@ -63,8 +63,8 @@
 						@elseif ($value->test_status_id == 1)<!-- Pending -->
 						<td>{{ TestStatus::find($value->test_status_id)->name }}</td>
 						<td>
-							<a class="btn btn-sm btn-danger new-item-link" href="javascript:void(0)"
-								onclick="pageloader('{{ URL::to('test/'.$value->specimen_id.'/reject') }}')">
+							<a class="btn btn-sm btn-danger new-item-link" 
+								href="URL::to('test/'.$value->specimen_id.'/reject')">
 								<span class="glyphicon glyphicon-thumbs-down"></span>
 								Reject
 							</a>
@@ -84,8 +84,8 @@
 								<span class="glyphicon glyphicon-pencil"></span>
 								Enter Results
 							</a>
-							<a class="btn btn-sm btn-danger new-item-link" href="javascript:void(0)"
-								onclick="pageloader('{{ URL::to('test/'.$value->specimen_id.'/reject') }}')">
+							<a class="btn btn-sm btn-danger new-item-link" 
+								href="{{ URL::to('test/'.$value->specimen_id.'/reject')}}">
 								<span class="glyphicon glyphicon-thumbs-down"></span>
 								Reject
 							</a>
@@ -105,8 +105,8 @@
 								<span class="glyphicon glyphicon-edit"></span>
 								Edit
 							</a>
-							<a class="btn btn-sm btn-danger new-item-link" href="javascript:void(0)"
-								onclick="pageloader('{{ URL::to('test/'.$value->specimen_id.'/reject') }}')">
+							<a class="btn btn-sm btn-danger new-item-link" 
+								href="{{ URL::to('test/'.$value->specimen_id.'/reject') }}">
 								<span class="glyphicon glyphicon-thumbs-down"></span>
 								Reject
 							</a>
