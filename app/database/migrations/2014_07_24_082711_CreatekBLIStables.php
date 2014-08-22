@@ -130,8 +130,8 @@ class CreatekBLIStables extends Migration {
             $table->increments('id')->unsigned();
             $table->integer('test_type_id')->unsigned();
             $table->integer('measure_id')->unsigned();
-            $table->tinyInteger('ordering');
-            $table->tinyInteger('nesting');
+            $table->tinyInteger('ordering')->nullable();
+            $table->tinyInteger('nesting')->nullable();
 
             $table->foreign('test_type_id')->references('id')->on('test_types');
             $table->foreign('measure_id')->references('id')->on('measures');

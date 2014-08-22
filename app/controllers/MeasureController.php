@@ -64,7 +64,7 @@ class MeasureController extends \BaseController {
                 Log::error($e);
             }
             
-            if ($measure->measureType->id == 1) {
+            if ($measure->measure_type_id == 1) {
                 $val['agemin'] = Input::get('agemin');
                 $val['agemax'] = Input::get('agemax');
                 $val['gender'] = Input::get('gender');
@@ -155,7 +155,7 @@ class MeasureController extends \BaseController {
             $measure->description = Input::get('description');
             $measure->save();
 
-            if ($measure->measureType->id == 1) {
+            if ($measure->measure_type_id == 1) {
                 $val['agemin'] = Input::get('agemin');
                 $val['agemax'] = Input::get('agemax');
                 $val['gender'] = Input::get('gender');
