@@ -36,12 +36,17 @@ extends DatabaseSeeder
         /* Users table */
         $users = array(
             array(
-                "username" => "administrator",
-                "password" => Hash::make("password"),
-                "email"    => "admin@example.com",
-                "name"     => "kBLIS Administrator",
-                "designation" => "Programmer"
-            )
+                "username" => "administrator", "password" => Hash::make("password"), "email" => "admin@kblis.org",
+                "name" => "kBLIS Administrator", "designation" => "Programmer"
+            ),
+            array(
+                "username" => "lmorena", "password" => Hash::make("password"), "email" => "lmorena@kblis.org",
+                "name" => "L. Morena", "designation" => "Lab Technologist"
+            ),
+            array(
+                "username" => "abumeyang", "password" => Hash::make("password"), "email" => "abumeyang@kblis.org",
+                "name" => "A. Abumeyang", "designation" => "Doctor"
+            ),
         );
 
         foreach ($users as $user)

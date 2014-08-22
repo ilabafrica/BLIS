@@ -20,19 +20,38 @@
 		</div>
 		<div class="panel-body">
 			<div class="display-details">
-				<h3 class="view"><strong>{{trans('messages.test-type')}}</strong>{{ $test->testType->name }}</h3>
-				<p class="view-striped"><strong>{{trans('messages.specimen-number')}}</strong>PAR-773</p>
-				<p class="view"><strong>{{trans('messages.visit-number')}}Lab No.</strong>20140707-6</p>
-				<p class="view-striped"><strong>{{trans('messages.patient-name')}}t</strong>booh</p>
-				<p class="view"><strong>{{trans('messages.lab-receipt-date')}}</strong>07-07-2014</p>
-				<p class="view-striped"><strong>{{trans('messages.registered-by')}}</strong>superadmin</p>
-				<p class="view"><strong>{{trans('messages.test')}}</strong>BS for mps</p>
-				<p class="view-striped"><strong>{{trans('messages.physician')}}</strong>-</p>
-				<p class="view"><strong>Results</strong>Positive</p>
-				<p class="view-striped"><strong>Remarks</strong>gosh!!</p>
-				<p class="view"><strong>Entered By</strong>superadmin</p>
-				<p class="view-striped"><strong>Turnaround time</strong>4 d 21 hrs 23 min</p>
-				<p class="view"><strong>Verified By</strong>Verification Pending</p>
+				<h3 class="view"><strong>{{trans('messages.test-type')}}</strong>
+					{{ $test->testType->name or trans('messages.unknown') }}</h3>
+				<p class="view-striped"><strong>{{trans('messages.specimen-number')}}</strong>
+					{{$test->specimen->id or trans('messages.pending') }}</p>
+				<p class="view"><strong>{{trans('messages.visit-number')}}</strong>
+					{{$test->visit->id or trans('messages.unknown') }}</p>
+				<p class="view-striped"><strong>{{trans('messages.patient-name')}}</strong>
+					{{$test->visit->patient->name}}</p>
+				<p class="view"><strong>{{trans('messages.lab-receipt-date')}}</strong>
+					{{$test->time_created}}</p>
+				<p class="view-striped"><strong>{{trans('messages.registered-by')}}</strong>
+					{{$test->createdBy->name or trans('messages.unknown') }}</p>
+				<p class="view"><strong>{{trans('messages.specimen-type')}}</strong>
+					{{$test->specimen->specimenType->name or trans('messages.pending') }}</p>
+				<p class="view-striped"><strong>{{trans('messages.physician')}}</strong>
+					{{$test->requestedBy->name or trans('messages.unknown') }}</p>
+				<p class="view"><strong>{{trans('messages.tested-by')}}</strong>
+					{{$test->testedBy->name or trans('messages.unknown')}}</p>
+				<p class="view-striped"><strong>{{trans('messages.turnaround-time')}}</strong>
+					<?php $tat = $test->getTurnaroundTime(); ?>
+					{{$tat or trans('messages.pending')}}</p>
+				<p class="view"><strong>{{trans('messages.verified-by')}}</strong>
+					{{$test->verifiedBy->name or trans('messages.verification-pending')}}</p>
+				<p class="view"><strong>{{trans('messages.test-results')}}</strong>
+					<div>
+					@foreach($test->testResults as $result)
+						<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
+					@endforeach
+					</div>
+				</p>
+				<p class="view-striped"><strong>{{trans('messages.test-remarks')}}</strong>
+					{{$test->interpretation}}</p>
 			</div>
 		</div>
 	</div>
