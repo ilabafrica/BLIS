@@ -14,7 +14,7 @@ class MeasureControllerTest extends TestCase
     	{
 	    	parent::setUp();
 	    	Artisan::call('migrate');
-    		$this->prepareforTests();
+    		$this->setVariables();
     	}
 	/**
 	 * Tests the store funtion in the MeasureController
@@ -155,7 +155,7 @@ class MeasureControllerTest extends TestCase
 		$this->runStore($this->inputAutocomplete);
 		$this->runStore($this->inputFreetext);
 
-		//To Do:: Delete for measures
+		//To Do:: Delete for measureranges
 		$measureController = new MeasureController();
 		$measureController->delete(1);
 		$measureController->delete(2);
@@ -200,7 +200,7 @@ class MeasureControllerTest extends TestCase
 	    	$measure->update($id);
 	}
 
-	public function prepareforTests(){
+	public function setVariables(){
 
     		// Initial sample storage data
 		$this->inputNumeric = array(
