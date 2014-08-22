@@ -90,12 +90,11 @@ class MeasureControllerTest extends TestCase
 		$this->runStore($this->inputAutocomplete);
 		$this->runStore($this->inputFreetext);
 
-		// Update the Measure Types				
+		// Update the Measure Types
 		$this->runUpdate($this->inputNumericUpdate, 1);
 		$this->runUpdate($this->inputAlphanumericUpdate, 2);
 		$this->runUpdate($this->inputAutocompleteUpdate, 3);
 		$this->runUpdate($this->inputFreetextUpdate, 4);
-		echo "\n All Measures updated \n";
 		
 		$measureidone = Measure::find(1);
 		$this->assertEquals($measureidone->name , $this->inputNumericUpdate['name']);
@@ -140,25 +139,40 @@ class MeasureControllerTest extends TestCase
 		$this->assertEquals($measurerangeidthree->gender, $this->inputNumericUpdate['gender'][2]);
 		$this->assertEquals($measurerangeidthree->range_lower, $this->inputNumericUpdate['rangemin'][2]);
 		$this->assertEquals($measurerangeidthree->range_upper, $this->inputNumericUpdate['rangemax'][2]);
-		   
-	}	
+		
+	}
 	
 	/**
   	 * Tests the update funtion in the MeasureController
-	 * @param  array $testMeasureId Measure IDs from testStore()
+	 * 
 	 * @return void
      	  */
 	public function testIfDeleteWorks()
 	{
-		$this->runDelete($testMeasureId['numeric']);
-		$this->runDelete($testMeasureId['alphanumeric']);
-		$this->runDelete($testMeasureId['autocomplete']);
-		$this->runDelete($testMeasureId['freetext']);
-		$measuresSaved = Measure::withTrashed()->orderBy('id','desc')->take(4)->get();
-		foreach ($measuresSaved as $measureSaved) {
-			$this->assertNotNull($measureSaved->deleted_at);
-		} 
-		echo "\nAll four Measure types softDeleted\n";
+		//Save again because teardown() dropped the db :(
+		$this->runStore($this->inputNumeric);
+		$this->runStore($this->inputAlphanumeric);
+		$this->runStore($this->inputAutocomplete);
+		$this->runStore($this->inputFreetext);
+
+		//To Do:: Delete for measures
+		$measureController = new MeasureController();
+		$measureController->delete(1);
+		$measureController->delete(2);
+		$measureController->delete(3);
+		$measureController->delete(4);
+
+		$measureidone = Measure::withTrashed()->find(1);
+		$this->assertNotNull($measureidone->deleted_at );
+
+		$measureidtwo = Measure::withTrashed()->find(2);
+		$this->assertNotNull($measureidtwo->deleted_at);
+
+		$measureidthree = Measure::withTrashed()->find(3);
+		$this->assertNotNull($measureidthree->deleted_at );
+
+		$measureidfour = Measure::withTrashed()->find(4);
+		$this->assertNotNull($measureidfour->deleted_at);
 	}
 	
 	
@@ -184,23 +198,6 @@ class MeasureControllerTest extends TestCase
 		Input::replace($input);
 	    	$measure = new MeasureController;
 	    	$measure->update($id);
-	}
-
-	/**
-	 * Executes the delete funtion in the MeasureController
-	 * @param  int $id IDs of Mesures stored (array $id for numeric Measures)
-	 * @return void
-	 */
-	public function runDelete($id)
-	{
-		/**
-		 * Separates the measureID of numeric measures from it's numericRangesID(s) 
-		 */
-    	if (isset($id['measurerangeid'])) {
-			$id = $id['id'];
-		} 
-		$measure = new MeasureController;
-    	$measure->delete($id);
 	}
 
 	public function prepareforTests(){
@@ -257,6 +254,7 @@ class MeasureControllerTest extends TestCase
 			'gender' => ['11', '11', '11'],
 			'rangemin' => ['22', '42', '55'],
 			'rangemax' => ['42', '44', '55'],
+			'measurerangeid' => ['1','2','3'] //Id's of the measurerange for controller to update
 		);
 
 		$this->inputAlphanumericUpdate = array(
@@ -284,8 +282,5 @@ class MeasureControllerTest extends TestCase
 			'unit' => 'fUnit',
 			'description' => 'fDescription'
 		);
-		$this->testMeasureId = array();
-		$this->testMeasureId['numeric'] = array();
-		$this->testMeasureId['numeric']['measurerangeid'] = array();
     	}
 }

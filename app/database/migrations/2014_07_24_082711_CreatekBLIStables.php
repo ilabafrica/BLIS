@@ -92,8 +92,9 @@ class CreatekBLIStables extends Migration {
 
             $table->foreign('measure_type_id')->references('id')->on('measure_types');
 
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletes();
-            $table->timestamps();
         });
 
         Schema::create('measure_ranges', function(Blueprint $table)
@@ -179,9 +180,9 @@ class CreatekBLIStables extends Migration {
 		{
 			$table->bigIncrements('id');
 			$table->integer('patient_id')->unsigned();
-			$table->timestamp('time_created');
-			
-			$table->foreign('patient_id')->references('id')->on('patients');		
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+			$table->foreign('patient_id')->references('id')->on('patients');
 		});
 		
 		Schema::create('rejection_reasons', function(Blueprint $table)

@@ -207,17 +207,6 @@ class MeasureController extends \BaseController {
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        // 
-    }
-
-    /**
      * Remove the specified resource from storage (soft delete).
      *
      * @param  int  $id
