@@ -47,42 +47,33 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 View Details
                             </a>
-                        @if (Specimen::find($test->specimen_id)->specimen_status_id == 2)<!-- Rejected -->
-                        @elseif ($test->test_status_id == 1)<!-- Pending -->
+                        @if ($test->specimen->specimen_status_id != 2 && $test->test_status_id < 4)
+                            <!-- NOT Rejected AND NOT Verified -->
                             <a class="btn btn-sm btn-danger new-item-link" 
                                 href="{{URL::to('test/'.$test->specimen_id.'/reject')}}">
                                 <span class="glyphicon glyphicon-thumbs-down"></span>
                                 Reject
                             </a>
-                            <a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/'.$test->id.'/start') }}"
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                                Start Test
-                            </a>    
-                        @elseif ($test->test_status_id == 2)<!-- Started -->
-                            <a class="btn btn-sm btn-danger new-item-link" 
-                                href="{{ URL::to('test/'.$test->specimen_id.'/reject')}}">
-                                <span class="glyphicon glyphicon-thumbs-down"></span>
-                                Reject
-                            </a>
-                            <a class="btn btn-sm btn-info new-item-link" href="{{ URL::to('test/'.$test->id.'/enterresults') }}">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                                Enter Results
-                            </a>
-                        @elseif ($test->test_status_id == 3)<!-- Completed -->
-                            <a class="btn btn-sm btn-danger new-item-link" 
-                                href="{{ URL::to('test/'.$test->specimen_id.'/reject') }}">
-                                <span class="glyphicon glyphicon-thumbs-down"></span>
-                                Reject
-                            </a>
-                            <a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/viewdetails') }}">
-                                <span class="glyphicon glyphicon-thumbs-up"></span>
-                                Verify
-                            </a>
-                            <a class="btn btn-sm btn-info new-item-link" href="{{ URL::to('test/edit') }}">
-                                <span class="glyphicon glyphicon-edit"></span>
-                                Edit
-                            </a>
-                        @else<!-- Verified -->
+                             @if ($test->test_status_id == 1)<!-- Pending -->
+                                <a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/'.$test->id.'/start') }}"
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                    Start Test
+                                </a>    
+                            @elseif ($test->test_status_id == 2)<!-- Started -->
+                                <a class="btn btn-sm btn-info new-item-link" href="{{ URL::to('test/'.$test->id.'/enterresults') }}">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                    Enter Results
+                                </a>
+                            @elseif ($test->test_status_id == 3)<!-- Completed -->
+                                <a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/'.$test->id.'/viewdetails') }}">
+                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                    Verify
+                                </a>
+                                <a class="btn btn-sm btn-info new-item-link" href="{{ URL::to('test/'.$test->id.'/edit') }}">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                    Edit
+                                </a>
+                            @endif
                         @endif
                         </td>
                     </tr>

@@ -136,7 +136,8 @@ class TestController extends \BaseController {
 	 */
 	public function edit($testID)
 	{
-		return View::make('test.edit');//->with('', $);
+		$test = Test::find($testID);
+		return View::make('test.edit')->with('test', $test);
 	}
 
 	/**
