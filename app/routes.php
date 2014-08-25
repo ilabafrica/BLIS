@@ -126,9 +126,14 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@edit"
     ));
 
-    Route::get("/test/verify", array(
+    Route::get("/test/{test}/verify", array(
         "as"   => "test.verify",
         "uses" => "TestController@verify"
+    ));
+
+    Route::get("/test/{test}/verifyaction", array(
+        "as"   => "test.verifyAction",
+        "uses" => "TestController@verifyAction"
     ));
 
     Route::get("/test/create", array(

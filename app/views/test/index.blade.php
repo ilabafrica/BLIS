@@ -55,7 +55,7 @@
                                 Reject
                             </a>
                              @if ($test->test_status_id == 1)<!-- Pending -->
-                                <a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/'.$test->id.'/start') }}"
+                                <a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/'.$test->id.'/start') }}">
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                     Start Test
                                 </a>    
@@ -65,7 +65,7 @@
                                     Enter Results
                                 </a>
                             @elseif ($test->test_status_id == 3)<!-- Completed -->
-                                <a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/'.$test->id.'/viewdetails') }}">
+                                <a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/'.$test->id.'/verify') }}">
                                     <span class="glyphicon glyphicon-thumbs-up"></span>
                                     Verify
                                 </a>

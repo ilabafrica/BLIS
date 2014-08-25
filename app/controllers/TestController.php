@@ -157,8 +157,26 @@ class TestController extends \BaseController {
 	 * @param
 	 * @return
 	 */
-	public function verify()
+	public function verify($testID)
 	{
-		return View::make('test.verify');//->with('', $);
+		return View::make('test.verify')->with('test', Test::find($testID));
+	}
+
+	/**
+	 * Executes Verification
+	 *
+	 * @param
+	 * @return
+	 */
+	public function verifyAction($testID)
+	{
+		$test = Test::find($testID);
+		$test->test_status_id = 4;//verified
+		$test->verified_by = 1;//Pick user automatically|SORT
+		$test->time_verified = time();
+		$test->save();
+		// redirect
+		Session::flash('message', 'Test was successfully Verified!');
+		return Redirect::to('test');
 	}
 }

@@ -56,6 +56,7 @@ return array(
     'turnaround-time' => 'Turnaround Time',
     'unknown' => 'Unknown',
     'verified-by' => 'Verified By',
+    'verify' => 'Verify',
     'visit-number' => 'Lab No.',
     'visit-type' => 'Visit Type',
 );
