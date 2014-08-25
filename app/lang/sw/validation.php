@@ -100,8 +100,10 @@ return array(
 	*/
 
 	'attributes' => array(
-		'name' => 'Jina',
 		'email' => 'Barua Pepe',
+		'name' => 'Jina',
+		'password' => 'Nywila',
+		'username' => 'Akaunti',
 		),
 
 );

@@ -28,20 +28,20 @@
                     <div class="form-group">
                         <span class="glyphicon glyphicon-user"></span>
                         {{ Form::text("username", Input::old("username"), array(
-                            "placeholder" => "Username",
+                            "placeholder" => trans('messages.username'),
                             "class" => "form-control"
                         )) }}
                     </div>
                     <div class="form-group">
                         <span class="glyphicon glyphicon-lock"></span>
                         {{ Form::password("password", array(
-                            "placeholder" => "Password",
+                            "placeholder" => trans('messages.password'),
                             "class" => "form-control"
                         )) }}
                     </div>
                     <div class="form-group">
                         <div>
-                            {{ Form::button("Login", array(
+                            {{ Form::button(trans('messages.login'), array(
                                 "type" => "submit",
                                 "class" => "btn btn-primary btn-block"
                             )) }}
@@ -51,8 +51,8 @@
                 <div class="smaller-text alone foot">
                     <p><a href="#">User Guide in progress</a></p>
                     <p>
-                        {{ Config::get('kblis.name') }} - a port of the Basic Laboratory Information System (BLIS) to Laravel by iLabAfrica.
-                        BLIS was originally developed by C4G.
+                        {{ Config::get('kblis.name') }} - a port of the Basic Laboratory Information System
+                         (BLIS) to Laravel by iLabAfrica. BLIS was originally developed by C4G.
                     </p>
                 </div>
             </div>

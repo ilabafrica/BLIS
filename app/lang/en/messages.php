@@ -10,8 +10,11 @@ return array(
     'description' => 'Description',
     'edit' => 'Edit',
     'home' => 'Home',
+    'login' => 'Login',
     'name' => 'Name',
+    'password' => 'Password',
     'save' => 'Save',
+    'username' => 'Username',
     'view' => 'View',
     /* 
     | Generic phrases
