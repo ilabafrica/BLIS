@@ -16,6 +16,6 @@ class TestResult extends Eloquent
 	 */
 	public function test()
 	{
-		return $this->hasMany('Test');
+		return $this->belongsTo('Test');
 	}
 }

@@ -19,21 +19,38 @@ class TestController extends \BaseController {
 			$tests = Test::paginate(Config::get('kblis.page-items'));
 
 		// Load the view and pass the tests
-		return View::make('test.index')->with('tests', $tests);
+		return View::make('test.index')->with('testSet', $tests);
 	}
 
 
 	/**
-	 * Display Rejection page
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		$measures = Measure::all();
+		$specimentypes = SpecimenType::all();
+		$labsections = TestCategory::all();
+		//Create TestType
+		return View::make('test.create')
+					->with('labsections', $labsections)
+					->with('measures', $measures)
+					->with('specimentypes', $specimentypes);
+	}
+
+	/**
+	 * Display Rejection page 
 	 *
 	 * @param
 	 * @return
 	 */
-	public function reject($specimenId)
+	public function reject($specimenID)
 	{
 		
 		$rejectionReason = RejectionReason::all();
-		return View::make('test.reject')->with('specimenId', $specimenId)
+		return View::make('test.reject')->with('specimenId', $specimenID)
 								->with('rejectionReason', $rejectionReason);
 	}
 
@@ -43,9 +60,9 @@ class TestController extends \BaseController {
 	 * @param
 	 * @return
 	 */
-	public function rejectAction($specimenId)
+	public function rejectAction($specimenID)
 	{
-		$specimen = Specimen::find($specimenId);
+		$specimen = Specimen::find($specimenID);
 		$specimen->rejection_reason_id = Input::get('rejectionReason');
 		$specimen->specimen_status_id = 2;//Rejected
 		$specimen->save();
@@ -60,9 +77,9 @@ class TestController extends \BaseController {
 	 * @param
 	 * @return
 	 */
-	public function start($testId)
+	public function start($testID)
 	{
-		$test = Test::find($testId);
+		$test = Test::find($testID);
 		$test->test_status_id = 2;//Started
 		$test->save();
 		// redirect
@@ -76,12 +93,12 @@ class TestController extends \BaseController {
 	 * @param
 	 * @return
 	 */
-	public function enterResults($testId)
+	public function enterResults($testID)
 	{
-		$testTypeId = Test::find($testId)->test_type_id;
+		$testTypeId = Test::find($testID)->test_type_id;
 		$testType = TestType::find($testTypeId);
 		return View::make('test.enterResults')->with('testType', $testType->name)
-						->with('testId', $testId);
+						->with('testId', $testID);
 	}
 
 	/**
@@ -90,17 +107,17 @@ class TestController extends \BaseController {
 	 * @param
 	 * @return
 	 */
-	public function saveResults($testId)
+	public function saveResults($testID)
 	{
-		$test = Test::find($testId);
+		$test = Test::find($testID);
 		$test->test_status_id = 3;//Completed
 		$test->interpretation = Input::get('interpretation');
 		$test->save();
 		$testType = TestType::find($test->test_type_id);
 		
-		// $testResult = TestResult::find($testId);
+		// $testResult = TestResult::find($testID);
 		// $testResult = new TestResult;
-	 	// $testResult->test_id = $testId;
+	 	// $testResult->test_id = $testID;
 	 	// $testResult->measure_id = $testType->measures()->where('test_type_id', $testType->id)->measure_id;
 	 	// $testResult->result = Input::get('result');
 		// $testResult->save();
@@ -117,9 +134,10 @@ class TestController extends \BaseController {
 	 * @param
 	 * @return
 	 */
-	public function edit()
+	public function edit($testID)
 	{
-		return View::make('test.edit');//->with('', $);
+		$test = Test::find($testID);
+		return View::make('test.edit')->with('test', $test);
 	}
 
 	/**
@@ -128,9 +146,9 @@ class TestController extends \BaseController {
 	 * @param
 	 * @return
 	 */
-	public function viewDetails()
+	public function viewDetails($testID)
 	{
-		return View::make('test.viewDetails');//->with('', $);
+		return View::make('test.viewDetails')->with('test', Test::find($testID));
 	}
 
 	/**

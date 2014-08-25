@@ -37,7 +37,7 @@ class Specimen extends Eloquent
 	/**
 	 * Specimen Type relationship
 	 */
-	public function specimenTypes()
+	public function specimenType()
 	{
 		return $this->belongsTo('SpecimenType');
 	}

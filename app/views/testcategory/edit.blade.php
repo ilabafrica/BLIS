@@ -13,7 +13,7 @@
 		  <li class="active">{{ trans('messages.edit-test-category') }}</li>
 		</ol>
 	</div>
-	<div class="panel panel-primary patient-create">
+	<div class="panel panel-primary">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-edit"></span>
 			{{ trans('messages.edit-test-category') }}

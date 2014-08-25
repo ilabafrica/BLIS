@@ -19,4 +19,12 @@ class Patient extends Eloquent
 	 */
 	protected $table = 'patients';
 
+	/**
+	 * Visits relationship
+	 */
+    public function visits()
+    {
+        return $this->hasMany('Visit');
+    }
+
 }

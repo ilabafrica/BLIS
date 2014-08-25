@@ -36,12 +36,17 @@ extends DatabaseSeeder
         /* Users table */
         $users = array(
             array(
-                "username" => "administrator",
-                "password" => Hash::make("password"),
-                "email"    => "admin@example.com",
-                "name"     => "kBLIS Administrator",
-                "designation" => "Programmer"
-            )
+                "username" => "administrator", "password" => Hash::make("password"), "email" => "admin@kblis.org",
+                "name" => "kBLIS Administrator", "designation" => "Programmer"
+            ),
+            array(
+                "username" => "lmorena", "password" => Hash::make("password"), "email" => "lmorena@kblis.org",
+                "name" => "L. Morena", "designation" => "Lab Technologist"
+            ),
+            array(
+                "username" => "abumeyang", "password" => Hash::make("password"), "email" => "abumeyang@kblis.org",
+                "name" => "A. Abumeyang", "designation" => "Doctor"
+            ),
         );
 
         foreach ($users as $user)
@@ -97,32 +102,38 @@ extends DatabaseSeeder
             array("measure_type_id" => "1", "name" => "Urea", "measure_range" => "", "unit" => "mg/dl"),
             array("measure_type_id" => "4", "name" => "RFTS", "measure_range" => "", "unit" => ""),
             array("measure_type_id" => "4", "name" => "TFT", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "GXM", "measure_range" => "", "unit" => ""),
             array("measure_type_id" => "2", "name" => "Indirect COOMBS test", "measure_range" => "Positive/Negative", "unit" => ""),
             array("measure_type_id" => "2", "name" => "Direct COOMBS test", "measure_range" => "Positive/Negative", "unit" => ""),
-            array("measure_type_id" => "2", "name" => "Du test", "measure_range" => "Positive/Negative", "unit" => ""),
-            array("measure_type_id" => "2", "name" => "Blood Grouping", "measure_range" => "O-/O+/A-/A+/B-/B+/AB-/AB+", "unit" => "")
+            array("measure_type_id" => "2", "name" => "Du test", "measure_range" => "Positive/Negative", "unit" => "")
         );
 
         foreach ($measures as $measure)
         {
             Measure::create($measure);
         }
+        $measureGXM = Measure::create(array("measure_type_id" => "4", "name" => "GXM", "measure_range" => "", "unit" => ""));
+        $measureBG = Measure::create(array("measure_type_id" => "2", "name" => "Blood Grouping", "measure_range" => "O-/O+/A-/A+/B-/B+/AB-/AB+", "unit" => ""));
+
         $this->command->info('measures seeded');
         
         /* Test Types table */
         $test_types = TestType::create(array("name" => "BS for mps", "section_id" => $test_categories->id));
+        $test_type_gxm = TestType::create(array("name" => "GXM", "section_id" => $test_categories->id));
         $this->command->info('test_types seeded');
 
         /* TestType Measure table */
         $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_types->id, "measure_id" => $measureBSforMPS->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_gxm->id, "measure_id" => $measureGXM->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_gxm->id, "measure_id" => $measureBG->id));
 
         /* Patients table */
         $patients = Patient::create(
             array(
-                "name" => "Jamkizi Felix", 
-                "email" => "fjamkizi@example.com", 
-                "patient_number" => "1002"
+                "name" => "Jam Felix", "email" => "fjamkizi@x.com", "patient_number" => "1002", "dob" => "2000-01-01",
+                "name" => "Emma Wallace", "email" => "emma@snd.com", "patient_number" => "1003", "dob" => "1990-03-01",
+                "name" => "Jack Tee", "email" => "info@jt.co.ke", "patient_number" => "1004", "dob" => "1999-12-18",
+                "name" => "Hu Jintao", "email" => "hu@.un.org", "patient_number" => "1005", "dob" => "1956-10-28",
+                "name" => "Lance Opiyo", "email" => "lance@x.com", "patient_number" => "2150", "dob" => "2012-01-01",
             )
         );
         $this->command->info('patients seeded');
@@ -251,6 +262,30 @@ extends DatabaseSeeder
             )
         );        
         
+        $tests_accepted_pending = Test::create(
+            array(
+                "visit_id" => $visits_accepted_pending->id,
+                "test_type_id" => $test_types->id,//BS for MPS
+                "specimen_id" => $specimens_accepted_pre_analytic->id,
+                "interpretation" => "Budda Boss",
+                "test_status_id" => "1",//Pending
+            )
+        );        
+        
+        $test_gxm_accepted_completed = Test::create(
+            array(
+                "visit_id" => $visits_accepted_pending->id,
+                "test_type_id" => $test_type_gxm->id,//BS for MPS
+                "specimen_id" => $specimens_accepted_post_analytic_verified->id,
+                "interpretation" => "COMPATIBLE WITH 061832914 B/G A POS.EXPIRY19/8/14",
+                "test_status_id" => "4",//Verified
+                "created_by" => "1",
+                "tested_by" => "1",
+                "verified_by" => "1",
+                "requested_by" => "1",
+            )
+        );        
+        
         $tests_accepted_started = Test::create(
             array(
                 "visit_id" => $visits_accepted_started->id,
@@ -311,5 +346,30 @@ extends DatabaseSeeder
             )
         );        
         $this->command->info('tests seeded');
+
+        /* Test Results table */
+        $testResults = array(
+            array(
+                "test_id" => $tests_accepted_verified->id,
+                "measure_id" => $measureBSforMPS->id,//BS for MPS
+                "result" => "+++",
+            ),
+            array(
+                "test_id" => $test_gxm_accepted_completed->id,
+                "measure_id" => $measureGXM->id,
+                "result" => "Done",
+            ),
+            array(
+                "test_id" => $test_gxm_accepted_completed->id,
+                "measure_id" => $measureBG->id,
+                "result" => "A+",
+            ),
+        );        
+        foreach ($testResults as $testResult)
+        {
+            TestResult::create($testResult);
+        }
+        $this->command->info('test results seeded');
+        
     }
 }

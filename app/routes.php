@@ -101,34 +101,39 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@rejectAction"
     ));
 
-    Route::get("/test/{id}/start", array(
+    Route::get("/test/{test}/start", array(
         "as"   => "test.start",
         "uses" => "TestController@start"
     ));
 
-     Route::get("/test/{id}/enterresults", array(
+     Route::get("/test/{test}/enterresults", array(
         "as"   => "test.enterResults",
         "uses" => "TestController@enterResults"
     ));
 
-     Route::get("/test/{id}/saveresults", array(
+     Route::get("/test/{test}/saveresults", array(
         "as"   => "test.saveResults",
         "uses" => "TestController@saveResults"
     ));
 
-    Route::get("/test/viewdetails", array(
+    Route::get("/test/{test}/viewdetails", array(
         "as"   => "test.viewDetails",
         "uses" => "TestController@viewDetails"
     ));
 
-    Route::get("/test/edit", array(
+    Route::get("/test/{test}/edit", array(
         "as"   => "test.edit",
         "uses" => "TestController@edit"
     ));
-    
+
     Route::get("/test/verify", array(
         "as"   => "test.verify",
         "uses" => "TestController@verify"
+    ));
+
+    Route::get("/test/create", array(
+        "as"   => "test.create",
+        "uses" => "TestController@create"
     ));
 
 });
