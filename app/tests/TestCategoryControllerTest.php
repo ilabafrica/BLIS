@@ -5,135 +5,89 @@
  */
 class TestCategoryControllerTest extends TestCase 
 {
+    /**
+     * Initial setup function for tests
+     *
+     * @return void
+     */
+    public function setUp(){
+        parent::setUp();
+        Artisan::call('migrate');
+        $this->setVariables();
+    }
+
 	/**
 	 * Contains the testing sample data for the TestCategoryController.
 	 *
 	 * @return void
 	 */
-    public function __construct()
+    public function setVariables()
     {
     	// Initial sample storage data
-		$this->input = array(
+		$this->testCategoryData = array(
 			'name' => 'Karasitlogy',
 			'description' => 'Lets see',
 		);
 
 		
 		// Edition sample data
-		$this->inputUpdate = array(
+		$this->testCategoryUpdate = array(
 			'name' => 'Karasitology',
 			'description' => 'I honestly have no idea',
 		);
-
-	
-		$this->testTestCategoryId = NULL;
     }
 	
 	/**
 	 * Tests the store function in the TestCategoryController
-	 * @param  testing Sample from the constructor
+	 * @param  void
 	 * @return int $testTestCategoryId ID of TestCategory stored; used in testUpdate() to identify test for update
 	 */    
  	public function testStore() 
   	{
 		echo "\n\nTEST CATEGORY CONTROLLER TEST\n\n";
   		 // Store the TestCategory
-		$this->runStore($this->input);
+        Input::replace($this->testCategoryData);
+        $testCategory = new TestCategoryController;
+        $testCategory->store();
 
-		$testCategoriesSaved = TestCategory::orderBy('id','desc')->take(1)->get();
-		foreach ($testCategoriesSaved as $testCategorySaved) {
-			$this->testTestCategoryId = $testCategorySaved->id;
-			$this->assertEquals($testCategorySaved->name , $this->input['name']);
-			$this->assertEquals($testCategorySaved->description ,$this->input['description']);
-			$testTestCategoryId = $this->testTestCategoryId;
-		}
-		echo "TestCategory created\n";
-		return $testTestCategoryId;
+		$testCategoriesSaved = TestCategory::find(1);
+		$this->assertEquals($testCategoriesSaved->name , $this->testCategoryData['name']);
+		$this->assertEquals($testCategoriesSaved->description ,$this->testCategoryData['description']);
   	}
 
   	/**
   	 * Tests the update function in the TestCategoryController
-     * @depends testStore
-	 * @param  int $testTestCategoryId TestCategory ID from testStore(), testing Sample from the constructor
+	 * @param  void
 	 * @return void
      */
-	public function testUpdate($testTestCategoryId)
+	public function testUpdate()
 	{
 		// Update the TestCategory
-		$this->runUpdate($this->inputUpdate, $testTestCategoryId);
+        Input::replace($this->testCategoryData);
+        $testCategory = new TestCategoryController;
+        $testCategory->store();
+        Input::replace($this->testCategoryUpdate);
+        $testCategory->update(1);
 
-		$testCategoriesSaved = TestCategory::orderBy('id','desc')->take(1)->get();
-		foreach ($testCategoriesSaved as $testCategorySaved) {
-			$this->testTestCategoryId = $testCategorySaved->id;
-			$this->assertEquals($testCategorySaved->name , $this->inputUpdate['name']);
-			$this->assertEquals($testCategorySaved->description ,$this->inputUpdate['description']);
-		}
-		echo "\nTestCategory updated\n";
+		$testCategorySaved = TestCategory::find(1);
+		$this->assertEquals($testCategorySaved->name , $this->testCategoryUpdate['name']);
+		$this->assertEquals($testCategorySaved->description ,$this->testCategoryUpdate['description']);
 	}
 
-	
-	
 	/**
   	 * Tests the update function in the TestCategoryController
-     * @depends testStore
-	 * @param  int $testTestCategoryId TestCategory IDs from testStore()
+	 * @param  void
 	 * @return void
      */
-	public function testDelete($testTestCategoryId)
+	public function testDelete()
 	{
-		$this->runDelete($testTestCategoryId);
-		$testCategoriesSaved = TestCategory::withTrashed()->orderBy('id','desc')->take(1)->get();
-		foreach ($testCategoriesSaved as $testCategorySaved) {
-			$this->assertNotNull($testCategorySaved->deleted_at);
-		}
-		echo "\nTestCategory softDeleted\n";
-	    $this->removeTestData($testTestCategoryId);
-		echo "sample TestCategory removed from the Database\n";
-	}
-	
-	
-  	/**
-  	 *Executes the store function in the TestCategoryController
-  	 * @param  int $input TestCategory details
-	 * @return void
-  	 */
-	public function runStore($input)
-	{
-		Input::replace($input);
-    	$testCategory = new TestCategoryController;
-    	$testCategory->store();
-	}
+        Input::replace($this->testCategoryData);
+        $testCategory = new TestCategoryController;
+        $testCategory->store();
 
-  	/**
-  	 * Executes the update function in the TestCategoryController
-  	 * @param  array $input TestCategory details, int $id ID of the TestCategory stored
-	 * @return void
-  	 */
-	public function runUpdate($input, $id)
-	{
-		Input::replace($input);
-    	$testCategory = new TestCategoryController;
-    	$testCategory->update($id);
-	}
+        $testCategory->delete(1);
 
-	/**
-	 * Executes the delete function in the TestCategoryController
-	 * @param  int $id ID of TestCategory stored
-	 * @return void
-	 */
-	public function runDelete($id)
-	{
-		$testCategory = new TestCategoryController;
-    	$testCategory->delete($id);
-	}
-
-	 /**
-	  * Force delete all sample TestCategory from the database
-	  * @param  int $id TestCategory ID
-	  * @return void
-	  */
-	public function removeTestData($id)
-	{
-		DB::table('test_categories')->delete($id);
+		$testCategoriesDeleted = TestCategory::withTrashed()->find(1);
+		$this->assertNotNull($testCategoriesDeleted->deleted_at);
 	}
 }

@@ -56,7 +56,6 @@ class SpecimenTypeControllerTest extends TestCase
 
   	/**
   	 * Tests the update funtion in the SpecimenTypeController
-     * @depends testStore
 	 * @param  void
 	 * @return void
      */
@@ -75,7 +74,6 @@ class SpecimenTypeControllerTest extends TestCase
 
 	/**
   	 * Tests the update funtion in the SpecimenTypeController
-     * @depends testStore
 	 * @param  int $testSpecimenTypeId SpecimenType ID from testStore()
 	 * @return void
      */

@@ -57,7 +57,7 @@ class TestTypeController extends \BaseController {
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator);
+			return Redirect::route('testtype.create')->withErrors($validator);
 		} else {
 			// store 
 			$testtype = new TestType;
@@ -66,7 +66,6 @@ class TestTypeController extends \BaseController {
 			$testtype->section_id = Input::get('section_id');
 			$testtype->targetTAT = Input::get('targetTAT');
 			$testtype->prevalence_threshold = Input::get('prevalence_threshold');
-
 			try{
 				$testtype->save();
 
@@ -145,10 +144,13 @@ class TestTypeController extends \BaseController {
 			$testtype->targetTAT = Input::get('targetTAT');
 			$testtype->prevalence_threshold = Input::get('prevalence_threshold');
 
-			$testtype->save();
-
-			$testtype->setSpecimenTypes(Input::get('specimentypes'));
-			$testtype->setMeasures(Input::get('measures'));
+			try{
+				$testtype->save();
+				$testtype->setSpecimenTypes(Input::get('specimentypes'));
+				$testtype->setMeasures(Input::get('measures'));
+			}catch(QueryException $e){
+				Log::error($e);
+			}
 
 			// redirect
 			return Redirect::route('testtype.index')
