@@ -5,19 +5,20 @@
  */
 class PatientControllerTest extends TestCase 
 {
+	
+	    public function setUp()
+	    {
+	    	parent::setUp();
+	    	Artisan::call('migrate');
+			$this->setVariables();
+	    }
+	
 	/**
 	 * Contains the testing sample data for the PatientController.
 	 *
 	 * @return void
 	 */
-	    public function setUp()
-	    {
-	    	parent::setUp();
-	    	Artisan::call('migrate');
-		$this->setVariables();
-	    }
-	
-	public function setVariables(){
+		public function setVariables(){
 		// Initial sample storage data
 		$this->input = array(
 			'patient_number' => '5681',

@@ -151,32 +151,16 @@ class MeasureControllerTest extends TestCase
 	{
 		//Save again because teardown() dropped the db :(
 		$this->runStore($this->inputNumeric);
-		$this->runStore($this->inputAlphanumeric);
-		$this->runStore($this->inputAutocomplete);
-		$this->runStore($this->inputFreetext);
 
 		//To Do:: Delete for measureranges
 		$measureController = new MeasureController();
 		$measureController->delete(1);
-		$measureController->delete(2);
-		$measureController->delete(3);
-		$measureController->delete(4);
 
 		$measureidone = Measure::withTrashed()->find(1);
 		$this->assertNotNull($measureidone->deleted_at );
-
-		$measureidtwo = Measure::withTrashed()->find(2);
-		$this->assertNotNull($measureidtwo->deleted_at);
-
-		$measureidthree = Measure::withTrashed()->find(3);
-		$this->assertNotNull($measureidthree->deleted_at );
-
-		$measureidfour = Measure::withTrashed()->find(4);
-		$this->assertNotNull($measureidfour->deleted_at);
 	}
-	
-	
-  	/**
+
+	/**
   	 *Executes the store funtion in the MeasureController
   	 * @param  array $input Measure details
 	 * @return void
