@@ -52,7 +52,8 @@
 				</p>
 				<p class="view-striped"><strong>{{trans('messages.test-remarks')}}</strong>
 					{{$test->interpretation}}</p>
-					@if (null !== Auth::user()  && Auth::user()->verify === 1)
+					<!-- Check the user has rights to verify and did not enter these very results -->
+					@if (null !== Auth::user() && Auth::user()->id != $test->tested_by && Auth::user()->verify === 1)
 					<a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/'.$test->id.'/verifyaction') }}">
                       	<span class="glyphicon glyphicon-eye-open"></span>
                       	Verify

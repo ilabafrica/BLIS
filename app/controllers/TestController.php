@@ -170,7 +170,6 @@ class TestController extends \BaseController {
 	 */
 	public function verifyAction($testID)
 	{
-		Log::info(Auth::user());
 		$test = Test::find($testID);
 		$test->test_status_id = 4;//verified
 		$test->verified_by = Auth::user()->id;
