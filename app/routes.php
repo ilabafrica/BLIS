@@ -111,7 +111,7 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@enterResults"
     ));
 
-     Route::get("/test/{test}/saveresults", array(
+     Route::any("/test/{test}/saveresults", array(
         "as"   => "test.saveResults",
         "uses" => "TestController@saveResults"
     ));
