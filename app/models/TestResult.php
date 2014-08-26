@@ -23,4 +23,5 @@ class TestResult extends Eloquent
 	{
 		return $this->belongsTo('Test');
 	}
+
 }

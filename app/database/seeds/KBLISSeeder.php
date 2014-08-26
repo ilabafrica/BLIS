@@ -57,7 +57,37 @@ extends DatabaseSeeder
         
 
         /* Specimen Types table */
-        $specimen_types = SpecimenType::create(array("name" => "Whole Blood"));
+        $spec_types = array(
+            array("name" => "Ascitic Tap"),
+            array("name" => "Aspirate"),
+            array("name" => "CSF"),
+            array("name" => "Dried Blood Spot"),
+            array("name" => "High Vaginal Swab"),
+            array("name" => "Nasal Swab"),
+            array("name" => "Plasma"),
+            array("name" => "Plasma EDTA"),
+            array("name" => "Pleural Tap"),
+            array("name" => "Pus Swab"),
+            array("name" => "Rectal Swab"),
+            array("name" => "Semen"),
+            array("name" => "Serum"),
+            array("name" => "Skin"),
+            array("name" => "Sputum"),
+            array("name" => "Stool"),
+            array("name" => "Synovial Fluid"),
+            array("name" => "Throat Swab"),
+            array("name" => "Urethral Smear"),
+            array("name" => "Urine"),
+            array("name" => "Vaginal Smear"),
+            array("name" => "Water"),
+            array("name" => "Whole Blood"),
+        );
+
+        foreach ($spec_types as $specimen_type)
+        {
+            SpecimenType::create($specimen_type);
+        }
+
         $this->command->info('specimen_types seeded');
         
         /* Test Categories table - These map on to the lab sections */
@@ -194,9 +224,10 @@ extends DatabaseSeeder
         $this->command->info('rejection_reasons seeded');
 
         /* Specimen table */
+        $specimen_type_id = SpecimenType::all()->last()->id;
         $specimens_accepted_pre_analytic = Specimen::create(
             array(
-                "specimen_type_id" => $specimen_types->id,
+                "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "1",//accepted
                 "test_phase_id" => "1",//Pre-Analytical for test_status:pending
             )
@@ -204,7 +235,7 @@ extends DatabaseSeeder
         
         $specimens_accepted_analytic = Specimen::create(
             array(
-                "specimen_type_id" => $specimen_types->id,
+                "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "1",//accepted
                 "test_phase_id" => "2",//Analytical for test_status:started
             )
@@ -212,7 +243,7 @@ extends DatabaseSeeder
         
         $specimens_accepted_post_analytic = Specimen::create(
             array(
-                "specimen_type_id" => $specimen_types->id,
+                "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "1",//accepted
                 "test_phase_id" => "3",//Post-Analytical for test_status:completed
             )
@@ -220,7 +251,7 @@ extends DatabaseSeeder
         
         $specimens_accepted_post_analytic_verified = Specimen::create(
             array(
-                "specimen_type_id" => $specimen_types->id,
+                "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "1",//accepted
                 "test_phase_id" => "3",//Post-Analytical for test_status:verified
             )
@@ -228,7 +259,7 @@ extends DatabaseSeeder
         
         $specimens_rejected_pre_analytic = Specimen::create(
             array(
-                "specimen_type_id" => $specimen_types->id,
+                "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "2",//rejected
                 "rejection_reason_id" => $rejection_reasons_pre_analytic->id,
                 "test_phase_id" => "1",//Pre-Analytical
@@ -237,7 +268,7 @@ extends DatabaseSeeder
 
         $specimens_rejected_analytic = Specimen::create(
             array(
-                "specimen_type_id" => $specimen_types->id,
+                "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "2",//rejected
                 "rejection_reason_id" => $rejection_reasons_analytic->id,
                 "test_phase_id" => "2",//Analytical
@@ -246,7 +277,7 @@ extends DatabaseSeeder
 
         $specimens_rejected_post_analytic = Specimen::create(
             array(
-                "specimen_type_id" => $specimen_types->id,
+                "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "2",//rejected
                 "rejection_reason_id" => $rejection_reasons_post_analytic->id,
                 "test_phase_id" => "3",//Post-Analytical

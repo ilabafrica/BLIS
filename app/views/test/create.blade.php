@@ -24,15 +24,21 @@
 			@endif
 
 			{{ Form::open(array('route' => 'testcategory.store', 'id' => 'form-new-test')) }}
-
 				<div class="form-group">
-					{{ Form::label('name', trans("messages.name")) }}
-					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
+					{{ Form::label('patient', trans("messages.patient-name")) }}
+					{{ Form::text('patient', Input::old('patient'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">
-					{{ Form::label('description', trans("messages.description")) }}</label>
-					{{ Form::textarea('description', Input::old('description'), 
-						array('class' => 'form-control', 'rows' => '2')) }}
+					{{ Form::label('specimentype', trans("messages.specimen-type")) }}
+					{{ Form::select('specimentype', $specimentypes->lists('name'), null, array('class' => 'form-control')) }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('tests', trans("messages.tests")) }}
+					{{Form::text('tests', Input::old('tests'), array('class' => 'form-control'))}}
+				</div>
+				<div class="form-group">
+					{{ Form::label('physician', trans("messages.physician")) }}
+					{{Form::text('physician', Input::old('physician'), array('class' => 'form-control'))}}
 				</div>
 				<div class="form-group actions-row">
 					{{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 

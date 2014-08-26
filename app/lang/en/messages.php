@@ -1,4 +1,7 @@
 <?php
+/* 
+|   To aid quick referencing, keep entries in the same section ALPHABETICALLY ORDERED
+*/
 
 return array(
     /* 
@@ -45,7 +48,6 @@ return array(
     'new-test' => 'New Test',
     'patient-name' => 'Patient',
     'pending' => 'Pending',
-    'verification-pending' => 'Verification Pending',
     'physician' => 'Requesting Physician',
     'registered-by' => 'Registered By',
     'save-test-results' => 'Save Results',
@@ -63,6 +65,7 @@ return array(
     'turnaround-time' => 'Turnaround Time',
     'unknown' => 'Unknown',
     'update-test-results' => 'Update Test Results',
+    'verification-pending' => 'Verification Pending',
     'verified-by' => 'Verified By',
     'visit-number' => 'Lab No.',
     'visit-type' => 'Visit Type',

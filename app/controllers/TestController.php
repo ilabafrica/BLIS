@@ -22,7 +22,6 @@ class TestController extends \BaseController {
 		return View::make('test.index')->with('testSet', $tests);
 	}
 
-
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -30,14 +29,22 @@ class TestController extends \BaseController {
 	 */
 	public function create()
 	{
-		$measures = Measure::all();
 		$specimentypes = SpecimenType::all();
-		$labsections = TestCategory::all();
-		//Create TestType
-		return View::make('test.create')
-					->with('labsections', $labsections)
-					->with('measures', $measures)
-					->with('specimentypes', $specimentypes);
+
+		//Load Test Create View
+		return View::make('test.create')->with('specimentypes', $specimentypes);
+	}
+
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function saveNewTest()
+	{
+		//Create New Test
+
+		return View::make('test.index');
 	}
 
 	/**
