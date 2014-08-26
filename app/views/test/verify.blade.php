@@ -52,10 +52,12 @@
 				</p>
 				<p class="view-striped"><strong>{{trans('messages.test-remarks')}}</strong>
 					{{$test->interpretation}}</p>
+					@if (null !== Auth::user()  && Auth::user()->verify === 1)
 					<a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/'.$test->id.'/verifyaction') }}">
                       	<span class="glyphicon glyphicon-eye-open"></span>
                       	Verify
                     </a>
+					@endif
 			</div>
 		</div>
 	</div>

@@ -23,6 +23,7 @@ class CreatekBLIStables extends Migration {
             $table->string("designation", 100)->nullable();
             $table->string("image", 100)->nullable();
             $table->string("remember_token", 100)->nullable();
+            $table->tinyInteger("verify")->default(0);
 
             $table->softDeletes();
             $table->timestamps();

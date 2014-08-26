@@ -37,15 +37,15 @@ extends DatabaseSeeder
         $users = array(
             array(
                 "username" => "administrator", "password" => Hash::make("password"), "email" => "admin@kblis.org",
-                "name" => "kBLIS Administrator", "designation" => "Programmer"
+                "name" => "kBLIS Administrator", "designation" => "Programmer", "verify" => "1"
             ),
             array(
                 "username" => "lmorena", "password" => Hash::make("password"), "email" => "lmorena@kblis.org",
-                "name" => "L. Morena", "designation" => "Lab Technologist"
+                "name" => "L. Morena", "designation" => "Lab Technologist", "verify" => "1"
             ),
             array(
                 "username" => "abumeyang", "password" => Hash::make("password"), "email" => "abumeyang@kblis.org",
-                "name" => "A. Abumeyang", "designation" => "Doctor"
+                "name" => "A. Abumeyang", "designation" => "Doctor", "verify" => "0"
             ),
         );
 

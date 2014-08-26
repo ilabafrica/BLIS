@@ -169,6 +169,7 @@ class UserController extends Controller {
             $user->gender = Input::get('gender');
             $user->designation = Input::get('designation');
             $user->email = Input::get('email');
+            $user->verify = Input::get('verify');
 
             $user->save();
             $id = $user->id;
@@ -262,6 +263,7 @@ class UserController extends Controller {
             $user->gender = Input::get('gender');
             $user->designation = Input::get('designation');
             $user->email = Input::get('email');
+            $user->verify = Input::get('verify');
 
             if (Input::hasFile('image')) {
                 try {

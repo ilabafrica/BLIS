@@ -48,6 +48,10 @@
 		                    <div>{{ Form::radio('gender', '0', true) }}<span class='input-tag'>Male</span></div>
 		                    <div>{{ Form::radio("gender", '1', false) }}<span class='input-tag'>Female</span></div>
 		                </div>
+					<div class="form-group">
+					    {{ Form::label('verify', 'Can verify results: ') }}
+					    {{Form::checkbox('verify', '1' ) }}&nbsp;&nbsp;&nbsp;&nbsp;Yes
+					</div>
 		            </div>
 					<div class="col-md-6">
 		                <div class="form-group">

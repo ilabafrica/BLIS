@@ -170,10 +170,11 @@ class TestController extends \BaseController {
 	 */
 	public function verifyAction($testID)
 	{
+		Log::info(Auth::user());
 		$test = Test::find($testID);
 		$test->test_status_id = 4;//verified
-		$test->verified_by = 1;//Pick user automatically|SORT
-		$test->time_verified = time();
+		$test->verified_by = Auth::user()->id;
+		$test->time_verified = date("Y-m-d H:i:s");
 		$test->save();
 		// redirect
 		Session::flash('message', 'Test was successfully Verified!');
