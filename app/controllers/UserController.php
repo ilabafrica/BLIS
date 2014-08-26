@@ -169,6 +169,7 @@ class UserController extends Controller {
             $user->gender = Input::get('gender');
             $user->designation = Input::get('designation');
             $user->email = Input::get('email');
+            $user->password = Input::get('password');
 
             $user->save();
             $id = $user->id;
