@@ -37,6 +37,9 @@ return array(
     |   Tests
     */
     'date-ordered' => 'Date Ordered',
+    'edit-test-results' => 'Edit Test Results',
+    'enter-test-results' => 'Enter Test Results',
+    'interpretation' => 'Interpretation',
     'lab-receipt-date' => 'Lab Receipt Date',
     'list-tests' => 'Ordered Tests List',
     'new-test' => 'New Test',
@@ -45,6 +48,7 @@ return array(
     'verification-pending' => 'Verification Pending',
     'physician' => 'Requesting Physician',
     'registered-by' => 'Registered By',
+    'save-test-results' => 'Save Results',
     'specimen-number' => 'Specimen Number',
     'specimen-type' => 'Specimen Type',
     'test' => 'Test',
@@ -58,6 +62,7 @@ return array(
     'tests' => 'Tests',
     'turnaround-time' => 'Turnaround Time',
     'unknown' => 'Unknown',
+    'update-test-results' => 'Update Test Results',
     'verified-by' => 'Verified By',
     'visit-number' => 'Lab No.',
     'visit-type' => 'Visit Type',

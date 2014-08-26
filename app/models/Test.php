@@ -97,7 +97,7 @@ class Test extends Eloquent
 	}
 
 	/**
-	 * Turnaround Time: Time difference from test start to end
+	 * Turnaround Time: Time difference from test start to end (in seconds)
 	 */
 	public function getTurnaroundTime()
 	{

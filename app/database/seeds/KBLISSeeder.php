@@ -80,7 +80,7 @@ extends DatabaseSeeder
         $this->command->info('measure_types seeded');
                 
         /* Measures table */
-        $measureBSforMPS = Measure::create(array("measure_type_id" => "2", "name" => "BS for mps", "measure_range" => "Positive/Negative", "unit" => ""));
+        $measureBSforMPS = Measure::create(array("measure_type_id" => "2", "name" => "BS for mps", "measure_range" => "No mps seen/+/++/+++/++++", "unit" => ""));
         $measures = array(
             array("measure_type_id" => "2", "name" => "Grams stain", "measure_range" => "Positive/Negative", "unit" => ""),
             array("measure_type_id" => "2", "name" => "SERUM AMYLASE", "measure_range" => "Low/Normal/High", "unit" => ""),
@@ -113,18 +113,21 @@ extends DatabaseSeeder
         }
         $measureGXM = Measure::create(array("measure_type_id" => "4", "name" => "GXM", "measure_range" => "", "unit" => ""));
         $measureBG = Measure::create(array("measure_type_id" => "2", "name" => "Blood Grouping", "measure_range" => "O-/O+/A-/A+/B-/B+/AB-/AB+", "unit" => ""));
+        $measureHB = Measure::create(array("measure_type_id" => "1", "name" => "HB", "measure_range" => "", "unit" => "g/dL"));
 
         $this->command->info('measures seeded');
         
         /* Test Types table */
         $test_types = TestType::create(array("name" => "BS for mps", "section_id" => $test_categories->id));
         $test_type_gxm = TestType::create(array("name" => "GXM", "section_id" => $test_categories->id));
+        $test_type_hb = TestType::create(array("name" => "HB", "section_id" => $test_categories->id));
         $this->command->info('test_types seeded');
 
         /* TestType Measure table */
         $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_types->id, "measure_id" => $measureBSforMPS->id));
         $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_gxm->id, "measure_id" => $measureGXM->id));
         $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_gxm->id, "measure_id" => $measureBG->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_hb->id, "measure_id" => $measureHB->id));
 
         /* Patients table */
         $patients = Patient::create(
@@ -275,14 +278,28 @@ extends DatabaseSeeder
         $test_gxm_accepted_completed = Test::create(
             array(
                 "visit_id" => $visits_accepted_pending->id,
-                "test_type_id" => $test_type_gxm->id,//BS for MPS
+                "test_type_id" => $test_type_gxm->id,
                 "specimen_id" => $specimens_accepted_post_analytic_verified->id,
                 "interpretation" => "COMPATIBLE WITH 061832914 B/G A POS.EXPIRY19/8/14",
-                "test_status_id" => "4",//Verified
+                "test_status_id" => "3",//Completed
                 "created_by" => "1",
                 "tested_by" => "1",
                 "verified_by" => "1",
                 "requested_by" => "1",
+            )
+        );        
+        
+        $test_hb_accepted_completed = Test::create(
+            array(
+                "visit_id" => $visits_accepted_pending->id,
+                "test_type_id" => $test_type_hb->id,
+                "specimen_id" => $specimens_accepted_post_analytic_verified->id,
+                "interpretation" => "??",
+                "test_status_id" => "3",//Completed
+                "created_by" => "2",
+                "tested_by" => "2",
+                "verified_by" => "1",
+                "requested_by" => "3",
             )
         );        
         
@@ -363,6 +380,11 @@ extends DatabaseSeeder
                 "test_id" => $test_gxm_accepted_completed->id,
                 "measure_id" => $measureBG->id,
                 "result" => "A+",
+            ),
+            array(
+                "test_id" => $test_hb_accepted_completed->id,
+                "measure_id" => $measureHB->id,
+                "result" => "13.7",
             ),
         );        
         foreach ($testResults as $testResult)

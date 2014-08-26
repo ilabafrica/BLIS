@@ -95,10 +95,8 @@ class TestController extends \BaseController {
 	 */
 	public function enterResults($testID)
 	{
-		$testTypeId = Test::find($testID)->test_type_id;
-		$testType = TestType::find($testTypeId);
-		return View::make('test.enterResults')->with('testType', $testType->name)
-						->with('testId', $testID);
+		$test = Test::find($testID);
+		return View::make('test.enterResults')->with('test', $test);
 	}
 
 	/**
@@ -112,15 +110,14 @@ class TestController extends \BaseController {
 		$test = Test::find($testID);
 		$test->test_status_id = 3;//Completed
 		$test->interpretation = Input::get('interpretation');
+		$test->tested_by = Auth::user()->id;
 		$test->save();
-		$testType = TestType::find($test->test_type_id);
 		
-		// $testResult = TestResult::find($testID);
-		// $testResult = new TestResult;
-	 	// $testResult->test_id = $testID;
-	 	// $testResult->measure_id = $testType->measures()->where('test_type_id', $testType->id)->measure_id;
-	 	// $testResult->result = Input::get('result');
-		// $testResult->save();
+		foreach ($test->testType->measures as $measure) {
+			$testResult = TestResult::firstOrCreate(array('test_id' => $testID, 'measure_id' => $measure->id));
+			$testResult->result = Input::get('m_'.$measure->id);
+			$testResult->save();
+		}
 
 		// redirect
 		Session::flash('message', 'Results successfully saved!');
@@ -137,6 +134,10 @@ class TestController extends \BaseController {
 	public function edit($testID)
 	{
 		$test = Test::find($testID);
+
+		// foreach($test->testType->measures as $measure){
+
+		// }
 		return View::make('test.edit')->with('test', $test);
 	}
 

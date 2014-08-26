@@ -14,7 +14,7 @@
 			<div class="panel-btn">
 				<a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->id.'/edit') }}">
 					<span class="glyphicon glyphicon-edit"></span>
-					{{trans('messages.edit')}}
+					{{trans('messages.edit-test-results')}}
 				</a>
 			</div>
 		</div>

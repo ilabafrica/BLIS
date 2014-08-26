@@ -111,6 +111,11 @@ label, input {
             cursor: pointer;
          }
 
+         .form-group span.units{
+            line-height: 3em;
+            margin-left: 5px;
+         }
+
 /*
 *
 * LOGIN PAGE 
