@@ -25,12 +25,12 @@ class UserControllerTest extends TestCase
     {
     	// Initial sample storage data
 		$this->userData = array(
-			'username' => 'dot',
+			'username' => 'dotmatrix',
 			'email' => 'johxdoe@example.com',
 			'name' => 'John Dot',
 			'gender' => '1',
 			'designation' => 'LabTechnikan',
-            'password' => Hash::make("password"),
+            'password' => Hash::make("goodpassword"),
 		);
 
 		// Edition sample data
@@ -41,6 +41,24 @@ class UserControllerTest extends TestCase
 			'gender' => '0',
 			'designation' => 'LabTechnician',
 		);
+
+        // sample login data
+        $this->userDataLoginBad = array(
+            'username' => 'dotmatrix',
+            'password' => 'wrongpassword',
+        );
+
+        // sample login data
+        $this->userDataLoginGood = array(
+            'username' => 'dotmatrix',
+            'password' => 'goodpassword',
+        );
+
+        // sample login data
+        $this->userDataLoginFailsVerification = array(
+            'username' => 'dot',
+            'password' => 'goo',
+        );
 
 		$this->testUserId = NULL;
     }
@@ -104,4 +122,34 @@ class UserControllerTest extends TestCase
 
 		$this->assertNotNull($usersSaved->deleted_at);
 	}
+
+    public function testHandlesFailedLogin()
+    {
+        Input::replace($this->userData);
+        $user = new UserController;
+        $user->store();
+
+        $this->action('POST', 'UserController@loginAction', $this->userDataLoginBad);
+        $this->assertRedirectedToRoute('user.login');
+    }
+
+    public function testHandlesValidLogin()
+    {
+        Input::replace($this->userData);
+        $user = new UserController;
+        $user->store();
+
+        $this->action('POST', 'UserController@loginAction', $this->userDataLoginGood);
+        $this->assertRedirectedToRoute('user.home');
+    }
+
+    public function testHandlesLoginValidation()
+    {
+        Input::replace($this->userData);
+        $user = new UserController;
+        $user->store();
+
+        $this->action('POST', 'UserController@loginAction', $this->userDataLoginFailsVerification);
+        $this->assertRedirectedToRoute('user.login');
+    }
 }

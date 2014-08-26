@@ -31,7 +31,7 @@ class UserController extends Controller {
                 }
 
             }
-            return Redirect::back()->withInput(Input::except('password'))
+            return Redirect::route('user.login')->withInput(Input::except('password'))
                 ->withErrors($validator)
                 ->with('message', 'Username and/or password invalid.');
         }
