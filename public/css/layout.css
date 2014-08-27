@@ -110,6 +110,9 @@ label, input {
          .form-group span.input-tag:hover{
             cursor: pointer;
          }
+        .form-group span.checkbox-label{
+            padding-left : 15px
+        }
 
 /*
 *

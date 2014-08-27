@@ -50,7 +50,7 @@
 		                </div>
 					<div class="form-group">
 					    {{ Form::label('verify', 'Can verify results: ') }}
-					    {{Form::checkbox('verify', '1' ) }}&nbsp;&nbsp;&nbsp;&nbsp;Yes
+					    {{Form::checkbox('verify', '1' ) }}<span class='checkbox-label'>Yes</span>
 					</div>
 		            </div>
 					<div class="col-md-6">
