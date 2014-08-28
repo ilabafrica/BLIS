@@ -92,8 +92,9 @@ class CreatekBLIStables extends Migration {
 
             $table->foreign('measure_type_id')->references('id')->on('measure_types');
 
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletes();
-            $table->timestamps();
         });
 
         Schema::create('measure_ranges', function(Blueprint $table)
@@ -130,8 +131,8 @@ class CreatekBLIStables extends Migration {
             $table->increments('id')->unsigned();
             $table->integer('test_type_id')->unsigned();
             $table->integer('measure_id')->unsigned();
-            $table->tinyInteger('ordering');
-            $table->tinyInteger('nesting');
+            $table->tinyInteger('ordering')->nullable();
+            $table->tinyInteger('nesting')->nullable();
 
             $table->foreign('test_type_id')->references('id')->on('test_types');
             $table->foreign('measure_id')->references('id')->on('measures');
@@ -178,11 +179,12 @@ class CreatekBLIStables extends Migration {
 		Schema::create('visits', function(Blueprint $table)
 		{
 			$table->bigIncrements('id');
-            $table->integer('patient_id')->unsigned();
+			$table->integer('patient_id')->unsigned();
             $table->string('visit_type', 12)->default('Out-patient'); //'OUT-PATIENT' | 'IN-PATIENT'
-			$table->timestamp('time_created')->default(DB::raw('CURRENT_TIMESTAMP'));
-			
-			$table->foreign('patient_id')->references('id')->on('patients');		
+            $table->foreign('patient_id')->references('id')->on('patients');
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+			$table->foreign('patient_id')->references('id')->on('patients');
 		});
 		
 		Schema::create('rejection_reasons', function(Blueprint $table)

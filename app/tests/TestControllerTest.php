@@ -5,25 +5,24 @@
  */
 class TestControllerTest extends TestCase 
 {
-	
-	
+
+    public function setUp(){
+        parent::setUp();
+        Artisan::call('migrate');
+        Artisan::call('db:seed');
+    }
 	/**
 	 * @group testStart
 	 * @param  
 	 * @return 
 	 */    
- 	public function testStart() 
+ 	public function testStart()
   	{
 		echo "\nTEST CONTROLLER TEST\n\n";
   		 // start the test
-		$this->runStart(2);
+        $test = new TestController;
+        $test->start(2);
 		$test = Test::find(2);
 		$this->assertEquals($test->test_status_id , 2);
   	}
-  	public function runStart($testId)
-  	{
-  		$test = new TestController;
-    	$test->start($testId);
-  	}
-
 }
