@@ -178,13 +178,13 @@ extends DatabaseSeeder
         $this->command->info('specimen_statuses seeded');
 
         /* Visits table */
-        $visits_accepted_pending = Visit::create(array("patient_id" => $patients->id));
-        $visits_accepted_started = Visit::create(array("patient_id" => $patients->id ));
-        $visits_accepted_completed = Visit::create(array("patient_id" => $patients->id));
-        $visits_accepted_verified = Visit::create(array("patient_id" => $patients->id));
-        $visits_rejected_pending = Visit::create(array("patient_id" => $patients->id));
-        $visits_rejected_started = Visit::create(array("patient_id" => $patients->id));
-        $visits_rejected_completed = Visit::create(array("patient_id" => $patients->id));
+        $visits_accepted_pending = Visit::create(array("patient_id" => $patients->id, "created_at" => '2014-08-27 08:12:33', "updated_at" => '2014-08-27 08:12:33'));
+        $visits_accepted_started = Visit::create(array("patient_id" => $patients->id , "created_at" => '2014-08-27 08:12:33', "updated_at" => '2014-08-27 08:12:33'));
+        $visits_accepted_completed = Visit::create(array("patient_id" => $patients->id, "created_at" => '2014-08-27 08:12:33', "updated_at" => '2014-08-27 08:12:33'));
+        $visits_accepted_verified = Visit::create(array("patient_id" => $patients->id, "created_at" => '2014-08-27 08:12:33', "updated_at" => '2014-08-27 08:12:33'));
+        $visits_rejected_pending = Visit::create(array("patient_id" => $patients->id, "created_at" => '2014-08-27 08:12:33', "updated_at" => '2014-08-27 08:12:33'));
+        $visits_rejected_started = Visit::create(array("patient_id" => $patients->id, "created_at" => '2014-08-27 08:12:33', "updated_at" => '2014-08-27 08:12:33'));
+        $visits_rejected_completed = Visit::create(array("patient_id" => $patients->id, "created_at" => '2014-08-27 08:12:33', "updated_at" => '2014-08-27 08:12:33'));
         $this->command->info('visits seeded');
 
         /* Rejection Reasons table */
