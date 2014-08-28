@@ -306,6 +306,7 @@ extends DatabaseSeeder
                 "specimen_id" => $specimens_accepted_pre_analytic->id,
                 "interpretation" => "Budda Boss",
                 "test_status_id" => "1",//Pending
+                "created_by" => "1",
             )
         );        
         
