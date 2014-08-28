@@ -5,15 +5,15 @@
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
 		  <li>
-		  	<a href="{{ URL::route('testcategory.index') }}">{{trans('messages.test-category')}}</a>
+		  	<a href="{{ URL::route('test.index') }}">{{trans('messages.tests')}}</a>
 		  </li>
-		  <li class="active">{{trans('messages.create-test-category')}}</li>
+		  <li class="active">{{trans('messages.new-test')}}</li>
 		</ol>
 	</div>
 	<div class="panel panel-primary">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-adjust"></span>
-			{{trans('messages.create-test-category')}}
+			{{trans('messages.new-test')}}
 		</div>
 		<div class="panel-body">
 		<!-- if there are creation errors, they will show here -->
@@ -23,7 +23,7 @@
 				</div>
 			@endif
 
-			{{ Form::open(array('route' => 'testcategory.store', 'id' => 'form-create-testcategory')) }}
+			{{ Form::open(array('route' => 'testcategory.store', 'id' => 'form-new-test')) }}
 
 				<div class="form-group">
 					{{ Form::label('name', trans("messages.name")) }}

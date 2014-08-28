@@ -44,6 +44,14 @@ class TestType extends Eloquent
 	}
 
 	/**
+	 * Test relationship
+	 */
+    public function tests()
+    {
+        return $this->hasMany('Test');
+    }
+
+	/**
 	 * Set compatible specimen types
 	 *
 	 * @return void

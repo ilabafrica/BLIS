@@ -12,10 +12,15 @@ class TestResult extends Eloquent
 	public $timestamps = false;
 
 	/**
+	 * Mass assignment fields
+	 */
+	protected $fillable = array('test_id', 'measure_id', 'result');
+
+	/**
 	 * Test  relationship
 	 */
 	public function test()
 	{
-		return $this->hasMany('Test');
+		return $this->belongsTo('Test');
 	}
 }

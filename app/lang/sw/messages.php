@@ -10,8 +10,11 @@ return array(
     'description' => 'Ufafanuzi',
     'edit' => 'Hariri',
     'home' => 'Nyumbani',
+    'login' => 'Ingia',
     'name' => 'Jina',
+    'password' => 'Nywila',
     'save' => 'Hifadhi',
+    'username' => 'Akaunti',
     'view' => 'Tazama',
     /* 
     | Generic phrases

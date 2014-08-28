@@ -32,7 +32,7 @@ class CreatekBLIStables extends Migration {
         {
             $table->string('email')->index();
             $table->string('token')->index();
-            $table->timestamp('created_at');
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
 
         Schema::create('patients', function(Blueprint $table)
@@ -180,6 +180,8 @@ class CreatekBLIStables extends Migration {
 		{
 			$table->bigIncrements('id');
 			$table->integer('patient_id')->unsigned();
+            $table->string('visit_type', 12)->default('Out-patient'); //'OUT-PATIENT' | 'IN-PATIENT'
+            $table->foreign('patient_id')->references('id')->on('patients');
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->foreign('patient_id')->references('id')->on('patients');
@@ -222,7 +224,7 @@ class CreatekBLIStables extends Migration {
 			$table->integer('tested_by')->unsigned()->default(0);
 			$table->integer('verified_by')->unsigned()->default(0);
 			$table->integer('requested_by')->unsigned()->default(0);
-			$table->timestamp('time_created');
+			$table->timestamp('time_created')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('time_started')->nullable();
 			$table->timestamp('time_completed')->nullable();
 			$table->timestamp('time_verified')->nullable();
@@ -240,7 +242,7 @@ class CreatekBLIStables extends Migration {
 			$table->integer('test_id')->unsigned();
 			$table->integer('measure_id')->unsigned();
 			$table->string('result',45)->nullable();
-			$table->timestamp('time_entered')->nullable();
+			$table->timestamp('time_entered')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
 			
 			$table->foreign('test_id')->references('id')->on('tests');
 			$table->foreign('measure_id')->references('id')->on('measures');

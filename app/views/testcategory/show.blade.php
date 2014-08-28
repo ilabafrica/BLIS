@@ -14,7 +14,7 @@
 	</div>
 	<div class="panel panel-primary ">
 		<div class="panel-heading ">
-			<span class="glyphicon glyphicon-user"></span>
+			<span class="glyphicon glyphicon-adjust"></span>
 			{{ trans('messages.test-category-details') }}
 			<div class="panel-btn">
 				<a class="btn btn-sm btn-info" href="{{ URL::to("testcategory/" . $testcategory->id . "/edit") }}">

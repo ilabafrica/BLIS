@@ -9,9 +9,9 @@
 @if (Session::has('message'))
 	<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
 @endif
-<div class="panel panel-primary patient-create">
+<div class="panel panel-primary">
 	<div class="panel-heading ">
-		<span class="glyphicon glyphicon-user"></span>
+		<span class="glyphicon glyphicon-adjust"></span>
 		{{ trans('messages.list-test-categories') }}
 		<div class="panel-btn">
 			<a class="btn btn-sm btn-info" href="{{ URL::to("testcategory/create") }}" >

@@ -111,6 +111,11 @@ label, input {
             cursor: pointer;
          }
 
+         .form-group span.units{
+            line-height: 3em;
+            margin-left: 5px;
+         }
+
 /*
 *
 * LOGIN PAGE 
@@ -132,7 +137,6 @@ label, input {
         background: #FFFFFF;
         color: #333333;
         width: 351px;
-        height: 500px;
         margin: auto;
         margin-top:30px;
         border: 1px solid #666666;
@@ -147,7 +151,6 @@ label, input {
         }
         .login-page .login-form .form-head {
             height: auto;
-            /*max-height: 210px;*/
             margin-top: 20px;
             overflow: hidden;
         }
@@ -186,7 +189,7 @@ label, input {
         padding-left: 15px;
         padding-right: 15px;
         padding-top: 15px;
-        position: absolute;
+        /*position: absolute;*/
     }
 
 /*

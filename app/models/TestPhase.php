@@ -10,4 +10,13 @@ class TestPhase extends Eloquent
 	protected $table = 'test_phases';
 	
 	public $timestamps = false;
+
+	/**
+	 * TestStatus relationship
+	 */
+    public function testStatuses()
+    {
+        return $this->hasMany('TestStatus');
+    }
+
 }
