@@ -59,4 +59,19 @@ return array(
     'verify' => 'Verify',
     'visit-number' => 'Lab No.',
     'visit-type' => 'Visit Type',
+     /* 
+    |   User
+    */
+    'can-verify-results' => 'Can verify results',
+    'designation' => 'Designation',
+    'edit-user' => 'Edit User',
+    'edit-user-details' => 'Edit User Details',
+    'email-address' => 'Email Address',
+    'full-name' => 'Full Name',
+    'gender' => 'Gender',
+    'photo' => 'Photo',
+    'update' => 'Update',
+    'user' => 'User',
+    'username' => 'Username',
+
 );
