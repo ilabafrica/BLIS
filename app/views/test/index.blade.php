@@ -9,6 +9,12 @@
     @if (Session::has('message'))
         <div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
     @endif
+    {{ Form::model(null, array('route' => array('test.index'))) }}
+    <div class="form-group">
+        {{ Form::text('search', null, array( 'class' => 'form-control')) }}
+        {{ Form::submit('Search', array('class'=>'btn btn-sm btn-success')) }}
+    </div>
+    {{ Form::close() }}
     <div class="panel panel-primary test-create">
         <div class="panel-heading ">
             <span class="glyphicon glyphicon-filter"></span>

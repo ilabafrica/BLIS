@@ -86,7 +86,7 @@ Route::group(array("before" => "auth"), function()
 
     /*Route::resource('test', 'TestController');*/
 
-    Route::get("/test", array(
+    Route::any("/test", array(
         "as"   => "test.index",
         "uses" => "TestController@index"
     ));

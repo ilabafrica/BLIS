@@ -15,13 +15,27 @@ class TestController extends \BaseController {
 	 */
 	public function index()
 	{
+		$searchString = Input::get('search');
+		if($searchString){
+			$tests = Test::whereHas('visit', function($q) use ($searchString){
+				$q->whereHas('patient', function($q)  use ($searchString){
+					$q->where('name', 'like', '%' . $searchString . '%')//Search by patient name
+					  ->orWhere('patient_number', 'like', '%' . $searchString . '%');//Search by patient number
+				});
+			})->orWhereHas('testType', function($q) use ($searchString){
+			    $q->where('name', 'like', '%' . $searchString . '%');//Search by test type
+			})->orWhereHas('specimen', function($q) use ($searchString){
+			    $q->where('id', 'like', '%' . $searchString . '%');//Search by specimen number
+			})->where('visit_id', 'LIKE', '%' . $searchString . '%')//Search by visit number	
+			  ->orderBy('time_created', 'DESC')->paginate(Config::get('kblis.page-items'));
+		}
+		else{
 		// List all the active tests
 			$tests = Test::paginate(Config::get('kblis.page-items'));
-
+		}
 		// Load the view and pass the tests
 		return View::make('test.index')->with('testSet', $tests);
 	}
-
 
 	/**
 	 * Show the form for creating a new resource.
