@@ -15,6 +15,7 @@ class TestController extends \BaseController {
 	 */
 	public function index()
 	{
+		$testStatus = TestStatus::all();
 		$searchString = Input::get('search');
 		if($searchString){
 			$tests = Test::whereHas('visit', function($q) use ($searchString){
@@ -34,7 +35,8 @@ class TestController extends \BaseController {
 			$tests = Test::paginate(Config::get('kblis.page-items'));
 		}
 		// Load the view and pass the tests
-		return View::make('test.index')->with('testSet', $tests);
+		return View::make('test.index')->with('testSet', $tests)
+									   ->with('testStatus', $testStatus);
 	}
 
 	/**

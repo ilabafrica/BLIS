@@ -9,10 +9,15 @@
     @if (Session::has('message'))
         <div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
     @endif
-    {{ Form::model(null, array('route' => array('test.index'))) }}
+    {{ Form::open(array('route' => array('test.index'), 'class' => 'form-group')) }}
     <div class="form-group">
         {{ Form::text('search', null, array( 'class' => 'form-control')) }}
-        {{ Form::submit('Search', array('class'=>'btn btn-sm btn-success')) }}
+        {{ Form::submit('Search', array('class'=>'btn btn-success')) }}
+        {{ Form::select('$testStatus', $testStatus->lists('name', 'id'), Input::old('testStatus'), array('class' => 'form-control')) }}
+        {{ Form::label('from', 'From') }}
+        {{ Form::text('from', Input::old('from'), array('class' => 'form-control standard-datepicker')) }}
+        {{ Form::label('to', 'To') }}
+        {{ Form::text('to', Input::old('to'), array('class' => 'form-control standard-datepicker')) }}
     </div>
     {{ Form::close() }}
     <div class="panel panel-primary test-create">
