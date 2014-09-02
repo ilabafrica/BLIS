@@ -136,6 +136,9 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@create"
     ));
 
+    Route::resource("permission", "PermissionController");
+    Route::resource("role", "RoleController");
+
 });
 
 // Display all SQL executed in Eloquent

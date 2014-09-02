@@ -464,5 +464,16 @@ extends DatabaseSeeder
         }
         $this->command->info('test results seeded');
         
+        /* Permissions table */
+        Permission::create(
+            array(
+                "name" => "view_names", "display_name" => "Can view patient names",
+                "name" => "verify_tests", "display_name" => "Can verify tests",
+                "name" => "add_patients", "display_name" => "Can add patients",
+                "name" => "configure_tests", "display_name" => "can configure tests",
+                "name" => "enter_tests", "display_name" => "Can enter tests",
+            )
+        );
+        $this->command->info('Permissions table seeded');
     }
 }

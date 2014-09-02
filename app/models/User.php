@@ -1,11 +1,13 @@
 <?php
 
 use Illuminate\Auth\UserInterface;
+use Zizaco\Entrust\HasRole;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
 
+	Use HasRole;
 	/**
 	 * Enabling soft deletes on the user table.
 	 *

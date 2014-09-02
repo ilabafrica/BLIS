@@ -14,6 +14,7 @@
 			$active[4] = "active"; break;
 		case 'report': $active[5] = "active"; break;
 		case 'inventory': $active[6] = "active"; break;
+		case 'permissions': $active[7] = "active"; break;
 	}
 ?>
 	<ul class="nav nav-sidebar">
@@ -144,8 +145,24 @@
 		</li>
 		<li>
 			<div class="main-menu {{$active[6]}}">
-				<a href="javascript:void(0);">
-					<span class="glyphicon glyphicon-briefcase"></span> Inventory</a>
+				<a href="javascript:void(0);"><span class="glyphicon glyphicon-lock"></span> Access controls</a>
+			</div>
+			<div class="sub-menu {{$active[6]}}">
+				<ul>
+					<li>
+						<div>
+							<span class="glyphicon glyphicon-tag"></span>
+							Roles
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route('permission.index')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							Permissions</a>
+						</div>
+					</li>
+				</ul>
 			</div>
 		</li>
 	</ul>
