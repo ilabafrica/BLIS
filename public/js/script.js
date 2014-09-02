@@ -102,7 +102,4 @@ $(function(){
 	function UIComponents(){
 		/* Datepicker */
 		$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
-
-		/* Tooltip */
-		$( document ).tooltip();
 	}
