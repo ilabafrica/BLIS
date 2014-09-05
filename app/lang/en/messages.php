@@ -25,7 +25,23 @@ return array(
     'confirm-delete-title' => 'Confirm Delete',
     'confirm-delete-message' => 'Do you wish to delete this item?',
     'confirm-delete-irreversible' => 'This action is irreversible.',
-     /* 
+    /* 
+    |   Patient
+    */
+    'age' => 'Age',
+    'date-created' => 'Registration Date',
+    'date-of-birth' => 'Date of Birth',
+    'email-address' => 'Email Address',
+    'external-patient-number' => 'External Patient Number',
+    'female' => 'Female',
+    'gender' => 'Gender',
+    'male' => 'Male',
+    'patient' => 'Patient',
+    'patient-details' => 'Patient Details',
+    'patient-number' => 'Patient Number',
+    'phone-number' => 'Phone Number',
+    'physical-address' => 'Physical Address',
+    /* 
     |   Test Categories
     */
     'create-test-category' => 'Create Lab Section',

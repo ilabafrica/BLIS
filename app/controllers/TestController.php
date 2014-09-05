@@ -27,12 +27,23 @@ class TestController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create($patient_id)
 	{
-		$specimentypes = SpecimenType::all();
+		$specimenTypes = SpecimenType::all();
+		$patient = Patient::find($patient_id);
+		$specimenTests = array();
+
+		foreach ($specimenTypes as $specimenType) {
+			foreach ($specimenType->testTypes as $testType) {
+				$specimenTests[] = [$specimenType->id, $specimenType->name, $testType->id, $testType->name];
+			}
+		}
 
 		//Load Test Create View
-		return View::make('test.create')->with('specimentypes', $specimentypes);
+		return View::make('test.create')
+					->with('specimentypes', $specimenTypes)
+					->with('specimentests', $specimenTests)
+					->with('patient', $patient);
 	}
 
 	/**
@@ -43,8 +54,37 @@ class TestController extends \BaseController {
 	public function saveNewTest()
 	{
 		//Create New Test
+		$rules = array(
+			'specimentype' => 'required',
+			'tests'       => 'required',
+			'physician' => 'required',
+		);
+		$validator = Validator::make(Input::all(), $rules);
 
-		return View::make('test.index');
+		// process the login
+		if ($validator->fails()) {
+			return Redirect::back()->withErrors($validator);
+		} else {
+/*
+| - Create a visit if patient has none
+| - Fields required: visit_id, test_type_id, specimen_id, test_status_id, created_by, tested_by, requested_by, time_created
+|
+*/
+			// store
+			// $test = new Test;
+			// $test->patient_number = Input::get('patient_number');
+			// $test->name = Input::get('name');
+			// $test->gender = Input::get('gender');
+
+			// try{
+			// 	$patient->save();
+			// 	return Redirect::to('patient')->with('message', 'Successfully created patient!');
+			// }catch(QueryException $e){
+			// 	Log::error($e);
+			// }
+			
+			// redirect
+		}
 	}
 
 	/**
@@ -142,9 +182,6 @@ class TestController extends \BaseController {
 	{
 		$test = Test::find($testID);
 
-		// foreach($test->testType->measures as $measure){
-
-		// }
 		return View::make('test.edit')->with('test', $test);
 	}
 

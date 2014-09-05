@@ -13,12 +13,6 @@
         <div class="panel-heading ">
             <span class="glyphicon glyphicon-filter"></span>
             {{trans('messages.list-tests')}}
-            <div class="panel-btn">
-                <a class="btn btn-sm btn-info new-item-link" href="{{ URL::route('test.create') }}">
-                    <span class="glyphicon glyphicon-plus-sign"></span>
-                    {{trans('messages.new-test')}}
-                </a>
-            </div>
         </div>
         <div class="panel-body">
             <table class="table table-striped table-hover table-condensed">
