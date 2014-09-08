@@ -10,16 +10,49 @@
     <div class="alert alert-info">{{ Session::get('message') }}</div>
 @endif
 <div class="panel panel-primary">
-    <div class="panel-heading ">
-        <span class="glyphicon glyphicon-user"></span>
-        Permissions
-        <div class="panel-btn">
-            <a class="btn btn-sm btn-info" href="{{ URL::to('patient/create') }}">
-                <span class="glyphicon glyphicon-plus-sign"></span>
-                New Role
-            </a>
+            <div class="panel-heading ">
+                <span class="glyphicon glyphicon-user"></span>
+                Permissions
+                <div class="panel-btn">
+                    <a class="btn btn-sm btn-info" href="{{ URL::to('role/create') }}">
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                        New Role
+                    </a>
+                </div>
+            </div>
+            <div class="panel-body">
+            <table class="table table-striped table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th>Permissions</th>
+                        <th>Roles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td></td>
+                    @forelse($roles as $role)
+                        <td>{{$role->name}}</td>
+                    @empty
+                        <td>No roles found</td>
+                    @endforelse
+                </tr>
+                @forelse($permissions as $permission)
+                    <tr>
+                        <td>{{$permission->display_name}}</td>
+
+                        @forelse($roles as $role)
+                            <td>{{ -}}</td>
+                        @empty
+                            <td>[-]</td>
+                        @endforelse
+
+                    </tr>
+                @empty
+                <tr><td colspan="2">No permissions assigned</td></tr>
+                @endforelse 
+                </tbody>
+            </table>
         </div>
     </div>
-
-</div>
 @stop

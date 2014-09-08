@@ -9,7 +9,8 @@ class RoleController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		$roles = Role::paginate(Config::get('kblis.page-items'));
+		return View::make('role.index')->with('roles', $roles);
 	}
 
 
@@ -20,7 +21,7 @@ class RoleController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		return View::make('role.create');
 	}
 
 
@@ -31,7 +32,29 @@ class RoleController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$rules = array('name' => 'required|unique:roles');
+		$validator = Validator::make(Input::all(), $rules);
+
+		if($validator->fails())
+		{
+			return Redirect::route('role.create')->withInput()->withErrors($validator);
+		}
+		else
+		{
+			$role = new Role;
+			$role->name = Input::get('name');
+			$role->description = Input::get('description');
+
+			try
+			{
+				$role->save();
+				return Redirect::route('role.index')->with('message', 'Role succesfully added!');
+			}
+			catch (QueryException $e)
+			{
+				Log::error($e);
+			}
+		}
 	}
 
 
@@ -43,7 +66,7 @@ class RoleController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		//No need for showing
 	}
 
 
@@ -55,7 +78,8 @@ class RoleController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		$role = Role::find($id);
+		return View::make('role.edit')->with('role', $role);
 	}
 
 
@@ -67,9 +91,45 @@ class RoleController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$rules = array('name' => 'required|unique:roles');
+		$validator = Validator::make(Input::all(), $rules);
+
+		if($validator->fails())
+		{
+			return Redirect::route('role.edit')->withInput()->withErrors($validator);
+		}
+		else
+		{
+			$role = Role::find($id);
+			$role->name = Input::get('name');
+			$role->description = Input::get('description');
+
+			try
+			{
+				$role->save();
+				return Redirect::route('role.index')->with('message', 'Role succesfully updated!');
+			}
+			catch (QueryException $e)
+			{
+				Log::error($e);
+			}
+		}
 	}
 
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function delete($id)
+	{
+		//Soft delete the role
+        $role = Role::find($id);
+        $role->delete();
+        // redirect
+        return Redirect::to('role')->with('message', 'The role was successfully deleted!');
+	}
 
 	/**
 	 * Remove the specified resource from storage.

@@ -139,6 +139,10 @@ Route::group(array("before" => "auth"), function()
     Route::resource("permission", "PermissionController");
     Route::resource("role", "RoleController");
 
+    Route::get("/role/{id}/delete", array(
+        "as"   => "role.delete",
+        "uses" => "RoleController@delete"
+    ));
 });
 
 // Display all SQL executed in Eloquent

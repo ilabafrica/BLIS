@@ -5,34 +5,6 @@ extends DatabaseSeeder
 {
     public function run()
     {
-        /* Truncate from linking tables */
-        DB::table('testtype_measures')->truncate();
-        DB::table('testtype_specimentypes')->truncate();
-        DB::table('measure_ranges')->truncate();
-
-        /* Delete from tables referenced by foreign key constraints */
-        DB::table('referrals')->delete();
-        DB::table('test_results')->delete();
-        DB::table('tests')->delete();
-        DB::table('specimens')->delete();
-        DB::table('rejection_reasons')->delete();
-        DB::table('visits')->delete();
-        DB::table('test_statuses')->delete();
-        DB::table('specimen_statuses')->delete();
-        DB::table('test_phases')->delete();
-        DB::table('test_types')->delete();
-        DB::table('measures')->delete();
-        DB::table('measure_types')->delete();
-        DB::table('test_categories')->delete();
-        DB::table('specimen_types')->delete();
-        DB::table('patients')->delete();
-        DB::table('tokens')->delete();
-        DB::table('users')->delete();
-
-
-        /* Truncate from tables ---- */
-        DB::table('users')->truncate();
-
         /* Users table */
         $users = array(
             array(
@@ -465,15 +437,16 @@ extends DatabaseSeeder
         $this->command->info('test results seeded');
         
         /* Permissions table */
-        Permission::create(
-            array(
-                "name" => "view_names", "display_name" => "Can view patient names",
-                "name" => "verify_tests", "display_name" => "Can verify tests",
-                "name" => "add_patients", "display_name" => "Can add patients",
-                "name" => "configure_tests", "display_name" => "can configure tests",
-                "name" => "enter_tests", "display_name" => "Can enter tests",
-            )
+        $permissions = array(
+            array("name" => "view_names", "display_name" => "Can view patient names"),
+            array("name" => "verify_tests", "display_name" => "Can verify tests"),
+            array("name" => "add_patients", "display_name" => "Can add patients"),
+            array("name" => "configure_tests", "display_name" => "Can configure tests"),
+            array("name" => "enter_tests", "display_name" => "Can enter tests")
         );
+        foreach ($permissions as $permission) {
+            Permission::create($permission);
+        }
         $this->command->info('Permissions table seeded');
     }
 }

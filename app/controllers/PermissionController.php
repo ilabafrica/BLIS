@@ -10,7 +10,14 @@ class PermissionController extends \BaseController {
 	public function index()
 	{
 		$permissions = Permission::paginate(Config::get('kblis.page-items'));
-		return View::make('permission.index')->with('permissions', $permissions);
+		$roles = Role::all();
+		$permissionRole = PermissionRole::all();
+		$permissionsRolesData = array(
+			'permissions' => $permissions, 
+			'roles' => $roles, 
+			'permissionRole' => $permissionRole );
+
+		return View::make('permission.index', $permissionsRolesData);
 	}
 
 
@@ -21,7 +28,7 @@ class PermissionController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		//Permissions are created via code
 	}
 
 
