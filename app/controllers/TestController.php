@@ -16,19 +16,31 @@ class TestController extends \BaseController {
 	public function index()
 	{
 		$testStatus = TestStatus::all();
+		$testStatusId = Input::get('testStatus');
 		$searchString = Input::get('search');
-		if($searchString){
-			$tests = Test::whereHas('visit', function($q) use ($searchString){
-				$q->whereHas('patient', function($q)  use ($searchString){
-					$q->where('name', 'like', '%' . $searchString . '%')//Search by patient name
-					  ->orWhere('patient_number', 'like', '%' . $searchString . '%');//Search by patient number
+		if($searchString||$testStatusId){
+			$tests = Test::where(function($q) use ($searchString){
+				$q->whereHas('visit', function($q) use ($searchString){
+					$q->whereHas('patient', function($q)  use ($searchString){
+						$q->where('name', 'like', '%' . $searchString . '%')//Search by patient name
+						  ->orWhere('patient_number', 'like', '%' . $searchString . '%');//Search by patient number
+					});
+				})->orWhereHas('testType', function($q) use ($searchString){
+				    $q->where('name', 'like', '%' . $searchString . '%');//Search by test type
+				})->orWhereHas('specimen', function($q) use ($searchString){
+				    $q->where('id', 'like', '%' . $searchString . '%');//Search by specimen number
+				})->orWhereHas('visit',  function($q) use ($searchString){
+					$q->where('id', 'like', '%' . $searchString . '%');//Search by visit number
 				});
-			})->orWhereHas('testType', function($q) use ($searchString){
-			    $q->where('name', 'like', '%' . $searchString . '%');//Search by test type
-			})->orWhereHas('specimen', function($q) use ($searchString){
-			    $q->where('id', 'like', '%' . $searchString . '%');//Search by specimen number
-			})->where('visit_id', 'LIKE', '%' . $searchString . '%')//Search by visit number	
-			  ->orderBy('time_created', 'DESC')->paginate(Config::get('kblis.page-items'));
+			});
+			if ($testStatusId) {
+				$tests = $tests->where(function($q) use ($testStatusId){
+					$q->whereHas('testStatus', function($q) use ($testStatusId){
+					    $q->where('id','=', $testStatusId);//Filter by test status
+					});
+				});
+			}
+			$tests = $tests->orderBy('time_created', 'DESC')->paginate(Config::get('kblis.page-items'));
 		}
 		else{
 		// List all the active tests
@@ -36,6 +48,7 @@ class TestController extends \BaseController {
 		}
 		// Load the view and pass the tests
 		return View::make('test.index')->with('testSet', $tests)
+									   ->with('testStatusId', $testStatusId)
 									   ->with('testStatus', $testStatus);
 	}
 

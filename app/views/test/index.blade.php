@@ -9,17 +9,32 @@
     @if (Session::has('message'))
         <div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
     @endif
-    {{ Form::open(array('route' => array('test.index'), 'class' => 'form-group')) }}
-    <div class="form-group">
-        {{ Form::text('search', null, array( 'class' => 'form-control')) }}
-        {{ Form::submit('Search', array('class'=>'btn btn-success')) }}
-        {{ Form::select('$testStatus', $testStatus->lists('name', 'id'), Input::old('testStatus'), array('class' => 'form-control')) }}
-        {{ Form::label('from', 'From') }}
-        {{ Form::text('from', Input::old('from'), array('class' => 'form-control standard-datepicker')) }}
-        {{ Form::label('to', 'To') }}
-        {{ Form::text('to', Input::old('to'), array('class' => 'form-control standard-datepicker')) }}
-    </div>
+
+    {{ Form::open(array('route' => array('test.index'), 'class' => 'form-inline')) }}
+        <div class="form-group">
+            {{ Form::label('search', 'search', array('class' => 'sr-only')) }}
+            {{ Form::text('search', null, array( 'class' => 'form-control', 'placeholder' => trans('messages.search'))) }}
+
+        </div>
+        <div class="form-group">
+            <label for="testStatus" class="sr-only">testStatus</label>
+            <select class="form-control" id="testStatus" name="testStatus">
+                <option value="">{{trans('messages.all')}}</option>
+                <?php foreach ($testStatus as $status) {
+                    echo '<option value="'.$status->id.'"';
+                        if ($status->id == $testStatusId) {
+                         echo 'selected';
+                        }
+                    echo '>'.trans("messages.$status->name").'</option>';
+                }
+                ?>
+            </select>
+        </div>
+        <div class="form-group">
+            {{ Form::submit(trans('messages.search'), array('class'=>'btn btn-primary')) }}
+        </div>
     {{ Form::close() }}
+
     <div class="panel panel-primary test-create">
         <div class="panel-heading ">
             <span class="glyphicon glyphicon-filter"></span>

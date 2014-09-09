@@ -36,6 +36,7 @@ return array(
      /* 
     |   Tests
     */
+    'all' => 'All',
     'date-ordered' => 'Date Ordered',
     'edit-test-results' => 'Edit Test Results',
     'enter-test-results' => 'Enter Test Results',
@@ -45,10 +46,14 @@ return array(
     'new-test' => 'New Test',
     'patient-name' => 'Patient',
     'pending' => 'Pending',
+    'started' => 'Started',
+    'completed' => 'Completed',
+    'verified' => 'Verified',
     'verification-pending' => 'Verification Pending',
     'physician' => 'Requesting Physician',
     'registered-by' => 'Registered By',
     'save-test-results' => 'Save Results',
+    'search' => 'Search',
     'specimen-number' => 'Specimen Number',
     'specimen-type' => 'Specimen Type',
     'test' => 'Test',
