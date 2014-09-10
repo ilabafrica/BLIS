@@ -20,12 +20,13 @@
                     </a>
                 </div>
             </div>
-            <div class="panel-body">
-            <table class="table table-striped table-hover table-condensed">
+            <div class="panel-body" >
+            <table class="table table-striped table-hover table-condensed table-bordered">
                 <thead>
                     <tr>
                         <th>Permissions</th>
                         <th>Roles</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,13 +41,17 @@
                 @forelse($permissions as $permission)
                     <tr>
                         <td>{{$permission->display_name}}</td>
-
                         @forelse($roles as $role)
-                            <td>{{ -}}</td>
+                            <td>
+                            <div class="col-md-3">
+                            <label  class="checkbox">
+                                <input type="checkbox" name="permRole[]" {{($permission->hasRole($role->name)) ? 'checked':'' }} />
+                            </label>
+                        </div>
+                        </td>
                         @empty
                             <td>[-]</td>
                         @endforelse
-
                     </tr>
                 @empty
                 <tr><td colspan="2">No permissions assigned</td></tr>

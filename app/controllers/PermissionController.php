@@ -9,14 +9,11 @@ class PermissionController extends \BaseController {
 	 */
 	public function index()
 	{
-		$permissions = Permission::paginate(Config::get('kblis.page-items'));
+		$permissions = Permission::all();
 		$roles = Role::all();
-		$permissionRole = PermissionRole::all();
 		$permissionsRolesData = array(
 			'permissions' => $permissions, 
-			'roles' => $roles, 
-			'permissionRole' => $permissionRole );
-
+			'roles' => $roles,);
 		return View::make('permission.index', $permissionsRolesData);
 	}
 
