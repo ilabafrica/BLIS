@@ -12,19 +12,14 @@
 <div class="panel panel-primary">
             <div class="panel-heading ">
                 <span class="glyphicon glyphicon-user"></span>
-                Permissions
-                <div class="panel-btn">
-                    <a class="btn btn-sm btn-info" href="{{ URL::to('role/create') }}">
-                        <span class="glyphicon glyphicon-plus-sign"></span>
-                        New Role
-                    </a>
-                </div>
+                Assign roles to users
             </div>
             <div class="panel-body" >
+            {{ Form::open(array('route'=>'role.assign'))}}
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th>Permissions</th>
+                        <th>Users</th>
                         <th colspan="{{ count($roles)}}">Roles</th>
                     </tr>
                 </thead>
@@ -37,22 +32,27 @@
                         <td>No roles found</td>
                     @endforelse
                 </tr>
-                @forelse($permissions as $permission)
+                @forelse($users as $user)
                     <tr>
-                        <td>{{$permission->display_name}}</td>
+                        <td>{{$user->username}}</td>
                         @forelse($roles as $role)
                         <td>
-                            {{ Form::checkbox('name', 'value', $permission->hasRole($role->name)) }}
+                            {{ Form::checkbox('userRoles[]', 'value')}}
                         </td>
                         @empty
                             <td>[-]</td>
                         @endforelse
                     </tr>
                 @empty
-                <tr><td colspan="2">No permissions assigned</td></tr>
+                <tr><td colspan="2">No users assigned</td></tr>
                 @endforelse 
                 </tbody>
             </table>
+            <div class="form-group actions-row">
+                    {{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 
+                        array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
+            </div>
+            {{Form::close()}}
         </div>
     </div>
 @stop

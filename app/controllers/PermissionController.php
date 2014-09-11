@@ -11,9 +11,7 @@ class PermissionController extends \BaseController {
 	{
 		$permissions = Permission::all();
 		$roles = Role::all();
-		$permissionsRolesData = array(
-			'permissions' => $permissions, 
-			'roles' => $roles,);
+		$permissionsRolesData = array('permissions' => $permissions,'roles' => $roles,);
 		return View::make('permission.index', $permissionsRolesData);
 	}
 

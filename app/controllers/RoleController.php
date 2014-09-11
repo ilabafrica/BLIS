@@ -24,6 +24,29 @@ class RoleController extends \BaseController {
 		return View::make('role.create');
 	}
 
+	/**
+	*	Controller function for making view for assigning roles to users
+	*
+	*	@return Response
+	*/
+	Public function assign()
+	{
+		$users = User::all();
+		$roles = Role::all();
+		$userRoleData = array('users'=>$users, 'roles'=>$roles);
+
+		return View::make('role.assign', $userRoleData);
+	}
+
+	/**
+	*	Saving the mapping for user to role assignment
+	*
+	*	@return Response
+	*/
+	public function saveUserRoleAssignment()
+	{
+		
+	}
 
 	/**
 	 * Store a newly created resource in storage.

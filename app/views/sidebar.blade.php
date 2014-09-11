@@ -14,6 +14,7 @@
 			$active[4] = "active"; break;
 		case 'report': $active[5] = "active"; break;
 		case 'permission': 
+		case 'assign':
 		case 'role': $active[6] = "active"; break;
 	}
 ?>
@@ -153,7 +154,7 @@
 					<li>
 						<div>
 							<a href="{{ URL::route("permission.index")}}">
-								<span class="glyphicon glyphicon-tag"></span>Permissions</a>
+								<span class="glyphicon glyphicon-tag"></span> Permissions</a>
 						</div>
 					</li>
 					<li>
@@ -164,7 +165,7 @@
 					</li>
 					<li>
 						<div>
-							<a href="#">
+							<a href="{{ URL::route("role.assign")}}">
 								<span class="glyphicon glyphicon-tag"></span> Assign Roles</a>
 						</div>
 					</li>

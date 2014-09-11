@@ -137,6 +137,15 @@ Route::group(array("before" => "auth"), function()
     ));
 
     Route::resource("permission", "PermissionController");
+
+    Route::get("role/assign", array(
+        "as"   => "role.assign",
+        "uses" => "RoleController@assign"
+    ));
+    Route::post("role/assign", array(
+        "as"   => "role.assign",
+        "uses" => "RoleController@saveUserRoleAssignment"
+    ));
     Route::resource("role", "RoleController");
 
     Route::get("/role/{id}/delete", array(
