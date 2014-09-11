@@ -51,6 +51,11 @@ $(function(){
 			});
 	});
 
+	$('.action').each(function() {
+		var id = $( this ).attr( 'id' );
+		loadTestActionsElement('#'+id,'#'+id+'-link');
+	});
+
 	UIComponents();
 
 	/* Clicking the label of an radio/checkbox, checks the control*/
@@ -105,4 +110,14 @@ $(function(){
 
 		/* Tooltip */
 		$( document ).tooltip();
+	}
+
+	function startTest(testId){
+		var url = location.protocol+ "//"+location.host+ "/test/" +testId+ "/start";
+		$.get( url, function() {loadTestActionsElement('#start-test-'+testId+'-link','#enter-results-'+testId+'-link');});
+	}
+
+	function loadTestActionsElement (oldId,newId) {
+			$(oldId).replaceWith( $(newId) );
+			$(newId).removeClass('hidden');
 	}
