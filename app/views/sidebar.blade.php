@@ -13,10 +13,8 @@
 		case 'specimentype': 
 			$active[4] = "active"; break;
 		case 'report': $active[5] = "active"; break;
-		case 'inventory': $active[6] = "active"; break;
-		case 'permission': $active[7] = "active"; break;
-		case 'permissions':
-		case 'roles':
+		case 'permission': 
+		case 'role': $active[6] = "active"; break;
 	}
 ?>
 	<ul class="nav nav-sidebar">
@@ -145,24 +143,29 @@
 				</ul>
 			</div>
 		</li>
-		<li>
+				<li>
 			<div class="main-menu {{$active[6]}}">
-				<a href="{{ URL::route('permission.index')}}"><span class="glyphicon glyphicon-lock"></span> Access controls</a>
+				<a href="{{ URL::route("permission.index")}}">
+					<span class="glyphicon glyphicon-cog"></span> Access controls</a>
 			</div>
 			<div class="sub-menu {{$active[6]}}">
-				<ul>
+				<ul class="sub-menu-items">
 					<li>
 						<div>
-							<a href="{{ URL::route('permission.index')}}">
-							<span class="glyphicon glyphicon-tag"></span>
-							Permissions</a>
+							<a href="{{ URL::route("permission.index")}}">
+								<span class="glyphicon glyphicon-tag"></span>Permissions</a>
 						</div>
 					</li>
 					<li>
 						<div>
-							<a href="{{ URL::route('role.index')}}">
-							<span class="glyphicon glyphicon-tag"></span>
-							Roles</a>
+							<a href="{{ URL::route("role.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> Roles</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="#">
+								<span class="glyphicon glyphicon-tag"></span> Assign Roles</a>
 						</div>
 					</li>
 				</ul>

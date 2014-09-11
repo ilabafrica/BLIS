@@ -21,12 +21,11 @@
                 </div>
             </div>
             <div class="panel-body" >
-            <table class="table table-striped table-hover table-condensed table-bordered">
+            <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
                         <th>Permissions</th>
                         <th>Roles</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
