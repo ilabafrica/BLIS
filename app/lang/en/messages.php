@@ -14,8 +14,15 @@ return array(
     'name' => 'Name',
     'password' => 'Password',
     'save' => 'Save',
+    'search' => 'Search',
     'username' => 'Username',
     'view' => 'View',
+    'from'  =>  'From',
+    'to'    =>  'To',
+    'registration-number'    =>  'Registration Number',
+    'gender'    =>  'Gender',
+    'records'    =>  'Records',
+    'submit'    =>  'Submit',
     /* 
     |   Generic phrases
     */
@@ -66,4 +73,37 @@ return array(
     'verified-by' => 'Verified By',
     'visit-number' => 'Lab No.',
     'visit-type' => 'Visit Type',
+     /* 
+    |   Reports
+    */
+    'reports'   =>  'Reports',
+    'counts'   =>  'Counts',
+    'patient-report'    =>  'Patient Report',
+    'view-report'    =>  'View Report',
+    'select-tests'    =>  'Select Tests',
+    'daily-log'    =>  'Daily Log',
+    'test-records'    =>  'Test Records',
+    'patient-records'    =>  'Patient Records',
+    'rejected-specimen'    =>  'Rejected Specimen',
+    'test-count-grouped'    =>  'Test Count (Grouped)',
+    'test-count-ungrouped'    =>  'Test Count (Ungrouped)',
+    'specimen-count-grouped'    =>  'Specimen Count (Grouped)',
+    'specimen-count-ungrouped'    =>  'Specimen Count (Ungrouped)',
+    'doctor-statistics'    =>  'Doctor Statistics',
+    'count-type' => 'Count Type',
+    'infection-report'    =>  'Infection Report',
+    'prevalence-rates-report'    =>  'Prevalence Rates',
+     /* 
+    |   Tips
+    */
+    'patient-report-tip'   =>  'Select Patient Name, Number or ID to retrieve patient\'s lab reports',
+    'daily-log-tip'   =>  'Print all records handled on a given day.',
+    'counts-report-tip'   =>  'Select date range and type of count required.',
+    'infection-report-tip'   =>  'Select Date range and lab section to view the Infection report.',
+    'prevalence-rates-report-tip'   =>  'Select the date range to view the infection graph and prevalence rates.',
+    
+     /* 
+    |   Billing
+    */
+    'generate-bill'   =>  'Generate Bill',
 );

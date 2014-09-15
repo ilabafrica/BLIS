@@ -102,14 +102,16 @@
 				<ul class="sub-menu-items">
 					<li>
 						<div>
+						<a href="{{ URL::route("reports.patient.index")}}" >
 							<span class="glyphicon glyphicon-tag"></span>
-							Patient Report
+							Patient Report</a>
 						</div>
 					</li>
 					<li>
 						<div>
+						<a href="{{ URL::route("reports.daily.index")}}" >
 							<span class="glyphicon glyphicon-tag"></span>
-							Daily Log
+							Daily Log</a>
 						</div>
 					</li>
 				</ul>
@@ -117,26 +119,30 @@
 				<ul class="sub-menu-items">
 					<li>
 						<div>
+						<a href="{{ URL::route("reports.prevalence.index")}}" >
 							<span class="glyphicon glyphicon-tag"></span>
-							Prevalence Rates
+							Prevalence Rates</a>
 						</div>
 					</li>
 					<li>
 						<div>
+						<a href="{{ URL::route("reports.counts.index")}}" >
 							<span class="glyphicon glyphicon-tag"></span>
-							Counts
+							Counts</a>
 						</div>
 					</li>
 					<li>
 						<div>
+						<a href="{{ URL::route("reports.tat.index")}}" >
 							<span class="glyphicon glyphicon-tag"></span>
-							Turnaround Time
+							Turnaround Time</a>
 						</div>
 					</li>
 					<li>
 						<div>
+						<a href="{{ URL::route("reports.infection.index")}}" >
 							<span class="glyphicon glyphicon-tag"></span>
-							Infection Report
+							Infection Report</a>
 						</div>
 					</li>
 				</ul>

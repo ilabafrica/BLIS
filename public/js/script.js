@@ -51,7 +51,7 @@ $(function(){
 			});
 	});
 
-	UIComponents();
+	//UIComponents();
 
 	/* Clicking the label of an radio/checkbox, checks the control*/
 	$('span.input-tag').click(function(){
@@ -63,46 +63,39 @@ $(function(){
 	$("body").on("click", ".numeric-range-measure .close", function(){
 		$(this).parent().remove();
 	});
-});
+
+	$(".view-report-item-button").on('click', function() { alert('ok'); });
+
 	
-	/**
-	 * HTML ELEMENTS
-	 */
-	 
-	 /*Measure Inputs*/
 
-	var numericInput ='<div class="numeric-range-measure">'
-		+'<input name="measurerangeid[]" type="hidden" value="0">'
-		+'<button class="close" aria-hidden="true" type="button" title="Delete">×</button>'
-		+'<div><span class="range-title">Age Range:</span>'
-			+'<input name="agemin[]" type="text"><span>:</span>'
-			+'<input name="agemax[]" type="text">'
-		+'</div><div><span class="range-title">Gender:</span>'
-			+'<select name="gender[]">'
-				+'<option value="0">Male</option>'
-				+'<option value="1">Female</option>'
-				+'<option value="2">Both</option>'
-			+'</select>'
-		+'</div><div><span class="range-title">Measure Range:</span>'
-			+'<input name="rangemin[]" type="text"><span>:</span>'
-			+'<input name="rangemax[]" type="text">'
-		+'</div></div>';
+	$('#section_id').change(function(){
+			$.get("{{ url('api/dropdown')}}", 
+				{ option: $(this).val() }, 
+				function(data) {
+					var test_type = $('#test_type');
+					test_type.empty();
+ 
+					$.each(data, function(index, element) {
+			            test_type.append("<option value='"+ element.id +"'>" + element.name + "</option>");
+			        });
+				});
+		});
 
-	var alphanumericInput = '<div class="alphanumericInput">'
-								+'<input name="val[]" type="text">'
-								+'<span class="alphanumericSlash">/</span></div>';
+	});
 
-	var autocompleteInput = '<div class="autocompleteInput">'
-								+'<input name="val[]" type="text"></div>';
-
-	var freetextInput = '<p>A text box will appear for results entry</p>';
-
-	var measureInputs = [numericInput, alphanumericInput, autocompleteInput, freetextInput]; 
-
-	function UIComponents(){
-		/* Datepicker */
-		$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
-
-		/* Tooltip */
-		$( document ).tooltip();
-	}
+$(document).ready(function($){
+	/* Begin Datepicker */
+	$('#from').datetimepicker();
+	$('#to').datetimepicker();
+	/*End Datepicker*/	
+	$("#section_id").change(function(){
+		$.get("{{ url('/api/dropdown')}}", 
+		{ option: $(this).val() }, 
+			function(data) {
+				$('#test_type').empty(); 
+				$.each(data, function(key, element) {
+				$('#test_type').append("" + element + "");
+			});
+		});
+	});
+});

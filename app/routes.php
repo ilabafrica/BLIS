@@ -138,6 +138,122 @@ Route::group(array("before" => "auth"), function()
 
 });
 
+/*Route Patient Report*/
+
+    Route::get("/patientreport", array(
+        "as"   => "reports.patient.index",
+        "uses" => "PatientReportController@index"
+    ));
+
+    Route::post("/patientreport/search", array(
+        "as"   => "reports.patient.search",
+        "uses" => "PatientReportController@search"
+    ));
+
+    Route::get('api/patientreport', array('as'=>'api.patientreport', 'uses'=>'PatientReportController@apiDatatable'));
+
+    Route::get("/patientreport/{id}", array(
+        "as"   => "patientreport.view",
+        "uses" => "PatientReportController@viewReport"
+    ));
+    
+    /*
+    Route::get("/test/{id}/rejectaction", array(
+        "as"   => "test.rejectAction",
+        "uses" => "TestController@rejectAction"
+    ));
+
+    Route::get("/test/{test}/start", array(
+        "as"   => "test.start",
+        "uses" => "TestController@start"
+    ));
+
+     Route::get("/test/{test}/enterresults", array(
+        "as"   => "test.enterResults",
+        "uses" => "TestController@enterResults"
+    ));
+
+     Route::any("/test/{test}/saveresults", array(
+        "as"   => "test.saveResults",
+        "uses" => "TestController@saveResults"
+    ));
+
+    Route::get("/test/{test}/viewdetails", array(
+        "as"   => "test.viewDetails",
+        "uses" => "TestController@viewDetails"
+    ));
+
+    Route::get("/test/{test}/edit", array(
+        "as"   => "test.edit",
+        "uses" => "TestController@edit"
+    ));
+
+    Route::get("/test/verify", array(
+        "as"   => "test.verify",
+        "uses" => "TestController@verify"
+    ));
+
+    Route::get("/test/create", array(
+        "as"   => "test.create",
+        "uses" => "TestController@create"
+    ));
+
+});*/
+
+    /*Route Daily Log Report*/
+
+    Route::get("/dailylog", array(
+        "as"   => "reports.daily.index",
+        "uses" => "DailyLogController@index"
+    ));
+
+    Route::get('/api/dropdown', function(){
+    $id = Input::get('option');
+    $id_num = DB::table('test_categories')->where('id',$id)->pluck('id');
+    $test_types = DB::table('test_types')->where('section_id',$id_num)->lists('name', 'id');
+    return $test_types;
+    });
+
+    /*Route::get('api/dropdown', function(){
+        $input = Input::get('option');
+        $testCategory = TestCategory::find($input);
+        $testTypes = $testCategory->testTypes();
+        return Response::make($testTypes->get(['id','name']));
+    });
+*/
+    Route::get("/dailylog/search", array(
+        "as"   => "reports.daily.search",
+        "uses" => "DailyLogController@search"
+    ));
+
+    /*Route Prevalence Report Controller*/
+
+    Route::get("/prevalence", array(
+        "as"   => "reports.prevalence.index",
+        "uses" => "PrevalenceRatesReportController@index"
+    ));
+
+    /*Route Counts Report Controller*/
+
+    Route::get("/counts", array(
+        "as"   => "reports.counts.index",
+        "uses" => "CountReportController@index"
+    ));
+
+    /*Route TAT Report Controller*/
+
+    Route::get("/tat", array(
+        "as"   => "reports.tat.index",
+        "uses" => "TatReportController@index"
+    ));
+    
+    /*Route Infection Report Controller*/
+
+    Route::get("/infection", array(
+        "as"   => "reports.infection.index",
+        "uses" => "InfectionReportController@index"
+    ));
+
 // Display all SQL executed in Eloquent
 Event::listen('illuminate.query', function($query)
 {

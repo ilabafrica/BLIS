@@ -49,4 +49,12 @@ class Specimen extends Eloquent
 	{
 		return $this->belongsTo('RejectionReason');
 	}
+
+	/**
+	 * User (created) relationship
+	 */
+	public function createdBy()
+	{
+		return $this->belongsTo('User', 'created_by', 'id');
+	}
 }

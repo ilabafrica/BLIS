@@ -27,4 +27,11 @@ class Patient extends Eloquent
         return $this->hasMany('Visit');
     }
 
+    public function search($keyword){
+    	return static::where('id', 'LIKE', '%$' . $keyword . '%')
+						->orWhere('name', 'LIKE', '%$' . $keyword . '%')
+						->orWhere('patient_number', 'LIKE', '%$'.$keyword.'%')
+						->orWhere('external_patient_number', 'LIKE', '%$'.$keyword.'%')->paginate(5);
+    }
+
 }

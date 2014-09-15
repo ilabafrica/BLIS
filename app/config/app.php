@@ -106,6 +106,8 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
+		// providers array:
+	    'Chumper\Datatable\DatatableServiceProvider',
 
 	),
 
@@ -173,6 +175,7 @@ return array(
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
 		'SoftDeletingTrait'     => 'Illuminate\Database\Eloquent\SoftDeletingTrait',
+		'Datatable' => 'Chumper\Datatable\Facades\DatatableFacade',
 
 	),
 
