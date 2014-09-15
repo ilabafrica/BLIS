@@ -21,6 +21,7 @@
                 </div>
             </div>
             <div class="panel-body" >
+            {{ Form::open(array('route'=>'permission.store'))}}
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
@@ -37,12 +38,12 @@
                         <td>No roles found</td>
                     @endforelse
                 </tr>
-                @forelse($permissions as $permission)
+                @forelse($permissions as $permissionKey => $permission)
                     <tr>
                         <td>{{$permission->display_name}}</td>
-                        @forelse($roles as $role)
+                        @forelse($roles as $roleKey => $role)
                         <td>
-                            {{ Form::checkbox('name', 'value', $permission->hasRole($role->name)) }}
+                            {{ Form::checkbox('permissionRoles['.$permissionKey.']['.$roleKey.']', 'value', $permission->hasRole($role->name)) }}
                         </td>
                         @empty
                             <td>[-]</td>
@@ -53,6 +54,11 @@
                 @endforelse 
                 </tbody>
             </table>
+            <div class="form-group actions-row">
+                    {{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 
+                        array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
+            </div>
+            {{Form::close()}}
         </div>
     </div>
 @stop

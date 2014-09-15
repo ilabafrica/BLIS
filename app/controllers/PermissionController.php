@@ -34,22 +34,24 @@ class PermissionController extends \BaseController {
 	 */
 	public function store()
 	{
-		$rules = array(
-			'name' => 'required|min:4|unique:permissions',
-			'description' => 'required'
-			);
-		$validator = Validator::make(Input::all, $rules);
+		$arrayPermissionRoleMapping = Input::get('permissionRoles');
+		$permissions = Permission::all();
+		$roles = Role::all();
 
-		if($validator->fails())
-		{
-			Redirect::Route('permissions.create')->withErrors($validator)->withInput();
+		foreach ($permissions as $permissionkey => $permission) {
+			foreach ($roles as $roleKey => $role) {
+				//If checkbox is clicked attach the permission
+				if(!empty($arrayPermissionRoleMapping[$permissionkey][$roleKey]))
+				{
+					$role->attachPermission($permission);
+				}
+				//If checkbox is NOT clicked detatch the permission
+				elseif (empty($arrayPermissionRoleMapping[$permissionkey][$roleKey])) {
+					$role->detachPermission($permission);
+				}
+			}
 		}
-		else
-		{
-			//Save the details
-			$permission = new Permission;
-			
-		}
+		return Redirect::route('permission.index')->with('message', 'Roles/permissions succesfully updated!');
 	}
 
 

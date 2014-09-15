@@ -32,12 +32,12 @@
                         <td>No roles found</td>
                     @endforelse
                 </tr>
-                @forelse($users as $user)
+                @forelse($users as $userKey=>$user)
                     <tr>
                         <td>{{$user->username}}</td>
-                        @forelse($roles as $role)
+                        @forelse($roles as $roleKey=>$role)
                         <td>
-                            {{ Form::checkbox('userRoles[]', 'value')}}
+                            {{ Form::checkbox('userRoles['.$userKey.']['.$roleKey.']', 'value', $user->hasRole($role->name) )}}
                         </td>
                         @empty
                             <td>[-]</td>

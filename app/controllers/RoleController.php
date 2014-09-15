@@ -45,7 +45,25 @@ class RoleController extends \BaseController {
 	*/
 	public function saveUserRoleAssignment()
 	{
+		$arrayUserRoleMapping = Input::get('userRoles');
+
+		$users = User::all();
+		$roles = Role::all();
 		
+		foreach ($users as $userkey => $user) {
+			foreach ($roles as $roleKey => $role) {
+				//If checkbox is clicked attach the role
+				if(!empty($arrayUserRoleMapping[$userkey][$roleKey]))
+				{
+					$user->attachRole($role);
+				}
+				//If checkbox is NOT clicked detatch the role
+				elseif (empty($arrayUserRoleMapping[$userkey][$roleKey])) {
+					$user->detachRole($role);
+				}
+			}
+		}
+		return Redirect::route('role.assign')->with('message', 'Roles succesfully updated!');
 	}
 
 	/**
