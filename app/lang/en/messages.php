@@ -31,11 +31,12 @@ return array(
     'success-creating-test-category' => 'Successfully created Lab Section.',
     'success-deleting-test-category' => 'Successfully deleted the Lab Section.',
     'success-updating-test-category' => 'The lab section was successfully updated!',
-   	'test-category' => 'Lab Section',
+    'test-category' => 'Lab Section',
     'test-category-details' => 'Lab Section Details',
      /* 
     |   Tests
     */
+    'completed' => 'Completed',
     'date-ordered' => 'Date Ordered',
     'edit-test-results' => 'Edit Test Results',
     'enter-results' => 'Enter Results',
@@ -54,6 +55,7 @@ return array(
     'specimen-number' => 'Specimen Number',
     'specimen-type' => 'Specimen Type',
     'start-test' => 'Start Test',
+    'started' => 'Started',
     'test' => 'Test',
     'test-details' => 'Test Details',
     'test-phase' => 'Test Phase',
@@ -67,6 +69,7 @@ return array(
     'unknown' => 'Unknown',
     'update-test-results' => 'Update Test Results',
     'verified-by' => 'Verified By',
+    'verified' => 'Verified',
     'verify' => 'Verify',
     'view-details' => 'View Details',
     'visit-number' => 'Lab No.',

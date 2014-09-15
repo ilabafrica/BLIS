@@ -40,7 +40,9 @@
                         <td>{{ $test->testType->name }}</td>            <!--Test-->
                         <td>{{ $test->visit->visit_type }}</td>         <!--Visit Type -->
                         <td>{{ $test->testStatus->testPhase->name }}</td><!--Test Phase -->
-                        <td>{{ $test->testStatus->name }}</td>          <!--Status-->
+                        <td id="test-status-{{$test->id}}">              <!--Status-->
+                            {{trans('messages.'.$test->testStatus->name)}}
+                        </td>
                         
                         <td>
 

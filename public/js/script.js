@@ -114,7 +114,18 @@ $(function(){
 
 	function startTest(testId){
 		var url = location.protocol+ "//"+location.host+ "/test/" +testId+ "/start";
-		$.get( url, function() {loadTestActionsElement('#start-test-'+testId+'-link','#enter-results-'+testId+'-link');});
+		$.get( url, function() {
+			loadTestActionsElement('#start-test-'+testId+'-link','#enter-results-'+testId+'-link');
+			updateTestStatus(testId);
+		});
+	}
+
+	function updateTestStatus(testId){
+		var url = location.protocol+ "//"+location.host+ "/test/" +testId+ "/getTestStatus";
+		$.get( url, function(testStatus) {
+			loadTestActionsElement('#start-test-'+testId+'-link','#enter-results-'+testId+'-link');
+			$('#test-status-'+testId).html(testStatus);
+		});
 	}
 
 	function loadTestActionsElement (oldId,newId) {
