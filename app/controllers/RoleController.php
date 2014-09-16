@@ -46,10 +46,9 @@ class RoleController extends \BaseController {
 	public function saveUserRoleAssignment()
 	{
 		$arrayUserRoleMapping = Input::get('userRoles');
-
 		$users = User::all();
 		$roles = Role::all();
-		
+
 		foreach ($users as $userkey => $user) {
 			foreach ($roles as $roleKey => $role) {
 				//If checkbox is clicked attach the role
@@ -73,7 +72,7 @@ class RoleController extends \BaseController {
 	 */
 	public function store()
 	{
-		$rules = array('name' => 'required|unique:roles');
+		$rules = array('name' => 'required|unique:roles|min:3', 'description' => 'max:200');
 		$validator = Validator::make(Input::all(), $rules);
 
 		if($validator->fails())
@@ -98,7 +97,6 @@ class RoleController extends \BaseController {
 		}
 	}
 
-
 	/**
 	 * Display the specified resource.
 	 *
@@ -109,7 +107,6 @@ class RoleController extends \BaseController {
 	{
 		//No need for showing
 	}
-
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -132,7 +129,7 @@ class RoleController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		$rules = array('name' => 'required|unique:roles');
+		$rules = array('name' => 'required|unique:roles|min:3', 'description' => 'max:200');
 		$validator = Validator::make(Input::all(), $rules);
 
 		if($validator->fails())

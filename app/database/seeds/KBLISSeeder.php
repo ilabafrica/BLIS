@@ -448,5 +448,15 @@ extends DatabaseSeeder
             Permission::create($permission);
         }
         $this->command->info('Permissions table seeded');
+
+        /* Roles table */
+        $roles = array(
+            array("name" => "Manager"), 
+            array("name" => "Cashier")
+        );
+        foreach ($roles as $role) {
+            Role::create($role);
+        }
+        $this->command->info('Roles table seeded');
     }
 }

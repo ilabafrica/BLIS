@@ -37,7 +37,7 @@
                         <td>{{$user->username}}</td>
                         @forelse($roles as $roleKey=>$role)
                         <td>
-                            {{ Form::checkbox('userRoles['.$userKey.']['.$roleKey.']', 'value', $user->hasRole($role->name) )}}
+                            {{ Form::checkbox('userRoles['.$userKey.']['.$roleKey.']', '1', $user->hasRole($role->name) )}}
                         </td>
                         @empty
                             <td>[-]</td>

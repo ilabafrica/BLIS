@@ -43,7 +43,7 @@
                         <td>{{$permission->display_name}}</td>
                         @forelse($roles as $roleKey => $role)
                         <td>
-                            {{ Form::checkbox('permissionRoles['.$permissionKey.']['.$roleKey.']', 'value', $permission->hasRole($role->name)) }}
+                            {{ Form::checkbox('permissionRoles['.$permissionKey.']['.$roleKey.']', '1', $permission->hasRole($role->name)) }}
                         </td>
                         @empty
                             <td>[-]</td>
