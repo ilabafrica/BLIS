@@ -51,11 +51,6 @@ $(function(){
 			});
 	});
 
-	$('.action').each(function() {
-		var id = $( this ).attr( 'id' );
-		loadTestActionsElement('#'+id,'#'+id+'-link');
-	});
-
 	UIComponents();
 
 	/* Clicking the label of an radio/checkbox, checks the control*/
@@ -115,20 +110,15 @@ $(function(){
 	function startTest(testId){
 		var url = location.protocol+ "//"+location.host+ "/test/" +testId+ "/start";
 		$.get( url, function() {
-			loadTestActionsElement('#start-test-'+testId+'-link','#enter-results-'+testId+'-link');
+			$('#start-test-'+testId+'-link').replaceWith( $('#enter-results-'+testId+'-link') );
+			$('#enter-results-'+testId+'-link').removeClass('hidden');
 			updateTestStatus(testId);
 		});
 	}
 
 	function updateTestStatus(testId){
-		var url = location.protocol+ "//"+location.host+ "/test/" +testId+ "/getTestStatus";
+		var url = location.protocol+ "//"+location.host+ "/test/" +testId+ "/getteststatus";
 		$.get( url, function(testStatus) {
-			loadTestActionsElement('#start-test-'+testId+'-link','#enter-results-'+testId+'-link');
 			$('#test-status-'+testId).html(testStatus);
 		});
-	}
-
-	function loadTestActionsElement (oldId,newId) {
-			$(oldId).replaceWith( $(newId) );
-			$(newId).removeClass('hidden');
 	}

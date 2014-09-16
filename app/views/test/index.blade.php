@@ -46,56 +46,57 @@
                         
                         <td>
 
-                        <!--Test Action Elements -->
-                            <a class="btn btn-sm btn-success hidden"
+                        <!--'Enter Result' button loaded via ajax in place of 'Start Test' button, on starting a Test-->
+                        <!-- Serves the purpose of localisation, since it is generated at the back end -->
+                        <a class="btn btn-sm btn-info hidden"
+                            href="{{ URL::to('test/'.$test->id.'/enterresults') }}"
+                            id="enter-results-{{$test->id}}-link">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            {{trans('messages.enter-results')}}
+                        </a>
+                        <!--'Enter Result' button loaded via ajax in place of 'Start Test' button, on starting a Test-->
+
+                            <a class="btn btn-sm btn-success"
                                 href="{{ URL::to('test/'.$test->id.'/viewdetails') }}"
                                 id="view-details-{{$test->id}}-link">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 {{trans('messages.view-details')}}
                             </a>
-                            <a class="btn btn-sm btn-danger hidden"
-                                href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"
-                                id="reject-{{$test->id}}-link">
-                                <span class="glyphicon glyphicon-thumbs-down"></span>
-                                {{trans('messages.reject')}}
-                            </a>
-                            <a class="btn btn-sm btn-success start-test-link hidden"
-                                href="javascript:startTest({{$test->id}}) " 
-                                id="start-test-{{$test->id}}-link">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                                {{trans('messages.start-test')}}
-                            </a>    
-                            <a class="btn btn-sm btn-info hidden"
-                                href="{{ URL::to('test/'.$test->id.'/enterresults') }}"
-                                id="enter-results-{{$test->id}}-link">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                                {{trans('messages.enter-results')}}
-                            </a>
-                            <a class="btn btn-sm btn-success hidden"
-                                href="{{ URL::to('test/'.$test->id.'/viewdetails') }}"
-                                id="verify-{{$test->id}}-link">
-                                <span class="glyphicon glyphicon-thumbs-up"></span>
-                                {{trans('messages.verify')}}
-                            </a>
-                            <a class="btn btn-sm btn-info hidden"
-                                href="{{ URL::to('test/'.$test->id.'/edit') }}"
-                                 id="edit-{{$test->id}}-link">
-                                <span class="glyphicon glyphicon-edit"></span>
-                                {{trans('messages.edit')}}
-                            </a>
-                        <!--Test Action Elements -->
-
-                            <span class="action" id="view-details-{{$test->id}}"></span>
                         @if ($test->specimen->specimen_status_id != 2 && $test->test_status_id < 4)
                             <!-- NOT Rejected AND NOT Verified -->
-                            <span class="action" id="reject-{{$test->id}}"></span>
+                                <a class="btn btn-sm btn-danger"
+                                    href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"
+                                    id="reject-{{$test->id}}-link">
+                                    <span class="glyphicon glyphicon-thumbs-down"></span>
+                                    {{trans('messages.reject')}}
+                                </a>
                             @if ($test->test_status_id == 1)<!-- Pending -->
-                                <span class="action" id="start-test-{{$test->id}}"></span>
+                                <a class="btn btn-sm btn-success start-test-link"
+                                    href="javascript:startTest({{$test->id}})" 
+                                    id="start-test-{{$test->id}}-link">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                    {{trans('messages.start-test')}}
+                                </a>    
                             @elseif ($test->test_status_id == 2)<!-- Started -->
-                                <span class="action" id="enter-results-{{$test->id}}"></span>
+                                <a class="btn btn-sm btn-info"
+                                    href="{{ URL::to('test/'.$test->id.'/enterresults') }}"
+                                    id="enter-results-{{$test->id}}-link">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                    {{trans('messages.enter-results')}}
+                                </a>
                             @elseif ($test->test_status_id == 3)<!-- Completed -->
-                                <span class="action" id="verify-{{$test->id}}"></span>
-                                <span class="action" id="edit-{{$test->id}}"></span>
+                                <a class="btn btn-sm btn-success"
+                                    href="{{ URL::to('test/'.$test->id.'/viewdetails') }}"
+                                    id="verify-{{$test->id}}-link">
+                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                    {{trans('messages.verify')}}
+                                </a>
+                                <a class="btn btn-sm btn-info"
+                                    href="{{ URL::to('test/'.$test->id.'/edit') }}"
+                                     id="edit-{{$test->id}}-link">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                    {{trans('messages.edit')}}
+                                </a>
                             @endif
                         @endif
                         </td>

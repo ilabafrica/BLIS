@@ -136,7 +136,7 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@create"
     ));
 
-    Route::get("/test/{test}/getTestStatus", array(
+    Route::get("/test/{test}/getteststatus", array(
         "as"   => "test.getTestStatus",
         "uses" => "TestController@getTestStatusById"
     ));
