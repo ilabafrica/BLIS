@@ -28,7 +28,7 @@
 				'method' => 'PUT', 'id' => 'form-edit-testcategory')) }}
 
 				<div class="form-group">
-					{{ Form::label('name', trans('messages.name')) }}
+					{{ Form::label('name', Lang::choice('messages.name',1)) }}
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 				</div>
 				

@@ -35,7 +35,7 @@
                     <div class="form-group">
                         <span class="glyphicon glyphicon-lock"></span>
                         {{ Form::password("password", array(
-                            "placeholder" => trans('messages.password'),
+                            "placeholder" => Lang::choice('messages.password',1),
                             "class" => "form-control"
                         )) }}
                     </div>

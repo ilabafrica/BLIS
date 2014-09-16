@@ -2,8 +2,8 @@
 @section("content")
 <div>
     <ol class="breadcrumb">
-      <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
-      <li class="active">Access controls</li>
+      <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
+      <li class="active">{{trans('messages.access-controls')}}</li>
     </ol>
 </div>
 @if (Session::has('message'))
@@ -12,15 +12,15 @@
 <div class="panel panel-primary">
             <div class="panel-heading ">
                 <span class="glyphicon glyphicon-user"></span>
-                Assign roles to users
+                {{trans('messages.assign-roles-to-users')}}
             </div>
             <div class="panel-body" >
             {{ Form::open(array('route'=>'role.assign'))}}
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th>Users</th>
-                        <th colspan="{{ count($roles)}}">Roles</th>
+                        <th>{{Lang::choice('messages.user',2)}}</th>
+                        <th colspan="{{ count($roles)}}">{{Lang::choice('messages.role',2)}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,7 +29,7 @@
                     @forelse($roles as $role)
                         <td>{{$role->name}}</td>
                     @empty
-                        <td>No roles found</td>
+                        <td>{{ trans('messages.no-roles-found')}}</td>
                     @endforelse
                 </tr>
                 @forelse($users as $userKey=>$user)
@@ -44,7 +44,7 @@
                         @endforelse
                     </tr>
                 @empty
-                <tr><td colspan="2">No users assigned</td></tr>
+                <tr><td colspan="2">{{ trans('messages.no-users-found')}}</td></tr>
                 @endforelse 
                 </tbody>
             </table>

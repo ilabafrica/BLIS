@@ -2,8 +2,8 @@
 @section("content")
 <div>
     <ol class="breadcrumb">
-      <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
-      <li class="active">Access controls</li>
+      <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
+      <li class="active">{{trans('messages.access-controls')}}</li>
     </ol>
 </div>
 @if (Session::has('message'))
@@ -12,11 +12,11 @@
 <div class="panel panel-primary">
             <div class="panel-heading ">
                 <span class="glyphicon glyphicon-user"></span>
-                Permissions
+                {{ Lang::choice('messages.permission', 2) }}
                 <div class="panel-btn">
                     <a class="btn btn-sm btn-info" href="{{ URL::to('role/create') }}">
                         <span class="glyphicon glyphicon-plus-sign"></span>
-                        New Role
+                        {{trans('messages.new-role')}}
                     </a>
                 </div>
             </div>
@@ -25,8 +25,8 @@
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th>Permissions</th>
-                        <th colspan="{{ count($roles)}}">Roles</th>
+                        <th>{{ Lang::choice('messages.permission', 2) }}</th>
+                        <th colspan="{{ count($roles)}}">{{ Lang::choice('messages.role', 2) }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,7 +35,7 @@
                     @forelse($roles as $role)
                         <td>{{$role->name}}</td>
                     @empty
-                        <td>No roles found</td>
+                        <td>{{trans('messages.no-roles')}}</td>
                     @endforelse
                 </tr>
                 @forelse($permissions as $permissionKey => $permission)
@@ -50,7 +50,7 @@
                         @endforelse
                     </tr>
                 @empty
-                <tr><td colspan="2">No permissions assigned</td></tr>
+                <tr><td colspan="2">{{trans('messages.no-permissions')}}</td></tr>
                 @endforelse 
                 </tbody>
             </table>
