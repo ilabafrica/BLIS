@@ -159,16 +159,24 @@ extends DatabaseSeeder
         $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_gxm->id, "measure_id" => $measureBG->id));
         $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_hb->id, "measure_id" => $measureHB->id));
 
+        /* testtype_specimentypes table */
+        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', array($test_types->id, 23));
+        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', array($test_type_gxm->id, 23));
+        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', array($test_type_hb->id, 23));
+
+        $this->command->info('testtype_specimentypes seeded');
+
         /* Patients table */
-        $patients = Patient::create(
-            array(
-                "name" => "Jam Felix", "email" => "fjamkizi@x.com", "patient_number" => "1002", "dob" => "2000-01-01",
-                "name" => "Emma Wallace", "email" => "emma@snd.com", "patient_number" => "1003", "dob" => "1990-03-01",
-                "name" => "Jack Tee", "email" => "info@jt.co.ke", "patient_number" => "1004", "dob" => "1999-12-18",
-                "name" => "Hu Jintao", "email" => "hu@.un.org", "patient_number" => "1005", "dob" => "1956-10-28",
-                "name" => "Lance Opiyo", "email" => "lance@x.com", "patient_number" => "2150", "dob" => "2012-01-01",
-            )
-        );
+        $patients_array = array(
+                array("name" => "Jam Felicia", "email" => "fj@x.com", "patient_number" => "1002", "dob" => "2000-01-01", "gender" => "1"),
+                array("name" => "Emma Wallace", "email" => "emma@snd.com", "patient_number" => "1003", "dob" => "1990-03-01", "gender" => "1"),
+                array("name" => "Jack Tee", "email" => "info@jt.co.ke", "patient_number" => "1004", "dob" => "1999-12-18", "gender" => "0"),
+                array("name" => "Hu Jintao", "email" => "hu@.un.org", "patient_number" => "1005", "dob" => "1956-10-28", "gender" => "0"),
+                array("name" => "Lance Opiyo", "email" => "lance@x.com", "patient_number" => "2150", "dob" => "2012-01-01", "gender" => "0"));
+        foreach ($patients_array as $pat) {
+            $patients = Patient::create($pat);
+        }
+
         $this->command->info('patients seeded');
 
         /* Test Phase table */
@@ -424,5 +432,18 @@ extends DatabaseSeeder
         }
         $this->command->info('test results seeded');
         
+        /* Referrals table */
+        $referrals_array = array(
+                array("referring_institution" => "Bungoma District Hospital"),
+                array("referring_institution" => "Bumula Sub-District Hospital"),
+                array("referring_institution" => "Kenyatta National Hospital"),
+                array("referring_institution" => "Moi Referral Teaching Hospital"),
+                array("referring_institution" => "Webuye Sub-District Hospital"));
+        foreach ($referrals_array as $ref) {
+            $patients = DB::insert("INSERT INTO referrals (referring_institution) VALUES (?)", $ref);
+        }
+
+        $this->command->info('referrals seeded');
+
     }
 }

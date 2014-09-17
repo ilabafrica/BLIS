@@ -69,7 +69,6 @@ class TestType extends Eloquent
 					);
 				$testTypeID = (int)$this->id;
 			}
-
 		}
 		// Delete existing test_type measure mappings
 		DB::table('testtype_specimentypes')->where('test_type_id', '=', $testTypeID)->delete();

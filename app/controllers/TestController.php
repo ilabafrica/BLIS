@@ -29,20 +29,12 @@ class TestController extends \BaseController {
 	 */
 	public function create($patient_id)
 	{
-		$specimenTypes = SpecimenType::all();
+		$testTypes = TestType::all();
 		$patient = Patient::find($patient_id);
-		$specimenTests = array();
-
-		foreach ($specimenTypes as $specimenType) {
-			foreach ($specimenType->testTypes as $testType) {
-				$specimenTests[] = [$specimenType->id, $specimenType->name, $testType->id, $testType->name];
-			}
-		}
 
 		//Load Test Create View
 		return View::make('test.create')
-					->with('specimentypes', $specimenTypes)
-					->with('specimentests', $specimenTests)
+					->with('testtypes', $testTypes)
 					->with('patient', $patient);
 	}
 
@@ -55,8 +47,7 @@ class TestController extends \BaseController {
 	{
 		//Create New Test
 		$rules = array(
-			'specimentype' => 'required',
-			'tests'       => 'required',
+			'testtypes'       => 'required',
 			'physician' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
@@ -65,25 +56,46 @@ class TestController extends \BaseController {
 		if ($validator->fails()) {
 			return Redirect::back()->withErrors($validator);
 		} else {
-/*
-| - Create a visit if patient has none
-| - Fields required: visit_id, test_type_id, specimen_id, test_status_id, created_by, tested_by, requested_by, time_created
-|
-*/
-			// store
-			// $test = new Test;
-			// $test->patient_number = Input::get('patient_number');
-			// $test->name = Input::get('name');
-			// $test->gender = Input::get('gender');
 
-			// try{
-			// 	$patient->save();
-			// 	return Redirect::to('patient')->with('message', 'Successfully created patient!');
-			// }catch(QueryException $e){
-			// 	Log::error($e);
-			// }
-			
-			// redirect
+			$visitType = ['In-patient', 'Out-patient'];
+			$patient = Patient::find(Input::get('patient_id'));
+
+			/*
+			| - Create a visit
+			| - Fields required: visit_type, patient_id
+			*/
+			$visit = new Visit;
+			$visit->patient_id = Input::get('patient_id');
+			$visit->visit_type = $visitType[Input::get('visit_type')];
+			$visit->save();
+
+			/*
+			| - Create tests requested
+			| - Fields required: visit_id, test_type_id, specimen_id, test_status_id, created_by, requested_by
+			*/
+			$testTypes = Input::get('testtypes');
+			if(is_array($testTypes)){
+				foreach ($testTypes as $key => $value) {
+					// Create Specimen - specimen_type_id, created_by, referred_from, referred_to
+					$specimen = new Specimen;
+					$specimen->specimen_type_id = TestType::find((int)$value)->specimenTypes->lists('id')[0];
+					$specimen->created_by = Auth::user()->id;
+					$specimen->referred_to = 0; //No one
+					$specimen->referred_from = 0; //No one
+					$specimen->save();
+
+					$test = new Test;
+					$test->visit_id = $visit->id;
+					$test->test_type_id = (int)$value;
+					$test->specimen_id = $specimen->id;
+					$test->test_status_id = 1; //Pending
+					$test->created_by = Auth::user()->id;
+					$test->requested_by = Input::get('physician');
+					$test->save();
+				}
+			}
+
+			return Redirect::to('patient')->with('message', 'messages.success-creating-test');
 		}
 	}
 
