@@ -22,9 +22,7 @@
         @endif
         {{ Form::model($role, array(
                 'route' => array('role.update', $role->id), 'method' => 'PUT',
-                'id' => 'form-edit-role'
-            )) }}
-
+                'id' => 'form-edit-role')) }}
             <div class="form-group">
                 {{ Form::label('name',  Lang::choice('messages.name',1)) }}
                 {{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}

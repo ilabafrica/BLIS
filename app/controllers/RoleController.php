@@ -129,12 +129,12 @@ class RoleController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		$rules = array('name' => 'required|unique:roles|min:3', 'description' => 'max:200');
+		$rules = array('name' => "required|unique:roles,name,$id|min:3", 'description' => 'max:200');
 		$validator = Validator::make(Input::all(), $rules);
 
 		if($validator->fails())
 		{
-			return Redirect::route('role.edit')->withInput()->withErrors($validator);
+			return Redirect::route('role.edit', array($id))->withInput()->withErrors($validator);
 		}
 		else
 		{

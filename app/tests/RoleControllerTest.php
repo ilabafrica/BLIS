@@ -62,9 +62,17 @@ class RoleControllerTest extends TestCase
         $role1 = Role::find(1);
         $this->assertEquals("Manager", $role1->name);
         $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateId1);
+        
         $role1 = Role::find(1);
+        $role2 = Role::find(2);
+        
         $this->assertEquals($this->systemRoleUpdateId1['name'], $role1->name);
+        $this->assertEquals($this->systemRoleUpdateId1['description'], $role1->description);
         $this->assertRedirectedToRoute('role.index');
+
+        $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateId2Fail);
+        $this->assertRedirectedToRoute('role.index');
+        $this->assertEquals($this->systemRoleUpdateId2Fail['description'], $role2->description);
     }
 
     public function testDelete()
@@ -92,6 +100,7 @@ class RoleControllerTest extends TestCase
 
         //Update user roles in seed KBLISSEEDER
         $this->systemRoleUpdateId1= array("id"=>"1", "name" => "Ma na ge rs", "description" => "the managers");
+        $this->systemRoleUpdateId2Fail= array("id"=>"2", "name" => "Cashier", "description" => "the managers");
 
         $this->roleController = new RoleController();
     }

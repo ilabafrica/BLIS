@@ -35,7 +35,7 @@
                     @forelse($roles as $role)
                         <td>{{$role->name}}</td>
                     @empty
-                        <td>{{trans('messages.no-roles')}}</td>
+                        <td>{{trans('messages.no-roles-found')}}</td>
                     @endforelse
                 </tr>
                 @forelse($permissions as $permissionKey => $permission)
@@ -50,7 +50,7 @@
                         @endforelse
                     </tr>
                 @empty
-                <tr><td colspan="2">{{trans('messages.no-permissions')}}</td></tr>
+                <tr><td colspan="2">{{trans('messages.no-permissions-found')}}</td></tr>
                 @endforelse 
                 </tbody>
             </table>

@@ -26,13 +26,10 @@
 			@endif
 			{{ Form::model($testcategory, array('route' => array('testcategory.update', $testcategory->id), 
 				'method' => 'PUT', 'id' => 'form-edit-testcategory')) }}
-
 				<div class="form-group">
 					{{ Form::label('name', Lang::choice('messages.name',1)) }}
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 				</div>
-				
-                
 				<div class="form-group">
 					{{ Form::label('description', trans('messages.description')) }}
 					{{ Form::textarea('description', Input::old('description'), 
