@@ -72,7 +72,8 @@
                                 </a>
                             @if ($test->test_status_id == 1)<!-- Pending -->
                                 <a class="btn btn-sm btn-success start-test-link"
-                                    href="javascript:startTest({{$test->id}})" 
+                                    href="javascript:void(0);" 
+                                    onclick="startTest('{{ $test->id }}')"
                                     id="start-test-{{$test->id}}-link">
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                     {{trans('messages.start-test')}}
