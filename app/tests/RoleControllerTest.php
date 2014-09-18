@@ -59,20 +59,23 @@ class RoleControllerTest extends TestCase
 
     public function testUpdate()
     {
+        $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateWorks);
         $role1 = Role::find(1);
-        $this->assertEquals("Manager", $role1->name);
-        $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateId1);
-        
-        $role1 = Role::find(1);
-        $role2 = Role::find(2);
-        
-        $this->assertEquals($this->systemRoleUpdateId1['name'], $role1->name);
-        $this->assertEquals($this->systemRoleUpdateId1['description'], $role1->description);
+        $this->assertEquals($this->systemRoleUpdateWorks['name'], $role1->name);
+        $this->assertEquals($this->systemRoleUpdateWorks['description'], $role1->description);
         $this->assertRedirectedToRoute('role.index');
 
-        $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateId2Fail);
+        $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateChecksForUniqNameExceptThisId);
+        $role2 = Role::find(2);
+        $this->assertEquals($this->systemRoleUpdateChecksForUniqNameExceptThisId['name'], $role2->name);
+        $this->assertEquals($this->systemRoleUpdateChecksForUniqNameExceptThisId['description'], $role2->description);
         $this->assertRedirectedToRoute('role.index');
-        $this->assertEquals($this->systemRoleUpdateId2Fail['description'], $role2->description);
+
+        $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateFailsUpdatingWithExistingName);
+        $role2 = Role::find(2);
+        $this->assertNotEquals($this->systemRoleUpdateFailsUpdatingWithExistingName['name'], $role2->name);
+        $this->assertRedirectedToRoute('role.edit', array(2));
+        $this->assertSessionHasErrors('name');
     }
 
     public function testDelete()
@@ -99,9 +102,9 @@ class RoleControllerTest extends TestCase
         $this->systemRoleFailsValidationShortRole= array("name" => "Co");
 
         //Update user roles in seed KBLISSEEDER
-        $this->systemRoleUpdateId1= array("id"=>"1", "name" => "Ma na ge rs", "description" => "the managers");
-        $this->systemRoleUpdateId2Fail= array("id"=>"2", "name" => "Cashier", "description" => "the managers");
-
+        $this->systemRoleUpdateWorks= array("id"=>"1", "name" => "Ma na ge rs", "description" => "the managers");
+        $this->systemRoleUpdateChecksForUniqNameExceptThisId= array("id"=>"2", "name" => "Cashier", "description" => "the managers");
+        $this->systemRoleUpdateFailsUpdatingWithExistingName= array("id"=>"2", "name" => "Ma na ge rs", "description" => "the managers");
         $this->roleController = new RoleController();
     }
 }
