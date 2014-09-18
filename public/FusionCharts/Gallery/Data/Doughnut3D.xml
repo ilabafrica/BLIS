@@ -1,0 +1,28 @@
+<chart palette='2' showBorder='1'>
+
+            <set label='France' value='17'  />
+
+            <set label='India' value='12' />
+
+            <set label='Brazil' value='18'/>
+
+            <set label='USA' value='8'/>
+
+            <set label='Australia' value='10'/>
+
+            <set label='Japan' value='7' isSliced='1'/>
+
+            <set label='England' value='5' isSliced='1'/>
+
+            <set label='Nigeria' value='12' isSliced='1'/>
+
+            <set label='Italy' value='8' />
+
+            <set label='China' value='10' />
+
+            <set label='Canada' value='19'/>
+
+            <set label='Germany' value='15'/>
+
+</chart>
+

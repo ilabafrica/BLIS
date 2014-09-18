@@ -1,0 +1,16 @@
+<html>
+<head>
+	<script language="JavaScript" src="../FusionCharts/FusionCharts.js"></script>
+</head>
+
+<body bgcolor="#ffffff">
+
+<div id="chartdiv" align="center">The grid will appear within this DIV. This text will be replaced by the chart.</div>
+   <script type="text/javascript">
+	var myChart = new FusionCharts("../FusionCharts/SSGrid.swf", "myGrid1", "300", "200", "0", "0");
+	myChart.setDataURL("Data.xml");
+	myChart.render("chartdiv");
+   </script>
+
+</body>
+</html>

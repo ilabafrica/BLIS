@@ -1,0 +1,46 @@
+<chart palette='1' caption="Sales Comparison" numdivlines="4" lineThickness="2" showValues="0" formatNumberScale="1" decimals="1" anchorRadius="2" numberPrefix="$"  yAxisMinValue="800000" shadowAlpha="50">
+<categories>
+  <category label="Jan" /> 
+  <category label="Feb" /> 
+  <category label="Mar" /> 
+  <category label="Apr" /> 
+  <category label="May" /> 
+  <category label="Jun" /> 
+  <category label="Jul" /> 
+  <category label="Aug" /> 
+  <category label="Sep" /> 
+  <category label="Oct" /> 
+  <category label="Nov" /> 
+  <category label="Dec" /> 
+  </categories>
+<dataset seriesName="Current Year" color="A66EDD" anchorBorderColor="A66EDD" anchorRadius="3" plotBorderColor='A66EDD' plotBorderThickness='2'>
+  <set value="1127654" /> 
+  <set value="1226234" /> 
+  <set value="1299456" /> 
+  <set value="1311565" /> 
+  <set value="1324454" /> 
+  <set value="1357654" /> 
+  <set value="1296234" /> 
+  <set value="1359456" /> 
+  <set value="1391565" /> 
+  <set value="1414454" /> 
+  <set value="1671565" /> 
+  <set value="1134454" /> 
+  </dataset>
+<dataset seriesName="Previous Year" color="F6BD0F" anchorBorderColor="F6BD0F" anchorRadius="3" plotBorderColor='F6BD0F' plotBorderThickness='2'>
+  <set value="927654" /> 
+  <set value="1126234" /> 
+  <set value="999456" /> 
+  <set value="1111565" /> 
+  <set value="1124454" /> 
+  <set value="1257654" /> 
+  <set value="1196234" /> 
+  <set value="1259456" /> 
+  <set value="1191565" /> 
+  <set value="1214454" /> 
+  <set value="1371565" /> 
+  <set value="1434454" /> 
+  </dataset>
+
+
+</chart>

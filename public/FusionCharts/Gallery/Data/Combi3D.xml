@@ -1,0 +1,79 @@
+<chart palette='3' caption='Business Results 2005 v 2006' xAxisName='Month' yAxisName='Revenue' showValues='0' numberPrefix='$' chartOrder='line,area,column' endAngX='35' endAngY='-20'>
+
+   <categories>
+      <category label='Jan' />
+      <category label='Feb' />
+      <category label='Mar' />
+      <category label='Apr' />
+      <category label='May' />
+      <category label='Jun' />
+      <category label='Jul' />
+      <category label='Aug' />
+      <category label='Sep' />
+      <category label='Oct' />
+      <category label='Nov' />
+      <category label='Dec' />
+   </categories>
+
+   <dataset seriesName='2006'>
+      <set value='27400' />
+      <set value='29800'/>
+      <set value='25800' />
+      <set value='26800' />
+      <set value='29600' />
+      <set value='32600' />
+      <set value='31800' />
+      <set value='36700' />
+      <set value='29700' />
+      <set value='31900' />
+      <set value='34800' />
+      <set value='24800' />
+   </dataset>
+
+   <dataset seriesName='2005' renderAs='Area'>
+      <set value='10000'/>
+      <set value='11500'/>
+      <set value='12500'/>
+      <set value='15000'/>
+      <set value='11000' />
+      <set value='9800' />
+      <set value='11800' />
+      <set value='19700' />
+      <set value='21700' />
+      <set value='21900' />
+      <set value='22900' />
+      <set value='20800' />
+   </dataset>
+
+   <dataset seriesName='2004' renderAs='Line'>
+      <set value='7000'/>
+      <set value='10500'/>
+      <set value='9500'/>
+      <set value='10000'/>
+      <set value='9000' />
+      <set value='8800' />
+      <set value='9800' />
+      <set value='15700' />
+      <set value='16700' />
+      <set value='14900' />
+      <set value='12900' />
+      <set value='8800' />
+   </dataset>
+
+   <trendlines>
+      <line startValue='22000' color='91C728' displayValue='Target' showOnTop='1' valueOnRight='1'/>
+   </trendlines>
+
+   <styles>
+
+      <definition>
+         <style name='bgAnim' type='animation' param='_xScale' start='0' duration='1' />
+      </definition>
+
+      <application>
+         <apply toObject='BACKGROUND' styles='bgAnim' />
+      </application>   
+
+   </styles>
+
+</chart> 

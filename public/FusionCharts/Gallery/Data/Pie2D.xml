@@ -1,0 +1,11 @@
+<chart palette='4'>
+  <set label="Item A" value="4" /> 
+  <set label="Item B" value="5" /> 
+  <set label="Item C" value="2" /> 
+  <set label="Item D" value="4" /> 
+  <set label="Item E" value="5" isSliced="1" /> 
+  <set label="Item F" value="5" isSliced="1" /> 
+  <set label="Item G" value="4" /> 
+  <set label="Item H" value="5" /> 
+  <set label="Item I" value="2" /> 
+</chart>

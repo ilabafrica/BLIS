@@ -1,0 +1,37 @@
+<chart palette='2' caption='County Comparison' shownames='1' showvalues='0' numberPrefix='$' useRoundEdges='1' legendBorderAlpha='0'>
+<categories>
+<category label='Iowa' />
+<category label='Texas' />
+<category label='Virginia' />
+<category label='Ohio' />
+<category label='Idaho' />
+</categories>
+<dataset seriesName='2002' color='AFD8F8' showValues='0'>
+<set value='25601' />
+<set value='20148' />
+<set value='17372' />
+<set value='35407' />
+<set value='38105' />
+</dataset>
+<dataset seriesName='2003' color='F6BD0F' showValues='0'>
+<set value='57401' />
+<set value='41941' />
+<set value='45263' />
+<set value='117320' />
+<set value='114845' />
+</dataset>
+<dataset seriesName='2004' color='8BBA00' showValues='0'>
+<set value='45000' />
+<set value='44835' />
+<set value='18722' />
+<set value='77557' />
+<set value='92633' />
+</dataset>
+<dataset seriesName='2005' showValues='0'>
+<set value='23600' />
+<set value='12435' />
+<set value='85622' />
+<set value='16457' />
+<set value='74533' />
+</dataset>
+</chart>

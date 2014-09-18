@@ -1,0 +1,19 @@
+<html>
+<head>
+	<script language="JavaScript" src="../FusionCharts/FusionCharts.js"></script>
+</head>
+
+<body bgcolor="#ffffff">
+
+<div id="griddiv" align="center">The grid will appear within this DIV.</div>
+   <script type="text/javascript">
+	var myGrid = new FusionCharts("../FusionCharts/SSGrid.swf", "myGrid1", "300", "200", "0", "0");
+	myGrid.setDataURL("Data.xml");
+	//Set Grid specific parameters
+	myGrid.addVariable('showPercentValues', '1');
+	myGrid.addVariable('showShadow', '1');
+	myGrid.render("griddiv");
+   </script>
+
+</body>
+</html>

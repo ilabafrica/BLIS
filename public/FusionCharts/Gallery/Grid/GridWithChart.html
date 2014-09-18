@@ -1,0 +1,22 @@
+<html>
+<head>
+	<script language="JavaScript" src="../FusionCharts/FusionCharts.js"></script>
+</head>
+
+<body bgcolor="#ffffff">
+
+<div id="chartDiv" align="center">The chart will appear within this DIV. </div>
+   <script type="text/javascript">
+	var myChart = new FusionCharts("../FusionCharts/Column2D.swf", "myChart", "300", "250", "0", "0");
+	myChart.setDataURL("Data.xml");
+	myChart.render("chartDiv");
+   </script>
+<div id="gridDiv" align="center">The grid will appear within this DIV. </div>
+   <script type="text/javascript">
+	var myGrid = new FusionCharts("../FusionCharts/SSGrid.swf", "myGrid1", "300", "200", "0", "0");
+	myGrid.setDataURL("Data.xml");
+	myGrid.render("gridDiv");
+   </script>
+
+</body>
+</html>
