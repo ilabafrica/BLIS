@@ -41,8 +41,8 @@ class RoleControllerTest extends TestCase
     public function testStore()
     {
         $this->action('POST', 'RoleController@store', $this->systemRoleWorks);
-        $role3 = Role::find(3);
-        $this->assertEquals($this->systemRoleWorks['name'], $role3->name);
+        $role4 = Role::find(4);
+        $this->assertEquals($this->systemRoleWorks['name'], $role4->name);
 
         $this->action('POST', 'RoleController@store', $this->systemRoleFailsValidationNoName);
         $this->assertRedirectedToRoute('role.create');
@@ -103,7 +103,7 @@ class RoleControllerTest extends TestCase
 
         //Update user roles in seed KBLISSEEDER
         $this->systemRoleUpdateWorks= array("id"=>"1", "name" => "Ma na ge rs", "description" => "the managers");
-        $this->systemRoleUpdateChecksForUniqNameExceptThisId= array("id"=>"2", "name" => "Cashier", "description" => "the managers");
+        $this->systemRoleUpdateChecksForUniqNameExceptThisId= array("id"=>"2", "name" => "technologist", "description" => "the managers");
         $this->systemRoleUpdateFailsUpdatingWithExistingName= array("id"=>"2", "name" => "Ma na ge rs", "description" => "the managers");
         $this->roleController = new RoleController();
     }

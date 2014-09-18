@@ -438,11 +438,17 @@ extends DatabaseSeeder
         
         /* Permissions table */
         $permissions = array(
-            array("name" => "view_names", "display_name" => "Can view patient names"),
+            array("name" => "manage_patients", "display_name" => "Can add patients"),
             array("name" => "verify_tests", "display_name" => "Can verify tests"),
-            array("name" => "add_patients", "display_name" => "Can add patients"),
-            array("name" => "configure_tests", "display_name" => "Can configure tests"),
-            array("name" => "enter_tests", "display_name" => "Can enter tests")
+            array("name" => "edit_tests", "display_name" => "Can edit tests"),
+            array("name" => "receive_requests", "display_name" => "Can receive requests"),
+            array("name" => "view_names", "display_name" => "Can view patient names"),
+            array("name" => "enter_tests_results", "display_name" => "Can enter tests results"),
+
+            array("name" => "manage_users", "display_name" => "Can manage users"),
+            array("name" => "manage_test_catalog", "display_name" => "Can manage test catalog"),
+            array("name" => "view_reports", "display_name" => "Can view reports"),
+            array("name" => "edit_access_controls", "display_name" => "Can edit access contols")
         );
         foreach ($permissions as $permission) {
             Permission::create($permission);
@@ -451,12 +457,24 @@ extends DatabaseSeeder
 
         /* Roles table */
         $roles = array(
-            array("name" => "Manager"), 
-            array("name" => "Cashier")
+            array("name" => "Administrator"),
+            array("name" => "technologist"),
+            array("name" => "receptionist")
         );
         foreach ($roles as $role) {
             Role::create($role);
         }
         $this->command->info('Roles table seeded');
+
+        $user1 = User::find(1);
+        $role1 = Role::find(1);
+        $permissions = Permission::all();
+
+        //Assign all permissions to role administrator
+        foreach ($permissions as $permission) {
+            $role1->attachPermission($permission);
+        }
+        //Assign role Administrator to user 1 administrator
+        $user1->attachRole($role1);
     }
 }
