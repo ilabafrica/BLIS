@@ -156,6 +156,11 @@ Route::group(array("before" => "auth"), function()
         "as"   => "patientreport.view",
         "uses" => "PatientReportController@viewReport"
     ));
+
+     Route::post("/patientreport/filter", array(
+        "as"   => "patientreport.filter",
+        "uses" => "PatientReportController@viewReport"
+    ));
     
     /*
     Route::get("/test/{id}/rejectaction", array(
@@ -207,20 +212,23 @@ Route::group(array("before" => "auth"), function()
         "uses" => "DailyLogController@index"
     ));
 
-    Route::get('/api/dropdown', function(){
-    $id = Input::get('option');
-    $id_num = DB::table('test_categories')->where('id',$id)->pluck('id');
-    $test_types = DB::table('test_types')->where('section_id',$id_num)->lists('name', 'id');
-    return $test_types;
-    });
+    //Route::get('dailylog/dropdown', 'DailyLogController@loadDropdown');
+
 
     /*Route::get('api/dropdown', function(){
+    $input = Input::get('option');
+    $category = TestCategory::find($input);
+    $test_types = $category->testTypes();
+    return Response::json($test_types->select(array('id','name'))->get());
+    });*/
+
+    Route::get('api/dropdown', function(){
         $input = Input::get('option');
         $testCategory = TestCategory::find($input);
         $testTypes = $testCategory->testTypes();
         return Response::make($testTypes->get(['id','name']));
     });
-*/
+
     Route::get("/dailylog/search", array(
         "as"   => "reports.daily.search",
         "uses" => "DailyLogController@search"

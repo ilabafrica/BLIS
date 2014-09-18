@@ -29,6 +29,6 @@ class TestCategory extends Eloquent
 	 *
 	 */
 	public function testTypes(){
-         return $this->hasMany('TestType');
+         return $this->hasMany('TestType', 'section_id');
       }
 }

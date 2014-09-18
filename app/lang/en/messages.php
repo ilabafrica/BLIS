@@ -23,6 +23,7 @@ return array(
     'gender'    =>  'Gender',
     'records'    =>  'Records',
     'submit'    =>  'Submit',
+    'interval'    =>  'Interval',
     /* 
     |   Generic phrases
     */
