@@ -38,6 +38,7 @@
 					<span class="glyphicon glyphicon-filter"></span> Tests</a>
 			</div>
 		</li>
+		@if(Entrust::can('manage_users'))
 		<li>
 			<div class="main-menu {{$active[3]}}">
 				<a href="{{ URL::route("user.index")}}">
@@ -60,6 +61,8 @@
 				</ul>
 			</div>
 		</li>
+		@endif
+		@if(Entrust::can('manage_test_catalog'))
 		<li>
 			<div class="main-menu {{$active[4]}}">
 				<a href="{{ URL::route("testcategory.index")}}">
@@ -94,6 +97,7 @@
 				</ul>
 			</div>
 		</li>
+		@endif
 		<li>
 			<div class="main-menu {{$active[5]}}">
 				<a href="javascript:void(0);">
@@ -144,7 +148,8 @@
 				</ul>
 			</div>
 		</li>
-				<li>
+		@if(Entrust::hasRole('Role::find(1)->name'))
+		<li>
 			<div class="main-menu {{$active[6]}}">
 				<a href="{{ URL::route("permission.index")}}">
 					<span class="glyphicon glyphicon-cog"></span> Access controls</a>
@@ -172,5 +177,6 @@
 				</ul>
 			</div>
 		</li>
+		@endif
 	</ul>
 @show
