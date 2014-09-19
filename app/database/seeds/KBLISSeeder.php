@@ -447,8 +447,7 @@ extends DatabaseSeeder
 
             array("name" => "manage_users", "display_name" => "Can manage users"),
             array("name" => "manage_test_catalog", "display_name" => "Can manage test catalog"),
-            array("name" => "view_reports", "display_name" => "Can view reports"),
-            array("name" => "edit_access_controls", "display_name" => "Can edit access contols")
+            array("name" => "view_reports", "display_name" => "Can view reports")
         );
         foreach ($permissions as $permission) {
             Permission::create($permission);
@@ -457,9 +456,9 @@ extends DatabaseSeeder
 
         /* Roles table */
         $roles = array(
-            array("name" => "Administrator"),
-            array("name" => "technologist"),
-            array("name" => "receptionist")
+            array("name" => "Superadmin"),
+            array("name" => "Technologist"),
+            array("name" => "Receptionist")
         );
         foreach ($roles as $role) {
             Role::create($role);

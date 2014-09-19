@@ -37,13 +37,16 @@ Route::group(array("before" => "auth"), function()
         "uses" => "UserController@homeAction"
         ));
 
-	Route::resource('user', 'UserController');
+    Route::group(array("before" => "checkPerms:manage_users"), function()
+    {
+    	Route::resource('user', 'UserController');
 
-    Route::get("/user/{id}/delete", array(
-        "as"   => "user.delete",
-        "uses" => "UserController@delete"
-    ));
-
+        Route::get("/user/{id}/delete", array(
+            "as"   => "user.delete",
+            "uses" => "UserController@delete"
+        ));
+    });
+    
     Route::any("/logout", array(
         "as"   => "user.logout",
         "uses" => "UserController@logoutAction"
@@ -56,34 +59,36 @@ Route::group(array("before" => "auth"), function()
         "uses" => "PatientController@delete"
     ));
 
-    Route::resource('specimentype', 'SpecimenTypeController');
+    Route::group(array("before" => "checkPerms:manage_test_catalog"), function()
+    {
+        Route::resource('specimentype', 'SpecimenTypeController');
 
-    Route::get("/specimentype/{id}/delete", array(
-        "as"   => "specimentype.delete",
-        "uses" => "SpecimenTypeController@delete"
-    ));
-	
-	Route::resource('testcategory', 'TestCategoryController');
-	
-	Route::get("/testcategory/{id}/delete", array(
-        "as"   => "testcategory.delete",
-        "uses" => "TestCategoryController@delete"
-    ));
-	
-	Route::resource('measure', 'MeasureController');
-	
-	Route::get("/measure/{id}/delete", array(
-        "as"   => "measure.delete",
-        "uses" => "MeasureController@delete"
-    ));
+        Route::get("/specimentype/{id}/delete", array(
+            "as"   => "specimentype.delete",
+            "uses" => "SpecimenTypeController@delete"
+        ));
 
-    Route::resource('testtype', 'TestTypeController');
+        Route::resource('testcategory', 'TestCategoryController');
+        
+        Route::get("/testcategory/{id}/delete", array(
+            "as"   => "testcategory.delete",
+            "uses" => "TestCategoryController@delete"
+        ));
 
-    Route::get("/testtype/{id}/delete", array(
-        "as"   => "testtype.delete",
-        "uses" => "TestTypeController@delete"
-    ));
+        Route::resource('measure', 'MeasureController');
+    
+        Route::get("/measure/{id}/delete", array(
+            "as"   => "measure.delete",
+            "uses" => "MeasureController@delete"
+        ));
 
+        Route::resource('testtype', 'TestTypeController');
+
+        Route::get("/testtype/{id}/delete", array(
+            "as"   => "testtype.delete",
+            "uses" => "TestTypeController@delete"
+        ));
+    });
     /*Route::resource('test', 'TestController');*/
 
     Route::get("/test", array(
@@ -136,22 +141,25 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@create"
     ));
 
-    Route::resource("permission", "PermissionController");
+    Route::group(array("before" => "admin"), function()
+    {
+        Route::resource("permission", "PermissionController");
 
-    Route::get("role/assign", array(
-        "as"   => "role.assign",
-        "uses" => "RoleController@assign"
-    ));
-    Route::post("role/assign", array(
-        "as"   => "role.assign",
-        "uses" => "RoleController@saveUserRoleAssignment"
-    ));
-    Route::resource("role", "RoleController");
+        Route::get("role/assign", array(
+            "as"   => "role.assign",
+            "uses" => "RoleController@assign"
+        ));
+        Route::post("role/assign", array(
+            "as"   => "role.assign",
+            "uses" => "RoleController@saveUserRoleAssignment"
+        ));
+        Route::resource("role", "RoleController");
 
-    Route::get("/role/{id}/delete", array(
-        "as"   => "role.delete",
-        "uses" => "RoleController@delete"
-    ));
+        Route::get("/role/{id}/delete", array(
+            "as"   => "role.delete",
+            "uses" => "RoleController@delete"
+        ));
+    });
 });
 
 // Display all SQL executed in Eloquent

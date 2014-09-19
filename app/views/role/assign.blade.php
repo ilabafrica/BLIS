@@ -37,8 +37,13 @@
                         <td>{{$user->username}}</td>
                         @forelse($roles as $roleKey=>$role)
                         <td>
-                            {{ Form::checkbox('userRoles['.$userKey.']['.$roleKey.']', '1', $user->hasRole($role->name),
-                            ($role->id == 1 && $user->id ==1)? array('disabled') : '' )}}
+                            @if ($role->id == 1 && $user->id ==1)
+                                <span class="glyphicon glyphicon-lock"></span>
+                                {{ Form::checkbox('userRoles['.$userKey.']['.$roleKey.']', '1', $user->hasRole($role->name),
+                                array('style'=>'display:none')) }}
+                            @else
+                               {{ Form::checkbox('userRoles['.$userKey.']['.$roleKey.']', '1', $user->hasRole($role->name)) }}
+                            @endif
                         </td>
                         @empty
                             <td>[-]</td>
