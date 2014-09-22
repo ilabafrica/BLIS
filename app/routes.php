@@ -136,6 +136,10 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@create"
     ));
 
+    Route::get("/test/{test}/getteststatus", array(
+        "as"   => "test.getTestStatus",
+        "uses" => "TestController@getTestStatusById"
+    ));
 });
 
 // Display all SQL executed in Eloquent

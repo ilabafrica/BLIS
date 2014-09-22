@@ -40,38 +40,63 @@
                         <td>{{ $test->testType->name }}</td>            <!--Test-->
                         <td>{{ $test->visit->visit_type }}</td>         <!--Visit Type -->
                         <td>{{ $test->testStatus->testPhase->name }}</td><!--Test Phase -->
-                        <td>{{ $test->testStatus->name }}</td>          <!--Status-->
+                        <td id="test-status-{{$test->id}}">              <!--Status-->
+                            {{trans('messages.'.$test->testStatus->name)}}
+                        </td>
                         
                         <td>
-                            <a class="btn btn-sm btn-success" href="{{ URL::to('test/'.$test->id.'/viewdetails') }}">
+
+                        <!--'Enter Result' button loaded via ajax in place of 'Start Test' button, on starting a Test-->
+                        <!-- Serves the purpose of localisation, since it is generated at the back end -->
+                        <a class="btn btn-sm btn-info hidden"
+                            href="{{ URL::to('test/'.$test->id.'/enterresults') }}"
+                            id="enter-results-{{$test->id}}-link">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            {{trans('messages.enter-results')}}
+                        </a>
+                        <!--'Enter Result' button loaded via ajax in place of 'Start Test' button, on starting a Test-->
+
+                            <a class="btn btn-sm btn-success"
+                                href="{{ URL::to('test/'.$test->id.'/viewdetails') }}"
+                                id="view-details-{{$test->id}}-link">
                                 <span class="glyphicon glyphicon-eye-open"></span>
-                                View Details
+                                {{trans('messages.view-details')}}
                             </a>
                         @if ($test->specimen->specimen_status_id != 2 && $test->test_status_id < 4)
                             <!-- NOT Rejected AND NOT Verified -->
-                            <a class="btn btn-sm btn-danger new-item-link" 
-                                href="{{URL::to('test/'.$test->specimen_id.'/reject')}}">
-                                <span class="glyphicon glyphicon-thumbs-down"></span>
-                                Reject
-                            </a>
-                             @if ($test->test_status_id == 1)<!-- Pending -->
-                                <a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/'.$test->id.'/start') }}"
+                                <a class="btn btn-sm btn-danger"
+                                    href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"
+                                    id="reject-{{$test->id}}-link">
+                                    <span class="glyphicon glyphicon-thumbs-down"></span>
+                                    {{trans('messages.reject')}}
+                                </a>
+                            @if ($test->test_status_id == 1)<!-- Pending -->
+                                <a class="btn btn-sm btn-success start-test-link"
+                                    href="javascript:void(0);" 
+                                    onclick="startTest('{{ $test->id }}')"
+                                    id="start-test-{{$test->id}}-link">
                                     <span class="glyphicon glyphicon-eye-open"></span>
-                                    Start Test
+                                    {{trans('messages.start-test')}}
                                 </a>    
                             @elseif ($test->test_status_id == 2)<!-- Started -->
-                                <a class="btn btn-sm btn-info new-item-link" href="{{ URL::to('test/'.$test->id.'/enterresults') }}">
+                                <a class="btn btn-sm btn-info"
+                                    href="{{ URL::to('test/'.$test->id.'/enterresults') }}"
+                                    id="enter-results-{{$test->id}}-link">
                                     <span class="glyphicon glyphicon-pencil"></span>
-                                    Enter Results
+                                    {{trans('messages.enter-results')}}
                                 </a>
                             @elseif ($test->test_status_id == 3)<!-- Completed -->
-                                <a class="btn btn-sm btn-success new-item-link" href="{{ URL::to('test/'.$test->id.'/viewdetails') }}">
+                                <a class="btn btn-sm btn-success"
+                                    href="{{ URL::to('test/'.$test->id.'/viewdetails') }}"
+                                    id="verify-{{$test->id}}-link">
                                     <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    Verify
+                                    {{trans('messages.verify')}}
                                 </a>
-                                <a class="btn btn-sm btn-info new-item-link" href="{{ URL::to('test/'.$test->id.'/edit') }}">
+                                <a class="btn btn-sm btn-info"
+                                    href="{{ URL::to('test/'.$test->id.'/edit') }}"
+                                     id="edit-{{$test->id}}-link">
                                     <span class="glyphicon glyphicon-edit"></span>
-                                    Edit
+                                    {{trans('messages.edit')}}
                                 </a>
                             @endif
                         @endif
