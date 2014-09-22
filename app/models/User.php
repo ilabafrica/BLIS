@@ -89,4 +89,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->email;
 	}
 
+	/**
+	 * Get the admin user currently the first user
+	 *
+	 * @return User model
+	 */
+	public static function getAdminUser()
+	{
+		return User::find(1);
+	}
+
 }

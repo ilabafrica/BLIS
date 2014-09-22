@@ -37,7 +37,7 @@
                         <td>{{$user->username}}</td>
                         @forelse($roles as $roleKey=>$role)
                         <td>
-                            @if ($role->id == 1 && $user->id ==1)
+                            @if ($role == Role::getAdminRole() && $user == User::getAdminUser())
                                 <span class="glyphicon glyphicon-lock"></span>
                                 {{ Form::checkbox('userRoles['.$userKey.']['.$roleKey.']', '1', $user->hasRole($role->name),
                                 array('style'=>'display:none')) }}

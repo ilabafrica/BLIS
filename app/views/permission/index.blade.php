@@ -43,7 +43,7 @@
                         <td>{{$permission->display_name}}</td>
                         @forelse($roles as $roleKey => $role)
                         <td>
-                            @if($role->id == 1)
+                            @if($role == Role::getAdminRole())
                                 <span class="glyphicon glyphicon-lock"></span>
                                 {{ Form::checkbox('permissionRoles['.$permissionKey.']['.$roleKey.']', '1',
                                 $permission->hasRole($role->name), array('style'=>'display:none') )}}

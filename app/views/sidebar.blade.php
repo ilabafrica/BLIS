@@ -148,7 +148,7 @@
 				</ul>
 			</div>
 		</li>
-		@if(Entrust::hasRole('Role::find(1)->name'))
+		@if(Entrust::hasRole(Role::getAdminRole()->name))
 		<li>
 			<div class="main-menu {{$active[6]}}">
 				<a href="{{ URL::route("permission.index")}}">

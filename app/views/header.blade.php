@@ -19,10 +19,6 @@
                             <a href='{{ URL::to("user/".Auth::user()->id."/edit") }}'>Edit Profile</a>
                         </div>
                         <div>
-                            <span class="glyphicon glyphicon-collapse-down"></span>
-                            <a href='#'>Switch to admin</a>
-                        </div>
-                        <div>
                             <span class="glyphicon glyphicon-log-out"></span>
                             <a href="{{ URL::route("user.logout") }}">Logout</a>
                         </div>
