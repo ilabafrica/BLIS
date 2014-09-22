@@ -27,4 +27,15 @@ class Patient extends Eloquent
         return $this->hasMany('Visit');
     }
 
+	/**
+	 * Patient Age 
+	 */
+	public function getAge()
+	{
+		$dateOfBirth = new DateTime($this->dob);
+		$now = new DateTime('now');
+		$interval = $dateOfBirth->diff($now);
+
+		return $interval->y ." years " . $interval->m ." months";
+	}
 }

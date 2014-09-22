@@ -1,4 +1,7 @@
 <?php
+/* 
+|   To aid quick referencing, keep entries in the same section ALPHABETICALLY ORDERED
+*/
 
 return array(
     /* 
@@ -22,7 +25,23 @@ return array(
     'confirm-delete-title' => 'Confirm Delete',
     'confirm-delete-message' => 'Do you wish to delete this item?',
     'confirm-delete-irreversible' => 'This action is irreversible.',
-     /* 
+    /* 
+    |   Patient
+    */
+    'age' => 'Age',
+    'date-created' => 'Registration Date',
+    'date-of-birth' => 'Date of Birth',
+    'email-address' => 'Email Address',
+    'external-patient-number' => 'External Patient Number',
+    'female' => 'Female',
+    'gender' => 'Gender',
+    'male' => 'Male',
+    'patient' => 'Patient',
+    'patient-details' => 'Patient Details',
+    'patient-number' => 'Patient Number',
+    'phone-number' => 'Phone Number',
+    'physical-address' => 'Physical Address',
+    /* 
     |   Test Categories
     */
     'create-test-category' => 'Create Lab Section',
@@ -39,18 +58,22 @@ return array(
     'date-ordered' => 'Date Ordered',
     'edit-test-results' => 'Edit Test Results',
     'enter-test-results' => 'Enter Test Results',
+    'in-patient' => 'In Patient',
     'interpretation' => 'Interpretation',
     'lab-receipt-date' => 'Lab Receipt Date',
     'list-tests' => 'Ordered Tests List',
     'new-test' => 'New Test',
+    'out-patient' => 'Out Patient',
     'patient-name' => 'Patient',
     'pending' => 'Pending',
-    'verification-pending' => 'Verification Pending',
     'physician' => 'Requesting Physician',
     'registered-by' => 'Registered By',
+    'save-test' => 'Save Test Request',
     'save-test-results' => 'Save Results',
+    'select-tests' => 'Select Test(s)',
     'specimen-number' => 'Specimen Number',
     'specimen-type' => 'Specimen Type',
+    'success-creating-test' => 'Successfully created test!',
     'test' => 'Test',
     'test-details' => 'Test Details',
     'test-phase' => 'Test Phase',
@@ -63,6 +86,7 @@ return array(
     'turnaround-time' => 'Turnaround Time',
     'unknown' => 'Unknown',
     'update-test-results' => 'Update Test Results',
+    'verification-pending' => 'Verification Pending',
     'verified-by' => 'Verified By',
     'visit-number' => 'Lab No.',
     'visit-type' => 'Visit Type',

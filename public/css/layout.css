@@ -40,6 +40,12 @@ label, input {
     width: 200px;
 }
 
+.inline-display-details span,
+.inline-display-details strong {
+    display: inline-block;
+    margin-right: 10px;
+}
+
 .panel-btn {
     display: inline-block;
     margin-left: 40px;

@@ -57,7 +57,37 @@ extends DatabaseSeeder
         
 
         /* Specimen Types table */
-        $specimen_types = SpecimenType::create(array("name" => "Whole Blood"));
+        $spec_types = array(
+            array("name" => "Ascitic Tap"),
+            array("name" => "Aspirate"),
+            array("name" => "CSF"),
+            array("name" => "Dried Blood Spot"),
+            array("name" => "High Vaginal Swab"),
+            array("name" => "Nasal Swab"),
+            array("name" => "Plasma"),
+            array("name" => "Plasma EDTA"),
+            array("name" => "Pleural Tap"),
+            array("name" => "Pus Swab"),
+            array("name" => "Rectal Swab"),
+            array("name" => "Semen"),
+            array("name" => "Serum"),
+            array("name" => "Skin"),
+            array("name" => "Sputum"),
+            array("name" => "Stool"),
+            array("name" => "Synovial Fluid"),
+            array("name" => "Throat Swab"),
+            array("name" => "Urethral Smear"),
+            array("name" => "Urine"),
+            array("name" => "Vaginal Smear"),
+            array("name" => "Water"),
+            array("name" => "Whole Blood"),
+        );
+
+        foreach ($spec_types as $specimen_type)
+        {
+            SpecimenType::create($specimen_type);
+        }
+
         $this->command->info('specimen_types seeded');
         
         /* Test Categories table - These map on to the lab sections */
@@ -129,16 +159,24 @@ extends DatabaseSeeder
         $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_gxm->id, "measure_id" => $measureBG->id));
         $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_hb->id, "measure_id" => $measureHB->id));
 
+        /* testtype_specimentypes table */
+        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', array($test_types->id, 23));
+        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', array($test_type_gxm->id, 23));
+        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', array($test_type_hb->id, 23));
+
+        $this->command->info('testtype_specimentypes seeded');
+
         /* Patients table */
-        $patients = Patient::create(
-            array(
-                "name" => "Jam Felix", "email" => "fjamkizi@x.com", "patient_number" => "1002", "dob" => "2000-01-01",
-                "name" => "Emma Wallace", "email" => "emma@snd.com", "patient_number" => "1003", "dob" => "1990-03-01",
-                "name" => "Jack Tee", "email" => "info@jt.co.ke", "patient_number" => "1004", "dob" => "1999-12-18",
-                "name" => "Hu Jintao", "email" => "hu@.un.org", "patient_number" => "1005", "dob" => "1956-10-28",
-                "name" => "Lance Opiyo", "email" => "lance@x.com", "patient_number" => "2150", "dob" => "2012-01-01",
-            )
-        );
+        $patients_array = array(
+                array("name" => "Jam Felicia", "email" => "fj@x.com", "patient_number" => "1002", "dob" => "2000-01-01", "gender" => "1"),
+                array("name" => "Emma Wallace", "email" => "emma@snd.com", "patient_number" => "1003", "dob" => "1990-03-01", "gender" => "1"),
+                array("name" => "Jack Tee", "email" => "info@jt.co.ke", "patient_number" => "1004", "dob" => "1999-12-18", "gender" => "0"),
+                array("name" => "Hu Jintao", "email" => "hu@.un.org", "patient_number" => "1005", "dob" => "1956-10-28", "gender" => "0"),
+                array("name" => "Lance Opiyo", "email" => "lance@x.com", "patient_number" => "2150", "dob" => "2012-01-01", "gender" => "0"));
+        foreach ($patients_array as $pat) {
+            $patients = Patient::create($pat);
+        }
+
         $this->command->info('patients seeded');
 
         /* Test Phase table */
@@ -194,9 +232,10 @@ extends DatabaseSeeder
         $this->command->info('rejection_reasons seeded');
 
         /* Specimen table */
+        $specimen_type_id = SpecimenType::all()->last()->id;
         $specimens_accepted_pre_analytic = Specimen::create(
             array(
-                "specimen_type_id" => $specimen_types->id,
+                "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "1",//accepted
                 "test_phase_id" => "1",//Pre-Analytical for test_status:pending
                 "created_by" => "1",
@@ -208,7 +247,7 @@ extends DatabaseSeeder
         
         $specimens_accepted_analytic = Specimen::create(
             array(
-                "specimen_type_id" => $specimen_types->id,
+                "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "1",//accepted
                 "test_phase_id" => "2",//Analytical for test_status:started
                 "created_by" => "1",
@@ -220,7 +259,7 @@ extends DatabaseSeeder
         
         $specimens_accepted_post_analytic = Specimen::create(
             array(
-                "specimen_type_id" => $specimen_types->id,
+                "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "1",//accepted
                 "test_phase_id" => "3",//Post-Analytical for test_status:completed
                 "created_by" => "1",
@@ -232,7 +271,7 @@ extends DatabaseSeeder
         
         $specimens_accepted_post_analytic_verified = Specimen::create(
             array(
-                "specimen_type_id" => $specimen_types->id,
+                "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "1",//accepted
                 "test_phase_id" => "3",//Post-Analytical for test_status:verified
                 "created_by" => "1",
@@ -244,7 +283,7 @@ extends DatabaseSeeder
         
         $specimens_rejected_pre_analytic = Specimen::create(
             array(
-                "specimen_type_id" => $specimen_types->id,
+                "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "2",//rejected
                 "rejection_reason_id" => $rejection_reasons_pre_analytic->id,
                 "test_phase_id" => "1",//Pre-Analytical
@@ -257,7 +296,7 @@ extends DatabaseSeeder
 
         $specimens_rejected_analytic = Specimen::create(
             array(
-                "specimen_type_id" => $specimen_types->id,
+                "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "2",//rejected
                 "rejection_reason_id" => $rejection_reasons_analytic->id,
                 "test_phase_id" => "2",//Analytical
@@ -270,7 +309,7 @@ extends DatabaseSeeder
 
         $specimens_rejected_post_analytic = Specimen::create(
             array(
-                "specimen_type_id" => $specimen_types->id,
+                "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "2",//rejected
                 "rejection_reason_id" => $rejection_reasons_post_analytic->id,
                 "test_phase_id" => "3",//Post-Analytical
@@ -464,5 +503,18 @@ extends DatabaseSeeder
         }
         $this->command->info('test results seeded');
         
+        /* Referrals table */
+        $referrals_array = array(
+                array("Bungoma District Hospital"),
+                array("Bumula Sub-District Hospital"),
+                array("Kenyatta National Hospital"),
+                array("Moi Referral Teaching Hospital"),
+                array("Webuye Sub-District Hospital"));
+        foreach ($referrals_array as $ref) {
+            $patients = DB::insert("INSERT INTO referrals (referring_institution) VALUES (?)", $ref);
+        }
+
+        $this->command->info('referrals seeded');
+
     }
 }

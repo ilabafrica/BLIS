@@ -58,11 +58,18 @@ Route::group(array("before" => "auth"), function()
 
     Route::resource('specimentype', 'SpecimenTypeController');
 
-    Route::get("/specimentype/{id}/delete", array(
+    Route::get("/specimentype/{specimen}/delete", array(
         "as"   => "specimentype.delete",
         "uses" => "SpecimenTypeController@delete"
     ));
-	
+    
+    /**
+     * Get TestTypes available for this SpecimenType.
+     */
+    Route::get("/specimentype/{specimen}/testtypes", function($id){
+        return SpecimenType::find($id)->testTypes;
+    });
+    
 	Route::resource('testcategory', 'TestCategoryController');
 	
 	Route::get("/testcategory/{id}/delete", array(
@@ -111,7 +118,12 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@enterResults"
     ));
 
-     Route::any("/test/{test}/saveresults", array(
+     Route::post("/test/savenewtest", array(
+        "as"   => "test.saveNewTest",
+        "uses" => "TestController@saveNewTest"
+    ));
+
+     Route::post("/test/{test}/saveresults", array(
         "as"   => "test.saveResults",
         "uses" => "TestController@saveResults"
     ));
@@ -131,7 +143,7 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@verify"
     ));
 
-    Route::get("/test/create", array(
+    Route::get("/test/{patient}/create", array(
         "as"   => "test.create",
         "uses" => "TestController@create"
     ));

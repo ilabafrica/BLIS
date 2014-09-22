@@ -36,6 +36,28 @@ $(function(){
 		$(".measurevalue" ).html(measureInputs[mtval]);
 	});
 
+	/*  
+	|	Add TESTS - test.create view 
+	*/
+	$( "#form-new-test .specimen-type" ).change(function() {
+		var url = location.protocol + "//" + location.host + "/specimentype/"+$(this).val()+"/testtypes	";
+
+		$.ajax({url: url})
+		.done(function( msg ) {
+			var opts = "";
+			for(var prop in msg)
+			{
+				if (msg.hasOwnProperty(prop)){
+					var obj = msg[prop];
+					if (obj.hasOwnProperty('id') && obj.hasOwnProperty('name')){
+						opts += "<option value='" + obj['id'] + "'>" + obj['name'] + "</option>";
+					}
+				}
+			}
+			$('#form-new-test .tests').html(opts);
+		});
+	});
+
 	/** GLOBAL DELETE	
 	 *	Alert on irreversible delete
 	 */
@@ -102,7 +124,4 @@ $(function(){
 	function UIComponents(){
 		/* Datepicker */
 		$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
-
-		/* Tooltip */
-		$( document ).tooltip();
 	}
