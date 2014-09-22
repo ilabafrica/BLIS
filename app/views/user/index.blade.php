@@ -50,12 +50,12 @@
 						</a>
 
 						<!-- edit this user (uses the edit method found at GET /user/{id}/edit -->
-						<a class="btn btn-sm btn-info {{($user->id == 1) ? 'disabled': ''}}" href="{{ URL::to("user/" . $user->id . "/edit") }}" >
+						<a class="btn btn-sm btn-info {{($user == User::getAdminUser()) ? 'disabled': ''}}" href="{{ URL::to("user/" . $user->id . "/edit") }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							Edit
 						</a>
 						<!-- delete this user (uses the delete method found at GET /user/{id}/delete -->
-						<button class="btn btn-sm btn-danger delete-item-link {{($user->id == 1) ? 'disabled': ''}}"
+						<button class="btn btn-sm btn-danger delete-item-link {{($user == User::getAdminUser()) ? 'disabled': ''}}"
 							data-toggle="modal" data-target=".confirm-delete-modal"	
 							data-id='{{ URL::to("user/" . $user->id . "/delete") }}'>
 							<span class="glyphicon glyphicon-trash"></span>

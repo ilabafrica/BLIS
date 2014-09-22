@@ -35,11 +35,11 @@
                     <td>{{ $role->name }}</td>
                     <td>{{ $role->description }}</td>
                     <td>
-                        <a class="btn btn-sm btn-info {{($role->id == 1) ? 'disabled': ''}}" href="{{ URL::to("role/" . $role->id . "/edit") }}" >
+                        <a class="btn btn-sm btn-info {{($role == Role::getAdminRole()) ? 'disabled': ''}}" href="{{ URL::to("role/" . $role->id . "/edit") }}" >
                             <span class="glyphicon glyphicon-edit"></span>
                             {{ trans('messages.edit') }}
                         </a>
-                        <button class="btn btn-sm btn-danger delete-item-link {{($role->id == 1) ? 'disabled': ''}}" 
+                        <button class="btn btn-sm btn-danger delete-item-link {{($role == Role::getAdminRole()) ? 'disabled': ''}}" 
                             data-toggle="modal" data-target=".confirm-delete-modal" 
                             data-id='{{ URL::to("role/" . $role->id . "/delete") }}'>
                             <span class="glyphicon glyphicon-trash"></span>
