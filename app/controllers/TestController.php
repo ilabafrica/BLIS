@@ -161,4 +161,16 @@ class TestController extends \BaseController {
 	{
 		return View::make('test.verify');//->with('', $);
 	}
+
+	/**
+	 * Get test status by test ID
+	 *
+	 * @param
+	 * @return
+	 */
+	public function getTestStatusById($testID)
+	{
+		$test = Test::find($testID);
+		return trans('messages.'.$test->testStatus->name);
+	}
 }

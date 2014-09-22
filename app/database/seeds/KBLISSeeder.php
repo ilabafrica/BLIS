@@ -127,10 +127,10 @@ extends DatabaseSeeder
 
         /* Test Status table */
         $test_statuses = array(
-          array("id" => "1","name" => "Pending","test_phase_id" => "1"),//Pre-Analytical
-          array("id" => "2","name" => "Started","test_phase_id" => "2"),//Analytical
-          array("id" => "3","name" => "Completed","test_phase_id" => "3"),//Post-Analytical
-          array("id" => "4","name" => "Verified","test_phase_id" => "3")//Post-Analytical
+          array("id" => "1","name" => "pending","test_phase_id" => "1"),//Pre-Analytical
+          array("id" => "2","name" => "started","test_phase_id" => "2"),//Analytical
+          array("id" => "3","name" => "completed","test_phase_id" => "3"),//Post-Analytical
+          array("id" => "4","name" => "verified","test_phase_id" => "3")//Post-Analytical
         );
         foreach ($test_statuses as $test_status)
         {

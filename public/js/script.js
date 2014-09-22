@@ -103,3 +103,19 @@ $(function(){
 		/* Datepicker */
 		$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
 	}
+
+	function startTest(testId){
+		var url = location.protocol+ "//"+location.host+ "/test/" +testId+ "/start";
+		$.get( url, function() {
+			$('#start-test-'+testId+'-link').replaceWith( $('#enter-results-'+testId+'-link') );
+			$('#enter-results-'+testId+'-link').removeClass('hidden');
+			updateTestStatus(testId);
+		});
+	}
+
+	function updateTestStatus(testId){
+		var url = location.protocol+ "//"+location.host+ "/test/" +testId+ "/getteststatus";
+		$.get( url, function(testStatus) {
+			$('#test-status-'+testId).html(testStatus);
+		});
+	}

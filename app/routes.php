@@ -160,6 +160,10 @@ Route::group(array("before" => "auth"), function()
             "uses" => "RoleController@delete"
         ));
     });
+    Route::get("/test/{test}/getteststatus", array(
+        "as"   => "test.getTestStatus",
+        "uses" => "TestController@getTestStatusById"
+    ));
 });
 
 // Display all SQL executed in Eloquent
