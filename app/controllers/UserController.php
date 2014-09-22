@@ -31,7 +31,7 @@ class UserController extends Controller {
                 }
 
             }
-            return Redirect::back()->withInput(Input::except('password'))
+            return Redirect::route('user.login')->withInput(Input::except('password'))
                 ->withErrors($validator)
                 ->with('message', 'Username and/or password invalid.');
         }
@@ -169,6 +169,7 @@ class UserController extends Controller {
             $user->gender = Input::get('gender');
             $user->designation = Input::get('designation');
             $user->email = Input::get('email');
+            $user->password = Input::get('password');
 
             $user->save();
             $id = $user->id;

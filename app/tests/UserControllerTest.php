@@ -6,23 +6,35 @@
 class UserControllerTest extends TestCase 
 {
 	/**
-	 * Contains the testing sample data for the UserController.
-	 *
-	 * @return void
-	 */
-    public function __construct()
+     * Initial setup function for tests
+     *
+     * @return void
+     */
+    public function setUp(){
+        parent::setUp();
+        Artisan::call('migrate');
+        $this->setVariables();
+    }
+
+    /**
+     * Contains the testing sample data for the UserController.
+     *
+     * @return void
+     */
+    public function setVariables()
     {
     	// Initial sample storage data
-		$this->input = array(
-			'username' => 'dot',
+		$this->userData = array(
+			'username' => 'dotmatrix',
 			'email' => 'johxdoe@example.com',
 			'name' => 'John Dot',
 			'gender' => '1',
 			'designation' => 'LabTechnikan',
+            'password' => Hash::make("goodpassword"),
 		);
 
 		// Edition sample data
-		$this->inputUpdate = array(
+		$this->userDataUpdate = array(
 			'username' => 'doe',
 			'email' => 'johndoe@example.com',
 			'name' => 'John Doe',
@@ -30,121 +42,114 @@ class UserControllerTest extends TestCase
 			'designation' => 'LabTechnician',
 		);
 
+        // sample login data
+        $this->userDataLoginBad = array(
+            'username' => 'dotmatrix',
+            'password' => 'wrongpassword',
+        );
+
+        // sample login data
+        $this->userDataLoginGood = array(
+            'username' => 'dotmatrix',
+            'password' => 'goodpassword',
+        );
+
+        // sample login data
+        $this->userDataLoginFailsVerification = array(
+            'username' => 'dot',
+            'password' => 'goo',
+        );
+
 		$this->testUserId = NULL;
     }
 	
 	/**
 	 * Tests the store function in the UserController
-	 * @param  testing Sample from the constructor
 	 * @return int $testUserId ID of User stored; used in testUpdate() to identify test for update
 	 */    
  	public function testStore() 
   	{
 		echo "\n\nUSER CONTROLLER TEST\n\n";
   		 // Store the User
-		$this->runStore($this->input);
+		Input::replace($this->userData);
+        $user = new UserController;
+        $user->store();
 
-		$usersSaved = User::orderBy('id','desc')->take(1)->get();
-		foreach ($usersSaved as $userSaved) {
-			
-			$this->testUserId = $userSaved->id;
-			$this->assertEquals($userSaved->username , $this->input['username']);
-			$this->assertEquals($userSaved->email , $this->input['email']);
-			$this->assertEquals($userSaved->name , $this->input['name']);
-			$this->assertEquals($userSaved->gender , $this->input['gender']);
-			$this->assertEquals($userSaved->designation , $this->input['designation']);
-					
-			$testUserId = $this->testUserId;
-		}
-		echo "User created\n";
-		return $testUserId;
+		$userSaved = User::find(1);
+
+		$this->assertEquals($userSaved->username , $this->userData['username']);
+		$this->assertEquals($userSaved->email , $this->userData['email']);
+		$this->assertEquals($userSaved->name , $this->userData['name']);
+		$this->assertEquals($userSaved->gender , $this->userData['gender']);
+		$this->assertEquals($userSaved->designation , $this->userData['designation']);
   	}
 
   	/**
   	 * Tests the update function in the UserController
-     * @depends testStore
-	 * @param  int $testUserId User ID from testStore(), testing Sample from the constructor
+	 * @param  void
 	 * @return void
      */
-	public function testUpdate($testUserId)
+	public function testUpdate()
 	{
 		// Update the User Types
-		$this->runUpdate($this->inputUpdate, $testUserId);
+        Input::replace($this->userData);
+        $user = new UserController;
+        $user->store();
+        Input::replace($this->userDataUpdate);
+        $user->update(1);
 
-		$usersSaved = User::orderBy('id','desc')->take(1)->get();
-		foreach ($usersSaved as $userSaved) {
-			$this->assertEquals($userSaved->username , $this->inputUpdate['username']);
-			$this->assertEquals($userSaved->email , $this->inputUpdate['email']);
-			$this->assertEquals($userSaved->name , $this->inputUpdate['name']);
-			$this->assertEquals($userSaved->gender , $this->inputUpdate['gender']);
-			$this->assertEquals($userSaved->designation , $this->inputUpdate['designation']);
-		}
-		echo "User updated\n";
+		$userUpdated = User::find(1);
+		$this->assertEquals($userUpdated->username , $this->userDataUpdate['username']);
+		$this->assertEquals($userUpdated->email , $this->userDataUpdate['email']);
+		$this->assertEquals($userUpdated->name , $this->userDataUpdate['name']);
+		$this->assertEquals($userUpdated->gender , $this->userDataUpdate['gender']);
+		$this->assertEquals($userUpdated->designation , $this->userDataUpdate['designation']);
+
 	}
 
-	
-	
 	/**
   	 * Tests the update function in the UserController
-     * @depends testStore
-	 * @param  int $testUserId User ID from testStore()
+	 * @param  void
 	 * @return void
      */
-	public function testDelete($testUserId)
+	public function testDelete()
 	{
-		$this->runDelete($testUserId);
-		$usersSaved = User::withTrashed()->orderBy('id','desc')->take(1)->get();
-		foreach ($usersSaved as $userSaved) {
-			$this->assertNotNull($userSaved->deleted_at);
-		}
-		echo "\nUser softDeleted\n";
-	    $this->removeTestData($testUserId);
-		echo "sample User removed from the Database\n";
-	}
-	
-	
-  	/**
-  	 *Executes the store function in the UserController
-  	 * @param  array $input User details
-	 * @return void
-  	 */
-	public function runStore($input)
-	{
-		Input::replace($input);
-    	$user = new UserController;
-    	$user->store();
+        Input::replace($this->userData);
+        $user = new UserController;
+        $user->store();
+        $user->delete(1);
+		$usersSaved = User::withTrashed()->find(1);
+
+		$this->assertNotNull($usersSaved->deleted_at);
 	}
 
-  	/**
-  	 * Executes the update function in the UserController
-  	 * @param  array $input User details, int $id ID of the User stored
-	 * @return void
-  	 */
-	public function runUpdate($input, $id)
-	{
-		Input::replace($input);
-    	$user = new UserController;
-    	$user->update($id);
-	}
+    public function testHandlesFailedLogin()
+    {
+        Input::replace($this->userData);
+        $user = new UserController;
+        $user->store();
 
-	/**
-	 * Executes the delete function in the UserController
-	 * @param  int $id ID of User stored
-	 * @return void
-	 */
-	public function runDelete($id)
-	{
-		$user = new UserController;
-    	$user->delete($id);
-	}
+        $this->action('POST', 'UserController@loginAction', $this->userDataLoginBad);
+        $this->assertRedirectedToRoute('user.login');
+    }
 
-	 /**
-	  * Force delete all sample Users from the database
-	  * @param  int $id User ID
-	  * @return void
-	  */
-	public function removeTestData($id)
-	{
-		DB::table('users')->delete($id);
-	}
+    public function testHandlesValidLogin()
+    {
+        Input::replace($this->userData);
+        $user = new UserController;
+        $user->store();
+
+        $this->action('POST', 'UserController@loginAction', $this->userDataLoginGood);
+        $this->assertRedirectedToRoute('user.home');
+    }
+
+    public function testHandlesLoginValidation()
+    {
+        Input::replace($this->userData);
+        $user = new UserController;
+        $user->store();
+
+        $this->action('POST', 'UserController@loginAction', $this->userDataLoginFailsVerification);
+        $this->assertRedirectedToRoute('user.login');
+    }
 }

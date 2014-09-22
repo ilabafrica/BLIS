@@ -1,3 +1,5 @@
+![image](https://travis-ci.org/ilabafrica/iBLIS.svg?branch=master)
+
 kBLIS
 =====
 
