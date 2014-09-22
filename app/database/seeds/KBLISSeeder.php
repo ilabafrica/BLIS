@@ -174,7 +174,7 @@ extends DatabaseSeeder
                 array("name" => "Hu Jintao", "email" => "hu@.un.org", "patient_number" => "1005", "dob" => "1956-10-28", "gender" => "0"),
                 array("name" => "Lance Opiyo", "email" => "lance@x.com", "patient_number" => "2150", "dob" => "2012-01-01", "gender" => "0"));
         foreach ($patients_array as $pat) {
-            $patients = Patient::create($pat);
+            $patients[] = Patient::create($pat);
         }
 
         $this->command->info('patients seeded');
@@ -216,13 +216,9 @@ extends DatabaseSeeder
         $this->command->info('specimen_statuses seeded');
 
         /* Visits table */
-        $visits_accepted_pending = Visit::create(array("patient_id" => $patients->id));
-        $visits_accepted_started = Visit::create(array("patient_id" => $patients->id));
-        $visits_accepted_completed = Visit::create(array("patient_id" => $patients->id));
-        $visits_accepted_verified = Visit::create(array("patient_id" => $patients->id));
-        $visits_rejected_pending = Visit::create(array("patient_id" => $patients->id));
-        $visits_rejected_started = Visit::create(array("patient_id" => $patients->id));
-        $visits_rejected_completed = Visit::create(array("patient_id" => $patients->id));
+        for ($i=0; $i < 7; $i++) { 
+            $visits[] = Visit::create(array("patient_id" => $patients[rand(0,count($patients)-1)]->id));
+        }
         $this->command->info('visits seeded');
 
         /* Rejection Reasons table */
@@ -296,7 +292,7 @@ extends DatabaseSeeder
         /* Test table */
         $tests_accepted_pending = Test::create(
             array(
-                "visit_id" => $visits_accepted_pending->id,
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_types->id,//BS for MPS
                 "specimen_id" => $specimens_accepted_pre_analytic->id,
                 "interpretation" => "Budda Boss",
@@ -306,7 +302,7 @@ extends DatabaseSeeder
         
         $tests_accepted_pending = Test::create(
             array(
-                "visit_id" => $visits_accepted_pending->id,
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_types->id,//BS for MPS
                 "specimen_id" => $specimens_accepted_pre_analytic->id,
                 "interpretation" => "Budda Boss",
@@ -316,7 +312,7 @@ extends DatabaseSeeder
         
         $test_gxm_accepted_completed = Test::create(
             array(
-                "visit_id" => $visits_accepted_pending->id,
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_type_gxm->id,
                 "specimen_id" => $specimens_accepted_post_analytic_verified->id,
                 "interpretation" => "COMPATIBLE WITH 061832914 B/G A POS.EXPIRY19/8/14",
@@ -324,13 +320,13 @@ extends DatabaseSeeder
                 "created_by" => "1",
                 "tested_by" => "1",
                 "verified_by" => "1",
-                "requested_by" => "1",
+                "requested_by" => "Dr. Abou Meyang",
             )
         );        
         
         $test_hb_accepted_completed = Test::create(
             array(
-                "visit_id" => $visits_accepted_pending->id,
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_type_hb->id,
                 "specimen_id" => $specimens_accepted_post_analytic_verified->id,
                 "interpretation" => "??",
@@ -338,13 +334,13 @@ extends DatabaseSeeder
                 "created_by" => "2",
                 "tested_by" => "2",
                 "verified_by" => "1",
-                "requested_by" => "3",
+                "requested_by" => "Genghiz Khan",
             )
         );        
         
         $tests_accepted_started = Test::create(
             array(
-                "visit_id" => $visits_accepted_started->id,
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_types->id,//BS for MPS
                 "specimen_id" => $specimens_accepted_analytic->id,
                 "interpretation" => "Budda Boss",
@@ -354,7 +350,7 @@ extends DatabaseSeeder
         
         $tests_accepted_completed = Test::create(
             array(
-                "visit_id" => $visits_accepted_completed->id,
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_types->id,//BS for MPS
                 "specimen_id" => $specimens_accepted_post_analytic->id,
                 "interpretation" => "Budda Boss",
@@ -364,7 +360,7 @@ extends DatabaseSeeder
         
         $tests_accepted_verified = Test::create(
             array(
-                "visit_id" => $visits_accepted_verified->id,
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_types->id,//BS for MPS
                 "specimen_id" => $specimens_accepted_post_analytic_verified->id,
                 "interpretation" => "Budda Boss",
@@ -374,7 +370,7 @@ extends DatabaseSeeder
         
         $tests_rejected_pending = Test::create(
             array(
-                "visit_id" => $visits_rejected_pending->id,
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_types->id,//BS for MPS
                 "specimen_id" => $specimens_rejected_pre_analytic->id,
                 "interpretation" => "Budda Boss",
@@ -384,7 +380,7 @@ extends DatabaseSeeder
         
         $tests_rejected_started = Test::create(
             array(
-                "visit_id" => $visits_rejected_started->id,
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_types->id,//BS for MPS
                 "specimen_id" => $specimens_rejected_analytic->id,
                 "interpretation" => "Budda Boss",
@@ -394,7 +390,7 @@ extends DatabaseSeeder
         
         $tests_rejected_completed = Test::create(
             array(
-                "visit_id" => $visits_rejected_completed->id,
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_types->id,//BS for MPS
                 "specimen_id" => $specimens_rejected_post_analytic->id,
                 "interpretation" => "Budda Boss",
@@ -434,13 +430,13 @@ extends DatabaseSeeder
         
         /* Referrals table */
         $referrals_array = array(
-                array("referring_institution" => "Bungoma District Hospital"),
-                array("referring_institution" => "Bumula Sub-District Hospital"),
-                array("referring_institution" => "Kenyatta National Hospital"),
-                array("referring_institution" => "Moi Referral Teaching Hospital"),
-                array("referring_institution" => "Webuye Sub-District Hospital"));
+                array("Bungoma District Hospital"),
+                array("Bumula Sub-District Hospital"),
+                array("Kenyatta National Hospital"),
+                array("Moi Referral Teaching Hospital"),
+                array("Webuye Sub-District Hospital"));
         foreach ($referrals_array as $ref) {
-            $patients = DB::insert("INSERT INTO referrals (referring_institution) VALUES (?)", $ref);
+            DB::insert("INSERT INTO referrals (referring_institution) VALUES (?)", $ref);
         }
 
         $this->command->info('referrals seeded');

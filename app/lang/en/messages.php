@@ -7,11 +7,13 @@ return array(
     /* 
     |   Generic names
     */
+    'actions' => 'Actions',
     'cancel' => 'Cancel',
     'create' => 'Create',
     'delete' => 'Delete',
     'description' => 'Description',
     'edit' => 'Edit',
+    'email' => 'Email',
     'home' => 'Home',
     'login' => 'Login',
     'name' => 'Name',
@@ -35,7 +37,9 @@ return array(
     'external-patient-number' => 'External Patient Number',
     'female' => 'Female',
     'gender' => 'Gender',
+    'list-patients' => 'List Patients',
     'male' => 'Male',
+    'new-patient' => 'New Patient',
     'patient' => 'Patient',
     'patient-details' => 'Patient Details',
     'patient-number' => 'Patient Number',

@@ -47,8 +47,7 @@
 							</div>
 							<div class="form-group">
 								{{ Form::label('physician', trans("messages.physician")) }}
-								{{ Form::select('physician', User::all()->lists('name', 'id'), null,
-									 array('class' => 'form-control')) }}
+								{{Form::text('physician', Input::old('physician'), array('class' => 'form-control'))}}
 							</div>
 							<div class="form-group">
 								{{ Form::label('tests', trans("messages.select-tests")) }}
