@@ -505,11 +505,11 @@ extends DatabaseSeeder
         
         /* Referrals table */
         $referrals_array = array(
-                array("referring_institution" => "Bungoma District Hospital"),
-                array("referring_institution" => "Bumula Sub-District Hospital"),
-                array("referring_institution" => "Kenyatta National Hospital"),
-                array("referring_institution" => "Moi Referral Teaching Hospital"),
-                array("referring_institution" => "Webuye Sub-District Hospital"));
+                array("Bungoma District Hospital"),
+                array("Bumula Sub-District Hospital"),
+                array("Kenyatta National Hospital"),
+                array("Moi Referral Teaching Hospital"),
+                array("Webuye Sub-District Hospital"));
         foreach ($referrals_array as $ref) {
             $patients = DB::insert("INSERT INTO referrals (referring_institution) VALUES (?)", $ref);
         }
