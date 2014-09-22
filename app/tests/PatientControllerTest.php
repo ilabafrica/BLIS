@@ -5,14 +5,21 @@
  */
 class PatientControllerTest extends TestCase 
 {
+	
+	    public function setUp()
+	    {
+	    	parent::setUp();
+	    	Artisan::call('migrate');
+			$this->setVariables();
+	    }
+	
 	/**
 	 * Contains the testing sample data for the PatientController.
 	 *
 	 * @return void
 	 */
-    public function __construct()
-    {
-    	// Initial sample storage data
+		public function setVariables(){
+		// Initial sample storage data
 		$this->input = array(
 			'patient_number' => '5681',
 			'name' => 'Bob Thebuilder',
@@ -33,13 +40,10 @@ class PatientControllerTest extends TestCase
 			'address' => '788347 W3-x2 Down.croncrete',
 			'phone_number' => '+189012402938',
 		);
-
-		$this->testPatientId = NULL;
-    }
-	
+	}
 	/**
 	 * Tests the store function in the PatientController
-	 * @param  testing Sample from the constructor
+	 * @param  void
 	 * @return int $testPatientId ID of Patient stored; used in testUpdate() to identify test for update
 	 */    
  	public function testStore() 
@@ -48,46 +52,38 @@ class PatientControllerTest extends TestCase
   		 // Store the Patient Types
 		$this->runStore($this->input);
 
-		$patientsSaved = Patient::orderBy('id','desc')->take(1)->get();
-		foreach ($patientsSaved as $patientSaved) {
-			$this->testPatientId = $patientSaved->id;
-			$this->assertEquals($patientSaved->patient_number, $this->input['patient_number']);
-			$this->assertEquals($patientSaved->name, $this->input['name']);
-			$this->assertEquals($patientSaved->dob, $this->input['dob']);
-			$this->assertEquals($patientSaved->gender, $this->input['gender']);
-			$this->assertEquals($patientSaved->email, $this->input['email']);
-			$this->assertEquals($patientSaved->address, $this->input['address']);
-			$this->assertEquals($patientSaved->phone_number, $this->input['phone_number']);
-				
-			$testPatientId = $this->testPatientId;
-		}
-		echo "Patient record created\n";
-		return $testPatientId;
+		$patientSaved = Patient::find(1);
+		
+		$this->assertEquals($patientSaved->patient_number, $this->input['patient_number']);
+		$this->assertEquals($patientSaved->name, $this->input['name']);
+		$this->assertEquals($patientSaved->dob, $this->input['dob']);
+		$this->assertEquals($patientSaved->gender, $this->input['gender']);
+		$this->assertEquals($patientSaved->email, $this->input['email']);
+		$this->assertEquals($patientSaved->address, $this->input['address']);
+		$this->assertEquals($patientSaved->phone_number, $this->input['phone_number']);
   	}
 
   	/**
-  	 * Tests the update function in the PatientController
-     * @depends testStore
-	 * @param  int $testPatientId Patient ID from testStore(), testing Sample from the constructor
-	 * @return void
+  	* Tests the update function in the PatientController
+     	* @depends testStore
+	* @param  void
+	* @return void
      */
-	public function testUpdate($testPatientId)
+	public function testUpdate()
 	{
+		$this->runStore($this->input);
 		// Update the Patient Types
-		$this->runUpdate($this->input, $testPatientId);
+		$this->runUpdate($this->inputUpdate, 1);
 
-		$patientsSaved = Patient::orderBy('id','desc')->take(1)->get();
-		foreach ($patientsSaved as $patientSaved) {
-			$this->testPatientId = $patientSaved->id;
-			$this->assertEquals($patientSaved->patient_number, $this->inputUpdate['patient_number']);
-			$this->assertEquals($patientSaved->name, $this->inputUpdate['name']);
-			$this->assertEquals($patientSaved->dob, $this->inputUpdate['dob']);
-			$this->assertEquals($patientSaved->gender, $this->inputUpdate['gender']);
-			$this->assertEquals($patientSaved->email, $this->inputUpdate['email']);
-			$this->assertEquals($patientSaved->address, $this->inputUpdate['address']);
-			$this->assertEquals($patientSaved->phone_number, $this->inputUpdate['phone_number']);
-		}
-		echo "\nPatient record updated\n";
+		$patientsUpdated = Patient::find(1);
+
+		$this->assertEquals($patientsUpdated->patient_number, $this->inputUpdate['patient_number']);
+		$this->assertEquals($patientsUpdated->name, $this->inputUpdate['name']);
+		$this->assertEquals($patientsUpdated->dob, $this->inputUpdate['dob']);
+		$this->assertEquals($patientsUpdated->gender, $this->inputUpdate['gender']);
+		$this->assertEquals($patientsUpdated->email, $this->inputUpdate['email']);
+		$this->assertEquals($patientsUpdated->address, $this->inputUpdate['address']);
+		$this->assertEquals($patientsUpdated->phone_number, $this->inputUpdate['phone_number']);
 	}
 
 	
@@ -95,19 +91,17 @@ class PatientControllerTest extends TestCase
 	/**
   	 * Tests the update function in the PatientController
      * @depends testStore
-	 * @param  int $testPatientId Patient ID from testStore()
+	 * @param void
 	 * @return void
      */
-	public function testDelete($testPatientId)
+	public function testDelete()
 	{
-		$this->runDelete($testPatientId);
-		$patientsSaved = Patient::withTrashed()->orderBy('id','desc')->take(1)->get();
-		foreach ($patientsSaved as $patientSaved) {
-			$this->assertNotNull($patientSaved->deleted_at);
-		}
-		echo "\nPatient record softDeleted\n";
-	    $this->removeTestData($testPatientId);
-		echo "sample Patient record removed from the Database\n";
+		$this->runStore($this->input);
+
+		$patient = new PatientController;
+    		$patient->delete(1);
+		$patientsDeleted = Patient::withTrashed()->find(1);
+		$this->assertNotNull($patientsDeleted->deleted_at);
 	}
 	
 	
@@ -119,8 +113,8 @@ class PatientControllerTest extends TestCase
 	public function runStore($input)
 	{
 		Input::replace($input);
-    	$patient = new PatientController;
-    	$patient->store();
+	    	$patient = new PatientController;
+	    	$patient->store();
 	}
 
   	/**
@@ -135,24 +129,4 @@ class PatientControllerTest extends TestCase
     	$patient->update($id);
 	}
 
-	/**
-	 * Executes the delete function in the PatientController
-	 * @param  int $id ID of Patient stored
-	 * @return void
-	 */
-	public function runDelete($id)
-	{
-		$patient = new PatientController;
-    	$patient->delete($id);
-	}
-
-	 /**
-	  * Force delete all sample Patients from the database
-	  * @param  int $id Patient ID
-	  * @return void
-	  */
-	public function removeTestData($id)
-	{
-		DB::table('patients')->delete($id);
-	}
 }

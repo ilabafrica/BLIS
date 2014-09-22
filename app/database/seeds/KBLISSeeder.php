@@ -97,10 +97,10 @@ extends DatabaseSeeder
         
         /* Measure Types */
         $measure_types = array(
-            array("id" => "1", "name" => "Numeric Range"),
-            array("id" => "2", "name" => "Alphanumeric Values"),
-            array("id" => "3", "name" => "Autocomplete"),
-            array("id" => "4", "name" => "Free Text")
+            array("id" => "1", "name" => "Numeric Range", "created_at" => "0000-00-00 00:00:00", "updated_at" => "0000-00-00 00:00:00"),
+            array("id" => "2", "name" => "Alphanumeric Values", "created_at" => "0000-00-00 00:00:00", "updated_at" => "0000-00-00 00:00:00"),
+            array("id" => "3", "name" => "Autocomplete", "created_at" => "0000-00-00 00:00:00", "updated_at" => "0000-00-00 00:00:00"),
+            array("id" => "4", "name" => "Free Text", "created_at" => "0000-00-00 00:00:00", "updated_at" => "0000-00-00 00:00:00")
         );
 
         foreach ($measure_types as $measure_type)
@@ -216,13 +216,13 @@ extends DatabaseSeeder
         $this->command->info('specimen_statuses seeded');
 
         /* Visits table */
-        $visits_accepted_pending = Visit::create(array("patient_id" => $patients->id));
-        $visits_accepted_started = Visit::create(array("patient_id" => $patients->id));
-        $visits_accepted_completed = Visit::create(array("patient_id" => $patients->id));
-        $visits_accepted_verified = Visit::create(array("patient_id" => $patients->id));
-        $visits_rejected_pending = Visit::create(array("patient_id" => $patients->id));
-        $visits_rejected_started = Visit::create(array("patient_id" => $patients->id));
-        $visits_rejected_completed = Visit::create(array("patient_id" => $patients->id));
+        $visits_accepted_pending = Visit::create(array("patient_id" => $patients->id, "created_at" => '2014-08-27 08:12:33', "updated_at" => '2014-08-27 08:12:33'));
+        $visits_accepted_started = Visit::create(array("patient_id" => $patients->id , "created_at" => '2014-08-27 08:12:33', "updated_at" => '2014-08-27 08:12:33'));
+        $visits_accepted_completed = Visit::create(array("patient_id" => $patients->id, "created_at" => '2014-08-27 08:12:33', "updated_at" => '2014-08-27 08:12:33'));
+        $visits_accepted_verified = Visit::create(array("patient_id" => $patients->id, "created_at" => '2014-08-27 08:12:33', "updated_at" => '2014-08-27 08:12:33'));
+        $visits_rejected_pending = Visit::create(array("patient_id" => $patients->id, "created_at" => '2014-08-27 08:12:33', "updated_at" => '2014-08-27 08:12:33'));
+        $visits_rejected_started = Visit::create(array("patient_id" => $patients->id, "created_at" => '2014-08-27 08:12:33', "updated_at" => '2014-08-27 08:12:33'));
+        $visits_rejected_completed = Visit::create(array("patient_id" => $patients->id, "created_at" => '2014-08-27 08:12:33', "updated_at" => '2014-08-27 08:12:33'));
         $this->command->info('visits seeded');
 
         /* Rejection Reasons table */
@@ -238,6 +238,10 @@ extends DatabaseSeeder
                 "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "1",//accepted
                 "test_phase_id" => "1",//Pre-Analytical for test_status:pending
+                "created_by" => "1",
+                "referred_from" => "0",
+                "referred_to" => "0",
+                "time_accepted" => "0000-00-00 00:00:00",
             )
         );        
         
@@ -246,6 +250,10 @@ extends DatabaseSeeder
                 "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "1",//accepted
                 "test_phase_id" => "2",//Analytical for test_status:started
+                "created_by" => "1",
+                "referred_from" => "0",
+                "referred_to" => "0",
+                "time_accepted" => "0000-00-00 00:00:00",
             )
         );        
         
@@ -254,6 +262,10 @@ extends DatabaseSeeder
                 "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "1",//accepted
                 "test_phase_id" => "3",//Post-Analytical for test_status:completed
+                "created_by" => "1",
+                "referred_from" => "0",
+                "referred_to" => "0",
+                "time_accepted" => "0000-00-00 00:00:00",
             )
         );        
         
@@ -262,6 +274,10 @@ extends DatabaseSeeder
                 "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "1",//accepted
                 "test_phase_id" => "3",//Post-Analytical for test_status:verified
+                "created_by" => "1",
+                "referred_from" => "0",
+                "referred_to" => "0",
+                "time_accepted" => "0000-00-00 00:00:00",
             )
         );        
         
@@ -271,6 +287,10 @@ extends DatabaseSeeder
                 "specimen_status_id" => "2",//rejected
                 "rejection_reason_id" => $rejection_reasons_pre_analytic->id,
                 "test_phase_id" => "1",//Pre-Analytical
+                "created_by" => "1",
+                "referred_from" => "0",
+                "referred_to" => "0",
+                "time_accepted" => "0000-00-00 00:00:00",
             )
         );
 
@@ -280,6 +300,10 @@ extends DatabaseSeeder
                 "specimen_status_id" => "2",//rejected
                 "rejection_reason_id" => $rejection_reasons_analytic->id,
                 "test_phase_id" => "2",//Analytical
+                "created_by" => "1",
+                "referred_from" => "0",
+                "referred_to" => "0",
+                "time_accepted" => "0000-00-00 00:00:00",
             )
         );
 
@@ -289,6 +313,10 @@ extends DatabaseSeeder
                 "specimen_status_id" => "2",//rejected
                 "rejection_reason_id" => $rejection_reasons_post_analytic->id,
                 "test_phase_id" => "3",//Post-Analytical
+                "created_by" => "1",
+                "referred_from" => "0",
+                "referred_to" => "0",
+                "time_accepted" => "0000-00-00 00:00:00",
             )
         );        
         $this->command->info('specimens seeded');
@@ -301,6 +329,12 @@ extends DatabaseSeeder
                 "specimen_id" => $specimens_accepted_pre_analytic->id,
                 "interpretation" => "Budda Boss",
                 "test_status_id" => "1",//Pending
+                "created_by" => "1",
+                "tested_by" => "0",
+                "verified_by" => "0",
+                "requested_by" => "0",
+                "time_created" => "0000-00-00 00:00:00",
+                "time_started" => "0000-00-00 00:00:00",
             )
         );        
         
@@ -311,6 +345,7 @@ extends DatabaseSeeder
                 "specimen_id" => $specimens_accepted_pre_analytic->id,
                 "interpretation" => "Budda Boss",
                 "test_status_id" => "1",//Pending
+                "created_by" => "1",
             )
         );        
         
@@ -349,6 +384,12 @@ extends DatabaseSeeder
                 "specimen_id" => $specimens_accepted_analytic->id,
                 "interpretation" => "Budda Boss",
                 "test_status_id" => "2",//Started
+                "created_by" => "1",
+                "tested_by" => "0",
+                "verified_by" => "0",
+                "requested_by" => "0",
+                "time_created" => "0000-00-00 00:00:00",
+                "time_started" => "0000-00-00 00:00:00",
             )
         );        
         
@@ -359,6 +400,12 @@ extends DatabaseSeeder
                 "specimen_id" => $specimens_accepted_post_analytic->id,
                 "interpretation" => "Budda Boss",
                 "test_status_id" => "3",//Completed
+                "created_by" => "1",
+                "tested_by" => "0",
+                "verified_by" => "0",
+                "requested_by" => "0",
+                "time_created" => "0000-00-00 00:00:00",
+                "time_started" => "0000-00-00 00:00:00",
             )
         );        
         
@@ -369,6 +416,12 @@ extends DatabaseSeeder
                 "specimen_id" => $specimens_accepted_post_analytic_verified->id,
                 "interpretation" => "Budda Boss",
                 "test_status_id" => "4",//Verified
+                 "created_by" => "1",
+                "tested_by" => "0",
+                "verified_by" => "0",
+                "requested_by" => "0",
+                "time_created" => "0000-00-00 00:00:00",
+                "time_started" => "0000-00-00 00:00:00",
             )
         );        
         
@@ -379,6 +432,12 @@ extends DatabaseSeeder
                 "specimen_id" => $specimens_rejected_pre_analytic->id,
                 "interpretation" => "Budda Boss",
                 "test_status_id" => "1",//Pending
+                 "created_by" => "1",
+                "tested_by" => "0",
+                "verified_by" => "0",
+                "requested_by" => "0",
+                "time_created" => "0000-00-00 00:00:00",
+                "time_started" => "0000-00-00 00:00:00",
             )
         );        
         
@@ -389,6 +448,12 @@ extends DatabaseSeeder
                 "specimen_id" => $specimens_rejected_analytic->id,
                 "interpretation" => "Budda Boss",
                 "test_status_id" => "2",//Started
+                 "created_by" => "1",
+                "tested_by" => "0",
+                "verified_by" => "0",
+                "requested_by" => "0",
+                "time_created" => "0000-00-00 00:00:00",
+                "time_started" => "0000-00-00 00:00:00",
             )
         );        
         
@@ -399,6 +464,12 @@ extends DatabaseSeeder
                 "specimen_id" => $specimens_rejected_post_analytic->id,
                 "interpretation" => "Budda Boss",
                 "test_status_id" => "3",//Completed
+                 "created_by" => "1",
+                "tested_by" => "0",
+                "verified_by" => "0",
+                "requested_by" => "0",
+                "time_created" => "0000-00-00 00:00:00",
+                "time_started" => "0000-00-00 00:00:00",
             )
         );        
         $this->command->info('tests seeded');
