@@ -33,31 +33,31 @@
 				</tr>
 			</thead>
 			<tbody>
-			@foreach($users as $key => $value)
+			@foreach($users as $user)
 				<tr>
-					<td>{{ $value->username }}</td>
-					<td>{{ $value->name }}</td>
-					<td>{{ $value->email }}</td>
-					<td>{{ ($value->gender==0?"Male":"Female") }}</td>
-					<td>{{ $value->designation }}</td>
+					<td>{{ $user->username }}</td>
+					<td>{{ $user->name }}</td>
+					<td>{{ $user->email }}</td>
+					<td>{{ ($user->gender == 0) ? "Male":"Female" }}</td>
+					<td>{{ $user->designation }}</td>
 
 					<td>
 
 						<!-- show the user (uses the show method found at GET /user/{id} -->
-						<a class="btn btn-sm btn-success" href="{{ URL::to("user/" . $value->id) }}">
+						<a class="btn btn-sm btn-success" href="{{ URL::to("user/" . $user->id) }}">
 							<span class="glyphicon glyphicon-eye-open"></span>
 							View
 						</a>
 
 						<!-- edit this user (uses the edit method found at GET /user/{id}/edit -->
-						<a class="btn btn-sm btn-info" href="{{ URL::to("user/" . $value->id . "/edit") }}" >
+						<a class="btn btn-sm btn-info {{($user == User::getAdminUser()) ? 'disabled': ''}}" href="{{ URL::to("user/" . $user->id . "/edit") }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							Edit
 						</a>
 						<!-- delete this user (uses the delete method found at GET /user/{id}/delete -->
-						<button class="btn btn-sm btn-danger delete-item-link"
+						<button class="btn btn-sm btn-danger delete-item-link {{($user == User::getAdminUser()) ? 'disabled': ''}}"
 							data-toggle="modal" data-target=".confirm-delete-modal"	
-							data-id='{{ URL::to("user/" . $value->id . "/delete") }}'>
+							data-id='{{ URL::to("user/" . $user->id . "/delete") }}'>
 							<span class="glyphicon glyphicon-trash"></span>
 							Delete
 						</button>

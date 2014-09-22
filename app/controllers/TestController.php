@@ -50,8 +50,7 @@ class TestController extends \BaseController {
 	{
 		
 		$rejectionReason = RejectionReason::all();
-		return View::make('test.reject')->with('specimenId', $specimenID)
-								->with('rejectionReason', $rejectionReason);
+		return View::make('test.reject')->with('specimenId', $specimenID)->with('rejectionReason', $rejectionReason);
 	}
 
 	/**

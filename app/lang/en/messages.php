@@ -11,11 +11,13 @@ return array(
     'edit' => 'Edit',
     'home' => 'Home',
     'login' => 'Login',
-    'name' => 'Name',
-    'password' => 'Password',
+    'name' => 'Name|Names',
+    'password' => 'Password|Passwords',
     'save' => 'Save',
     'username' => 'Username',
     'view' => 'View',
+    'role' => 'Role|Roles',
+    'user' => 'User|Users',
     /* 
     |   Generic phrases
     */
@@ -74,4 +76,16 @@ return array(
     'view-details' => 'View Details',
     'visit-number' => 'Lab No.',
     'visit-type' => 'Visit Type',
+
+    /* 
+    |   Permissions
+    */
+    'permission' => 'Permission|Permissions',
+    'no-permissions-found' => 'No permissions found',
+    'no-users-found' => 'No Users found',
+    'no-roles-found' => 'No roles found',
+    'new-role' => 'New Role',
+    'access-controls' => 'Access Controls',
+    'assign-roles-to-users' => 'Assign roles to Users',
+    'edit-role' => 'Edit Role'
 );

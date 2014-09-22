@@ -25,7 +25,7 @@
 		</div>
 		<div class="panel-body">
 			<div class="display-details">
-				<h3 class="view"><strong>{{ trans('messages.name') }}:</strong>{{ $testcategory->name }} </h3>
+				<h3 class="view"><strong>{{ Lang::choice('messages.name',1) }}:</strong>{{ $testcategory->name }} </h3>
 				<p class="view-striped"><strong>{{ trans('messages.description') }}:</strong>
 					{{ $testcategory->description }}</p>
 				

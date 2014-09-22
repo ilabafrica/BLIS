@@ -5,34 +5,6 @@ extends DatabaseSeeder
 {
     public function run()
     {
-        /* Truncate from linking tables */
-        DB::table('testtype_measures')->truncate();
-        DB::table('testtype_specimentypes')->truncate();
-        DB::table('measure_ranges')->truncate();
-
-        /* Delete from tables referenced by foreign key constraints */
-        DB::table('referrals')->delete();
-        DB::table('test_results')->delete();
-        DB::table('tests')->delete();
-        DB::table('specimens')->delete();
-        DB::table('rejection_reasons')->delete();
-        DB::table('visits')->delete();
-        DB::table('test_statuses')->delete();
-        DB::table('specimen_statuses')->delete();
-        DB::table('test_phases')->delete();
-        DB::table('test_types')->delete();
-        DB::table('measures')->delete();
-        DB::table('measure_types')->delete();
-        DB::table('test_categories')->delete();
-        DB::table('specimen_types')->delete();
-        DB::table('patients')->delete();
-        DB::table('tokens')->delete();
-        DB::table('users')->delete();
-
-
-        /* Truncate from tables ---- */
-        DB::table('users')->truncate();
-
         /* Users table */
         $users = array(
             array(
@@ -464,5 +436,44 @@ extends DatabaseSeeder
         }
         $this->command->info('test results seeded');
         
+        /* Permissions table */
+        $permissions = array(
+            array("name" => "manage_patients", "display_name" => "Can add patients"),
+            array("name" => "verify_tests", "display_name" => "Can verify tests"),
+            array("name" => "edit_tests", "display_name" => "Can edit tests"),
+            array("name" => "receive_requests", "display_name" => "Can receive requests"),
+            array("name" => "view_names", "display_name" => "Can view patient names"),
+            array("name" => "enter_tests_results", "display_name" => "Can enter tests results"),
+
+            array("name" => "manage_users", "display_name" => "Can manage users"),
+            array("name" => "manage_test_catalog", "display_name" => "Can manage test catalog"),
+            array("name" => "view_reports", "display_name" => "Can view reports")
+        );
+        foreach ($permissions as $permission) {
+            Permission::create($permission);
+        }
+        $this->command->info('Permissions table seeded');
+
+        /* Roles table */
+        $roles = array(
+            array("name" => "Superadmin"),
+            array("name" => "Technologist"),
+            array("name" => "Receptionist")
+        );
+        foreach ($roles as $role) {
+            Role::create($role);
+        }
+        $this->command->info('Roles table seeded');
+
+        $user1 = User::find(1);
+        $role1 = Role::find(1);
+        $permissions = Permission::all();
+
+        //Assign all permissions to role administrator
+        foreach ($permissions as $permission) {
+            $role1->attachPermission($permission);
+        }
+        //Assign role Administrator to user 1 administrator
+        $user1->attachRole($role1);
     }
 }

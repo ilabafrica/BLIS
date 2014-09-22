@@ -78,3 +78,26 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+/* Role/permission based Route filters */
+
+/*If the user does not have the first role most likely administrator
+redirect to the home page */
+Route::filter('admin', function()
+{
+    if (! Entrust::hasRole(Role::find(1)->name))
+    {
+        return Redirect::to('home');
+    }
+});
+
+/**
+*  A filter that receives a permission ($perms) as the parameter and checks if the user has
+*  the said permissions. 
+*/
+Route::filter('checkPerms', function($route, $request, $perms)
+{
+    if (! Entrust::can($perms)) {
+       return Redirect::to('home');
+    }
+});

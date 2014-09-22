@@ -13,7 +13,9 @@
 		case 'specimentype': 
 			$active[4] = "active"; break;
 		case 'report': $active[5] = "active"; break;
-		case 'inventory': $active[6] = "active"; break;
+		case 'permission': 
+		case 'assign':
+		case 'role': $active[6] = "active"; break;
 	}
 ?>
 	<ul class="nav nav-sidebar">
@@ -36,6 +38,7 @@
 					<span class="glyphicon glyphicon-filter"></span> Tests</a>
 			</div>
 		</li>
+		@if(Entrust::can('manage_users'))
 		<li>
 			<div class="main-menu {{$active[3]}}">
 				<a href="{{ URL::route("user.index")}}">
@@ -58,6 +61,8 @@
 				</ul>
 			</div>
 		</li>
+		@endif
+		@if(Entrust::can('manage_test_catalog'))
 		<li>
 			<div class="main-menu {{$active[4]}}">
 				<a href="{{ URL::route("testcategory.index")}}">
@@ -92,6 +97,7 @@
 				</ul>
 			</div>
 		</li>
+		@endif
 		<li>
 			<div class="main-menu {{$active[5]}}">
 				<a href="javascript:void(0);">
@@ -142,11 +148,35 @@
 				</ul>
 			</div>
 		</li>
+		@if(Entrust::hasRole(Role::getAdminRole()->name))
 		<li>
 			<div class="main-menu {{$active[6]}}">
-				<a href="javascript:void(0);">
-					<span class="glyphicon glyphicon-briefcase"></span> Inventory</a>
+				<a href="{{ URL::route("permission.index")}}">
+					<span class="glyphicon glyphicon-cog"></span> Access controls</a>
+			</div>
+			<div class="sub-menu {{$active[6]}}">
+				<ul class="sub-menu-items">
+					<li>
+						<div>
+							<a href="{{ URL::route("permission.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> Permissions</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route("role.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> Roles</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route("role.assign")}}">
+								<span class="glyphicon glyphicon-tag"></span> Assign Roles</a>
+						</div>
+					</li>
+				</ul>
 			</div>
 		</li>
+		@endif
 	</ul>
 @show
