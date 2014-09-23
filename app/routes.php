@@ -116,7 +116,12 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@enterResults"
     ));
 
-     Route::any("/test/{test}/saveresults", array(
+     Route::post("/test/savenewtest", array(
+        "as"   => "test.saveNewTest",
+        "uses" => "TestController@saveNewTest"
+    ));
+
+     Route::post("/test/{test}/saveresults", array(
         "as"   => "test.saveResults",
         "uses" => "TestController@saveResults"
     ));
@@ -136,7 +141,7 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@verify"
     ));
 
-    Route::get("/test/create", array(
+    Route::get("/test/{patient}/create", array(
         "as"   => "test.create",
         "uses" => "TestController@create"
     ));

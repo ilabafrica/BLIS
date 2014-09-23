@@ -35,7 +35,7 @@
 				<p class="view"><strong>{{trans('messages.specimen-type')}}</strong>
 					{{$test->specimen->specimenType->name or trans('messages.pending') }}</p>
 				<p class="view-striped"><strong>{{trans('messages.physician')}}</strong>
-					{{$test->requestedBy->name or trans('messages.unknown') }}</p>
+					{{$test->requested_by or trans('messages.unknown') }}</p>
 				<p class="view"><strong>{{trans('messages.tested-by')}}</strong>
 					{{$test->testedBy->name or trans('messages.unknown')}}</p>
 				<p class="view-striped"><strong>{{trans('messages.turnaround-time')}}</strong>
