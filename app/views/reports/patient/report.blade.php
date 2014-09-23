@@ -35,9 +35,9 @@
 		<table class="table">
 			<tbody>
 				<tr>
-					<td>Patient Name</td>
+					<td>{{trans('messages.patient-name')}}</td>
 					<td>{{ $patient->name }}</td>
-					<td>Patient Sex</td>
+					<td>{{trans('messages.gender')}}</td>
 					<td>@if($patient->gender==0){{ 'Male' }} @else {{ 'Female' }} @endif</td>
 				</tr>
 				<tr>

@@ -9,11 +9,25 @@ class DailyLogController extends \BaseController {
 	 */
 	public function index()
 	{
-		$labsections = TestCategory::all();
+		$date = date('Y-m-d');
+		$labsections = TestCategory::lists('name', 'id');
 		$testtypes = TestType::all();
+		$tests = Test::where('time_created', 'LIKE', $date.'%')->get();
+		$visits = Visit::where('created_at', 'LIKE', $date.'%')->get();
+		$specimens = Specimen::where('time_rejected', 'LIKE', $date.'%')->get();
 		return View::make('reports.daily.index')
 					->with('labsections', $labsections)
-					->with('testtypes', $testtypes);
+					->with('testtypes', $testtypes)
+					->with('tests', $tests)
+					->with('visits', $visits)
+					->with('specimens', $specimen);
+	}
+
+	public function dailyLogs(){
+		$date_from;
+		$date_to;
+		$lab_section;
+		$test_type;
 	}
 
 

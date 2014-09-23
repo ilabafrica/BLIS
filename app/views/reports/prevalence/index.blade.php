@@ -28,7 +28,7 @@
          <td>
              <input type='text' class="form-control" id='to' value='{{ date('d-m-Y') }}' />
          </td>
-         <td><button type="submit" class="btn btn-info" style="width:125px;" name="ok" id="ok" onClick=""> 
+         <td><button type="submit" class="btn btn-info" style="width:125px;" name="ok" id="ok" onClick="javascript:toggleGraph();"> 
   		  		<i class="icon-filter"></i> Show/Hide Graph
   		  	</button></td>
         <td><button type="submit" class="btn btn-primary" style="width:125px;" name="ok" id="ok" onClick=""> 
@@ -50,43 +50,42 @@
 	
 </tbody>
   </table>
-  <div id="chartdiv"></div>
-  <div id="grid"></div>
-</div>
-
-		<!-- if there are search errors, they will show here -->
+  <!-- if there are search errors, they will show here -->
 		@if($errors->all())
 			<div class="alert alert-danger">
 				{{ HTML::ul($errors->all()) }}
 			</div>
 		@endif
-		<!-- <div class="row">
-			<div class="col-md-8">
-		{{ Form::open(array('route' => 'reports.daily.search', 'id' => 'form-search-daily-log')) }}
-		  	<div class="form-group">
-				{{ Form::label('name', trans("messages.from")) }}
-				{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
-			</div>
-			<div class="form-group">
-				{{ Form::label('description', trans("messages.to")) }}</label>
-				{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
-			</div>
-			
-			<div class="form-group">
-				{{ Form::label('description', trans("messages.test-category")) }}</label>
-				{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
-			</div>
-			<div class="form-group actions-row">
-				{{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.submit'), 
-					array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
-			</div>
-		{{ Form::close() }}
-		</div>
-		<div class="col-md-4">
-		<div class="alert alert-info" style="float:right" role="alert"><strong>Tips</strong>
-		<p>{{ trans('messages.prevalence-rates-report-tip') }}</p>
-		</div></div> -->
-		
+  <div id="chartdiv"></div>
+  <div id="grid">
+  	<div class="table-responsive">
+	  <table class="table table-striped">
+	    <tbody>
+		    <tr>
+		    	<th>Test Type</th>
+		    	<th>Total Specimen</th>
+		    	<th>Positive</th>
+		    	<th>Negative</th>
+		    	<th>Prevalence Rate <span class="danger">%</span></th>
+		    </tr>
+		    @forelse($test_types as $test_type)
+		    <tr>
+		    	<td>{{ $test_type->name }}</td>
+		    	<td>{{ PrevalenceRatesReportController::totalSpecimens($test_type->id) }}</td>
+		    	<td>{{ PrevalenceRatesReportController::totalPositiveSpecimens($test_type->id) }}</td>
+		    	<td>{{ PrevalenceRatesReportController::totalNegativeSpecimens($test_type->id) }}</td>
+		    	<td>{{ PrevalenceRatesReportController::prevalenceRate($test_type->id) }}</td>
+		    </tr>
+		    @empty
+		    <tr>
+		    	<td colspan="5">No records found.</td>
+		    </tr>
+		    @endforelse
+	    </tbody>
+	  </table>
+	</div>
+  </div>
+</div>
 </div>
 	</div>
 
@@ -96,14 +95,11 @@
 <!-- End fusioncharts scripts -->
 <script type="text/javascript">
    var chart = new FusionCharts("FusionCharts/Charts/MSLine.swf", "ChartId", "980", "550", "0", "0");
-   chart.setDataURL("FusionCharts/Gallery/Data/MSLine.xml");		   
+   chart.setDataURL("fusion_data/prevalence_rates.php");		   
    chart.render("chartdiv");
 
-   var myGrid = new FusionCharts("FusionCharts/Charts/SSGrid.swf", "myGrid1", "900", "400", "0", "1");
-	myGrid.setDataURL("FusionCharts/Gallery/Grid/Data.xml");
-	//Set Grid specific parameters
-	myGrid.addVariable('showPercentValues', '1');
-	myGrid.addVariable('showShadow', '1');
-	myGrid.render("grid");
+   function toggleGraph(){
+   	$('#chartdiv').toggle('show');
+   }
 </script>
 @stop

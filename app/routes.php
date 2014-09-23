@@ -248,6 +248,11 @@ Route::group(array("before" => "auth"), function()
         "uses" => "CountReportController@index"
     ));
 
+    Route::get("/test_counts_grouped", array(
+        "as"   => "reports.counts.test_counts_grouped",
+        "uses" => "CountReportController@testCountsGrouped"
+    ));
+
     /*Route TAT Report Controller*/
 
     Route::get("/tat", array(

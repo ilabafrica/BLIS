@@ -22,25 +22,31 @@
 			  {{ Form::radio('layout', '2', false, array('data-toggle' => 'radio', 'id' => 'layout')) }} Landscape
 			</label>
          </td>
-         <td><input type="button" class="btn btn-default increaseFont" value="Increase Font" id="increaseFont"></td>
-         <td><input type="button" class="btn btn-default resetFont" value="Reset Font" id="resetFont" onClick=""></td>
-         <td><input type="button" class="btn btn-warning" style="width:125px;" value="Print" onclick=""></td>
+         <td>{{ Form::button("<span class='glyphicon glyphicon-zoom-in'></span> ".trans('messages.increase-font'), 
+                        array('class' => 'btn btn-default', 'id' => 'increaseFont')) }}</td>
+         <td>{{ Form::button("<span class='glyphicon glyphicon-zoom-out'></span> ".trans('messages.reset-font'), 
+                        array('class' => 'btn btn-default', 'id' => 'resetFont')) }}</td>
+         <td>{{ Form::button("<span class='glyphicon glyphicon-send'></span> ".trans('messages.print'), 
+                        array('class' => 'btn btn-warning', 'style' => 'width:125px', 'id' => 'print')) }}</td>
      </tr>
      <tr>
         <td>
         	<label class="checkbox-inline">
               <!-- {{ Form::hidden('pending', false) }} -->
-			  {{ Form::checkbox('pending', 1, null, array('id' => 'pending')) }} Include Pending Tests
+			  {{ Form::checkbox('pending', 1, null, array('id' => 'pending')) }} {{trans('messages.include-pending-tests')}}
 			</label>
         </td>
         <td>
         	<label class="checkbox-inline">
-			  {{ Form::checkbox('range', 'yes', false, array('id' => 'range')) }} Include Range Visualization
+			  {{ Form::checkbox('range', 'yes', false, array('id' => 'range')) }} {{trans('messages.include-range-visualization')}}
 			</label>
         </td>
-        <td><input type="button" class="btn btn-success" style="width:160px;" value="Export to Word" onclick=""></td>
-        <td><input type="button" class="btn btn-info" style="width:160px;" value="Export to PDF" onclick=""></td>
-        <td><input type="button" class="btn btn-danger" style="width:125px;" value="Close" onclick=""></td>
+        <td>{{ Form::button("<span class='glyphicon glyphicon-file'></span> ".trans('messages.export-to-word'), 
+                        array('class' => 'btn btn-success', 'style' => 'width:160px', 'id' => 'word')) }}</td>
+        <td>{{ Form::button("<span class='glyphicon glyphicon-bookmark'></span> ".trans('messages.export-to-pdf'), 
+                        array('class' => 'btn btn-info', 'style' => 'width:160px', 'id' => 'pdf')) }}</td>
+        <td>{{ Form::button("<span class='glyphicon glyphicon-remove'></span> ".trans('messages.close'), 
+                        array('class' => 'btn btn-danger', 'style' => 'width:125px', 'id' => 'close')) }}</td>
      </tr>
 </thead>
 <tbody>

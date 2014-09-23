@@ -122,6 +122,20 @@ $(document).ready(function($){
 			});
 	});
 	/*End dynamic select list options*/
+	/*Toggling test, patient and rejected specimen records*/
+	$("input[name='records']").change( function() {
+        if($('#tests').is(':checked')) { 
+            $('#sections').show();
+        }
+        else if($('#patients').is(':checked')) { 
+             $('#sections').hide();
+        }
+        else{
+            $('#sections').hide();
+        }
+		
+	});
+	/*End toggling*/
 	/*Submit patient report filters without page reload*/
 	$('#form-patientreport-filter').submit(function(event){
 		var id=$('#patient').val();

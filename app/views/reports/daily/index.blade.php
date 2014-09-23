@@ -29,24 +29,23 @@
          <td>
              <input type='text' class="form-control" id='to' value='{{ date('d-m-Y') }}' />
          </td>
-        <td><button type="submit" class="btn btn-info" style="width:125px;" name="ok" id="ok" onClick=""> 
-  		  		<i class="icon-filter"></i> View
-  		  	</button></td>
+        <td>{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
+                        array('class' => 'btn btn-info', 'style' => 'width:125px', 'id' => 'filter', 'type' => 'submit')) }}</td>
     </tr>
     <tr>
         <td colspan="2"><label class="radio-inline">
-			  {{ Form::radio('paymentOption', '2', array('data-toggle' => 'radio')) }} {{Form::label(trans("messages.test-records"), trans("messages.test-records"))}}
+			  {{ Form::radio('records', '1', true, array('data-toggle' => 'radio', 'id' => 'tests')) }} {{trans('messages.test-records')}}
 			</label></td>
         <td><label class="radio-inline">
-			  {{ Form::radio('paymentOption', '2', array('data-toggle' => 'radio')) }} {{Form::label(trans("messages.patient-records"), trans("messages.patient-records"))}}
+			  {{ Form::radio('records', '2', false, array('data-toggle' => 'radio', 'id' => 'patients')) }} {{trans('messages.patient-records')}}
 			</label></td>
         <td colspan="2"><label class="radio-inline">
-			  {{ Form::radio('paymentOption', '2', array('data-toggle' => 'radio')) }} {{Form::label(trans("messages.rejected-specimen"), trans("messages.rejected-specimen"))}}
+			  {{ Form::radio('records', '3', false, array('data-toggle' => 'radio', 'id' => 'specimens')) }} {{trans('messages.rejected-specimen')}}
 			</label></td>
     </tr>
-    <tr>
+    <tr id="sections">
         <td>{{ Form::label('description', trans("messages.test-category")) }}</td>
-        <td>{{ Form::select('section_id', $labsections->lists('name', 'id'), Input::old('section_id'), 
+        <td>{{ Form::select('section_id', array(''=>'Select Lab Section')+$labsections, Input::old('section_id'), 
 					array('class' => 'form-control', 'id' => 'section_id')) }}</td>
 		<td></td>
         <td>{{ Form::label('description', trans("messages.test-type")) }}</td>
@@ -59,7 +58,99 @@
 </tbody>
   </table>
   {{ Form::close() }}
-  <div id="chartdiv"></div>
+  <div id="chartdiv" style="display:none;"></div>
+  <div id="test_records_div" style="display:none;">
+  	<table class="table">
+		<tbody>
+			<th>Patient</th>
+			<th>Age</th>
+			<th>Sex</th>
+			<th>Specimen</th>
+			<th>Receipt date</th>
+			<th>Comments</th>
+			<th>Tests</th>
+			<th>Done by</th>
+			<th>Results</th>
+			<th>Remarks</th>
+			<th>Entry date</th>
+			<th>Verifier</th>
+			@forelse($tests as $key => $test)
+			<tr>
+				<td>{{ $test->visit->patient->id }}</td>
+				<td>{{ PatientReportController::dateDiff($test->visit->patient->dob) }}</td>
+				<td>@if($test->visit->patient->gender==0){{ 'M' }} @else {{ 'F' }} @endif</td>
+				<td>{{ $test->specimen->specimentype->name }}</td>
+				<td>{{ $test->specimen->time_accepted }}</td>
+				<td>{{ $test->visit->patient->id }}</td>
+				<td>{{ $test->testType->name }}</td>
+				<td>{{ $test->testedBy->name or trans('messages.unknown') }}</td>
+				<td>@foreach($test->testResults as $result)
+					<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
+				@endforeach</td>
+				<td>{{ $test->interpretation }}</td>
+				<td>{{ $test->time_completed or trans('messages.pending') }}</td>
+				<td>{{ $test->verifiedBy->name or trans('messages.verification-pending') }}</td>
+			</tr>
+			@empty
+			<tr><td colspan="13">{{ date('Y-m-d') }}</td></tr>
+			@endforelse
+		</tbody>
+	</table>
+  </div>
+  <div id="patient_records_div" style="display:none;">
+  	<table class="table">
+		<tbody>
+			<th>Patient Number</th>
+			<th>Age</th>
+			<th>Sex</th>
+			<th>Specimen Number</th>
+			<th>Type</th>
+			<th>Tests</th>
+			@forelse($visits as $key => $visit)
+			{{--*/ $tests = Visit::with('tests')->find($visit->id)->tests /*--}}
+			{{--*/ $specimen = Test::with('specimen')->find($test->id)->specimen /*--}}
+			<tr>
+				<td>{{ $visit->patient->id }}</td>
+				<td>{{ PatientReportController::dateDiff($visit->patient->dob) }}</td>
+				<td>@if($visit->patient->gender==0){{ 'M' }} @else {{ 'F' }} @endif</td>
+				<td>{{ $test->specimen->id }}</td>
+				<td>{{ $test->specimen->specimenType->name }}</td>
+				<td>{{ $test->testType->name }}</td>
+			</tr>
+			@empty
+			<tr><td colspan="13">{{ date('Y-m-d') }}</td></tr>
+			@endforelse
+		</tbody>
+	</table>
+  </div>
+  <div id="rejected_specimen_div">
+  	<table class="table">
+		<tbody>
+			<th>Specimen ID</th>
+			<th>Specimen Type</th>
+			<th>Receipt date</th>
+			<th>Tests</th>
+			<th>Lab Section</th>
+			<th>Reason for Rejection</th>
+			<th>Talked To</th>
+			<th>Date Rejected</th>
+			@forelse($specimens as $key => $specimen)
+			<tr>
+				<td>{{ $specimen->id }}</td>
+				<td>{{ $specimen->specimenType->name }}</td>
+				<td>{{ $test->visit->patient->id }}</td>
+				<td>{{ $test->specimen->specimentype->name }}</td>
+				<td>{{ $test->specimen->time_accepted }}</td>
+				<td>{{ $test->visit->patient->id }}</td>
+				<td>{{ $test->testType->name }}</td>
+				<td>{{ $test->testedBy->name or trans('messages.unknown') }}</td>
+			</tr>
+			@empty
+			<tr><td colspan="13">{{ date('Y-m-d') }}</td></tr>
+			@endforelse
+		</tbody>
+	</table>
+  </div>
 </div>
 
 		<!-- if there are search errors, they will show here -->

@@ -24,6 +24,12 @@ return array(
     'records'    =>  'Records',
     'submit'    =>  'Submit',
     'interval'    =>  'Interval',
+    'increase-font'    =>  'Increase Font',
+    'reset-font'    =>  'Reset Font',
+    'export-to-word'    =>  'Export to Word',
+    'export-to-pdf'    =>  'Export to PDF',
+    'close' => 'Close',
+    'print' => 'Print',
     /* 
     |   Generic phrases
     */
@@ -81,6 +87,8 @@ return array(
     'counts'   =>  'Counts',
     'patient-report'    =>  'Patient Report',
     'view-report'    =>  'View Report',
+    'include-pending-tests'    =>  'Include Pending Tests',
+    'include-range-visualization'    =>  'Include Range Visualization',
     'select-tests'    =>  'Select Tests',
     'daily-log'    =>  'Daily Log',
     'test-records'    =>  'Test Records',
