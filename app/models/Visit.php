@@ -9,7 +9,7 @@ class Visit extends Eloquent
 	 */
 	protected $table = 'visits';
 
-	public $timestamps = false;
+	public $timestamps = true;
 
 	/**
 	 * Test relationship

@@ -187,6 +187,7 @@ extends DatabaseSeeder
         $this->command->info('specimen_statuses seeded');
 
         /* Visits table */
+        
         for ($i=0; $i < 7; $i++) { 
             $visits[] = Visit::create(array("patient_id" => $patients[rand(0,count($patients)-1)]->id));
         }
@@ -313,6 +314,7 @@ extends DatabaseSeeder
                 "interpretation" => "Budda Boss",
                 "test_status_id" => "1",//Pending
                 "created_by" => "1",
+                "requested_by" => "Dr. Abou Meyang",
             )
         );        
         

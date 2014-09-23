@@ -1,29 +1,52 @@
 <?php
+/* 
+|   To aid quick referencing, keep entries in the same section ALPHABETICALLY ORDERED
+*/
 
 return array(
     /* 
     |   Generic names
     */
+    'actions' => 'Actions',
     'cancel' => 'Cancel',
     'create' => 'Create',
     'delete' => 'Delete',
     'description' => 'Description',
     'edit' => 'Edit',
+    'email' => 'Email',
     'home' => 'Home',
     'login' => 'Login',
     'name' => 'Name|Names',
     'password' => 'Password|Passwords',
+    'role' => 'Role|Roles',
     'save' => 'Save',
+    'user' => 'User|Users',
     'username' => 'Username',
     'view' => 'View',
-    'role' => 'Role|Roles',
-    'user' => 'User|Users',
     /* 
     |   Generic phrases
     */
     'confirm-delete-title' => 'Confirm Delete',
     'confirm-delete-message' => 'Do you wish to delete this item?',
     'confirm-delete-irreversible' => 'This action is irreversible.',
+    /* 
+    |   Patient
+    */
+    'age' => 'Age',
+    'date-created' => 'Registration Date',
+    'date-of-birth' => 'Date of Birth',
+    'email-address' => 'Email Address',
+    'external-patient-number' => 'External Patient Number',
+    'female' => 'Female',
+    'gender' => 'Gender',
+    'list-patients' => 'List Patients',
+    'male' => 'Male',
+    'new-patient' => 'New Patient',
+    'patient' => 'Patient',
+    'patient-details' => 'Patient Details',
+    'patient-number' => 'Patient Number',
+    'phone-number' => 'Phone Number',
+    'physical-address' => 'Physical Address',
      /* 
     |   Test Categories
     */
@@ -43,21 +66,25 @@ return array(
     'edit-test-results' => 'Edit Test Results',
     'enter-results' => 'Enter Results',
     'enter-test-results' => 'Enter Test Results',
+    'in-patient' => 'In Patient',
     'interpretation' => 'Interpretation',
     'lab-receipt-date' => 'Lab Receipt Date',
     'list-tests' => 'Ordered Tests List',
     'new-test' => 'New Test',
+    'out-patient' => 'Out Patient',
     'patient-name' => 'Patient',
     'pending' => 'Pending',
-    'verification-pending' => 'Verification Pending',
     'physician' => 'Requesting Physician',
     'registered-by' => 'Registered By',
     'reject' => 'Reject',
+    'save-test' => 'Save Test Request',
     'save-test-results' => 'Save Results',
+    'select-tests' => 'Select Test(s)',
     'specimen-number' => 'Specimen Number',
     'specimen-type' => 'Specimen Type',
     'start-test' => 'Start Test',
     'started' => 'Started',
+    'success-creating-test' => 'Successfully created test!',
     'test' => 'Test',
     'test-details' => 'Test Details',
     'test-phase' => 'Test Phase',
@@ -70,6 +97,7 @@ return array(
     'turnaround-time' => 'Turnaround Time',
     'unknown' => 'Unknown',
     'update-test-results' => 'Update Test Results',
+    'verification-pending' => 'Verification Pending',
     'verified-by' => 'Verified By',
     'verified' => 'Verified',
     'verify' => 'Verify',
