@@ -1,2 +1,0 @@
-FusionCharts v3.1
-Release: 24th February 2009

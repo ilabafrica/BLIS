@@ -129,9 +129,14 @@ $(document).ready(function($){
         }
         else if($('#patients').is(':checked')) { 
              $('#sections').hide();
+             $('#test_records_div').hide();
+             $('#patient_records_div').show();
         }
         else{
             $('#sections').hide();
+             $('#test_records_div').hide();
+             $('#patient_records_div').hide();
+             $('#rejected_specimen_div').show();
         }
 		
 	});

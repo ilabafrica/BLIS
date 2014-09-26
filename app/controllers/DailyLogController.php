@@ -20,14 +20,35 @@ class DailyLogController extends \BaseController {
 					->with('testtypes', $testtypes)
 					->with('tests', $tests)
 					->with('visits', $visits)
-					->with('specimens', $specimen);
+					->with('specimens', $specimens);
 	}
 
 	public function dailyLogs(){
-		$date_from;
-		$date_to;
-		$lab_section;
-		$test_type;
+		$date_from = Input::get('from');
+		$date_to = Input::get('to');
+		$records = Input::get('records');
+		if($records==1){
+			if(Input::get('section_id')){
+			$lab_section = Input::get('section_id');
+			}
+			if(Input::get('test_type')){
+			$test_type = Input::get('test_type');
+			}
+			$labsections = TestCategory::lists('name', 'id');
+			$testtypes = TestType::find($test_type);
+			$tests = Test::whereBetween('time_created', $date_from, $date_to)->get();
+			$visits = Visit::whereBetween('created_at', $date_from, $date_to)->get();
+			$specimens = Specimen::whereBetween('time_rejected', $date_from, $date_to)->get();
+			return View::make('reports.daily.index')
+						->with('labsections', $labsections)
+						->with('testtypes', $testtypes)
+						->with('tests', $tests)
+						->with('visits', $visits)
+						->with('specimens', $specimens);
+		}
+		else{
+
+		}
 	}
 
 

@@ -59,7 +59,7 @@
   </table>
   {{ Form::close() }}
   <div id="chartdiv" style="display:none;"></div>
-  <div id="test_records_div" style="display:none;">
+  <div id="test_records_div">
   	<table class="table">
 		<tbody>
 			<th>Patient</th>
@@ -77,7 +77,7 @@
 			@forelse($tests as $key => $test)
 			<tr>
 				<td>{{ $test->visit->patient->id }}</td>
-				<td>{{ PatientReportController::dateDiff($test->visit->patient->dob) }}</td>
+				<td>{{ Report::dateDiff($test->visit->patient->dob) }}</td>
 				<td>@if($test->visit->patient->gender==0){{ 'M' }} @else {{ 'F' }} @endif</td>
 				<td>{{ $test->specimen->specimentype->name }}</td>
 				<td>{{ $test->specimen->time_accepted }}</td>
@@ -92,7 +92,7 @@
 				<td>{{ $test->verifiedBy->name or trans('messages.verification-pending') }}</td>
 			</tr>
 			@empty
-			<tr><td colspan="13">{{ date('Y-m-d') }}</td></tr>
+			<tr><td colspan="13">No records found.</td></tr>
 			@endforelse
 		</tbody>
 	</table>
@@ -123,7 +123,7 @@
 		</tbody>
 	</table>
   </div>
-  <div id="rejected_specimen_div">
+  <div id="rejected_specimen_div" style="display:none">
   	<table class="table">
 		<tbody>
 			<th>Specimen ID</th>

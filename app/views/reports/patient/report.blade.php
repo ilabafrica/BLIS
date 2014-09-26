@@ -44,7 +44,7 @@
 					<td>Patient Number(Sanitas)</td>
 					<td>{{ $patient->patient_number."(".$patient->external_patient_number.")" }}</td>
 					<td>Patient Age</td>
-					<td>{{ PatientReportController::dateDiff($patient->dob) }}</td>
+					<td>{{ Report::dateDiff($patient->dob) }}</td>
 				</tr>
 				<tr>
 					<td>Lab Number [Serial No.]</td>

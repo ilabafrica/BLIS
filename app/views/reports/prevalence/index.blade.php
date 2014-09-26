@@ -56,7 +56,7 @@
 				{{ HTML::ul($errors->all()) }}
 			</div>
 		@endif
-  <div id="chartdiv"></div>
+  <!-- <div id="chartdiv"></div> -->
   <div id="grid">
   	<div class="table-responsive">
 	  <table class="table table-striped">
@@ -71,10 +71,10 @@
 		    @forelse($test_types as $test_type)
 		    <tr>
 		    	<td>{{ $test_type->name }}</td>
-		    	<td>{{ PrevalenceRatesReportController::totalSpecimens($test_type->id) }}</td>
-		    	<td>{{ PrevalenceRatesReportController::totalPositiveSpecimens($test_type->id) }}</td>
-		    	<td>{{ PrevalenceRatesReportController::totalNegativeSpecimens($test_type->id) }}</td>
-		    	<td>{{ PrevalenceRatesReportController::prevalenceRate($test_type->id) }}</td>
+		    	<td>{{ Report::totalSpecimen($test_type->id) }}</td>
+		    	<td>{{ Report::positiveSpecimen($test_type->id) }}</td>
+		    	<td>{{ Report::negativeSpecimen($test_type->id) }}</td>
+		    	<td>{{ round((Report::positiveSpecimen($test_type->id)/Report::totalSpecimen($test_type->id))*100, 2) }}</td>
 		    </tr>
 		    @empty
 		    <tr>

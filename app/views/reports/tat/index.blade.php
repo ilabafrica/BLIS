@@ -51,7 +51,24 @@
 	
 </tbody>
   </table>
-  <div id="chartdiv"></div>
+  <div id="chartdivs">
+  	<table class="table">
+		<tbody>
+			<th>Expected TAT</th>
+			<th>Waiting Time</th>
+			<th>Actual TAT</th>
+			@forelse($test_types as $test_type)
+			<tr>
+				<td>{{ $test_type->targetTAT }}</td>
+				<td>{{ Report::waitingTime($test_type->id) }}</td>
+				<td>{{ $test_type->targetTAT }}</td>
+			</tr>
+			@empty
+			<tr><td colspan="13">No records found.</td></tr>
+			@endforelse
+		</tbody>
+	</table>
+  </div>
   
 </div>
 

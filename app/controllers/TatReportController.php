@@ -9,7 +9,9 @@ class TatReportController extends \BaseController {
 	 */
 	public function index()
 	{
-		return View::make('reports.tat.index');
+		$test_types = TestType::all();
+		return View::make('reports.tat.index')
+					->with('test_types', $test_types);
 	}
 
 
@@ -93,40 +95,6 @@ class TatReportController extends \BaseController {
                      ->get();
 	}
 
-	/**
-	 * Function to return waiting time
-	 *
-	 */
-	public static function waitingTime($id)
-	{
-		$total_test_count = Test::select(DB::raw(' COUNT( id ), GROUP BY test_type_id'))
-                     	->where('test_type_id', '=', $id)
-        				->get();
-        $tests = Test::where('test_type_id', '=', $id);
-        $total_waiting_time = 0.00;
-        foreach ($tests as $key => $test) {
-        	$waiting_time = $test->time_started - $test->specimen->time_accepted;
-        	$total_waiting_time+=$waiting_time;
-        }
-        return $total_waiting_time/$total_test_count;
-	}
-
-	/**
-	 * Function to return actual turnaround time
-	 *
-	 */
-	public static function actualTurnAroundTime($id)
-	{
-		$total_test_count = Test::select(DB::raw(' COUNT( id ), GROUP BY test_type_id'))
-                     	->where('test_type_id', '=', $id)
-        				->get();
-        $tests = Test::where('test_type_id', '=', $id);
-        $total_actual_tat = 0.00;
-        foreach ($tests as $key => $test) {
-        	$actual_tat = $test->time_completed - $test->time_started;
-        	$total_actual_tat+=$actual_tat;
-        }
-        return $total_actual_tat/$total_test_count;
-	}
+	
 
 }
