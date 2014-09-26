@@ -9,6 +9,7 @@ return array(
     */
     'actions' => 'Actions',
     'cancel' => 'Cancel',
+    'close' => 'Close',
     'create' => 'Create',
     'delete' => 'Delete',
     'description' => 'Description',
@@ -17,6 +18,7 @@ return array(
     'home' => 'Home',
     'login' => 'Login',
     'name' => 'Name|Names',
+    'next' => 'Next',
     'password' => 'Password|Passwords',
     'role' => 'Role|Roles',
     'save' => 'Save',
@@ -61,11 +63,13 @@ return array(
      /* 
     |   Tests
     */
+    'create-new-test' => 'Create New Test',
     'completed' => 'Completed',
     'date-ordered' => 'Date Ordered',
     'edit-test-results' => 'Edit Test Results',
     'enter-results' => 'Enter Results',
     'enter-test-results' => 'Enter Test Results',
+    'first-select-patient' => 'First select a patient below',
     'in-patient' => 'In Patient',
     'interpretation' => 'Interpretation',
     'lab-receipt-date' => 'Lab Receipt Date',
@@ -79,6 +83,7 @@ return array(
     'reject' => 'Reject',
     'save-test' => 'Save Test Request',
     'save-test-results' => 'Save Results',
+    'search-patient-placeholder' => 'Enter patient name or ID',
     'select-tests' => 'Select Test(s)',
     'specimen-number' => 'Specimen Number',
     'specimen-type' => 'Specimen Type',

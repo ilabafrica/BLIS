@@ -14,7 +14,8 @@
             <span class="glyphicon glyphicon-filter"></span>
             {{trans('messages.list-tests')}}
             <div class="panel-btn">
-                <a class="btn btn-sm btn-info new-item-link" href="{{ URL::route('test.create') }}">
+                <a class="btn btn-sm btn-info new-item-link" href="javascript:void(0)"
+                    data-toggle="modal" data-target="#new-test-modal">
                     <span class="glyphicon glyphicon-plus-sign"></span>
                     {{trans('messages.new-test')}}
                 </a>
@@ -108,4 +109,47 @@
             <?php echo $testSet->links(); ?>
         </div>
     </div>
+    <div class="modal fade" id="new-test-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+        {{ Form::open(array('route' => 'test.create')) }}
+          <input type="hidden" id="patient_id" name="patient_id" value="0" />
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">&times;</span><span class="sr-only">{{trans('messages.close')}}</span>
+            </button>
+            <h4 class="modal-title">{{trans('messages.create-new-test')}}</h4>
+          </div>
+          <div class="modal-body">
+            <h4>{{ trans('messages.first-select-patient') }}</h4>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="input-group">
+                  <input type="text" class="form-control search-text" 
+                    placeholder="{{ trans('messages.search-patient-placeholder') }}">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default search-patient" type="button">Go!</button>
+                  </span>
+                </div><!-- /input-group -->
+                <div class="patient-search-result form-group">
+                    <table class="table table-condensed table-striped table-bordered table-hover hide">
+                      <thead>
+                        <th> </th>
+                        <th>ID</th>
+                        <th>Name</th>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
+                </div>
+              </div><!-- /.col-lg-12 -->
+            </div><!-- /.row -->          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{trans('messages.close')}}</button>
+            <button type="button" class="btn btn-primary next" onclick="submit();">{{trans('messages.next')}}</button>
+          </div>
+        {{ Form::close() }}
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @stop

@@ -16,7 +16,6 @@ body {
 
  /*  General and Miscellaneous Tag Styles */
 label, input {
-    margin : 5px 0;
     float: left;
 }
 

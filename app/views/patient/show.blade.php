@@ -8,7 +8,7 @@
 		</ol>
 	</div>
 	<div class="panel panel-primary">
-		<div class="panel-heading ">
+		<div class="panel-heading">
 			<span class="glyphicon glyphicon-user"></span>
 			{{ trans('messages.patient-details') }}
 			<div class="panel-btn">
@@ -16,7 +16,7 @@
 					<span class="glyphicon glyphicon-edit"></span>
 					{{ trans('messages.edit') }}
 				</a>
-				<a class="btn btn-sm btn-info" href="{{ URL::to('test/'. $patient->id .'/create') }}">
+				<a class="btn btn-sm btn-info" href="{{ URL::route('test.create', array('patient_id' => $patient->id)) }}">
 					<span class="glyphicon glyphicon-edit"></span>
 					{{ trans('messages.new-test') }}
 				</a>

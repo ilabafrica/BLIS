@@ -63,8 +63,48 @@ $(function(){
 	$("body").on("click", ".numeric-range-measure .close", function(){
 		$(this).parent().remove();
 	});
+
+	/* 
+	// Search for patient from new test modal
+	// UI Rendering Logic here
+	*/
+
+	$('#new-test-modal .search-patient').click(function(){
+		var searchText = $('#new-test-modal .search-text').val();
+		var url = location.protocol+ "//"+location.host+ "/patient/search";
+		var output = "";
+		var cnt = 0;
+		$.post(url, { text: searchText}).done(function(data){
+			$.each($.parseJSON(data), function (index, obj) {
+				output += "<tr>";
+				output += "<td><input type='radio' value='" + obj.id + "' name='pat_id'></td>";
+				output += "<td>" + obj.patient_number + "</td>";
+				output += "<td>" + obj.name + "</td>";
+				output += "</tr>";
+				cnt++;
+			});
+			$('#new-test-modal .table tbody').html( output );
+			if (cnt == 0) {
+				$('#new-test-modal .table').hide();
+			} else {
+				$('#new-test-modal .table').removeClass('hide');
+				$('#new-test-modal .table').show();
+			};
+		});
+	});
 });
-	
+	/*
+	|-----------------------------------
+	| Section for AJAX loaded components
+	|-----------------------------------
+	*/
+	$( document ).ajaxComplete(function() {
+		// Identify the selected patient by setting the hidden input field
+		$('#new-test-modal .table input').click(function(){
+			$('#new-test-modal #patient_id').val($(this).val());
+		});
+	});
+
 	/**
 	 * HTML ELEMENTS
 	 */

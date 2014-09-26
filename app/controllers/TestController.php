@@ -28,10 +28,13 @@ class TestController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function create($patient_id)
+	public function create($patientID = 0)
 	{
+		if ($patientID == 0) {
+			$patientID = Input::get('patient_id');
+		}
 		$testTypes = TestType::all();
-		$patient = Patient::find($patient_id);
+		$patient = Patient::find($patientID);
 
 		//Load Test Create View
 		return View::make('test.create')
