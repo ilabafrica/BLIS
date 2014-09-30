@@ -16,9 +16,11 @@ class TestController extends \BaseController {
 	public function index()
 	{
 		$testStatus = TestStatus::all();
-		$testStatusId = Input::get('testStatus');
 		$searchString = Input::get('search');
-		if($searchString||$testStatusId){
+		$testStatusId = Input::get('testStatusId');
+		$dateFrom = Input::get('dateFrom');
+		$dateTo = Input::get('dateTo');
+		if($searchString||$testStatusId||$dateFrom||$dateTo){
 			$tests = Test::where(function($q) use ($searchString){
 				$q->whereHas('visit', function($q) use ($searchString){
 					$q->whereHas('patient', function($q)  use ($searchString){
@@ -40,16 +42,40 @@ class TestController extends \BaseController {
 					});
 				});
 			}
+
+			if ($dateFrom||$dateTo) {
+				$tests = $tests->where(function($q) use ($dateFrom, $dateTo){
+					$q->whereHas('specimen', function($q) use ($dateFrom, $dateTo){
+						$q->where('time_created', '>', $dateFrom)->where('time_created', '<', $dateTo);//Filter by date created
+					});
+				});
+			}
 			$tests = $tests->orderBy('time_created', 'DESC')->paginate(Config::get('kblis.page-items'));
+			if (count($tests) == 0) {
+			 	Session::flash('message', 'Your search <b>'.$searchString.'</b>, did not match any test record!');
+			}
 		}
 		else{
 		// List all the active tests
 			$tests = Test::paginate(Config::get('kblis.page-items'));
 		}
 		// Load the view and pass the tests
-		return View::make('test.index')->with('testSet', $tests)
+		return View::make('test.index')->with('tests', $tests)
+									   ->with('testStatus', $testStatus)
+									   ->with('search', $searchString)
 									   ->with('testStatusId', $testStatusId)
-									   ->with('testStatus', $testStatus);
+									   ->with('dateFrom', $dateFrom)
+									   ->with('dateTo', $dateTo);
+	}
+
+	/**
+	 * Test Search
+	 *
+	 * @return Response
+	 */
+	public function testSearch()
+	{
+		//
 	}
 
 	/**

@@ -10,29 +10,53 @@
         <div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
     @endif
 
-    {{ Form::open(array('route' => array('test.index'), 'class' => 'form-inline')) }}
-        <div class="form-group">
-            {{ Form::label('search', 'search', array('class' => 'sr-only')) }}
-            {{ Form::text('search', null, array( 'class' => 'form-control', 'placeholder' => trans('messages.search'))) }}
+    {{ Form::open(array('route' => array('test.index'))) }}
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="search" class="sr-only">search</label>
+                <input class="form-control test-search" placeholder="{{trans('messages.search')}}" 
+                value="{{isset($search) ? $search : ''}}" name="search" type="text" id="search">
+            </div>
+        </div>
 
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="testStatus" class="sr-only">testStatus</label>
+                <select class="form-control" id="testStatus" name="testStatusId">
+                    <option value="">{{trans('messages.all')}}</option>
+                    <?php foreach ($testStatus as $status) {
+                        echo '<option value="'.$status->id.'"';
+                        echo ( isset($testStatusId) && $status->id == $testStatusId) ? 'selected' : '';
+                        echo '>'.trans("messages.$status->name").'</option>';
+                    }
+                    ?>
+                </select>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="testStatus" class="sr-only">testStatus</label>
-            <select class="form-control" id="testStatus" name="testStatus">
-                <option value="">{{trans('messages.all')}}</option>
-                <?php foreach ($testStatus as $status) {
-                    echo '<option value="'.$status->id.'"';
-                        if ($status->id == $testStatusId) {
-                         echo 'selected';
-                        }
-                    echo '>'.trans("messages.$status->name").'</option>';
-                }
-                ?>
-            </select>
+
+        <div class="col-md-1">From</div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="sr-only" for="date-from">From</label>
+                <input class="form-control standard-datepicker" name="dateFrom" type="text" value="{{ isset($dateFrom) ? $dateFrom : '' }}" id="date-from">
+            </div>
         </div>
-        <div class="form-group">
-            {{ Form::submit(trans('messages.search'), array('class'=>'btn btn-primary')) }}
+
+        <div class="col-md-1">To</div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="sr-only" for="date-to">To</label>
+                <input class="form-control standard-datepicker" name="dateTo" type="text" value="{{ isset($dateTo) ? $dateTo : '' }}" id="date-to">
+            </div>
         </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ Form::submit(trans('messages.search'), array('class'=>'btn btn-primary')) }}
+            </div>
+        </div>
+    </div>
     {{ Form::close() }}
 
     <div class="panel panel-primary test-create">
@@ -59,7 +83,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach($testSet as $key => $test)
+                @foreach($tests as $key => $test)
                     <tr>
                         <td>{{ $test->time_created }}</td>              <!--Date Ordered-->
                         <td>{{ $test->visit->patient->name }}</td>      <!--Patient Name -->
@@ -106,7 +130,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <?php echo $testSet->links(); ?>
+            <?php echo $tests->links(); ?>
         </div>
     </div>
 @stop

@@ -394,3 +394,12 @@ label, input {
     .measurevalue div span.range-title{
         min-width: 120px;
     }
+/**
+ * TEST SEARCH
+ */
+ .row .col-md-2 select, .row .col-md-2 .test-search{
+    width:180px;
+ } 
+ .row .col-md-2 #date-to, .row .col-md-2 #date-from{
+    width:100px;
+ }
