@@ -126,17 +126,28 @@ $(document).ready(function($){
 	$("input[name='records']").change( function() {
         if($('#tests').is(':checked')) { 
             $('#sections').show();
+             $('#chartContainer').show();
+             $('#rejected_specimen_div').hide();
+             $('#genderChartContainer').hide();
+             $('#rejectionChartContainer').hide();
         }
         else if($('#patients').is(':checked')) { 
              $('#sections').hide();
              $('#test_records_div').hide();
+             $('#chartContainer').hide();
+             $('#rejected_specimen_div').hide();
              $('#patient_records_div').show();
+             $('#genderChartContainer').show();
+             $('#rejectionChartContainer').hide();
         }
         else{
             $('#sections').hide();
              $('#test_records_div').hide();
              $('#patient_records_div').hide();
              $('#rejected_specimen_div').show();
+             $('#chartContainer').hide();
+             $('#genderChartContainer').hide();
+             $('#rejectionChartContainer').show();
         }
 		
 	});

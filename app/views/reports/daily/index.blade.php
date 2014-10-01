@@ -16,6 +16,14 @@
 		{{ trans('messages.daily-log') }}
 	</div>
 	<div class="panel-body">
+
+	<!-- if there are search errors, they will show here -->
+	@if($errors->all())
+		<div class="alert alert-danger">
+			{{ HTML::ul($errors->all()) }}
+		</div>
+	@endif
+		
 	{{ Form::open(array('url' => 'foo/bar', 'class' => 'form-inline', 'role' => 'form')) }}
 	<div class="table-responsive">
   <table class="table">
@@ -23,11 +31,11 @@
     <tr>
         <td>{{ Form::label('from', trans("messages.from")) }}</td>
         <td>
-            <input type='text' class="form-control" id='from' value='{{ date('d-m-Y') }}' />
+            {{ Form::text('from', Input::old('from'), array('class' => 'form-control', 'id' => 'from')) }}
         </td>
         <td>{{ Form::label('to', trans("messages.to")) }}</td>
          <td>
-             <input type='text' class="form-control" id='to' value='{{ date('d-m-Y') }}' />
+             {{ Form::text('to', Input::old('to'), array('class' => 'form-control', 'id' => 'to')) }}
          </td>
         <td>{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
                         array('class' => 'btn btn-info', 'style' => 'width:125px', 'id' => 'filter', 'type' => 'submit')) }}</td>
@@ -58,7 +66,9 @@
 </tbody>
   </table>
   {{ Form::close() }}
-  <div id="chartdiv" style="display:none;"></div>
+  <div id="chartContainer"></div>
+  <div id="genderChartContainer" style="display:none;"></div>
+  <div id="rejectionChartContainer" style="display:none;"></div>
   <div id="test_records_div">
   	<table class="table">
 		<tbody>
@@ -111,14 +121,14 @@
 			{{--*/ $specimen = Test::with('specimen')->find($test->id)->specimen /*--}}
 			<tr>
 				<td>{{ $visit->patient->id }}</td>
-				<td>{{ PatientReportController::dateDiff($visit->patient->dob) }}</td>
+				<td>{{ Report::dateDiff($visit->patient->dob) }}</td>
 				<td>@if($visit->patient->gender==0){{ 'M' }} @else {{ 'F' }} @endif</td>
 				<td>{{ $test->specimen->id }}</td>
 				<td>{{ $test->specimen->specimenType->name }}</td>
 				<td>{{ $test->testType->name }}</td>
 			</tr>
 			@empty
-			<tr><td colspan="13">{{ date('Y-m-d') }}</td></tr>
+			<tr><td colspan="13">No records found.</td></tr>
 			@endforelse
 		</tbody>
 	</table>
@@ -146,56 +156,158 @@
 				<td>{{ $test->testedBy->name or trans('messages.unknown') }}</td>
 			</tr>
 			@empty
-			<tr><td colspan="13">{{ date('Y-m-d') }}</td></tr>
+			<tr><td colspan="13">No records found.</td></tr>
 			@endforelse
 		</tbody>
 	</table>
   </div>
 </div>
 
-		<!-- if there are search errors, they will show here -->
-		@if($errors->all())
-			<div class="alert alert-danger">
-				{{ HTML::ul($errors->all()) }}
-			</div>
-		@endif
-		<!-- <div class="row">
-			<div class="col-md-8">
-		{{ Form::open(array('route' => 'reports.daily.search', 'id' => 'form-search-daily-log')) }}
-		  	<div class="form-group">
-				{{ Form::label('name', trans("messages.from")) }}
-				{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
-			</div>
-			<div class="form-group">
-				{{ Form::label('description', trans("messages.to")) }}</label>
-				{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
-			</div>
-			
-			<div class="form-group">
-				{{ Form::label('description', trans("messages.test-category")) }}</label>
-				{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
-			</div>
-			<div class="form-group actions-row">
-				{{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.submit'), 
-					array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
-			</div>
-		{{ Form::close() }}
-		</div>
-		<div class="col-md-4">
-		<div class="alert alert-info" style="float:right" role="alert"><strong>Tips</strong>
-		<p>{{ trans('messages.prevalence-rates-report-tip') }}</p>
-		</div></div> -->
-		
 </div>
 	</div>
 
 </div>
 <!-- Begin FusionCharts scripts -->
-{{ HTML::script('FusionCharts/JSClass/FusionCharts.js') }}
+{{ HTML::script('fusioncharts/js/fusioncharts.js') }}
+{{ HTML::script('fusioncharts/js/themes/fusioncharts.theme.ocean.js') }}
 <!-- End fusioncharts scripts -->
 <script type="text/javascript">
-   var chart = new FusionCharts("FusionCharts/Charts/MSLine.swf", "ChartId", "980", "550", "0", "0");
-   chart.setDataURL("FusionCharts/Gallery/Data/MSLine.xml");		   
-   chart.render("chartdiv");
+	FusionCharts.ready(function(){
+	    var revenueChart = new FusionCharts({
+	      type: "pie2d",
+	      renderAt: "chartContainer",
+	      width: "98%",
+	      height: "400",
+	      dataFormat: "json",
+	      dataSource: {
+		    "chart": {
+		        "caption": "Daily Tests Log by Lab Section",
+		        "subcaption": "From: | To:",
+		        "numberprefix": "",
+		        "plotgradientcolor": "",
+		        "bgcolor": "FFFFFF",
+		        "showalternatehgridcolor": "0",
+		        "showplotborder": "0",
+		        "divlinecolor": "CCCCCC",
+		        "showvalues": "1",
+		        "showcanvasborder": "0",
+		        "canvasbordercolor": "CCCCCC",
+		        "canvasborderthickness": "1",
+		        "yaxismaxvalue": "30000",
+		        "captionpadding": "30",
+		        "linethickness": "3",
+		        "sshowanchors": "0",
+		        "yaxisvaluespadding": "15",
+		        "showlegend": "1",
+		        "use3dlighting": "0",
+		        "showshadow": "0",
+		        "legendshadow": "0",
+		        "legendborderalpha": "0",
+		        "showBorder": "1",
+		        "palettecolors": "#EED17F,#97CBE7,#074868,#B0D67A,#2C560A,#DD9D82"
+		    },
+		    "data": [<?php foreach ($labsections as $labsection) { ?>
+		    	{
+		            "label": "<?php echo $labsection; ?>",
+		            "value": "<?php echo Report::logTestsByLabSection($labsection); ?>"
+		        },
+			        <?php
+		    } ?>
+		    ]
+		}
+	 
+	  });
+	  revenueChart.render("chartContainer");
+
+	  /*Begin gender chart*/
+	  var genderChart = new FusionCharts({
+	      type: "pie2d",
+	      renderAt: "genderChartContainer",
+	      width: "98%",
+	      height: "400",
+	      dataFormat: "json",
+	      dataSource: {
+		    "chart": {
+		        "caption": "Patients Chart by Gender",
+		        "showpercentageinlabel": "1",
+		        "showvalues": "0",
+		        "showlabels": "0",
+		        "showlegend": "1",
+		        "showBorder": "1",
+		        "bgcolor": "FFFFFF"
+		    },
+		    "data": [<?php
+		    		foreach ($gender = Report::getPatientsGender() as $sex) { ?>
+		    			{
+				            "value": "<?php echo Report::logPatientsByGender($sex) ?>",
+				            "label": "<?php if($sex=='0'){echo 'Male';}else{ echo 'Female';} ?>"
+				        },
+		    	<?php
+		    		}
+		    	?>
+		    ]
+		}
+	 
+	  });
+	  genderChart.render("genderChartContainer");
+	  /*End age chart*/
+
+	  /*Begin rejection reasons chart*/
+	  var rejectionChart = new FusionCharts({
+	      type: "pie3d",
+	      renderAt: "rejectionChartContainer",
+	      width: "98%",
+	      height: "400",
+	      dataFormat: "json",
+	      dataSource: {
+		    "chart": {
+		        "caption": "Specimen rejection chart",
+		        "subcaption": "For 2013",
+		        "showvalues": "1",
+		        "showpercentvalues": "1",
+		        "showpercentintooltip": "0",
+		        "bgcolor": "#FFFFFF",
+		        "basefontcolor": "#400D1B",
+		        "showshadow": "0",
+		        "animation": "0",
+		        "showBorder": "1",
+		        "palettecolors": "#BE3243,#986667,#BE6F71,#CB999A,#DFC0B1,#E0D0D0"
+		    },
+		    "data": [
+		        {
+		            "label": "Twitter",
+		            "value": "78242"
+		        },
+		        {
+		            "label": "Facebook",
+		            "value": "75223"
+		        },
+		        {
+		            "label": "LinkedIn",
+		            "value": "30343"
+		        },
+		        {
+		            "label": "Pinterest",
+		            "value": "22343"
+		        },
+		        {
+		            "label": "Tumblr",
+		            "value": "13343"
+		        },
+		        {
+		            "label": "Others",
+		            "value": "11343"
+		        }
+		    ]
+		}
+	 
+	  });
+	  rejectionChart.render("rejectionChartContainer");
+	  /*End rejection reasons chart*/
+	}); 
+
+   function toggleGraph(){
+   	$('#chartContainer').toggle('show');
+   }
 </script>
 @stop

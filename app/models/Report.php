@@ -27,11 +27,11 @@ class Report{
 	   }
 	   
 	   $display = array('y'=>'year',
-	               'm'=>'month',
+	               'm'=>'month'/*,
 	               'd'=>'day',
 	               'h'=>'hour',
 	               'i'=>'minute',
-	               's'=>'second');
+	               's'=>'second'*/);
 	   foreach($display as $key => $value){
 	      if($form->$key > 0){
 	         $return[] = $form->$key.' '.($form->$key > 1 ? $value.'s' : $value);
@@ -53,6 +53,31 @@ class Report{
 	*	Begin daily log functions
 	*/
 
+	#	Begin function to count total tests by lab section
+	public static function logTestsByLabSection($id){
+		return Test::select('tests.id')
+					->join('test_types','tests.test_type_id', '=', 'test_types.id')
+					->join('test_categories', 'test_types.section_id', '=', 'test_categories.id')
+					->where('test_categories.name', '=', $id)
+					->count();
+	}
+	#	End function to count total tests by lab section
+
+	#	Begin function to get distinct patient gender
+	public static function getPatientsGender(){
+		return Patient::select(DB::raw('DISTINCT gender as sex'))
+					->get();
+	}
+	#	End function to get distinct patient gender
+
+	#	Begin function to count total patients by gender
+	public static function logPatientsByGender($id){
+		return Visit::select('visits.id')
+					->join('patients','visits.patient_id', '=', 'patients.id')
+					->where('patients.gender', '=', $id)
+					->count();
+	}
+	#	End function to count total total patients by gender
 	/*
 	*	End daily log functions
 	*/
@@ -84,6 +109,13 @@ class Report{
 		return self::totalSpecimen($id) - self::positiveSpecimen($id);
 	}
 	#	End function to get total, positive, negative specimen by test type
+
+	#	Begin function to return months for time_created column
+	public static function getMonths(){
+		return $dates = Test::select(DB::raw('DISTINCT MONTH(time_created) as label'))
+						->get();
+	}
+	#	End function to return months for time_created
 
 	/*
 	*	End prevalence rates functions
