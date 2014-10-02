@@ -21,7 +21,7 @@ class TestController extends \BaseController {
 		$dateFrom = Input::get('dateFrom');
 		$dateTo = Input::get('dateTo');
 		if($searchString||$testStatusId||$dateFrom||$dateTo){
-			$tests = Test::where(function($q) use ($searchString){
+			$tests = Test::with('visit', 'testType', 'specimen', 'testStatus', 'testStatus.testPhase')->where(function($q) use ($searchString){
 				$q->whereHas('visit', function($q) use ($searchString){
 					$q->whereHas('patient', function($q)  use ($searchString){
 						$q->where('name', 'like', '%' . $searchString . '%')//Search by patient name
