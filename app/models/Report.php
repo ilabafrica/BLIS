@@ -124,6 +124,60 @@ class Report{
 	/*
 	*	Begin counts functions
 	*/
+	#	Begin function to return pending tests
+	public static function PendingTestCount($test_type_id)
+	{
+		$count_pending = Test::whereIn('test_status_id', function($query) use ($test_type_id){
+									    $query->select('id')
+									    ->from(with(new TestStatus)->getTable())
+									    ->whereIn('name', ['Pending', 'Started'])
+									    ->where('test_type_id', $test_type_id);
+									})->count();
+		return $count_pending;
+	}
+	#	End function to return pending tests
+
+	#	Begin function to return completed tests
+	public static function CompletedTestCount($test_type_id)
+	{
+		$count_completed = Test::whereIn('test_status_id', function($query)  use ($test_type_id){
+								    $query->select('id')
+								    ->from(with(new TestStatus)->getTable())
+								    ->whereIn('name', ['Completed', 'Verified'])
+								    ->where('test_type_id', $test_type_id);
+								})->count();
+		return $count_completed;
+	}
+	#	End function to return completed tests
+
+	#	Begin function to return accepted specimen ungrouped
+	public static function AcceptedSpecimenCount($specimen_type_id)
+	{
+		$count_accepted = Specimen::whereIn('specimen_status_id', function($query) use ($specimen_type_id){
+									    $query->select('id')
+									    ->from(with(new SpecimenStatus)->getTable())
+									    ->whereIn('name', ['Accepted'])
+									    ->where('specimen_type_id', $specimen_type_id);
+									})->count();
+		return $count_accepted;
+	}
+	#	End function to return accepted specimen ungrouped
+
+	#	Begin function to return rejected specimen ungrouped
+	public static function RejectedSpecimenCount($specimen_type_id)
+	{
+		$count_rejected = Specimen::whereIn('specimen_status_id', function($query) use ($specimen_type_id){
+									    $query->select('id')
+									    ->from(with(new SpecimenStatus)->getTable())
+									    ->whereIn('name', ['Rejected'])
+									    ->where('specimen_type_id', $specimen_type_id);
+									})->count();
+		return $count_rejected;
+	}
+	#	End function to return rejected specimen ungrouped
+
+	#	Begin function to export to word
+	#	End function to export to pdf
 
 	/*
 	*	End counts functions

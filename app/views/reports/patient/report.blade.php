@@ -35,21 +35,21 @@
 		<table class="table">
 			<tbody>
 				<tr>
-					<td>{{trans('messages.patient-name')}}</td>
+					<th>{{trans('messages.patient-name')}}</th>
 					<td>{{ $patient->name }}</td>
-					<td>{{trans('messages.gender')}}</td>
+					<th>{{trans('messages.gender')}}</th>
 					<td>@if($patient->gender==0){{ 'Male' }} @else {{ 'Female' }} @endif</td>
 				</tr>
 				<tr>
-					<td>Patient Number(Sanitas)</td>
+					<th>Patient Number(Sanitas)</th>
 					<td>{{ $patient->patient_number."(".$patient->external_patient_number.")" }}</td>
-					<td>Patient Age</td>
+					<th>Patient Age</th>
 					<td>{{ Report::dateDiff($patient->dob) }}</td>
 				</tr>
 				<tr>
-					<td>Lab Number [Serial No.]</td>
+					<th>Lab Number [Serial No.]</th>
 					<td>{{ $patient->id }}</td>
-					<td>Requesting Department/Facility</td>
+					<th>Requesting Department/Facility</th>
 					<td></td>
 				</tr>
 			</tbody>
@@ -57,14 +57,14 @@
 		<table class="table">
 			<tbody>
 				<tr>
-					<td colspan="6">Specimens</td>
+					<th colspan="6">Specimens</th>
 				</tr>
 				<tr>
-					<td>Type</td>
-					<td>Tests Requested</td>
-					<td>Lab Section</td>
-					<td>Lab Receipt Date</td>
-					<td>Collected by</td>
+					<th>Type</th>
+					<th>Tests Requested</th>
+					<th>Lab Section</th>
+					<th>Lab Receipt Date</th>
+					<th>Collected by</th>
 				</tr>
 				{{--*/ $visits = Patient::with('visits')->find($patient->id)->visits /*--}}
 				@foreach($visits as $visit)
@@ -86,17 +86,17 @@
 		<table class="table">
 			<tbody>
 				<tr>
-					<td colspan="10">Test Results</td>
+					<th colspan="10">Test Results</th>
 				</tr>
 				<tr>
-					<td>Test : Results(Value)</td>
-					<td>Results Entry Date</td>
-					<td>Remarks</td>
-					<td>Tested by</td>
-					<td>Date Tested</td>
-					<td>Date Entered</td>
-					<td>Verified by</td>
-					<td>Date Verified</td>
+					<th>Test : Results(Value)</th>
+					<th>Results Entry Date</th>
+					<th>Remarks</th>
+					<th>Tested by</th>
+					<th>Date Tested</th>
+					<th>Date Entered</th>
+					<th>Verified by</th>
+					<th>Date Verified</th>
 				</tr>
 				@foreach($visits as $visit)
 					{{--*/ $tests = Visit::with('tests')->find($visit->id)->tests /*--}}

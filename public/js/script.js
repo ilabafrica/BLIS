@@ -169,4 +169,40 @@ $(document).ready(function($){
         event.preventDefault();
     });
 	/*End ajax submit*/
+
+	/*Toggling counts records*/
+	$("input[name='counts']").change( function() {
+        if($('#tests_grouped').is(':checked')) { 
+           	$('#tests_ungrouped_div').hide();
+	        $('#testsChartContainer').hide();
+	        $('#specimens_ungrouped_div').hide();
+	        $('#specimenChartsDiv').hide();
+        }
+        else if($('#tests_ungrouped').is(':checked')) { 
+	        $('#tests_ungrouped_div').show();
+	        $('#testsChartContainer').show();
+	        $('#specimens_ungrouped_div').hide();
+	        $('#specimenChartsDiv').hide();
+        }
+        else if($('#specimens_grouped').is(':checked')) { 
+            $('#tests_ungrouped_div').hide();
+	        $('#testsChartContainer').hide();
+	        $('#specimens_ungrouped_div').hide();
+	        $('#specimenChartsDiv').hide();
+        }
+        else if($('#specimens_ungrouped').is(':checked')) { 
+            $('#tests_ungrouped_div').hide();
+	        $('#testsChartContainer').hide();
+	        $('#specimens_ungrouped_div').show();
+	        $('#specimenChartsDiv').show();
+        }
+        else{
+            $('#tests_ungrouped_div').hide();
+	        $('#testsChartContainer').hide();
+	        $('#specimens_ungrouped_div').hide();
+	        $('#specimenChartsDiv').hide();
+        }
+		
+	});
+	/*End toggling*/
 });

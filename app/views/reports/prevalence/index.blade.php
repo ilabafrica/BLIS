@@ -142,25 +142,25 @@
 	    ],
 	    "dataset": [
 	    	<?php
-	            	foreach ($test_types as $test_type) {
+            	foreach ($test_types as $test_type) {
+            		?>
+            		{
+            			"seriesname": "<?php echo $test_type->name; ?>",
+            			"data": [
+            		<?php
+            		foreach ($months as $month) {
 	            		?>
-	            		{
-	            			"seriesname": "<?php echo $test_type->name; ?>",
-	            			"data": [
+		            		{
+			                    "value": "<?php echo round((Report::positiveSpecimen($test_type->id)/Report::totalSpecimen($test_type->id))*100, 2); ?>",
+			                },
 	            		<?php
-	            		foreach ($months as $month) {
-		            		?>
-			            		{
-				                    "value": "<?php echo round((Report::positiveSpecimen($test_type->id)/Report::totalSpecimen($test_type->id))*100, 2); ?>",
-				                },
-		            		<?php
-				    	}
-				    	?>
-				    	 ]
-				    	},
-				    	 <?php
-				    }
-	            ?>
+			    	}
+			    	?>
+			    	 ]
+			    	},
+			    	 <?php
+			    }
+            ?>
 	    ]
 	      }
 	 

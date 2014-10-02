@@ -86,54 +86,5 @@ class CountReportController extends \BaseController {
 		//
 	}
 
-	/**
-	 * Functions for ungrouped test counts.
-	 *
-	 */
-	public static function PendingTestCount($test_type_id)
-	{
-		$count_pending = Test::whereIn('test_status_id', function($query) use ($test_type_id){
-									    $query->select('id')
-									    ->from(with(new TestStatus)->getTable())
-									    ->whereIn('name', ['Pending', 'Started'])
-									    ->where('test_type_id', $test_type_id);
-									})->count();
-		return $count_pending;
-	}
-	public static function CompletedTestCount($test_type_id)
-	{
-		$count_completed = Test::whereIn('test_status_id', function($query)  use ($test_type_id){
-								    $query->select('id')
-								    ->from(with(new TestStatus)->getTable())
-								    ->whereIn('name', ['Completed', 'Verified'])
-								    ->where('test_type_id', $test_type_id);
-								})->count();
-		return $count_completed;
-	}
-	/**
-	 * Functions for ungrouped specimen counts.
-	 *
-	 */
-	public static function AcceptedSpecimenCount($specimen_type_id)
-	{
-		$count_accepted = Specimen::whereIn('specimen_status_id', function($query) use ($specimen_type_id){
-									    $query->select('id')
-									    ->from(with(new SpecimenStatus)->getTable())
-									    ->whereIn('name', ['Accepted'])
-									    ->where('specimen_type_id', $specimen_type_id);
-									})->count();
-		return $count_accepted;
-	}
-	public static function RejectedSpecimenCount($specimen_type_id)
-	{
-		$count_rejected = Specimen::whereIn('specimen_status_id', function($query) use ($specimen_type_id){
-									    $query->select('id')
-									    ->from(with(new SpecimenStatus)->getTable())
-									    ->whereIn('name', ['Rejected'])
-									    ->where('specimen_type_id', $specimen_type_id);
-									})->count();
-		return $count_rejected;
-	}
-
 
 }
