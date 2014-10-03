@@ -10,17 +10,13 @@
         <div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
     @endif
 
-    {{ Form::open(array('route' => array('test.index'))) }}
-    <div class="row">
-        <div class="col-md-2">
+    {{ Form::open(array('route' => array('test.index'), 'class'=>'form-inline')) }}
             <div class="form-group">
                 <label for="search" class="sr-only">search</label>
                 <input class="form-control test-search" placeholder="{{trans('messages.search')}}" 
                 value="{{isset($search) ? $search : ''}}" name="search" type="text" id="search">
             </div>
-        </div>
 
-        <div class="col-md-2">
             <div class="form-group">
                 <label for="testStatus" class="sr-only">testStatus</label>
                 <select class="form-control" id="testStatus" name="testStatusId">
@@ -33,30 +29,22 @@
                     ?>
                 </select>
             </div>
-        </div>
 
-        <div class="col-md-1">From</div>
-        <div class="col-md-2">
+            From 
             <div class="form-group">
                 <label class="sr-only" for="date-from">From</label>
                 <input class="form-control standard-datepicker" name="dateFrom" type="text" value="{{ isset($dateFrom) ? $dateFrom : '' }}" id="date-from">
             </div>
-        </div>
 
-        <div class="col-md-1">To</div>
-        <div class="col-md-2">
+            To 
             <div class="form-group">
                 <label class="sr-only" for="date-to">To</label>
                 <input class="form-control standard-datepicker" name="dateTo" type="text" value="{{ isset($dateTo) ? $dateTo : '' }}" id="date-to">
             </div>
-        </div>
 
-        <div class="col-md-2">
             <div class="form-group">
                 {{ Form::submit(trans('messages.search'), array('class'=>'btn btn-primary')) }}
             </div>
-        </div>
-    </div>
     {{ Form::close() }}
 
     <div class="panel panel-primary test-create">
