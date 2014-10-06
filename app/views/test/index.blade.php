@@ -35,17 +35,22 @@
                 </thead>
                 <tbody>
                 @foreach($testSet as $key => $test)
-                    <tr>
-                        <td>{{ $test->time_created }}</td>              <!--Date Ordered-->
-                        <td>{{ $test->visit->patient->name }}</td>      <!--Patient Name -->
-                        <td>{{ $test->testType->name }}</td>            <!--Test-->
-                        <td>{{ $test->visit->visit_type }}</td>         <!--Visit Type -->
-                        <td>{{ $test->testStatus->testPhase->name }}</td><!--Test Phase -->
-                        <td id="test-status-{{$test->id}}">              <!--Status-->
+                    @if($test->specimen->specimen_status_id == 2)
+                        <?php $reject = "class='rejected'"; ?>
+                    @else
+                        <?php $reject = ""; ?>
+                    @endif
+                    <tr {{ $reject }}>
+                        <td {{ $reject }}>{{ $test->time_created }}</td>              <!--Date Ordered-->
+                        <td {{ $reject }}>{{ $test->visit->patient->name }}</td>      <!--Patient Name -->
+                        <td {{ $reject }}>{{ $test->testType->name }}</td>            <!--Test-->
+                        <td {{ $reject }}>{{ $test->visit->visit_type }}</td>         <!--Visit Type -->
+                        <td {{ $reject }}>{{ $test->testStatus->testPhase->name }}</td><!--Test Phase -->
+                        <td {{ $reject }} id="test-status-{{$test->id}}">              <!--Status-->
                             {{trans('messages.'.$test->testStatus->name)}}
                         </td>
                         
-                        <td>
+                        <td {{ $reject }}>
 
                         <!--'Enter Result' button loaded via ajax in place of 'Start Test' button, on starting a Test-->
                         <!-- Serves the purpose of localisation, since it is generated at the back end -->

@@ -399,3 +399,11 @@ label, input {
     .measurevalue div span.range-title{
         min-width: 120px;
     }
+
+/*
+*
+* REJECT Specimen shading - Used on test-index view
+*/
+.table tbody tr.rejected td.rejected {
+    background: #FFCCCC;
+}
