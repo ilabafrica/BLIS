@@ -92,6 +92,14 @@ $(function(){
 			};
 		});
 	});
+	/* Prevent modal form submit (default action) when the ENTER key is pressed*/
+	$('#new-test-modal .search-text').keypress(function( event ) {
+		if ( event.which == 13 ) {
+			event.preventDefault();
+			$('#new-test-modal .search-patient').click();
+		}
+	});
+
 });
 	/*
 	|-----------------------------------
@@ -100,8 +108,16 @@ $(function(){
 	*/
 	$( document ).ajaxComplete(function() {
 		// Identify the selected patient by setting the hidden input field
-		$('#new-test-modal .table input').click(function(){
+		$('#new-test-modal .table input[type=radio]').click(function(){
 			$('#new-test-modal #patient_id').val($(this).val());
+			$('#new-test-modal .modal-footer .next').prop('disabled', false);
+
+		});
+		$('#new-test-modal .patient-search-result tr td').click(function(){
+			var theRadio = $(this).parent().find('td input[type=radio]');
+			theRadio.prop("checked", true);
+			$('#new-test-modal #patient_id').val(theRadio.val());
+			$('#new-test-modal .modal-footer .next').prop('disabled', false);
 		});
 	});
 

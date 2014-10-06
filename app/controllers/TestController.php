@@ -16,7 +16,7 @@ class TestController extends \BaseController {
 	public function index()
 	{
 		// List all the active tests
-			$tests = Test::paginate(Config::get('kblis.page-items'));
+			$tests = Test::orderBy('time_created', 'desc')->paginate(Config::get('kblis.page-items'));
 
 		// Load the view and pass the tests
 		return View::make('test.index')->with('testSet', $tests);
@@ -51,18 +51,17 @@ class TestController extends \BaseController {
 	{
 		//Create New Test
 		$rules = array(
-			'testtypes' => 'required',
 			'physician' => 'required',
+			'testtypes' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator);
+			return Redirect::route('test.create', array(Input::get('patient_id')))->withInput()->withErrors($validator);
 		} else {
 
 			$visitType = ['In-patient', 'Out-patient'];
-			$patient = Patient::find(Input::get('patient_id'));
 
 			/*
 			| - Create a visit
@@ -99,7 +98,7 @@ class TestController extends \BaseController {
 				}
 			}
 
-			return Redirect::to('patient')->with('message', 'messages.success-creating-test');
+			return Redirect::to('test')->with('message', 'messages.success-creating-test');
 		}
 	}
 

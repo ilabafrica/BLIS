@@ -128,15 +128,15 @@
                   <input type="text" class="form-control search-text" 
                     placeholder="{{ trans('messages.search-patient-placeholder') }}">
                   <span class="input-group-btn">
-                    <button class="btn btn-default search-patient" type="button">Go!</button>
+                    <button class="btn btn-default search-patient" type="button">{{ trans('messages.patient-search-button') }}</button>
                   </span>
                 </div><!-- /input-group -->
                 <div class="patient-search-result form-group">
                     <table class="table table-condensed table-striped table-bordered table-hover hide">
                       <thead>
                         <th> </th>
-                        <th>ID</th>
-                        <th>Name</th>
+                        <th>{{ trans('messages.patient-id') }}</th>
+                        <th>{{ trans('messages.names') }}</th>
                       </thead>
                       <tbody>
                       </tbody>
@@ -146,7 +146,7 @@
             </div><!-- /.row -->          </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">{{trans('messages.close')}}</button>
-            <button type="button" class="btn btn-primary next" onclick="submit();">{{trans('messages.next')}}</button>
+            <button type="button" class="btn btn-primary next" onclick="submit();" disabled>{{trans('messages.next')}}</button>
           </div>
         {{ Form::close() }}
         </div><!-- /.modal-content -->
