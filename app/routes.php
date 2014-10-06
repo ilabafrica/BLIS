@@ -59,6 +59,16 @@ Route::group(array("before" => "auth"), function()
         "uses" => "PatientController@delete"
     ));
 
+    Route::post("/patient/search", function(){
+
+        return Patient::select('id', 'patient_number','name')
+                ->where(function($query){
+                    $txt = Input::get('text');
+                    $query->where("name", "LIKE", "%".$txt."%")
+                        ->orWhere("patient_number", "LIKE", "%".$txt."%");
+                })->get()->toJson();
+    });
+
     Route::group(array("before" => "checkPerms:manage_test_catalog"), function()
     {
         Route::resource('specimentype', 'SpecimenTypeController');
@@ -116,7 +126,12 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@enterResults"
     ));
 
-     Route::any("/test/{test}/saveresults", array(
+     Route::post("/test/savenewtest", array(
+        "as"   => "test.saveNewTest",
+        "uses" => "TestController@saveNewTest"
+    ));
+
+     Route::post("/test/{test}/saveresults", array(
         "as"   => "test.saveResults",
         "uses" => "TestController@saveResults"
     ));
@@ -136,7 +151,7 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@verify"
     ));
 
-    Route::get("/test/create", array(
+    Route::any("/test/create/{patient?}", array(
         "as"   => "test.create",
         "uses" => "TestController@create"
     ));

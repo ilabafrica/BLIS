@@ -63,8 +63,70 @@ $(function(){
 	$("body").on("click", ".numeric-range-measure .close", function(){
 		$(this).parent().remove();
 	});
+
+	/* 
+	// Search for patient from new test modal
+	// UI Rendering Logic here
+	*/
+
+	$('#new-test-modal .search-patient').click(function(){
+		var searchText = $('#new-test-modal .search-text').val();
+		var url = location.protocol+ "//"+location.host+ "/patient/search";
+		var output = "";
+		var cnt = 0;
+		$.post(url, { text: searchText}).done(function(data){
+			$.each($.parseJSON(data), function (index, obj) {
+				output += "<tr>";
+				output += "<td><input type='radio' value='" + obj.id + "' name='pat_id'></td>";
+				output += "<td>" + obj.patient_number + "</td>";
+				output += "<td>" + obj.name + "</td>";
+				output += "</tr>";
+				cnt++;
+			});
+			$('#new-test-modal .table tbody').html( output );
+			if (cnt == 0) {
+				$('#new-test-modal .table').hide();
+			} else {
+				$('#new-test-modal .table').removeClass('hide');
+				$('#new-test-modal .table').show();
+			};
+		});
+	});
+	/* Prevent modal form submit (default action) when the ENTER key is pressed*/
+	$('#new-test-modal .search-text').keypress(function( event ) {
+		if ( event.which == 13 ) {
+			event.preventDefault();
+			$('#new-test-modal .search-patient').click();
+		}
+	});
+
 });
-	
+	/*
+	|-----------------------------------
+	| Section for AJAX loaded components
+	|-----------------------------------
+	*/
+	$( document ).ajaxComplete(function() {
+		/* - Identify the selected patient by setting the hidden input field
+		   - Enable the 'Next' button on the modal
+		*/
+		$('#new-test-modal .table input[type=radio]').click(function(){
+			$('#new-test-modal #patient_id').val($(this).val());
+			$('#new-test-modal .modal-footer .next').prop('disabled', false);
+
+		});
+		/* - Check the radio button when the row is clicked
+		   - Identify the selected patient by setting the hidden input field
+		   - Enable the 'Next' button on the modal
+		*/
+		$('#new-test-modal .patient-search-result tr td').click(function(){
+			var theRadio = $(this).parent().find('td input[type=radio]');
+			theRadio.prop("checked", true);
+			$('#new-test-modal #patient_id').val(theRadio.val());
+			$('#new-test-modal .modal-footer .next').prop('disabled', false);
+		});
+	});
+
 	/**
 	 * HTML ELEMENTS
 	 */

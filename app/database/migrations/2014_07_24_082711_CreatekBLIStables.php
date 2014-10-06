@@ -38,7 +38,7 @@ class CreatekBLIStables extends Migration {
 
         Schema::create('patients', function(Blueprint $table)
         {
-            $table->increments('id')->unsigned();;
+            $table->increments('id')->unsigned();
             $table->string('patient_number')->unique();
             $table->string('name', 100);
             $table->date('dob');
@@ -189,21 +189,21 @@ class CreatekBLIStables extends Migration {
 		
 		Schema::create('rejection_reasons', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->increments('id')->unsigned();
 			$table->string("reason", 100);
 		});
 
 		Schema::create('specimens', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->increments('id')->unsigned();
 			$table->integer('specimen_type_id')->unsigned();
-			$table->integer('specimen_status_id')->unsigned();
+			$table->integer('specimen_status_id')->unsigned()->default(1); //Accepted
 			$table->integer('rejection_reason_id')->unsigned()->nullable();
-			$table->integer('test_phase_id')->unsigned();
+			$table->integer('test_phase_id')->unsigned()->default(1); //Pre-Analytical
 			$table->integer('created_by');
 			$table->integer('referred_from');
 			$table->integer('referred_to');
-			$table->timestamp('time_accepted');
+			$table->timestamp('time_accepted')->nullable();
 			$table->timestamp('time_rejected')->nullable();
 			
 			$table->foreign('specimen_type_id')->references('id')->on('specimen_types');
@@ -214,7 +214,7 @@ class CreatekBLIStables extends Migration {
 
 		Schema::create('tests', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->increments('id')->unsigned();
 			$table->bigInteger('visit_id')->unsigned();
 			$table->integer('test_type_id')->unsigned();
 			$table->integer('specimen_id')->unsigned()->default(0);
@@ -223,7 +223,7 @@ class CreatekBLIStables extends Migration {
 			$table->integer('created_by')->unsigned();
 			$table->integer('tested_by')->unsigned()->default(0);
 			$table->integer('verified_by')->unsigned()->default(0);
-			$table->integer('requested_by')->unsigned()->default(0);
+			$table->string('requested_by',60);
 			$table->timestamp('time_created')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('time_started')->nullable();
 			$table->timestamp('time_completed')->nullable();
@@ -251,7 +251,7 @@ class CreatekBLIStables extends Migration {
 
 		Schema::create('referrals', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->increments('id')->unsigned();
 			$table->string('referring_institution', 100);
 		});
 	}
