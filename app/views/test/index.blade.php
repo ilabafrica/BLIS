@@ -106,7 +106,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <?php echo $testSet->links(); ?>
+            {{$testSet->links()}}
         </div>
     </div>
     <div class="modal fade" id="new-test-modal">

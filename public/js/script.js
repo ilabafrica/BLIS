@@ -107,12 +107,18 @@ $(function(){
 	|-----------------------------------
 	*/
 	$( document ).ajaxComplete(function() {
-		// Identify the selected patient by setting the hidden input field
+		/* - Identify the selected patient by setting the hidden input field
+		   - Enable the 'Next' button on the modal
+		*/
 		$('#new-test-modal .table input[type=radio]').click(function(){
 			$('#new-test-modal #patient_id').val($(this).val());
 			$('#new-test-modal .modal-footer .next').prop('disabled', false);
 
 		});
+		/* - Check the radio button when the row is clicked
+		   - Identify the selected patient by setting the hidden input field
+		   - Enable the 'Next' button on the modal
+		*/
 		$('#new-test-modal .patient-search-result tr td').click(function(){
 			var theRadio = $(this).parent().find('td input[type=radio]');
 			theRadio.prop("checked", true);
