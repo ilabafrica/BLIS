@@ -87,6 +87,7 @@ return array(
     'physician' => 'Requesting Physician',
     'registered-by' => 'Registered By',
     'reject' => 'Reject',
+    'rejection-reason' => 'Reason',
     'save-test' => 'Save Test Request',
     'save-test-results' => 'Save Results',
     'search-patient-placeholder' => 'Enter patient name or ID',

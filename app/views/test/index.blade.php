@@ -14,7 +14,7 @@
             <span class="glyphicon glyphicon-filter"></span>
             {{trans('messages.list-tests')}}
             <div class="panel-btn">
-                <a class="btn btn-sm btn-info new-item-link" href="javascript:void(0)"
+                <a class="btn btn-sm btn-info" href="javascript:void(0)"
                     data-toggle="modal" data-target="#new-test-modal">
                     <span class="glyphicon glyphicon-plus-sign"></span>
                     {{trans('messages.new-test')}}
@@ -68,7 +68,15 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 {{trans('messages.view-details')}}
                             </a>
-                        @if ($test->specimen->specimen_status_id != 2 && $test->test_status_id < 4)
+                        @if ($test->specimen->specimen_status_id == 2) 
+                        <!-- Rejection Reason button -->
+                            <a class="btn btn-sm btn-danger" href="javascript:void(0)"
+                                data-toggle="modal" data-target="#rejection-reason-modal"
+                                data-id="{{$test->specimen->rejection_reason_id}}">
+                                <span class="glyphicon glyphicon-thumbs-down"></span>
+                                {{trans('messages.rejection-reason')}}
+                            </a>
+                        @elseif ( $test->test_status_id < 4)
                             <!-- NOT Rejected AND NOT Verified -->
                                 <a class="btn btn-sm btn-danger"
                                     href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"
@@ -157,4 +165,24 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    <div class="modal fade" id="rejection-reason-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">&times;</span><span class="sr-only">{{trans('messages.close')}}</span>
+            </button>
+            <h4 class="modal-title">{{trans('messages.rejection-reason')}}</h4>
+          </div>
+          <div class="modal-body">
+            <h4>{{RejectionReason::first()->reason}}</h4>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{trans('messages.close')}}</button>
+          </div>
+        {{ Form::close() }}
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal /#rejection-reason-modal-->
 @stop
