@@ -19,7 +19,7 @@
 					{{ HTML::ul($errors->all()) }}
 				</div>
 			@endif
-			{{ Form::open(array('url' => 'test/'.$test->id.'/saveresults', 'method' => 'PUT')) }}
+			{{ Form::open(array('url' => 'test/'.$test->id.'/saveresults', 'method' => 'POST')) }}
 				@foreach($test->testType->measures as $measure)
 					<div class="form-group">
 						<?php
