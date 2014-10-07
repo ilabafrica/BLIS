@@ -16,6 +16,12 @@
 		{{ trans('messages.prevalence-rates-report') }}
 	</div>
 	<div class="panel-body">
+	<!-- if there are search errors, they will show here -->
+	@if($errors->all())
+		<div class="alert alert-danger">
+			{{ HTML::ul($errors->all()) }}
+		</div>
+	@endif
 	<div class="table-responsive">
   <table class="table">
     <thead>
@@ -51,6 +57,7 @@
 	
 </tbody>
   </table>
+  <div id="chartContainer"></div>
   <div id="chartdivs">
   	<table class="table">
 		<tbody>
@@ -61,7 +68,7 @@
 			<tr>
 				<td>{{ $test_type->targetTAT }}</td>
 				<td>{{ Report::waitingTime($test_type->id) }}</td>
-				<td>{{ $test_type->targetTAT }}</td>
+				<td>{{ Report::actualTurnAroundTime($test_type->id) }}</td>
 			</tr>
 			@empty
 			<tr><td colspan="13">No records found.</td></tr>
@@ -72,49 +79,117 @@
   
 </div>
 
-		<!-- if there are search errors, they will show here -->
-		@if($errors->all())
-			<div class="alert alert-danger">
-				{{ HTML::ul($errors->all()) }}
-			</div>
-		@endif
-		<!-- <div class="row">
-			<div class="col-md-8">
-		{{ Form::open(array('route' => 'reports.daily.search', 'id' => 'form-search-daily-log')) }}
-		  	<div class="form-group">
-				{{ Form::label('name', trans("messages.from")) }}
-				{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
-			</div>
-			<div class="form-group">
-				{{ Form::label('description', trans("messages.to")) }}</label>
-				{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
-			</div>
-			
-			<div class="form-group">
-				{{ Form::label('description', trans("messages.test-category")) }}</label>
-				{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
-			</div>
-			<div class="form-group actions-row">
-				{{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.submit'), 
-					array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
-			</div>
-		{{ Form::close() }}
-		</div>
-		<div class="col-md-4">
-		<div class="alert alert-info" style="float:right" role="alert"><strong>Tips</strong>
-		<p>{{ trans('messages.prevalence-rates-report-tip') }}</p>
-		</div></div> -->
-		
 </div>
 	</div>
 
 </div>
+{{--*/ $months = Report::getMonths() /*--}}
 <!-- Begin FusionCharts scripts -->
-{{ HTML::script('FusionCharts/JSClass/FusionCharts.js') }}
+{{ HTML::script('fusioncharts/js/fusioncharts.js') }}
+{{ HTML::script('fusioncharts/js/themes/fusioncharts.theme.ocean.js') }}
 <!-- End fusioncharts scripts -->
 <script type="text/javascript">
-   var chart = new FusionCharts("FusionCharts/Charts/MSLine.swf", "ChartId", "980", "550", "0", "0");
-   chart.setDataURL("FusionCharts/Gallery/Data/MSLine.xml");		   
-   chart.render("chartdiv");
+	FusionCharts.ready(function(){
+	    var revenueChart = new FusionCharts({
+	      type: "msline",
+	      renderAt: "chartContainer",
+	      width: "98%",
+	      height: "400",
+	      dataFormat: "json",
+	      dataSource: {
+		    "chart": {
+		        "caption": "Turnaround Time",
+		        "subcaption": "Monthly view (from 08/02/2014 to 07/10/2014)",
+		        "linethickness": "1",
+		        "showvalues": "0",
+		        "formatnumberscale": "0",
+		        "anchorradius": "2",
+		        "divlinecolor": "666666",
+		        "divlinealpha": "30",
+		        "divlineisdashed": "1",
+		        "labelstep": "2",
+		        "bgcolor": "FFFFFF",
+		        "showalternatehgridcolor": "0",
+		        "labelpadding": "10",
+		        "canvasborderthickness": "1",
+		        "legendiconscale": "1.5",
+		        "legendshadow": "0",
+		        "legendborderalpha": "0",
+		        "canvasborderalpha": "50",
+		        "numvdivlines": "5",
+		        "vdivlinealpha": "20",
+		        "showborder": "1"
+		    },
+		    "categories": [
+		        {
+		            "category": [
+		            <?php
+		            	foreach ($months as $month) {
+		            		 echo $month.",";}
+		            ?>
+		            ]
+		        }
+		    ],
+		    "dataset": [
+		        {
+		            "seriesname": "Waiting Time",
+		            "color": "1D8BD1",
+		            "anchorbordercolor": "1D8BD1",
+		            "anchorbgcolor": "1D8BD1",
+		            "data": [<?php
+		            		foreach ($months as $month) {
+		            			?>
+		            			{
+				                    "value": "<?php echo Report::totalWaitingTime(); ?>"
+				                },
+		            			<?php
+		            		}
+		            	?>
+		            ]
+		        },
+		        {
+		            "seriesname": "Actual TAT",
+		            "color": "F1683C",
+		            "anchorbordercolor": "F1683C",
+		            "anchorbgcolor": "F1683C",
+		            "data": [<?php
+		            		foreach ($months as $month) {
+		            			?>
+		            			{
+				                    "value": "<?php echo Report::totalActualTurnAroundTime(); ?>"
+				                },
+		            			<?php
+		            		}
+		            	?>
+		            ]
+		        },
+		        {
+		            "seriesname": "Expected TAT",
+		            "color": "2AD62A",
+		            "anchorbordercolor": "2AD62A",
+		            "anchorbgcolor": "2AD62A",
+		            "data": [<?php
+		            		foreach ($months as $month) {
+		            			?>
+		            			{
+				                    "value": "<?php echo Report::totalExpectedTurnAroundTime(); ?>"
+				                },
+		            			<?php
+		            		}
+		            	?>
+		            ]
+		        }
+		    ]
+		}
+	 
+	  });
+	  revenueChart.render("chartContainer");
+
+	  
+	}); 
+
+   function toggleGraph(){
+   	$('#chartContainer').toggle('show');
+   }
 </script>
 @stop

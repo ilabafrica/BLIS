@@ -84,17 +84,4 @@ class TatReportController extends \BaseController {
 		//
 	}
 
-	/**
-	 * Function to return target turnaround time
-	 *
-	 */
-	public static function targetTurnAroundTime($id)
-	{
-		return TestType::select(DB::raw('targetTAT'))
-                     ->where('id', '=', $id)
-                     ->get();
-	}
-
-	
-
 }

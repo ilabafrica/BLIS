@@ -190,33 +190,87 @@ class Report{
 	#	Begin function to return waiting time
 	public static function waitingTime($id)
 	{
-		$total_test_count = Test::select('id')
-                     	->where('test_type_id', '=', $id)
-        				->get();
-        $tests = Test::where('test_type_id', '=', $id);
-        $total_waiting_time = 0.00;
-        foreach ($tests as $key => $test) {
-        	$waiting_time = date_diff($test->time_started, $test->specimen->time_accepted);
-        	$total_waiting_time+=$waiting_time;
+		$total_test_count = Test::where('test_type_id', '=', $id)
+        				->count();
+        $tests = Test::where('test_type_id', '=', $id)->get();
+        $cumulative_diff = 0.00;
+        foreach ($tests as $test) {
+        	$date_diff = strtotime($test->time_started) - strtotime($test->specimen->time_accepted);
+			$hours_diff = floor($date_diff/(60*60));
+			
+			$cumulative_diff += $hours_diff;
         }
-        return $total_waiting_time;
+        return round($cumulative_diff/$total_test_count, 2);
 	}
 	#	End function to return waiting time
 	#	Begin function to return actual time
 	public static function actualTurnAroundTime($id)
 	{
-		$total_test_count = Test::select('id')
-                     	->where('test_type_id', '=', $id)
+		$total_test_count = Test::where('test_type_id', '=', $id)
         				->count();
-        $tests = Test::where('test_type_id', '=', $id);
-        $total_actual_tat = 0.00;
+        $tests = Test::where('test_type_id', '=', $id)->get();
+        $cumulative_diff = 0.00;
         foreach ($tests as $key => $test) {
-        	$actual_tat = $test->time_completed - $test->time_started;
-        	$total_actual_tat+=$actual_tat;
+        	$date_diff = strtotime($test->time_completed) - strtotime($test->time_started);
+        	$hours_diff = floor($date_diff/(60*60));
+        	$cumulative_diff += $hours_diff;
         }
-        return $total_actual_tat/$total_test_count;
+        return round($cumulative_diff/$total_test_count, 2);
 	}
 	#	End function to return actual time
+	
+	#	Begin function to return total waiting time
+	public static function totalWaitingTime()
+	{
+		$tests = Test::all();
+        $cumulative_diff = 0.00;
+        foreach ($tests as $test) {
+        	$date_diff = strtotime($test->time_started) - strtotime($test->specimen->time_accepted);
+			$hours_diff = floor($date_diff/(60*60));
+			
+			$cumulative_diff += $hours_diff;
+        }
+        return round($cumulative_diff/count($tests), 2);
+	}
+	#	End function to return total waiting time
+	#	Begin function to return total actual time
+	public static function totalActualTurnAroundTime()
+	{
+		$tests = Test::all();
+        $cumulative_diff = 0.00;
+        foreach ($tests as $key => $test) {
+        	$date_diff = strtotime($test->time_completed) - strtotime($test->time_started);
+        	$hours_diff = floor($date_diff/(60*60));
+        	$cumulative_diff += $hours_diff;
+        }
+        return round($cumulative_diff/count($tests), 2);
+	}
+	#	End function to return total actual time
+	#	Begin function to return expected TAT for all test types
+	public static function totalExpectedTurnAroundTime()
+	{
+		$test_types = TestType::all();
+        $cumulative_diff = 0.00;
+        foreach ($test_types as $test_type) {
+        	$cumulative_diff += $test_type->targetTAT;
+        }
+        return round($cumulative_diff/count($test_types), 2);
+	}
+	#	End function to return expected TAT for all test types
+
+	#	Begin function to return expected TAT for all test types in a lab section 
+	public static function expectedTurnAroundTime($id)
+	{
+		$tests = Test::all();
+        $cumulative_diff = 0.00;
+        foreach ($tests as $key => $test) {
+        	$date_diff = strtotime($test->time_completed) - strtotime($test->time_started);
+        	$hours_diff = floor($date_diff/(60*60));
+        	$cumulative_diff += $hours_diff;
+        }
+        return round($cumulative_diff/count($tests), 2);
+	}
+	#	End function to return expected TAT for all test types in a lab section 
 	
 	/*
 	*	End turnaround time functions
