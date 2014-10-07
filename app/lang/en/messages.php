@@ -95,6 +95,7 @@ return array(
     'search-patient-placeholder' => 'Enter patient name or ID',
     'select-tests' => 'Select Test(s)',
     'specimen-number' => 'Specimen Number',
+    'specimen-status' => 'Specimen Status',
     'specimen-type' => 'Specimen Type',
     'start-test' => 'Start Test',
     'started' => 'Started',

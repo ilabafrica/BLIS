@@ -67,15 +67,7 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 {{trans('messages.view-details')}}
                             </a>
-                        @if ($test->specimen->specimen_status_id == 2) 
-                        <!-- Rejection Reason button -->
-                            <a class="btn btn-sm btn-danger" href="#rejection-reason-modal"
-                                data-toggle="modal" data-target="#rejection-reason-modal"
-                                data-reason="{{$test->specimen->rejectionReason->reason}}">
-                                <span class="glyphicon glyphicon-info-sign"></span>
-                                {{trans('messages.rejection-reason')}}
-                            </a>
-                        @elseif ( $test->test_status_id < 4)
+                        @if ($test->specimen->specimen_status_id != 2 && $test->test_status_id < 4)
                             <!-- NOT Rejected AND NOT Verified -->
                                 <a class="btn btn-sm btn-danger"
                                     href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"
@@ -168,28 +160,4 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-
-    <div class="modal fade" id="rejection-reason-modal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">
-                <span aria-hidden="true">&times;</span>
-                <span class="sr-only">{{trans('messages.close')}}</span>
-            </button>
-            <h4 class="modal-title">
-                <span class="glyphicon glyphicon-info-sign"></span>
-                {{trans('messages.rejection-reason-title')}}</h4>
-          </div>
-          <div class="modal-body">
-            <h4></h4>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">
-                {{trans('messages.close')}}</button>
-          </div>
-        {{ Form::close() }}
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal /#rejection-reason-modal-->
 @stop

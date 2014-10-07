@@ -11,19 +11,29 @@
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-cog"></span>
 			{{trans('messages.test-details')}}
+			@if($test->test_status_id != 4)
 			<div class="panel-btn">
 				<a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->id.'/edit') }}">
 					<span class="glyphicon glyphicon-edit"></span>
 					{{trans('messages.edit-test-results')}}
 				</a>
 			</div>
+			@endif
 		</div>
 		<div class="panel-body">
 			<div class="display-details">
 				<h3 class="view"><strong>{{trans('messages.test-type')}}</strong>
 					{{ $test->testType->name or trans('messages.unknown') }}</h3>
+				<p class="view"><strong>{{trans('messages.specimen-type')}}</strong>
+					{{$test->specimen->specimenType->name or trans('messages.pending') }}</p>
 				<p class="view-striped"><strong>{{trans('messages.specimen-number')}}</strong>
 					{{$test->specimen->id or trans('messages.pending') }}</p>
+				<p class="view-striped"><strong>{{trans('messages.specimen-status')}}</strong>
+					{{$test->specimen->specimenStatus->name or trans('messages.pending') }}</p>
+				@if($test->specimen->specimen_status_id == 2)
+				<p class="view-striped"><strong>{{trans('messages.rejection-reason-title')}}</strong>
+					{{$test->specimen->rejectionReason->reason or trans('messages.pending') }}</p>
+				@endif
 				<p class="view"><strong>{{trans('messages.visit-number')}}</strong>
 					{{$test->visit->id or trans('messages.unknown') }}</p>
 				<p class="view-striped"><strong>{{trans('messages.patient-name')}}</strong>
@@ -32,8 +42,6 @@
 					{{$test->time_created}}</p>
 				<p class="view-striped"><strong>{{trans('messages.registered-by')}}</strong>
 					{{$test->createdBy->name or trans('messages.unknown') }}</p>
-				<p class="view"><strong>{{trans('messages.specimen-type')}}</strong>
-					{{$test->specimen->specimenType->name or trans('messages.pending') }}</p>
 				<p class="view-striped"><strong>{{trans('messages.physician')}}</strong>
 					{{$test->requested_by or trans('messages.unknown') }}</p>
 				<p class="view"><strong>{{trans('messages.tested-by')}}</strong>

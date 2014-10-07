@@ -99,13 +99,6 @@ $(function(){
 			$('#new-test-modal .search-patient').click();
 		}
 	});
-
-	$('#rejection-reason-modal').on('show.bs.modal', function(e) {
-	    //get data-id attribute of the clicked element
-	    var reason = $(e.relatedTarget).data('reason');
-	    //Show it in the modal
-	    $(e.currentTarget).find('.modal-body h4').html(reason);
-	});
 });
 	/*
 	|-----------------------------------
