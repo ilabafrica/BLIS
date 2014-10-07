@@ -108,6 +108,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		// providers array:
 	    'Chumper\Datatable\DatatableServiceProvider',
+		'Zizaco\Entrust\EntrustServiceProvider',
 
 	),
 
@@ -176,7 +177,7 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 		'SoftDeletingTrait'     => 'Illuminate\Database\Eloquent\SoftDeletingTrait',
 		'Datatable' => 'Chumper\Datatable\Facades\DatatableFacade',
-
+		'Entrust'         => 'Zizaco\Entrust\EntrustFacade',
 	),
 
 );

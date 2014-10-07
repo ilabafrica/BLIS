@@ -68,14 +68,6 @@ class Test extends Eloquent
 	}
 
 	/**
-	 * User (requested) relationship
-	 */
-	public function requestedBy()
-	{
-		return $this->belongsTo('User', 'requested_by', 'id');
-	}
-
-	/**
 	 * Test Results relationship
 	 */
 	public function testResults()

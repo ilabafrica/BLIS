@@ -27,11 +27,15 @@ class Patient extends Eloquent
         return $this->hasMany('Visit');
     }
 
-    public function search($keyword){
-    	return static::where('id', 'LIKE', '%$' . $keyword . '%')
-						->orWhere('name', 'LIKE', '%$' . $keyword . '%')
-						->orWhere('patient_number', 'LIKE', '%$'.$keyword.'%')
-						->orWhere('external_patient_number', 'LIKE', '%$'.$keyword.'%')->paginate(5);
-    }
+	/**
+	 * Patient Age 
+	 */
+	public function getAge()
+	{
+		$dateOfBirth = new DateTime($this->dob);
+		$now = new DateTime('now');
+		$interval = $dateOfBirth->diff($now);
 
+		return $interval->y ." years " . $interval->m ." months";
+	}
 }

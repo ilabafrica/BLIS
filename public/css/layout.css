@@ -16,7 +16,6 @@ body {
 
  /*  General and Miscellaneous Tag Styles */
 label, input {
-    margin : 5px 0;
     float: left;
 }
 
@@ -38,6 +37,12 @@ label, input {
 .display-details strong {
     display: inline-block;
     width: 200px;
+}
+
+.inline-display-details span,
+.inline-display-details strong {
+    display: inline-block;
+    margin-right: 10px;
 }
 
 .panel-btn {
@@ -394,3 +399,11 @@ label, input {
     .measurevalue div span.range-title{
         min-width: 120px;
     }
+
+/*
+*
+* REJECT Specimen shading - Used on test-index view
+*/
+.table tbody tr.rejected td.rejected {
+    background: #FFCCCC;
+}

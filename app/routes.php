@@ -37,13 +37,16 @@ Route::group(array("before" => "auth"), function()
         "uses" => "UserController@homeAction"
         ));
 
-	Route::resource('user', 'UserController');
+    Route::group(array("before" => "checkPerms:manage_users"), function()
+    {
+    	Route::resource('user', 'UserController');
 
-    Route::get("/user/{id}/delete", array(
-        "as"   => "user.delete",
-        "uses" => "UserController@delete"
-    ));
-
+        Route::get("/user/{id}/delete", array(
+            "as"   => "user.delete",
+            "uses" => "UserController@delete"
+        ));
+    });
+    
     Route::any("/logout", array(
         "as"   => "user.logout",
         "uses" => "UserController@logoutAction"
@@ -56,34 +59,46 @@ Route::group(array("before" => "auth"), function()
         "uses" => "PatientController@delete"
     ));
 
-    Route::resource('specimentype', 'SpecimenTypeController');
+    Route::post("/patient/search", function(){
 
-    Route::get("/specimentype/{id}/delete", array(
-        "as"   => "specimentype.delete",
-        "uses" => "SpecimenTypeController@delete"
-    ));
-	
-	Route::resource('testcategory', 'TestCategoryController');
-	
-	Route::get("/testcategory/{id}/delete", array(
-        "as"   => "testcategory.delete",
-        "uses" => "TestCategoryController@delete"
-    ));
-	
-	Route::resource('measure', 'MeasureController');
-	
-	Route::get("/measure/{id}/delete", array(
-        "as"   => "measure.delete",
-        "uses" => "MeasureController@delete"
-    ));
+        return Patient::select('id', 'patient_number','name')
+                ->where(function($query){
+                    $txt = Input::get('text');
+                    $query->where("name", "LIKE", "%".$txt."%")
+                        ->orWhere("patient_number", "LIKE", "%".$txt."%");
+                })->get()->toJson();
+    });
 
-    Route::resource('testtype', 'TestTypeController');
+    Route::group(array("before" => "checkPerms:manage_test_catalog"), function()
+    {
+        Route::resource('specimentype', 'SpecimenTypeController');
 
-    Route::get("/testtype/{id}/delete", array(
-        "as"   => "testtype.delete",
-        "uses" => "TestTypeController@delete"
-    ));
+        Route::get("/specimentype/{id}/delete", array(
+            "as"   => "specimentype.delete",
+            "uses" => "SpecimenTypeController@delete"
+        ));
 
+        Route::resource('testcategory', 'TestCategoryController');
+        
+        Route::get("/testcategory/{id}/delete", array(
+            "as"   => "testcategory.delete",
+            "uses" => "TestCategoryController@delete"
+        ));
+
+        Route::resource('measure', 'MeasureController');
+    
+        Route::get("/measure/{id}/delete", array(
+            "as"   => "measure.delete",
+            "uses" => "MeasureController@delete"
+        ));
+
+        Route::resource('testtype', 'TestTypeController');
+
+        Route::get("/testtype/{id}/delete", array(
+            "as"   => "testtype.delete",
+            "uses" => "TestTypeController@delete"
+        ));
+    });
     /*Route::resource('test', 'TestController');*/
 
     Route::get("/test", array(
@@ -111,7 +126,12 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@enterResults"
     ));
 
-     Route::any("/test/{test}/saveresults", array(
+     Route::post("/test/savenewtest", array(
+        "as"   => "test.saveNewTest",
+        "uses" => "TestController@saveNewTest"
+    ));
+
+     Route::post("/test/{test}/saveresults", array(
         "as"   => "test.saveResults",
         "uses" => "TestController@saveResults"
     ));
@@ -131,11 +151,34 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@verify"
     ));
 
-    Route::get("/test/create", array(
+    Route::any("/test/create/{patient?}", array(
         "as"   => "test.create",
         "uses" => "TestController@create"
     ));
 
+    Route::group(array("before" => "admin"), function()
+    {
+        Route::resource("permission", "PermissionController");
+
+        Route::get("role/assign", array(
+            "as"   => "role.assign",
+            "uses" => "RoleController@assign"
+        ));
+        Route::post("role/assign", array(
+            "as"   => "role.assign",
+            "uses" => "RoleController@saveUserRoleAssignment"
+        ));
+        Route::resource("role", "RoleController");
+
+        Route::get("/role/{id}/delete", array(
+            "as"   => "role.delete",
+            "uses" => "RoleController@delete"
+        ));
+    });
+    Route::get("/test/{test}/getteststatus", array(
+        "as"   => "test.getTestStatus",
+        "uses" => "TestController@getTestStatusById"
+    ));
 });
 
 /*Route Patient Report*/

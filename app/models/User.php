@@ -1,11 +1,13 @@
 <?php
 
 use Illuminate\Auth\UserInterface;
+use Zizaco\Entrust\HasRole;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
 
+	Use HasRole;
 	/**
 	 * Enabling soft deletes on the user table.
 	 *
@@ -85,6 +87,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function getReminderEmail()
 	{
 		return $this->email;
+	}
+
+	/**
+	 * Get the admin user currently the first user
+	 *
+	 * @return User model
+	 */
+	public static function getAdminUser()
+	{
+		return User::find(1);
 	}
 
 }

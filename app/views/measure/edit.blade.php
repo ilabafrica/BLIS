@@ -39,7 +39,7 @@
 					{{ Form::textarea('description', Input::old('description'), array('class' => 'form-control', 'rows'=>'2')) }}
 				</div>
 				<div class="form-group">
-					<label for="measurerange">Range Values</label>				
+					<label for="measurerange">Range Values</label>
 					<div class="form-pane panel panel-default">
 						<div class="panel-body">
 							<div class="measurevalue">

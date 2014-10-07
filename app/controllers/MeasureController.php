@@ -17,7 +17,7 @@ class MeasureController extends \BaseController {
     public function index()
     {
         // List all the active measures
-            $measures = Measure::paginate(Config::get('kblis.page-items'));
+        $measures = Measure::paginate(Config::get('kblis.page-items'));
 
         // Load the view and pass the measures
         return View::make('measure.index')->with('measures', $measures);
