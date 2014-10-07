@@ -11,7 +11,8 @@
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-cog"></span>
 			{{trans('messages.test-details')}}
-			@if($test->test_status_id != 4 && $test->specimen->specimen_status_id != 2)
+			@if($test->test_status_id != 4 && $test->specimen->specimen_status_id != Config::get('kblis.SPECIMEN_REJECTED'))
+			 <!-- Not Verified and Not Rejected-->
 			<div class="panel-btn">
 				<a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->id.'/edit') }}">
 					<span class="glyphicon glyphicon-edit"></span>
@@ -43,7 +44,8 @@
 							<p class="view"><strong>{{trans('messages.verified-by')}}</strong>
 								{{$test->verifiedBy->name or trans('messages.verification-pending')}}</p>
 							@endif
-							@if($test->specimen->specimen_status_id != 2 && $test->test_status_id >= 3)
+							@if($test->specimen->specimen_status_id != Config::get('kblis.SPECIMEN_REJECTED') && $test->test_status_id >= 3)
+							<!-- Not Rejected and (Verified or Completed)-->
 							<p class="view-striped"><strong>{{trans('messages.turnaround-time')}}</strong>
 								<?php
 									$tat = $test->getTurnaroundTime();
@@ -96,7 +98,7 @@
 											{{$test->specimen->specimenStatus->name or trans('messages.pending') }}
 										</div>
 									</div>
-								@if($test->specimen->specimen_status_id == 2)
+								@if($test->specimen->specimen_status_id == Config::get('kblis.SPECIMEN_REJECTED'))
 									<div class="row">
 										<div class="col-md-4">
 											<p><strong>{{trans('messages.rejection-reason-title')}}</strong></p>
