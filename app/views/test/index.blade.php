@@ -70,10 +70,10 @@
                             </a>
                         @if ($test->specimen->specimen_status_id == 2) 
                         <!-- Rejection Reason button -->
-                            <a class="btn btn-sm btn-danger" href="javascript:void(0)"
+                            <a class="btn btn-sm btn-danger" href="#rejection-reason-modal"
                                 data-toggle="modal" data-target="#rejection-reason-modal"
-                                data-id="{{$test->specimen->rejection_reason_id}}">
-                                <span class="glyphicon glyphicon-thumbs-down"></span>
+                                data-reason="{{$test->specimen->rejectionReason->reason}}">
+                                <span class="glyphicon glyphicon-info-sign"></span>
                                 {{trans('messages.rejection-reason')}}
                             </a>
                         @elseif ( $test->test_status_id < 4)
@@ -173,10 +173,12 @@
             <button type="button" class="close" data-dismiss="modal">
                 <span aria-hidden="true">&times;</span><span class="sr-only">{{trans('messages.close')}}</span>
             </button>
-            <h4 class="modal-title">{{trans('messages.rejection-reason')}}</h4>
+            <h4 class="modal-title">
+                <span class="glyphicon glyphicon-info-sign"></span>
+                {{trans('messages.rejection-reason-title')}}</h4>
           </div>
           <div class="modal-body">
-            <h4>{{RejectionReason::first()->reason}}</h4>
+            <h4></h4>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">{{trans('messages.close')}}</button>

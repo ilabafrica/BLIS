@@ -65,8 +65,8 @@ $(function(){
 	});
 
 	/* 
-	// Search for patient from new test modal
-	// UI Rendering Logic here
+	* Search for patient from new test modal
+	* UI Rendering Logic here
 	*/
 
 	$('#new-test-modal .search-patient').click(function(){
@@ -92,7 +92,7 @@ $(function(){
 			};
 		});
 	});
-	/* Prevent modal form submit (default action) when the ENTER key is pressed*/
+	/* Prevent patient search modal form submit (default action) when the ENTER key is pressed*/
 	$('#new-test-modal .search-text').keypress(function( event ) {
 		if ( event.which == 13 ) {
 			event.preventDefault();
@@ -100,6 +100,12 @@ $(function(){
 		}
 	});
 
+	$('#rejection-reason-modal').on('show.bs.modal', function(e) {
+	    //get data-id attribute of the clicked element
+	    var reason = $(e.relatedTarget).data('reason');
+	    //Show it in the modal
+	    $(e.currentTarget).find('.modal-body h4').html(reason);
+	});
 });
 	/*
 	|-----------------------------------

@@ -88,6 +88,7 @@ return array(
     'registered-by' => 'Registered By',
     'reject' => 'Reject',
     'rejection-reason' => 'Reason',
+    'rejection-reason-title' => 'Rejection Reason',
     'save-test' => 'Save Test Request',
     'save-test-results' => 'Save Results',
     'search-patient-placeholder' => 'Enter patient name or ID',
