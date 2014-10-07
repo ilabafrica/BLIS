@@ -21,7 +21,7 @@ class Specimen extends Eloquent
 	/**
 	 * Test Phase relationship
 	 */
-	public function testPhases()
+	public function testPhase()
 	{
 		return $this->belongsTo('TestPhase');
 	}
@@ -29,7 +29,7 @@ class Specimen extends Eloquent
 	/**
 	 * Specimen Status relationship
 	 */
-	public function specimenStatuses()
+	public function specimenStatus()
 	{
 		return $this->belongsTo('SpecimenStatus');
 	}
@@ -45,7 +45,7 @@ class Specimen extends Eloquent
 	/**
 	 * Rejection Reason relationship
 	 */
-	public function rejectionReasons()
+	public function rejectionReason()
 	{
 		return $this->belongsTo('RejectionReason');
 	}

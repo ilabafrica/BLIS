@@ -194,9 +194,46 @@ extends DatabaseSeeder
         $this->command->info('visits seeded');
 
         /* Rejection Reasons table */
-        $rejection_reasons_pre_analytic = RejectionReason::create(array("reason" => "Looked kinda funny!"));
-        $rejection_reasons_analytic = RejectionReason::create(array("reason" => "Looked funny actually!"));
-        $rejection_reasons_post_analytic = RejectionReason::create(array("reason" => "Looked like super funny!"));
+        $rejection_reasons_array = array(
+          array("reason" => "Poorly labelled"),
+          array("reason" => "Over saturation"),
+          array("reason" => "Insufficient Sample"),
+          array("reason" => "Scattered"),
+          array("reason" => "Clotted Blood"),
+          array("reason" => "Two layered spots"),
+          array("reason" => "Serum rings"),
+          array("reason" => "Scratched"),
+          array("reason" => "Haemolysis"),
+          array("reason" => "Spots that cannot elute"),
+          array("reason" => "Leaking"),
+          array("reason" => "Broken Sample Container"),
+          array("reason" => "Mismatched sample and form labelling"),
+          array("reason" => "Missing Labels on container and tracking form"),
+          array("reason" => "Empty Container"),
+          array("reason" => "Samples without tracking forms"),
+          array("reason" => "Poor transport"),
+          array("reason" => "Lipaemic"),
+          array("reason" => "Wrong container/Anticoagulant"),
+          array("reason" => "Request form without samples"),
+          array("reason" => "Missing collection date on specimen / request form."),
+          array("reason" => "Name and signature of requester missing"),
+          array("reason" => "Mismatched information on request form and specimen container."),
+          array("reason" => "Request form contaminated with specimen"),
+          array("reason" => "Duplicate specimen received"),
+          array("reason" => "Delay between specimen collection and arrival in the laboratory"),
+          array("reason" => "Inappropriate specimen packing"),
+          array("reason" => "Inappropriate specimen for the test"),
+          array("reason" => "Inappropriate test for the clinical condition"),
+          array("reason" => "No Label"),
+          array("reason" => "Leaking"),
+          array("reason" => "No Sample in the Container"),
+          array("reason" => "No Request Form"),
+          array("reason" => "Missing Information Required"),
+        );
+        foreach ($rejection_reasons_array as $rejection_reason)
+        {
+            $rejection_reasons[] = RejectionReason::create($rejection_reason);
+        }
         $this->command->info('rejection_reasons seeded');
 
         /* Specimen table */
@@ -253,7 +290,7 @@ extends DatabaseSeeder
             array(
                 "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "2",//rejected
-                "rejection_reason_id" => $rejection_reasons_pre_analytic->id,
+                "rejection_reason_id" => $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id,
                 "test_phase_id" => "1",//Pre-Analytical
                 "created_by" => "1",
                 "referred_from" => "0",
@@ -266,7 +303,7 @@ extends DatabaseSeeder
             array(
                 "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "2",//rejected
-                "rejection_reason_id" => $rejection_reasons_analytic->id,
+                "rejection_reason_id" => $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id,
                 "test_phase_id" => "2",//Analytical
                 "created_by" => "1",
                 "referred_from" => "0",
@@ -279,7 +316,7 @@ extends DatabaseSeeder
             array(
                 "specimen_type_id" => $specimen_type_id,
                 "specimen_status_id" => "2",//rejected
-                "rejection_reason_id" => $rejection_reasons_post_analytic->id,
+                "rejection_reason_id" => $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id,
                 "test_phase_id" => "3",//Post-Analytical
                 "created_by" => "1",
                 "referred_from" => "0",
@@ -301,7 +338,6 @@ extends DatabaseSeeder
                 "tested_by" => "0",
                 "verified_by" => "0",
                 "requested_by" => "0",
-                "time_created" => "0000-00-00 00:00:00",
                 "time_started" => "0000-00-00 00:00:00",
             )
         );        
@@ -357,7 +393,6 @@ extends DatabaseSeeder
                 "tested_by" => "0",
                 "verified_by" => "0",
                 "requested_by" => "0",
-                "time_created" => "0000-00-00 00:00:00",
                 "time_started" => "0000-00-00 00:00:00",
             )
         );        
@@ -373,7 +408,6 @@ extends DatabaseSeeder
                 "tested_by" => "0",
                 "verified_by" => "0",
                 "requested_by" => "0",
-                "time_created" => "0000-00-00 00:00:00",
                 "time_started" => "0000-00-00 00:00:00",
             )
         );        
@@ -389,7 +423,6 @@ extends DatabaseSeeder
                 "tested_by" => "0",
                 "verified_by" => "0",
                 "requested_by" => "0",
-                "time_created" => "0000-00-00 00:00:00",
                 "time_started" => "0000-00-00 00:00:00",
             )
         );        
@@ -405,7 +438,6 @@ extends DatabaseSeeder
                 "tested_by" => "0",
                 "verified_by" => "0",
                 "requested_by" => "0",
-                "time_created" => "0000-00-00 00:00:00",
                 "time_started" => "0000-00-00 00:00:00",
             )
         );        
@@ -421,7 +453,6 @@ extends DatabaseSeeder
                 "tested_by" => "0",
                 "verified_by" => "0",
                 "requested_by" => "0",
-                "time_created" => "0000-00-00 00:00:00",
                 "time_started" => "0000-00-00 00:00:00",
             )
         );        
@@ -437,7 +468,6 @@ extends DatabaseSeeder
                 "tested_by" => "0",
                 "verified_by" => "0",
                 "requested_by" => "0",
-                "time_created" => "0000-00-00 00:00:00",
                 "time_started" => "0000-00-00 00:00:00",
             )
         );        

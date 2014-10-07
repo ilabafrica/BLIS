@@ -14,7 +14,7 @@
 			<span class="glyphicon glyphicon-user"></span>
 			List Measures
 			<div class="panel-btn">
-				<a class="btn btn-sm btn-info new-item-link" href="{{ URL::to('measure/create') }}">
+				<a class="btn btn-sm btn-info" href="{{ URL::to('measure/create') }}">
 					<span class="glyphicon glyphicon-plus-sign"></span>
 					New Measure
 				</a>

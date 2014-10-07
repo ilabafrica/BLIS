@@ -173,6 +173,7 @@ class TestController extends \BaseController {
 		$test->test_status_id = 3;//Completed
 		$test->interpretation = Input::get('interpretation');
 		$test->tested_by = Auth::user()->id;
+		$test->time_completed = date('Y-m-d H:i:s');
 		$test->save();
 		
 		foreach ($test->testType->measures as $measure) {

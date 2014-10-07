@@ -65,8 +65,8 @@ $(function(){
 	});
 
 	/* 
-	// Search for patient from new test modal
-	// UI Rendering Logic here
+	* Search for patient from new test modal
+	* UI Rendering Logic here
 	*/
 
 	$('#new-test-modal .search-patient').click(function(){
@@ -92,14 +92,13 @@ $(function(){
 			};
 		});
 	});
-	/* Prevent modal form submit (default action) when the ENTER key is pressed*/
+	/* Prevent patient search modal form submit (default action) when the ENTER key is pressed*/
 	$('#new-test-modal .search-text').keypress(function( event ) {
 		if ( event.which == 13 ) {
 			event.preventDefault();
 			$('#new-test-modal .search-patient').click();
 		}
 	});
-
 });
 	/*
 	|-----------------------------------

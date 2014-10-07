@@ -14,7 +14,7 @@
             <span class="glyphicon glyphicon-filter"></span>
             {{trans('messages.list-tests')}}
             <div class="panel-btn">
-                <a class="btn btn-sm btn-info new-item-link" href="javascript:void(0)"
+                <a class="btn btn-sm btn-info" href="javascript:void(0)"
                     data-toggle="modal" data-target="#new-test-modal">
                     <span class="glyphicon glyphicon-plus-sign"></span>
                     {{trans('messages.new-test')}}
@@ -35,22 +35,21 @@
                 </thead>
                 <tbody>
                 @foreach($testSet as $key => $test)
-                    @if($test->specimen->specimen_status_id == 2)
-                        <?php $reject = "class='rejected'"; ?>
-                    @else
-                        <?php $reject = ""; ?>
-                    @endif
-                    <tr {{ $reject }}>
-                        <td {{ $reject }}>{{ $test->time_created }}</td>              <!--Date Ordered-->
-                        <td {{ $reject }}>{{ $test->visit->patient->name }}</td>      <!--Patient Name -->
-                        <td {{ $reject }}>{{ $test->testType->name }}</td>            <!--Test-->
-                        <td {{ $reject }}>{{ $test->visit->visit_type }}</td>         <!--Visit Type -->
-                        <td {{ $reject }}>{{ $test->testStatus->testPhase->name }}</td><!--Test Phase -->
-                        <td {{ $reject }} id="test-status-{{$test->id}}">              <!--Status-->
+                    <tr>
+                        <td>{{ $test->time_created }}</td>              <!--Date Ordered-->
+                        <td>{{ $test->visit->patient->name }}</td>      <!--Patient Name -->
+                        <td>{{ $test->testType->name }}</td>            <!--Test-->
+                        <td>{{ $test->visit->visit_type }}</td>         <!--Visit Type -->
+                        <td>{{ $test->testStatus->testPhase->name }}</td><!--Test Phase -->
+                        <td id="test-status-{{$test->id}}">              <!--Status-->
                             {{trans('messages.'.$test->testStatus->name)}}
+                            @if($test->specimen->specimen_status_id == 2)
+                                <br /><span class='label label-danger'>
+                                    {{trans('messages.rejection-label')}}</span>
+                            @endif
                         </td>
                         
-                        <td {{ $reject }}>
+                        <td>
 
                         <!--'Enter Result' button loaded via ajax in place of 'Start Test' button, on starting a Test-->
                         <!-- Serves the purpose of localisation, since it is generated at the back end -->
@@ -121,7 +120,8 @@
           <input type="hidden" id="patient_id" name="patient_id" value="0" />
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">
-                <span aria-hidden="true">&times;</span><span class="sr-only">{{trans('messages.close')}}</span>
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">{{trans('messages.close')}}</span>
             </button>
             <h4 class="modal-title">{{trans('messages.create-new-test')}}</h4>
           </div>
@@ -133,7 +133,8 @@
                   <input type="text" class="form-control search-text" 
                     placeholder="{{ trans('messages.search-patient-placeholder') }}">
                   <span class="input-group-btn">
-                    <button class="btn btn-default search-patient" type="button">{{ trans('messages.patient-search-button') }}</button>
+                    <button class="btn btn-default search-patient" type="button">
+                        {{ trans('messages.patient-search-button') }}</button>
                   </span>
                 </div><!-- /input-group -->
                 <div class="patient-search-result form-group">
@@ -150,8 +151,10 @@
               </div><!-- /.col-lg-12 -->
             </div><!-- /.row -->          </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">{{trans('messages.close')}}</button>
-            <button type="button" class="btn btn-primary next" onclick="submit();" disabled>{{trans('messages.next')}}</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+                {{trans('messages.close')}}</button>
+            <button type="button" class="btn btn-primary next" onclick="submit();" disabled>
+                {{trans('messages.next')}}</button>
           </div>
         {{ Form::close() }}
         </div><!-- /.modal-content -->
