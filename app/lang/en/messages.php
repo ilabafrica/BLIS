@@ -87,6 +87,7 @@ return array(
     'physician' => 'Requesting Physician',
     'registered-by' => 'Registered By',
     'reject' => 'Reject',
+    'rejection-label' => 'Specimen Rejected',
     'rejection-reason' => 'Reason',
     'rejection-reason-title' => 'Rejection Reason',
     'save-test' => 'Save Test Request',
