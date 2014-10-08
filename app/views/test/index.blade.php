@@ -67,7 +67,7 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 {{trans('messages.view-details')}}
                             </a>
-                        @if ($test->specimen->specimen_status_id != Specimen::REJECTED && $test->test_status_id < 4)
+                        @if ($test->specimen->specimen_status_id != Specimen::REJECTED && $test->test_status_id != Test::VERIFIED)
                             <!-- NOT Rejected AND NOT Verified -->
                                 <a class="btn btn-sm btn-danger"
                                     href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"
@@ -75,7 +75,7 @@
                                     <span class="glyphicon glyphicon-thumbs-down"></span>
                                     {{trans('messages.reject')}}
                                 </a>
-                            @if ($test->test_status_id == 1)<!-- Pending -->
+                            @if ($test->test_status_id == Test::PENDING)
                                 <a class="btn btn-sm btn-success start-test-link"
                                     href="javascript:void(0);" 
                                     onclick="startTest('{{ $test->id }}')"
@@ -83,14 +83,14 @@
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                     {{trans('messages.start-test')}}
                                 </a>    
-                            @elseif ($test->test_status_id == 2)<!-- Started -->
+                            @elseif ($test->test_status_id == Test::STARTED)
                                 <a class="btn btn-sm btn-info"
                                     href="{{ URL::to('test/'.$test->id.'/enterresults') }}"
                                     id="enter-results-{{$test->id}}-link">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                     {{trans('messages.enter-results')}}
                                 </a>
-                            @elseif ($test->test_status_id == 3)<!-- Completed -->
+                            @elseif ($test->test_status_id == Test::COMPLETED)
                                 <a class="btn btn-sm btn-success"
                                     href="{{ URL::to('test/'.$test->id.'/viewdetails') }}"
                                     id="verify-{{$test->id}}-link">

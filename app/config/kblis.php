@@ -46,17 +46,4 @@ return array(
 
 	'page-items' => 5,
 	
-	/*
-	|--------------------------------------------------------------------------
-	|	Application Status Constants for Tests (test_statuses table) and 
-	|   Specimen (specimen_statuses table)
-	|--------------------------------------------------------------------------
-	|
-	*/
-
-	'TEST_NOT_RECEIVED' => 1,
-	'TEST_PENDING' => 2,
-	'TEST_STARTED' => 3,
-	'TEST_COMPLETED' => 4,
-	'TEST_VERIFIED' => 5,
 );

@@ -91,7 +91,7 @@ class TestController extends \BaseController {
 					$test->visit_id = $visit->id;
 					$test->test_type_id = (int)$value;
 					$test->specimen_id = $specimen->id;
-					$test->test_status_id = 1; //Pending
+					$test->test_status_id = Test::PENDING;
 					$test->created_by = Auth::user()->id;
 					$test->requested_by = Input::get('physician');
 					$test->save();
@@ -142,7 +142,7 @@ class TestController extends \BaseController {
 	public function start($testID)
 	{
 		$test = Test::find($testID);
-		$test->test_status_id = 2;//Started
+		$test->test_status_id = Test::STARTED;
 		$test->save();
 		// redirect
 		Session::flash('message', 'Test started!');
@@ -170,7 +170,7 @@ class TestController extends \BaseController {
 	public function saveResults($testID)
 	{
 		$test = Test::find($testID);
-		$test->test_status_id = 3;//Completed
+		$test->test_status_id = Test::COMPLETED;
 		$test->interpretation = Input::get('interpretation');
 		$test->tested_by = Auth::user()->id;
 		$test->time_completed = date('Y-m-d H:i:s');

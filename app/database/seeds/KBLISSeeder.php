@@ -334,7 +334,7 @@ extends DatabaseSeeder
                 "test_type_id" => $test_types->id,//BS for MPS
                 "specimen_id" => $specimens_accepted_pre_analytic->id,
                 "interpretation" => "Budda Boss",
-                "test_status_id" => "1",//Pending
+                "test_status_id" => Test::PENDING,
                 "created_by" => "1",
                 "tested_by" => "0",
                 "verified_by" => "0",
@@ -349,7 +349,7 @@ extends DatabaseSeeder
                 "test_type_id" => $test_types->id,//BS for MPS
                 "specimen_id" => $specimens_accepted_pre_analytic->id,
                 "interpretation" => "Budda Boss",
-                "test_status_id" => "1",//Pending
+                "test_status_id" => Test::PENDING,
                 "created_by" => "1",
                 "requested_by" => "Dr. Abou Meyang",
             )
@@ -361,7 +361,7 @@ extends DatabaseSeeder
                 "test_type_id" => $test_type_gxm->id,
                 "specimen_id" => $specimens_accepted_post_analytic_verified->id,
                 "interpretation" => "COMPATIBLE WITH 061832914 B/G A POS.EXPIRY19/8/14",
-                "test_status_id" => "3",//Completed
+                "test_status_id" => Test::COMPLETED,
                 "created_by" => "1",
                 "tested_by" => "1",
                 "verified_by" => "1",
@@ -375,7 +375,7 @@ extends DatabaseSeeder
                 "test_type_id" => $test_type_hb->id,
                 "specimen_id" => $specimens_accepted_post_analytic_verified->id,
                 "interpretation" => "??",
-                "test_status_id" => "3",//Completed
+                "test_status_id" => Test::COMPLETED,
                 "created_by" => "2",
                 "tested_by" => "2",
                 "verified_by" => "1",
@@ -389,7 +389,7 @@ extends DatabaseSeeder
                 "test_type_id" => $test_types->id,//BS for MPS
                 "specimen_id" => $specimens_accepted_analytic->id,
                 "interpretation" => "Budda Boss",
-                "test_status_id" => "2",//Started
+                "test_status_id" => Test::STARTED,
                 "created_by" => "1",
                 "tested_by" => "0",
                 "verified_by" => "0",
@@ -404,7 +404,7 @@ extends DatabaseSeeder
                 "test_type_id" => $test_types->id,//BS for MPS
                 "specimen_id" => $specimens_accepted_post_analytic->id,
                 "interpretation" => "Budda Boss",
-                "test_status_id" => "3",//Completed
+                "test_status_id" => Test::COMPLETED,
                 "created_by" => "1",
                 "tested_by" => "0",
                 "verified_by" => "0",
@@ -419,7 +419,7 @@ extends DatabaseSeeder
                 "test_type_id" => $test_types->id,//BS for MPS
                 "specimen_id" => $specimens_accepted_post_analytic_verified->id,
                 "interpretation" => "Budda Boss",
-                "test_status_id" => "4",//Verified
+                "test_status_id" => Test::VERIFIED,
                  "created_by" => "1",
                 "tested_by" => "0",
                 "verified_by" => "0",
@@ -434,7 +434,7 @@ extends DatabaseSeeder
                 "test_type_id" => $test_types->id,//BS for MPS
                 "specimen_id" => $specimens_rejected_pre_analytic->id,
                 "interpretation" => "Budda Boss",
-                "test_status_id" => "1",//Pending
+                "test_status_id" => Test::PENDING,
                  "created_by" => "1",
                 "tested_by" => "0",
                 "verified_by" => "0",
@@ -449,7 +449,7 @@ extends DatabaseSeeder
                 "test_type_id" => $test_types->id,//BS for MPS
                 "specimen_id" => $specimens_rejected_analytic->id,
                 "interpretation" => "Budda Boss",
-                "test_status_id" => "2",//Started
+                "test_status_id" => Test::STARTED,
                  "created_by" => "1",
                 "tested_by" => "0",
                 "verified_by" => "0",
@@ -464,7 +464,7 @@ extends DatabaseSeeder
                 "test_type_id" => $test_types->id,//BS for MPS
                 "specimen_id" => $specimens_rejected_post_analytic->id,
                 "interpretation" => "Budda Boss",
-                "test_status_id" => "3",//Completed
+                "test_status_id" => Test::COMPLETED,
                  "created_by" => "1",
                 "tested_by" => "0",
                 "verified_by" => "0",
