@@ -126,7 +126,7 @@ class TestController extends \BaseController {
 	{
 		$specimen = Specimen::find($specimenID);
 		$specimen->rejection_reason_id = Input::get('rejectionReason');
-		$specimen->specimen_status_id = Config::get('kblis.SPECIMEN_REJECTED');
+		$specimen->specimen_status_id = Specimen::REJECTED;
 		$specimen->save();
 		// redirect
 		Session::flash('message', 'Specimen was successfully rejected!');

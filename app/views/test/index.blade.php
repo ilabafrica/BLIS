@@ -43,7 +43,7 @@
                         <td>{{ $test->testStatus->testPhase->name }}</td><!--Test Phase -->
                         <td id="test-status-{{$test->id}}">              <!--Status-->
                             {{trans('messages.'.$test->testStatus->name)}}
-                            @if($test->specimen->specimen_status_id == Config::get('kblis.SPECIMEN_REJECTED'))
+                            @if($test->specimen->specimen_status_id == Specimen::REJECTED)
                                 <br /><span class='label label-danger'>
                                     {{trans('messages.rejection-label')}}</span>
                             @endif
@@ -67,7 +67,7 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 {{trans('messages.view-details')}}
                             </a>
-                        @if ($test->specimen->specimen_status_id != Config::get('kblis.SPECIMEN_REJECTED') && $test->test_status_id < 4)
+                        @if ($test->specimen->specimen_status_id != Specimen::REJECTED && $test->test_status_id < 4)
                             <!-- NOT Rejected AND NOT Verified -->
                                 <a class="btn btn-sm btn-danger"
                                     href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"

@@ -242,7 +242,7 @@ extends DatabaseSeeder
         $specimens_accepted_pre_analytic = Specimen::create(
             array(
                 "specimen_type_id" => $specimen_type_id,
-                "specimen_status_id" => Config::get('kblis.SPECIMEN_ACCEPTED'),
+                "specimen_status_id" => Specimen::ACCEPTED,
                 "test_phase_id" => "1",//Pre-Analytical for test_status:pending
                 "created_by" => "1",
                 "referred_from" => "0",
@@ -254,7 +254,7 @@ extends DatabaseSeeder
         $specimens_accepted_analytic = Specimen::create(
             array(
                 "specimen_type_id" => $specimen_type_id,
-                "specimen_status_id" => Config::get('kblis.SPECIMEN_ACCEPTED'),
+                "specimen_status_id" => Specimen::ACCEPTED,
                 "test_phase_id" => "2",//Analytical for test_status:started
                 "created_by" => "1",
                 "referred_from" => "0",
@@ -266,7 +266,7 @@ extends DatabaseSeeder
         $specimens_accepted_post_analytic = Specimen::create(
             array(
                 "specimen_type_id" => $specimen_type_id,
-                "specimen_status_id" => Config::get('kblis.SPECIMEN_ACCEPTED'),
+                "specimen_status_id" => Specimen::ACCEPTED,
                 "test_phase_id" => "3",//Post-Analytical for test_status:completed
                 "created_by" => "1",
                 "referred_from" => "0",
@@ -278,7 +278,7 @@ extends DatabaseSeeder
         $specimens_accepted_post_analytic_verified = Specimen::create(
             array(
                 "specimen_type_id" => $specimen_type_id,
-                "specimen_status_id" => Config::get('kblis.SPECIMEN_ACCEPTED'),
+                "specimen_status_id" => Specimen::ACCEPTED,
                 "test_phase_id" => "3",//Post-Analytical for test_status:verified
                 "created_by" => "1",
                 "referred_from" => "0",
@@ -290,7 +290,7 @@ extends DatabaseSeeder
         $specimens_rejected_pre_analytic = Specimen::create(
             array(
                 "specimen_type_id" => $specimen_type_id,
-                "specimen_status_id" => Config::get('kblis.SPECIMEN_REJECTED'),
+                "specimen_status_id" => Specimen::REJECTED,
                 "rejection_reason_id" => $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id,
                 "test_phase_id" => "1",//Pre-Analytical
                 "created_by" => "1",
@@ -303,7 +303,7 @@ extends DatabaseSeeder
         $specimens_rejected_analytic = Specimen::create(
             array(
                 "specimen_type_id" => $specimen_type_id,
-                "specimen_status_id" => Config::get('kblis.SPECIMEN_REJECTED'),
+                "specimen_status_id" => Specimen::REJECTED,
                 "rejection_reason_id" => $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id,
                 "test_phase_id" => "2",//Analytical
                 "created_by" => "1",
@@ -316,7 +316,7 @@ extends DatabaseSeeder
         $specimens_rejected_post_analytic = Specimen::create(
             array(
                 "specimen_type_id" => $specimen_type_id,
-                "specimen_status_id" => Config::get('kblis.SPECIMEN_REJECTED'),
+                "specimen_status_id" => Specimen::REJECTED,
                 "rejection_reason_id" => $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id,
                 "test_phase_id" => "3",//Post-Analytical
                 "created_by" => "1",

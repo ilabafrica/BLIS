@@ -197,7 +197,7 @@ class CreatekBLIStables extends Migration {
 		{
 			$table->increments('id')->unsigned();
 			$table->integer('specimen_type_id')->unsigned();
-			$table->integer('specimen_status_id')->unsigned()->default(Config::get('kblis.SPECIMEN_NOT_COLLECTED'));
+			$table->integer('specimen_status_id')->unsigned()->default(Specimen::NOT_COLLECTED);
 			$table->integer('rejection_reason_id')->unsigned()->nullable();
 			$table->integer('test_phase_id')->unsigned()->default(1); //Pre-Analytical
 			$table->integer('created_by');

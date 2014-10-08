@@ -12,6 +12,12 @@ class Specimen extends Eloquent
 	public $timestamps = false;
 
 	/**
+	 * Specimen status constants
+	 */
+	const NOT_COLLECTED = 1;
+	const ACCEPTED = 2;
+	const REJECTED = 3;
+	/**
 	 * Enabling soft deletes for specimen details.
 	 *
 	 * @var boolean
