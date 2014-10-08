@@ -1,11 +1,12 @@
 <?php
 
-class sanitasInterfacer implements interfacer {
+class medbossInterfacer implements interfacerInterface {
 
     public function get($item)
     {
-        // saved received data in staging table
-        dd(array());
+        //Setup mssql connection
+        //query medboss server
+        //save received data in staging table
     }
 
     public function send($message)

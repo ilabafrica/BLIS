@@ -1,6 +1,6 @@
 <?php
 
-interface interfacerInterface {
+interface interfacer {
     /*
     | Interface for the BLIS api.
     |
@@ -10,10 +10,10 @@ interface interfacerInterface {
     /**
     * Get retreives or accepts data from the external system
     */
-    public function get($item){}
+    public function get($item);
 
     /**
     * Send the data(flag,results) back to the external system
     */
-    public function send($message){}
+    public function send($message);
 }
