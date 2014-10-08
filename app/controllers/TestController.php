@@ -45,8 +45,9 @@ class TestController extends \BaseController {
 
 			if ($dateFrom||$dateTo) {
 				$tests = $tests->where(function($q) use ($dateFrom, $dateTo){
-					$q->whereHas('specimen', function($q) use ($dateFrom, $dateTo){
-						$q->where('time_created', '>', $dateFrom)->where('time_created', '<', $dateTo);//Filter by date created
+					$q->whereHas('specimen', function($q) use ($dateFrom, $dateTo){//Filter by date created
+						$q = $q->where('time_created', '>=', $dateFrom);
+						(empty($dateTo)) ? $q : $q->where('time_created', '<=', $dateTo);
 					});
 				});
 			}
