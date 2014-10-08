@@ -164,10 +164,11 @@ extends DatabaseSeeder
 
         /* Test Status table */
         $test_statuses = array(
-          array("id" => "1","name" => "pending","test_phase_id" => "1"),//Pre-Analytical
-          array("id" => "2","name" => "started","test_phase_id" => "2"),//Analytical
-          array("id" => "3","name" => "completed","test_phase_id" => "3"),//Post-Analytical
-          array("id" => "4","name" => "verified","test_phase_id" => "3")//Post-Analytical
+          array("id" => "1","name" => "not-received","test_phase_id" => "1"),//Pre-Analytical
+          array("id" => "2","name" => "pending","test_phase_id" => "1"),//Pre-Analytical
+          array("id" => "3","name" => "started","test_phase_id" => "2"),//Analytical
+          array("id" => "4","name" => "completed","test_phase_id" => "3"),//Post-Analytical
+          array("id" => "5","name" => "verified","test_phase_id" => "3")//Post-Analytical
         );
         foreach ($test_statuses as $test_status)
         {
@@ -177,9 +178,9 @@ extends DatabaseSeeder
 
         /* Specimen Status table */
         $specimen_statuses = array(
-          array("id" => "1", "name" => "Not Collected"),
-          array("id" => "2", "name" => "Accepted"),
-          array("id" => "3", "name" => "Rejected")
+          array("id" => "1", "name" => "specimen-not-collected"),
+          array("id" => "2", "name" => "specimen-accepted"),
+          array("id" => "3", "name" => "specimen-rejected")
         );
         foreach ($specimen_statuses as $specimen_status)
         {

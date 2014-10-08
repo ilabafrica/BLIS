@@ -34,6 +34,8 @@
 								{{$test->visit->id or trans('messages.unknown') }}</p>
 							<p class="view"><strong>{{trans('messages.lab-receipt-date')}}</strong>
 								{{$test->time_created}}</p>
+							<p class="view"><strong>{{trans('messages.test-status')}}</strong>
+								{{trans('messages.'.$test->testStatus->name)}}</p>
 							<p class="view-striped"><strong>{{trans('messages.physician')}}</strong>
 								{{$test->requested_by or trans('messages.unknown') }}</p>
 							<p class="view-striped"><strong>{{trans('messages.registered-by')}}</strong>

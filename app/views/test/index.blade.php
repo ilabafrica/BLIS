@@ -41,12 +41,42 @@
                         <td>{{ $test->testType->name }}</td>            <!--Test-->
                         <td>{{ $test->visit->visit_type }}</td>         <!--Visit Type -->
                         <td>{{ $test->testStatus->testPhase->name }}</td><!--Test Phase -->
-                        <td id="test-status-{{$test->id}}">              <!--Status-->
-                            {{trans('messages.'.$test->testStatus->name)}}
-                            @if($test->specimen->specimen_status_id == Specimen::REJECTED)
-                                <br /><span class='label label-danger'>
-                                    {{trans('messages.rejection-label')}}</span>
+                        <td id="test-status-{{$test->id}}" class='test-status'>
+                            <!-- Test Statuses -->
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-12">
+                            @if($test->test_status_id == Test::NOT_RECEIVED)
+                                <span class='label label-default'>
+                                    {{trans('messages.not-received')}}</span>
+                            @elseif($test->test_status_id == Test::PENDING)
+                                <span class='label label-info'>
+                                    {{trans('messages.pending')}}</span>
+                            @elseif($test->test_status_id == Test::STARTED)
+                                <span class='label label-warning'>
+                                    {{trans('messages.started')}}</span>
+                            @elseif($test->test_status_id == Test::COMPLETED)
+                                <span class='label label-primary'>
+                                    {{trans('messages.completed')}}</span>
+                            @elseif($test->test_status_id == Test::VERIFIED)
+                                <span class='label label-success'>
+                                    {{trans('messages.verified')}}</span>
                             @endif
+                            </div></div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                            <!-- Specimen statuses -->
+                            @if($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
+                                <span class='label label-info'>
+                                    {{trans('messages.specimen-not-collected-label')}}</span>
+                            @elseif($test->specimen->specimen_status_id == Specimen::ACCEPTED)
+                                <span class='label label-success'>
+                                    {{trans('messages.specimen-accepted-label')}}</span>
+                            @elseif($test->specimen->specimen_status_id == Specimen::REJECTED)
+                                <span class='label label-danger'>
+                                    {{trans('messages.specimen-rejected-label')}}</span>
+                            @endif
+                            </div></div>
                         </td>
                         
                         <td>
@@ -67,14 +97,22 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 {{trans('messages.view-details')}}
                             </a>
-                        @if ($test->specimen->specimen_status_id != Specimen::REJECTED && $test->test_status_id != Test::VERIFIED)
+                        @if ($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
+                            <a class="btn btn-sm btn-info"
+                                href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"
+                                id="reject-{{$test->id}}-link">
+                                <span class="glyphicon glyphicon-pushpin"></span>
+                                {{trans('messages.specimen-collection')}}
+                            </a>
+                        @endif
+                        @if ($test->specimen->specimen_status_id == Specimen::ACCEPTED && $test->test_status_id != Test::VERIFIED)
                             <!-- NOT Rejected AND NOT Verified -->
-                                <a class="btn btn-sm btn-danger"
-                                    href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"
-                                    id="reject-{{$test->id}}-link">
-                                    <span class="glyphicon glyphicon-thumbs-down"></span>
-                                    {{trans('messages.reject')}}
-                                </a>
+                            <a class="btn btn-sm btn-danger"
+                                href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"
+                                id="reject-{{$test->id}}-link">
+                                <span class="glyphicon glyphicon-thumbs-down"></span>
+                                {{trans('messages.reject')}}
+                            </a>
                             @if ($test->test_status_id == Test::PENDING)
                                 <a class="btn btn-sm btn-success start-test-link"
                                     href="javascript:void(0);" 

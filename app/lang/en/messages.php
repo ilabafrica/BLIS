@@ -55,7 +55,21 @@ return array(
     'patient-number' => 'Patient Number',
     'phone-number' => 'Phone Number',
     'physical-address' => 'Physical Address',
-     /* 
+    /* 
+    |   Specimen
+    */
+    'reject' => 'Reject',
+    'rejection-reason' => 'Reason',
+    'rejection-reason-title' => 'Rejection Reason',
+    'specimen-accepted-label' => 'Specimen Accepted',
+    'specimen-collection' => 'Get Specimen',
+    'specimen-details' => 'Specimen Details',
+    'specimen-number' => 'ID',
+    'specimen-not-collected-label' => 'Specimen Not Collected',
+    'specimen-rejected-label' => 'Specimen Rejected',
+    'specimen-status' => 'Status',
+    'specimen-type' => 'Type',
+    /* 
     |   Test Categories
     */
     'create-test-category' => 'Create Lab Section',
@@ -66,11 +80,11 @@ return array(
     'success-updating-test-category' => 'The lab section was successfully updated!',
     'test-category' => 'Lab Section',
     'test-category-details' => 'Lab Section Details',
-     /* 
+    /* 
     |   Tests
     */
     'create-new-test' => 'Create New Test',
-    'completed' => 'Completed',
+    'completed' => 'Test Completed',
     'date-ordered' => 'Date Ordered',
     'edit-test-results' => 'Edit Test Results',
     'enter-results' => 'Enter Results',
@@ -83,23 +97,15 @@ return array(
     'new-test' => 'New Test',
     'out-patient' => 'Out Patient',
     'patient-name' => 'Patient',
-    'pending' => 'Pending',
+    'pending' => 'Test Pending',
     'physician' => 'Requesting Physician',
     'registered-by' => 'Registered By',
-    'reject' => 'Reject',
-    'rejection-label' => 'Specimen Rejected',
-    'rejection-reason' => 'Reason',
-    'rejection-reason-title' => 'Rejection Reason',
     'save-test' => 'Save Test Request',
     'save-test-results' => 'Save Results',
     'search-patient-placeholder' => 'Enter patient name or ID',
     'select-tests' => 'Select Test(s)',
-    'specimen-details' => 'Specimen Details',
-    'specimen-number' => 'ID',
-    'specimen-status' => 'Status',
-    'specimen-type' => 'Type',
     'start-test' => 'Start Test',
-    'started' => 'Started',
+    'started' => 'Test Started',
     'success-creating-test' => 'Successfully created test!',
     'test' => 'Test',
     'test-details' => 'Test Details',
@@ -115,7 +121,7 @@ return array(
     'update-test-results' => 'Update Test Results',
     'verification-pending' => 'Verification Pending',
     'verified-by' => 'Verified By',
-    'verified' => 'Verified',
+    'verified' => 'Test Verified',
     'verify' => 'Verify',
     'view-details' => 'View Details',
     'visit-number' => 'Lab No.',
