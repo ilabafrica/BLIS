@@ -13,6 +13,18 @@
 /* Routes accessible before logging in */
 Route::group(array("before" => "guest"), function()
 {
+    /*
+    |-----------------------------------------
+    | API route
+    |-----------------------------------------
+    | Proposed route for the BLIS api, we will receive api calls 
+    | from other systems from this route.
+    */
+    Route::get('/api/receiver', array(
+        "as" => "api.receiver",
+        "uses" => "interfacerController@receiveLabrequest"
+    ));
+
 	Route::any('/', array(
 	    "as" => "user.login",
 	    "uses" => "UserController@loginAction"
@@ -185,4 +197,13 @@ Route::group(array("before" => "auth"), function()
 Event::listen('illuminate.query', function($query)
 {
         Log::info($query);
+});
+
+//TO DO: move events to app/events.php or somewhere else
+Event::listen('api.receivedLabrequest', function($labRequest)
+{
+    //We instruct the interfacer to handle the request
+    $interfacer = App::make('interfacer');
+    $interfacer->get($labRequest);
+
 });
