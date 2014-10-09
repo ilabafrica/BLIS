@@ -24,7 +24,7 @@ class TestController extends \BaseController {
 
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Display a form for creating a new Test.
 	 *
 	 * @return Response
 	 */
@@ -43,7 +43,7 @@ class TestController extends \BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Save a new Test.
 	 *
 	 * @return Response
 	 */
@@ -134,6 +134,23 @@ class TestController extends \BaseController {
 	}
 
 	/**
+	 * Accept a Test's Specimen
+	 *
+	 * @param
+	 * @return
+	 */
+	public function accept()
+	{
+		Log::info('Day after day after day ...'.Input::get('id'));
+		$specimen = Specimen::find(Input::get('id'));
+		$specimen->specimen_status_id = Specimen::ACCEPTED;
+		$specimen->time_accepted = date('Y-m-d H:i:s');
+		$specimen->save();
+
+		return trans('messages.'.$specimen->specimenStatus->name);
+	}
+
+/**
 	 * Starts Test
 	 *
 	 * @param
@@ -143,6 +160,7 @@ class TestController extends \BaseController {
 	{
 		$test = Test::find($testID);
 		$test->test_status_id = Test::STARTED;
+		$test->time_started = date('Y-m-d H:i:s');
 		$test->save();
 		// redirect
 		Session::flash('message', 'Test started!');

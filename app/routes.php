@@ -116,6 +116,11 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@rejectAction"
     ));
 
+     Route::post("/test/acceptspecimen", array(
+        "as"   => "test.acceptSpecimen",
+        "uses" => "TestController@accept"
+    ));
+
     Route::get("/test/{test}/start", array(
         "as"   => "test.start",
         "uses" => "TestController@start"

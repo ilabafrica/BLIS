@@ -99,6 +99,47 @@ $(function(){
 			$('#new-test-modal .search-patient').click();
 		}
 	});
+
+	/* - Get a Test->id from the button clicked,
+	|  - Fetch corresponding test and default specimen data
+	|  - Display all in the modal.
+	*/
+	$('#specimen-collection-modal').on('show.bs.modal', function(e) {
+	    //get data-id attribute of the clicked element
+	    var id = $(e.relatedTarget).data('test-id');
+	    //Show it in the modal
+	    $(e.currentTarget).find('.modal-body h4').html(id);
+	});
+
+	/* Accept Specimen button.
+	|  - Updates the Specimen status via an AJAX call
+	|  - Changes the UI to show the right status and buttons
+	*/
+	$('.accept-specimen').click(function(e){
+		var testID = $(this).data('test-id');
+		var specID = $(this).data('specimen-id');
+		var url = $(this).data('url');
+		$.post(url, { id: specID}).done(function(){});
+
+		var parent = $(e.currentTarget).parent();
+		// First replace the status
+		var newStatus = $('.pending-test-accepted-specimen').html();
+		parent.siblings('.test-status').html(newStatus);
+
+		// Add the new buttons
+		var newButtons = $('.reject-start-buttons').html();
+		parent.append(newButtons);
+
+		// Set properties for the new buttons
+		var rejectURL = location.protocol+ "//"+location.host+ "/test/" + specID+ "/reject";
+		parent.children('.reject-specimen').attr('id',"reject-" + testID + "-link");
+		parent.children('.reject-specimen').attr('href',rejectURL);
+
+		// Now remove the unnecessary buttons
+		$(this).siblings('.change-specimen').remove();
+		$(this).remove();
+	});
+
 });
 	/*
 	|-----------------------------------

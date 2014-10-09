@@ -58,11 +58,17 @@ return array(
     /* 
     |   Specimen
     */
+    'accept-specimen' => 'Accept',
+    'accept-specimen-title' => 'Accept Specimen',
+    'change-specimen' => 'Change',
+    'change-specimen-title' => 'Change Specimen Type',
     'reject' => 'Reject',
+    'reject-title' => 'Reject Specimen',
     'rejection-reason' => 'Reason',
     'rejection-reason-title' => 'Rejection Reason',
     'specimen-accepted-label' => 'Specimen Accepted',
     'specimen-collection' => 'Get Specimen',
+    'specimen-collection-title' => 'Specimen Collection',
     'specimen-details' => 'Specimen Details',
     'specimen-number' => 'ID',
     'specimen-not-collected-label' => 'Specimen Not Collected',
@@ -104,7 +110,8 @@ return array(
     'save-test-results' => 'Save Results',
     'search-patient-placeholder' => 'Enter patient name or ID',
     'select-tests' => 'Select Test(s)',
-    'start-test' => 'Start Test',
+    'start-test' => 'Start',
+    'start-test-title' => 'Start Test',
     'started' => 'Test Started',
     'success-creating-test' => 'Successfully created test!',
     'test' => 'Test',
@@ -123,7 +130,8 @@ return array(
     'verified-by' => 'Verified By',
     'verified' => 'Test Verified',
     'verify' => 'Verify',
-    'view-details' => 'View Details',
+    'view-details' => 'View',
+    'view-details-title' => 'View Details',
     'visit-number' => 'Lab No.',
     'visit-type' => 'Visit Type',
 

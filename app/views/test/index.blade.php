@@ -78,38 +78,45 @@
                             @endif
                             </div></div>
                         </td>
-                        
+                        <!-- ACTION BUTTONS -->
                         <td>
 
-                        <!--'Enter Result' button loaded via ajax in place of 'Start Test' button, on starting a Test-->
-                        <!-- Serves the purpose of localisation, since it is generated at the back end -->
-                        <a class="btn btn-sm btn-info hidden"
-                            href="{{ URL::to('test/'.$test->id.'/enterresults') }}"
-                            id="enter-results-{{$test->id}}-link">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                            {{trans('messages.enter-results')}}
-                        </a>
-                        <!--'Enter Result' button loaded via ajax in place of 'Start Test' button, on starting a Test-->
+                            <!--'Enter Result' button loaded via ajax in place of 'Start Test' button, on starting a Test-->
+                            <!-- Serves the purpose of localisation, since it is generated at the back end -->
+                            <a class="btn btn-sm btn-info hidden"
+                                href="{{ URL::to('test/'.$test->id.'/enterresults') }}"
+                                id="enter-results-{{$test->id}}-link">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                {{trans('messages.enter-results')}}
+                            </a>
+                            <!--'Enter Result' button loaded via ajax in place of 'Start Test' button, on starting a Test-->
 
                             <a class="btn btn-sm btn-success"
                                 href="{{ URL::to('test/'.$test->id.'/viewdetails') }}"
-                                id="view-details-{{$test->id}}-link">
+                                id="view-details-{{$test->id}}-link" 
+                                title="{{trans('messages.view-details-title')}}">
                                 <span class="glyphicon glyphicon-eye-open"></span>
-                                {{trans('messages.view-details')}}
-                            </a>
+                                {{trans('messages.view-details')}}</a>
+                            
                         @if ($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
-                            <a class="btn btn-sm btn-info"
-                                href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"
-                                id="reject-{{$test->id}}-link">
-                                <span class="glyphicon glyphicon-pushpin"></span>
-                                {{trans('messages.specimen-collection')}}
-                            </a>
+                            <a class="btn btn-sm btn-info accept-specimen" href="javascript:void(0)"
+                                data-test-id="{{$test->id}}" data-specimen-id="{{$test->specimen->id}}"
+                                title="{{trans('messages.accept-specimen-title')}}"
+                                data-url="{{ URL::route('test.acceptSpecimen') }}">
+                                <span class="glyphicon glyphicon-thumbs-up"></span>
+                                {{trans('messages.accept-specimen')}}</a>
+                            <a class="btn btn-sm btn-danger change-specimen" href="#specimen-collection-modal"
+                                data-toggle="modal" data-target="#specimen-collection-modal"
+                                data-test-id="{{$test->id}}" 
+                                title="{{trans('messages.change-specimen-title')}}">
+                                <span class="glyphicon glyphicon-transfer"></span>
+                                {{trans('messages.change-specimen')}}</a>
                         @endif
                         @if ($test->specimen->specimen_status_id == Specimen::ACCEPTED && $test->test_status_id != Test::VERIFIED)
                             <!-- NOT Rejected AND NOT Verified -->
-                            <a class="btn btn-sm btn-danger"
+                            <a class="btn btn-sm btn-danger" id="reject-{{$test->id}}-link"
                                 href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"
-                                id="reject-{{$test->id}}-link">
+                                title="{{trans('messages.reject-title')}}">
                                 <span class="glyphicon glyphicon-thumbs-down"></span>
                                 {{trans('messages.reject')}}
                             </a>
@@ -117,8 +124,9 @@
                                 <a class="btn btn-sm btn-success start-test-link"
                                     href="javascript:void(0);" 
                                     onclick="startTest('{{ $test->id }}')"
-                                    id="start-test-{{$test->id}}-link">
-                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                    id="start-test-{{$test->id}}-link"
+                                    title="{{trans('messages.start-test-title')}}">
+                                    <span class="glyphicon glyphicon-play"></span>
                                     {{trans('messages.start-test')}}
                                 </a>    
                             @elseif ($test->test_status_id == Test::STARTED)
@@ -151,6 +159,7 @@
             {{$testSet->links()}}
         </div>
     </div>
+    <!-- MODALS -->
     <div class="modal fade" id="new-test-modal">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -198,4 +207,79 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    <div class="modal fade" id="specimen-collection-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">{{trans('messages.close')}}</span>
+            </button>
+            <h4 class="modal-title">
+                <span class="glyphicon glyphicon-pushpin"></span>
+                {{trans('messages.specimen-collection-title')}}</h4>
+          </div>
+          <div class="modal-body">
+            <h4></h4>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+                {{trans('messages.close')}}</button>
+          </div>
+        {{ Form::close() }}
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal /#specimen-collection-modal-->
+
+    <!-- OTHER UI COMPONENTS -->
+    <div class="hidden pending-test-accepted-specimen">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <span class='label label-info'>
+                        {{trans('messages.pending')}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <span class='label label-success'>
+                        {{trans('messages.specimen-accepted-label')}}</span>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /. pending-test-accepted-specimen -->
+
+    <div class="hidden started-test-accepted-specimen">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <span class='label label-warning'>
+                        {{trans('messages.started')}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <span class='label label-success'>
+                        {{trans('messages.specimen-accepted-label')}}</span>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /. started-test-accepted-specimen -->
+
+    <div class="hidden reject-start-buttons">
+        <a class="btn btn-sm btn-danger reject-specimen" href="#" title="{{trans('messages.reject-title')}}">
+            <span class="glyphicon glyphicon-thumbs-down"></span>
+            {{trans('messages.reject')}}</a>
+        <a class="btn btn-sm btn-success start-test-link" href="javascript:void(0);" 
+            onclick="startTest(1)" title="{{trans('messages.start-test-title')}}">
+            <span class="glyphicon glyphicon-play"></span>
+            {{trans('messages.start-test')}}</a>    
+    </div> <!-- /. reject-start-buttons -->
+
+    <div class="hidden enter-result-buttons">
+        <a class="btn btn-sm btn-info">
+            <span class="glyphicon glyphicon-pencil"></span>
+            {{trans('messages.enter-results')}}
+    </div> <!-- /. enter-result-buttons -->
 @stop
