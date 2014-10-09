@@ -1,6 +1,6 @@
 <?php
 
-class sanitasInterfacer implements interfacer {
+class sanitasInterfacer implements interfacerInterface{
 
     public function get($item)
     {
