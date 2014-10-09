@@ -9,6 +9,44 @@
     @if (Session::has('message'))
         <div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
     @endif
+
+    {{ Form::open(array('route' => array('test.index'), 'class'=>'form-inline')) }}
+            <div class="form-group">
+                <label for="search" class="sr-only">search</label>
+                <input class="form-control test-search" placeholder="{{trans('messages.search')}}" 
+                value="{{isset($search) ? $search : ''}}" name="search" type="text" id="search">
+            </div>
+
+            <div class="form-group">
+                <label for="testStatus" class="sr-only">testStatus</label>
+                <select class="form-control" id="testStatus" name="testStatusId">
+                    <option value="">{{trans('messages.all')}}</option>
+                    <?php foreach ($testStatus as $status) {
+                        echo '<option value="'.$status->id.'"';
+                        echo ( isset($testStatusId) && $status->id == $testStatusId) ? 'selected' : '';
+                        echo '>'.trans("messages.$status->name").'</option>';
+                    }
+                    ?>
+                </select>
+            </div>
+
+            From 
+            <div class="form-group">
+                <label class="sr-only" for="date-from">From</label>
+                <input class="form-control standard-datepicker" name="dateFrom" type="text" value="{{ isset($dateFrom) ? $dateFrom : '' }}" id="date-from">
+            </div>
+
+            To 
+            <div class="form-group">
+                <label class="sr-only" for="date-to">To</label>
+                <input class="form-control standard-datepicker" name="dateTo" type="text" value="{{ isset($dateTo) ? $dateTo : '' }}" id="date-to">
+            </div>
+
+            <div class="form-group">
+                {{ Form::submit(trans('messages.search'), array('class'=>'btn btn-primary')) }}
+            </div>
+    {{ Form::close() }}
+
     <div class="panel panel-primary test-create">
         <div class="panel-heading ">
             <span class="glyphicon glyphicon-filter"></span>

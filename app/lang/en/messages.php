@@ -69,6 +69,7 @@ return array(
      /* 
     |   Tests
     */
+    'all' => 'All',
     'create-new-test' => 'Create New Test',
     'completed' => 'Completed',
     'date-ordered' => 'Date Ordered',
@@ -92,6 +93,7 @@ return array(
     'rejection-reason-title' => 'Rejection Reason',
     'save-test' => 'Save Test Request',
     'save-test-results' => 'Save Results',
+    'search' => 'Search',
     'search-patient-placeholder' => 'Enter patient name or ID',
     'select-tests' => 'Select Test(s)',
     'specimen-details' => 'Specimen Details',
