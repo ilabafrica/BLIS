@@ -21,11 +21,10 @@ class TestController extends \BaseController {
 		$dateFrom = Input::get('dateFrom');
 		$dateTo = Input::get('dateTo');
 		if($searchString||$testStatusId||$dateFrom||$dateTo){
-			$tests = Test::with('visit', 'testType', 'specimen', 'testStatus', 'testStatus.testPhase')->where(function($q) use ($searchString){
+			$tests = Test::with('visit', 'visit.patient', 'testType', 'specimen', 'testStatus', 'testStatus.testPhase')->where(function($q) use ($searchString){
 				$q->whereHas('visit', function($q) use ($searchString){
 					$q->whereHas('patient', function($q)  use ($searchString){
-						$q->where('name', 'like', '%' . $searchString . '%')//Search by patient name
-						  ->orWhere('patient_number', 'like', '%' . $searchString . '%');//Search by patient number
+						(is_numeric($searchString)) ? $q->where('patient_number', 'like', '%' . $searchString . '%') : $q->where('name', 'like', '%' . $searchString . '%');
 					});
 				})->orWhereHas('testType', function($q) use ($searchString){
 				    $q->where('name', 'like', '%' . $searchString . '%');//Search by test type

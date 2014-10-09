@@ -56,7 +56,7 @@ class TestControllerTest extends TestCase
       Input::replace($formInput);
       $controller = new TestController;
       $view = $controller->index();
-      $tests = $view->getData()['tests'];
+      $tests = $view->getData()['testSet'];
       if (isset($returnValue3)) {
         $field3 = $returnValue3;
         $field2 = $returnValue2;
@@ -64,8 +64,12 @@ class TestControllerTest extends TestCase
         $field2 = $returnValue2;
       }
       $field = $returnValue;
-      if ($searchValue == '0') {
-        $this->assertEquals($searchValue, count($tests));
+      if (is_numeric($searchValue) && ($field == 'specimen_id'|| $field == 'visit_id')) {
+        if ($searchValue == '0') {
+          $this->assertEquals($searchValue, count($tests));
+        } else {
+          $this->assertGreaterThanOrEqual(1, count($tests));
+        }
       }else {
         foreach ($tests as $key => $test) {
             if (isset($field3)) {
