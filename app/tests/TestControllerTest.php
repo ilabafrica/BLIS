@@ -19,9 +19,10 @@ class TestControllerTest extends TestCase
  	public function testStart()
 	{
 		echo "\nTEST CONTROLLER TEST\n\n";
-	 // start the test
-    $test = new TestController;
-    $test->start(2); // 2 here is a Test->id
+		 // start the test
+		Input::replace(array('id' => 2)); // 2 here is a Test->id
+	    $test = new TestController;
+	    $test->start();
 		$test = Test::find(2);  // 2 here is a Test->id
 		$this->assertEquals($test->test_status_id , Test::STARTED);
   	}

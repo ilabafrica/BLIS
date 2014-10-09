@@ -141,13 +141,12 @@ class TestController extends \BaseController {
 	 */
 	public function accept()
 	{
-		Log::info('Day after day after day ...'.Input::get('id'));
 		$specimen = Specimen::find(Input::get('id'));
 		$specimen->specimen_status_id = Specimen::ACCEPTED;
 		$specimen->time_accepted = date('Y-m-d H:i:s');
 		$specimen->save();
 
-		return trans('messages.'.$specimen->specimenStatus->name);
+		return $specimen->specimen_status_id;
 	}
 
 /**
@@ -156,15 +155,14 @@ class TestController extends \BaseController {
 	 * @param
 	 * @return
 	 */
-	public function start($testID)
+	public function start()
 	{
-		$test = Test::find($testID);
+		$test = Test::find(Input::get('id'));
 		$test->test_status_id = Test::STARTED;
 		$test->time_started = date('Y-m-d H:i:s');
 		$test->save();
-		// redirect
-		Session::flash('message', 'Test started!');
-		return Redirect::to('test');
+
+		return $test->test_status_id;
 	}
 
 	/**
