@@ -47,6 +47,8 @@
             </div>
     {{ Form::close() }}
 
+    <br>
+
     <div class="panel panel-primary test-create">
         <div class="panel-heading ">
             <span class="glyphicon glyphicon-filter"></span>
