@@ -149,6 +149,33 @@ class TestController extends \BaseController {
 		return $specimen->specimen_status_id;
 	}
 
+	/**
+	 * Display Change specimenType form fragment to be loaded in a modal via AJAX
+	 *
+	 * @param
+	 * @return
+	 */
+	public function changeSpecimen()
+	{
+		$test = Test::find(Input::get('id'));
+		return View::make('test.changeSpecimen')->with('test', $test);
+	}
+
+	/**
+	 * Update a Test's SpecimenType
+	 *
+	 * @param
+	 * @return
+	 */
+	public function updateSpecimenType()
+	{
+		$specimen = Specimen::find(Input::get('specimen_id'));
+		$specimen->specimen_type_id = Input::get('specimen_id');
+		$specimen->save();
+
+		return $specimen->specimen_type_id;
+	}
+
 /**
 	 * Starts Test
 	 *
@@ -238,15 +265,4 @@ class TestController extends \BaseController {
 		return View::make('test.verify');
 	}
 
-	/**
-	 * Get test status by test ID
-	 *
-	 * @param
-	 * @return
-	 */
-	public function getTestStatusById($testID)
-	{
-		$test = Test::find($testID);
-		return trans('messages.'.$test->testStatus->name);
-	}
 }

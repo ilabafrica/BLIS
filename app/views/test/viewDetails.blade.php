@@ -20,7 +20,7 @@
 				</a>
 			</div>
 			@endif
-		</div>
+		</div> <!-- ./ panel-heading -->
 		<div class="panel-body">
 			<div class="container-fluid">
 				<div class="row">
@@ -68,7 +68,7 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<div class="panel panel-info">
+						<div class="panel panel-info">  <!-- Patient Details -->
 							<div class="panel-heading">
 								<h3 class="panel-title">{{trans("messages.patient-details")}}</h3>
 							</div>
@@ -96,9 +96,9 @@
 											{{$test->visit->patient->gender==0?trans("messages.male"):trans("messages.female")}}
 										</div></div>
 								</div>
-							</div>
-						</div>
-						<div class="panel panel-info">
+							</div> <!-- ./ panel-body -->
+						</div> <!-- ./ panel -->
+						<div class="panel panel-info"> <!-- Specimen Details -->
 							<div class="panel-heading">
 								<h3 class="panel-title">{{trans("messages.specimen-details")}}</h3>
 							</div>
@@ -140,8 +140,8 @@
 								@endif
 								</div>
 							</div>
-						</div>
-						<div class="panel panel-info">
+						</div> <!-- ./ panel -->
+						<div class="panel panel-info">  <!-- Test Results -->
 							<div class="panel-heading">
 								<h3 class="panel-title">{{trans("messages.test-results")}}</h3>
 							</div>
@@ -166,11 +166,11 @@
 										</div>
 									</div>
 								</div>
-							</div>
-						</div>
+							</div> <!-- ./ panel-body -->
+						</div>  <!-- ./ panel -->
 					</div>
 				</div>
-			</div>
-		</div>
-	</div>
+			</div> <!-- ./ container-fluid -->
+		</div> <!-- ./ panel-body -->
+	</div> <!-- ./ panel -->
 @stop

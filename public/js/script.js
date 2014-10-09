@@ -107,8 +107,12 @@ $(function(){
 	$('#specimen-collection-modal').on('show.bs.modal', function(e) {
 	    //get data-id attribute of the clicked element
 	    var id = $(e.relatedTarget).data('test-id');
-	    //Show it in the modal
-	    $(e.currentTarget).find('.modal-body h4').html(id);
+		var url = $(e.relatedTarget).data('url');
+console.log(url);
+	    $.post(url, { id: id}).done(function(data){
+		    //Show it in the modal
+		    $(e.currentTarget).find('.modal-body').html(data);
+	    });
 	});
 
 	/* Accept Specimen button.

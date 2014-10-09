@@ -97,8 +97,8 @@
                                 {{trans('messages.accept-specimen')}}
                             </a>
                             <a class="btn btn-sm btn-danger change-specimen" href="#specimen-collection-modal"
-                                data-toggle="modal" data-target="#specimen-collection-modal"
-                                data-test-id="{{$test->id}}" 
+                                data-toggle="modal" data-url="{{ URL::route('test.changeSpecimen') }}"
+                                data-test-id="{{$test->id}}" data-target="#specimen-collection-modal"
                                 title="{{trans('messages.change-specimen-title')}}">
                                 <span class="glyphicon glyphicon-transfer"></span>
                                 {{trans('messages.change-specimen')}}
@@ -199,6 +199,7 @@
     <div class="modal fade" id="specimen-collection-modal">
       <div class="modal-dialog">
         <div class="modal-content">
+        {{ Form::open(array('route' => 'test.updateSpecimenType')) }}
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">
                 <span aria-hidden="true">&times;</span>
@@ -209,7 +210,6 @@
                 {{trans('messages.specimen-collection-title')}}</h4>
           </div>
           <div class="modal-body">
-            <h4></h4>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">
