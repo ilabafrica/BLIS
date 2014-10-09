@@ -203,7 +203,5 @@ Event::listen('illuminate.query', function($query)
 Event::listen('api.receivedLabrequest', function($labRequest)
 {
     //We instruct the interfacer to handle the request
-    $interfacer = App::make('interfacer');
-    $interfacer->get($labRequest);
-
+    Interfacer::get($labRequest);
 });
