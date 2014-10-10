@@ -9,8 +9,10 @@ class interfacerController extends \BaseController{
         $labRequest = Input::all();
         //Validate::ifValid()
 
+        $x = new TestType;
+        $x->getTestTypeIdByName('BS FOR MPS');
         //Fire event with the received data
-        Event::fire('api.receivedLabrequest', array($labRequest));
+        //Event::fire('api.receivedLabrequest', array($labRequest));
     }
 
 

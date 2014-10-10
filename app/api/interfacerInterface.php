@@ -13,6 +13,11 @@ interface interfacerInterface {
     public function get($item);
 
     /**
+    * Save the received data in the patient, test and specimen tables
+    */
+    public function process($data);
+
+    /**
     * Send the data(flag,results) back to the external system
     */
     public function send($message);

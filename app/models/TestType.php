@@ -103,4 +103,15 @@ class TestType extends Eloquent
 		// Add the new mapping
 		DB::table('testtype_measures')->insert($measuresAdded);
 	}
+
+	/**
+	* Given the testname we return the test ID
+	*
+	* TODO::TEST!!
+	*/
+	public function getTestTypeIdByTestName($testName)
+	{
+		$testTypeId = TestType::where('name', 'like', $testName)->get(array('id'));
+		return $testTypeId;
+	}
 }

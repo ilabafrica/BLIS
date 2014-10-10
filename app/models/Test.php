@@ -11,6 +11,13 @@ class Test extends Eloquent
 
 	public $timestamps = false;
 
+	const EXTERNAL_SYSTEM_USER = 0;
+	const NOT_RECEIVED = 1;
+	const PENDING = 2;
+	const STARTED = 3;
+	const COMPLETED = 4;
+	const VERIFIED = 5;
+
 	/**
 	 * Visit relationship
 	 */

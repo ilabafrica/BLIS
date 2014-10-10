@@ -11,6 +11,8 @@ class Specimen extends Eloquent
 
 	public $timestamps = false;
 
+	const EXTERNAL_SYSTEM_USER = 0;
+
 	/**
 	 * Enabling soft deletes for specimen details.
 	 *

@@ -182,6 +182,7 @@ class CreatekBLIStables extends Migration {
 			$table->bigIncrements('id');
 			$table->integer('patient_id')->unsigned();
             $table->string('visit_type', 12)->default('Out-patient'); //'OUT-PATIENT' | 'IN-PATIENT'
+            $table->integer('visit_number')->unsigned(); //External
 			$table->timestamp('created_at');
 			$table->timestamp('updated_at');
 			$table->foreign('patient_id')->references('id')->on('patients');

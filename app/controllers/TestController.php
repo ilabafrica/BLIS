@@ -133,10 +133,10 @@ class TestController extends \BaseController {
 			*/
 			$testTypes = Input::get('testtypes');
 			if(is_array($testTypes)){
-				foreach ($testTypes as $key => $value) {
+				foreach ($testTypes as $key => $testType) {
 					// Create Specimen - specimen_type_id, created_by, referred_from, referred_to
 					$specimen = new Specimen;
-					$specimen->specimen_type_id = TestType::find((int)$value)->specimenTypes->lists('id')[0];
+					$specimen->specimen_type_id = TestType::find((int)$testType)->specimenTypes->lists('id')[0];
 					$specimen->created_by = Auth::user()->id;
 					$specimen->referred_to = 0; //No one
 					$specimen->referred_from = 0; //No one
@@ -144,7 +144,7 @@ class TestController extends \BaseController {
 
 					$test = new Test;
 					$test->visit_id = $visit->id;
-					$test->test_type_id = (int)$value;
+					$test->test_type_id = (int)$testType;
 					$test->specimen_id = $specimen->id;
 					$test->test_status_id = 1; //Pending
 					$test->created_by = Auth::user()->id;
