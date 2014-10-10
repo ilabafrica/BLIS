@@ -170,10 +170,10 @@ class TestController extends \BaseController {
 	public function updateSpecimenType()
 	{
 		$specimen = Specimen::find(Input::get('specimen_id'));
-		$specimen->specimen_type_id = Input::get('specimen_id');
+		$specimen->specimen_type_id = Input::get('specimen_type');
 		$specimen->save();
 
-		return $specimen->specimen_type_id;
+		return Redirect::to('test/'.$specimen->test->id.'/viewdetails');
 	}
 
 /**

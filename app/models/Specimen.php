@@ -55,4 +55,12 @@ class Specimen extends Eloquent
 	{
 		return $this->belongsTo('RejectionReason');
 	}
+
+	/**
+	 * Test relationship
+	 */
+	public function test()
+    {
+        return $this->hasOne('Test');
+    }
 }

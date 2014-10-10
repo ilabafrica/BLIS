@@ -96,13 +96,19 @@
                                 <span class="glyphicon glyphicon-thumbs-up"></span>
                                 {{trans('messages.accept-specimen')}}
                             </a>
-                            <a class="btn btn-sm btn-danger change-specimen" href="#specimen-collection-modal"
+                            @if(count($test->testType->specimenTypes) > 1)
+                                <!-- 
+                                    If this test can be done using more than 1 specimen type,
+                                    allow the user to change to any of the other eligible ones.
+                                -->
+                            <a class="btn btn-sm btn-danger change-specimen" href="#change-specimen-modal"
                                 data-toggle="modal" data-url="{{ URL::route('test.changeSpecimen') }}"
-                                data-test-id="{{$test->id}}" data-target="#specimen-collection-modal"
+                                data-test-id="{{$test->id}}" data-target="#change-specimen-modal"
                                 title="{{trans('messages.change-specimen-title')}}">
                                 <span class="glyphicon glyphicon-transfer"></span>
                                 {{trans('messages.change-specimen')}}
                             </a>
+                            @endif
                         @endif
                         @if ($test->specimen->specimen_status_id == Specimen::ACCEPTED && $test->test_status_id != Test::VERIFIED)
                             <!-- NOT Rejected AND NOT Verified -->
@@ -121,18 +127,21 @@
                                 </a>    
                             @elseif ($test->test_status_id == Test::STARTED)
                                 <a class="btn btn-sm btn-info" id="enter-results-{{$test->id}}-link"
-                                    href="{{ URL::to('test/'.$test->id.'/enterresults') }}">
+                                    href="{{ URL::to('test/'.$test->id.'/enterresults') }}"
+                                    title="{{trans('messages.enter-results-title')}}">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                     {{trans('messages.enter-results')}}
                                 </a>
                             @elseif ($test->test_status_id == Test::COMPLETED)
                                 <a class="btn btn-sm btn-success" id="verify-{{$test->id}}-link"
-                                    href="{{ URL::to('test/'.$test->id.'/viewdetails') }}">
+                                    href="{{ URL::to('test/'.$test->id.'/viewdetails') }}"
+                                    title="{{trans('messages.verify-title')}}">
                                     <span class="glyphicon glyphicon-thumbs-up"></span>
                                     {{trans('messages.verify')}}
                                 </a>
                                 <a class="btn btn-sm btn-info" id="edit-{{$test->id}}-link"
-                                    href="{{ URL::to('test/'.$test->id.'/edit') }}">
+                                    href="{{ URL::to('test/'.$test->id.'/edit') }}"
+                                    title="{{trans('messages.edit-test-results')}}">
                                     <span class="glyphicon glyphicon-edit"></span>
                                     {{trans('messages.edit')}}
                                 </a>
@@ -196,7 +205,7 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <div class="modal fade" id="specimen-collection-modal">
+    <div class="modal fade" id="change-specimen-modal">
       <div class="modal-dialog">
         <div class="modal-content">
         {{ Form::open(array('route' => 'test.updateSpecimenType')) }}
@@ -206,19 +215,21 @@
                 <span class="sr-only">{{trans('messages.close')}}</span>
             </button>
             <h4 class="modal-title">
-                <span class="glyphicon glyphicon-pushpin"></span>
-                {{trans('messages.specimen-collection-title')}}</h4>
+                <span class="glyphicon glyphicon-transfer"></span>
+                {{trans('messages.change-specimen-title')}}</h4>
           </div>
           <div class="modal-body">
           </div>
           <div class="modal-footer">
+            {{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'),
+                array('class' => 'btn btn-primary', 'data-dismiss' => 'modal', 'onclick' => 'submit()')) }}
             <button type="button" class="btn btn-default" data-dismiss="modal">
                 {{trans('messages.close')}}</button>
           </div>
         {{ Form::close() }}
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
-    </div><!-- /.modal /#specimen-collection-modal-->
+    </div><!-- /.modal /#change-specimen-modal-->
 
     <!-- OTHER UI COMPONENTS -->
     <div class="hidden pending-test-accepted-specimen">

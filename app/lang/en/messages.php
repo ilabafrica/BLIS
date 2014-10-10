@@ -67,14 +67,13 @@ return array(
     'rejection-reason' => 'Reason',
     'rejection-reason-title' => 'Rejection Reason',
     'specimen-accepted-label' => 'Specimen Accepted',
-    'specimen-collection' => 'Get Specimen',
-    'specimen-collection-title' => 'Specimen Collection',
     'specimen-details' => 'Specimen Details',
     'specimen-number' => 'ID',
     'specimen-not-collected-label' => 'Specimen Not Collected',
     'specimen-rejected-label' => 'Specimen Rejected',
     'specimen-status' => 'Status',
     'specimen-type' => 'Type',
+    'update' => 'Update',
     /* 
     |   Test Categories
     */
@@ -94,6 +93,7 @@ return array(
     'date-ordered' => 'Date Ordered',
     'edit-test-results' => 'Edit Test Results',
     'enter-results' => 'Enter Results',
+    'enter-results-title' => 'Enter Test Results',
     'enter-test-results' => 'Enter Test Results',
     'first-select-patient' => 'First select a patient below',
     'in-patient' => 'In Patient',
@@ -101,6 +101,7 @@ return array(
     'lab-receipt-date' => 'Lab Receipt Date',
     'list-tests' => 'Ordered Tests List',
     'new-test' => 'New Test',
+    'not-received' => 'Test Not Received',
     'out-patient' => 'Out Patient',
     'patient-name' => 'Patient',
     'pending' => 'Test Pending',
@@ -130,8 +131,9 @@ return array(
     'verified-by' => 'Verified By',
     'verified' => 'Test Verified',
     'verify' => 'Verify',
+    'verify-title' => 'Verify Test Results',
     'view-details' => 'View',
-    'view-details-title' => 'View Details',
+    'view-details-title' => 'View Test Details',
     'visit-number' => 'Lab No.',
     'visit-type' => 'Visit Type',
 

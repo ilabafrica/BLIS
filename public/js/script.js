@@ -104,11 +104,11 @@ $(function(){
 	|  - Fetch corresponding test and default specimen data
 	|  - Display all in the modal.
 	*/
-	$('#specimen-collection-modal').on('show.bs.modal', function(e) {
+	$('#change-specimen-modal').on('show.bs.modal', function(e) {
 	    //get data-id attribute of the clicked element
 	    var id = $(e.relatedTarget).data('test-id');
 		var url = $(e.relatedTarget).data('url');
-console.log(url);
+
 	    $.post(url, { id: id}).done(function(data){
 		    //Show it in the modal
 		    $(e.currentTarget).find('.modal-body').html(data);
