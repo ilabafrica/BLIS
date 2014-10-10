@@ -8,7 +8,7 @@
     </p>
     <p class="view-striped">
         <strong>{{trans('messages.specimen-status')}}</strong>
-        {{$test->specimen->specimenStatus->name}}
+        {{trans('messages.'.$test->specimen->specimenStatus->name)}}
     </p>
     <p class="view-striped">
         <strong>{{trans('messages.specimen-type')}}</strong>

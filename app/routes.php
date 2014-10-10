@@ -111,7 +111,7 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@reject"
     ));
 
-    Route::get("/test/{id}/rejectaction", array(
+    Route::post("/test/rejectaction", array(
         "as"   => "test.rejectAction",
         "uses" => "TestController@rejectAction"
     ));

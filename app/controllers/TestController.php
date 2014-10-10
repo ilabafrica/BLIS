@@ -79,10 +79,10 @@ class TestController extends \BaseController {
 			$testTypes = Input::get('testtypes');
 			if(is_array($testTypes)){
 				foreach ($testTypes as $key => $value) {
-					// Create Specimen - specimen_type_id, created_by, referred_from, referred_to
+					// Create Specimen - specimen_type_id, accepted_by, referred_from, referred_to
 					$specimen = new Specimen;
 					$specimen->specimen_type_id = TestType::find((int)$value)->specimenTypes->lists('id')[0];
-					$specimen->created_by = Auth::user()->id;
+					$specimen->accepted_by = Auth::user()->id;
 					$specimen->referred_to = 0; //No one
 					$specimen->referred_from = 0; //No one
 					$specimen->save();
@@ -110,9 +110,9 @@ class TestController extends \BaseController {
 	 */
 	public function reject($specimenID)
 	{
-		
+		$specimen = Specimen::find($specimenID);
 		$rejectionReason = RejectionReason::all();
-		return View::make('test.reject')->with('specimenId', $specimenID)
+		return View::make('test.reject')->with('specimen', $specimen)
 						->with('rejectionReason', $rejectionReason);
 	}
 
@@ -122,14 +122,17 @@ class TestController extends \BaseController {
 	 * @param
 	 * @return
 	 */
-	public function rejectAction($specimenID)
+	public function rejectAction()
 	{
+		$specimenID = Input::get('specimen_id');
 		$specimen = Specimen::find($specimenID);
 		$specimen->rejection_reason_id = Input::get('rejectionReason');
 		$specimen->specimen_status_id = Specimen::REJECTED;
+		$specimen->time_rejected = date('Y-m-d H:i:s');
+		$specimen->reject_explained_to = Input::get('reject_explained_to');
 		$specimen->save();
 		// redirect
-		Session::flash('message', 'Specimen was successfully rejected!');
+		Session::flash('message', 'Specimen was rejected!');
 		return Redirect::to('test');
 	}
 

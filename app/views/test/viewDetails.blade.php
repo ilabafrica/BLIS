@@ -125,7 +125,7 @@
 											<p><strong>{{trans('messages.specimen-status')}}</strong></p>
 										</div>
 										<div class="col-md-8">
-											{{$test->specimen->specimenStatus->name or trans('messages.pending') }}
+											{{trans('messages.'.$test->specimen->specimenStatus->name) }}
 										</div>
 									</div>
 								@if($test->specimen->specimen_status_id == Specimen::REJECTED)
@@ -135,6 +135,14 @@
 										</div>
 										<div class="col-md-8">
 											{{$test->specimen->rejectionReason->reason or trans('messages.pending') }}
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<p><strong>{{trans('messages.reject-explained-to')}}</strong></p>
+										</div>
+										<div class="col-md-8">
+											{{$test->specimen->reject_explained_to or trans('messages.pending') }}
 										</div>
 									</div>
 								@endif
