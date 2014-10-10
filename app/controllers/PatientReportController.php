@@ -96,4 +96,14 @@ class PatientReportController extends \BaseController {
 		return View::make('reports.patient.report')->with('patient', $patient);
 	}
 
+	public function downloadPDF($id) {
+
+	   $document = Patient::find($id);
+
+	   
+	   $html = View::make('reports.patient.pdf');
+       return PDF::load($html, 'A4', 'portrait')->show();
+
+	}
+
 }

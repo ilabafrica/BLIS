@@ -35,19 +35,19 @@
              <input type='text' class="form-control" id='to' value='{{ date('d-m-Y') }}' />
          </td>
          <td><button type="submit" class="btn btn-info" style="width:125px;" name="ok" id="ok" onClick=""> 
-  		  		<i class="icon-filter"></i> View
+  		  		<i class="glyphicon glyphicon-filter"></i> {{trans("messages.view")}}
   		  	</button></td>
         <td><button type="submit" class="btn btn-warning" style="width:125px;" name="ok" id="ok" onClick=""> 
-  		  		<i class="icon-filter"></i> Close
+  		  		<i class="glyphicon glyphicon-remove"></i> {{trans("messages.close")}}
   		  	</button></td>
     </tr>
     <tr>
         <td>{{ Form::label('description', trans("messages.test-category")) }}</td>
-         <td>{{ Form::select('section_id', array('default' => 'Select Lab Section'), Input::old('section_id'), 
-					array('class' => 'form-control')) }}</td>
+         <td>{{ Form::select('section_id', array(''=>trans("messages.select-lab-section"))+$labsections, Input::old('section_id'), 
+					array('class' => 'form-control', 'id' => 'section_id')) }}</td>
          <td>{{ Form::label('test_type', trans("messages.test-type")) }}</td>
-         <td>{{ Form::select('test_type', array('default' => 'Select Test Type'), Input::old('test_type'), 
-					array('class' => 'form-control')) }}</td>
+         <td>{{ Form::select('test_type', array('default' => trans("messages.select-test-type")), Input::old('test_type'), 
+					array('class' => 'form-control', 'id' => 'test_type')) }}</td>
          <td>{{ Form::label('interval', trans("messages.interval")) }}</td>
          <td>{{ Form::select('interval', array('M' => 'Monthly', 'W' => 'Weekly', 'D' => 'Daily'), Input::old('interval'), 
 					array('class' => 'form-control')) }}</td>
@@ -61,9 +61,9 @@
   <div id="chartdivs">
   	<table class="table">
 		<tbody>
-			<th>Expected TAT</th>
-			<th>Waiting Time</th>
-			<th>Actual TAT</th>
+			<th>{{trans("messages.expected-tat")}}</th>
+			<th>{{trans("messages.waiting-time")}}</th>
+			<th>{{trans("messages.actual-tat")}}</th>
 			@forelse($test_types as $test_type)
 			<tr>
 				<td>{{ $test_type->targetTAT }}</td>
@@ -71,7 +71,7 @@
 				<td>{{ Report::actualTurnAroundTime($test_type->id) }}</td>
 			</tr>
 			@empty
-			<tr><td colspan="13">No records found.</td></tr>
+			<tr><td colspan="13">{{trans("messages.no-records-found")}}</td></tr>
 			@endforelse
 		</tbody>
 	</table>

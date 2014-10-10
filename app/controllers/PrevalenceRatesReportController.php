@@ -9,7 +9,7 @@ class PrevalenceRatesReportController extends \BaseController {
 	 */
 	public function index()
 	{
-		$labsections = TestCategory::all();
+		$labsections = TestCategory::lists('name', 'id');
 		$test_types = TestType::join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
             				 ->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
             				 ->where('measure_range', 'LIKE', '%Positive/Negative%')

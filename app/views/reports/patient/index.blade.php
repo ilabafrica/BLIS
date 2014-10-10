@@ -22,14 +22,7 @@
 				{{ HTML::ul($errors->all()) }}
 			</div>
 		@endif
-<!-- 
-		{{ Form::open(array('method' => 'POST', 'route' => 'reports.patient.search', 'id' => 'form-search-patient', 'class' => 'navbar-form navbar-left', 'role' => 'search')) }}
-		  <div class="form-group">
-		  	{{ Form::text('value', Input::old('value'), array('class' => 'form-control', 'placeholder' => 'Search')) }}
-		  </div>
-  		  {{ Form::button("<span class='glyphicon glyphicon-search'></span> ".trans('messages.search'), 
-						array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
-		{{ Form::close() }} -->
+
 		<div class="alert alert-info" style="float:right" role="alert"><strong>Tips</strong>
 		<p>{{ trans('messages.patient-report-tip') }}</p>
 		
@@ -41,7 +34,4 @@
 	</div>
 
 </div>
-<script type="text/javascript">
-	$(document).ready(function() { $('tbody').on('click', '.confirm-delete-user', function(){ alert('ok'); }); });
-</script>
 @stop

@@ -10,7 +10,9 @@ class TatReportController extends \BaseController {
 	public function index()
 	{
 		$test_types = TestType::all();
+		$labsections = TestCategory::lists('name', 'id');
 		return View::make('reports.tat.index')
+					->with('labsections', $labsections)
 					->with('test_types', $test_types);
 	}
 

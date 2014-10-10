@@ -41,8 +41,12 @@ return array(
     'reset-font'    =>  'Reset Font',
     'export-to-word'    =>  'Export to Word',
     'export-to-pdf'    =>  'Export to PDF',
-    'close' => 'Close',
     'print' => 'Print',
+    'expected-tat'  =>  'Expected TAT',
+    'actual-tat'    =>  'Actual TAT',
+    'waiting-time'  =>  'Waiting Time',
+    'no-records-found'  =>  'No records found.',
+    'toggle-graph'  =>  'Show/Hide Graph',
     /* 
     |   Generic phrases
     */
@@ -139,7 +143,6 @@ return array(
     'view-report'    =>  'View Report',
     'include-pending-tests'    =>  'Include Pending Tests',
     'include-range-visualization'    =>  'Include Range Visualization',
-    'select-tests'    =>  'Select Tests',
     'daily-log'    =>  'Daily Log',
     'test-records'    =>  'Test Records',
     'patient-records'    =>  'Patient Records',
@@ -152,6 +155,8 @@ return array(
     'count-type' => 'Count Type',
     'infection-report'    =>  'Infection Report',
     'prevalence-rates-report'    =>  'Prevalence Rates',
+    'select-lab-section'    =>  'Select Lab Section',
+    'select-test-type'  =>  'Select Test Type',
      /* 
     |   Tips
     */

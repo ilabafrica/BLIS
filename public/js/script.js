@@ -64,12 +64,6 @@ $(function(){
 		$(this).parent().remove();
 	});
 
-	$(".view-report-item-button").on('click', function() { alert('ok'); });
-
-	
-
-	});
-
 	/* 
 	// Search for patient from new test modal
 	// UI Rendering Logic here
@@ -167,10 +161,10 @@ $(function(){
 
 	var measureInputs = [numericInput, alphanumericInput, autocompleteInput, freetextInput]; 
 
-	function UIComponents(){
+	/*function UIComponents(){
 		/* Datepicker */
-		$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
-	}
+		/*$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
+	}*/
 
 	function startTest(testId){
 		var url = location.protocol+ "//"+location.host+ "/test/" +testId+ "/start";
@@ -188,8 +182,7 @@ $(function(){
 		});
 	}
 
-
-
+/*DOM ready functions*/
 $(document).ready(function($){
 	/*Get today's date*/
 	var currentDate = new Date();
@@ -197,8 +190,9 @@ $(document).ready(function($){
 	var month = currentDate.getMonth() + 1;
 	if(day<10) {
 	    day='0'+day
-	if(month<10) {
-    month='0'+month
+		if(month<10) {
+	    	month='0'+month
+		}
 	} 	
 	var year = currentDate.getFullYear();
 	/* Begin Datepicker */
@@ -210,20 +204,20 @@ $(document).ready(function($){
 
 	/*Font size - Increase/Decrease*/
 	// Reset Font Size
-    var originalFontSize = $('#wrap').css('font-size');
+    var originalFontSize = $('#patientReport').css('font-size');
     //console.log(originalFontSize);
 
-    $(".resetFont").click(function(){
-      $('#wrap').css('font-size', originalFontSize);
+    $("#resetFont").click(function(){
+      $('#patientReport').css('font-size', originalFontSize);
     });
 
     // Increase Font Size
-    $(".increaseFont").click(function(){
-      var currentFontSize = $('#wrap').css('font-size');
+    $("#increaseFont").click(function(){
+      var currentFontSize = $('#patientReport').css('font-size');
       var currentFontSizeNum = parseFloat(currentFontSize, 10);
       var newFontSize = currentFontSizeNum*1.2;
 
-      $('#wrap').css('font-size', newFontSize);
+      $('#patientReport').css('font-size', newFontSize);
       return false;
     });
 
@@ -240,6 +234,7 @@ $(document).ready(function($){
 		        });
 			});
 	});
+	
 	/*End dynamic select list options*/
 	/*Toggling test, patient and rejected specimen records*/
 	$("input[name='records']").change( function() {

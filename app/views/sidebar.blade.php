@@ -12,7 +12,12 @@
 		case 'measure': 
 		case 'specimentype': 
 			$active[4] = "active"; break;
-		case 'report': $active[5] = "active"; break;
+		case 'patient':
+		case 'daily':
+		case 'prevalence':
+		case 'counts':
+		case 'tat':
+		case 'infection': $active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
 		case 'role': $active[6] = "active"; break;
@@ -98,9 +103,10 @@
 			</div>
 		</li>
 		@endif
+		@if(Entrust::can('view_reports'))
 		<li>
 			<div class="main-menu {{$active[5]}}">
-				<a href="javascript:void(0);">
+				<a href="{{ URL::route("reports.prevalence.index")}}">
 					<span class="glyphicon glyphicon-stats"></span> Reports</a>
 			</div>
 			<div class="sub-menu {{$active[5]}}">
@@ -154,6 +160,7 @@
 				</ul>
 			</div>
 		</li>
+		@endif
 		@if(Entrust::hasRole(Role::getAdminRole()->name))
 		<li>
 			<div class="main-menu {{$active[6]}}">

@@ -310,6 +310,40 @@ Route::group(array("before" => "auth"), function()
         "uses" => "InfectionReportController@index"
     ));
 
+    /*PDF trial*/
+    /*Route::get('pdf', function()
+    {
+        $html = '<html>
+            <header>
+                <style>
+                    @font-face {font-family:my_font;src:url(\'http://www.dafont.com/fr/coolvetica.font\');}
+                    p {font-family:my_font;}
+                </style>
+            </header>
+            <body>
+                <p>Put your html here, or generate it with your favourite templating system.</p>
+            </body>
+            </html>';
+    return PDF::load($html, 'A4', 'portrait')->show();
+        /*$data = array();
+        $html = View::make('reports.patient.report', $data);
+        return PDF::load($html, 'A4', 'portrait')->show();*/
+        //return PDF::load($html, 'A4', 'portrait')->show();
+        //return "Mahako";
+    //});
+    //Route::get('pdf/{id}', 'PatientReportController@downloadPDF');
+    Route::get('pdf/{id}', function()
+    {
+        $patient = Patient::where('id', '=', Input::get('id'));
+        $html = View::make('reports.patient.pdf')->with('patient', $patient);
+        return PDF::load($html, 'A4', 'portrait')->show();
+        /*$html = '<html><body>'
+            . '<p>Test image</p>'
+            . '<img src="'.asset('/assets/img/emblem.png').'" alt="" />'
+            . '</body></html>';
+        return PDF::load($html, 'A4', 'portrait')->show();*/
+    });
+
 // Display all SQL executed in Eloquent
 Event::listen('illuminate.query', function($query)
 {

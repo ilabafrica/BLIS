@@ -8,8 +8,12 @@ class InfectionReportController extends \BaseController {
 	 * @return Response
 	 */
 	public function index()
-	{
-		return View::make('reports.infection.index');
+	{	
+		$labsections = TestCategory::lists('name', 'id');
+		$testtypes = TestType::all();
+		return View::make('reports.infection.index')
+					->with('labsections', $labsections)
+					->with('testtypes', $testtypes);
 	}
 
 

@@ -28,22 +28,26 @@
          <td>
              <input type='text' class="form-control" id='to' value='{{ date('d-m-Y') }}' />
          </td>
-         <td><button type="submit" class="btn btn-info" style="width:125px;" name="ok" id="ok" onClick="javascript:toggleGraph();"> 
-  		  		<i class="icon-filter"></i> Show/Hide Graph
+         <td><button type="submit" class="btn btn-info" name="ok" id="ok" onClick="javascript:toggleGraph();"> 
+  		  		<i class="glyphicon glyphicon-eye-open"></i> {{trans("messages.toggle-graph")}}
   		  	</button></td>
         <td><button type="submit" class="btn btn-primary" style="width:125px;" name="ok" id="ok" onClick=""> 
-  		  		<i class="icon-filter"></i> View
+  		  		<i class="glyphicon glyphicon-filter"></i> {{trans("messages.view")}}
   		  	</button></td>
     </tr>
-    <tr>
+	<tr>
         <td>{{ Form::label('description', trans("messages.test-category")) }}</td>
-         <td>{{ Form::select('section_id', $labsections->lists('name', 'id'), Input::old('section_id'), 
+         <td>{{ Form::select('section_id', array(''=>trans("messages.select-lab-section"))+$labsections, Input::old('section_id'), 
 					array('class' => 'form-control', 'id' => 'section_id')) }}</td>
          <td>{{ Form::label('description', trans("messages.test-type")) }}</td>
-         <td>{{ Form::select('test_type', array('default' => 'Select Test Type'), Input::old('test_type'), 
+         <td>{{ Form::select('test_type', array('default' => trans("messages.select-test-type")), Input::old('test_type'), 
 					array('class' => 'form-control', 'id' => 'test_type')) }}</td>
-         <td><input type="button" class="btn btn-success" style="width:125px;" value="Print" onclick=""></td>
-         <td><input type="button" class="btn btn-warning" style="width:125px;" value="Close" onclick=""></td>
+         <td><button type="submit" class="btn btn-success" style="width:125px;" name="ok" id="ok" onClick=""> 
+  		  		<i class="glyphicon glyphicon-send"></i> {{trans("messages.print")}}
+  		  	</button></td>
+         <td><button type="submit" class="btn btn-warning" style="width:125px;" name="ok" id="ok" onClick=""> 
+  		  		<i class="glyphicon glyphicon-remove"></i> {{trans("messages.close")}}
+  		  	</button></td>
      </tr>
 </thead>
 <tbody>

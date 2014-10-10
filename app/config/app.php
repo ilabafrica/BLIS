@@ -109,6 +109,7 @@ return array(
 		// providers array:
 	    'Chumper\Datatable\DatatableServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
+		'Thujohn\Pdf\PdfServiceProvider',
 
 	),
 
@@ -178,6 +179,7 @@ return array(
 		'SoftDeletingTrait'     => 'Illuminate\Database\Eloquent\SoftDeletingTrait',
 		'Datatable' => 'Chumper\Datatable\Facades\DatatableFacade',
 		'Entrust'         => 'Zizaco\Entrust\EntrustFacade',
+		'PDF' => 'Thujohn\Pdf\PdfFacade',
 	),
 
 );
