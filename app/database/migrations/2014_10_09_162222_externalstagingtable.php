@@ -15,7 +15,7 @@ class Externalstagingtable extends Migration {
 		Schema::create('staging', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('labNo');
+			$table->integer('labNo')->unique();
 			$table->integer('parentLabNo');
 			$table->integer('test_id');
 			$table->string('requestingClinician')->nullable();
@@ -29,7 +29,6 @@ class Externalstagingtable extends Migration {
 			$table->integer('patient_id');
 			$table->string('fullName');
 			$table->datetime('dateOfBirth')->nullable();
-			$table->integer('age')->nullable();
 			$table->string('gender')->nullable();
 			$table->string('address')->nullable();
 			$table->string('postalCode')->nullable();
