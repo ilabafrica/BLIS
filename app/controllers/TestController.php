@@ -15,13 +15,68 @@ class TestController extends \BaseController {
 	 */
 	public function index()
 	{
+		$testStatus = TestStatus::all();
+		$searchString = Input::get('search');
+		$testStatusId = Input::get('testStatusId');
+		$dateFrom = Input::get('dateFrom');
+		$dateTo = Input::get('dateTo');
+		if($searchString||$testStatusId||$dateFrom||$dateTo){
+			$tests = Test::with('visit', 'visit.patient', 'testType', 'specimen', 'testStatus', 'testStatus.testPhase')->where(function($q) use ($searchString){
+				$q->whereHas('visit', function($q) use ($searchString){
+					$q->whereHas('patient', function($q)  use ($searchString){
+						(is_numeric($searchString)) ? $q->where('patient_number', 'like', '%' . $searchString . '%') : $q->where('name', 'like', '%' . $searchString . '%');
+					});
+				})->orWhereHas('testType', function($q) use ($searchString){
+				    $q->where('name', 'like', '%' . $searchString . '%');//Search by test type
+				})->orWhereHas('specimen', function($q) use ($searchString){
+				    $q->where('id', 'like', '%' . $searchString . '%');//Search by specimen number
+				})->orWhereHas('visit',  function($q) use ($searchString){
+					$q->where('id', 'like', '%' . $searchString . '%');//Search by visit number
+				});
+			});
+			if ($testStatusId) {
+				$tests = $tests->where(function($q) use ($testStatusId){
+					$q->whereHas('testStatus', function($q) use ($testStatusId){
+					    $q->where('id','=', $testStatusId);//Filter by test status
+					});
+				});
+			}
+
+			if ($dateFrom||$dateTo) {
+				$tests = $tests->where(function($q) use ($dateFrom, $dateTo){
+					$q->whereHas('specimen', function($q) use ($dateFrom, $dateTo){//Filter by date created
+						$q = $q->where('time_created', '>=', $dateFrom);
+						(empty($dateTo)) ? $q : $q->where('time_created', '<=', $dateTo);
+					});
+				});
+			}
+			$tests = $tests->orderBy('time_created', 'DESC')->paginate(Config::get('kblis.page-items'));
+			if (count($tests) == 0) {
+			 	Session::flash('message', 'Your search <b>'.$searchString.'</b>, did not match any test record!');
+			}
+		}
+		else{
 		// List all the active tests
 			$tests = Test::orderBy('time_created', 'desc')->paginate(Config::get('kblis.page-items'));
-
+		}
 		// Load the view and pass the tests
-		return View::make('test.index')->with('testSet', $tests);
+		return View::make('test.index')->with('testSet', $tests)
+									   ->with('testStatus', $testStatus)
+									   ->with('search', $searchString)
+									   ->with('testStatusId', $testStatusId)
+									   ->with('dateFrom', $dateFrom)
+									   ->with('dateTo', $dateTo);
 	}
 
+	/**
+	 * Test Search
+	 *
+	 * @return Response
+	 */
+	public function testSearch()
+	{
+		//
+	}
 
 	/**
 	 * Display a form for creating a new Test.
