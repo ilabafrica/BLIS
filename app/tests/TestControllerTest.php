@@ -6,82 +6,12 @@
 class TestControllerTest extends TestCase 
 {
 
-    /*-------------------------------------------------------------------------------
-    | 14 methods in the TestController class: Invoke URLs or methods?
-    | - create - Shows create interface
-    |   + Check(or not) for patient search box?
-    |   + Check that expected field names are there: visit_type, physician, testtypes
-    | - saveNewTest (1 for each type)
-    |   + Get random patient
-    |   + Get a test type(1 of every testtype available)
-    |   + Required Input: physician, testtypes, patient_id, visit_type
-    |   + Check that the returned view has data on the saved test:
-    |     * 2nd <td> has patient name
-    | - index
-    |   + Check that returned view has at least 3 <tr> in the <tbody>
-    | - reject
-    |   + Required input: specimen_id
-    |   + Check that returned view contains: rejectionReason, reason_explained_to
-    | - rejectAction
-    |   + Required input: specimen_id, rejectionReason, reason_explained_to
-    |   + Check that the new status of the specimen is REJECTED
-    | - accept
-    |   + Required input: id (specimen_id)
-    |   + Check that the new status of the specimen is ACCEPTED
-    | - changeSpecimenType
-    |   + Required input: id (specimen_id)
-    |   + Check that the returned view has a <select> called specimen_type:
-    | - updateSpecimenType
-    |   + Required input: id (specimen_id), new specimen_type_id
-    |   + Check that the new specimen_type_id is as expected
-    | - start
-    |   + Required input: testid
-    |   + Check that the new status of the test is STARTED
-    | - enterResults
-    |   + Required input: testid
-    |   + Check check view for presence of textarea#interpretation
-    | - saveResults (1 for each test type)
-    |   + Varying inputs: interpretation, test_id, m_[measure_id]
-    |   + For each test check that at least 1 result is present in test_results
-    | - edit
-    |   + Required input: testid
-    |   + Check check view for presence of textarea#interpretation
-    | - verify (TODO)
-    |   + Required input: testid
-    |   + Check that the new status of the test is VERIFIED
-    | - viewDetails
-    |   + Required input: testid
-    |   + Check that parent panel contains 3 child panels
-    |--------------------------------------------------------------------------------
-    */
-    /*-------------------------------------------------------------------------------
-    | 2 Key methods in the Test (model) class: getWaitTime() and getTurnaroundTime().
-    | The rest are relationship indicators.
-    |--------------------------------------------------------------------------------
-    */
-    /*
-    | getWaitTime() test
-    | 1. Create new test
-         - Get random patient
-         - Create a visit
-         - Request a test (random?)
-    | 2. Progess the test to the specimen collection phase
-    | 3. Check that the wait time is positive
-    */
-    /*
-    | getTurnaroundTime()
-    | 1. Create new test
-    | 2. Progess test to completed phase
-    | 3. Check that the turnaround time is positive
-    */
-
-
-
     public function setUp(){
-        parent::setUp();
-        Artisan::call('migrate');
-        Artisan::call('db:seed');
+      parent::setUp();
+      Artisan::call('migrate');
+      Artisan::call('db:seed');
     }
+
 
    /**
 	  * @group testIndex
@@ -90,6 +20,7 @@ class TestControllerTest extends TestCase
 	  */    
  	  public function testifIndexWorks()
   	{
+ 
       echo "\n\nTEST CONTROLLER TEST\n\n";
       $searchbyPending = array('search' => '', 'testStatusId' => '1', 'dateFrom' => '', 'dateTo' => '');//Pending
       $searchbyStarted = array('search' => '', 'testStatusId' => '2', 'dateFrom' => '', 'dateTo' => '');//Started
@@ -153,4 +84,146 @@ class TestControllerTest extends TestCase
         }
       }
     }
+
+
+    /*-------------------------------------------------------------------------------
+    | 14 methods in the TestController class: Invoke URLs or methods?
+    |--------------------------------------------------------------------------------
+    | - create - Shows create interface
+    |   + Check(or not) for patient search box?
+    |   + Check for expected field names: visit_type, physician, testtypes. One will do.
+    */
+    public function testDisplayCreateForm(){
+      $patient = Patient::first();
+      $url = '/test/create/'.$patient->id;
+      $crawler = $this->client->request('GET', $url);
+
+      $visitType = $crawler->filter('select')->attr('name');
+      $this->assertEquals("visit_type", $visitType);
+    }
+    /*
+    | - saveNewTest (1 for each type)
+    |   + Get random patient
+    |   + Get a test type(1 of every testtype available)
+    |   + Required Input: physician, testtypes, patient_id, visit_type
+    |   + Check that the returned view has data on the saved test:
+    |     * 2nd <td> has patient name
+    | - index
+    |   + Check that returned view has at least 3 <tr> in the <tbody>
+    */
+    public function testListTests(){
+      $url = URL::route('test.index');
+      $crawler = $this->client->request('GET', $url);
+
+      $this->assertCount(1, $crawler->filter('div.panel.test-create'));
+    }
+    /*
+    | - reject
+    |   + Required input: specimen_id
+    |   + Check that returned view contains: rejectionReason, reason_explained_to
+    */
+    public function testRejectView(){
+      $specimen = Specimen::where('specimen_status_id','=', Specimen::ACCEPTED)->first();
+      $url = URL::route('test.reject', array($specimen->id));
+      $crawler = $this->client->request('GET', $url);
+
+      $this->assertCount(1, $crawler->filter('#reject_explained_to'));
+    }
+    /*
+    | - rejectAction
+    |   + Required input: specimen_id, rejectionReason, reason_explained_to
+    |   + Check that the new status of the specimen is REJECTED
+    | - accept
+    |   + Required input: id (specimen_id)
+    |   + Check that the new status of the specimen is ACCEPTED
+    | - changeSpecimenType
+    |   + Required input: id (specimen_id)
+    |   + Check that the returned view has a <select> called specimen_type:
+    | - updateSpecimenType
+    |   + Required input: id (specimen_id), new specimen_type_id
+    |   + Check that the new specimen_type_id is as expected
+    | - start
+    |   + Required input: testid
+    |   + Check that the new status of the test is STARTED
+    | - enterResults
+    |   + Required input: testid
+    |   + Check check view for presence of textarea#interpretation
+    */
+    public function testEnterResultsView(){
+      $tests = Test::where('test_status_id','=', Test::STARTED)
+                ->orWhere('test_status_id','=', Test::COMPLETED)->lists('id');
+
+      foreach ($tests as $id) {
+        $test = Test::find($id);
+        if($test->specimen->specimen_status_id == Specimen::ACCEPTED){
+          $url = URL::route('test.enterResults', array($test->id));
+          break;
+        }
+      }
+      $crawler = $this->client->request('GET', $url);
+
+      $this->assertCount(1, $crawler->filter('textarea#interpretation'));
+    }
+    /*
+    | - saveResults (1 for each test type)
+    |   + Varying inputs: interpretation, test_id, m_[measure_id]
+    |   + For each test check that at least 1 result is present in test_results
+    | - edit
+    |   + Required input: testid
+    |   + Check check view for presence of textarea#interpretation
+    */
+    public function testEditTestView(){
+      $tests = Test::where('test_status_id','=', Test::COMPLETED)->lists('id');
+
+      foreach ($tests as $id) {
+        $test = Test::find($id);
+        if($test->specimen->specimen_status_id == Specimen::ACCEPTED){
+          $url = URL::route('test.edit', array($test->id));
+          break;
+        }
+      }
+      $crawler = $this->client->request('GET', $url);
+
+      $this->assertCount(1, $crawler->filter('textarea#interpretation'));
+    }
+    /*
+    | - verify (TODO)
+    |   + Required input: testid
+    |   + Check that the new status of the test is VERIFIED
+    | - viewDetails
+    |   + Required input: testid
+    |   + Check that there are 4 panels in total
+    */
+    public function testViewDetailsView(){
+
+      $url = URL::route('test.viewDetails', array(Test::first()->id));
+      $crawler = $this->client->request('GET', $url);
+
+      $this->assertCount(4, $crawler->filter('div.panel'));
+    }
+    /*
+    |--------------------------------------------------------------------------------
+    */
+    /*-------------------------------------------------------------------------------
+    | 2 Key methods in the Test (model) class: getWaitTime() and getTurnaroundTime().
+    | The rest are relationship indicators.
+    |--------------------------------------------------------------------------------
+    */
+    /*
+    | getWaitTime() test
+    | 1. Create new test
+         - Get random patient
+         - Create a visit
+         - Request a test (random?)
+    | 2. Progess the test to the specimen collection phase
+    | 3. Check that the wait time is positive
+    */
+    /*
+    | getTurnaroundTime()
+    | 1. Create new test
+    | 2. Progess test to completed phase
+    | 3. Check that the turnaround time is positive
+    */
+
+
 }
