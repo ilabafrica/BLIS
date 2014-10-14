@@ -1,10 +1,81 @@
 <?php
 /**
- * Tests the MeasureController functions that store, edit and delete measures 
+ * Tests the TestController functions that store, edit and delete measures 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
 class TestControllerTest extends TestCase 
 {
+
+    /*-------------------------------------------------------------------------------
+    | 14 methods in the TestController class: Invoke URLs or methods?
+    | - create - Shows create interface
+    |   + Check(or not) for patient search box?
+    |   + Check that expected field names are there: visit_type, physician, testtypes
+    | - saveNewTest (1 for each type)
+    |   + Get random patient
+    |   + Get a test type(1 of every testtype available)
+    |   + Required Input: physician, testtypes, patient_id, visit_type
+    |   + Check that the returned view has data on the saved test:
+    |     * 2nd <td> has patient name
+    | - index
+    |   + Check that returned view has at least 3 <tr> in the <tbody>
+    | - reject
+    |   + Required input: specimen_id
+    |   + Check that returned view contains: rejectionReason, reason_explained_to
+    | - rejectAction
+    |   + Required input: specimen_id, rejectionReason, reason_explained_to
+    |   + Check that the new status of the specimen is REJECTED
+    | - accept
+    |   + Required input: id (specimen_id)
+    |   + Check that the new status of the specimen is ACCEPTED
+    | - changeSpecimenType
+    |   + Required input: id (specimen_id)
+    |   + Check that the returned view has a <select> called specimen_type:
+    | - updateSpecimenType
+    |   + Required input: id (specimen_id), new specimen_type_id
+    |   + Check that the new specimen_type_id is as expected
+    | - start
+    |   + Required input: testid
+    |   + Check that the new status of the test is STARTED
+    | - enterResults
+    |   + Required input: testid
+    |   + Check check view for presence of textarea#interpretation
+    | - saveResults (1 for each test type)
+    |   + Varying inputs: interpretation, test_id, m_[measure_id]
+    |   + For each test check that at least 1 result is present in test_results
+    | - edit
+    |   + Required input: testid
+    |   + Check check view for presence of textarea#interpretation
+    | - verify (TODO)
+    |   + Required input: testid
+    |   + Check that the new status of the test is VERIFIED
+    | - viewDetails
+    |   + Required input: testid
+    |   + Check that parent panel contains 3 child panels
+    |--------------------------------------------------------------------------------
+    */
+    /*-------------------------------------------------------------------------------
+    | 2 Key methods in the Test (model) class: getWaitTime() and getTurnaroundTime().
+    | The rest are relationship indicators.
+    |--------------------------------------------------------------------------------
+    */
+    /*
+    | getWaitTime() test
+    | 1. Create new test
+         - Get random patient
+         - Create a visit
+         - Request a test (random?)
+    | 2. Progess the test to the specimen collection phase
+    | 3. Check that the wait time is positive
+    */
+    /*
+    | getTurnaroundTime()
+    | 1. Create new test
+    | 2. Progess test to completed phase
+    | 3. Check that the turnaround time is positive
+    */
+
+
 
     public function setUp(){
         parent::setUp();

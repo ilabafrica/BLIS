@@ -213,10 +213,10 @@ class TestController extends \BaseController {
 	 * @param
 	 * @return
 	 */
-	public function changeSpecimen()
+	public function changeSpecimenType()
 	{
 		$test = Test::find(Input::get('id'));
-		return View::make('test.changeSpecimen')->with('test', $test);
+		return View::make('test.changeSpecimenType')->with('test', $test);
 	}
 
 	/**

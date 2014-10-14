@@ -142,7 +142,7 @@
                                     allow the user to change to any of the other eligible ones.
                                 -->
                             <a class="btn btn-sm btn-danger change-specimen" href="#change-specimen-modal"
-                                data-toggle="modal" data-url="{{ URL::route('test.changeSpecimen') }}"
+                                data-toggle="modal" data-url="{{ URL::route('test.changeSpecimenType') }}"
                                 data-test-id="{{$test->id}}" data-target="#change-specimen-modal"
                                 title="{{trans('messages.change-specimen-title')}}">
                                 <span class="glyphicon glyphicon-transfer"></span>
