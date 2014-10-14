@@ -65,8 +65,8 @@ $(function(){
 	});
 
 	/* 
-	// Search for patient from new test modal
-	// UI Rendering Logic here
+	* Search for patient from new test modal
+	* UI Rendering Logic here
 	*/
 
 	$('#new-test-modal .search-patient').click(function(){
@@ -92,12 +92,85 @@ $(function(){
 			};
 		});
 	});
-	/* Prevent modal form submit (default action) when the ENTER key is pressed*/
+	/* Prevent patient search modal form submit (default action) when the ENTER key is pressed*/
 	$('#new-test-modal .search-text').keypress(function( event ) {
 		if ( event.which == 13 ) {
 			event.preventDefault();
 			$('#new-test-modal .search-patient').click();
 		}
+	});
+
+	/* - Get a Test->id from the button clicked,
+	|  - Fetch corresponding test and default specimen data
+	|  - Display all in the modal.
+	*/
+	$('#change-specimen-modal').on('show.bs.modal', function(e) {
+	    //get data-id attribute of the clicked element
+	    var id = $(e.relatedTarget).data('test-id');
+		var url = $(e.relatedTarget).data('url');
+
+	    $.post(url, { id: id}).done(function(data){
+		    //Show it in the modal
+		    $(e.currentTarget).find('.modal-body').html(data);
+	    });
+	});
+
+	/* Accept Specimen button.
+	|  - Updates the Specimen status via an AJAX call
+	|  - Changes the UI to show the right status and buttons
+	*/
+	$('.test-create').on( "click", ".accept-specimen", function(e) {
+		var testID = $(this).data('test-id');
+		var specID = $(this).data('specimen-id');
+		var url = $(this).data('url');
+		$.post(url, { id: specID}).done(function(){});
+
+		var parent = $(e.currentTarget).parent();
+		// First replace the status
+		var newStatus = $('.pending-test-accepted-specimen').html();
+		parent.siblings('.test-status').html(newStatus);
+
+		// Add the new buttons
+		var newButtons = $('.reject-start-buttons').html();
+		parent.append(newButtons);
+
+		// Set properties for the new buttons
+		var rejectURL = location.protocol+ "//"+location.host+ "/test/" + specID+ "/reject";
+		parent.children('.reject-specimen').attr('id',"reject-" + testID + "-link");
+		parent.children('.reject-specimen').attr('href', rejectURL);
+
+		parent.children('.start-test').attr('data-test-id', testID);
+
+		// Now remove the unnecessary buttons
+		$(this).siblings('.change-specimen').remove();
+		$(this).remove();
+	});
+
+	/* Start Test button.
+	|  - Updates the Test status via an AJAX call
+	|  - Changes the UI to show the right status and buttons
+	*/
+	$('.test-create').on( "click", ".start-test", function(e) {
+		var testID = $(this).data('test-id');
+		var url = $(this).data('url');
+		$.post(url, { id: testID}).done(function(){});
+
+		var parent = $(e.currentTarget).parent();
+		// First replace the status
+		var newStatus = $('.started-test-accepted-specimen').html();
+		parent.siblings('.test-status').html(newStatus);
+
+		// Add the new buttons
+		var newButtons = $('.enter-result-buttons').html();
+		parent.append(newButtons);
+
+		// Set properties for the new buttons
+		var resultURL = location.protocol+ "//"+location.host+ "/test/" + testID+ "/enterresults";
+		parent.children('.enter-result').attr('id',"enter-results-" + testID + "-link");
+		parent.children('.enter-result').attr('href',resultURL);
+
+		// Now remove the unnecessary buttons
+		$(this).remove();
 	});
 
 });
@@ -131,7 +204,10 @@ $(function(){
 	 * HTML ELEMENTS
 	 */
 	 
-	 /*Measure Inputs*/
+	 /*
+	 | Measure Inputs
+	 | TODO: Move the HTML lines to the appropriate view
+	 */
 
 	var numericInput ='<div class="numeric-range-measure">'
 		+'<input name="measurerangeid[]" type="hidden" value="0">'
@@ -161,10 +237,10 @@ $(function(){
 
 	var measureInputs = [numericInput, alphanumericInput, autocompleteInput, freetextInput]; 
 
-	/*function UIComponents(){
+	function UIComponents(){
 		/* Datepicker */
-		/*$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
-	}*/
+		$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
+	}
 
 	function startTest(testId){
 		var url = location.protocol+ "//"+location.host+ "/test/" +testId+ "/start";

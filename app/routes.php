@@ -101,7 +101,7 @@ Route::group(array("before" => "auth"), function()
     });
     /*Route::resource('test', 'TestController');*/
 
-    Route::get("/test", array(
+    Route::any("/test", array(
         "as"   => "test.index",
         "uses" => "TestController@index"
     ));
@@ -111,12 +111,27 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@reject"
     ));
 
-    Route::get("/test/{id}/rejectaction", array(
+    Route::post("/test/rejectaction", array(
         "as"   => "test.rejectAction",
         "uses" => "TestController@rejectAction"
     ));
 
-    Route::get("/test/{test}/start", array(
+     Route::post("/test/acceptspecimen", array(
+        "as"   => "test.acceptSpecimen",
+        "uses" => "TestController@accept"
+    ));
+
+     Route::post("/test/changespecimen", array(
+        "as"   => "test.changeSpecimen",
+        "uses" => "TestController@changeSpecimen"
+    ));
+
+     Route::post("/test/updatespecimentype", array(
+        "as"   => "test.updateSpecimenType",
+        "uses" => "TestController@updateSpecimenType"
+    ));
+
+    Route::post("/test/start", array(
         "as"   => "test.start",
         "uses" => "TestController@start"
     ));
@@ -175,10 +190,6 @@ Route::group(array("before" => "auth"), function()
             "uses" => "RoleController@delete"
         ));
     });
-    Route::get("/test/{test}/getteststatus", array(
-        "as"   => "test.getTestStatus",
-        "uses" => "TestController@getTestStatusById"
-    ));
 });
 
 /*Route Patient Report*/

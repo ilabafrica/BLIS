@@ -12,6 +12,12 @@ class Specimen extends Eloquent
 	public $timestamps = false;
 
 	/**
+	 * Specimen status constants
+	 */
+	const NOT_COLLECTED = 1;
+	const ACCEPTED = 2;
+	const REJECTED = 3;
+	/**
 	 * Enabling soft deletes for specimen details.
 	 *
 	 * @var boolean
@@ -21,7 +27,7 @@ class Specimen extends Eloquent
 	/**
 	 * Test Phase relationship
 	 */
-	public function testPhases()
+	public function testPhase()
 	{
 		return $this->belongsTo('TestPhase');
 	}
@@ -29,7 +35,7 @@ class Specimen extends Eloquent
 	/**
 	 * Specimen Status relationship
 	 */
-	public function specimenStatuses()
+	public function specimenStatus()
 	{
 		return $this->belongsTo('SpecimenStatus');
 	}
@@ -45,16 +51,23 @@ class Specimen extends Eloquent
 	/**
 	 * Rejection Reason relationship
 	 */
-	public function rejectionReasons()
+	public function rejectionReason()
 	{
 		return $this->belongsTo('RejectionReason');
 	}
 
 	/**
-	 * User (created) relationship
+	* User (created) relationship
 	 */
 	public function createdBy()
 	{
 		return $this->belongsTo('User', 'created_by', 'id');
 	}
+	/**
+	 * Test relationship
+	 */
+	public function test()
+    {
+        return $this->hasOne('Test');
+    }
 }

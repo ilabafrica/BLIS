@@ -15,16 +15,71 @@ class TestController extends \BaseController {
 	 */
 	public function index()
 	{
+		$testStatus = TestStatus::all();
+		$searchString = Input::get('search');
+		$testStatusId = Input::get('testStatusId');
+		$dateFrom = Input::get('dateFrom');
+		$dateTo = Input::get('dateTo');
+		if($searchString||$testStatusId||$dateFrom||$dateTo){
+			$tests = Test::with('visit', 'visit.patient', 'testType', 'specimen', 'testStatus', 'testStatus.testPhase')->where(function($q) use ($searchString){
+				$q->whereHas('visit', function($q) use ($searchString){
+					$q->whereHas('patient', function($q)  use ($searchString){
+						(is_numeric($searchString)) ? $q->where('patient_number', 'like', '%' . $searchString . '%') : $q->where('name', 'like', '%' . $searchString . '%');
+					});
+				})->orWhereHas('testType', function($q) use ($searchString){
+				    $q->where('name', 'like', '%' . $searchString . '%');//Search by test type
+				})->orWhereHas('specimen', function($q) use ($searchString){
+				    $q->where('id', 'like', '%' . $searchString . '%');//Search by specimen number
+				})->orWhereHas('visit',  function($q) use ($searchString){
+					$q->where('id', 'like', '%' . $searchString . '%');//Search by visit number
+				});
+			});
+			if ($testStatusId) {
+				$tests = $tests->where(function($q) use ($testStatusId){
+					$q->whereHas('testStatus', function($q) use ($testStatusId){
+					    $q->where('id','=', $testStatusId);//Filter by test status
+					});
+				});
+			}
+
+			if ($dateFrom||$dateTo) {
+				$tests = $tests->where(function($q) use ($dateFrom, $dateTo){
+					$q->whereHas('specimen', function($q) use ($dateFrom, $dateTo){//Filter by date created
+						$q = $q->where('time_created', '>=', $dateFrom);
+						(empty($dateTo)) ? $q : $q->where('time_created', '<=', $dateTo);
+					});
+				});
+			}
+			$tests = $tests->orderBy('time_created', 'DESC')->paginate(Config::get('kblis.page-items'));
+			if (count($tests) == 0) {
+			 	Session::flash('message', 'Your search <b>'.$searchString.'</b>, did not match any test record!');
+			}
+		}
+		else{
 		// List all the active tests
 			$tests = Test::orderBy('time_created', 'desc')->paginate(Config::get('kblis.page-items'));
-
+		}
 		// Load the view and pass the tests
-		return View::make('test.index')->with('testSet', $tests);
+		return View::make('test.index')->with('testSet', $tests)
+									   ->with('testStatus', $testStatus)
+									   ->with('search', $searchString)
+									   ->with('testStatusId', $testStatusId)
+									   ->with('dateFrom', $dateFrom)
+									   ->with('dateTo', $dateTo);
 	}
 
+	/**
+	 * Test Search
+	 *
+	 * @return Response
+	 */
+	public function testSearch()
+	{
+		//
+	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Display a form for creating a new Test.
 	 *
 	 * @return Response
 	 */
@@ -43,7 +98,7 @@ class TestController extends \BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Save a new Test.
 	 *
 	 * @return Response
 	 */
@@ -79,10 +134,10 @@ class TestController extends \BaseController {
 			$testTypes = Input::get('testtypes');
 			if(is_array($testTypes)){
 				foreach ($testTypes as $key => $value) {
-					// Create Specimen - specimen_type_id, created_by, referred_from, referred_to
+					// Create Specimen - specimen_type_id, accepted_by, referred_from, referred_to
 					$specimen = new Specimen;
 					$specimen->specimen_type_id = TestType::find((int)$value)->specimenTypes->lists('id')[0];
-					$specimen->created_by = Auth::user()->id;
+					$specimen->accepted_by = Auth::user()->id;
 					$specimen->referred_to = 0; //No one
 					$specimen->referred_from = 0; //No one
 					$specimen->save();
@@ -91,7 +146,7 @@ class TestController extends \BaseController {
 					$test->visit_id = $visit->id;
 					$test->test_type_id = (int)$value;
 					$test->specimen_id = $specimen->id;
-					$test->test_status_id = 1; //Pending
+					$test->test_status_id = Test::PENDING;
 					$test->created_by = Auth::user()->id;
 					$test->requested_by = Input::get('physician');
 					$test->save();
@@ -110,9 +165,9 @@ class TestController extends \BaseController {
 	 */
 	public function reject($specimenID)
 	{
-		
+		$specimen = Specimen::find($specimenID);
 		$rejectionReason = RejectionReason::all();
-		return View::make('test.reject')->with('specimenId', $specimenID)
+		return View::make('test.reject')->with('specimen', $specimen)
 						->with('rejectionReason', $rejectionReason);
 	}
 
@@ -122,31 +177,77 @@ class TestController extends \BaseController {
 	 * @param
 	 * @return
 	 */
-	public function rejectAction($specimenID)
+	public function rejectAction()
 	{
+		$specimenID = Input::get('specimen_id');
 		$specimen = Specimen::find($specimenID);
 		$specimen->rejection_reason_id = Input::get('rejectionReason');
-		$specimen->specimen_status_id = 2;//Rejected
+		$specimen->specimen_status_id = Specimen::REJECTED;
+		$specimen->time_rejected = date('Y-m-d H:i:s');
+		$specimen->reject_explained_to = Input::get('reject_explained_to');
 		$specimen->save();
 		// redirect
-		Session::flash('message', 'Specimen was successfully rejected!');
+		Session::flash('message', 'Specimen was rejected!');
 		return Redirect::to('test');
 	}
 
 	/**
+	 * Accept a Test's Specimen
+	 *
+	 * @param
+	 * @return
+	 */
+	public function accept()
+	{
+		$specimen = Specimen::find(Input::get('id'));
+		$specimen->specimen_status_id = Specimen::ACCEPTED;
+		$specimen->time_accepted = date('Y-m-d H:i:s');
+		$specimen->save();
+
+		return $specimen->specimen_status_id;
+	}
+
+	/**
+	 * Display Change specimenType form fragment to be loaded in a modal via AJAX
+	 *
+	 * @param
+	 * @return
+	 */
+	public function changeSpecimen()
+	{
+		$test = Test::find(Input::get('id'));
+		return View::make('test.changeSpecimen')->with('test', $test);
+	}
+
+	/**
+	 * Update a Test's SpecimenType
+	 *
+	 * @param
+	 * @return
+	 */
+	public function updateSpecimenType()
+	{
+		$specimen = Specimen::find(Input::get('specimen_id'));
+		$specimen->specimen_type_id = Input::get('specimen_type');
+		$specimen->save();
+
+		return Redirect::to('test/'.$specimen->test->id.'/viewdetails');
+	}
+
+/**
 	 * Starts Test
 	 *
 	 * @param
 	 * @return
 	 */
-	public function start($testID)
+	public function start()
 	{
-		$test = Test::find($testID);
-		$test->test_status_id = 2;//Started
+		$test = Test::find(Input::get('id'));
+		$test->test_status_id = Test::STARTED;
+		$test->time_started = date('Y-m-d H:i:s');
 		$test->save();
-		// redirect
-		Session::flash('message', 'Test started!');
-		return Redirect::to('test');
+
+		return $test->test_status_id;
 	}
 
 	/**
@@ -170,9 +271,10 @@ class TestController extends \BaseController {
 	public function saveResults($testID)
 	{
 		$test = Test::find($testID);
-		$test->test_status_id = 3;//Completed
+		$test->test_status_id = Test::COMPLETED;
 		$test->interpretation = Input::get('interpretation');
 		$test->tested_by = Auth::user()->id;
+		$test->time_completed = date('Y-m-d H:i:s');
 		$test->save();
 		
 		foreach ($test->testType->measures as $measure) {
@@ -221,15 +323,4 @@ class TestController extends \BaseController {
 		return View::make('test.verify');
 	}
 
-	/**
-	 * Get test status by test ID
-	 *
-	 * @param
-	 * @return
-	 */
-	public function getTestStatusById($testID)
-	{
-		$test = Test::find($testID);
-		return trans('messages.'.$test->testStatus->name);
-	}
 }

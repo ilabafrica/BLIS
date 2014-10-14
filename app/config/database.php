@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'iblis',
-			'username'  => 'lara',
-			'password'  => 'password',
+			'database'  => 'blis',
+			'username'  => 'root',
+			'password'  => 'Admin123',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
