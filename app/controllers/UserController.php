@@ -277,11 +277,22 @@ class UserController extends Controller {
                     Log::info($e);
                 }
             }
+            // change password if parameters were entered
+            if(Input::get('passwordedit')) {
+                if (Hash::check(Input::get('current-password'), $user->password))
+                {
+                    $user->password = Hash::make(Input::get('new-password'));
+                }else{
+                    return Redirect::to('user/' . $id . '/edit')
+                            ->withErrors(trans('messages.incorrect-current-passord'));
+                }
+            }
 
             $user->save();
 
             // redirect
-            return Redirect::to('user')->with('message', 'The user details were successfully updated!');
+            return Redirect::to('user')->with('message', trans('messages.user-profile-edit-success'));
+
         }
     }
 

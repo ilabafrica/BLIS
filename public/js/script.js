@@ -22,6 +22,31 @@ $(function(){
 		$(this).siblings().show();
 	});
 
+	/*  USER 
+	|-  Edit Profile 
+	*/
+	/*Toggle Password-Change and User-Profile Edit*/
+	$('.edit-user').click(function(){
+		if ($(this).attr('id') == 'profile') {
+		    if ($('.edit-profile').hasClass('hidden')) {
+		    	$('.edit-profile').removeClass('hidden');
+		    	$('.profile-photo').removeClass('hidden');
+		    	$('.change-pass').addClass('hidden');
+		    }
+	    } else{
+		    if ($('.change-pass').hasClass('hidden')) {
+		    	$('.change-pass').removeClass('hidden');
+		    	$('.edit-profile').addClass('hidden');
+		    	$('.profile-photo').addClass('hidden');
+		    	$( '.change-pass-trigger' ).attr( 'value', 'password');
+		    }
+	    };
+	});
+	/*Submitting Profile edit, with password change validation*/
+	$('.submit-profile-edit').click(function() {
+			editUserProfile();
+	});
+
 	/*  MEASURES 
 	|-  Add another measure button 
 	*/
@@ -179,4 +204,64 @@ $(function(){
 		$.get( url, function(testStatus) {
 			$('#test-status-'+testId).html(testStatus);
 		});
+	}
+
+	function editUserProfile()
+	{
+		/*If Password-Change Validation*/
+	    if(!$('.change-pass').hasClass('hidden')){
+		    var currpwd = $('#current-password').val();
+		    var newpwd1 = $('#new-password').val();
+		    var newpwd2= $('#repeat-password').val();
+		    var newpwd1_len = newpwd1.length;
+		    var newpwd2_len = newpwd2.length;
+		    var error_flag = false;
+		    if(currpwd == '')
+		    {
+		        $('.curr-pwd-empty').removeClass('hidden');
+		        error_flag = true;
+		    }
+		    else
+		    {
+		        $('.curr-pwd-empty').addClass('hidden');
+		    }
+
+		    if(newpwd1 == '')
+		    {
+		        $('.new-pwd-empty').removeClass('hidden');
+		        error_flag = true;
+		    }
+		    else
+		    {
+		        $('.new-pwd-empty').addClass('hidden');
+		    }
+		    if(newpwd2 == '')
+		    {
+		        $('.new-pwdrepeat-empty').removeClass('hidden');
+		        error_flag = true;
+		    }
+		    else
+		    {
+		        $('.new-pwdrepeat-empty').addClass('hidden');
+		    }
+		    
+		    if(!error_flag)
+		    {
+		        if(newpwd1_len != newpwd2_len || newpwd1 != newpwd2)
+		        {
+		            $('.new-pwdmatch-error').removeClass('hidden');
+		            error_flag = true;
+		        }
+		        else
+		        {
+		            $('.new-pwdmatch-error').addClass('hidden');
+		        }
+		    }
+		    if(!error_flag)
+		    {
+		        $('#form-edit-user').submit();
+		    }
+		}else{
+		    $('#form-edit-user').submit();
+		}
 	}

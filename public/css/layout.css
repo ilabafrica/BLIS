@@ -407,3 +407,10 @@ label, input {
 .table tbody tr.rejected td.rejected {
     background: #FFCCCC;
 }
+
+/**
+ * User change password - Used on edit-profile view
+ */
+#current-password, #new-password, #repeat-password{
+    width:200px;
+}
