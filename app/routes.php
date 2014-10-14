@@ -20,7 +20,7 @@ Route::group(array("before" => "guest"), function()
     | Proposed route for the BLIS api, we will receive api calls 
     | from other systems from this route.
     */
-    Route::get('/api/receiver', array(
+    Route::post('/api/receiver', array(
         "as" => "api.receiver",
         "uses" => "interfacerController@receiveLabrequest"
     ));
@@ -203,5 +203,5 @@ Event::listen('illuminate.query', function($query)
 Event::listen('api.receivedLabrequest', function($labRequest)
 {
     //We instruct the interfacer to handle the request
-    Interfacer::get($labRequest);
+    Interfacer::retrieve($labRequest);
 });

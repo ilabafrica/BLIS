@@ -10,7 +10,7 @@ interface interfacerInterface {
     /*
     * Get retreives or accepts data from the external system
     */
-    public function get($item);
+    public function retrieve($item);
 
     /**
     * Save the received data in the patient, test and specimen tables

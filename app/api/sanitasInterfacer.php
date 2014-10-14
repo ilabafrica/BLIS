@@ -2,11 +2,12 @@
 
 class sanitasInterfacer implements interfacerInterface{
 
-    public function get($labrequest)
+    public function retrieve($labRequest)
     {
+        //In sanitas case request are sent to us thus not much to do here
         //validate input
         //Check if json
-        $this->process($labRequest)
+        $this->process($labRequest);
     }
 
     /**
@@ -29,30 +30,31 @@ class sanitasInterfacer implements interfacerInterface{
         //Test if on dupluicate key works with save natively
 
         //Check if patient exists, if true dont save again
+        dd($labRequest);
         $patient = Patient::where('patient_number', '==', $labRequest['patient']['id'])->get();
-        if (!$patient)
+        if ($patient->isEmpty())
         {
             $patient = new Patient();
             $patient->patient_number = $labRequest['patient']['id'];
             $patient->name = $labRequest['patient']['fullName'];
             $patient->gender = $labRequest['patient']['gender'];
             $patient->dob = $labRequest['patient']['dateOfBirth'] ;
-            $patient->address = $labRequest['patient']['city'] ;
+            $patient->address = $labRequest['patient']['address'] ;
             $patient->phone_number = $labRequest['patient']['phoneNumber'] ;
             $patient->save();
         }
 
         //Check if visit exists, if true dont save again
         $visit = Visit::where('visit_number', '==', $labRequest['patientVisitNumber'])->get();
-        if (!$visit)
+        if ($visit->isEmpty())
         {
             $visit = new Visit();
             $visit->patient_id = Input::getpatient_id;
-            if ($labRequest['orderStage'] == 'op'
+            if ($labRequest['orderStage'] == 'op')
             {
                 $visit->visit_type = 'In-patient';//Should be a constant
             }
-            else if ($labRequest['orderStage'] == 'ip'
+            else if ($labRequest['orderStage'] == 'ip')
             {
                 $visit->visit_type = 'Out-patient';
             }
@@ -60,19 +62,21 @@ class sanitasInterfacer implements interfacerInterface{
             $visit->save();
         }
 
+        $test = null;
+
         //Check if parentLabNO is 0 thus its a test and not a measure
         if($labRequest['parentLabNo'] == '0')
         {
             //Check if we have not saved the test before, via labno
-            $test = Test::where('external_id' '==' '$labRequest['labNo']');
-            if (!$test) 
+            $test = Test::where('external_id', '==', $labRequest['labNo'])->get();
+            if ($test->isEmpty()) 
             {
                 $test = new Test();
                 $test->visit_id = $visit->id;
                 $testTypeId = $test->getTestTypeIdByTestName($labRequest['investigation']);
                 $test->test_type_id = $testTypeId;
                 $test->specimen_id = $specimen->id;
-                $test->test_status_id = $test::NOT_RECEIVED
+                $test->test_status_id = $test::NOT_RECEIVED;
                 $test->created_by = $test::EXTERNAL_SYSTEM_USER; //Created by external system 0
                 $test->requested_by = $labRequest['requestingClinician'];
                 $test->external_id = $labRequest['labNo'];
