@@ -66,9 +66,9 @@
   <table class="table table-striped">
     <tbody>
 	    <tr>
-	    	<th>Test Types</th>
-	    	<th>Completed</th>
-	    	<th>Pending</th>
+	    	<th>{{trans('messages.test-type')}}</th>
+	    	<th>{{trans('messages.completed')}}</th>
+	    	<th>{{trans('messages.pending')}}</th>
 	    </tr>
 	    {{--*/ $months = Report::getMonths() /*--}}
 	    {{--*/ $monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] /*--}}
@@ -81,7 +81,7 @@
 	    </tr>
 	    @empty
 	    <tr>
-	    	<td colspan="3">No records found.</td>
+	    	<td colspan="3">{{trans('messages.no-records-found')}}</td>
 	    </tr>
 	    @endforelse
     </tbody>
@@ -94,10 +94,10 @@
 	  <table class="table table-striped">
 	    <tbody>
 		    <tr>
-		    	<th>Specimen Types</th>
-		    	<th>Accepted</th>
-		    	<th>Rejected</th>
-		    	<th>Total</th>
+		    	<th>{{trans('messages.specimen-type')}}</th>
+		    	<th>{{trans('messages.accepted')}}</th>
+		    	<th>{{trans('messages.rejected')}}</th>
+		    	<th>{{trans('messages.total')}}</th>
 		    </tr>
 		    @forelse($specimen_types as $specimen_type)
 		    <tr>
@@ -108,7 +108,7 @@
 		    </tr>
 		    @empty
 		    <tr>
-		    	<td colspan="3">No records found.</td>
+		    	<td colspan="3">{{trans('messages.no-records-found')}}</td>
 		    </tr>
 		    @endforelse
 	    </tbody>

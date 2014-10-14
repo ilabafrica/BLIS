@@ -72,18 +72,17 @@
   <div id="test_records_div">
   	<table class="table">
 		<tbody>
-			<th>Patient</th>
-			<th>Age</th>
-			<th>Sex</th>
-			<th>Specimen</th>
-			<th>Receipt date</th>
-			<th>Comments</th>
-			<th>Tests</th>
-			<th>Done by</th>
-			<th>Results</th>
-			<th>Remarks</th>
-			<th>Entry date</th>
-			<th>Verifier</th>
+			<th>{{trans('messages.patient-name')}}</th>
+			<th>{{trans('messages.age')}}</th>
+			<th>{{trans('messages.gender')}}</th>
+			<th>{{trans('messages.specimens')}}</th>
+			<th>{{trans('messages.lab-receipt-date')}}</th>
+			<th>{{trans('messages.tests')}}</th>
+			<th>{{trans('messages.performed-by')}}</th>
+			<th>{{trans('messages.test-results')}}</th>
+			<th>{{trans('messages.test-remarks')}}</th>
+			<th>{{trans('messages.results-entry-date')}}</th>
+			<th>{{trans('messages.verified-by')}}</th>
 			@forelse($tests as $key => $test)
 			<tr>
 				<td>{{ $test->visit->patient->id }}</td>
@@ -91,7 +90,6 @@
 				<td>@if($test->visit->patient->gender==0){{ 'M' }} @else {{ 'F' }} @endif</td>
 				<td>{{ $test->specimen->specimentype->name }}</td>
 				<td>{{ $test->specimen->time_accepted }}</td>
-				<td>{{ $test->visit->patient->id }}</td>
 				<td>{{ $test->testType->name }}</td>
 				<td>{{ $test->testedBy->name or trans('messages.unknown') }}</td>
 				<td>@foreach($test->testResults as $result)
@@ -102,7 +100,7 @@
 				<td>{{ $test->verifiedBy->name or trans('messages.verification-pending') }}</td>
 			</tr>
 			@empty
-			<tr><td colspan="13">No records found.</td></tr>
+			<tr><td colspan="13">{{trans('messages.no-records-found')}}</td></tr>
 			@endforelse
 		</tbody>
 	</table>
@@ -110,12 +108,12 @@
   <div id="patient_records_div" style="display:none;">
   	<table class="table">
 		<tbody>
-			<th>Patient Number</th>
-			<th>Age</th>
-			<th>Sex</th>
-			<th>Specimen Number</th>
-			<th>Type</th>
-			<th>Tests</th>
+			<th>{{trans('messages.patient-number')}}</th>
+			<th>{{trans('messages.age')}}</th>
+			<th>{{trans('messages.gender')}}</th>
+			<th>{{trans('messages.specimen-number')}}</th>
+			<th>{{trans('messages.specimen-type')}}</th>
+			<th>{{trans('messages.tests')}}</th>
 			@forelse($visits as $key => $visit)
 			{{--*/ $tests = Visit::with('tests')->find($visit->id)->tests /*--}}
 			{{--*/ $specimen = Test::with('specimen')->find($test->id)->specimen /*--}}
@@ -128,7 +126,7 @@
 				<td>{{ $test->testType->name }}</td>
 			</tr>
 			@empty
-			<tr><td colspan="13">No records found.</td></tr>
+			<tr><td colspan="13">{{trans('messages.no-records-found')}}</td></tr>
 			@endforelse
 		</tbody>
 	</table>
@@ -136,14 +134,14 @@
   <div id="rejected_specimen_div" style="display:none">
   	<table class="table">
 		<tbody>
-			<th>Specimen ID</th>
-			<th>Specimen Type</th>
-			<th>Receipt date</th>
-			<th>Tests</th>
-			<th>Lab Section</th>
-			<th>Reason for Rejection</th>
-			<th>Talked To</th>
-			<th>Date Rejected</th>
+			<th>{{trans('messages.specimen-number')}}</th>
+			<th>{{trans('messages.specimen-type')}}</th>
+			<th>{{trans('messages.lab-receipt-date')}}</th>
+			<th>{{trans('messages.tests')}}</th>
+			<th>{{trans('messages.test-category')}}</th>
+			<th>{{trans('messages.reason-for-rejection')}}</th>
+			<th>{{trans('messages.person-talked-to')}}</th>
+			<th>{{trans('messages.date-rejected')}}</th>
 			@forelse($specimens as $key => $specimen)
 			<tr>
 				<td>{{ $specimen->id }}</td>
@@ -156,7 +154,7 @@
 				<td>{{ $test->testedBy->name or trans('messages.unknown') }}</td>
 			</tr>
 			@empty
-			<tr><td colspan="13">No records found.</td></tr>
+			<tr><td colspan="13">{{trans('messages.no-records-found')}}</td></tr>
 			@endforelse
 		</tbody>
 	</table>

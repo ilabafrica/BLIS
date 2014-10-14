@@ -20,35 +20,17 @@
   <table class="table">
     <thead>
     <tr>
-        <td>{{ Form::label('from', trans("messages.from")) }}</td>
-        <td>
-            <input type='text' class="form-control" id='from' value='{{ date('d-m-Y') }}' />
-        </td>
-        <td>{{ Form::label('to', trans("messages.to")) }}</td>
-         <td>
-             <input type='text' class="form-control" id='to' value='{{ date('d-m-Y') }}' />
-         </td>
-         <td><button type="submit" class="btn btn-info" name="ok" id="ok" onClick="javascript:toggleGraph();"> 
-  		  		<i class="glyphicon glyphicon-eye-open"></i> {{trans("messages.toggle-graph")}}
-  		  	</button></td>
-        <td><button type="submit" class="btn btn-primary" style="width:125px;" name="ok" id="ok" onClick=""> 
-  		  		<i class="glyphicon glyphicon-filter"></i> {{trans("messages.view")}}
-  		  	</button></td>
+        <td>{{ Form::label('name', trans("messages.from")) }}</td>
+        <td>{{ Form::text('from', Input::old('from'), array('class' => 'form-control', 'id' => 'from')) }}</td>
+        <td>{{ Form::label('name', trans("messages.to")) }}</td>
+        <td>{{ Form::text('to', Input::old('to'), array('class' => 'form-control', 'id' => 'to')) }}</td>
+        <td>{{ Form::button("<span class='glyphicon glyphicon-eye-open'></span> ".trans('messages.toggle-graph'), 
+			        array('class' => 'btn btn-info', 'id' => 'toggle')) }}</td>
+        <td>{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
+			        array('class' => 'btn btn-primary', 'style' => 'width:125px', 'id' => 'filter', 'type' => 'submit')) }}</td>
+  		<td>{{ Form::button("<span class='glyphicon glyphicon-remove'></span> ".trans('messages.close'), 
+			        array('class' => 'btn btn-warning', 'style' => 'width:125px', 'id' => 'close')) }}</td>
     </tr>
-	<tr>
-        <td>{{ Form::label('description', trans("messages.test-category")) }}</td>
-         <td>{{ Form::select('section_id', array(''=>trans("messages.select-lab-section"))+$labsections, Input::old('section_id'), 
-					array('class' => 'form-control', 'id' => 'section_id')) }}</td>
-         <td>{{ Form::label('description', trans("messages.test-type")) }}</td>
-         <td>{{ Form::select('test_type', array('default' => trans("messages.select-test-type")), Input::old('test_type'), 
-					array('class' => 'form-control', 'id' => 'test_type')) }}</td>
-         <td><button type="submit" class="btn btn-success" style="width:125px;" name="ok" id="ok" onClick=""> 
-  		  		<i class="glyphicon glyphicon-send"></i> {{trans("messages.print")}}
-  		  	</button></td>
-         <td><button type="submit" class="btn btn-warning" style="width:125px;" name="ok" id="ok" onClick=""> 
-  		  		<i class="glyphicon glyphicon-remove"></i> {{trans("messages.close")}}
-  		  	</button></td>
-     </tr>
 </thead>
 <tbody>
 	
@@ -66,14 +48,12 @@
 			  <table class="table table-striped">
 			    <tbody>
 				    <tr>
-				    	<th>Test Type</th>
-				    	<th>Total Specimen</th>
-				    	<th>Positive</th>
-				    	<th>Negative</th>
-				    	<th>Prevalence Rate <span class="danger">%</span></th>
+				    	<th>{{trans('messages.test-type')}}</th>
+				    	<th>{{trans('messages.total-specimen')}}</th>
+				    	<th>{{trans('messages.positive')}}</th>
+				    	<th>{{trans('messages.negative')}}</th>
+				    	<th>{{trans('messages.prevalence-rate')}}</th>
 				    </tr>
-				    {{--*/ $months = Report::getMonths() /*--}}
-				    {{--*/ $monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] /*--}}
 				    @forelse($test_types as $test_type)
 				    <tr>
 				    	<td>{{ $test_type->name }}</td>
@@ -84,7 +64,7 @@
 				    </tr>
 				    @empty
 				    <tr>
-				    	<td colspan="5">No records found.</td>
+				    	<td colspan="5">{{trans('messages.no-records-found')}}</td>
 				    </tr>
 				    @endforelse
 			    </tbody>
@@ -96,6 +76,8 @@
 	</div>
 
 </div>
+{{--*/ $months = Report::getMonths() /*--}}
+{{--*/ $monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] /*--}}
 <!-- Begin FusionCharts scripts -->
 {{ HTML::script('fusioncharts/js/fusioncharts.js') }}
 {{ HTML::script('fusioncharts/js/themes/fusioncharts.theme.ocean.js') }}
@@ -132,7 +114,7 @@
 	        "canvasborderalpha": "50",
 	        "numvdivlines": "5",
 	        "vdivlinealpha": "20",
-	        "showborder": "0"
+	        "showborder": "1"
 	    },
 	    "categories": [
 	        {
@@ -172,8 +154,8 @@
 	  revenueChart.render("chartContainer");
 	}); 
 
-   function toggleGraph(){
-   	$('#chartContainer').toggle('show');
-   }
+   $('#toggle').click(function(){
+   		$('#chartContainer').toggle('show');
+   });
 </script>
 @stop

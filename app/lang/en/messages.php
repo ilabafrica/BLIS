@@ -47,6 +47,11 @@ return array(
     'waiting-time'  =>  'Waiting Time',
     'no-records-found'  =>  'No records found.',
     'toggle-graph'  =>  'Show/Hide Graph',
+    'accepted'  =>  'Accepted',
+    'rejected'  =>  'Rejected',
+    'total' =>  'Total',
+    'person-talked-to'  =>  'Talked to',
+
     /* 
     |   Generic phrases
     */
@@ -73,6 +78,10 @@ return array(
     'patient-number' => 'Patient Number',
     'phone-number' => 'Phone Number',
     'physical-address' => 'Physical Address',
+    'patient-lab-number'  =>  'Lab Number [Serial No.]',
+    'requesting-facility-department'  =>  'Requesting Department/Facility',
+    'specimens' => 'Specimens',
+    'collected-by'  =>  'Collected By',
      /* 
     |   Test Categories
     */
@@ -133,6 +142,13 @@ return array(
     'view-details' => 'View Details',
     'visit-number' => 'Lab No.',
     'visit-type' => 'Visit Type',
+    'test-results' => 'Test Results',
+    'test-results-values' => 'Test : Results(Value)',
+    'results-entry-date' => 'Date Entered',
+    'date-tested' => 'Date Performed',
+    'date-verified' => 'Date Verified',
+    'reason-for-rejection' =>  'Reason for rejection',
+    'date-rejected' =>  'Rejection date',
 
      /* 
     |   Reports
@@ -157,6 +173,10 @@ return array(
     'prevalence-rates-report'    =>  'Prevalence Rates',
     'select-lab-section'    =>  'Select Lab Section',
     'select-test-type'  =>  'Select Test Type',
+    'total-specimen'  =>  'Total Specimen',
+    'positive'  =>  'Positive',
+    'negative'  =>  'Negative',
+    'prevalence-rate'  =>  'Prevalence Rate %',
      /* 
     |   Tips
     */

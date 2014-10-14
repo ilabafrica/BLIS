@@ -101,15 +101,15 @@
 					<td>@if($patient->gender==0){{ 'Male' }} @else {{ 'Female' }} @endif</td>
 				</tr>
 				<tr>
-					<th>Patient Number(Sanitas)</th>
+					<th>{{trans('messages.external-patient-number')}}</th>
 					<td>{{ $patient->patient_number."(".$patient->external_patient_number.")" }}</td>
-					<th>Patient Age</th>
+					<th>{{trans('messages.age')}}</th>
 					<td>{{ Report::dateDiff($patient->dob) }}</td>
 				</tr>
 				<tr>
-					<th>Lab Number [Serial No.]</th>
+					<th>{{trans('messages.patient-lab-number')}}</th>
 					<td>{{ $patient->id }}</td>
-					<th>Requesting Department/Facility</th>
+					<th>{{trans('messages.requesting-facility-department')}}</th>
 					<td></td>
 				</tr>
 			</tbody>
@@ -117,14 +117,14 @@
 		<table class="table">
 			<tbody>
 				<tr>
-					<th colspan="6">Specimens</th>
+					<th colspan="6">{{trans('messages.specimens')}}</th>
 				</tr>
 				<tr>
-					<th>Type</th>
-					<th>Tests Requested</th>
-					<th>Lab Section</th>
-					<th>Lab Receipt Date</th>
-					<th>Collected by</th>
+					<th>{{trans('messages.specimen-type')}}</th>
+					<th>{{trans('messages.tests')}}</th>
+					<th>{{trans('messages.test-category')}}</th>
+					<th>{{trans('messages.lab-receipt-date')}}</th>
+					<th>{{trans('messages.collected-by')}}</th>
 				</tr>
 				{{--*/ $visits = Patient::with('visits')->find($patient->id)->visits /*--}}
 				@foreach($visits as $visit)
@@ -146,16 +146,16 @@
 		<table class="table">
 			<tbody>
 				<tr>
-					<th colspan="10">Test Results</th>
+					<th colspan="10">{{trans('messages.test-results')}}</th>
 				</tr>
 				<tr>
-					<th>Test : Results(Value)</th>
-					<th>Results Entry Date</th>
-					<th>Remarks</th>
-					<th>Tested by</th>
-					<th>Date Tested</th>
-					<th>Verified by</th>
-					<th>Date Verified</th>
+					<th>{{trans('messages.test-results-values')}}</th>
+					<th>{{trans('messages.results-entry-date')}}</th>
+					<th>{{trans('messages.test-remarks')}}</th>
+					<th>{{trans('messages.tested-by')}}</th>
+					<th>{{trans('messages.date-tested')}}</th>
+					<th>{{trans('messages.date-tested')}}</th>
+					<th>{{trans('messages.date-verified')}}</th>
 				</tr>
 				@foreach($visits as $visit)
 					{{--*/ $tests = Visit::with('tests')->find($visit->id)->tests /*--}}
