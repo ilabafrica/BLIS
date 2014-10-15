@@ -3,13 +3,13 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-		  <li><a href="{{ URL::route('test.index') }}">{{ trans('messages.test') }}</a></li>
+		  <li><a href="{{ URL::route('test.index') }}">{{ trans('messages.tests') }}</a></li>
 		  <li class="active">{{ trans('messages.edit') }}</li>
 		</ol>
 	</div>
 	<div class="panel panel-primary">
 		<div class="panel-heading ">
-			<span class="glyphicon glyphicon-user"></span>
+			<span class="glyphicon glyphicon-filter"></span>
 			{{ trans('messages.edit') }}
 		</div>
 		<div class="panel-body">

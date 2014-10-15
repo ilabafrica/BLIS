@@ -3,7 +3,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-		  <li><a href="{{ URL::route('test.index') }}">{{trans('messages.test')}}</a></li>
+		  <li><a href="{{ URL::route('test.index') }}">{{trans('messages.tests')}}</a></li>
 		  <li class="active">{{trans('messages.test-details')}}</li>
 		</ol>
 	</div>
@@ -11,7 +11,8 @@
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-cog"></span>
 			{{trans('messages.test-details')}}
-			@if($test->test_status_id != 4 && $test->specimen->specimen_status_id != 2)
+			@if($test->test_status_id != Test::VERIFIED && $test->specimen->specimen_status_id == Specimen::ACCEPTED)
+			 <!-- Not Verified and Not Rejected-->
 			<div class="panel-btn">
 				<a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->id.'/edit') }}">
 					<span class="glyphicon glyphicon-edit"></span>
@@ -19,7 +20,7 @@
 				</a>
 			</div>
 			@endif
-		</div>
+		</div> <!-- ./ panel-heading -->
 		<div class="panel-body">
 			<div class="container-fluid">
 				<div class="row">
@@ -27,23 +28,24 @@
 						<div class="display-details">
 							<h3 class="view"><strong>{{trans('messages.test-type')}}</strong>
 								{{ $test->testType->name or trans('messages.unknown') }}</h3>
-							<p class="view-striped"><strong>{{trans('messages.patient-name')}}</strong>
-								{{$test->visit->patient->name}}</p>
 							<p class="view"><strong>{{trans('messages.visit-number')}}</strong>
 								{{$test->visit->id or trans('messages.unknown') }}</p>
 							<p class="view"><strong>{{trans('messages.lab-receipt-date')}}</strong>
 								{{$test->time_created}}</p>
+							<p class="view"><strong>{{trans('messages.test-status')}}</strong>
+								{{trans('messages.'.$test->testStatus->name)}}</p>
 							<p class="view-striped"><strong>{{trans('messages.physician')}}</strong>
 								{{$test->requested_by or trans('messages.unknown') }}</p>
 							<p class="view-striped"><strong>{{trans('messages.registered-by')}}</strong>
 								{{$test->createdBy->name or trans('messages.unknown') }}</p>
 							<p class="view"><strong>{{trans('messages.tested-by')}}</strong>
 								{{$test->testedBy->name or trans('messages.unknown')}}</p>
-							@if($test->test_status_id == 4)
+							@if($test->test_status_id == Test::VERIFIED)
 							<p class="view"><strong>{{trans('messages.verified-by')}}</strong>
 								{{$test->verifiedBy->name or trans('messages.verification-pending')}}</p>
 							@endif
-							@if($test->specimen->specimen_status_id != 2 && $test->test_status_id >= 3)
+							@if($test->specimen->specimen_status_id != Specimen::REJECTED && ($test->test_status_id == Test::COMPLETED || $test->test_status_id == Test::VERIFIED))
+							<!-- Not Rejected and (Verified or Completed)-->
 							<p class="view-striped"><strong>{{trans('messages.turnaround-time')}}</strong>
 								<?php
 									$tat = $test->getTurnaroundTime();
@@ -66,7 +68,37 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<div class="panel panel-info">
+						<div class="panel panel-info">  <!-- Patient Details -->
+							<div class="panel-heading">
+								<h3 class="panel-title">{{trans("messages.patient-details")}}</h3>
+							</div>
+							<div class="panel-body">
+								<div class="container-fluid">
+									<div class="row">
+										<div class="col-md-3">
+											<p><strong>{{trans("messages.patient-number")}}</strong></p></div>
+										<div class="col-md-9">
+											{{$test->visit->patient->patient_number}}</div></div>
+									<div class="row">
+										<div class="col-md-3">
+											<p><strong>{{trans("messages.name")}}</strong></p></div>
+										<div class="col-md-9">
+											{{$test->visit->patient->name}}</div></div>
+									<div class="row">
+										<div class="col-md-3">
+											<p><strong>{{trans("messages.age")}}</strong></p></div>
+										<div class="col-md-9">
+											{{$test->visit->patient->getAge()}}</div></div>
+									<div class="row">
+										<div class="col-md-3">
+											<p><strong>{{trans("messages.gender")}}</strong></p></div>
+										<div class="col-md-9">
+											{{$test->visit->patient->gender==0?trans("messages.male"):trans("messages.female")}}
+										</div></div>
+								</div>
+							</div> <!-- ./ panel-body -->
+						</div> <!-- ./ panel -->
+						<div class="panel panel-info"> <!-- Specimen Details -->
 							<div class="panel-heading">
 								<h3 class="panel-title">{{trans("messages.specimen-details")}}</h3>
 							</div>
@@ -93,10 +125,10 @@
 											<p><strong>{{trans('messages.specimen-status')}}</strong></p>
 										</div>
 										<div class="col-md-8">
-											{{$test->specimen->specimenStatus->name or trans('messages.pending') }}
+											{{trans('messages.'.$test->specimen->specimenStatus->name) }}
 										</div>
 									</div>
-								@if($test->specimen->specimen_status_id == 2)
+								@if($test->specimen->specimen_status_id == Specimen::REJECTED)
 									<div class="row">
 										<div class="col-md-4">
 											<p><strong>{{trans('messages.rejection-reason-title')}}</strong></p>
@@ -105,11 +137,19 @@
 											{{$test->specimen->rejectionReason->reason or trans('messages.pending') }}
 										</div>
 									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<p><strong>{{trans('messages.reject-explained-to')}}</strong></p>
+										</div>
+										<div class="col-md-8">
+											{{$test->specimen->reject_explained_to or trans('messages.pending') }}
+										</div>
+									</div>
 								@endif
 								</div>
 							</div>
-						</div>
-						<div class="panel panel-info">
+						</div> <!-- ./ panel -->
+						<div class="panel panel-info">  <!-- Test Results -->
 							<div class="panel-heading">
 								<h3 class="panel-title">{{trans("messages.test-results")}}</h3>
 							</div>
@@ -134,11 +174,11 @@
 										</div>
 									</div>
 								</div>
-							</div>
-						</div>
+							</div> <!-- ./ panel-body -->
+						</div>  <!-- ./ panel -->
 					</div>
 				</div>
-			</div>
-		</div>
-	</div>
+			</div> <!-- ./ container-fluid -->
+		</div> <!-- ./ panel-body -->
+	</div> <!-- ./ panel -->
 @stop

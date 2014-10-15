@@ -18,6 +18,15 @@ class Test extends Eloquent
 	const VERIFIED = 5;
 
 	/**
+	 * Test status constants
+	 */
+	const NOT_RECEIVED = 1;
+	const PENDING = 2;
+	const STARTED = 3;
+	const COMPLETED = 4;
+	const VERIFIED = 5;
+
+	/**
 	 * Visit relationship
 	 */
 	public function visit()
