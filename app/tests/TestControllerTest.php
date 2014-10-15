@@ -3,6 +3,7 @@
  * Tests the TestController functions that store, edit and delete measures 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+
 class TestControllerTest extends TestCase 
 {
 
@@ -95,7 +96,7 @@ class TestControllerTest extends TestCase
     */
     public function testDisplayCreateForm(){
       $patient = Patient::first();
-      $url = '/test/create/'.$patient->id;
+      $url = URL::route('test.create', array($patient->id));
       $crawler = $this->client->request('GET', $url);
 
       $visitType = $crawler->filter('select')->attr('name');
@@ -106,8 +107,51 @@ class TestControllerTest extends TestCase
     |   + Get random patient
     |   + Get a test type(1 of every testtype available)
     |   + Required Input: physician, testtypes, patient_id, visit_type
-    |   + Check that the returned view has data on the saved test:
-    |     * 2nd <td> has patient name
+    |   + Check TestController redirects to the correct view ('test.index')
+    */
+    public function testSaveNewTestSuccess(){
+      $patient = Patient::first();
+      $url = URL::route('test.create', array($patient->id));
+      $crawler = $this->client->request('GET', $url);
+
+      // Get the form and set the form values
+      $form = $crawler->selectButton(trans('messages.save-test'))->form();
+      $form['physician'] = 'Dr. Jack Aroe';
+      foreach ($form['testtypes'] as $testType) {
+        $testType->tick();
+      }
+
+      // Set the current user to admin
+      $this->be(User::first());
+
+      // Submit the form
+      $crawler = $this->client->submit($form);
+
+      $this->assertRedirectedToRoute('test.index');
+    }
+    /*
+    | - saveNewTest (1 for each type) - Fails coz form values not set. Tests VALIDATION.
+    |   + Get random patient
+    |   + Get a test type(1 of every testtype available)
+    |   + Check TestController redirects to the correct view ('test.create')
+    */
+    public function testSaveNewTestFailure(){
+      $patient = Patient::first();
+      $url = URL::route('test.create', array($patient->id));
+      $crawler = $this->client->request('GET', $url);
+
+      // Get the form and set the form values
+      $form = $crawler->selectButton(trans('messages.save-test'))->form();
+
+      // Set the current user to admin
+      $this->be(User::first());
+
+      // Submit the form
+      $crawler = $this->client->submit($form);
+
+      $this->assertRedirectedToRoute('test.create', array($patient->id));
+    }
+    /*
     | - index
     |   + Check that returned view has at least 3 <tr> in the <tbody>
     */
@@ -118,21 +162,92 @@ class TestControllerTest extends TestCase
       $this->assertCount(1, $crawler->filter('div.panel.test-create'));
     }
     /*
-    | - reject
+    | - reject - Attempt to launch rejection form for elligible specimen
+    |   i.e. tests that are not NOT_RECEIVED or VERIFIED and whose Specimen is ACCEPTED
     |   + Required input: specimen_id
     |   + Check that returned view contains: rejectionReason, reason_explained_to
     */
     public function testRejectView(){
-      $specimen = Specimen::where('specimen_status_id','=', Specimen::ACCEPTED)->first();
-      $url = URL::route('test.reject', array($specimen->id));
-      $crawler = $this->client->request('GET', $url);
+      $testIDs = Test::where('test_status_id','!=', Test::NOT_RECEIVED)
+                ->where('test_status_id','!=', Test::VERIFIED)->lists('id');
+      if(count($testIDs) == 0){
+        $this->assertTrue(false);
+      }
 
-      $this->assertCount(1, $crawler->filter('#reject_explained_to'));
+      foreach ($testIDs as $id) {
+        $url = URL::route('test.reject', array(Test::find($id)->specimen_id));
+        $crawler = $this->client->request('GET', $url);
+        $crawler = $this->client->request('GET', $url);
+
+        $this->assertCount(1, $crawler->filter('#reject_explained_to'));
+      }
     }
     /*
-    | - rejectAction
+    | - rejectAction - Check that each test that is not NOT_RECEIVED or VERIFIED,
+    |   and whose Specimen is ACCEPTED, can have its Specimen REJECTED
     |   + Required input: specimen_id, rejectionReason, reason_explained_to
-    |   + Check that the new status of the specimen is REJECTED
+    |   + Check TestController redirects to the correct view ('test.index')
+    */
+    public function testRejectActionSuccess(){
+      $testIDs = Test::where('test_status_id','!=', Test::NOT_RECEIVED)
+                ->where('test_status_id','!=', Test::VERIFIED)->lists('id');
+      if(count($testIDs) == 0){
+        $this->assertTrue(false);
+      }
+
+      foreach ($testIDs as $id) {
+        $specimenID = Test::find($id)->specimen_id;
+        $url = URL::route('test.reject', array($specimenID));
+        $crawler = $this->client->request('GET', $url);
+
+        // Get the form and set the form values
+        $form = $crawler->selectButton(trans('messages.reject'))->form();
+        $form['rejectionReason']->select('15');
+        $form['reject_explained_to'] = 'Tim Commerford';
+
+        // Set the current user to admin
+        $this->be(User::first());
+
+        // Submit the form
+        $crawler = $this->client->submit($form);
+
+        $this->assertRedirectedToRoute('test.index');
+      }
+    }
+    /*
+    | - rejectAction - Check that each test that is not NOT_RECEIVED or VERIFIED,
+    |   and whose Specimen is ACCEPTED, can have its Specimen REJECTED
+    |   + Required input: specimen_id, rejectionReason, reason_explained_to
+    |   + Check TestController redirects to the correct view ('test.index')
+    |   Tests that VALIDATION is working okay.
+    */
+    public function testRejectActionFailure(){
+      $testIDs = Test::where('test_status_id','!=', Test::NOT_RECEIVED)
+                ->where('test_status_id','!=', Test::VERIFIED)->lists('id');
+      if(count($testIDs) == 0){
+        $this->assertTrue(false);
+      }
+
+      foreach ($testIDs as $id) {
+
+        $specimenID = Test::find($id)->specimen_id;
+        $url = URL::route('test.reject', array($specimenID));
+        $crawler = $this->client->request('GET', $url);
+
+        // Get the form and set the form values
+        $form = $crawler->selectButton(trans('messages.reject'))->form();
+
+        // Set the current user to admin
+        $this->be(User::first());
+
+        // Submit the form
+        $crawler = $this->client->submit($form);
+echo "\n".$specimenID." - $url\n";
+        $this->assertRedirectedToRoute('test.reject', array($specimenID));
+        break;
+      }
+    }
+    /*
     | - accept
     |   + Required input: id (specimen_id)
     |   + Check that the new status of the specimen is ACCEPTED

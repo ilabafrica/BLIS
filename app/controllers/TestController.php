@@ -153,7 +153,7 @@ class TestController extends \BaseController {
 				}
 			}
 
-			return Redirect::to('test')->with('message', 'messages.success-creating-test');
+			return Redirect::route('test.index')->with('message', 'messages.success-creating-test');
 		}
 	}
 
@@ -179,16 +179,25 @@ class TestController extends \BaseController {
 	 */
 	public function rejectAction()
 	{
-		$specimenID = Input::get('specimen_id');
-		$specimen = Specimen::find($specimenID);
-		$specimen->rejection_reason_id = Input::get('rejectionReason');
-		$specimen->specimen_status_id = Specimen::REJECTED;
-		$specimen->time_rejected = date('Y-m-d H:i:s');
-		$specimen->reject_explained_to = Input::get('reject_explained_to');
-		$specimen->save();
-		// redirect
-		Session::flash('message', 'Specimen was rejected!');
-		return Redirect::to('test');
+		//Reject justifying why.
+		$rules = array(
+			'rejectionReason' => 'required',
+			'reject_explained_to' => 'required',
+		);
+		$validator = Validator::make(Input::all(), $rules);
+
+		if ($validator->fails()) {
+			return Redirect::route('test.reject', array(Input::get('specimen_id')))->withInput()->withErrors($validator);
+		} else {
+			$specimen = Specimen::find(Input::get('specimen_id'));
+			$specimen->rejection_reason_id = Input::get('rejectionReason');
+			$specimen->specimen_status_id = Specimen::REJECTED;
+			$specimen->time_rejected = date('Y-m-d H:i:s');
+			$specimen->reject_explained_to = Input::get('reject_explained_to');
+			$specimen->save();
+			
+			return Redirect::route('test.index')->with('message', 'messages.success-rejecting-specimen');
+		}
 	}
 
 	/**
@@ -231,7 +240,7 @@ class TestController extends \BaseController {
 		$specimen->specimen_type_id = Input::get('specimen_type');
 		$specimen->save();
 
-		return Redirect::to('test/'.$specimen->test->id.'/viewdetails');
+		return Redirect::route('test.viewDetails', array($specimen->test->id));
 	}
 
 /**

@@ -6,13 +6,19 @@
 		  <li><a href="{{ URL::route('test.index') }}">{{trans('messages.tests')}}</a></li>
 		  <li class="active">{{trans('messages.reject-title')}}</li>
 		</ol>
-	</div>
+	</div>{{Session::has('message')}}
 	<div class="panel panel-primary">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-filter"></span>
 			{{trans('messages.reject-title')}}
 		</div>
 		<div class="panel-body">
+		<!-- if there are creation errors, they will show here -->
+		@if($errors->all())
+			<div class="alert alert-danger">
+				{{ HTML::ul($errors->all()) }}
+			</div>
+		@endif
 		{{ Form::open(array('route' => 'test.rejectAction')) }}
 			{{ Form::hidden('specimen_id', $specimen->id) }}
 			<div class="panel-body">

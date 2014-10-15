@@ -1,7 +1,6 @@
 <?php
 
-class KBLISSeeder
-extends DatabaseSeeder
+class KBLISSeeder extends DatabaseSeeder
 {
     public function run()
     {
@@ -256,93 +255,18 @@ extends DatabaseSeeder
         $this->command->info('rejection_reasons seeded');
 
         /* Specimen table */
-        $specimen_type_id = SpecimenType::all()->last()->id; //Whole Blood
-        $specimens_accepted_pre_analytic = Specimen::create(
-            array(
-                "specimen_type_id" => $specimen_type_id,
-                "specimen_status_id" => Specimen::ACCEPTED,
-                "test_phase_id" => "1",//Pre-Analytical for test_status:pending
-                "accepted_by" => $users[rand(0, count($users)-1)]->id,
-                "time_accepted" => date('Y-m-d H:i:s'),
-            )
-        );        
-        
-        $specimens_accepted_analytic = Specimen::create(
-            array(
-                "specimen_type_id" => $specimen_type_id,
-                "specimen_status_id" => Specimen::ACCEPTED,
-                "test_phase_id" => "2",//Analytical for test_status:started
-                "accepted_by" => $users[rand(0, count($users)-1)]->id,
-                "time_accepted" => date('Y-m-d H:i:s'),
-            )
-        );        
-        
-        $specimens_accepted_post_analytic = Specimen::create(
-            array(
-                "specimen_type_id" => $specimen_type_id,
-                "specimen_status_id" => Specimen::ACCEPTED,
-                "test_phase_id" => "3",//Post-Analytical for test_status:completed
-                "accepted_by" => $users[rand(0, count($users)-1)]->id,
-                "time_accepted" => date('Y-m-d H:i:s'),
-            )
-        );        
-        
-        $specimens_accepted_post_analytic_verified = Specimen::create(
-            array(
-                "specimen_type_id" => $specimen_type_id,
-                "specimen_status_id" => Specimen::ACCEPTED,
-                "test_phase_id" => "3",//Post-Analytical for test_status:verified
-                "accepted_by" => $users[rand(0, count($users)-1)]->id,
-                "time_accepted" => date('Y-m-d H:i:s'),
-            )
-        );        
-        
-        $specimens_rejected_pre_analytic = Specimen::create(
-            array(
-                "specimen_type_id" => $specimen_type_id,
-                "specimen_status_id" => Specimen::REJECTED,
-                "rejection_reason_id" => $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id,
-                "test_phase_id" => "1",//Pre-Analytical
-                "accepted_by" => $users[rand(0, count($users)-1)]->id,
-                "rejected_by" => $users[rand(0, count($users)-1)]->id,
-                "time_accepted" => date('Y-m-d H:i:s'),
-                "time_rejected" => date('Y-m-d H:i:s'),
-            )
-        );
-
-        $specimens_rejected_analytic = Specimen::create(
-            array(
-                "specimen_type_id" => $specimen_type_id,
-                "specimen_status_id" => Specimen::REJECTED,
-                "rejection_reason_id" => $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id,
-                "test_phase_id" => "2",//Analytical
-                "accepted_by" => $users[rand(0, count($users)-1)]->id,
-                "rejected_by" => $users[rand(0, count($users)-1)]->id,
-                "time_accepted" => date('Y-m-d H:i:s'),
-                "time_rejected" => date('Y-m-d H:i:s'),
-            )
-        );
-
-        $specimens_rejected_post_analytic = Specimen::create(
-            array(
-                "specimen_type_id" => $specimen_type_id,
-                "specimen_status_id" => Specimen::REJECTED,
-                "rejection_reason_id" => $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id,
-                "test_phase_id" => "3",//Post-Analytical
-                "accepted_by" => $users[rand(0, count($users)-1)]->id,
-                "rejected_by" => $users[rand(0, count($users)-1)]->id,
-                "time_accepted" => date('Y-m-d H:i:s'),
-                "time_rejected" => date('Y-m-d H:i:s'),
-            )
-        );        
+       
         $this->command->info('specimens seeded');
 
         /* Test table */
-        $tests_accepted_pending = Test::create(
+        Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_types->id,//BS for MPS
-                "specimen_id" => $specimens_accepted_pre_analytic->id,
+                "specimen_id" => $this->createSpecimen(
+                        Test::PENDING, Specimen::ACCEPTED,
+                        SpecimenType::all()->last()->id,
+                        $users[rand(0, count($users)-1)]->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
                 "created_by" => $users[rand(0, count($users)-1)]->id,
@@ -350,11 +274,14 @@ extends DatabaseSeeder
             )
         );        
         
-        $tests_accepted_pending = Test::create(
+        Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_types->id,//BS for MPS
-                "specimen_id" => $specimens_accepted_pre_analytic->id,
+                "specimen_id" => $this->createSpecimen(
+                        Test::PENDING, Specimen::ACCEPTED,
+                        SpecimenType::all()->last()->id,
+                        $users[rand(0, count($users)-1)]->id),
                 "test_status_id" => Test::PENDING,
                 "created_by" => $users[rand(0, count($users)-1)]->id,
                 "requested_by" => "Dr. Abou Meyang",
@@ -365,7 +292,10 @@ extends DatabaseSeeder
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_type_gxm->id,
-                "specimen_id" => $specimens_accepted_post_analytic_verified->id,
+                "specimen_id" => $this->createSpecimen(
+                        Test::COMPLETED, Specimen::ACCEPTED, 
+                        SpecimenType::all()->last()->id, 
+                        $users[rand(0, count($users)-1)]->id),
                 "interpretation" => "Perfect match.",
                 "test_status_id" => Test::COMPLETED,
                 "created_by" => $users[rand(0, count($users)-1)]->id,
@@ -380,7 +310,10 @@ extends DatabaseSeeder
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_type_hb->id,
-                "specimen_id" => $specimens_accepted_post_analytic_verified->id,
+                "specimen_id" => $this->createSpecimen(
+                        Test::COMPLETED, Specimen::ACCEPTED, 
+                        SpecimenType::all()->last()->id, 
+                        $users[rand(0, count($users)-1)]->id),
                 "interpretation" => "Do nothing!",
                 "test_status_id" => Test::COMPLETED,
                 "created_by" => $users[rand(0, count($users)-1)]->id,
@@ -395,19 +328,24 @@ extends DatabaseSeeder
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_types->id,//BS for MPS
-                "specimen_id" => $specimens_accepted_analytic->id,
+                "specimen_id" => $this->createSpecimen(
+                    Test::STARTED, Specimen::ACCEPTED, SpecimenType::all()->last()->id, 
+                    $users[rand(0, count($users)-1)]->id),
                 "test_status_id" => Test::STARTED,
                 "requested_by" => "Dr. Abou Meyang",
                 "created_by" => $users[rand(0, count($users)-1)]->id,
                 "time_started" => date('Y-m-d H:i:s'),
             )
-        );        
-        
+        );
+
         $tests_accepted_completed = Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_types->id,//BS for MPS
-                "specimen_id" => $specimens_accepted_post_analytic->id,
+                "specimen_id" => $this->createSpecimen(
+                        Test::COMPLETED, Specimen::ACCEPTED, 
+                        SpecimenType::all()->last()->id, 
+                        $users[rand(0, count($users)-1)]->id),
                 "interpretation" => "Budda Boss",
                 "test_status_id" => Test::COMPLETED,
                 "created_by" => $users[rand(0, count($users)-1)]->id,
@@ -422,7 +360,10 @@ extends DatabaseSeeder
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_types->id,//BS for MPS
-                "specimen_id" => $specimens_accepted_post_analytic_verified->id,
+                "specimen_id" => $this->createSpecimen(
+                        Test::VERIFIED, Specimen::ACCEPTED, 
+                        SpecimenType::all()->last()->id, 
+                        $users[rand(0, count($users)-1)]->id),
                 "interpretation" => "Budda Boss",
                 "test_status_id" => Test::VERIFIED,
                 "created_by" => $users[rand(0, count($users)-1)]->id,
@@ -439,7 +380,12 @@ extends DatabaseSeeder
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_types->id,//BS for MPS
-                "specimen_id" => $specimens_rejected_pre_analytic->id,
+                "specimen_id" => $this->createSpecimen(
+                        Test::PENDING, Specimen::REJECTED, 
+                        SpecimenType::all()->last()->id, 
+                        $users[rand(0, count($users)-1)]->id,
+                        $users[rand(0, count($users)-1)]->id,
+                        $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
                 "created_by" => $users[rand(0, count($users)-1)]->id,
@@ -451,7 +397,12 @@ extends DatabaseSeeder
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_types->id,//BS for MPS
-                "specimen_id" => $specimens_rejected_analytic->id,
+                "specimen_id" => $this->createSpecimen(
+                        Test::STARTED, Specimen::REJECTED, 
+                        SpecimenType::all()->last()->id, 
+                        $users[rand(0, count($users)-1)]->id,
+                        $users[rand(0, count($users)-1)]->id,
+                        $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id),
                 "test_status_id" => Test::STARTED,
                 "created_by" => $users[rand(0, count($users)-1)]->id,
                 "requested_by" => "Bony Em",
@@ -463,7 +414,12 @@ extends DatabaseSeeder
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_types->id,//BS for MPS
-                "specimen_id" => $specimens_rejected_post_analytic->id,
+                "specimen_id" => $this->createSpecimen(
+                        Test::COMPLETED, Specimen::REJECTED, 
+                        SpecimenType::all()->last()->id, 
+                        $users[rand(0, count($users)-1)]->id,
+                        $users[rand(0, count($users)-1)]->id,
+                        $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id),
                 "interpretation" => "Budda Boss",
                 "test_status_id" => Test::COMPLETED,
                 "created_by" => $users[rand(0, count($users)-1)]->id,
@@ -555,5 +511,34 @@ extends DatabaseSeeder
         }
         //Assign role Administrator to user 1 administrator
         $user1->attachRole($role1);
+    }
+
+    public function createSpecimen(
+            $testStatus,
+            $specimenStatus,
+            $specimenTypeID,
+            $acceptor = 0, $rejector = 0, $rejectReason = ""){
+
+        $values["specimen_type_id"] = $specimenTypeID;
+        $values["specimen_status_id"] = $specimenStatus;
+
+
+        if($testStatus == Test::STARTED)$values["test_phase_id"] = TestPhase::ANALYTICAL;
+        elseif($testStatus < Test::STARTED)$values["test_phase_id"] = TestPhase::PRE_ANALYTICAL;
+        else $values["test_phase_id"] = TestPhase::POST_ANALYTICAL;
+
+        if($specimenStatus == Specimen::ACCEPTED){
+            $values["accepted_by"] = $acceptor;
+            $values["time_accepted"] = date('Y-m-d H:i:s');
+        }
+        if($specimenStatus == Specimen::REJECTED){
+            $values["rejected_by"] = $rejector;
+            $values["rejection_reason_id"] = $rejectReason;
+            $values["time_rejected"] = date('Y-m-d H:i:s');
+        }
+        
+        $specimen = Specimen::create($values);
+
+        return $specimen->id;
     }
 }
