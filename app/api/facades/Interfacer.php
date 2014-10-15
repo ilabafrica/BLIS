@@ -6,6 +6,6 @@ class Interfacer extends Facade
 {
         protected static function getFacadeAccessor()
         {
-            return 'interfacer';
+            return 'Interfacer';
         }
 }

@@ -1,6 +1,6 @@
 <?php
 
-class sanitasInterfacer implements interfacerInterface{
+class SanitasInterfacer implements InterfacerInterface{
 
     public function retrieve($labRequest)
     {
@@ -27,10 +27,19 @@ class sanitasInterfacer implements interfacerInterface{
     public function process($labRequest)
     {
         //Check if it is a payment request. Similar request but receiptnumber not null
-        //Test if on dupluicate key works with save natively
+        //Test if on duplicate key works with save natively
+
+        //We check if the test exists in our system if not we just save the request in stagingTable
+        $testType = new TestType();
+        $testTypeId = $testType->getTestTypeIdByTestName("BS for mps");
+
+        if(is_null($testTypeId))
+        {
+            $this->saveToExternalDump($labRequest, ExternalDump::TEST_NOT_FOUND);
+            return false;
+        }
 
         //Check if patient exists, if true dont save again
-        dd($labRequest);
         $patient = Patient::where('patient_number', '==', $labRequest['patient']['id'])->get();
         if ($patient->isEmpty())
         {
@@ -39,8 +48,8 @@ class sanitasInterfacer implements interfacerInterface{
             $patient->name = $labRequest['patient']['fullName'];
             $patient->gender = $labRequest['patient']['gender'];
             $patient->dob = $labRequest['patient']['dateOfBirth'] ;
-            $patient->address = $labRequest['patient']['address'] ;
-            $patient->phone_number = $labRequest['patient']['phoneNumber'] ;
+            $patient->address = $labRequest['address']['address'] ;
+            $patient->phone_number = $labRequest['address']['phoneNumber'] ;
             $patient->save();
         }
 
@@ -49,7 +58,7 @@ class sanitasInterfacer implements interfacerInterface{
         if ($visit->isEmpty())
         {
             $visit = new Visit();
-            $visit->patient_id = Input::getpatient_id;
+            $visit->patient_id = $patient->id;
             if ($labRequest['orderStage'] == 'op')
             {
                 $visit->visit_type = 'In-patient';//Should be a constant
@@ -63,40 +72,52 @@ class sanitasInterfacer implements interfacerInterface{
         }
 
         $test = null;
-
-        //Check if parentLabNO is 0 thus its a test and not a measure
+        //Check if parentLabNO is 0 thus its the main test and not a measure
         if($labRequest['parentLabNo'] == '0')
         {
-            //Check if we have not saved the test before, via labno
+            //Check via the labno, if this is a duplicate request and we already saved the test 
             $test = Test::where('external_id', '==', $labRequest['labNo'])->get();
             if ($test->isEmpty()) 
             {
+                //Specimen
+                $specimen = new Specimen();
+                $specimen->specimen_type_id = TestType::find($testTypeId)->specimenTypes->lists('id')[0];
+                $specimen->created_by = User::EXTERNAL_SYSTEM_USER;
+                $specimen->referred_to = 0; //No one
+                $specimen->referred_from = 0;
+                $specimen->save();
+
                 $test = new Test();
                 $test->visit_id = $visit->id;
-                $testTypeId = $test->getTestTypeIdByTestName($labRequest['investigation']);
                 $test->test_type_id = $testTypeId;
                 $test->specimen_id = $specimen->id;
                 $test->test_status_id = $test::NOT_RECEIVED;
-                $test->created_by = $test::EXTERNAL_SYSTEM_USER; //Created by external system 0
+                $test->created_by = User::EXTERNAL_SYSTEM_USER; //Created by external system 0
                 $test->requested_by = $labRequest['requestingClinician'];
                 $test->external_id = $labRequest['labNo'];
                 $test->save();
 
-                //Specimen
-                $specimen = new Specimen();
-                $specimen->specimen_type_id = TestType::find($testTypeId)->specimenTypes->lists('id')->first();
-                $specimen->created_by = $specimen::EXTERNAL_SYSTEM_USER;
-                $specimen->referred_to = 0; //No one
-                $specimen->referred_from = 0;
-                $specimen->save();
+                $this->saveToExternalDump($labRequest, $test->id);
+                return true;
             }
         }
+        $this->saveToExternalDump($labRequest, null);
+    }
 
+    /**
+    * Function for saving the data to externalDump table
+    * 
+    * @param $labrequest the labrequest in array format
+    * @param $testId the testID to save with the labRequest or 0 if we do not have the test
+    *        in our systems.
+    */
+    public function saveToExternalDump($labRequest, $testId)
+    {
         //Dumping all the received requests to stagingTable
-        $dumper = new Staging();
+        $dumper = new ExternalDump();
         $dumper->labno = $labRequest['labNo'];
         $dumper->parentlabno = $labRequest['parentLabNo'];
-        $dumper->test_id = $test->id;
+        $dumper->test_id = $testId;
         $dumper->requestingclinician = $labRequest['requestingClinician'];
         $dumper->investigation = $labRequest['investigation'];
         $dumper->provisional_diagnosis = '';

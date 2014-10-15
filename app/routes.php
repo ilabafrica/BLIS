@@ -22,7 +22,7 @@ Route::group(array("before" => "guest"), function()
     */
     Route::post('/api/receiver', array(
         "as" => "api.receiver",
-        "uses" => "interfacerController@receiveLabrequest"
+        "uses" => "InterfacerController@receiveLabRequest"
     ));
 
 	Route::any('/', array(
@@ -200,7 +200,7 @@ Event::listen('illuminate.query', function($query)
 });
 
 //TO DO: move events to app/events.php or somewhere else
-Event::listen('api.receivedLabrequest', function($labRequest)
+Event::listen('api.receivedLabRequest', function($labRequest)
 {
     //We instruct the interfacer to handle the request
     Interfacer::retrieve($labRequest);

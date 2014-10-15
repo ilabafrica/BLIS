@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Externalstagingtable extends Migration {
+class Externaldumptable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,12 +12,12 @@ class Externalstagingtable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('staging', function(Blueprint $table)
+		Schema::create('external_dump', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('labNo')->unique();
 			$table->integer('parentLabNo');
-			$table->integer('test_id');
+			$table->integer('test_id')->nullable();
 			$table->string('requestingClinician')->nullable();
 			$table->string('investigation');
 			$table->string('provisional_diagnosis')->nullable();
@@ -50,7 +50,7 @@ class Externalstagingtable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('staging');
+		Schema::drop('external_dump');
 	}
 
 }

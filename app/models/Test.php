@@ -10,8 +10,7 @@ class Test extends Eloquent
 	protected $table = 'tests';
 
 	public $timestamps = false;
-
-	const EXTERNAL_SYSTEM_USER = 0;
+	
 	const NOT_RECEIVED = 1;
 	const PENDING = 2;
 	const STARTED = 3;

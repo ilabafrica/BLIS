@@ -1,6 +1,6 @@
 <?php
 
-interface interfacerInterface {
+interface InterfacerInterface {
     /*
     | Interface for the BLIS api.
     |

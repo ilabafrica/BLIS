@@ -1,12 +1,17 @@
 <?php
 
-class medbossInterfacer implements interfacerInterface {
+class MedbossInterfacer implements InterfacerInterface {
 
-    public function get($item)
+    public function retrieve($item)
     {
         //Setup mssql connection
         //query medboss server
         //save received data in staging table
+    }
+
+    public function process($data)
+    {
+
     }
 
     public function send($message)

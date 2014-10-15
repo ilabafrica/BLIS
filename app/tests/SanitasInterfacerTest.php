@@ -3,7 +3,6 @@
  * Tests for SanitasInterfacer class in api folder
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
-use \Mockery as m;
 
 class SanitasInterfacerTest extends TestCase
 {
@@ -11,26 +10,28 @@ class SanitasInterfacerTest extends TestCase
     {
         parent::setup();
         echo "\n\nSANITAS INTERFACER TEST\n\n";
-        $this->app->bind('interfacer', 'sanitasInterfacer');
+        $this->app->bind('Interfacer', 'SanitasInterfacer');
         Artisan::call('migrate');
+        Artisan::call('db:seed');
         $this->setVariables();
     }
 
     public function testRetrieve()
     {
         $this->assertTrue(true);
-        //$this->action('POST', 'api.receiver', $this->labrequestJson);
-        //$patient1 =Patient::find(1);
+        $this->call('POST', 'api/receiver', $this->labrequestJson, 
+                array(), array(), array('application/json'));
+        $patient6 =Patient::find(6);
 
-        //$this->assertEquals($this->labrequestJson['patient']['id'], $patient1->patient_number);
-        //$this->assertEquals($this->labrequestJson['patient']['fullName'], $patient1->name);
+        $this->assertEquals($this->labrequestJson['patient']['id'], $patient6->patient_number);
+        $this->assertEquals($this->labrequestJson['patient']['fullName'], $patient6->name);
 
     }
 
     public function setVariables()
     {
-        $this->labrequestJson = 
-        json_decode('{"cost": null,
+        $this->labrequestJson = (array)
+            json_decode('{"cost": null,
                 "receiptNumber": null,
                 "receiptType": null,
                 "labNo": 596726,
@@ -52,6 +53,6 @@ class SanitasInterfacerTest extends TestCase
                     "phoneNumber": "",
                     "city": null
                 }
-            }');
+            }', true);
     }
 }

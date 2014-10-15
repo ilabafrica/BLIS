@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
+use Illuminate\Database\Eloquent\ModelNotFoundException;  
 
 class TestType extends Eloquent
 {
@@ -105,13 +106,21 @@ class TestType extends Eloquent
 	}
 
 	/**
-	* Given the testname we return the test ID
+	* Given the test name we return the test type ID
 	*
-	* TODO::TEST!!
+	* @param $testname the name of the test
 	*/
 	public function getTestTypeIdByTestName($testName)
 	{
-		$testTypeId = TestType::where('name', 'like', $testName)->get(array('id'));
-		return $testTypeId;
+		try 
+		{
+			$testTypeId = TestType::where('name', 'like', $testName)->firstOrFail();
+			return $testTypeId->id;
+		} catch (ModelNotFoundException $e) 
+		{
+			Log::error("The test type ` $testName ` does not exist:  ". $e->getMessage());
+			//TODO: send email?
+			return null;
+		}
 	}
 }
