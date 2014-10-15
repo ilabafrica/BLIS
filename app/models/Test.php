@@ -10,12 +10,6 @@ class Test extends Eloquent
 	protected $table = 'tests';
 
 	public $timestamps = false;
-	
-	const NOT_RECEIVED = 1;
-	const PENDING = 2;
-	const STARTED = 3;
-	const COMPLETED = 4;
-	const VERIFIED = 5;
 
 	/**
 	 * Test status constants

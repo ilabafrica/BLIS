@@ -82,7 +82,6 @@ class SanitasInterfacer implements InterfacerInterface{
                 //Specimen
                 $specimen = new Specimen();
                 $specimen->specimen_type_id = TestType::find($testTypeId)->specimenTypes->lists('id')[0];
-                $specimen->created_by = User::EXTERNAL_SYSTEM_USER;
                 $specimen->referred_to = 0; //No one
                 $specimen->referred_from = 0;
                 $specimen->save();
