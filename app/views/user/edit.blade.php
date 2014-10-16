@@ -27,7 +27,8 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-2">
-						@if(!Entrust::hasRole(Role::getAdminRole()->name))
+						@if(Auth::id() == $user->id || !Entrust::hasRole(Role::getAdminRole()->name))
+						<!-- For Users to edit thier own profiles -->
 						<p>
 							<a class="edit-user" id="edit-profile" href="javascript:void(0)">
 								{{trans('messages.edit-profile')}}
@@ -63,14 +64,16 @@
 			                    <div>{{ Form::radio('gender', '0', true) }}<span class='input-tag'>{{trans('messages.male')}}</span></div>
 			                    <div>{{ Form::radio('gender', '1', false) }}<span class='input-tag'>{{trans('messages.female')}}</span></div>
 			                </div>
-							@if(Entrust::hasRole(Role::getAdminRole()->name))
+							@if(Auth::id() != $user->id && Entrust::hasRole(Role::getAdminRole()->name))
+							<!-- For the administrator to reset other users' passwords -->
 			                <div class="form-group">
 			                	<label for="reset-password"><a class="reset-password" href="javascript:void(0)">{{trans('messages.reset-password')}}</label></a>
 								{{ Form::text('reset-password', Input::old('reset-password'), ['class' => 'form-control reset-password hidden']) }}
 			                </div>
 			                @endif
 						</div>	
-						@if(!Entrust::hasRole(Role::getAdminRole()->name))
+						@if(Auth::id() == $user->id || !Entrust::hasRole(Role::getAdminRole()->name))
+						<!-- For users to edit thier own passwords -->
 						<div class="change-pass hidden">
 							<div class="form-group">
 								{{ Form::label('current-password', trans('messages.current-password')) }}
