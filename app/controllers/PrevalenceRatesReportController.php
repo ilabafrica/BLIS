@@ -36,13 +36,16 @@ class PrevalenceRatesReportController extends \BaseController {
 	}
 
 	public static function prevalenceRatesChart(){
+		$from_date = Input::get('from');
+		$to_date = Input::get('to');
+		$months = Report::getMonths($from_date, $to_date);
 		$test_types = TestType::select('test_types.id', 'test_types.name')
 							->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
             				->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
             				->where('measure_range', 'LIKE', '%Positive/Negative%')
             				->get();
 
-		$chart =  'new FusionCharts({type: "msline",
+		$chart = '{type: "msline",
 	      renderAt: "chartContainer",
 	      width: "98%",
 	      height: "500",
@@ -75,7 +78,7 @@ class PrevalenceRatesReportController extends \BaseController {
 	        {
 	            "category": [';
 
-	            	foreach ($this->months as $month) {
+	            	foreach ($months as $month) {
 	    				$chart.= '{ "label": "'.$month->label." ".$month->annum.'" },';
 		            }
 	            $chart.=']
@@ -86,9 +89,15 @@ class PrevalenceRatesReportController extends \BaseController {
             		$chart.= '{
             			"seriesname": "'.$test_type->name.'",
             			"data": [';
-	            		foreach ($this->months as $month) {
-	            			$data = Report::prevalenceCounts($month);
-		            		$chart.= '{ "value": "'.$data->rate.'",},';
+	            		foreach ($months as $month) {
+	            			$data = Report::prevalenceCountsByTestType($month, $test_type->id);
+	            			foreach ($data as $datum) {
+	            				$chart.= '{ "value": "'.$datum->rate.'",},';
+		            		}
+		            		if($data->isEmpty())
+	            			{
+	            				$chart.= '{ "value": "0.00",},';
+	            			}
 				    	}
 			    	$chart.='
 			    	 ]
@@ -97,7 +106,7 @@ class PrevalenceRatesReportController extends \BaseController {
            $chart.='
 	    ]
 	      }
-	     });';
+	     }';
 	return $chart;
 	}
 	/**

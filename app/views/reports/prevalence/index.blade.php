@@ -57,7 +57,7 @@
 				    	<th>{{trans('messages.prevalence-rate')}}</th>
 				    </tr>
 				    @forelse($data as $datum)
-				    <tr>
+				    <tr id="data">
 				    	<td>{{$datum->test}}</td>
 		  				<td>{{$datum->total}}</td>
 		  				<td>{{$datum->positive}}</td>
@@ -89,7 +89,7 @@
 	});
 
 	FusionCharts.ready(function(){
-	  var prevalenceChart = '';
+	  var prevalenceChart = new FusionCharts(<?php echo PrevalenceRatesReportController::prevalenceRatesChart(); ?>);
 	  prevalenceChart.render("chartContainer");
 	}); 
 
