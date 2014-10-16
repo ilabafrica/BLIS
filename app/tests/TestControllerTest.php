@@ -180,6 +180,8 @@ class TestControllerTest extends TestCase
         $crawler = $this->client->request('GET', $url);
 
         $this->assertCount(1, $crawler->filter('#reject_explained_to'));
+
+        $this->flushSession();
       }
     }
     /*
@@ -212,6 +214,8 @@ class TestControllerTest extends TestCase
         $crawler = $this->client->submit($form);
 
         $this->assertRedirectedToRoute('test.index');
+
+        $this->flushSession();
       }
     }
     /*
@@ -232,8 +236,8 @@ class TestControllerTest extends TestCase
 
         $specimenID = Test::find($id)->specimen_id;
         $url = URL::route('test.reject', array($specimenID));
-        $crawler = $this->client->request('GET', $url);
 
+        $crawler = $this->client->request('GET', $url);
         // Get the form and set the form values
         $form = $crawler->selectButton(trans('messages.reject'))->form();
 
@@ -242,15 +246,43 @@ class TestControllerTest extends TestCase
 
         // Submit the form
         $crawler = $this->client->submit($form);
-echo "\n".$specimenID." - $url\n";
         $this->assertRedirectedToRoute('test.reject', array($specimenID));
-        break;
+
+        $this->flushSession();
       }
     }
     /*
-    | - accept
+    | - accept: For all tests whose specimen_status is NOT_COLLECTED, attempt to ACCEPT
     |   + Required input: id (specimen_id)
     |   + Check that the new status of the specimen is ACCEPTED
+    */
+    public function testAcceptSpecimen(){
+      // $testIDs = Test::where('test_status_id','=', Test::PENDING)->lists('id');
+      // if(count($testIDs) == 0){
+      //   echo "\nSeed data is defective. There are no tests with the status as PENDING\n";
+      //   $this->assertTrue(false);
+      // }
+
+      // foreach ($testIDs as $id) {
+
+      //   $specimen = Specimen::find(Test::find($id)->specimen_id);
+      //   if($specimen->specimen_status_id == Specimen::NOT_COLLECTED){
+
+      //   }
+        $url = URL::route('test.index');
+
+        $crawler = $this->client->request('GET', $url);
+        // Get the form and set the form values
+        $pageCrawler = $crawler->filter('ul.pagination li')->last();
+
+        if(strpos($pageCrawler->children()->attr('class'), 'disabled') === false){
+          $this->client->click($pageCrawler->selectLink('&raquo;')->link());
+        }
+
+echo $pageCrawler->html();
+      // }
+    }
+    /*
     | - changeSpecimenType
     |   + Required input: id (specimen_id)
     |   + Check that the returned view has a <select> called specimen_type:
@@ -340,5 +372,17 @@ echo "\n".$specimenID." - $url\n";
     | 3. Check that the turnaround time is positive
     */
 
+    public function nextPage($url){
+        $crawler = $this->client->request('GET', $url);
+        // Get the form and set the form values
+        $pageCrawler = $crawler->filter('ul.pagination li')->last();
 
+        if(strpos($pageCrawler->children()->attr('class'), 'disabled') === false){
+          return $this->client->click($pageCrawler->selectLink('&raquo;')->link());
+        }
+        else
+        {
+          return null;
+        }
+    }
 }

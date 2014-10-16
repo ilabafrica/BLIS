@@ -264,7 +264,37 @@ class KBLISSeeder extends DatabaseSeeder
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
                 "test_type_id" => $test_types->id,//BS for MPS
                 "specimen_id" => $this->createSpecimen(
-                        Test::PENDING, Specimen::ACCEPTED,
+                        Test::NOT_RECEIVED, Specimen::NOT_COLLECTED,
+                        SpecimenType::all()->last()->id,
+                        $users[rand(0, count($users)-1)]->id),
+                "test_status_id" => Test::PENDING,
+                "requested_by" => "Dr. Abou Meyang",
+                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "time_started" => date('Y-m-d H:i:s'),
+            )
+        );        
+        
+        Test::create(
+            array(
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
+                "test_type_id" => $test_type_hb->id,
+                "specimen_id" => $this->createSpecimen(
+                        Test::PENDING, Specimen::NOT_COLLECTED,
+                        SpecimenType::all()->last()->id,
+                        $users[rand(0, count($users)-1)]->id),
+                "test_status_id" => Test::PENDING,
+                "requested_by" => "Dr. Abou Meyang",
+                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "time_started" => date('Y-m-d H:i:s'),
+            )
+        );        
+        
+        Test::create(
+            array(
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
+                "test_type_id" => $test_type_gxm->id,
+                "specimen_id" => $this->createSpecimen(
+                        Test::PENDING, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
                         $users[rand(0, count($users)-1)]->id),
                 "test_status_id" => Test::PENDING,
@@ -327,7 +357,7 @@ class KBLISSeeder extends DatabaseSeeder
         $tests_accepted_started = Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
-                "test_type_id" => $test_types->id,//BS for MPS
+                "test_type_id" => $test_type_gxm->id,
                 "specimen_id" => $this->createSpecimen(
                     Test::STARTED, Specimen::ACCEPTED, SpecimenType::all()->last()->id, 
                     $users[rand(0, count($users)-1)]->id),
