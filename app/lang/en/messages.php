@@ -55,6 +55,7 @@ return array(
     'new-password' => 'New Password',
     'password-mismatch' => 'Passwords do not match',
     're-enter-password' => 'Re-enter Password',
+    'reset-password' => 'Reset Password',
     'user-profile-edit-success' => 'The user details were successfully updated!',
     /* 
     |   Patient

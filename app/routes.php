@@ -37,15 +37,17 @@ Route::group(array("before" => "auth"), function()
         "uses" => "UserController@homeAction"
         ));
 
-    Route::group(array("before" => "checkPerms:manage_users"), function()
-    {
-    	Route::resource('user', 'UserController');
+    $userRoutes = function() {
+        Route::resource('user', 'UserController');
 
         Route::get("/user/{id}/delete", array(
             "as"   => "user.delete",
             "uses" => "UserController@delete"
         ));
-    });
+    };
+
+    Route::group(array("before" => "checkPerms:manage_users"), $userRoutes);
+    Route::group(array("before" => "selfdom"), $userRoutes);
     
     Route::any("/logout", array(
         "as"   => "user.logout",

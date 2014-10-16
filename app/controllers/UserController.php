@@ -277,7 +277,7 @@ class UserController extends Controller {
                     Log::info($e);
                 }
             }
-            // change password if parameters were entered
+            // change password if parameters were entered (changing ones own password)
             if(Input::get('passwordedit')) {
                 if (Hash::check(Input::get('current-password'), $user->password))
                 {
@@ -286,6 +286,11 @@ class UserController extends Controller {
                     return Redirect::to('user/' . $id . '/edit')
                             ->withErrors(trans('messages.incorrect-current-passord'));
                 }
+            }
+            
+            //Resetting passwords - by the administrator
+            if (Input::get('reset-password')) {
+                $user->password = Hash::make(Input::get('reset-password'));
             }
 
             $user->save();

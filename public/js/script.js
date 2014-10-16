@@ -27,7 +27,7 @@ $(function(){
 	*/
 	/*Toggle Password-Change and User-Profile Edit*/
 	$('.edit-user').click(function(){
-		if ($(this).attr('id') == 'profile') {
+		if ($(this).attr('id') == 'edit-profile') {
 		    if ($('.edit-profile').hasClass('hidden')) {
 		    	$('.edit-profile').removeClass('hidden');
 		    	$('.profile-photo').removeClass('hidden');
@@ -42,6 +42,16 @@ $(function(){
 		    }
 	    };
 	});
+
+	/*Load password reset input field */
+	$('a.reset-password').click(function() {
+		if ( $('input.reset-password').hasClass('hidden')) {
+				$('input.reset-password').removeClass('hidden');
+		}else {
+			$('input.reset-password').addClass('hidden');
+		}
+	});
+
 	/*Submitting Profile edit, with password change validation*/
 	$('.submit-profile-edit').click(function() {
 			editUserProfile();
@@ -209,7 +219,7 @@ $(function(){
 	function editUserProfile()
 	{
 		/*If Password-Change Validation*/
-	    if(!$('.change-pass').hasClass('hidden')){
+	    if($('.change-pass').length && !$('.change-pass').hasClass('hidden')){
 		    var currpwd = $('#current-password').val();
 		    var newpwd1 = $('#new-password').val();
 		    var newpwd2= $('#repeat-password').val();

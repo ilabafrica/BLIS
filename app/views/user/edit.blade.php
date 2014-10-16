@@ -27,16 +27,18 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-2">
+						@if(!Entrust::hasRole(Role::getAdminRole()->name))
 						<p>
-							<a class="edit-user" id="profile" href="javascript:void(0)">
+							<a class="edit-user" id="edit-profile" href="javascript:void(0)">
 								{{trans('messages.edit-profile')}}
 							</a>
 						</p>
 						<p>
-							<a class="edit-user" id="password" href="javascript:void(0)">
+							<a class="edit-user" id="change-password" href="javascript:void(0)">
 								{{trans('messages.change-password')}}
 							</a>
 						</p>
+						@endif
 					</div>
 					<div class="col-md-6">
 						<div class="edit-profile">
@@ -61,7 +63,14 @@
 			                    <div>{{ Form::radio('gender', '0', true) }}<span class='input-tag'>{{trans('messages.male')}}</span></div>
 			                    <div>{{ Form::radio('gender', '1', false) }}<span class='input-tag'>{{trans('messages.female')}}</span></div>
 			                </div>
+							@if(Entrust::hasRole(Role::getAdminRole()->name))
+			                <div class="form-group">
+			                	<label for="reset-password"><a class="reset-password" href="javascript:void(0)">{{trans('messages.reset-password')}}</label></a>
+								{{ Form::text('reset-password', Input::old('reset-password'), ['class' => 'form-control reset-password hidden']) }}
+			                </div>
+			                @endif
 						</div>	
+						@if(!Entrust::hasRole(Role::getAdminRole()->name))
 						<div class="change-pass hidden">
 							<div class="form-group">
 								{{ Form::label('current-password', trans('messages.current-password')) }}
@@ -82,6 +91,7 @@
 								<span class="new-pwdmatch-error hidden" >{{trans('messages.password-mismatch')}}</span>
 							</div>	
 						</div>
+						@endif
 		            </div>
 					<div class="col-md-4">
 						<div class="profile-photo">
