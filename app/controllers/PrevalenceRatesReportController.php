@@ -2,6 +2,14 @@
 
 class PrevalenceRatesReportController extends \BaseController {
 
+	#Get months
+	function __construct()
+	{
+		$from_date = Input::get('from');
+		$to_date = Input::get('to');
+		$this->months = Report::getMonths($from_date, $to_date);
+	}
+	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -9,14 +17,11 @@ class PrevalenceRatesReportController extends \BaseController {
 	 */
 	public function index()
 	{
-		$labsections = TestCategory::lists('name', 'id');
-		$test_types = TestType::join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
-            				 ->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
-            				 ->where('measure_range', 'LIKE', '%Positive/Negative%')
-            				 ->get();
+		foreach ($this->months as $month) {
+			$data = Report::prevalenceCounts($month);
+		}
 		return View::make('reports.prevalence.index')
-					->with('labsections', $labsections)
-					->with('test_types', $test_types);
+					->with('data', $data);
 	}
 
 
@@ -28,6 +33,86 @@ class PrevalenceRatesReportController extends \BaseController {
 	public function create()
 	{
 		//
+	}
+
+	public static function prevalenceRatesChart(){
+		$test_types = TestType::select('test_types.id', 'test_types.name')
+							->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
+            				->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
+            				->where('measure_range', 'LIKE', '%Positive/Negative%')
+            				->get();
+
+		$chart =  'new FusionCharts({type: "msline",
+	      renderAt: "chartContainer",
+	      width: "98%",
+	      height: "500",
+	      dataFormat: "json",
+	      dataSource: {
+	       "chart": {
+	        "caption": "Prevalence Rates",
+	        "subcaption": "(from 8/6/2013 to 8/12/2013)",
+	        "linethickness": "1",
+	        "showvalues": "0",
+	        "formatnumberscale": "0",
+	        "anchorradius": "2",
+	        "divlinecolor": "666666",
+	        "divlinealpha": "30",
+	        "divlineisdashed": "1",
+	        "labelstep": "2",
+	        "bgcolor": "FFFFFF",
+	        "showalternatehgridcolor": "0",
+	        "labelpadding": "10",
+	        "canvasborderthickness": "1",
+	        "legendiconscale": "1.5",
+	        "legendshadow": "0",
+	        "legendborderalpha": "0",
+	        "canvasborderalpha": "50",
+	        "numvdivlines": "5",
+	        "vdivlinealpha": "20",
+	        "showborder": "1"
+	    },
+	    "categories": [
+	        {
+	            "category": [';
+
+	            	foreach ($this->months as $month) {
+	    				$chart.= '{ "label": "'.$month->label." ".$month->annum.'" },';
+		            }
+	            $chart.=']
+	        }
+	    ],
+	    "dataset": [';
+            	foreach ($test_types as $test_type) {
+            		$chart.= '{
+            			"seriesname": "'.$test_type->name.'",
+            			"data": [';
+	            		foreach ($this->months as $month) {
+	            			$data = Report::prevalenceCounts($month);
+		            		$chart.= '{ "value": "'.$data->rate.'",},';
+				    	}
+			    	$chart.='
+			    	 ]
+			    	},';
+			    }
+           $chart.='
+	    ]
+	      }
+	     });';
+	return $chart;
+	}
+	/**
+	 * Function to filter prevalence rates by dates
+	 */
+	public static function filterByDate()
+	{
+		$from_date = Input::get('from');
+		$to_date = Input::get('to');
+		$months = Report::getMonths($from_date, $to_date);
+		$data = '';
+		foreach ($months as $month) {
+			$data = Report::prevalenceCounts($month);
+		}
+		return Response::json($data);
 	}
 
 

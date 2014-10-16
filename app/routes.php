@@ -295,6 +295,11 @@ Route::group(array("before" => "auth"), function()
         "uses" => "PrevalenceRatesReportController@index"
     ));
 
+    Route::post("/prevalence/filter", array(
+        "as"   => "reports.prevalence.filter",
+        "uses" => "PrevalenceRatesReportController@filterByDate"
+    ));
+
     /*Route Counts Report Controller*/
 
     Route::get("/counts", array(

@@ -51,7 +51,7 @@ $(function(){
 			});
 	});
 
-	//UIComponents();
+	UIComponents();
 
 	/* Clicking the label of an radio/checkbox, checks the control*/
 	$('span.input-tag').click(function(){
@@ -259,7 +259,7 @@ $(function(){
 	}
 
 /*DOM ready functions*/
-$(document).ready(function($){
+ function reports(){
 	/*Get today's date*/
 	var currentDate = new Date();
 	var day = currentDate.getDate();
@@ -272,10 +272,14 @@ $(document).ready(function($){
 	} 	
 	var year = currentDate.getFullYear();
 	/* Begin Datepicker */
-	$('#from').datetimepicker();
-	$('#to').datetimepicker();
-	$("#from").val(month + "/" + day + "/" + year);
-	$("#to").val(month + "/" + day + "/" + year);
+	$('#from').datetimepicker({
+					pickTime: false
+				});
+	$('#to').datetimepicker({
+					pickTime: false
+				});
+	$("#from").val(year + "-" + month + "-" + day);
+	$("#to").val(year + "-" + month + "-" + day);
 	/*End Datepicker*/	
 
 	/*Font size - Increase/Decrease*/
@@ -360,6 +364,43 @@ $(document).ready(function($){
     });
 	/*End ajax submit*/
 
+	/*Submit prevalence report filters without page reload*/
+	$('#prevalence_rates').submit(function(event){
+		var from=$('#from').val();
+		var to=$('#to').val();
+        $.ajax({
+            type: 'POST',
+            url: '/prevalence/filter',
+            data: $('form#prevalence_rates').serialize(),
+            dataType: 'json',
+        })
+
+        .success(function(data) {
+            var tableBody =""; 
+            if(data.length!=0){
+            	$.each(data, function(index, elem){
+					tableBody += "<tr>"
+					+" <td>"+elem.test+" </td>"
+					+" <td>"+elem.total+"</td>"
+					+" <td>"+elem.positive+"</td>"
+					+" <td>"+elem.negative+"</td>"
+					+" <td>"+elem.rate+"</td>"
+					+"</tr>";
+				});
+        	}
+        	else{
+        		tableBody += "<tr>"
+					+" <td colspan='5'>No records found for that time range.</td>"
+					+"</tr>";
+        	}
+        	$("#tableBody").empty();
+            $("#tableBody").append(tableBody);
+        });
+
+        event.preventDefault();
+    });
+	/*End ajax submit*/
+
 	/*Toggling counts records*/
 	$("input[name='counts']").change( function() {
         if($('#tests_grouped').is(':checked')) { 
@@ -395,4 +436,4 @@ $(document).ready(function($){
 		
 	});
 	/*End toggling*/
-});
+}

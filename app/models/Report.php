@@ -90,8 +90,7 @@ class Report{
 	public static function totalSpecimen($id){
 		return Test::select('specimen_id')
 						->where('test_type_id', '=', $id)
-        				->groupBy('test_type_id')
-                     	->count();
+        				->count();
 	}
 	#	End function to get total, positive, negative specimen by test type
 
@@ -111,12 +110,38 @@ class Report{
 	#	End function to get total, positive, negative specimen by test type
 
 	#	Begin function to return months for time_created column
-	public static function getMonths(){
-		return $dates = Test::select(DB::raw('DISTINCT MONTH(time_created) as label'))
-						->get();
+	public static function getMonths($from, $to){
+		$dates = Test::select(DB::raw('DISTINCT MONTH(time_created) as months, LEFT(MONTHNAME(time_created), 3) as label, YEAR(time_created) as annum'));
+		if($from==$to){
+			$year = date('Y');
+			$dates->whereRaw('YEAR(time_created) = '.$year);
+		}
+		else{
+			$dates->whereBetween('time_created', array($from, $to));
+			}
+		return $dates->get();
 	}
 	#	End function to return months for time_created
-
+	#Begin function to return test_type_id, test_type_name, total specimen tested, positive and negative counts
+	public static function prevalenceCounts($month){
+		$data =  Test::select(DB::raw('test_types.id as id, test_types.name as test, count(tests.specimen_id) as total, 
+					SUM(IF(test_results.result=\'Positive\',1,0)) positive, SUM(IF(test_results.result=\'Negative\',1,0)) negative,
+					ROUND( SUM( IF( test_results.result =  \'Positive\', 1, 0 ) ) *100 / COUNT( tests.specimen_id ) , 2 ) AS rate'))
+					->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
+					->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
+					->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
+					->join('test_results', 'tests.id', '=', 'test_results.test_id')
+					->join('measure_types', 'measure_types.id', '=', 'measures.measure_type_id')
+					->where('measures.measure_range', 'LIKE', '%Positive/Negative%')
+					->whereRaw('MONTH(time_created) = '.$month->months)
+					->whereRaw('YEAR(time_created) = '.$month->annum)
+					->where('tests.test_status_id', '=', '4')
+					->orWhere('tests.test_status_id', '=', '5')
+					->groupBy('test_types.id')
+					->get();
+		return $data;
+	}
+	#End function to return counts
 	/*
 	*	End prevalence rates functions
 	*/
