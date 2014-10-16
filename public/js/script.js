@@ -272,12 +272,8 @@ $(function(){
 	} 	
 	var year = currentDate.getFullYear();
 	/* Begin Datepicker */
-	$('#from').datetimepicker({
-					pickTime: false
-				});
-	$('#to').datetimepicker({
-					pickTime: false
-				});
+	$('#from').datepicker({ dateFormat: "yy-mm-dd" });
+	$('#to').datepicker({ dateFormat: "yy-mm-dd" });
 	$("#from").val(year + "-" + month + "-" + day);
 	$("#to").val(year + "-" + month + "-" + day);
 	/*End Datepicker*/	
