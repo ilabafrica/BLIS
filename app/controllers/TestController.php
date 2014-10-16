@@ -144,7 +144,7 @@ class TestController extends \BaseController {
 
 					$test = new Test;
 					$test->visit_id = $visit->id;
-					$test->test_type_id = (int)$value;
+					$test->test_type_id = (int)$testType;
 					$test->specimen_id = $specimen->id;
 					$test->test_status_id = Test::PENDING;
 					$test->created_by = Auth::user()->id;

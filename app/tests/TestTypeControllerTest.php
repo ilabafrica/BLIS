@@ -133,4 +133,14 @@ class TestTypeControllerTest extends TestCase
 		$this->assertNotNull($testTypeSaved->deleted_at);
 	}
 
+    public function testGetTestTypeIdByTestName()
+    {
+        $testType = new TestType();
+        $bSforMPSTestTypeID = $testType->getTestTypeIdByTestName("BS for MPS");
+        $gXMTestTypeID = $testType->getTestTypeIdByTestName("GXM");
+
+        $this->assertEquals( 1, $bSforMPSTestTypeID);
+        $this->assertEquals( 2, $gXMTestTypeID );
+    }
+
 }
