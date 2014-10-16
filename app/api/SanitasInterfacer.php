@@ -46,7 +46,15 @@ class SanitasInterfacer implements InterfacerInterface{
             $patient = new Patient();
             $patient->patient_number = $labRequest['patient']['id'];
             $patient->name = $labRequest['patient']['fullName'];
-            $patient->gender = $labRequest['patient']['gender'];
+                if($labRequest['patient']['gender'] == 'Male')
+                { 
+                    $gender = Patient::MALE; 
+                }
+                else if ($labRequest['patient']['gender'] == 'Female')
+                {
+                     $gender = Patient::FEMALE; 
+                 }
+            $patient->gender = $gender;
             $patient->dob = $labRequest['patient']['dateOfBirth'] ;
             $patient->address = $labRequest['address']['address'] ;
             $patient->phone_number = $labRequest['address']['phoneNumber'] ;
@@ -59,11 +67,11 @@ class SanitasInterfacer implements InterfacerInterface{
         {
             $visit = new Visit();
             $visit->patient_id = $patient->id;
-            if ($labRequest['orderStage'] == 'op')
+            if ($labRequest['orderStage'] == 'ip')
             {
                 $visit->visit_type = 'In-patient';//Should be a constant
             }
-            else if ($labRequest['orderStage'] == 'ip')
+            else if ($labRequest['orderStage'] == 'op')
             {
                 $visit->visit_type = 'Out-patient';
             }
@@ -91,7 +99,7 @@ class SanitasInterfacer implements InterfacerInterface{
                 $test->visit_id = $visit->id;
                 $test->test_type_id = $testTypeId;
                 $test->specimen_id = $specimen->id;
-                $test->test_status_id = $test::NOT_RECEIVED;
+                $test->test_status_id = Test::NOT_RECEIVED;
                 $test->created_by = User::EXTERNAL_SYSTEM_USER; //Created by external system 0
                 $test->requested_by = $labRequest['requestingClinician'];
                 $test->external_id = $labRequest['labNo'];
@@ -115,26 +123,26 @@ class SanitasInterfacer implements InterfacerInterface{
     {
         //Dumping all the received requests to stagingTable
         $dumper = new ExternalDump();
-        $dumper->labno = $labRequest['labNo'];
-        $dumper->parentlabno = $labRequest['parentLabNo'];
+        $dumper->labNo = $labRequest['labNo'];
+        $dumper->parentLabNo = $labRequest['parentLabNo'];
         $dumper->test_id = $testId;
-        $dumper->requestingclinician = $labRequest['requestingClinician'];
+        $dumper->requestingClinician = $labRequest['requestingClinician'];
         $dumper->investigation = $labRequest['investigation'];
         $dumper->provisional_diagnosis = '';
-        $dumper->requestdate = $labRequest['requestDate'];
-        $dumper->orderstage = $labRequest['orderStage'];
-        $dumper->patientvisitnumber = $labRequest['patientVisitNumber'];
+        $dumper->requestDate = $labRequest['requestDate'];
+        $dumper->orderStage = $labRequest['orderStage'];
+        $dumper->patientVisitNumber = $labRequest['patientVisitNumber'];
         $dumper->patient_id = $labRequest['patient']['id'];
-        $dumper->fullname = $labRequest['patient']["fullName"];
-        $dumper->dateofbirth = $labRequest['patient']["dateOfBirth"];
+        $dumper->fullName = $labRequest['patient']["fullName"];
+        $dumper->dateOfBirth = $labRequest['patient']["dateOfBirth"];
         $dumper->gender = $labRequest['patient']['gender'];
         $dumper->address = $labRequest['address']["address"];
-        $dumper->postalcode = '';
-        $dumper->phonenumber = $labRequest['address']["phoneNumber"];
+        $dumper->postalCode = '';
+        $dumper->phoneNumber = $labRequest['address']["phoneNumber"];
         $dumper->city = $labRequest['address']["city"];
         $dumper->cost = $labRequest['cost'];
-        $dumper->receiptnumber = $labRequest['receiptNumber'];
-        $dumper->receipttype = $labRequest['receiptType'];
+        $dumper->receiptNumber = $labRequest['receiptNumber'];
+        $dumper->receiptType = $labRequest['receiptType'];
         $dumper->waiver_no = '';
         $dumper->system_id = "sanitas";
         $dumper->save();
