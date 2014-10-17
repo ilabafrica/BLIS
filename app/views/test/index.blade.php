@@ -131,7 +131,7 @@
                         @if ($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
                             <a class="btn btn-sm btn-info accept-specimen" href="javascript:void(0)"
                                 data-test-id="{{$test->id}}" data-specimen-id="{{$test->specimen->id}}"
-                                title="{{trans('messages.accept-specimen-title')}}"
+                                title="{{trans('messages.accept-specimen-title')}}" alt="accept-specimen"
                                 data-url="{{ URL::route('test.acceptSpecimen') }}">
                                 <span class="glyphicon glyphicon-thumbs-up"></span>
                                 {{trans('messages.accept-specimen')}}

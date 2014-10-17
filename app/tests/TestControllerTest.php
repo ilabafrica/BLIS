@@ -67,7 +67,7 @@ class TestControllerTest extends TestCase
         $field2 = $returnValue2;
       }
       $field = $returnValue;
-      if (is_numeric($searchValue) && ($field == 'specimen_id'|| $field == 'visit_id')) {
+      if (is_numeric($searchValue) && ($field == 'specimen_id'  | $field == 'visit_id')) {
         if ($searchValue == '0') {
           $this->assertEquals($searchValue, count($tests));
         } else {
@@ -88,11 +88,11 @@ class TestControllerTest extends TestCase
 
 
     /*-------------------------------------------------------------------------------
-    | 14 methods in the TestController class: Invoke URLs or methods?
-    |--------------------------------------------------------------------------------
-    | - create - Shows create interface
-    |   + Check(or not) for patient search box?
-    |   + Check for expected field names: visit_type, physician, testtypes. One will do.
+    * 14 methods in the TestController class: Invoke URLs or methods?
+    *--------------------------------------------------------------------------------
+    * - create - Shows create interface
+    *   + Check(or not) for patient search box?
+    *   + Check for expected field names: visit_type, physician, testtypes. One will do.
     */
     public function testDisplayCreateForm(){
       $patient = Patient::first();
@@ -104,11 +104,11 @@ class TestControllerTest extends TestCase
       $this->assertEquals("visit_type", $visitType);
     }
     /*
-    | - saveNewTest (1 for each type)
-    |   + Get random patient
-    |   + Get a test type(1 of every testtype available)
-    |   + Required Input: physician, testtypes, patient_id, visit_type
-    |   + Check TestController redirects to the correct view ('test.index')
+    * - saveNewTest (1 for each type)
+    *   + Get random patient
+    *   + Get a test type(1 of every testtype available)
+    *   + Required Input: physician, testtypes, patient_id, visit_type
+    *   + Check TestController redirects to the correct view ('test.index')
     */
     public function testSaveNewTestSuccess(){
       $patient = Patient::first();
@@ -131,10 +131,10 @@ class TestControllerTest extends TestCase
       $this->assertRedirectedToRoute('test.index');
     }
     /*
-    | - saveNewTest (1 for each type) - Fails coz form values not set. Tests VALIDATION.
-    |   + Get random patient
-    |   + Get a test type(1 of every testtype available)
-    |   + Check TestController redirects to the correct view ('test.create')
+    * - saveNewTest (1 for each type) - Fails coz form values not set. Tests VALIDATION.
+    *   + Get random patient
+    *   + Get a test type(1 of every testtype available)
+    *   + Check TestController redirects to the correct view ('test.create')
     */
     public function testSaveNewTestFailure(){
       $patient = Patient::first();
@@ -153,8 +153,8 @@ class TestControllerTest extends TestCase
       $this->assertRedirectedToRoute('test.create', array($patient->id));
     }
     /*
-    | - index
-    |   + Check that returned view has at least 3 <tr> in the <tbody>
+    * - index
+    *   + Check that returned view has test-create css class defined
     */
     public function testListTests(){
       $url = URL::route('test.index');
@@ -163,10 +163,10 @@ class TestControllerTest extends TestCase
       $this->assertCount(1, $crawler->filter('div.panel.test-create'));
     }
     /*
-    | - reject - Attempt to launch rejection form for elligible specimen
-    |   i.e. tests that are not NOT_RECEIVED or VERIFIED and whose Specimen is ACCEPTED
-    |   + Required input: specimen_id
-    |   + Check that returned view contains: rejectionReason, reason_explained_to
+    * - reject - Attempt to launch rejection form for elligible specimen
+    *   i.e. tests that are not NOT_RECEIVED or VERIFIED and whose Specimen is ACCEPTED
+    *   + Required input: specimen_id
+    *   + Check that returned view contains: rejectionReason, reason_explained_to
     */
     public function testRejectView(){
       $testIDs = Test::where('test_status_id','!=', Test::NOT_RECEIVED)
@@ -186,10 +186,10 @@ class TestControllerTest extends TestCase
       }
     }
     /*
-    | - rejectAction - Check that each test that is not NOT_RECEIVED or VERIFIED,
-    |   and whose Specimen is ACCEPTED, can have its Specimen REJECTED
-    |   + Required input: specimen_id, rejectionReason, reason_explained_to
-    |   + Check TestController redirects to the correct view ('test.index')
+    * - rejectAction - Check that each test that is not NOT_RECEIVED or VERIFIED,
+    *   and whose Specimen is ACCEPTED, can have its Specimen REJECTED
+    *   + Required input: specimen_id, rejectionReason, reason_explained_to
+    *   + Check TestController redirects to the correct view ('test.index')
     */
     public function testRejectActionSuccess(){
       $testIDs = Test::where('test_status_id','!=', Test::NOT_RECEIVED)
@@ -220,11 +220,11 @@ class TestControllerTest extends TestCase
       }
     }
     /*
-    | - rejectAction - Check that each test that is not NOT_RECEIVED or VERIFIED,
-    |   and whose Specimen is ACCEPTED, can have its Specimen REJECTED
-    |   + Required input: specimen_id, rejectionReason, reason_explained_to
-    |   + Check TestController redirects to the correct view ('test.index')
-    |   Tests that VALIDATION is working okay.
+    * - rejectAction - Check that each test that is not NOT_RECEIVED or VERIFIED,
+    *   and whose Specimen is ACCEPTED, can have its Specimen REJECTED
+    *   + Required input: specimen_id, rejectionReason, reason_explained_to
+    *   + Check TestController redirects to the correct view ('test.index')
+    *   Tests that VALIDATION is working okay.
     */
     public function testRejectActionFailure(){
       $testIDs = Test::where('test_status_id','!=', Test::NOT_RECEIVED)
@@ -253,47 +253,54 @@ class TestControllerTest extends TestCase
       }
     }
     /*
-    | - accept: For all tests whose specimen_status is NOT_COLLECTED, attempt to ACCEPT
-    |   + Required input: id (specimen_id)
-    |   + Check that the new status of the specimen is ACCEPTED
+    * - accept: For all tests whose specimen_status is NOT_COLLECTED, attempt to ACCEPT
+    *   + Required input: id (specimen_id)
+    *   + Check that the new status of the specimen is ACCEPTED
     */
     public function testAcceptSpecimen(){
-/*
-TODO: Finish this test - Page navigator breaks down.
+
         $url = URL::route('test.index');
 
         $crawler = $this->client->request('GET', $url);
         $limit = 0;
 
         while(!empty($crawler) && $limit < 5){
-          foreach ( $crawler->filter('div.test-create tr') as $domNode) {
-            $cnt = 0;
-            echo "\n";
-            foreach ($domNode->childNodes as $kidNode) {
-              if ($cnt == 4) echo $kidNode->nodeValue;
-              $cnt++;
-            }
+          echo "\n$url\n";
+          $crawler->filter('div.test-create tr')->each(function($domNode){
+            // echo $domNode->selectLink('accept-specimen')->link();
+            // $tmp = $domNode->children()->last()->selectLink('accept-specimen');
+            // $domNode->children()->last()->children().each(function($kidNode){
+            //   if(strpos($kidNode->attr('class'), 'accept-specimen') === false){
+            //     echo $kidNode->selectLink('accept-specimen')->html();
+            //   }
+            // });
+          });
+
+          $pageCrawler = $crawler->filter('ul.pagination li')->last();
+          $rightQuote = html_entity_decode("&raquo;");
+          if(strpos($pageCrawler->attr('class'), 'disabled') === false){
+            $crawler = $this->client->click($pageCrawler->selectLink($rightQuote)->link());
           }
-          $url = $crawler->filter('ul.pagination li')->last()->children()->attr('href');
-          echo "\n".$url."\n";
-          $crawler = $this->nextPage($url);
+          else
+          {
+            $crawler =  null;
+          }
           $limit++;
         }
-*/
     }
     /*
-    | - changeSpecimenType
-    |   + Required input: id (specimen_id)
-    |   + Check that the returned view has a <select> called specimen_type:
-    | - updateSpecimenType
-    |   + Required input: id (specimen_id), new specimen_type_id
-    |   + Check that the new specimen_type_id is as expected
-    | - start
-    |   + Required input: testid
-    |   + Check that the new status of the test is STARTED
-    | - enterResults
-    |   + Required input: testid
-    |   + Check check view for presence of textarea#interpretation
+    * - changeSpecimenType
+    *   + Required input: id (specimen_id)
+    *   + Check that the returned view has a <select> called specimen_type:
+    * - updateSpecimenType
+    *   + Required input: id (specimen_id), new specimen_type_id
+    *   + Check that the new specimen_type_id is as expected
+    * - start
+    *   + Required input: testid
+    *   + Check that the new status of the test is STARTED
+    * - enterResults
+    *   + Required input: testid
+    *   + Check check view for presence of textarea#interpretation
     */
     public function testEnterResultsView(){
       $tests = Test::where('test_status_id','=', Test::STARTED)
@@ -311,12 +318,12 @@ TODO: Finish this test - Page navigator breaks down.
       $this->assertCount(1, $crawler->filter('textarea#interpretation'));
     }
     /*
-    | - saveResults (1 for each test type)
-    |   + Varying inputs: interpretation, test_id, m_[measure_id]
-    |   + For each test check that at least 1 result is present in test_results
-    | - edit
-    |   + Required input: testid
-    |   + Check check view for presence of textarea#interpretation
+    * - saveResults (1 for each test type)
+    *   + Varying inputs: interpretation, test_id, m_[measure_id]
+    *   + For each test check that at least 1 result is present in test_results
+    * - edit
+    *   + Required input: testid
+    *   + Check check view for presence of textarea#interpretation
     */
     public function testEditTestView(){
       $tests = Test::where('test_status_id','=', Test::COMPLETED)->lists('id');
@@ -333,12 +340,12 @@ TODO: Finish this test - Page navigator breaks down.
       $this->assertCount(1, $crawler->filter('textarea#interpretation'));
     }
     /*
-    | - verify (TODO)
-    |   + Required input: testid
-    |   + Check that the new status of the test is VERIFIED
-    | - viewDetails
-    |   + Required input: testid
-    |   + Check that there are 4 panels in total
+    * - verify (TODO)
+    *   + Required input: testid
+    *   + Check that the new status of the test is VERIFIED
+    * - viewDetails
+    *   + Required input: testid
+    *   + Check that there are 4 panels in total
     */
     public function testViewDetailsView(){
 
@@ -348,42 +355,27 @@ TODO: Finish this test - Page navigator breaks down.
       $this->assertCount(4, $crawler->filter('div.panel'));
     }
     /*
-    |--------------------------------------------------------------------------------
+    *--------------------------------------------------------------------------------
     */
     /*-------------------------------------------------------------------------------
-    | 2 Key methods in the Test (model) class: getWaitTime() and getTurnaroundTime().
-    | The rest are relationship indicators.
-    |--------------------------------------------------------------------------------
+    * 2 Key methods in the Test (model) class: getWaitTime() and getTurnaroundTime().
+    * The rest are relationship indicators.
+    *--------------------------------------------------------------------------------
     */
     /*
-    | getWaitTime() test
-    | 1. Create new test
+    * getWaitTime() test
+    * 1. Create new test
          - Get random patient
          - Create a visit
          - Request a test (random?)
-    | 2. Progess the test to the specimen collection phase
-    | 3. Check that the wait time is positive
+    * 2. Progess the test to the specimen collection phase
+    * 3. Check that the wait time is positive
     */
     /*
-    | getTurnaroundTime()
-    | 1. Create new test
-    | 2. Progess test to completed phase
-    | 3. Check that the turnaround time is positive
+    * getTurnaroundTime()
+    * 1. Create new test
+    * 2. Progess test to completed phase
+    * 3. Check that the turnaround time is positive
     */
 
-    public function nextPage($url){
-        $crawler = $this->client->request('GET', $url);
-        // Get the form and set the form values
-        $pageCrawler = $crawler->filter('ul.pagination li')->last();
-        $rightQuote = html_entity_decode("&raquo;");
-
-echo "Last Link Class: ".$pageCrawler->children()->attr('class')."\n";
-        if(strpos($pageCrawler->children()->attr('class'), 'disabled') === false){
-          return $this->client->click($pageCrawler->selectLink($rightQuote)->link());
-        }
-        else
-        {
-          return null;
-        }
-    }
 }
