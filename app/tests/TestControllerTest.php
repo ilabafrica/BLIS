@@ -97,6 +97,7 @@ class TestControllerTest extends TestCase
     public function testDisplayCreateForm(){
       $patient = Patient::first();
       $url = URL::route('test.create', array($patient->id));
+
       $crawler = $this->client->request('GET', $url);
 
       $visitType = $crawler->filter('select')->attr('name');
@@ -272,14 +273,23 @@ class TestControllerTest extends TestCase
         $url = URL::route('test.index');
 
         $crawler = $this->client->request('GET', $url);
-        // Get the form and set the form values
-        $pageCrawler = $crawler->filter('ul.pagination li')->last();
+        $limit = 0;
 
-        if(strpos($pageCrawler->children()->attr('class'), 'disabled') === false){
-          $this->client->click($pageCrawler->selectLink('&raquo;')->link());
+        while(!empty($crawler) && $limit < 5){
+          foreach ( $crawler->filter('div.test-create tr') as $domNode) {
+            $cnt = 0;
+            echo "\n";
+            foreach ($domNode->childNodes as $kidNode) {
+              if ($cnt == 4) echo $kidNode->nodeValue;
+              $cnt++;
+            }
+          }
+          $url = $crawler->filter('ul.pagination li')->last()->children()->attr('href');
+          echo "\n".$url."\n";
+          $crawler = $this->nextPage($url);
+          $limit++;
         }
-
-echo $pageCrawler->html();
+        // Get the form and set the form values
       // }
     }
     /*
@@ -376,9 +386,11 @@ echo $pageCrawler->html();
         $crawler = $this->client->request('GET', $url);
         // Get the form and set the form values
         $pageCrawler = $crawler->filter('ul.pagination li')->last();
+        $rightQuote = html_entity_decode("&raquo;");
 
+echo "Last Link Class: ".$pageCrawler->children()->attr('class')."\n";
         if(strpos($pageCrawler->children()->attr('class'), 'disabled') === false){
-          return $this->client->click($pageCrawler->selectLink('&raquo;')->link());
+          return $this->client->click($pageCrawler->selectLink($rightQuote)->link());
         }
         else
         {
