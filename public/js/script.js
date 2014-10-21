@@ -27,6 +27,8 @@ $(function(){
 	*/
 	/*Toggle Password-Change and User-Profile Edit*/
 	$('.edit-user').click(function(){
+		$('.edit-user').removeClass('active');
+		$(this).addClass('active');
 		if ($(this).attr('id') == 'edit-profile') {
 		    if ($('.edit-profile').hasClass('hidden')) {
 		    	$('.edit-profile').removeClass('hidden');
