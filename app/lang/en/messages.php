@@ -79,6 +79,7 @@ return array(
     'specimen-status' => 'Status',
     'specimen-type' => 'Type',
     'specimen-type-title' => 'Specimen Type',
+    'success-rejecting-specimen' => 'The specimen was rejected!',
     'update' => 'Update',
     /* 
     |   Test Categories

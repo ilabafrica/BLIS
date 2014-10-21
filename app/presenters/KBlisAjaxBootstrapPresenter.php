@@ -11,7 +11,7 @@ class KBlisAjaxBootstrapPresenter extends Illuminate\Pagination\Presenter {
 	 */
 	public function getPageLinkWrapper($url, $page, $rel=null) 
 	{
-		return "<li><a href=\"$url\">$page</a></li>";
+		return "<li><a href=\"$url\" alt=\"$rel\">$page</a></li>";
 	}
 
 	/**

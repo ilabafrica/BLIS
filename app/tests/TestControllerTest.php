@@ -1,16 +1,18 @@
 <?php
 /**
- * Tests the MeasureController functions that store, edit and delete measures 
+ * Tests the TestController functions that store, edit and delete measures 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+
 class TestControllerTest extends TestCase 
 {
 
     public function setUp(){
-        parent::setUp();
-        Artisan::call('migrate');
-        Artisan::call('db:seed');
+      parent::setUp();
+      Artisan::call('migrate');
+      Artisan::call('db:seed');
     }
+
 
    /**
 	  * @group testIndex
@@ -19,6 +21,7 @@ class TestControllerTest extends TestCase
 	  */    
  	  public function testifIndexWorks()
   	{
+ 
       echo "\n\nTEST CONTROLLER TEST\n\n";
       $searchbyPending = array('search' => '', 'testStatusId' => '1', 'dateFrom' => '', 'dateTo' => '');//Pending
       $searchbyStarted = array('search' => '', 'testStatusId' => '2', 'dateFrom' => '', 'dateTo' => '');//Started
@@ -64,7 +67,7 @@ class TestControllerTest extends TestCase
         $field2 = $returnValue2;
       }
       $field = $returnValue;
-      if (is_numeric($searchValue) && ($field == 'specimen_id'|| $field == 'visit_id')) {
+      if (is_numeric($searchValue) && ($field == 'specimen_id'  | $field == 'visit_id')) {
         if ($searchValue == '0') {
           $this->assertEquals($searchValue, count($tests));
         } else {
@@ -82,4 +85,309 @@ class TestControllerTest extends TestCase
         }
       }
     }
+
+
+    /*-------------------------------------------------------------------------------
+    * 14 methods in the TestController class: Invoke URLs or methods?
+    *--------------------------------------------------------------------------------
+    * - create - Shows create interface
+    *   + Check(or not) for patient search box?
+    *   + Check for expected field names: visit_type, physician, testtypes. One will do.
+    */
+    public function testDisplayCreateForm(){
+      $patient = Patient::first();
+      $url = URL::route('test.create', array($patient->id));
+
+      $crawler = $this->client->request('GET', $url);
+
+      $visitType = $crawler->filter('select')->attr('name');
+      $this->assertEquals("visit_type", $visitType);
+    }
+    /*
+    * - saveNewTest (1 for each type)
+    *   + Get random patient
+    *   + Get a test type(1 of every testtype available)
+    *   + Required Input: physician, testtypes, patient_id, visit_type
+    *   + Check TestController redirects to the correct view ('test.index')
+    */
+    public function testSaveNewTestSuccess(){
+      $patient = Patient::first();
+      $url = URL::route('test.create', array($patient->id));
+      $crawler = $this->client->request('GET', $url);
+
+      // Get the form and set the form values
+      $form = $crawler->selectButton(trans('messages.save-test'))->form();
+      $form['physician'] = 'Dr. Jack Aroe';
+      foreach ($form['testtypes'] as $testType) {
+        $testType->tick();
+      }
+
+      // Set the current user to admin
+      $this->be(User::first());
+
+      // Submit the form
+      $crawler = $this->client->submit($form);
+
+      $this->assertRedirectedToRoute('test.index');
+    }
+    /*
+    * - saveNewTest (1 for each type) - Fails coz form values not set. Tests VALIDATION.
+    *   + Get random patient
+    *   + Get a test type(1 of every testtype available)
+    *   + Check TestController redirects to the correct view ('test.create')
+    */
+    public function testSaveNewTestFailure(){
+      $patient = Patient::first();
+      $url = URL::route('test.create', array($patient->id));
+      $crawler = $this->client->request('GET', $url);
+
+      // Get the form and set the form values
+      $form = $crawler->selectButton(trans('messages.save-test'))->form();
+
+      // Set the current user to admin
+      $this->be(User::first());
+
+      // Submit the form
+      $crawler = $this->client->submit($form);
+
+      $this->assertRedirectedToRoute('test.create', array($patient->id));
+    }
+    /*
+    * - index
+    *   + Check that returned view has test-create css class defined
+    */
+    public function testListTests(){
+      $url = URL::route('test.index');
+      $crawler = $this->client->request('GET', $url);
+
+      $this->assertCount(1, $crawler->filter('div.panel.test-create'));
+    }
+    /*
+    * - reject - Attempt to launch rejection form for elligible specimen
+    *   i.e. tests that are not NOT_RECEIVED or VERIFIED and whose Specimen is ACCEPTED
+    *   + Required input: specimen_id
+    *   + Check that returned view contains: rejectionReason, reason_explained_to
+    */
+    public function testRejectView(){
+      $testIDs = Test::where('test_status_id','!=', Test::NOT_RECEIVED)
+                ->where('test_status_id','!=', Test::VERIFIED)->lists('id');
+      if(count($testIDs) == 0){
+        $this->assertTrue(false);
+      }
+
+      foreach ($testIDs as $id) {
+        $url = URL::route('test.reject', array(Test::find($id)->specimen_id));
+        $crawler = $this->client->request('GET', $url);
+        $crawler = $this->client->request('GET', $url);
+
+        $this->assertCount(1, $crawler->filter('#reject_explained_to'));
+
+        $this->flushSession();
+      }
+    }
+    /*
+    * - rejectAction - Check that each test that is not NOT_RECEIVED or VERIFIED,
+    *   and whose Specimen is ACCEPTED, can have its Specimen REJECTED
+    *   + Required input: specimen_id, rejectionReason, reason_explained_to
+    *   + Check TestController redirects to the correct view ('test.index')
+    */
+    public function testRejectActionSuccess(){
+      $testIDs = Test::where('test_status_id','!=', Test::NOT_RECEIVED)
+                ->where('test_status_id','!=', Test::VERIFIED)->lists('id');
+      if(count($testIDs) == 0){
+        $this->assertTrue(false);
+      }
+
+      foreach ($testIDs as $id) {
+        $specimenID = Test::find($id)->specimen_id;
+        $url = URL::route('test.reject', array($specimenID));
+        $crawler = $this->client->request('GET', $url);
+
+        // Get the form and set the form values
+        $form = $crawler->selectButton(trans('messages.reject'))->form();
+        $form['rejectionReason']->select('15');
+        $form['reject_explained_to'] = 'Tim Commerford';
+
+        // Set the current user to admin
+        $this->be(User::first());
+
+        // Submit the form
+        $crawler = $this->client->submit($form);
+
+        $this->assertRedirectedToRoute('test.index');
+
+        $this->flushSession();
+      }
+    }
+    /*
+    * - rejectAction - Check that each test that is not NOT_RECEIVED or VERIFIED,
+    *   and whose Specimen is ACCEPTED, can have its Specimen REJECTED
+    *   + Required input: specimen_id, rejectionReason, reason_explained_to
+    *   + Check TestController redirects to the correct view ('test.index')
+    *   Tests that VALIDATION is working okay.
+    */
+    public function testRejectActionFailure(){
+      $testIDs = Test::where('test_status_id','!=', Test::NOT_RECEIVED)
+                ->where('test_status_id','!=', Test::VERIFIED)->lists('id');
+      if(count($testIDs) == 0){
+        $this->assertTrue(false);
+      }
+
+      foreach ($testIDs as $id) {
+
+        $specimenID = Test::find($id)->specimen_id;
+        $url = URL::route('test.reject', array($specimenID));
+
+        $crawler = $this->client->request('GET', $url);
+        // Get the form and set the form values
+        $form = $crawler->selectButton(trans('messages.reject'))->form();
+
+        // Set the current user to admin
+        $this->be(User::first());
+
+        // Submit the form
+        $crawler = $this->client->submit($form);
+        $this->assertRedirectedToRoute('test.reject', array($specimenID));
+
+        $this->flushSession();
+      }
+    }
+    /*
+    * - accept: For all tests whose specimen_status is NOT_COLLECTED, attempt to ACCEPT
+    *   + Required input: id (specimen_id)
+    *   + Check that the new status of the specimen is ACCEPTED
+    */
+    public function testAcceptSpecimen(){
+      //TODO: Incorporate a JS supporting client like casperjs or selenium
+    }
+    /*
+    * - changeSpecimenType
+    *   + Required input: id (specimen_id)
+    *   + Check that the returned view has a <select> called specimen_type:
+    */
+    public function testChangeSpecimenType(){
+      //TODO: Incorporate a JS supporting client like casperjs or selenium
+    }
+    /*
+    * - updateSpecimenType
+    *   + Required input: id (specimen_id), new specimen_type_id
+    *   + Check that the new specimen_type_id is as expected
+    */
+    public function testUpdateSpecimenType(){
+      //TODO: Incorporate a JS supporting client like casperjs or selenium
+    }
+    /*
+    * - start
+    *   + Required input: testid
+    *   + Check that the new status of the test is STARTED
+    */
+    public function testStart(){
+      //TODO: Incorporate a JS supporting client like casperjs or selenium
+    }
+    /*
+    * - enterResults
+    *   + Required input: testid
+    *   + Check check view for presence of textarea#interpretation
+    */
+    public function testEnterResultsView(){
+      $tests = Test::where('test_status_id','=', Test::STARTED)
+                ->orWhere('test_status_id','=', Test::COMPLETED)->lists('id');
+
+      foreach ($tests as $id) {
+        $test = Test::find($id);
+        if($test->specimen->specimen_status_id == Specimen::ACCEPTED){
+          $url = URL::route('test.enterResults', array($test->id));
+          break;
+        }
+      }
+      $crawler = $this->client->request('GET', $url);
+
+      $this->assertCount(1, $crawler->filter('textarea#interpretation'));
+    }
+    /*
+    * - saveResults (1 for each test type)
+    *   + Varying inputs: interpretation, test_id, m_[measure_id]
+    *   + For each test check that at least 1 result is present in test_results
+    */
+    public function testSaveResults(){
+      //TODO: 
+    }
+    /*
+    * - edit
+    *   + Required input: testid
+    *   + Check check view for presence of textarea#interpretation
+    */
+    public function testEditTestView(){
+      $tests = Test::where('test_status_id','=', Test::COMPLETED)->lists('id');
+
+      foreach ($tests as $id) {
+        $test = Test::find($id);
+        if($test->specimen->specimen_status_id == Specimen::ACCEPTED){
+          $url = URL::route('test.edit', array($test->id));
+          break;
+        }
+      }
+      $crawler = $this->client->request('GET', $url);
+
+      $this->assertCount(1, $crawler->filter('textarea#interpretation'));
+    }
+    /*
+    * - verify (TODO)
+    *   + Required input: testid
+    *   + Check that the new status of the test is VERIFIED
+    * - viewDetails
+    *   + Required input: testid
+    *   + Check that there are 4 panels in total
+    */
+    public function testViewDetailsView(){
+
+      $url = URL::route('test.viewDetails', array(Test::first()->id));
+      $crawler = $this->client->request('GET', $url);
+
+      $this->assertCount(4, $crawler->filter('div.panel'));
+    }
+    /*
+    *--------------------------------------------------------------------------------
+    */
+    /*-------------------------------------------------------------------------------
+    * 2 Key methods in the Test (model) class: getWaitTime() and getTurnaroundTime().
+    * The rest are relationship indicators.
+    *--------------------------------------------------------------------------------
+    */
+    /*
+    * getWaitTime() test
+    * 1. Get all tests whose specimen is not NOT_COLLECTED
+    * 2. Check that the wait time is positive
+    */
+    public function testWaitTime(){
+      $specIDs = Specimen::where('specimen_status_id','!=', Specimen::NOT_COLLECTED)->lists('id');
+
+      if(count($specIDs) == 0){
+        $this->assertTrue(false);
+      }
+
+      foreach ($specIDs as $id) {
+        $test = Specimen::find($id)->test()->first();
+        $this->assertTrue($test->getWaitTime() >= 0);
+      }
+    }
+    /*
+    * getTurnaroundTime()
+    * 1. Get all tests whose status is either COMPLETED or VERIFIED
+    * 2. Check that the turn around time is positive
+    */
+    public function testGetTurnAroundTime(){
+      $testIDs = Test::where('test_status_id','=', Test::COMPLETED)
+                ->orWhere('test_status_id','=', Test::VERIFIED)->lists('id');
+      if(count($testIDs) == 0){
+        $this->assertTrue(false);
+      }
+
+      foreach ($testIDs as $id) {
+        $test = Test::find($id);
+        $this->assertTrue($test->getTurnaroundTime() >= 0);
+      }
+    }
+
+
 }

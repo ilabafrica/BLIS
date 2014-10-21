@@ -1,3 +1,14 @@
+// Hello.
+//
+// This is JSHint, a tool that helps to detect errors and potential
+// problems in your JavaScript code.
+//
+// To start, simply enter some JavaScript anywhere on this page. Your
+// report will appear on the right side.
+//
+// Additionally, you can toggle specific options in the Configure
+// menu.
+
 $(function(){
 	/*	HEADER
 	|   Username display
@@ -13,7 +24,7 @@ $(function(){
 	/*	LEFT SIDEBAR FUNCTIONS	*/
 	
 	/*  Click main menu */
-	$('.main-menu').click(function(event){
+	$('.main-menu').click(function(){
 
 		$('.main-menu').removeClass('active');
 		$(this).addClass('active');
@@ -46,7 +57,7 @@ $(function(){
 	$('.btn-delete').click(function(){
 		$('.confirm-delete-modal').modal('toggle');
 		$.ajax({url: $('#delete-url').val()})
-			.done(function(data){
+			.done(function(){
 				location.reload(true);
 			});
 	});
@@ -84,12 +95,12 @@ $(function(){
 				cnt++;
 			});
 			$('#new-test-modal .table tbody').html( output );
-			if (cnt == 0) {
+			if (cnt === 0) {
 				$('#new-test-modal .table').hide();
 			} else {
 				$('#new-test-modal .table').removeClass('hide');
 				$('#new-test-modal .table').show();
-			};
+			}
 		});
 	});
 	/* Prevent patient search modal form submit (default action) when the ENTER key is pressed*/
@@ -209,29 +220,29 @@ $(function(){
 	 | TODO: Move the HTML lines to the appropriate view
 	 */
 
-	var numericInput ='<div class="numeric-range-measure">'
-		+'<input name="measurerangeid[]" type="hidden" value="0">'
-		+'<button class="close" aria-hidden="true" type="button" title="Delete">×</button>'
-		+'<div><span class="range-title">Age Range:</span>'
-			+'<input name="agemin[]" type="text"><span>:</span>'
-			+'<input name="agemax[]" type="text">'
-		+'</div><div><span class="range-title">Gender:</span>'
-			+'<select name="gender[]">'
-				+'<option value="0">Male</option>'
-				+'<option value="1">Female</option>'
-				+'<option value="2">Both</option>'
-			+'</select>'
-		+'</div><div><span class="range-title">Measure Range:</span>'
-			+'<input name="rangemin[]" type="text"><span>:</span>'
-			+'<input name="rangemax[]" type="text">'
-		+'</div></div>';
+	var numericInput ='<div class="numeric-range-measure">' +
+		'<input name="measurerangeid[]" type="hidden" value="0">' +
+		'<button class="close" aria-hidden="true" type="button" title="Delete">×</button>' +
+		'<div><span class="range-title">Age Range:</span>' +
+		  '<input name="agemin[]" type="text"><span>:</span>' +
+			'<input name="agemax[]" type="text">' +
+		'</div><div><span class="range-title">Gender:</span>' +
+			'<select name="gender[]">' +
+				'<option value="0">Male</option>' +
+				'<option value="1">Female</option>' +
+				'<option value="2">Both</option>' +
+			'</select>' +
+		'</div><div><span class="range-title">Measure Range:</span>' +
+      
+			'<input name="rangemax[]" type="text">' +
+		'</div></div>';
 
-	var alphanumericInput = '<div class="alphanumericInput">'
-								+'<input name="val[]" type="text">'
-								+'<span class="alphanumericSlash">/</span></div>';
+	var alphanumericInput = '<div class="alphanumericInput">' +
+								'<input name="val[]" type="text">' +
+								'<span class="alphanumericSlash">/</span></div>';
 
-	var autocompleteInput = '<div class="autocompleteInput">'
-								+'<input name="val[]" type="text"></div>';
+	var autocompleteInput = '<div class="autocompleteInput">' +
+								'<input name="val[]" type="text"></div>';
 
 	var freetextInput = '<p>A text box will appear for results entry</p>';
 
