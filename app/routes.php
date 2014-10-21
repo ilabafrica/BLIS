@@ -113,6 +113,18 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@index"
     ));
 
+    Route::any("/test/create/{patient?}", array(
+        "before" => "checkPerms:request_test",
+        "as"   => "test.create",
+        "uses" => "TestController@create"
+    ));
+
+     Route::post("/test/savenewtest", array(
+        "before" => "checkPerms:request_test",
+        "as"   => "test.saveNewTest",
+        "uses" => "TestController@saveNewTest"
+    ));
+
     Route::get("/test/{id}/reject", array(
         "as"   => "test.reject",
         "uses" => "TestController@reject"
@@ -148,11 +160,6 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@enterResults"
     ));
 
-     Route::post("/test/savenewtest", array(
-        "as"   => "test.saveNewTest",
-        "uses" => "TestController@saveNewTest"
-    ));
-
      Route::post("/test/{test}/saveresults", array(
         "as"   => "test.saveResults",
         "uses" => "TestController@saveResults"
@@ -171,11 +178,6 @@ Route::group(array("before" => "auth"), function()
     Route::get("/test/verify", array(
         "as"   => "test.verify",
         "uses" => "TestController@verify"
-    ));
-
-    Route::any("/test/create/{patient?}", array(
-        "as"   => "test.create",
-        "uses" => "TestController@create"
     ));
 
     Route::group(array("before" => "admin"), function()

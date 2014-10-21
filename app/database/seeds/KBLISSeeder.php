@@ -502,12 +502,19 @@ class KBLISSeeder extends DatabaseSeeder
         $this->command->info('referrals seeded');
         /* Permissions table */
         $permissions = array(
-            array("name" => "manage_patients", "display_name" => "Can add patients"),
-            array("name" => "verify_tests", "display_name" => "Can verify tests"),
-            array("name" => "edit_tests", "display_name" => "Can edit tests"),
-            array("name" => "receive_requests", "display_name" => "Can receive requests"),
             array("name" => "view_names", "display_name" => "Can view patient names"),
+            array("name" => "manage_patients", "display_name" => "Can add patients"),
+
+            array("name" => "receive_external_test", "display_name" => "Can receive test requests"),
+            array("name" => "request_test", "display_name" => "Can request new test"),
+            array("name" => "accept_test_specimen", "display_name" => "Can accept test specimen"),
+            array("name" => "reject_test_specimen", "display_name" => "Can reject test specimen"),
+            array("name" => "change_test_specimen", "display_name" => "Can change test specimen"),
             array("name" => "enter_tests_results", "display_name" => "Can enter tests results"),
+            array("name" => "edit_test_results", "display_name" => "Can edit test results"),
+            array("name" => "verify_test_results", "display_name" => "Can verify test results"),
+            array("name" => "delete_test", "display_name" => "Can delete tests"),
+            array("name" => "send_results_to_external_system", "display_name" => "Can send test results to external systems"),
 
             array("name" => "manage_users", "display_name" => "Can manage users"),
             array("name" => "manage_test_catalog", "display_name" => "Can manage test catalog"),

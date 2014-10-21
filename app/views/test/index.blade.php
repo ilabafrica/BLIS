@@ -53,6 +53,7 @@
         <div class="panel-heading ">
             <span class="glyphicon glyphicon-filter"></span>
             {{trans('messages.list-tests')}}
+            @if(Auth::user()->can('request_test'))
             <div class="panel-btn">
                 <a class="btn btn-sm btn-info" href="javascript:void(0)"
                     data-toggle="modal" data-target="#new-test-modal">
@@ -60,6 +61,7 @@
                     {{trans('messages.new-test')}}
                 </a>
             </div>
+            @endif
         </div>
         <div class="panel-body">
             <table class="table table-striped table-hover table-condensed">
