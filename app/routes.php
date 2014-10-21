@@ -132,11 +132,13 @@ Route::group(array("before" => "auth"), function()
     ));
 
     Route::get("/test/{id}/reject", array(
+        "before" => "checkPerms:reject_test_specimen",
         "as"   => "test.reject",
         "uses" => "TestController@reject"
     ));
 
     Route::post("/test/rejectaction", array(
+        "before" => "checkPerms:reject_test_specimen",
         "as"   => "test.rejectAction",
         "uses" => "TestController@rejectAction"
     ));

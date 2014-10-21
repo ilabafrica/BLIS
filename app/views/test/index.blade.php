@@ -155,13 +155,14 @@
                             @endif
                         @endif
                         @if ($test->specimen->specimen_status_id == Specimen::ACCEPTED && $test->test_status_id != Test::VERIFIED)
-                            <!-- NOT Rejected AND NOT Verified -->
+                            @if(Auth::user()->can('reject_test_specimen'))
                             <a class="btn btn-sm btn-danger" id="reject-{{$test->id}}-link"
                                 href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"
                                 title="{{trans('messages.reject-title')}}">
                                 <span class="glyphicon glyphicon-thumbs-down"></span>
                                 {{trans('messages.reject')}}
                             </a>
+                            @endif
                             @if ($test->test_status_id == Test::PENDING)
                                 <a class="btn btn-sm btn-warning start-test" href="javascript:void(0)"
                                     data-test-id="{{$test->id}}" data-url="{{ URL::route('test.start') }}"
