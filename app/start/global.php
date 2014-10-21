@@ -68,6 +68,16 @@ App::down(function()
 	return Response::make("Be right back!", 503);
 });
 
+
+/*------------------------------------------
+* Binding the Interfacer to the system
+*
+* -------------------------------------------
+*/
+
+App::bind('Interfacer', 'SanitasInterfacer');
+
+
 /*
 |--------------------------------------------------------------------------
 | Require The Filters File
