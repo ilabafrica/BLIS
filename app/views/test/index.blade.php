@@ -140,7 +140,7 @@
                                 {{trans('messages.accept-specimen')}}
                             </a>
                             @endif
-                            @if(count($test->testType->specimenTypes) > 1)
+                            @if(count($test->testType->specimenTypes) > 1 && Auth::user()->can('change_test_specimen'))
                                 <!-- 
                                     If this test can be done using more than 1 specimen type,
                                     allow the user to change to any of the other eligible ones.
