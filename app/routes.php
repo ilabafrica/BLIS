@@ -71,15 +71,10 @@ Route::group(array("before" => "auth"), function()
         "uses" => "PatientController@delete"
     ));
 
-    Route::post("/patient/search", function(){
-
-        return Patient::select('id', 'patient_number','name')
-                ->where(function($query){
-                    $txt = Input::get('text');
-                    $query->where("name", "LIKE", "%".$txt."%")
-                        ->orWhere("patient_number", "LIKE", "%".$txt."%");
-                })->get()->toJson();
-    });
+    Route::post("/patient/search", array(
+        "as"   => "patient.search",
+        "uses" => "PatientController@search"
+    ));
 
     Route::group(array("before" => "checkPerms:manage_test_catalog"), function()
     {
@@ -111,7 +106,7 @@ Route::group(array("before" => "auth"), function()
             "uses" => "TestTypeController@delete"
         ));
     });
-    /*Route::resource('test', 'TestController');*/
+
 
     Route::any("/test", array(
         "as"   => "test.index",

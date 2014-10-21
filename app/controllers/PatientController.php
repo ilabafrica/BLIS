@@ -172,4 +172,19 @@ class PatientController extends \BaseController {
 		return Redirect::to('patient')->with('message', 'The patient was successfully deleted!');
 	}
 
+	/**
+	 * Return a Patients collection that meets the searched criteria as JSON.
+	 *
+	 * @return Response
+	 */
+	public function search()
+	{
+        return Patient::select('id', 'patient_number','name')
+                ->where(function($query){
+                    $txt = Input::get('text');
+                    $query->where("name", "LIKE", "%".$txt."%")
+                        ->orWhere("patient_number", "LIKE", "%".$txt."%");
+                })->get()->toJson();
+	}
+
 }
