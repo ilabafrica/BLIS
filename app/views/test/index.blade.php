@@ -173,12 +173,14 @@
                                 </a>
                                 @endif
                             @elseif ($test->test_status_id == Test::STARTED)
+                                @if(Auth::user()->can('enter_test_results'))
                                 <a class="btn btn-sm btn-info" id="enter-results-{{$test->id}}-link"
                                     href="{{ URL::to('test/'.$test->id.'/enterresults') }}"
                                     title="{{trans('messages.enter-results-title')}}">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                     {{trans('messages.enter-results')}}
                                 </a>
+                                @endif
                             @elseif ($test->test_status_id == Test::COMPLETED)
                                 <a class="btn btn-sm btn-success" id="verify-{{$test->id}}-link"
                                     href="{{ URL::to('test/'.$test->id.'/viewdetails') }}"
@@ -186,12 +188,14 @@
                                     <span class="glyphicon glyphicon-thumbs-up"></span>
                                     {{trans('messages.verify')}}
                                 </a>
+                                @if(Auth::user()->can('edit_test_results'))
                                 <a class="btn btn-sm btn-info" id="edit-{{$test->id}}-link"
                                     href="{{ URL::to('test/'.$test->id.'/edit') }}"
                                     title="{{trans('messages.edit-test-results')}}">
                                     <span class="glyphicon glyphicon-edit"></span>
                                     {{trans('messages.edit')}}
                                 </a>
+                                @endif
                             @endif
                         @endif
                         </td>

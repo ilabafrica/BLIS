@@ -162,11 +162,19 @@ Route::group(array("before" => "auth"), function()
     ));
 
      Route::get("/test/{test}/enterresults", array(
+        "before" => "checkPerms:enter_test_results",
         "as"   => "test.enterResults",
         "uses" => "TestController@enterResults"
     ));
 
+    Route::get("/test/{test}/edit", array(
+        "before" => "checkPerms:edit_test_results",
+        "as"   => "test.edit",
+        "uses" => "TestController@edit"
+    ));
+
      Route::post("/test/{test}/saveresults", array(
+        "before" => "checkPerms:edit_test_results",
         "as"   => "test.saveResults",
         "uses" => "TestController@saveResults"
     ));
@@ -174,11 +182,6 @@ Route::group(array("before" => "auth"), function()
     Route::get("/test/{test}/viewdetails", array(
         "as"   => "test.viewDetails",
         "uses" => "TestController@viewDetails"
-    ));
-
-    Route::get("/test/{test}/edit", array(
-        "as"   => "test.edit",
-        "uses" => "TestController@edit"
     ));
 
     Route::get("/test/verify", array(
