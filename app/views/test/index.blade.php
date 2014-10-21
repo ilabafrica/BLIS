@@ -131,6 +131,7 @@
                             </a>
                             
                         @if ($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
+                            @if(Auth::user()->can('accept_test_specimen'))
                             <a class="btn btn-sm btn-info accept-specimen" href="javascript:void(0)"
                                 data-test-id="{{$test->id}}" data-specimen-id="{{$test->specimen->id}}"
                                 title="{{trans('messages.accept-specimen-title')}}"
@@ -138,6 +139,7 @@
                                 <span class="glyphicon glyphicon-thumbs-up"></span>
                                 {{trans('messages.accept-specimen')}}
                             </a>
+                            @endif
                             @if(count($test->testType->specimenTypes) > 1)
                                 <!-- 
                                     If this test can be done using more than 1 specimen type,

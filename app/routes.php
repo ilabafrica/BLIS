@@ -125,6 +125,12 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@saveNewTest"
     ));
 
+     Route::post("/test/acceptspecimen", array(
+        "before" => "checkPerms:accept_test_specimen",
+        "as"   => "test.acceptSpecimen",
+        "uses" => "TestController@accept"
+    ));
+
     Route::get("/test/{id}/reject", array(
         "as"   => "test.reject",
         "uses" => "TestController@reject"
@@ -133,11 +139,6 @@ Route::group(array("before" => "auth"), function()
     Route::post("/test/rejectaction", array(
         "as"   => "test.rejectAction",
         "uses" => "TestController@rejectAction"
-    ));
-
-     Route::post("/test/acceptspecimen", array(
-        "as"   => "test.acceptSpecimen",
-        "uses" => "TestController@accept"
     ));
 
      Route::post("/test/changespecimen", array(
