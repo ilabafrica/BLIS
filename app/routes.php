@@ -156,6 +156,7 @@ Route::group(array("before" => "auth"), function()
     ));
 
     Route::post("/test/start", array(
+        "before" => "checkPerms:start_test",
         "as"   => "test.start",
         "uses" => "TestController@start"
     ));

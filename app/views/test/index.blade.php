@@ -164,12 +164,14 @@
                             </a>
                             @endif
                             @if ($test->test_status_id == Test::PENDING)
+                                @if(Auth::user()->can('start_test'))
                                 <a class="btn btn-sm btn-warning start-test" href="javascript:void(0)"
                                     data-test-id="{{$test->id}}" data-url="{{ URL::route('test.start') }}"
                                     title="{{trans('messages.start-test-title')}}">
                                     <span class="glyphicon glyphicon-play"></span>
                                     {{trans('messages.start-test')}}
-                                </a>    
+                                </a>
+                                @endif
                             @elseif ($test->test_status_id == Test::STARTED)
                                 <a class="btn btn-sm btn-info" id="enter-results-{{$test->id}}-link"
                                     href="{{ URL::to('test/'.$test->id.'/enterresults') }}"

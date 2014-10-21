@@ -510,6 +510,7 @@ class KBLISSeeder extends DatabaseSeeder
             array("name" => "accept_test_specimen", "display_name" => "Can accept test specimen"),
             array("name" => "reject_test_specimen", "display_name" => "Can reject test specimen"),
             array("name" => "change_test_specimen", "display_name" => "Can change test specimen"),
+            array("name" => "start_test", "display_name" => "Can start tests"),
             array("name" => "enter_tests_results", "display_name" => "Can enter tests results"),
             array("name" => "edit_test_results", "display_name" => "Can edit test results"),
             array("name" => "verify_test_results", "display_name" => "Can verify test results"),
