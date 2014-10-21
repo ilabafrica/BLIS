@@ -258,45 +258,33 @@ class TestControllerTest extends TestCase
     *   + Check that the new status of the specimen is ACCEPTED
     */
     public function testAcceptSpecimen(){
-
-        $url = URL::route('test.index');
-
-        $crawler = $this->client->request('GET', $url);
-        $limit = 0;
-
-        while(!empty($crawler) && $limit < 5){
-          echo "\n$url\n";
-          $crawler->filter('div.test-create tr')->each(function($domNode){
-            $lastCell = $domNode->children()->last();
-            $lastCell->children()->each(function($kidNode){
-              if(!(strpos($kidNode->attr('class'), 'accept-specimen') === false)){
-                $this->client->click($kidNode->selectLink(trans('messages.accept-specimen'))->link());
-              }
-            });
-          });
-
-          $pageCrawler = $crawler->filter('ul.pagination li')->last();
-          $rightQuote = html_entity_decode("&raquo;");
-          if(strpos($pageCrawler->attr('class'), 'disabled') === false){
-            $crawler = $this->client->click($pageCrawler->selectLink($rightQuote)->link());
-          }
-          else
-          {
-            $crawler =  null;
-          }
-          $limit++;
-        }
+      //TODO: Incorporate a JS supporting client like casperjs or selenium
     }
     /*
     * - changeSpecimenType
     *   + Required input: id (specimen_id)
     *   + Check that the returned view has a <select> called specimen_type:
+    */
+    public function testChangeSpecimenType(){
+      //TODO: Incorporate a JS supporting client like casperjs or selenium
+    }
+    /*
     * - updateSpecimenType
     *   + Required input: id (specimen_id), new specimen_type_id
     *   + Check that the new specimen_type_id is as expected
+    */
+    public function testUpdateSpecimenType(){
+      //TODO: Incorporate a JS supporting client like casperjs or selenium
+    }
+    /*
     * - start
     *   + Required input: testid
     *   + Check that the new status of the test is STARTED
+    */
+    public function testStart(){
+      //TODO: Incorporate a JS supporting client like casperjs or selenium
+    }
+    /*
     * - enterResults
     *   + Required input: testid
     *   + Check check view for presence of textarea#interpretation
@@ -320,6 +308,11 @@ class TestControllerTest extends TestCase
     * - saveResults (1 for each test type)
     *   + Varying inputs: interpretation, test_id, m_[measure_id]
     *   + For each test check that at least 1 result is present in test_results
+    */
+    public function testSaveResults(){
+      //TODO: 
+    }
+    /*
     * - edit
     *   + Required input: testid
     *   + Check check view for presence of textarea#interpretation
@@ -363,18 +356,38 @@ class TestControllerTest extends TestCase
     */
     /*
     * getWaitTime() test
-    * 1. Create new test
-         - Get random patient
-         - Create a visit
-         - Request a test (random?)
-    * 2. Progess the test to the specimen collection phase
-    * 3. Check that the wait time is positive
+    * 1. Get all tests whose specimen is not NOT_COLLECTED
+    * 2. Check that the wait time is positive
     */
+    public function testWaitTime(){
+      $specIDs = Specimen::where('specimen_status_id','!=', Specimen::NOT_COLLECTED)->lists('id');
+
+      if(count($specIDs) == 0){
+        $this->assertTrue(false);
+      }
+
+      foreach ($specIDs as $id) {
+        $test = Specimen::find($id)->test()->first();
+        $this->assertTrue($test->getWaitTime() >= 0);
+      }
+    }
     /*
     * getTurnaroundTime()
-    * 1. Create new test
-    * 2. Progess test to completed phase
-    * 3. Check that the turnaround time is positive
+    * 1. Get all tests whose status is either COMPLETED or VERIFIED
+    * 2. Check that the turn around time is positive
     */
+    public function testGetTurnAroundTime(){
+      $testIDs = Test::where('test_status_id','=', Test::COMPLETED)
+                ->orWhere('test_status_id','=', Test::VERIFIED)->lists('id');
+      if(count($testIDs) == 0){
+        $this->assertTrue(false);
+      }
+
+      foreach ($testIDs as $id) {
+        $test = Test::find($id);
+        $this->assertTrue($test->getTurnaroundTime() >= 0);
+      }
+    }
+
 
 }

@@ -257,6 +257,7 @@ class KBLISSeeder extends DatabaseSeeder
         /* Specimen table */
        
         $this->command->info('specimens seeded');
+        $now = new DateTime();
 
         /* Test table */
         Test::create(
@@ -270,7 +271,6 @@ class KBLISSeeder extends DatabaseSeeder
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
                 "created_by" => $users[rand(0, count($users)-1)]->id,
-                "time_started" => date('Y-m-d H:i:s'),
             )
         );        
         
@@ -285,7 +285,6 @@ class KBLISSeeder extends DatabaseSeeder
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
                 "created_by" => $users[rand(0, count($users)-1)]->id,
-                "time_started" => date('Y-m-d H:i:s'),
             )
         );        
         
@@ -300,7 +299,6 @@ class KBLISSeeder extends DatabaseSeeder
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
                 "created_by" => $users[rand(0, count($users)-1)]->id,
-                "time_started" => date('Y-m-d H:i:s'),
             )
         );        
         
@@ -331,8 +329,8 @@ class KBLISSeeder extends DatabaseSeeder
                 "created_by" => $users[rand(0, count($users)-1)]->id,
                 "tested_by" => $users[rand(0, count($users)-1)]->id,
                 "requested_by" => "Dr. Abou Meyang",
-                "time_started" => date('Y-m-d H:i:s'),
-                "time_completed" => date('Y-m-d H:i:s'),
+                "time_started" => $now->format('Y-m-d H:i:s'),
+                "time_completed" => $now->add(new DateInterval('PT12M8S'))->format('Y-m-d H:i:s'),
             )
         );        
         
@@ -349,10 +347,10 @@ class KBLISSeeder extends DatabaseSeeder
                 "created_by" => $users[rand(0, count($users)-1)]->id,
                 "tested_by" => $users[rand(0, count($users)-1)]->id,
                 "requested_by" => "Genghiz Khan",
-                "time_started" => date('Y-m-d H:i:s'),
-                "time_completed" => date('Y-m-d H:i:s'),
+                "time_started" => $now->format('Y-m-d H:i:s'),
+                "time_completed" => $now->add(new DateInterval('PT5M23S'))->format('Y-m-d H:i:s'),
             )
-        );        
+        );
         
         $tests_accepted_started = Test::create(
             array(
@@ -364,7 +362,7 @@ class KBLISSeeder extends DatabaseSeeder
                 "test_status_id" => Test::STARTED,
                 "requested_by" => "Dr. Abou Meyang",
                 "created_by" => $users[rand(0, count($users)-1)]->id,
-                "time_started" => date('Y-m-d H:i:s'),
+                "time_started" => $now->format('Y-m-d H:i:s'),
             )
         );
 
@@ -381,8 +379,8 @@ class KBLISSeeder extends DatabaseSeeder
                 "created_by" => $users[rand(0, count($users)-1)]->id,
                 "tested_by" => $users[rand(0, count($users)-1)]->id,
                 "requested_by" => "Ariel Smith",
-                "time_started" => date('Y-m-d H:i:s'),
-                "time_completed" => date('Y-m-d H:i:s'),
+                "time_started" => $now->format('Y-m-d H:i:s'),
+                "time_completed" => $now->add(new DateInterval('PT7M34S'))->format('Y-m-d H:i:s'),
             )
         );        
         
@@ -400,9 +398,9 @@ class KBLISSeeder extends DatabaseSeeder
                 "tested_by" => $users[rand(0, count($users)-1)]->id,
                 "verified_by" => $users[rand(0, count($users)-1)]->id,
                 "requested_by" => "Genghiz Khan",
-                "time_started" => date('Y-m-d H:i:s'),
-                "time_completed" => date('Y-m-d H:i:s'),
-                "time_verified" => date('Y-m-d H:i:s'),
+                "time_started" => $now,
+                "time_completed" => $now->add(new DateInterval('PT5M17S'))->format('Y-m-d H:i:s'),
+                "time_verified" => $now->add(new DateInterval('PT112M33S'))->format('Y-m-d H:i:s'),
             )
         );        
         
@@ -419,7 +417,7 @@ class KBLISSeeder extends DatabaseSeeder
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
                 "created_by" => $users[rand(0, count($users)-1)]->id,
-                "time_started" => date('Y-m-d H:i:s'),
+                "time_started" => $now->format('Y-m-d H:i:s'),
             )
         );        
         
@@ -436,7 +434,7 @@ class KBLISSeeder extends DatabaseSeeder
                 "test_status_id" => Test::STARTED,
                 "created_by" => $users[rand(0, count($users)-1)]->id,
                 "requested_by" => "Bony Em",
-                "time_started" => date('Y-m-d H:i:s'),
+                "time_started" => $now->format('Y-m-d H:i:s'),
             )
         );        
         
@@ -455,8 +453,8 @@ class KBLISSeeder extends DatabaseSeeder
                 "created_by" => $users[rand(0, count($users)-1)]->id,
                 "tested_by" => $users[rand(0, count($users)-1)]->id,
                 "requested_by" => "Ed Buttler",
-                "time_started" => date('Y-m-d H:i:s'),
-                "time_completed" => date('Y-m-d H:i:s'),
+                "time_started" => $now->format('Y-m-d H:i:s'),
+                "time_completed" => $now->add(new DateInterval('PT30M4S'))->format('Y-m-d H:i:s'),
             )
         );        
         $this->command->info('tests seeded');
