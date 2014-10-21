@@ -119,8 +119,8 @@ class TestController extends \BaseController {
 			$visitType = ['In-patient', 'Out-patient'];
 
 			/*
-			| - Create a visit
-			| - Fields required: visit_type, patient_id
+			* - Create a visit
+			* - Fields required: visit_type, patient_id
 			*/
 			$visit = new Visit;
 			$visit->patient_id = Input::get('patient_id');
@@ -128,23 +128,22 @@ class TestController extends \BaseController {
 			$visit->save();
 
 			/*
-			| - Create tests requested
-			| - Fields required: visit_id, test_type_id, specimen_id, test_status_id, created_by, requested_by
+			* - Create tests requested
+			* - Fields required: visit_id, test_type_id, specimen_id, test_status_id, created_by, requested_by
 			*/
 			$testTypes = Input::get('testtypes');
 			if(is_array($testTypes)){
-				foreach ($testTypes as $key => $value) {
+				foreach ($testTypes as $value) {
+					$testTypeID = (int)$value;
 					// Create Specimen - specimen_type_id, accepted_by, referred_from, referred_to
 					$specimen = new Specimen;
-					$specimen->specimen_type_id = TestType::find((int)$value)->specimenTypes->lists('id')[0];
+					$specimen->specimen_type_id = TestType::find($testTypeID)->specimenTypes->lists('id')[0];
 					$specimen->accepted_by = Auth::user()->id;
-					$specimen->referred_to = 0; //No one
-					$specimen->referred_from = 0; //No one
 					$specimen->save();
 
 					$test = new Test;
 					$test->visit_id = $visit->id;
-					$test->test_type_id = (int)$value;
+					$test->test_type_id = $testTypeID;
 					$test->specimen_id = $specimen->id;
 					$test->test_status_id = Test::PENDING;
 					$test->created_by = Auth::user()->id;
