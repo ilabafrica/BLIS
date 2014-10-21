@@ -267,13 +267,12 @@ class TestControllerTest extends TestCase
         while(!empty($crawler) && $limit < 5){
           echo "\n$url\n";
           $crawler->filter('div.test-create tr')->each(function($domNode){
-            // echo $domNode->selectLink('accept-specimen')->link();
-            // $tmp = $domNode->children()->last()->selectLink('accept-specimen');
-            // $domNode->children()->last()->children().each(function($kidNode){
-            //   if(strpos($kidNode->attr('class'), 'accept-specimen') === false){
-            //     echo $kidNode->selectLink('accept-specimen')->html();
-            //   }
-            // });
+            $lastCell = $domNode->children()->last();
+            $lastCell->children()->each(function($kidNode){
+              if(!(strpos($kidNode->attr('class'), 'accept-specimen') === false)){
+                $this->client->click($kidNode->selectLink(trans('messages.accept-specimen'))->link());
+              }
+            });
           });
 
           $pageCrawler = $crawler->filter('ul.pagination li')->last();
