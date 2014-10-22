@@ -31,16 +31,16 @@ class SanitasInterfacer implements InterfacerInterface{
 
         //We check if the test exists in our system if not we just save the request in stagingTable
         $testType = new TestType();
-        $testTypeId = $testType->getTestTypeIdByTestName("BS for mps");
+        $testTypeId = $testType->getTestTypeIdByTestName($labRequest['investigation']);
 
-        if(is_null($testTypeId))
+        if(is_null($testTypeId) && $labRequest['parentLabNo'] == '0')
         {
             $this->saveToExternalDump($labRequest, ExternalDump::TEST_NOT_FOUND);
             return false;
         }
-
         //Check if patient exists, if true dont save again
-        $patient = Patient::where('patient_number', '==', $labRequest['patient']['id'])->get();
+        $patient = Patient::where('patient_number', '=', $labRequest['patient']['id'])->get();
+        
         if ($patient->isEmpty())
         {
             $patient = new Patient();
@@ -55,14 +55,15 @@ class SanitasInterfacer implements InterfacerInterface{
                      $gender = Patient::FEMALE; 
                  }
             $patient->gender = $gender;
-            $patient->dob = $labRequest['patient']['dateOfBirth'] ;
-            $patient->address = $labRequest['address']['address'] ;
-            $patient->phone_number = $labRequest['address']['phoneNumber'] ;
+            $patient->dob = $labRequest['patient']['dateOfBirth'];
+            $patient->address = $labRequest['address']['address'];
+            $patient->phone_number = $labRequest['address']['phoneNumber'];
             $patient->save();
+            
         }
 
         //Check if visit exists, if true dont save again
-        $visit = Visit::where('visit_number', '==', $labRequest['patientVisitNumber'])->get();
+        $visit = Visit::where('visit_number', '=', $labRequest['patientVisitNumber'])->get();
         if ($visit->isEmpty())
         {
             $visit = new Visit();
@@ -84,7 +85,7 @@ class SanitasInterfacer implements InterfacerInterface{
         if($labRequest['parentLabNo'] == '0')
         {
             //Check via the labno, if this is a duplicate request and we already saved the test 
-            $test = Test::where('external_id', '==', $labRequest['labNo'])->get();
+            $test = Test::where('external_id', '=', $labRequest['labNo'])->get();
             if ($test->isEmpty()) 
             {
                 //Specimen
@@ -122,7 +123,7 @@ class SanitasInterfacer implements InterfacerInterface{
     public function saveToExternalDump($labRequest, $testId)
     {
         //Dumping all the received requests to stagingTable
-        $dumper = new ExternalDump();
+        $dumper = ExternalDump::firstOrNew(array('labNo' => $labRequest['labNo']));
         $dumper->labNo = $labRequest['labNo'];
         $dumper->parentLabNo = $labRequest['parentLabNo'];
         $dumper->test_id = $testId;

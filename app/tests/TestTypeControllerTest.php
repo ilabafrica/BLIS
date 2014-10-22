@@ -60,8 +60,8 @@ class TestTypeControllerTest extends TestCase
     	$testType = new TestTypeController;
     	$testType->store();
 
-    	//2 because we have seeded one entry already so the next insert gets id 2
-		$testTypeSaved = TestType::find(4);
+    	//5 because we have seeded five entry already so the next insert gets id 5
+		$testTypeSaved = TestType::find(5);
 
 		$this->assertEquals($testTypeSaved->name , $this->testTypeData['name']);
 		$this->assertEquals($testTypeSaved->description , $this->testTypeData['description']);
@@ -70,14 +70,14 @@ class TestTypeControllerTest extends TestCase
 		$this->assertEquals($testTypeSaved->section_id , $this->testTypeData['section_id']);
 
 		//Getting the Measure related to this test type
-		$testTypeMeasure = TestType::find(4)->measures->toArray();
+		$testTypeMeasure = $testTypeSaved->measures->toArray();
 		$this->assertEquals($testTypeMeasure[0]['id'], $this->testTypeData['measures'][0]);
 		$this->assertEquals($testTypeMeasure[1]['id'], $this->testTypeData['measures'][1]);
 		$this->assertEquals($testTypeMeasure[2]['id'], $this->testTypeData['measures'][2]);
 		$this->assertEquals($testTypeMeasure[3]['id'], $this->testTypeData['measures'][3]);
 
 		//Getting the Specimen type related to this test type
-		$testTypeSpecimenType = TestType::find(4)->specimenTypes->toArray();
+		$testTypeSpecimenType = $testTypeSaved->specimenTypes->toArray();
 		$this->assertEquals($testTypeSpecimenType[0]['id'], $this->testTypeData['specimentypes'][0]);
   	}
 

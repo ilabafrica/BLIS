@@ -115,6 +115,24 @@ extends DatabaseSeeder
         $measureGXM = Measure::create(array("measure_type_id" => "4", "name" => "GXM", "measure_range" => "", "unit" => ""));
         $measureBG = Measure::create(array("measure_type_id" => "2", "name" => "Blood Grouping", "measure_range" => "O-/O+/A-/A+/B-/B+/AB-/AB+", "unit" => ""));
         $measureHB = Measure::create(array("measure_type_id" => "1", "name" => "HB", "measure_range" => "", "unit" => "g/dL"));
+        $measureUrinalysis1 = Measure::create(array("measure_type_id" => "4", "name" => "Urine microscopy", "measure_range" => "", "unit" => ""));
+        $measureUrinalysis2 = Measure::create(array("measure_type_id" => "4", "name" => "Pus cells", "measure_range" => "", "unit" => ""));
+        $measureUrinalysis3 = Measure::create(array("measure_type_id" => "4", "name" => "S. haematobium", "measure_range" => "", "unit" => ""));
+        $measureUrinalysis4 = Measure::create(array("measure_type_id" => "4", "name" => "T. vaginalis", "measure_range" => "", "unit" => ""));
+        $measureUrinalysis5 = Measure::create(array("measure_type_id" => "4", "name" => "Yeast cells", "measure_range" => "", "unit" => ""));
+        $measureUrinalysis6 = Measure::create(array("measure_type_id" => "4", "name" => "Red blood cells", "measure_range" => "", "unit" => ""));
+        $measureUrinalysis7 = Measure::create(array("measure_type_id" => "4", "name" => "Bacteria", "measure_range" => "", "unit" => ""));
+        $measureUrinalysis8 = Measure::create(array("measure_type_id" => "4", "name" => "Spermatozoa", "measure_range" => "", "unit" => ""));
+        $measureUrinalysis9 = Measure::create(array("measure_type_id" => "4", "name" => "Epithelial cells", "measure_range" => "", "unit" => ""));
+        $measureUrinalysis10 = Measure::create(array("measure_type_id" => "4", "name" => "ph", "measure_range" => "", "unit" => ""));
+        $measureUrinalysis11 = Measure::create(array("measure_type_id" => "4", "name" => "Urine chemistry", "measure_range" => "", "unit" => ""));
+        $measureUrinalysis12 = Measure::create(array("measure_type_id" => "4", "name" => "Glucose", "measure_range" => "", "unit" => ""));
+        $measureUrinalysis13 = Measure::create(array("measure_type_id" => "4", "name" => "Ketones", "measure_range" => "", "unit" => ""));
+        $measureUrinalysis14 = Measure::create(array("measure_type_id" => "4", "name" => "Proteins", "measure_range" => "", "unit" => ""));
+        $measureUrinalysis15 = Measure::create(array("measure_type_id" => "4", "name" => "Blood", "measure_range" => "", "unit" => ""));
+        $measureUrinalysis16 = Measure::create(array("measure_type_id" => "4", "name" => "Bilirubin", "measure_range" => "", "unit" => ""));
+        $measureUrinalysis17 = Measure::create(array("measure_type_id" => "4", "name" => "Urobilinogen Phenlpyruvic acid", "measure_range" => "", "unit" => ""));
+        $measureUrinalysis18 = Measure::create(array("measure_type_id" => "4", "name" => "pH", "measure_range" => "", "unit" => ""));
 
         $this->command->info('measures seeded');
         
@@ -122,6 +140,7 @@ extends DatabaseSeeder
         $test_types = TestType::create(array("name" => "BS for mps", "section_id" => $test_categories->id));
         $test_type_gxm = TestType::create(array("name" => "GXM", "section_id" => $test_categories->id));
         $test_type_hb = TestType::create(array("name" => "HB", "section_id" => $test_categories->id));
+        $test_type_urinalysis = TestType::create(array("name" => "Urinalysis", "section_id" => $test_categories->id));
         $this->command->info('test_types seeded');
 
         /* TestType Measure table */
@@ -129,11 +148,30 @@ extends DatabaseSeeder
         $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_gxm->id, "measure_id" => $measureGXM->id));
         $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_gxm->id, "measure_id" => $measureBG->id));
         $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_hb->id, "measure_id" => $measureHB->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis1->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis2->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis3->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis4->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis5->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis6->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis7->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis8->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis9->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis10->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis11->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis12->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis13->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis14->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis15->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis16->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis17->id));
+        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis18->id));
 
         /* testtype_specimentypes table */
         DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', array($test_types->id, 23));
         DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', array($test_type_gxm->id, 23));
         DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', array($test_type_hb->id, 23));
+        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', array($test_type_urinalysis->id, 20));
 
         $this->command->info('testtype_specimentypes seeded');
 
