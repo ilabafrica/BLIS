@@ -183,12 +183,14 @@
                                 </a>
                                 @endif
                             @elseif ($test->test_status_id == Test::COMPLETED)
+                                @if(Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
                                 <a class="btn btn-sm btn-success" id="verify-{{$test->id}}-link"
                                     href="{{ URL::to('test/'.$test->id.'/viewdetails') }}"
                                     title="{{trans('messages.verify-title')}}">
                                     <span class="glyphicon glyphicon-thumbs-up"></span>
                                     {{trans('messages.verify')}}
                                 </a>
+                                @endif
                                 @if(Auth::user()->can('edit_test_results'))
                                 <a class="btn btn-sm btn-info" id="edit-{{$test->id}}-link"
                                     href="{{ URL::to('test/'.$test->id.'/edit') }}"

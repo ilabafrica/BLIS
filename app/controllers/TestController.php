@@ -321,14 +321,20 @@ class TestController extends \BaseController {
 	}
 
 	/**
-	 * Display Verification page
+	 * Verify Test
 	 *
 	 * @param
 	 * @return
 	 */
-	public function verify()
+	public function verify($testID)
 	{
-		return View::make('test.verify');
+		$test = Test::find($testID);
+		$test->test_status_id = Test::VERIFIED;
+		$test->time_verified = date('Y-m-d H:i:s');
+		$test->verified_by = Auth::user()->id;
+		$test->save();
+
+		return View::make('test.viewDetails')->with('test', $test);
 	}
 
 }

@@ -12,14 +12,21 @@
 			<span class="glyphicon glyphicon-cog"></span>
 			{{trans('messages.test-details')}}
 			@if($test->test_status_id != Test::VERIFIED && $test->specimen->specimen_status_id == Specimen::ACCEPTED)
+			<div class="panel-btn">
 				@if(Auth::user()->can('edit_test_results'))
-				<div class="panel-btn">
 					<a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->id.'/edit') }}">
 						<span class="glyphicon glyphicon-edit"></span>
 						{{trans('messages.edit-test-results')}}
 					</a>
+				@endif
+				@if($test->test_status_id != Test::VERIFIED && 
+					Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
+				<a class="btn btn-sm btn-success" href="{{ URL::route('test.verify', array($test->id)) }}">
+					<span class="glyphicon glyphicon-thumbs-up"></span>
+					{{trans('messages.verify')}}
+				</a>
+				@endif
 			</div>
-			@endif
 			@endif
 		</div> <!-- ./ panel-heading -->
 		<div class="panel-body">

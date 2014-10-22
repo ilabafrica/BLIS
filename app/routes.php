@@ -184,7 +184,8 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@viewDetails"
     ));
 
-    Route::get("/test/verify", array(
+    Route::any("/test/{test}/verify", array(
+        "before" => "checkPerms:verify_test_results",
         "as"   => "test.verify",
         "uses" => "TestController@verify"
     ));
