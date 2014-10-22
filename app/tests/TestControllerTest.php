@@ -98,6 +98,9 @@ class TestControllerTest extends TestCase
       $patient = Patient::first();
       $url = URL::route('test.create', array($patient->id));
 
+      // Set the current user to admin
+      $this->be(User::first());
+
       $crawler = $this->client->request('GET', $url);
 
       $visitType = $crawler->filter('select')->attr('name');
@@ -158,6 +161,10 @@ class TestControllerTest extends TestCase
     */
     public function testListTests(){
       $url = URL::route('test.index');
+
+      // Set the current user to admin
+      $this->be(User::first());
+
       $crawler = $this->client->request('GET', $url);
 
       $this->assertCount(1, $crawler->filter('div.panel.test-create'));
@@ -175,9 +182,11 @@ class TestControllerTest extends TestCase
         $this->assertTrue(false);
       }
 
+      // Set the current user to admin
+      $this->be(User::first());
+
       foreach ($testIDs as $id) {
         $url = URL::route('test.reject', array(Test::find($id)->specimen_id));
-        $crawler = $this->client->request('GET', $url);
         $crawler = $this->client->request('GET', $url);
 
         $this->assertCount(1, $crawler->filter('#reject_explained_to'));
@@ -198,6 +207,9 @@ class TestControllerTest extends TestCase
         $this->assertTrue(false);
       }
 
+      // Set the current user to admin
+      $this->be(User::first());
+
       foreach ($testIDs as $id) {
         $specimenID = Test::find($id)->specimen_id;
         $url = URL::route('test.reject', array($specimenID));
@@ -207,9 +219,6 @@ class TestControllerTest extends TestCase
         $form = $crawler->selectButton(trans('messages.reject'))->form();
         $form['rejectionReason']->select('15');
         $form['reject_explained_to'] = 'Tim Commerford';
-
-        // Set the current user to admin
-        $this->be(User::first());
 
         // Submit the form
         $crawler = $this->client->submit($form);
@@ -233,6 +242,9 @@ class TestControllerTest extends TestCase
         $this->assertTrue(false);
       }
 
+      // Set the current user to admin
+      $this->be(User::first());
+
       foreach ($testIDs as $id) {
 
         $specimenID = Test::find($id)->specimen_id;
@@ -241,9 +253,6 @@ class TestControllerTest extends TestCase
         $crawler = $this->client->request('GET', $url);
         // Get the form and set the form values
         $form = $crawler->selectButton(trans('messages.reject'))->form();
-
-        // Set the current user to admin
-        $this->be(User::first());
 
         // Submit the form
         $crawler = $this->client->submit($form);
@@ -300,6 +309,10 @@ class TestControllerTest extends TestCase
           break;
         }
       }
+
+      // Set the current user to admin
+      $this->be(User::first());
+
       $crawler = $this->client->request('GET', $url);
 
       $this->assertCount(1, $crawler->filter('textarea#interpretation'));
@@ -327,6 +340,10 @@ class TestControllerTest extends TestCase
           break;
         }
       }
+
+      // Set the current user to admin
+      $this->be(User::first());
+
       $crawler = $this->client->request('GET', $url);
 
       $this->assertCount(1, $crawler->filter('textarea#interpretation'));
@@ -342,6 +359,10 @@ class TestControllerTest extends TestCase
     public function testViewDetailsView(){
 
       $url = URL::route('test.viewDetails', array(Test::first()->id));
+
+      // Set the current user to admin
+      $this->be(User::first());
+
       $crawler = $this->client->request('GET', $url);
 
       $this->assertCount(4, $crawler->filter('div.panel'));
