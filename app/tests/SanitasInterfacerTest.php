@@ -15,7 +15,7 @@ class SanitasInterfacerTest extends TestCase
         $this->setVariables();
     }
 
-    public function stestRetrieveSingleRequest()
+    public function testRetrieveSingleRequest()
     {
         echo "\n\nSANITAS INTERFACER TEST\n\n";
         $this->call('POST', 'api/receiver', $this->labRequestJsonSimpleTest, 
@@ -70,7 +70,7 @@ class SanitasInterfacerTest extends TestCase
         $this->assertEquals("sanitas", $exteral_dump1->system_id);
     }
 
-    public function stestRequestForTestNotFound()
+    public function testRequestForTestNotFound()
     {
         $this->call('POST', 'api/receiver', $this->labRequestJsonSimpleTestNotFoundInSanitas, 
                 array(), array(), array('application/json'));
@@ -112,7 +112,7 @@ class SanitasInterfacerTest extends TestCase
         $this->assertEquals("sanitas", $exteral_dump1->system_id);
     }
 
-    public function stestRetrieveMultipleRequests()
+    public function testRetrieveMultipleRequests()
     {
         //Sending requests for urinalysis
         Interfacer::retrieve($this->labRequestJsonNestedTest1);
