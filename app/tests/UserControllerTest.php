@@ -5,7 +5,7 @@
  */
 class UserControllerTest extends TestCase 
 {
-	/**
+	  /**
      * Initial setup function for tests
      *
      * @return void
@@ -30,17 +30,20 @@ class UserControllerTest extends TestCase
 			'name' => 'John Dot',
 			'gender' => '1',
 			'designation' => 'LabTechnikan',
-            'password' => Hash::make("goodpassword"),
-		);
+      'password' => Hash::make("goodpassword"),
+    );
 
-		// Edition sample data
-		$this->userDataUpdate = array(
-			'username' => 'doe',
-			'email' => 'johndoe@example.com',
-			'name' => 'John Doe',
-			'gender' => '0',
-			'designation' => 'LabTechnician',
-		);
+    // Edition sample data
+    $this->userDataUpdate = array(
+      'username' => 'doe',
+      'email' => 'johndoe@example.com',
+      'name' => 'John Doe',
+      'gender' => '0',
+      'designation' => 'LabTechnician',
+      'passwordedit' => 'password',
+      'current-password' => 'goodpassword',
+      'new-password' => 'newpassword',
+    );
 
         // sample login data
         $this->userDataLoginBad = array(
@@ -84,11 +87,11 @@ class UserControllerTest extends TestCase
 		$this->assertEquals($userSaved->designation , $this->userData['designation']);
   	}
 
-  	/**
-  	 * Tests the update function in the UserController
+  /**
+   * Tests the update function in the UserController
 	 * @param  void
 	 * @return void
-     */
+   */
 	public function testUpdate()
 	{
 		// Update the User Types
@@ -103,15 +106,15 @@ class UserControllerTest extends TestCase
 		$this->assertEquals($userUpdated->email , $this->userDataUpdate['email']);
 		$this->assertEquals($userUpdated->name , $this->userDataUpdate['name']);
 		$this->assertEquals($userUpdated->gender , $this->userDataUpdate['gender']);
-		$this->assertEquals($userUpdated->designation , $this->userDataUpdate['designation']);
-
+    $this->assertEquals($userUpdated->designation , $this->userDataUpdate['designation']);
+		$this->assertTrue(Hash::check($this->userDataUpdate['new-password'], $userUpdated->password));
 	}
 
 	/**
-  	 * Tests the update function in the UserController
+   * Tests the update function in the UserController
 	 * @param  void
 	 * @return void
-     */
+   */
 	public function testDelete()
 	{
         Input::replace($this->userData);

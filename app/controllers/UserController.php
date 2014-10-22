@@ -248,6 +248,15 @@ class UserController extends Controller {
             'email' => 'required|email',
             'image' => 'image|max:500'
         );
+
+        if (Input::get('passwordedit')) {
+            $rules['new-password'] = 'min:6';
+        }
+
+        if (Input::get('reset-password')) {
+            $rules['reset-password'] = 'min:6';
+        }
+
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
