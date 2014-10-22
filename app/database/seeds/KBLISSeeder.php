@@ -374,7 +374,7 @@ class KBLISSeeder extends DatabaseSeeder
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
                         $users[rand(0, count($users)-1)]->id),
-                "interpretation" => "Budda Boss",
+                "interpretation" => "Positive",
                 "test_status_id" => Test::COMPLETED,
                 "created_by" => $users[rand(0, count($users)-1)]->id,
                 "tested_by" => $users[rand(0, count($users)-1)]->id,
@@ -392,7 +392,7 @@ class KBLISSeeder extends DatabaseSeeder
                         Test::VERIFIED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
                         $users[rand(0, count($users)-1)]->id),
-                "interpretation" => "Budda Boss",
+                "interpretation" => "Very high concentration of parasites.",
                 "test_status_id" => Test::VERIFIED,
                 "created_by" => $users[rand(0, count($users)-1)]->id,
                 "tested_by" => $users[rand(0, count($users)-1)]->id,
@@ -467,6 +467,11 @@ class KBLISSeeder extends DatabaseSeeder
                 "result" => "+++",
             ),
             array(
+                "test_id" => $tests_accepted_completed->id,
+                "measure_id" => $measureBSforMPS->id,//BS for MPS
+                "result" => "++",
+            ),
+            array(
                 "test_id" => $test_gxm_accepted_completed->id,
                 "measure_id" => $measureGXM->id,
                 "result" => "COMPATIBLE WITH 061832914 B/G A POS.EXPIRY19/8/14",
@@ -480,6 +485,11 @@ class KBLISSeeder extends DatabaseSeeder
                 "test_id" => $test_hb_accepted_completed->id,
                 "measure_id" => $measureHB->id,
                 "result" => "13.7",
+            ),
+            array(
+                "test_id" => $tests_rejected_completed->id,
+                "measure_id" => $measureBSforMPS->id,//BS for MPS
+                "result" => "No mps seen",
             ),
         );        
         foreach ($testResults as $testResult)
