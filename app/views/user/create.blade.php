@@ -28,6 +28,10 @@
 					{{ Form::text('username', Input::old('username'), ["placeholder" => "jsiku", 'class' => 'form-control']) }}
 				</div>
 				<div class="form-group">
+					{{ Form::label('password', 'Password') }}
+					{{ Form::password('password', ['class' => 'form-control']) }}
+				</div>
+				<div class="form-group">
 					{{ Form::label('name', 'Full Name') }}
 					{{ Form::text('name', Input::old('name'), ["placeholder" => "Jay Siku", 'class' => 'form-control']) }}
 				</div>
