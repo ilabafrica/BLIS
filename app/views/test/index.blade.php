@@ -21,25 +21,26 @@
                 <label for="testStatus" class="sr-only">testStatus</label>
                 <select class="form-control" id="testStatus" name="testStatusId">
                     <option value="">{{trans('messages.all')}}</option>
-                    <?php foreach ($testStatus as $status) {
-                        echo '<option value="'.$status->id.'"';
-                        echo ( isset($testStatusId) && $status->id == $testStatusId) ? 'selected' : '';
-                        echo '>'.trans("messages.$status->name").'</option>';
-                    }
-                    ?>
+                    @foreach ($testStatus as $status)
+                        {{"<option value=\"".$status->id."\" "}}
+                        {{( isset($testStatusId) && $status->id == $testStatusId) ? 'selected>': '>'}}
+                        {{ trans("messages.$status->name").'</option>'}}
+                    @endforeach
                 </select>
             </div>
 
-            From 
+            {{trans('messages.from')}} 
             <div class="form-group">
-                <label class="sr-only" for="date-from">From</label>
-                <input class="form-control standard-datepicker" name="dateFrom" type="text" value="{{ isset($dateFrom) ? $dateFrom : '' }}" id="date-from">
+                <label class="sr-only" for="date-from">{{trans('messages.from')}}</label>
+                <input class="form-control standard-datepicker" name="dateFrom" type="text" 
+                    value="{{ isset($dateFrom) ? $dateFrom : '' }}" id="date-from">
             </div>
 
-            To 
+            {{trans('messages.to')}} 
             <div class="form-group">
-                <label class="sr-only" for="date-to">To</label>
-                <input class="form-control standard-datepicker" name="dateTo" type="text" value="{{ isset($dateTo) ? $dateTo : '' }}" id="date-to">
+                <label class="sr-only" for="date-to">{{trans('messages.to')}}</label>
+                <input class="form-control standard-datepicker" name="dateTo" type="text" 
+                    value="{{ isset($dateTo) ? $dateTo : '' }}" id="date-to">
             </div>
 
             <div class="form-group">
