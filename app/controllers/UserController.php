@@ -150,7 +150,8 @@ class UserController extends Controller {
     {
         //
         $rules = array(
-            'username' => 'required|unique:users,username',
+            'username' => 'required|unique:users,username|min:6',
+            'password' => 'required|min:6',
             'name' => 'required',
             'email' => 'required|email'
         );
