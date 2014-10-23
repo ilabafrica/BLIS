@@ -52,9 +52,8 @@ class SanitasInterfacer implements InterfacerInterface{
         if(is_null($testTypeId) && $labRequest['parentLabNo'] == '0')
         {
             $this->saveToExternalDump($labRequest, ExternalDump::TEST_NOT_FOUND);
-            return false;
+            return;
         }
-
         //Check if visit exists, if true dont save again
         $visit = Visit::where('visit_number', '=', $labRequest['patientVisitNumber'])->first();
         if (empty($visit))
@@ -99,7 +98,7 @@ class SanitasInterfacer implements InterfacerInterface{
                 });
 
                 $this->saveToExternalDump($labRequest, $test->id);
-                return true;
+                return;
             }
         }
         $this->saveToExternalDump($labRequest, null);

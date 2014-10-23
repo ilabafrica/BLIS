@@ -12,6 +12,10 @@ extends DatabaseSeeder
                 "name" => "kBLIS Administrator", "designation" => "Programmer"
             ),
             array(
+                "username" => "external", "password" => Hash::make("password"), "email" => "admin@kblis.org",
+                "name" => "External System User", "designation" => "Administrator"
+            ),
+            array(
                 "username" => "lmorena", "password" => Hash::make("password"), "email" => "lmorena@kblis.org",
                 "name" => "L. Morena", "designation" => "Lab Technologist"
             ),
