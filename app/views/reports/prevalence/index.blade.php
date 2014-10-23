@@ -45,6 +45,7 @@
 		  </table>
 	  {{ Form::close() }}
 		  <div id="chartContainer"></div>
+		  <div id="chart">Chart will load here.</div>
 		  <div id="grid">
 		  	<div class="table-responsive">
 			  <table class="table table-striped">
@@ -57,7 +58,7 @@
 				    	<th>{{trans('messages.prevalence-rate')}}</th>
 				    </tr>
 				    @forelse($data as $datum)
-				    <tr id="data">
+				    <tr class="data">
 				    	<td>{{$datum->test}}</td>
 		  				<td>{{$datum->total}}</td>
 		  				<td>{{$datum->positive}}</td>
@@ -93,8 +94,25 @@
 	  prevalenceChart.render("chartContainer");
 	}); 
 
+	FusionCharts['debugger'].outputFormat('verbose');
+FusionCharts['debugger'].enable(true);
+
    $('#toggle').click(function(){
-   		$('#chartContainer').toggle('show');
+   		$('#chartContainer').toggle('hide');
    });
+
+   /*Begin function to change data for chart*/
+   function changeData(data)
+    {
+    	FusionCharts.ready(function(){
+		  var updatedChart = new FusionCharts(data);
+		  updatedChart.render("chart");
+		});
+    }
+	/*End function to change chart data*/
+
+	function updateChart(data) {
+	    FusionCharts("prevalences").setJSONData(jsonData);
+	}
 </script>
 @stop

@@ -374,7 +374,28 @@ $(function(){
         .success(function(data) {
             var tableBody =""; 
             if(data.length!=0){
-            	$.each(data, function(index, elem){
+
+            	//console.log(data);
+            
+			   /* var details=data.values[0];
+			    var chart=data.chart;
+			    console.log("__________Mahako_________");
+			    console.log(details);
+			    console.log(chart);*/
+			    /*console.log("__________Mahako_________");*/
+			    console.log(data.chart);
+			    try {
+			    	$('#chartContainer').hide();
+			    	var d = JSON.parse(data);
+			    	//alert(data.chart);
+			        updateChart(d.chart);
+
+			    } catch (e) {
+			        window.console.warn("Wrong format JSON data received");
+			        window.console.warn(data.chart);
+			    }
+            	
+				$.each(data.values, function(index, elem){
 					tableBody += "<tr>"
 					+" <td>"+elem.test+" </td>"
 					+" <td>"+elem.total+"</td>"
@@ -389,8 +410,9 @@ $(function(){
 					+" <td colspan='5'>No records found for that time range.</td>"
 					+"</tr>";
         	}
-        	$("#tableBody").empty();
+        	$(".data").remove();
             $("#tableBody").append(tableBody);
+            
         });
 
         event.preventDefault();

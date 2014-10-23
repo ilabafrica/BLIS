@@ -45,18 +45,21 @@ class PrevalenceRatesReportController extends \BaseController {
             				->where('measure_range', 'LIKE', '%Positive/Negative%')
             				->get();
 
-		$chart = '{type: "msline",
-	      renderAt: "chartContainer",
+		$chart = '{id: "prevalences",type: "msline",
 	      width: "98%",
-	      height: "500",
+	      height: "500px",
 	      dataFormat: "json",
 	      dataSource: {
 	       "chart": {
 	        "caption": "Prevalence Rates",
-	        "subcaption": "(from 8/6/2013 to 8/12/2013)",
+	        "subcaption": "For the selected period",
+            "xaxisname": "Time",
+            "yaxisname": "Prevalence Rates (In %)",
 	        "linethickness": "1",
+	        "exportEnabled":"1",
 	        "showvalues": "0",
 	        "formatnumberscale": "0",
+	        "numbersuffix": "%",
 	        "anchorradius": "2",
 	        "divlinecolor": "666666",
 	        "divlinealpha": "30",
@@ -72,7 +75,9 @@ class PrevalenceRatesReportController extends \BaseController {
 	        "canvasborderalpha": "50",
 	        "numvdivlines": "5",
 	        "vdivlinealpha": "20",
-	        "showborder": "1"
+	        "showborder": "1",
+	        "anchorRadius": "6",
+            "anchorBorderThickness": "2"
 	    },
 	    "categories": [
 	        {
@@ -85,28 +90,27 @@ class PrevalenceRatesReportController extends \BaseController {
 	        }
 	    ],
 	    "dataset": [';
-            	foreach ($test_types as $test_type) {
-            		$chart.= '{
-            			"seriesname": "'.$test_type->name.'",
-            			"data": [';
-	            		foreach ($months as $month) {
-	            			$data = Report::prevalenceCountsByTestType($month, $test_type->id);
-	            			foreach ($data as $datum) {
-	            				$chart.= '{ "value": "'.$datum->rate.'",},';
-		            		}
-		            		if($data->isEmpty())
-	            			{
-	            				$chart.= '{ "value": "0.00",},';
-	            			}
-				    	}
-			    	$chart.='
-			    	 ]
-			    	},';
-			    }
+        	foreach ($test_types as $test_type) {
+        		$chart.= '{
+        			"seriesname": "'.$test_type->name.'",
+        			"data": [';
+            		foreach ($months as $month) {
+            			$data = Report::prevalenceCountsByTestType($month, $test_type->id);
+            			foreach ($data as $datum) {
+            				$chart.= '{ "value": "'.$datum->rate.'"},';
+	            		}
+	            		if($data->isEmpty())
+            			{
+            				$chart.= '{ "value": "0.00"},';
+            			}
+			    	}
+		    	$chart.=']
+		    	},';
+		    }
            $chart.='
-	    ]
-	      }
-	     }';
+	    	]
+	    }
+	}';
 	return $chart;
 	}
 	/**
@@ -121,7 +125,9 @@ class PrevalenceRatesReportController extends \BaseController {
 		foreach ($months as $month) {
 			$data = Report::prevalenceCounts($month);
 		}
-		return Response::json($data);
+		$chart = self::prevalenceRatesChart();
+		return Response::json(array('values'=>$data, 'chart'=>$chart));
+		//array('values'=>$data, 'chart'=>$chart)
 	}
 
 
