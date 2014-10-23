@@ -45,11 +45,7 @@ class PrevalenceRatesReportController extends \BaseController {
             				->where('measure_range', 'LIKE', '%Positive/Negative%')
             				->get();
 
-		$chart = '{id: "prevalences",type: "msline",
-	      width: "98%",
-	      height: "500px",
-	      dataFormat: "json",
-	      dataSource: {
+		$chart = '{
 	       "chart": {
 	        "caption": "Prevalence Rates",
 	        "subcaption": "For the selected period",
@@ -64,7 +60,7 @@ class PrevalenceRatesReportController extends \BaseController {
 	        "divlinecolor": "666666",
 	        "divlinealpha": "30",
 	        "divlineisdashed": "1",
-	        "labelstep": "2",
+	        "labelstep": "1",
 	        "bgcolor": "FFFFFF",
 	        "showalternatehgridcolor": "0",
 	        "labelpadding": "10",
@@ -82,35 +78,55 @@ class PrevalenceRatesReportController extends \BaseController {
 	    "categories": [
 	        {
 	            "category": [';
-
+	            	$count = count($months);
 	            	foreach ($months as $month) {
-	    				$chart.= '{ "label": "'.$month->label." ".$month->annum.'" },';
+	    				$chart.= '{ "label": "'.$month->label." ".$month->annum;
+	    				if($count==1)
+	    					$chart.='" }';
+	    				else
+	    					$chart.='" },';
+	    				$count--;
 		            }
 	            $chart.=']
 	        }
 	    ],
 	    "dataset": [';
-        	foreach ($test_types as $test_type) {
+	    	$counts = count($test_types);
+	    	foreach ($test_types as $test_type) {
         		$chart.= '{
         			"seriesname": "'.$test_type->name.'",
         			"data": [';
-            		foreach ($months as $month) {
+        				$counter = count($months);
+            			foreach ($months as $month) {
             			$data = Report::prevalenceCountsByTestType($month, $test_type->id);
             			foreach ($data as $datum) {
-            				$chart.= '{ "value": "'.$datum->rate.'"},';
+            				$chart.= '{"value": "'.$datum->rate;
+            				if($counter==1)
+            					$chart.='"}';
+            				else
+            					$chart.='"},';
 	            		}
+
 	            		if($data->isEmpty())
             			{
-            				$chart.= '{ "value": "0.00"},';
+            				$chart.= '{ "value": "0.00';
+            				if($counter==1)
+            					$chart.='"}';
+            				else
+            					$chart.='"},';
             			}
+            			$counter--;
 			    	}
-		    	$chart.=']
-		    	},';
+		    	$chart.=']';
+		    	if($counts==1)
+					$chart.='}';
+				else
+					$chart.='},';
+				$counts--;
 		    }
            $chart.='
 	    	]
-	    }
-	}';
+	    }';
 	return $chart;
 	}
 	/**
