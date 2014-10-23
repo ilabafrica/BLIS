@@ -12,36 +12,6 @@ class Report{
 	*	Begin patient report functions
 	*/
 
-	#	Begin function to return age of patient given dob
-	public static function dateDiff($end)
-	{
-		$today=date('Y-m-d H:i:s');
-	   $return = array();
-	   
-	   try {
-	      $start = new DateTime($today);
-	      $end = new DateTime($end);
-	      $form = $start->diff($end);
-	   } catch (Exception $e){
-	      return $e->getMessage();
-	   }
-	   
-	   $display = array('y'=>'year',
-	               'm'=>'month'/*,
-	               'd'=>'day',
-	               'h'=>'hour',
-	               'i'=>'minute',
-	               's'=>'second'*/);
-	   foreach($display as $key => $value){
-	      if($form->$key > 0){
-	         $return[] = $form->$key.' '.($form->$key > 1 ? $value.'s' : $value);
-	      }
-	   }
-	   
-	   return implode($return, ', ');
-	}
-	#	End function to return age of patient given dob
-
 	#	Begin function to export to word
 	#	End function to export to pdf
 

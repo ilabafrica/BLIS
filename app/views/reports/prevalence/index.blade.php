@@ -45,7 +45,7 @@
 		  </table>
 	  {{ Form::close() }}
 		  <div id="chartContainer"></div>
-		  <div id="chart">Chart will load here.</div>
+		  <div id="chart"></div>
 		  <div id="grid">
 		  	<div class="table-responsive">
 			  <table class="table table-striped">
@@ -90,29 +90,36 @@
 	});
 
 	FusionCharts.ready(function(){
-	  var prevalenceChart = new FusionCharts(<?php echo PrevalenceRatesReportController::prevalenceRatesChart(); ?>);
+	  var prevalenceChart = new FusionCharts({id: "prevalences",type: "msline",
+	      width: "98%",
+	      height: "500px",
+	      dataFormat: "json",
+	      dataSource: <?php echo PrevalenceRatesReportController::prevalenceRatesChart(); ?>});
 	  prevalenceChart.render("chartContainer");
-	}); 
+	});
 
-	FusionCharts['debugger'].outputFormat('verbose');
-FusionCharts['debugger'].enable(true);
-
-   $('#toggle').click(function(){
+	$('#toggle').click(function(){
    		$('#chartContainer').toggle('hide');
-   });
+   		$('#chart').toggle('hide');
+    });
+
+   function toggleCharts(chartId){
+   		$('#chartId').toggle('hide');
+   }
 
    /*Begin function to change data for chart*/
    function changeData(data)
     {
+    	$('#chartContainer').empty();
     	FusionCharts.ready(function(){
-		  var updatedChart = new FusionCharts(data);
+		  var updatedChart = new FusionCharts({type: "msline",
+	      width: "98%",
+	      height: "500px",
+	      dataFormat: "json",
+	      dataSource: data});
 		  updatedChart.render("chart");
 		});
     }
 	/*End function to change chart data*/
-
-	function updateChart(data) {
-	    FusionCharts("prevalences").setJSONData(jsonData);
-	}
 </script>
 @stop

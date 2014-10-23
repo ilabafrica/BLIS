@@ -375,20 +375,9 @@ $(function(){
             var tableBody =""; 
             if(data.length!=0){
 
-            	//console.log(data);
-            
-			   /* var details=data.values[0];
-			    var chart=data.chart;
-			    console.log("__________Mahako_________");
-			    console.log(details);
-			    console.log(chart);*/
-			    /*console.log("__________Mahako_________");*/
-			    console.log(data.chart);
-			    try {
+            	try {
 			    	$('#chartContainer').hide();
-			    	var d = JSON.parse(data);
-			    	//alert(data.chart);
-			        updateChart(d.chart);
+			    	changeData(data.chart);
 
 			    } catch (e) {
 			        window.console.warn("Wrong format JSON data received");
