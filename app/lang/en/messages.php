@@ -53,6 +53,7 @@ return array(
     'edit-profile' => 'Edit Profile',
     'incorrect-current-passord' => 'Incorrect Current Password Entered',
     'new-password' => 'New Password',
+    'new-user' => 'New User',
     'password-mismatch' => 'Passwords do not match',
     're-enter-password' => 'Re-enter Password',
     'reset-password' => 'Reset Password',
