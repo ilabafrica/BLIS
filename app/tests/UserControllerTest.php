@@ -40,7 +40,6 @@ class UserControllerTest extends TestCase
       'name' => 'John Doe',
       'gender' => '0',
       'designation' => 'LabTechnician',
-      'passwordedit' => 'password',
       'current-password' => 'goodpassword',
       'new-password' => 'newpassword',
     );
@@ -89,26 +88,43 @@ class UserControllerTest extends TestCase
 
   /**
    * Tests the update function in the UserController
-	 * @param  void
-	 * @return void
+   * @param  void
+   * @return void
    */
-	public function testUpdate()
-	{
-		// Update the User Types
+  public function testUpdate()
+  {
+    // Update the User Types
         Input::replace($this->userData);
         $user = new UserController;
         $user->store();
         Input::replace($this->userDataUpdate);
         $user->update(1);
 
-		$userUpdated = User::find(1);
-		$this->assertEquals($userUpdated->username , $this->userDataUpdate['username']);
-		$this->assertEquals($userUpdated->email , $this->userDataUpdate['email']);
-		$this->assertEquals($userUpdated->name , $this->userDataUpdate['name']);
-		$this->assertEquals($userUpdated->gender , $this->userDataUpdate['gender']);
+    $userUpdated = User::find(1);
+    $this->assertEquals($userUpdated->username , $this->userDataUpdate['username']);
+    $this->assertEquals($userUpdated->email , $this->userDataUpdate['email']);
+    $this->assertEquals($userUpdated->name , $this->userDataUpdate['name']);
+    $this->assertEquals($userUpdated->gender , $this->userDataUpdate['gender']);
     $this->assertEquals($userUpdated->designation , $this->userDataUpdate['designation']);
-		$this->assertTrue(Hash::check($this->userDataUpdate['new-password'], $userUpdated->password));
-	}
+  }
+
+  /**
+   * Tests the updateOwnPassword function in the UserController
+   * @param  void
+   * @return void
+   */
+  public function testUpdateOwnPassword()
+  {
+    // Update the User Types
+        Input::replace($this->userData);
+        $user = new UserController;
+        $user->store();
+        Input::replace($this->userDataUpdate);
+        $user->updateOwnPassword(1);
+
+    $userUpdated = User::find(1);
+    $this->assertTrue(Hash::check($this->userDataUpdate['new-password'], $userUpdated->password));
+  }
 
 	/**
    * Tests the update function in the UserController
