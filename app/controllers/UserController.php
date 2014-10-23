@@ -250,10 +250,6 @@ class UserController extends Controller {
             'image' => 'image|max:500'
         );
 
-        if (Input::get('passwordedit')) {
-            $rules['new-password'] = 'min:6';
-        }
-
         if (Input::get('reset-password')) {
             $rules['reset-password'] = 'min:6';
         }
@@ -287,20 +283,49 @@ class UserController extends Controller {
                     Log::info($e);
                 }
             }
-            // change password if parameters were entered (changing ones own password)
-            if(Input::get('passwordedit')) {
-                if (Hash::check(Input::get('current-password'), $user->password))
-                {
-                    $user->password = Hash::make(Input::get('new-password'));
-                }else{
-                    return Redirect::to('user/' . $id . '/edit')
-                            ->withErrors(trans('messages.incorrect-current-passord'));
-                }
-            }
             
             //Resetting passwords - by the administrator
             if (Input::get('reset-password')) {
                 $user->password = Hash::make(Input::get('reset-password'));
+            }
+
+            $user->save();
+
+            // redirect
+            return Redirect::to('user')->with('message', trans('messages.user-profile-edit-success'));
+
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function updateOwnPassword($id)
+    {
+        //
+        $rules = array(
+            'current-password' => 'required|min:6',
+            'new-password'       => 'required|min:6',
+        );
+
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::route('user.edit', array($id))->withErrors($validator);
+        } else {
+            // Update
+            $user = User::find($id);
+            // change password if parameters were entered (changing ones own password)
+            if (Hash::check(Input::get('current-password'), $user->password))
+            {
+                $user->password = Hash::make(Input::get('new-password'));
+            }else{
+                return Redirect::route('user.edit', array($id))
+                        ->withErrors(trans('messages.incorrect-current-passord'));
             }
 
             $user->save();

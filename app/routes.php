@@ -51,6 +51,11 @@ Route::group(array("before" => "auth"), function()
         "uses" => "UserController@logoutAction"
     ));
 
+    Route::any('/user/{id}/updateown', array(
+        "as" => "user.updateOwnPassword",
+        "uses" => "UserController@updateOwnPassword"
+        ));
+
 	Route::resource('patient', 'PatientController');
 
     Route::get("/patient/{id}/delete", array(
