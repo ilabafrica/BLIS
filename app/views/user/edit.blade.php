@@ -39,7 +39,7 @@
 					</div>
 					@endif
 					<div class="col-md-10">
-						<div class="row profile-pane">
+						<div class="row {{(Auth::id() == $user->id) ? 'profile-pane': ''}}">
 							<div class="col-md-8">
 								<br>
 								<div class="edit-profile">
