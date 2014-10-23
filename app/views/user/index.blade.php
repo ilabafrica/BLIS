@@ -50,7 +50,7 @@
 						</a>
 
 						<!-- edit this user (uses the edit method found at GET /user/{id}/edit -->
-						<a class="btn btn-sm btn-info {{($user == User::getAdminUser()) ? 'disabled': ''}}" href="{{ URL::to("user/" . $user->id . "/edit") }}" >
+						<a class="btn btn-sm btn-info" href="{{ URL::to("user/" . $user->id . "/edit") }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							Edit
 						</a>

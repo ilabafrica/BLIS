@@ -409,21 +409,35 @@ label, input {
 }
 
 /**
- * User change password - Used on edit-profile view
+ * User change password - Used on edit-user-profile view
  */
-#current-password, #new-password, #repeat-password{
-    width:200px;
+.profile-pane {
+    border-radius: 4px;
+    border: 1px solid #999999;
 }
 .profile-tabs>a {
     display:block;
-    width:150px;
+    width: 200px;
+    padding: 10px;
+    height: 40px;
+}
+.profile-tabs {
+    z-index: 1;
 }
 .profile-tabs>a:link {
     text-decoration: none;
-    color: #999999;
 }
-.profile-tabs>a:hover, .profile-tabs>a.active {
+.profile-tabs>a.active {
     color: #000000;
-    border-right: 2px solid #000000;
     text-decoration: none;
+    border-radius: 4px;
+    border-top-right-radius:0px;
+    border-bottom-right-radius:0px;
+    border: 1px solid #999999;
+    border-right: 3px solid #ffffff;
+}
+.profile-tabs>a:hover {
+    background:#dddddd;
+    border-radius: 4px;
+    border-right: 3px solid #ffffff;
 }
