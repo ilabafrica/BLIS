@@ -12,6 +12,13 @@ class TestPhase extends Eloquent
 	public $timestamps = false;
 
 	/**
+	 * Test Phase constants
+	 */
+	const PRE_ANALYTICAL = 1;
+	const ANALYTICAL = 2;
+	const POST_ANALYTICAL = 3;
+
+	/**
 	 * TestStatus relationship
 	 */
     public function testStatuses()

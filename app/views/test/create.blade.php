@@ -75,8 +75,10 @@
 							</div>
 							<div class="form-group actions-row">
 								{{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save-test'), 
-									array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
-							</div>
+									array('class' => 'btn btn-primary', 'onclick' => 'submit()', 'alt' => 'save_new_test')) }}
+<!-- 								{{ Form::button(trans('messages.save-test'), 
+									array('class' => 'btn btn-primary', 'onclick' => 'submit()', 'alt' => 'save_new_test')) }}
+ -->							</div>
 						</div>
 					</div>
 				</div>

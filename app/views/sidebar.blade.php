@@ -1,8 +1,8 @@
-@section("sidebar")
+	@section("sidebar")
 <?php
 	$active = array("","","","","","","");
-	$key = explode("?",str_replace("/", "?", $_SERVER["REQUEST_URI"]));
-	switch ($key[1]) {
+	$key = explode("?",str_replace("/", "?", Request::path()));
+	switch ($key[0]) {
 		case 'home': $active[0] = "active"; break;
 		case 'patient': $active[1] = "active"; break;
 		case 'test': $active[2] = "active"; break;
