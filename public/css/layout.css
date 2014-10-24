@@ -414,3 +414,13 @@ label, input {
 .test-status div.row {
     margin-bottom: 2px;
 }
+
+.row.less-gutter .col-md-11 {
+    padding-left:0;
+}
+.row.less-gutter .col-md-1 {
+    padding-right:0;
+}
+    .row.less-gutter .col-md-11 > span{
+        line-height: 30px;
+    }

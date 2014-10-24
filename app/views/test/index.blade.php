@@ -52,17 +52,27 @@
 
     <div class="panel panel-primary test-create">
         <div class="panel-heading ">
-            <span class="glyphicon glyphicon-filter"></span>
-            {{trans('messages.list-tests')}}
-            @if(Auth::user()->can('request_test'))
-            <div class="panel-btn">
-                <a class="btn btn-sm btn-info" href="javascript:void(0)"
-                    data-toggle="modal" data-target="#new-test-modal">
-                    <span class="glyphicon glyphicon-plus-sign"></span>
-                    {{trans('messages.new-test')}}
-                </a>
+            <div class="container-fluid">
+                <div class="row less-gutter">
+                    <div class="col-md-11">
+                        <span class="glyphicon glyphicon-filter"></span>{{trans('messages.list-tests')}}
+                        @if(Auth::user()->can('request_test'))
+                        <div class="panel-btn">
+                            <a class="btn btn-sm btn-info" href="javascript:void(0)"
+                                data-toggle="modal" data-target="#new-test-modal">
+                                <span class="glyphicon glyphicon-plus-sign"></span>
+                                {{trans('messages.new-test')}}
+                            </a>
+                        </div>
+                        @endif
+                    </div>
+                    <div class="col-md-1">
+                        <a class="btn btn-sm btn-primary pull-right" href="{{URL::previous()}}"
+                            alt="{{trans('messages.back')}}" title="{{trans('messages.back')}}">
+                            <span class="glyphicon glyphicon-backward"></span></a>
+                    </div>
+                </div>
             </div>
-            @endif
         </div>
         <div class="panel-body">
             <table class="table table-striped table-hover table-condensed">
@@ -183,12 +193,14 @@
                                 </a>
                                 @endif
                             @elseif ($test->test_status_id == Test::COMPLETED)
+                                @if(Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
                                 <a class="btn btn-sm btn-success" id="verify-{{$test->id}}-link"
                                     href="{{ URL::to('test/'.$test->id.'/viewdetails') }}"
                                     title="{{trans('messages.verify-title')}}">
                                     <span class="glyphicon glyphicon-thumbs-up"></span>
                                     {{trans('messages.verify')}}
                                 </a>
+                                @endif
                                 @if(Auth::user()->can('edit_test_results'))
                                 <a class="btn btn-sm btn-info" id="edit-{{$test->id}}-link"
                                     href="{{ URL::to('test/'.$test->id.'/edit') }}"

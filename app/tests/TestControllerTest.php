@@ -342,21 +342,40 @@ class TestControllerTest extends TestCase
         $test = Test::find($id);
         if($test->specimen->specimen_status_id == Specimen::ACCEPTED){
           $url = URL::route('test.edit', array($test->id));
-          break;
+
+          $crawler = $this->client->request('GET', $url);
+
+          $this->assertCount(1, $crawler->filter('textarea#interpretation'));
+
+          $this->flushSession();
         }
       }
+    }
+    /*
+    * - verify
+    *   + Required input: testid
+    *   + Check that the new status of the test is VERIFIED
+    */
+    public function testVerifyTest(){
+      $tests = Test::where('test_status_id','=', Test::COMPLETED)->lists('id');
 
       // Set the current user to admin
       $this->be(User::first());
 
-      $crawler = $this->client->request('GET', $url);
+      foreach ($tests as $id) {
+        $test = Test::find($id);
+        if($test->specimen->specimen_status_id == Specimen::ACCEPTED){
+          $url = URL::route('test.verify', array($test->id));
 
-      $this->assertCount(1, $crawler->filter('textarea#interpretation'));
+          $crawler = $this->client->request('GET', $url);
+
+          $this->assertTrue(Test::find($id)->test_status_id == Test::VERIFIED);
+
+          $this->flushSession();
+        }
+      }
     }
     /*
-    * - verify (TODO)
-    *   + Required input: testid
-    *   + Check that the new status of the test is VERIFIED
     * - viewDetails
     *   + Required input: testid
     *   + Check that there are 4 panels in total

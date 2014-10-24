@@ -8,6 +8,7 @@ return array(
     |   Generic names
     */
     'actions' => 'Actions',
+    'back' => 'Previous Page',
     'cancel' => 'Cancel',
     'close' => 'Close',
     'create' => 'Create',

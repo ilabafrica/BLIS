@@ -6,11 +6,21 @@
 		  <li><a href="{{ URL::route('test.index') }}">{{trans('messages.tests')}}</a></li>
 		  <li class="active">{{trans('messages.reject-title')}}</li>
 		</ol>
-	</div>{{Session::has('message')}}
+	</div>
 	<div class="panel panel-primary">
 		<div class="panel-heading ">
-			<span class="glyphicon glyphicon-filter"></span>
-			{{trans('messages.reject-title')}}
+            <div class="container-fluid">
+                <div class="row less-gutter">
+                    <div class="col-md-11">
+						<span class="glyphicon glyphicon-filter"></span>{{trans('messages.reject-title')}}
+                    </div>
+                    <div class="col-md-1">
+                        <a class="btn btn-sm btn-primary pull-right" href="{{URL::previous()}}"
+                            alt="{{trans('messages.back')}}" title="{{trans('messages.back')}}">
+                            <span class="glyphicon glyphicon-backward"></span></a>
+                    </div>
+                </div>
+            </div>
 		</div>
 		<div class="panel-body">
 		<!-- if there are creation errors, they will show here -->
