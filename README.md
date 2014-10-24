@@ -16,18 +16,17 @@ Quick Start
 -----------
 1. Install the above mentioned requirements.
 2. Extract this git repository to a local folder
-    <blockquote>git clone https://github.com/ilabafrica/iBLIS.git </blockquote>
+    <blockquote>git clone git@github.com:ilabafrica/iBLIS.git </blockquote>
 3. Change directory to the root folder of the application. Update **composer** then run it in order to install the application dependencies. You may need root permissions to update composer.
     <blockquote>
       composer self-update<br />
       composer install
     </blockquote>
 4. Update the application configuration files to suit your local settings:
-  <ul>
-    <li>Set the "Application URL" in /app/config/app.php</li>
-    <li>Set the database connection details in /app/config/database.php</li>
-    <li>The organization name in /app/config/kblis.php</li>
-</ul>
+  - Set the "Application URL" in `/app/config/app.php`
+  - Set the database connection details in `/app/config/database.php`
+  - The organization name in `/app/config/kblis.php`
+
 5. Run the migrations to create the required database tables.
     <blockquote>php artisan migrate</blockquote>
 6. Load the basic seed data

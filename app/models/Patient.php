@@ -4,7 +4,8 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class Patient extends Eloquent
 {
-
+	const MALE = 0;
+	const FEMALE = 1;
 	/**
 	 * Enabling soft deletes for patient details.
 	 *
@@ -37,5 +38,22 @@ class Patient extends Eloquent
 		$interval = $dateOfBirth->diff($now);
 
 		return $interval->y ." years " . $interval->m ." months";
+	}
+
+	/**
+	* Function to return patients gender
+	*	TODO : add parameter to return full gender `Male` or short form `M`
+	* 	     : Translations
+	*/
+	public function getGender()
+	{
+		if ($this->gender == Patient::MALE)
+		{
+			return "M";
+		}
+		else if ($this->gender == Patient::FEMALE)
+		{
+			return "F";
+		}
 	}
 }

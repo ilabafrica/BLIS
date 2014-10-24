@@ -13,6 +13,18 @@
 /* Routes accessible before logging in */
 Route::group(array("before" => "guest"), function()
 {
+    /*
+    |-----------------------------------------
+    | API route
+    |-----------------------------------------
+    | Proposed route for the BLIS api, we will receive api calls 
+    | from other systems from this route.
+    */
+    Route::post('/api/receiver', array(
+        "as" => "api.receiver",
+        "uses" => "InterfacerController@receiveLabRequest"
+    ));
+
 	Route::any('/', array(
 	    "as" => "user.login",
 	    "uses" => "UserController@loginAction"
@@ -115,12 +127,27 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@reject"
     ));
 
-    Route::get("/test/{id}/rejectaction", array(
+    Route::post("/test/rejectaction", array(
         "as"   => "test.rejectAction",
         "uses" => "TestController@rejectAction"
     ));
 
-    Route::get("/test/{test}/start", array(
+     Route::post("/test/acceptspecimen", array(
+        "as"   => "test.acceptSpecimen",
+        "uses" => "TestController@accept"
+    ));
+
+     Route::post("/test/changespecimen", array(
+        "as"   => "test.changeSpecimenType",
+        "uses" => "TestController@changeSpecimenType"
+    ));
+
+     Route::post("/test/updatespecimentype", array(
+        "as"   => "test.updateSpecimenType",
+        "uses" => "TestController@updateSpecimenType"
+    ));
+
+    Route::post("/test/start", array(
         "as"   => "test.start",
         "uses" => "TestController@start"
     ));
@@ -179,14 +206,17 @@ Route::group(array("before" => "auth"), function()
             "uses" => "RoleController@delete"
         ));
     });
-    Route::get("/test/{test}/getteststatus", array(
-        "as"   => "test.getTestStatus",
-        "uses" => "TestController@getTestStatusById"
-    ));
 });
 
 // Display all SQL executed in Eloquent
 Event::listen('illuminate.query', function($query)
 {
         Log::info($query);
+});
+
+//TO DO: move events to app/events.php or somewhere else
+Event::listen('api.receivedLabRequest', function($labRequest)
+{
+    //We instruct the interfacer to handle the request
+    Interfacer::retrieve($labRequest);
 });

@@ -182,6 +182,7 @@ class CreatekBLIStables extends Migration {
 			$table->bigIncrements('id');
 			$table->integer('patient_id')->unsigned();
             $table->string('visit_type', 12)->default('Out-patient'); //'OUT-PATIENT' | 'IN-PATIENT'
+            $table->integer('visit_number')->unsigned()->nullable(); //External
 			$table->timestamp('created_at');
 			$table->timestamp('updated_at');
 			$table->foreign('patient_id')->references('id')->on('patients');
@@ -197,12 +198,14 @@ class CreatekBLIStables extends Migration {
 		{
 			$table->increments('id')->unsigned();
 			$table->integer('specimen_type_id')->unsigned();
-			$table->integer('specimen_status_id')->unsigned()->default(1); //Accepted
+			$table->integer('specimen_status_id')->unsigned()->default(Specimen::NOT_COLLECTED);
+            $table->integer('test_phase_id')->unsigned()->default(1); //Pre-Analytical
+            $table->integer('accepted_by')->unsigned()->default(0);
+            $table->integer('rejected_by')->unsigned()->default(0);
 			$table->integer('rejection_reason_id')->unsigned()->nullable();
-			$table->integer('test_phase_id')->unsigned()->default(1); //Pre-Analytical
-			$table->integer('created_by');
-			$table->integer('referred_from');
-			$table->integer('referred_to');
+            $table->string('reject_explained_to',100)->nullable();
+			$table->integer('referred_from')->unsigned()->default(0);
+			$table->integer('referred_to')->unsigned()->default(0);
 			$table->timestamp('time_accepted')->nullable();
 			$table->timestamp('time_rejected')->nullable();
 			
@@ -229,6 +232,7 @@ class CreatekBLIStables extends Migration {
 			$table->timestamp('time_completed')->nullable();
 			$table->timestamp('time_verified')->nullable();
 			$table->timestamp('time_sent')->nullable();
+            $table->integer('external_id')->nullable();//Unique ID for external records
 			
 			$table->foreign('visit_id')->references('id')->on('visits');
 			$table->foreign('test_type_id')->references('id')->on('test_types');

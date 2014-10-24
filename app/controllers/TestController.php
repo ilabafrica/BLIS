@@ -79,7 +79,7 @@ class TestController extends \BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Display a form for creating a new Test.
 	 *
 	 * @return Response
 	 */
@@ -98,7 +98,7 @@ class TestController extends \BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Save a new Test.
 	 *
 	 * @return Response
 	 */
@@ -119,8 +119,8 @@ class TestController extends \BaseController {
 			$visitType = ['In-patient', 'Out-patient'];
 
 			/*
-			| - Create a visit
-			| - Fields required: visit_type, patient_id
+			* - Create a visit
+			* - Fields required: visit_type, patient_id
 			*/
 			$visit = new Visit;
 			$visit->patient_id = Input::get('patient_id');
@@ -128,32 +128,31 @@ class TestController extends \BaseController {
 			$visit->save();
 
 			/*
-			| - Create tests requested
-			| - Fields required: visit_id, test_type_id, specimen_id, test_status_id, created_by, requested_by
+			* - Create tests requested
+			* - Fields required: visit_id, test_type_id, specimen_id, test_status_id, created_by, requested_by
 			*/
 			$testTypes = Input::get('testtypes');
 			if(is_array($testTypes)){
-				foreach ($testTypes as $key => $value) {
-					// Create Specimen - specimen_type_id, created_by, referred_from, referred_to
+				foreach ($testTypes as $value) {
+					$testTypeID = (int)$value;
+					// Create Specimen - specimen_type_id, accepted_by, referred_from, referred_to
 					$specimen = new Specimen;
-					$specimen->specimen_type_id = TestType::find((int)$value)->specimenTypes->lists('id')[0];
-					$specimen->created_by = Auth::user()->id;
-					$specimen->referred_to = 0; //No one
-					$specimen->referred_from = 0; //No one
+					$specimen->specimen_type_id = TestType::find($testTypeID)->specimenTypes->lists('id')[0];
+					$specimen->accepted_by = Auth::user()->id;
 					$specimen->save();
 
 					$test = new Test;
 					$test->visit_id = $visit->id;
-					$test->test_type_id = (int)$value;
+					$test->test_type_id = $testTypeID;
 					$test->specimen_id = $specimen->id;
-					$test->test_status_id = 1; //Pending
+					$test->test_status_id = Test::PENDING;
 					$test->created_by = Auth::user()->id;
 					$test->requested_by = Input::get('physician');
 					$test->save();
 				}
 			}
 
-			return Redirect::to('test')->with('message', 'messages.success-creating-test');
+			return Redirect::route('test.index')->with('message', 'messages.success-creating-test');
 		}
 	}
 
@@ -165,9 +164,9 @@ class TestController extends \BaseController {
 	 */
 	public function reject($specimenID)
 	{
-		
+		$specimen = Specimen::find($specimenID);
 		$rejectionReason = RejectionReason::all();
-		return View::make('test.reject')->with('specimenId', $specimenID)
+		return View::make('test.reject')->with('specimen', $specimen)
 						->with('rejectionReason', $rejectionReason);
 	}
 
@@ -177,31 +176,86 @@ class TestController extends \BaseController {
 	 * @param
 	 * @return
 	 */
-	public function rejectAction($specimenID)
+	public function rejectAction()
 	{
-		$specimen = Specimen::find($specimenID);
-		$specimen->rejection_reason_id = Input::get('rejectionReason');
-		$specimen->specimen_status_id = 2;//Rejected
-		$specimen->save();
-		// redirect
-		Session::flash('message', 'Specimen was successfully rejected!');
-		return Redirect::to('test');
+		//Reject justifying why.
+		$rules = array(
+			'rejectionReason' => 'required',
+			'reject_explained_to' => 'required',
+		);
+		$validator = Validator::make(Input::all(), $rules);
+
+		if ($validator->fails()) {
+			return Redirect::route('test.reject', array(Input::get('specimen_id')))->withInput()->withErrors($validator);
+		} else {
+			$specimen = Specimen::find(Input::get('specimen_id'));
+			$specimen->rejection_reason_id = Input::get('rejectionReason');
+			$specimen->specimen_status_id = Specimen::REJECTED;
+			$specimen->time_rejected = date('Y-m-d H:i:s');
+			$specimen->reject_explained_to = Input::get('reject_explained_to');
+			$specimen->save();
+			
+			return Redirect::route('test.index')->with('message', 'messages.success-rejecting-specimen');
+		}
 	}
 
 	/**
+	 * Accept a Test's Specimen
+	 *
+	 * @param
+	 * @return
+	 */
+	public function accept()
+	{
+		$specimen = Specimen::find(Input::get('id'));
+		$specimen->specimen_status_id = Specimen::ACCEPTED;
+		$specimen->time_accepted = date('Y-m-d H:i:s');
+		$specimen->save();
+
+		return $specimen->specimen_status_id;
+	}
+
+	/**
+	 * Display Change specimenType form fragment to be loaded in a modal via AJAX
+	 *
+	 * @param
+	 * @return
+	 */
+	public function changeSpecimenType()
+	{
+		$test = Test::find(Input::get('id'));
+		return View::make('test.changeSpecimenType')->with('test', $test);
+	}
+
+	/**
+	 * Update a Test's SpecimenType
+	 *
+	 * @param
+	 * @return
+	 */
+	public function updateSpecimenType()
+	{
+		$specimen = Specimen::find(Input::get('specimen_id'));
+		$specimen->specimen_type_id = Input::get('specimen_type');
+		$specimen->save();
+
+		return Redirect::route('test.viewDetails', array($specimen->test->id));
+	}
+
+/**
 	 * Starts Test
 	 *
 	 * @param
 	 * @return
 	 */
-	public function start($testID)
+	public function start()
 	{
-		$test = Test::find($testID);
-		$test->test_status_id = 2;//Started
+		$test = Test::find(Input::get('id'));
+		$test->test_status_id = Test::STARTED;
+		$test->time_started = date('Y-m-d H:i:s');
 		$test->save();
-		// redirect
-		Session::flash('message', 'Test started!');
-		return Redirect::to('test');
+
+		return $test->test_status_id;
 	}
 
 	/**
@@ -225,7 +279,7 @@ class TestController extends \BaseController {
 	public function saveResults($testID)
 	{
 		$test = Test::find($testID);
-		$test->test_status_id = 3;//Completed
+		$test->test_status_id = Test::COMPLETED;
 		$test->interpretation = Input::get('interpretation');
 		$test->tested_by = Auth::user()->id;
 		$test->time_completed = date('Y-m-d H:i:s');
@@ -277,15 +331,4 @@ class TestController extends \BaseController {
 		return View::make('test.verify');
 	}
 
-	/**
-	 * Get test status by test ID
-	 *
-	 * @param
-	 * @return
-	 */
-	public function getTestStatusById($testID)
-	{
-		$test = Test::find($testID);
-		return trans('messages.'.$test->testStatus->name);
-	}
 }

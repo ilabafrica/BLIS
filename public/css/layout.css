@@ -401,11 +401,16 @@ label, input {
     }
 
 /*
-*
 * REJECT Specimen shading - Used on test-index view
 */
 .table tbody tr.rejected td.rejected {
     background: #FFCCCC;
 }
 
-
+/*
+*
+* Specimen and Test status separation - Used on test-index view
+*/
+.test-status div.row {
+    margin-bottom: 2px;
+}

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	Use HasRole;
+
+	const EXTERNAL_SYSTEM_USER = 2;
 	/**
 	 * Enabling soft deletes on the user table.
 	 *

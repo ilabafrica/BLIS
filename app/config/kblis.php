@@ -45,4 +45,5 @@ return array(
 	*/
 
 	'page-items' => 5,
+	
 );

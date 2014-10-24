@@ -1,3 +1,14 @@
+// Hello.
+//
+// This is JSHint, a tool that helps to detect errors and potential
+// problems in your JavaScript code.
+//
+// To start, simply enter some JavaScript anywhere on this page. Your
+// report will appear on the right side.
+//
+// Additionally, you can toggle specific options in the Configure
+// menu.
+
 $(function(){
 	/*	HEADER
 	|   Username display
@@ -13,7 +24,7 @@ $(function(){
 	/*	LEFT SIDEBAR FUNCTIONS	*/
 	
 	/*  Click main menu */
-	$('.main-menu').click(function(event){
+	$('.main-menu').click(function(){
 
 		$('.main-menu').removeClass('active');
 		$(this).addClass('active');
@@ -63,7 +74,7 @@ $(function(){
 	$('.btn-delete').click(function(){
 		$('.confirm-delete-modal').modal('toggle');
 		$.ajax({url: $('#delete-url').val()})
-			.done(function(data){
+			.done(function(){
 				location.reload(true);
 			});
 	});
@@ -101,12 +112,12 @@ $(function(){
 				cnt++;
 			});
 			$('#new-test-modal .table tbody').html( output );
-			if (cnt == 0) {
+			if (cnt === 0) {
 				$('#new-test-modal .table').hide();
 			} else {
 				$('#new-test-modal .table').removeClass('hide');
 				$('#new-test-modal .table').show();
-			};
+			}
 		});
 	});
 	/* Prevent patient search modal form submit (default action) when the ENTER key is pressed*/
@@ -116,6 +127,80 @@ $(function(){
 			$('#new-test-modal .search-patient').click();
 		}
 	});
+
+	/* - Get a Test->id from the button clicked,
+	|  - Fetch corresponding test and default specimen data
+	|  - Display all in the modal.
+	*/
+	$('#change-specimen-modal').on('show.bs.modal', function(e) {
+	    //get data-id attribute of the clicked element
+	    var id = $(e.relatedTarget).data('test-id');
+		var url = $(e.relatedTarget).data('url');
+
+	    $.post(url, { id: id}).done(function(data){
+		    //Show it in the modal
+		    $(e.currentTarget).find('.modal-body').html(data);
+	    });
+	});
+
+	/* Accept Specimen button.
+	|  - Updates the Specimen status via an AJAX call
+	|  - Changes the UI to show the right status and buttons
+	*/
+	$('.test-create').on( "click", ".accept-specimen", function(e) {
+		var testID = $(this).data('test-id');
+		var specID = $(this).data('specimen-id');
+		var url = $(this).data('url');
+		$.post(url, { id: specID}).done(function(){});
+
+		var parent = $(e.currentTarget).parent();
+		// First replace the status
+		var newStatus = $('.pending-test-accepted-specimen').html();
+		parent.siblings('.test-status').html(newStatus);
+
+		// Add the new buttons
+		var newButtons = $('.reject-start-buttons').html();
+		parent.append(newButtons);
+
+		// Set properties for the new buttons
+		var rejectURL = location.protocol+ "//"+location.host+ "/test/" + specID+ "/reject";
+		parent.children('.reject-specimen').attr('id',"reject-" + testID + "-link");
+		parent.children('.reject-specimen').attr('href', rejectURL);
+
+		parent.children('.start-test').attr('data-test-id', testID);
+
+		// Now remove the unnecessary buttons
+		$(this).siblings('.change-specimen').remove();
+		$(this).remove();
+	});
+
+	/* Start Test button.
+	|  - Updates the Test status via an AJAX call
+	|  - Changes the UI to show the right status and buttons
+	*/
+	$('.test-create').on( "click", ".start-test", function(e) {
+		var testID = $(this).data('test-id');
+		var url = $(this).data('url');
+		$.post(url, { id: testID}).done(function(){});
+
+		var parent = $(e.currentTarget).parent();
+		// First replace the status
+		var newStatus = $('.started-test-accepted-specimen').html();
+		parent.siblings('.test-status').html(newStatus);
+
+		// Add the new buttons
+		var newButtons = $('.enter-result-buttons').html();
+		parent.append(newButtons);
+
+		// Set properties for the new buttons
+		var resultURL = location.protocol+ "//"+location.host+ "/test/" + testID+ "/enterresults";
+		parent.children('.enter-result').attr('id',"enter-results-" + testID + "-link");
+		parent.children('.enter-result').attr('href',resultURL);
+
+		// Now remove the unnecessary buttons
+		$(this).remove();
+	});
+
 });
 	/*
 	|-----------------------------------
@@ -147,31 +232,34 @@ $(function(){
 	 * HTML ELEMENTS
 	 */
 	 
-	 /*Measure Inputs*/
+	 /*
+	 | Measure Inputs
+	 | TODO: Move the HTML lines to the appropriate view
+	 */
 
-	var numericInput ='<div class="numeric-range-measure">'
-		+'<input name="measurerangeid[]" type="hidden" value="0">'
-		+'<button class="close" aria-hidden="true" type="button" title="Delete">×</button>'
-		+'<div><span class="range-title">Age Range:</span>'
-			+'<input name="agemin[]" type="text"><span>:</span>'
-			+'<input name="agemax[]" type="text">'
-		+'</div><div><span class="range-title">Gender:</span>'
-			+'<select name="gender[]">'
-				+'<option value="0">Male</option>'
-				+'<option value="1">Female</option>'
-				+'<option value="2">Both</option>'
-			+'</select>'
-		+'</div><div><span class="range-title">Measure Range:</span>'
-			+'<input name="rangemin[]" type="text"><span>:</span>'
-			+'<input name="rangemax[]" type="text">'
-		+'</div></div>';
+	var numericInput ='<div class="numeric-range-measure">' +
+		'<input name="measurerangeid[]" type="hidden" value="0">' +
+		'<button class="close" aria-hidden="true" type="button" title="Delete">×</button>' +
+		'<div><span class="range-title">Age Range:</span>' +
+		  '<input name="agemin[]" type="text"><span>:</span>' +
+			'<input name="agemax[]" type="text">' +
+		'</div><div><span class="range-title">Gender:</span>' +
+			'<select name="gender[]">' +
+				'<option value="0">Male</option>' +
+				'<option value="1">Female</option>' +
+				'<option value="2">Both</option>' +
+			'</select>' +
+		'</div><div><span class="range-title">Measure Range:</span>' +
+      
+			'<input name="rangemax[]" type="text">' +
+		'</div></div>';
 
-	var alphanumericInput = '<div class="alphanumericInput">'
-								+'<input name="val[]" type="text">'
-								+'<span class="alphanumericSlash">/</span></div>';
+	var alphanumericInput = '<div class="alphanumericInput">' +
+								'<input name="val[]" type="text">' +
+								'<span class="alphanumericSlash">/</span></div>';
 
-	var autocompleteInput = '<div class="autocompleteInput">'
-								+'<input name="val[]" type="text"></div>';
+	var autocompleteInput = '<div class="autocompleteInput">' +
+								'<input name="val[]" type="text"></div>';
 
 	var freetextInput = '<p>A text box will appear for results entry</p>';
 
@@ -180,22 +268,6 @@ $(function(){
 	function UIComponents(){
 		/* Datepicker */
 		$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
-	}
-
-	function startTest(testId){
-		var url = location.protocol+ "//"+location.host+ "/test/" +testId+ "/start";
-		$.get( url, function() {
-			$('#start-test-'+testId+'-link').replaceWith( $('#enter-results-'+testId+'-link') );
-			$('#enter-results-'+testId+'-link').removeClass('hidden');
-			updateTestStatus(testId);
-		});
-	}
-
-	function updateTestStatus(testId){
-		var url = location.protocol+ "//"+location.host+ "/test/" +testId+ "/getteststatus";
-		$.get( url, function(testStatus) {
-			$('#test-status-'+testId).html(testStatus);
-		});
 	}
 
 	function editUserProfile()
