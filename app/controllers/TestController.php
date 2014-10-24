@@ -92,7 +92,7 @@ class TestController extends \BaseController {
 		$test->created_by = Auth::user()->id;
 		$test->save();
 
-		return Redirect::back();
+		return Redirect::route('test.index');
 	}
 
 	/**
