@@ -9,25 +9,36 @@
 	</div>
 	<div class="panel panel-primary">
 		<div class="panel-heading ">
-			<span class="glyphicon glyphicon-cog"></span>
-			{{trans('messages.test-details')}}
-			@if($test->test_status_id != Test::VERIFIED && $test->specimen->specimen_status_id == Specimen::ACCEPTED)
-			<div class="panel-btn">
-				@if(Auth::user()->can('edit_test_results'))
-					<a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->id.'/edit') }}">
-						<span class="glyphicon glyphicon-edit"></span>
-						{{trans('messages.edit-test-results')}}
-					</a>
-				@endif
-				@if($test->test_status_id != Test::VERIFIED && 
-					Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
-				<a class="btn btn-sm btn-success" href="{{ URL::route('test.verify', array($test->id)) }}">
-					<span class="glyphicon glyphicon-thumbs-up"></span>
-					{{trans('messages.verify')}}
-				</a>
-				@endif
-			</div>
-			@endif
+            <div class="container-fluid">
+                <div class="row less-gutter">
+                    <div class="col-md-11">
+						<span class="glyphicon glyphicon-cog"></span>{{trans('messages.test-details')}}
+						@if($test->test_status_id != Test::VERIFIED &&
+							$test->specimen->specimen_status_id == Specimen::ACCEPTED)
+						<div class="panel-btn">
+							@if(Auth::user()->can('edit_test_results'))
+								<a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->id.'/edit') }}">
+									<span class="glyphicon glyphicon-edit"></span>
+									{{trans('messages.edit-test-results')}}
+								</a>
+							@endif
+							@if($test->test_status_id != Test::VERIFIED && 
+								Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
+							<a class="btn btn-sm btn-success" href="{{ URL::route('test.verify', array($test->id)) }}">
+								<span class="glyphicon glyphicon-thumbs-up"></span>
+								{{trans('messages.verify')}}
+							</a>
+							@endif
+						</div>
+						@endif
+                    </div>
+                    <div class="col-md-1">
+                        <a class="btn btn-sm btn-primary pull-right" href="{{URL::previous()}}"
+                            alt="{{trans('messages.back')}}" title="{{trans('messages.back')}}">
+                            <span class="glyphicon glyphicon-backward"></span></a>
+                    </div>
+                </div>
+            </div>
 		</div> <!-- ./ panel-heading -->
 		<div class="panel-body">
 			<div class="container-fluid">
