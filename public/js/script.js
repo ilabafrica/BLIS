@@ -33,6 +33,23 @@ $(function(){
 		$(this).siblings().show();
 	});
 
+	/*  USER 
+	|-  Load password reset input field
+	*/
+
+	$('a.reset-password').click(function() {
+		if ( $('input.reset-password').hasClass('hidden')) {
+				$('input.reset-password').removeClass('hidden');
+		}else {
+			$('input.reset-password').addClass('hidden');
+		}
+	});
+
+	/*Submitting Profile edit, with password change validation*/
+	$('.update-reset-password').click(function() {
+			editUserProfile();
+	});
+
 	/*  MEASURES 
 	|-  Add another measure button 
 	*/
@@ -251,4 +268,60 @@ $(function(){
 	function UIComponents(){
 		/* Datepicker */
 		$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
+	}
+
+	function editUserProfile()
+	{
+		/*If Password-Change Validation*/
+	    var currpwd = $('#current-password').val();
+	    var newpwd1 = $('#new-password').val();
+	    var newpwd2= $('#repeat-password').val();
+	    var newpwd1_len = newpwd1.length;
+	    var newpwd2_len = newpwd2.length;
+	    var error_flag = false;
+	    if(currpwd == '')
+	    {
+	        $('.curr-pwd-empty').removeClass('hidden');
+	        error_flag = true;
+	    }
+	    else
+	    {
+	        $('.curr-pwd-empty').addClass('hidden');
+	    }
+
+	    if(newpwd1 == '')
+	    {
+	        $('.new-pwd-empty').removeClass('hidden');
+	        error_flag = true;
+	    }
+	    else
+	    {
+	        $('.new-pwd-empty').addClass('hidden');
+	    }
+	    if(newpwd2 == '')
+	    {
+	        $('.new-pwdrepeat-empty').removeClass('hidden');
+	        error_flag = true;
+	    }
+	    else
+	    {
+	        $('.new-pwdrepeat-empty').addClass('hidden');
+	    }
+	    
+	    if(!error_flag)
+	    {
+	        if(newpwd1_len != newpwd2_len || newpwd1 != newpwd2)
+	        {
+	            $('.new-pwdmatch-error').removeClass('hidden');
+	            error_flag = true;
+	        }
+	        else
+	        {
+	            $('.new-pwdmatch-error').addClass('hidden');
+	        }
+	    }
+	    if(!error_flag)
+	    {
+	        $('#form-edit-password').submit();
+	    }
 	}

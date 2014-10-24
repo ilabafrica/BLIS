@@ -92,12 +92,12 @@ Route::filter('admin', function()
 });
 
 /**
-*  A filter that receives a permission ($perms) as the parameter and checks if the user has
-*  the said permissions. 
-*/
+ *  A filter that receives a permission ($perms) as the parameter and checks if the user has
+ *  the said permissions or that the user is accessing only his own profile
+ */
 Route::filter('checkPerms', function($route, $request, $perms)
 {
-    if (! Entrust::can($perms)) {
+    if (! Entrust::can($perms) && Auth::id() != Request::segment(2)) {
        return Redirect::to('home');
     }
 });

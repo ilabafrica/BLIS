@@ -556,6 +556,7 @@ class KBLISSeeder extends DatabaseSeeder
 
             array("name" => "manage_users", "display_name" => "Can manage users"),
             array("name" => "manage_test_catalog", "display_name" => "Can manage test catalog"),
+            array("name" => "manage_lab_configurations", "display_name" => "Can manage lab configurations"),
             array("name" => "view_reports", "display_name" => "Can view reports")
         );
         foreach ($permissions as $permission) {

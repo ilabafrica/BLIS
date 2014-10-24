@@ -49,9 +49,8 @@ Route::group(array("before" => "auth"), function()
         "uses" => "UserController@homeAction"
         ));
 
-    Route::group(array("before" => "checkPerms:manage_users"), function()
-    {
-    	Route::resource('user', 'UserController');
+    Route::group(array("before" => "checkPerms:manage_users"), function() {
+        Route::resource('user', 'UserController');
 
         Route::get("/user/{id}/delete", array(
             "as"   => "user.delete",
@@ -63,6 +62,11 @@ Route::group(array("before" => "auth"), function()
         "as"   => "user.logout",
         "uses" => "UserController@logoutAction"
     ));
+
+    Route::any('/user/{id}/updateown', array(
+        "as" => "user.updateOwnPassword",
+        "uses" => "UserController@updateOwnPassword"
+        ));
 
 	Route::resource('patient', 'PatientController');
 

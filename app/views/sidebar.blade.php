@@ -6,7 +6,7 @@
 		case 'home': $active[0] = "active"; break;
 		case 'patient': $active[1] = "active"; break;
 		case 'test': $active[2] = "active"; break;
-		case 'user': $active[3] = "active"; break;
+		case 'labconfig': $active[3] = "active"; break;
 		case 'testcategory': 
 		case 'testtype': 
 		case 'measure': 
@@ -15,6 +15,7 @@
 		case 'report': $active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
+		case 'user': 
 		case 'role': $active[6] = "active"; break;
 	}
 ?>
@@ -38,20 +39,14 @@
 					<span class="glyphicon glyphicon-filter"></span> Tests</a>
 			</div>
 		</li>
-		@if(Entrust::can('manage_users'))
+		@if(Entrust::can('manage_lab_configurations'))
 		<li>
 			<div class="main-menu {{$active[3]}}">
-				<a href="{{ URL::route("user.index")}}">
+				<a href="javascript:void(0);">
 					<span class="glyphicon glyphicon-wrench"></span> Lab Configuration</a>
 			</div>
 			<div class="sub-menu {{$active[3]}}">
 				<ul class="sub-menu-items">
-					<li>
-						<div>
-							<a href="{{ URL::route("user.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> User Accounts</a>
-						</div>
-					</li>
 					<li>
 						<div>
 							<span class="glyphicon glyphicon-tag"></span>
@@ -148,14 +143,20 @@
 				</ul>
 			</div>
 		</li>
-		@if(Entrust::hasRole(Role::getAdminRole()->name))
 		<li>
 			<div class="main-menu {{$active[6]}}">
-				<a href="{{ URL::route("permission.index")}}">
+				<a href="{{ (Entrust::can('manage_users')) ? URL::route('user.index') : URL::to('user/'.Auth::user()->id.'/edit') }}">
 					<span class="glyphicon glyphicon-cog"></span> Access controls</a>
 			</div>
 			<div class="sub-menu {{$active[6]}}">
 				<ul class="sub-menu-items">
+					<li>
+						<div>
+							<a href="{{ (Entrust::can('manage_users')) ? URL::route('user.index') : URL::to('user/'.Auth::user()->id.'/edit') }}">
+								<span class="glyphicon glyphicon-tag"></span> User Accounts</a>
+						</div>
+					</li>
+					@if(Entrust::hasRole(Role::getAdminRole()->name))
 					<li>
 						<div>
 							<a href="{{ URL::route("permission.index")}}">
@@ -174,9 +175,9 @@
 								<span class="glyphicon glyphicon-tag"></span> Assign Roles</a>
 						</div>
 					</li>
+					@endif
 				</ul>
 			</div>
 		</li>
-		@endif
 	</ul>
 @show
