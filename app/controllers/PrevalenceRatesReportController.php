@@ -48,8 +48,12 @@ class PrevalenceRatesReportController extends \BaseController {
 		$chart = '{
 	       "chart": {
 	        "caption": "Prevalence Rates",
-	        "subcaption": "For the selected period",
-            "xaxisname": "Time",
+	        "subcaption": ';
+	        if($from_date==$to_date)
+	        	$chart.='"For the year '.date('Y').'",';
+	        else
+	        	$chart.='"From '.$from_date.' To '.$to_date.'",';
+            $chart.='"xaxisname": "Time",
             "yaxisname": "Prevalence Rates (In %)",
 	        "linethickness": "1",
 	        "exportEnabled":"1",
