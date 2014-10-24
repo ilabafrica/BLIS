@@ -147,7 +147,7 @@ $(function(){
 	|  - Updates the Specimen status via an AJAX call
 	|  - Changes the UI to show the right status and buttons
 	*/
-	$('.test-create').on( "click", ".accept-specimen", function(e) {
+	$('.tests-log').on( "click", ".accept-specimen", function(e) {
 		var testID = $(this).data('test-id');
 		var specID = $(this).data('specimen-id');
 		var url = $(this).data('url');
@@ -178,7 +178,7 @@ $(function(){
 	|  - Updates the Test status via an AJAX call
 	|  - Changes the UI to show the right status and buttons
 	*/
-	$('.test-create').on( "click", ".start-test", function(e) {
+	$('.tests-log').on( "click", ".start-test", function(e) {
 		var testID = $(this).data('test-id');
 		var url = $(this).data('url');
 		$.post(url, { id: testID}).done(function(){});

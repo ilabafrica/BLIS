@@ -159,7 +159,7 @@ class TestControllerTest extends TestCase
     }
     /*
     * - index
-    *   + Check that returned view has test-create css class defined
+    *   + Check that returned view has tests-log css class defined
     */
     public function testListTests(){
       $url = URL::route('test.index');
@@ -169,7 +169,7 @@ class TestControllerTest extends TestCase
 
       $crawler = $this->client->request('GET', $url);
 
-      $this->assertCount(1, $crawler->filter('div.panel.test-create'));
+      $this->assertCount(1, $crawler->filter('div.panel.tests-log'));
     }
     /*
     * - reject - Attempt to launch rejection form for elligible specimen

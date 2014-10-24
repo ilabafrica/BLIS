@@ -79,6 +79,23 @@ class TestController extends \BaseController {
 	}
 
 	/**
+	 * Recieve a Test from an external system
+	 *
+	 * @param
+	 * @return Response
+	 */
+	public function receive($id)
+	{
+		$test = Test::find($id);
+		$test->test_status_id = Test::PENDING;
+		$test->time_created = date('Y-m-d H:i:s');
+		$test->created_by = Auth::user()->id;
+		$test->save();
+
+		return Redirect::back();
+	}
+
+	/**
 	 * Display a form for creating a new Test.
 	 *
 	 * @return Response
