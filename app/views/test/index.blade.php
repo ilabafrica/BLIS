@@ -21,25 +21,26 @@
                 <label for="testStatus" class="sr-only">testStatus</label>
                 <select class="form-control" id="testStatus" name="testStatusId">
                     <option value="">{{trans('messages.all')}}</option>
-                    <?php foreach ($testStatus as $status) {
-                        echo '<option value="'.$status->id.'"';
-                        echo ( isset($testStatusId) && $status->id == $testStatusId) ? 'selected' : '';
-                        echo '>'.trans("messages.$status->name").'</option>';
-                    }
-                    ?>
+                    @foreach ($testStatus as $status)
+                        {{"<option value=\"".$status->id."\" "}}
+                        {{( isset($testStatusId) && $status->id == $testStatusId) ? 'selected>': '>'}}
+                        {{ trans("messages.$status->name").'</option>'}}
+                    @endforeach
                 </select>
             </div>
 
-            From 
+            {{trans('messages.from')}} 
             <div class="form-group">
-                <label class="sr-only" for="date-from">From</label>
-                <input class="form-control standard-datepicker" name="dateFrom" type="text" value="{{ isset($dateFrom) ? $dateFrom : '' }}" id="date-from">
+                <label class="sr-only" for="date-from">{{trans('messages.from')}}</label>
+                <input class="form-control standard-datepicker" name="dateFrom" type="text" 
+                    value="{{ isset($dateFrom) ? $dateFrom : '' }}" id="date-from">
             </div>
 
-            To 
+            {{trans('messages.to')}} 
             <div class="form-group">
-                <label class="sr-only" for="date-to">To</label>
-                <input class="form-control standard-datepicker" name="dateTo" type="text" value="{{ isset($dateTo) ? $dateTo : '' }}" id="date-to">
+                <label class="sr-only" for="date-to">{{trans('messages.to')}}</label>
+                <input class="form-control standard-datepicker" name="dateTo" type="text" 
+                    value="{{ isset($dateTo) ? $dateTo : '' }}" id="date-to">
             </div>
 
             <div class="form-group">
@@ -53,6 +54,7 @@
         <div class="panel-heading ">
             <span class="glyphicon glyphicon-filter"></span>
             {{trans('messages.list-tests')}}
+            @if(Auth::user()->can('request_test'))
             <div class="panel-btn">
                 <a class="btn btn-sm btn-info" href="javascript:void(0)"
                     data-toggle="modal" data-target="#new-test-modal">
@@ -60,6 +62,7 @@
                     {{trans('messages.new-test')}}
                 </a>
             </div>
+            @endif
         </div>
         <div class="panel-body">
             <table class="table table-striped table-hover table-condensed">
@@ -129,6 +132,7 @@
                             </a>
                             
                         @if ($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
+                            @if(Auth::user()->can('accept_test_specimen'))
                             <a class="btn btn-sm btn-info accept-specimen" href="javascript:void(0)"
                                 data-test-id="{{$test->id}}" data-specimen-id="{{$test->specimen->id}}"
                                 title="{{trans('messages.accept-specimen-title')}}"
@@ -136,7 +140,8 @@
                                 <span class="glyphicon glyphicon-thumbs-up"></span>
                                 {{trans('messages.accept-specimen')}}
                             </a>
-                            @if(count($test->testType->specimenTypes) > 1)
+                            @endif
+                            @if(count($test->testType->specimenTypes) > 1 && Auth::user()->can('change_test_specimen'))
                                 <!-- 
                                     If this test can be done using more than 1 specimen type,
                                     allow the user to change to any of the other eligible ones.
@@ -151,27 +156,32 @@
                             @endif
                         @endif
                         @if ($test->specimen->specimen_status_id == Specimen::ACCEPTED && $test->test_status_id != Test::VERIFIED)
-                            <!-- NOT Rejected AND NOT Verified -->
+                            @if(Auth::user()->can('reject_test_specimen'))
                             <a class="btn btn-sm btn-danger" id="reject-{{$test->id}}-link"
                                 href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"
                                 title="{{trans('messages.reject-title')}}">
                                 <span class="glyphicon glyphicon-thumbs-down"></span>
                                 {{trans('messages.reject')}}
                             </a>
+                            @endif
                             @if ($test->test_status_id == Test::PENDING)
+                                @if(Auth::user()->can('start_test'))
                                 <a class="btn btn-sm btn-warning start-test" href="javascript:void(0)"
                                     data-test-id="{{$test->id}}" data-url="{{ URL::route('test.start') }}"
                                     title="{{trans('messages.start-test-title')}}">
                                     <span class="glyphicon glyphicon-play"></span>
                                     {{trans('messages.start-test')}}
-                                </a>    
+                                </a>
+                                @endif
                             @elseif ($test->test_status_id == Test::STARTED)
+                                @if(Auth::user()->can('enter_test_results'))
                                 <a class="btn btn-sm btn-info" id="enter-results-{{$test->id}}-link"
                                     href="{{ URL::to('test/'.$test->id.'/enterresults') }}"
                                     title="{{trans('messages.enter-results-title')}}">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                     {{trans('messages.enter-results')}}
                                 </a>
+                                @endif
                             @elseif ($test->test_status_id == Test::COMPLETED)
                                 <a class="btn btn-sm btn-success" id="verify-{{$test->id}}-link"
                                     href="{{ URL::to('test/'.$test->id.'/viewdetails') }}"
@@ -179,12 +189,14 @@
                                     <span class="glyphicon glyphicon-thumbs-up"></span>
                                     {{trans('messages.verify')}}
                                 </a>
+                                @if(Auth::user()->can('edit_test_results'))
                                 <a class="btn btn-sm btn-info" id="edit-{{$test->id}}-link"
                                     href="{{ URL::to('test/'.$test->id.'/edit') }}"
                                     title="{{trans('messages.edit-test-results')}}">
                                     <span class="glyphicon glyphicon-edit"></span>
                                     {{trans('messages.edit')}}
                                 </a>
+                                @endif
                             @endif
                         @endif
                         </td>

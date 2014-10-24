@@ -75,15 +75,10 @@ Route::group(array("before" => "auth"), function()
         "uses" => "PatientController@delete"
     ));
 
-    Route::post("/patient/search", function(){
-
-        return Patient::select('id', 'patient_number','name')
-                ->where(function($query){
-                    $txt = Input::get('text');
-                    $query->where("name", "LIKE", "%".$txt."%")
-                        ->orWhere("patient_number", "LIKE", "%".$txt."%");
-                })->get()->toJson();
-    });
+    Route::post("/patient/search", array(
+        "as"   => "patient.search",
+        "uses" => "PatientController@search"
+    ));
 
     Route::group(array("before" => "checkPerms:manage_test_catalog"), function()
     {
@@ -115,54 +110,75 @@ Route::group(array("before" => "auth"), function()
             "uses" => "TestTypeController@delete"
         ));
     });
-    /*Route::resource('test', 'TestController');*/
+
 
     Route::any("/test", array(
         "as"   => "test.index",
         "uses" => "TestController@index"
     ));
 
+    Route::any("/test/create/{patient?}", array(
+        "before" => "checkPerms:request_test",
+        "as"   => "test.create",
+        "uses" => "TestController@create"
+    ));
+
+     Route::post("/test/savenewtest", array(
+        "before" => "checkPerms:request_test",
+        "as"   => "test.saveNewTest",
+        "uses" => "TestController@saveNewTest"
+    ));
+
+     Route::post("/test/acceptspecimen", array(
+        "before" => "checkPerms:accept_test_specimen",
+        "as"   => "test.acceptSpecimen",
+        "uses" => "TestController@accept"
+    ));
+
     Route::get("/test/{id}/reject", array(
+        "before" => "checkPerms:reject_test_specimen",
         "as"   => "test.reject",
         "uses" => "TestController@reject"
     ));
 
     Route::post("/test/rejectaction", array(
+        "before" => "checkPerms:reject_test_specimen",
         "as"   => "test.rejectAction",
         "uses" => "TestController@rejectAction"
     ));
 
-     Route::post("/test/acceptspecimen", array(
-        "as"   => "test.acceptSpecimen",
-        "uses" => "TestController@accept"
-    ));
-
      Route::post("/test/changespecimen", array(
+        "before" => "checkPerms:change_test_specimen",
         "as"   => "test.changeSpecimenType",
         "uses" => "TestController@changeSpecimenType"
     ));
 
      Route::post("/test/updatespecimentype", array(
+        "before" => "checkPerms:change_test_specimen",
         "as"   => "test.updateSpecimenType",
         "uses" => "TestController@updateSpecimenType"
     ));
 
     Route::post("/test/start", array(
+        "before" => "checkPerms:start_test",
         "as"   => "test.start",
         "uses" => "TestController@start"
     ));
 
      Route::get("/test/{test}/enterresults", array(
+        "before" => "checkPerms:enter_test_results",
         "as"   => "test.enterResults",
         "uses" => "TestController@enterResults"
     ));
 
-     Route::post("/test/savenewtest", array(
-        "as"   => "test.saveNewTest",
-        "uses" => "TestController@saveNewTest"
+    Route::get("/test/{test}/edit", array(
+        "before" => "checkPerms:edit_test_results",
+        "as"   => "test.edit",
+        "uses" => "TestController@edit"
     ));
 
      Route::post("/test/{test}/saveresults", array(
+        "before" => "checkPerms:edit_test_results",
         "as"   => "test.saveResults",
         "uses" => "TestController@saveResults"
     ));
@@ -172,19 +188,9 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@viewDetails"
     ));
 
-    Route::get("/test/{test}/edit", array(
-        "as"   => "test.edit",
-        "uses" => "TestController@edit"
-    ));
-
     Route::get("/test/verify", array(
         "as"   => "test.verify",
         "uses" => "TestController@verify"
-    ));
-
-    Route::any("/test/create/{patient?}", array(
-        "as"   => "test.create",
-        "uses" => "TestController@create"
     ));
 
     Route::group(array("before" => "admin"), function()

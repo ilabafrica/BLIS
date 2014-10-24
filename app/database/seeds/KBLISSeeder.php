@@ -419,7 +419,7 @@ class KBLISSeeder extends DatabaseSeeder
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
                         $users[rand(0, count($users)-1)]->id),
-                "interpretation" => "Budda Boss",
+                "interpretation" => "Positive",
                 "test_status_id" => Test::COMPLETED,
                 "created_by" => $users[rand(0, count($users)-1)]->id,
                 "tested_by" => $users[rand(0, count($users)-1)]->id,
@@ -437,7 +437,7 @@ class KBLISSeeder extends DatabaseSeeder
                         Test::VERIFIED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
                         $users[rand(0, count($users)-1)]->id),
-                "interpretation" => "Budda Boss",
+                "interpretation" => "Very high concentration of parasites.",
                 "test_status_id" => Test::VERIFIED,
                 "created_by" => $users[rand(0, count($users)-1)]->id,
                 "tested_by" => $users[rand(0, count($users)-1)]->id,
@@ -512,6 +512,11 @@ class KBLISSeeder extends DatabaseSeeder
                 "result" => "+++",
             ),
             array(
+                "test_id" => $tests_accepted_completed->id,
+                "measure_id" => $measureBSforMPS->id,//BS for MPS
+                "result" => "++",
+            ),
+            array(
                 "test_id" => $test_gxm_accepted_completed->id,
                 "measure_id" => $measureGXM->id,
                 "result" => "COMPATIBLE WITH 061832914 B/G A POS.EXPIRY19/8/14",
@@ -525,6 +530,11 @@ class KBLISSeeder extends DatabaseSeeder
                 "test_id" => $test_hb_accepted_completed->id,
                 "measure_id" => $measureHB->id,
                 "result" => "13.7",
+            ),
+            array(
+                "test_id" => $tests_rejected_completed->id,
+                "measure_id" => $measureBSforMPS->id,//BS for MPS
+                "result" => "No mps seen",
             ),
         );        
         foreach ($testResults as $testResult)
@@ -547,12 +557,19 @@ class KBLISSeeder extends DatabaseSeeder
         $this->command->info('referrals seeded');
         /* Permissions table */
         $permissions = array(
-            array("name" => "manage_patients", "display_name" => "Can add patients"),
-            array("name" => "verify_tests", "display_name" => "Can verify tests"),
-            array("name" => "edit_tests", "display_name" => "Can edit tests"),
-            array("name" => "receive_requests", "display_name" => "Can receive requests"),
             array("name" => "view_names", "display_name" => "Can view patient names"),
+            array("name" => "manage_patients", "display_name" => "Can add patients"),
+
+            array("name" => "receive_external_test", "display_name" => "Can receive test requests"),
+            array("name" => "request_test", "display_name" => "Can request new test"),
+            array("name" => "accept_test_specimen", "display_name" => "Can accept test specimen"),
+            array("name" => "reject_test_specimen", "display_name" => "Can reject test specimen"),
+            array("name" => "change_test_specimen", "display_name" => "Can change test specimen"),
+            array("name" => "start_test", "display_name" => "Can start tests"),
             array("name" => "enter_tests_results", "display_name" => "Can enter tests results"),
+            array("name" => "edit_test_results", "display_name" => "Can edit test results"),
+            array("name" => "verify_test_results", "display_name" => "Can verify test results"),
+            array("name" => "send_results_to_external_system", "display_name" => "Can send test results to external systems"),
 
             array("name" => "manage_users", "display_name" => "Can manage users"),
             array("name" => "manage_test_catalog", "display_name" => "Can manage test catalog"),

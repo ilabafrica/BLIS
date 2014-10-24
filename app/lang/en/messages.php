@@ -170,6 +170,12 @@ return array(
     'visit-type' => 'Visit Type',
 
     /* 
+    |   Tests search panel
+    */
+    'from' => 'From',
+    'to' => 'To',
+
+    /* 
     |   Permissions
     */
     'permission' => 'Permission|Permissions',

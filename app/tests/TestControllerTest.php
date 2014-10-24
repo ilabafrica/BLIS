@@ -345,6 +345,10 @@ class TestControllerTest extends TestCase
           break;
         }
       }
+
+      // Set the current user to admin
+      $this->be(User::first());
+
       $crawler = $this->client->request('GET', $url);
 
       $this->assertCount(1, $crawler->filter('textarea#interpretation'));
