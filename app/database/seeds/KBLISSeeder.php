@@ -561,16 +561,37 @@ extends DatabaseSeeder
         $lab_section_trans = TestCategory::create(array("name" => "BLOOD TRANSFUSION","description" => ""));
         $this->command->info('Lab Sections seeded');
         /* Test Types for prevalence */
-        $test_types_salmonella = TestType::create(array("name" => "Salmonella Antigen Test", "section_id" => "1"));
+        $test_types_salmonella = TestType::create(array("name" => "Salmonella Antigen Test", "section_id" => $test_categories->id));
         $test_types_direct = TestType::create(array("name" => "Direct COOMBS Test", "section_id" => $lab_section_trans->id));
         $test_types_du = TestType::create(array("name" => "DU Test", "section_id" => $lab_section_trans->id));
         $test_types_sickling = TestType::create(array("name" => "Sickling Test", "section_id" => $lab_section_hematology->id));
-        $test_types_borrelia = TestType::create(array("name" => "Borrelia", "section_id" => "1"));
+        $test_types_borrelia = TestType::create(array("name" => "Borrelia", "section_id" => $test_categories->id));
         $test_types_vdrl = TestType::create(array("name" => "VDRL", "section_id" => $lab_section_serology->id));
         $test_types_pregnancy = TestType::create(array("name" => "Pregnancy Test", "section_id" => $lab_section_serology->id));
         $test_types_brucella = TestType::create(array("name" => "Brucella", "section_id" => $lab_section_serology->id));
         $test_types_pylori = TestType::create(array("name" => "H. Pylori", "section_id" => $lab_section_serology->id));
         $this->command->info('Test Types seeded');
+
+        /* Test Types and specimen types relationship for prevalence */
+        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+            array($test_types_salmonella->id, "13"));
+        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+            array($test_types_direct->id, "23"));
+        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+            array($test_types_du->id, "23"));
+         DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+            array($test_types_sickling->id, "23"));
+        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+            array($test_types_borrelia->id, "23"));
+        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+            array($test_types_vdrl->id, "13"));
+         DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+            array($test_types_pregnancy->id, "20"));
+        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+            array($test_types_brucella->id, "13"));
+        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+            array($test_types_pylori->id, "13"));
+        $this->command->info('TestTypes/SpecimenTypes seeded');
         
         /*New measures for prevalence*/
         $measure_salmonella = Measure::create(array("measure_type_id" => "2", "name" => "Salmonella Antigen Test", "measure_range" => "Positive/Negative", "unit" => ""));
