@@ -79,6 +79,15 @@ class Report{
 	}
 	#	End function to get total, positive, negative specimen by test type
 
+	#	Begin function to load months initially
+	public static function loadMonths($year){
+		$months = Test::select(DB::raw('MIN(time_created) as start, MAX(time_created) as end'))
+							->whereRaw('YEAR(time_created) = '.$year)
+							->get();
+		return $months;
+	}
+	#	End function to load months
+
 	#	Begin function to return months for time_created column
 	public static function getMonths($from, $to){
 		$dates = Test::select(DB::raw('DISTINCT MONTH(time_created) as months, LEFT(MONTHNAME(time_created), 3) as label, YEAR(time_created) as annum'));
@@ -93,7 +102,7 @@ class Report{
 	}
 	#	End function to return months for time_created
 	#Begin function to return test_type_id, test_type_name, total specimen tested, positive and negative counts
-	public static function prevalenceCounts($month){
+	public static function prevalenceCounts($from, $to){
 		$data =  Test::select(DB::raw('test_types.id as id, test_types.name as test, count(tests.specimen_id) as total, 
 					SUM(IF(test_results.result=\'Positive\',1,0)) positive, SUM(IF(test_results.result=\'Negative\',1,0)) negative,
 					ROUND( SUM( IF( test_results.result =  \'Positive\', 1, 0 ) ) *100 / COUNT( tests.specimen_id ) , 2 ) AS rate'))
@@ -103,10 +112,8 @@ class Report{
 					->join('test_results', 'tests.id', '=', 'test_results.test_id')
 					->join('measure_types', 'measure_types.id', '=', 'measures.measure_type_id')
 					->where('measures.measure_range', 'LIKE', '%Positive/Negative%')
-					->whereRaw('MONTH(time_created) = '.$month->months)
-					->whereRaw('YEAR(time_created) = '.$month->annum)
-					->where('tests.test_status_id', '=', '4')
-					->orWhere('tests.test_status_id', '=', '5')
+					->whereBetween('time_created', array($from, $to))
+					->whereRaw('(tests.test_status_id = '.Test::COMPLETED.' OR tests.test_status_id = '.Test::VERIFIED.')')
 					->groupBy('test_types.id')
 					->get();
 		return $data;
@@ -124,7 +131,7 @@ class Report{
 					->where('test_types.id', '=', $test_type)
 					->whereRaw('MONTH(time_created) = '.$month->months)
 					->whereRaw('YEAR(time_created) = '.$month->annum)
-					->whereRaw('(tests.test_status_id = 4 OR tests.test_status_id = 5)')
+					->whereRaw('(tests.test_status_id = '.Test::COMPLETED.' OR tests.test_status_id = '.Test::VERIFIED.')')
 					->groupBy('test_types.id')
 					->get();
 		return $data;

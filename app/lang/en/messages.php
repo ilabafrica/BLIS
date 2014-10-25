@@ -206,7 +206,7 @@ return array(
     'total-specimen'  =>  'Total Specimen',
     'positive'  =>  'Positive',
     'negative'  =>  'Negative',
-    'prevalence-rate'  =>  'Prevalence Rate %',
+    'prevalence-rate'  =>  'Cummulative Prevalence Rate %',
      /* 
     |   Tips
     */

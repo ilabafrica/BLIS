@@ -17,20 +17,16 @@
 	</div>
 	<div class="panel-body">
 	<!-- if there are search errors, they will show here -->
-	@if($errors->all())
-		<div class="alert alert-danger">
-			{{ HTML::ul($errors->all()) }}
-		</div>
-	@endif
+	<div class="alert alert-danger" id="error" style="display:none;"></div>
 	<div class="table-responsive">
 		{{ Form::open(array('url' => 'prevalence/filter', 'id' => 'prevalence_rates', 'method' => 'post')) }}
 		  <table class="table">
 		    <thead>
 		    <tr>
 		        <td>{{ Form::label('name', trans("messages.from")) }}</td>
-		        <td>{{ Form::text('from', Input::old('from'), array('class' => 'form-control', 'id' => 'from', 'data-format' => 'YYYY-MM-DD')) }}</td>
+		        <td>{{ Form::text('start', Input::old('start'), array('class' => 'form-control', 'id' => 'start')) }}</td>
 		        <td>{{ Form::label('name', trans("messages.to")) }}</td>
-		        <td>{{ Form::text('to', Input::old('to'), array('class' => 'form-control', 'id' => 'to', 'data-format' => 'YYYY-MM-DD')) }}</td>
+		        <td>{{ Form::text('end', Input::old('end'), array('class' => 'form-control', 'id' => 'end')) }}</td>
 		        <td>{{ Form::button("<span class='glyphicon glyphicon-eye-open'></span> ".trans('messages.toggle-graph'), 
 					        array('class' => 'btn btn-info', 'id' => 'toggle')) }}</td>
 		        <td>{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
@@ -91,8 +87,8 @@
 
 	FusionCharts.ready(function(){
 	  var prevalenceChart = new FusionCharts({id: "prevalences",type: "msline",
-	      width: "98%",
-	      height: "500px",
+	      width: "100%",
+	      height: "100%",
 	      dataFormat: "json",
 	      dataSource: <?php echo PrevalenceRatesReportController::prevalenceRatesChart(); ?>});
 	  prevalenceChart.render("chartContainer");
@@ -113,8 +109,8 @@
     	$('#chartContainer').empty();
     	FusionCharts.ready(function(){
 		  var updatedChart = new FusionCharts({type: "msline",
-	      width: "98%",
-	      height: "500px",
+	      width: "100%",
+	      height: "100%",
 	      dataFormat: "json",
 	      dataSource: data});
 		  updatedChart.render("chart");

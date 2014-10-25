@@ -272,10 +272,10 @@ $(function(){
 	} 	
 	var year = currentDate.getFullYear();
 	/* Begin Datepicker */
-	$('#from').datepicker({ dateFormat: "yy-mm-dd" });
-	$('#to').datepicker({ dateFormat: "yy-mm-dd" });
-	$("#from").val(year + "-" + month + "-" + day);
-	$("#to").val(year + "-" + month + "-" + day);
+	$('#start').datepicker({ dateFormat: "yy-mm-dd" });
+	$('#end').datepicker({ dateFormat: "yy-mm-dd" });
+	$("#start").val(year + "-" + month + "-" + day);
+	$("#end").val(year + "-" + month + "-" + day);
 	/*End Datepicker*/	
 
 	/*Font size - Increase/Decrease*/
@@ -362,47 +362,65 @@ $(function(){
 
 	/*Submit prevalence report filters without page reload*/
 	$('#prevalence_rates').submit(function(event){
-		var from=$('#from').val();
-		var to=$('#to').val();
-        $.ajax({
-            type: 'POST',
-            url: '/prevalence/filter',
-            data: $('form#prevalence_rates').serialize(),
-            dataType: 'json',
-        })
+		var from=$('#start').val();
+		var to=$('#end').val();
+		var today = new Date();
+		var errorDiv = $('#error');
+    	if(from>to){
+    		errorDiv.show();
+    		errorDiv.text('Please check your dates range and try again.');
 
-        .success(function(data) {
-            var tableBody =""; 
-            if(data.length!=0){
+    	}
+    	else if(to>today){
+    		errorDiv.show();
+    		errorDiv.text('Please check your dates range and try again.');
+    	}
+    	else if(from>today){
+    		errorDiv.show();
+    		errorDiv.text('Please check your dates range and try again.');
+    	}
+    	else{
+	        $.ajax({
+	            type: 'POST',
+	            url: '/prevalence/filter',
+	            data: $('form#prevalence_rates').serialize(),
+	            dataType: 'json',
+	        })
 
-            	try {
-			    	$('#chartContainer').hide();
-			    	changeData(data.chart);
+	        .success(function(data) {
+	    		errorDiv.hide();
+	            var tableBody =""; 
+	            if(data.length!=0){
 
-			    } catch (e) {
-			        window.console.warn("Wrong format JSON data received");
-			        window.console.warn(data.chart);
-			    }
-            	
-				$.each(data.values, function(index, elem){
-					tableBody += "<tr>"
-					+" <td>"+elem.test+" </td>"
-					+" <td>"+elem.total+"</td>"
-					+" <td>"+elem.positive+"</td>"
-					+" <td>"+elem.negative+"</td>"
-					+" <td>"+elem.rate+"</td>"
-					+"</tr>";
-				});
-        	}
-        	else{
-        		tableBody += "<tr>"
-					+" <td colspan='5'>No records found for that time range.</td>"
-					+"</tr>";
-        	}
-        	$(".data").remove();
-            $("#tableBody").append(tableBody);
-            
-        });
+	            	try {
+				    	$('#chartContainer').hide();
+				    	changeData(data.chart);
+
+				    } catch (e) {
+				        window.console.warn("Wrong format JSON data received");
+				        window.console.warn(data.chart);
+				    }
+	            	
+					$.each(data.values, function(index, elem){
+						tableBody += "<tr>"
+						+" <td>"+elem.test+" </td>"
+						+" <td>"+elem.total+"</td>"
+						+" <td>"+elem.positive+"</td>"
+						+" <td>"+elem.negative+"</td>"
+						+" <td>"+elem.rate+"</td>"
+						+"</tr>";
+					});
+	        	}
+	        	else{
+	        		tableBody += "<tr>"
+						+" <td colspan='5'>No records found for that time range.</td>"
+						+"</tr>";
+	        	}
+	        	$(".data").remove();
+	            $("#tableBody").append(tableBody);
+	            
+	        });
+	    }
 
         event.preventDefault();
     });

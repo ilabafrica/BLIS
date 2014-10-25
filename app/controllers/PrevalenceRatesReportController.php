@@ -17,8 +17,10 @@ class PrevalenceRatesReportController extends \BaseController {
 	 */
 	public function index()
 	{
-		foreach ($this->months as $month) {
-			$data = Report::prevalenceCounts($month);
+		$year = date('Y');
+		$periods = Report::loadMonths($year);
+		foreach ($periods as $period) {
+			$data = Report::prevalenceCounts($period->start, $period->end);
 		}
 		return View::make('reports.prevalence.index')
 					->with('data', $data);
@@ -140,11 +142,9 @@ class PrevalenceRatesReportController extends \BaseController {
 	{
 		$from_date = Input::get('from');
 		$to_date = Input::get('to');
+		
 		$months = Report::getMonths($from_date, $to_date);
-		$data = '';
-		foreach ($months as $month) {
-			$data = Report::prevalenceCounts($month);
-		}
+		$data = Report::prevalenceCounts($from_date, $to_date);
 		$chart = self::prevalenceRatesChart();
 		return Response::json(array('values'=>$data, 'chart'=>$chart));
 		//array('values'=>$data, 'chart'=>$chart)
