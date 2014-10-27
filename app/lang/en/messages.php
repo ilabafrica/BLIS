@@ -230,7 +230,17 @@ return array(
     /* 
     |   Measures
     */
+    'add-range' => 'Add Range',
+    'create-measure' => 'Create Measure',
+    'edit-measure' => 'Edit Measure',
+    'edit-measure-details' => 'Edit Measure Details',
     'measure' => 'Measure|Measures',
+    'measure-range' => 'Measure Range',
+    'measure-type' => 'Measure Type',
+    'new-measure' => 'New Measure',
+    'range-values' => 'Range Values',
+    'unit' => 'Unit',
+    'update-measure' => 'Update Measure',
 
     /* 
     |   Configurations
