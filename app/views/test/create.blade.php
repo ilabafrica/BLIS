@@ -5,7 +5,7 @@
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
 		  <li>
-		  	<a href="{{ URL::route('test.index') }}">{{trans('messages.tests')}}</a>
+		  	<a href="{{ URL::route('test.index') }}">{{Lang::choice('messages.test',2)}}</a>
 		  </li>
 		  <li class="active">{{trans('messages.new-test')}}</li>
 		</ol>
@@ -43,7 +43,7 @@
 								</div>
 								<div class="panel-body inline-display-details">
 									<span><strong>{{trans("messages.patient-number")}}</strong> {{ $patient->patient_number }}</span>
-									<span><strong>{{trans("messages.name")}}</strong> {{ $patient->name }}</span>
+									<span><strong>{{Lang::choice('messages.name',1)}}</strong> {{ $patient->name }}</span>
 									<span><strong>{{trans("messages.age")}}</strong> {{ $patient->getAge() }}</span>
 									<span><strong>{{trans("messages.gender")}}</strong>
 										{{ $patient->gender==0?trans("messages.male"):trans("messages.female") }}</span>

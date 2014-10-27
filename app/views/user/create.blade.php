@@ -2,15 +2,15 @@
 @section("content")
 	<div>
 		<ol class="breadcrumb">
-		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
-		  <li><a href="{{ URL::route('user.index') }})">User</a></li>
-		  <li class="active">Create User</li>
+		  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
+		  <li><a href="{{ URL::route('user.index') }}">{{ Lang::choice('messages.user', 1) }}</a></li>
+		  <li class="active">{{ trans('messages.create-user') }}</li>
 		</ol>
 	</div>
 	<div class="panel panel-primary">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-user"></span>
-			Create User
+			{{ trans('messages.create-user') }}
 		</div>
 		<div class="panel-body">
 		<!-- if there are creation errors, they will show here -->
@@ -24,36 +24,40 @@
 			{{ Form::open(array('url' => 'user', 'id' => 'form-create-user', 'files' => true)) }}
 
 				<div class="form-group">
-					{{ Form::label('username', 'Username') }}
-					{{ Form::text('username', Input::old('username'), ["placeholder" => "jsiku", 'class' => 'form-control']) }}
+					{{ Form::label('username', trans('messages.username')) }}
+					{{ Form::text('username', Input::old('username'), ["placeholder" => "jsiku",
+						'class' => 'form-control']) }}
 				</div>
 				<div class="form-group">
-					{{ Form::label('password', 'Password') }}
+					{{ Form::label('password', Lang::choice('messages.password',1)) }}
 					{{ Form::password('password', ['class' => 'form-control']) }}
 				</div>
 				<div class="form-group">
-					{{ Form::label('name', 'Full Name') }}
-					{{ Form::text('name', Input::old('name'), ["placeholder" => "Jay Siku", 'class' => 'form-control']) }}
+					{{ Form::label('name', trans('messages.full-name')) }}
+					{{ Form::text('name', Input::old('name'), ["placeholder" => "Jay Siku", 
+						'class' => 'form-control']) }}
 				</div>
 				<div class="form-group">
-					{{ Form::label('email', 'Email Address') }}
-					{{ Form::email('email', Input::old('email'), ["placeholder" => "j.siku@ilabafrica.ac.ke", 'class' => 'form-control']) }}
+					{{ Form::label('email', trans('messages.email-address')) }}
+					{{ Form::email('email', Input::old('email'), ["placeholder" => "j.siku@ilabafrica.ac.ke", 
+						'class' => 'form-control']) }}
 				</div>
 				<div class="form-group">
-					{{ Form::label('designation', 'Designation') }}
-					{{ Form::text('designation', Input::old('designation'), ["placeholder" => "Lab Technologist", 'class' => 'form-control']) }}
+					{{ Form::label('designation', trans('messages.designation')) }}
+					{{ Form::text('designation', Input::old('designation'), ["placeholder" => "Lab Technologist", 
+						'class' => 'form-control']) }}
 				</div>
                 <div class="form-group">
-                    {{ Form::label('gender', 'Gender: ') }}
+                    {{ Form::label('gender', trans('messages.gender')) }}
                     <div>{{ Form::radio('gender', '0', true) }}<span class='input-tag'>Male</span></div>
                     <div>{{ Form::radio("gender", '1', false) }}<span class='input-tag'>Female</span></div>
                 </div>
                 <div class="form-group">
-                	{{ Form::label('image', 'Photo: ') }}
+                	{{ Form::label('image', trans('messages.photo')) }}
                     {{ Form::file("image") }}
                 </div>
 				<div class="form-group actions-row">
-					{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', 
+					{{ Form::button('<span class="glyphicon glyphicon-save"></span> '.trans('messages.home'), 
 						['class' => 'btn btn-primary', 'onclick' => 'submit()']
 					) }}
 				</div>

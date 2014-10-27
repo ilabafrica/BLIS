@@ -23,18 +23,16 @@ return array(
     'home' => 'Home',
     'image-alternative' => 'No photo available',
     'login' => 'Login',
-    'name' => 'Name',
-    'names' => 'Names',
+    'logout' => 'Logout',
+    'name' => 'Name|Names',
     'next' => 'Next',
-    'password' => 'Password',
-    'passwords' => 'Passwords',
+    'password' => 'Password|Passwords',
     'photo' => 'Photo',
-    'role' => 'Role',
-    'roles' => 'Roles',
+    'role' => 'Role|Roles',
+    'roles' => '',
     'save' => 'Save',
     'update' => 'Update',
-    'user' => 'User',
-    'users' => 'Users',
+    'user' => 'User|Users',
     'username' => 'Username',
     'view' => 'View',
     /* 
@@ -46,6 +44,7 @@ return array(
     /* 
     |   User
     */
+    'create-user' => 'Create User',
     'change-password' => 'Change Password',
     'current-password' => 'Current Password',
     'designation' => 'Designation',
@@ -58,6 +57,7 @@ return array(
     'password-mismatch' => 'Passwords do not match',
     're-enter-password' => 'Re-enter Password',
     'reset-password' => 'Reset Password',
+    'user-details' => 'User Details',
     'user-profile-edit-success' => 'The user details were successfully updated!',
     /* 
     |   Patient
@@ -72,13 +72,14 @@ return array(
     'list-patients' => 'List Patients',
     'male' => 'Male',
     'new-patient' => 'New Patient',
-    'patient' => 'Patient',
+    'patient' => 'Patient|Patients',
     'patient-details' => 'Patient Details',
     'patient-id' => 'ID',
     'patient-search-button' => 'Go!',
     'patient-number' => 'Patient Number',
     'phone-number' => 'Phone Number',
     'physical-address' => 'Physical Address',
+
     /* 
     |   Specimen
     */
@@ -101,10 +102,11 @@ return array(
     'specimen-rejected' => 'Rejected',
     'specimen-rejected-label' => 'Specimen Rejected',
     'specimen-status' => 'Status',
-    'specimen-type' => 'Type',
+    'specimen-type' => 'Type|Specimen Types',
     'specimen-type-title' => 'Specimen Type',
     'success-rejecting-specimen' => 'The specimen was rejected!',
     'update' => 'Update',
+
     /* 
     |   Test Categories
     */
@@ -114,8 +116,24 @@ return array(
     'success-creating-test-category' => 'Successfully created Lab Section.',
     'success-deleting-test-category' => 'Successfully deleted the Lab Section.',
     'success-updating-test-category' => 'The lab section was successfully updated!',
-    'test-category' => 'Lab Section',
+    'test-category' => 'Lab Section|Lab Sections',
     'test-category-details' => 'Lab Section Details',
+
+    /* 
+    |   Test Types
+    */
+    'compatible-specimen' => 'Compatible Specimen',
+    'create-test-type' => 'Create Test Type',
+    'edit-test-type' => 'Edit Test Type',
+    'list-test-types' => 'List Test Types',
+    'new-test-type' => 'New Test Type',
+    'prevalence-threshold' => 'Prevalence Threshold',
+    'select-measures' => 'Select Measures',
+    'select-specimen-types' => 'Select Specimen Types',
+    'target-turnaround-time' => 'Target Turnaround Time',
+    'test-type' => 'Test Type|Test Types',
+    'test-type-details' => 'Test Type Details',
+
     /* 
     |   Tests
     */
@@ -148,15 +166,14 @@ return array(
     'start-test-title' => 'Start Test',
     'started' => 'Test Started',
     'success-creating-test' => 'Successfully created test!',
-    'test' => 'Test',
+    'test' => 'Test|Tests',
+    'test-catalog' => 'Test Catalog',
     'test-details' => 'Test Details',
     'test-phase' => 'Test Phase',
     'test-remarks' => 'Remarks',
     'test-results' => 'Results',
     'test-status' => 'Test Status',
-    'test-type' => 'Test Type',
     'tested-by' => 'Performed By',
-    'tests' => 'Tests',
     'turnaround-time' => 'Turnaround Time',
     'unknown' => 'Unknown',
     'update-test-results' => 'Update Test Results',
@@ -177,14 +194,49 @@ return array(
     'to' => 'To',
 
     /* 
-    |   Permissions
+    |   Access Controls
     */
-    'permission' => 'Permission|Permissions',
-    'no-permissions-found' => 'No permissions found',
-    'no-users-found' => 'No Users found',
-    'no-roles-found' => 'No roles found',
-    'new-role' => 'New Role',
     'access-controls' => 'Access Controls',
+    'assign-roles' => 'Assign Roles',
     'assign-roles-to-users' => 'Assign roles to Users',
-    'edit-role' => 'Edit Role'
+    'edit-role' => 'Edit Role',
+    'new-role' => 'New Role',
+    'no-permissions-found' => 'No permissions found',
+    'no-roles-found' => 'No roles found',
+    'no-users-found' => 'No Users found',
+    'permission' => 'Permission|Permissions',
+    'user-accounts' => 'User Accounts',
+
+    /* 
+    |   Reports
+    */
+    'aggregate-reports' => 'Aggregate Reports',
+    'counts' => 'Counts',
+    'daily-log' => 'Daily Log',
+    'daily-reports' => 'Daily Reports',
+    'infection-report' => 'Infection Report',
+    'patient-report' => 'Patient Report',
+    'prevalence-rates' => 'Prevalence Rates',
+    'report' => 'Report|Reports',
+
+    /* 
+    |   Measures
+    */
+    'measure' => 'Measure|Measures',
+
+    /* 
+    |   Configurations
+    */
+    'lab-configuration' => 'Lab Configuration',
+
+    /* 
+    |   Dates
+    */
+    'year' => 'Year|Years',
+    'week' => 'Week|Weeks',
+    'day' => 'Day|Days',
+    'hour' => 'Hour|Hours',
+    'minute' => 'Minute|Minutes',
+    'second' => 'Second|Seconds',
+
 );

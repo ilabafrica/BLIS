@@ -2,15 +2,15 @@
 @section("content")
 <div>
 	<ol class="breadcrumb">
-	  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
-	  <li><a href="{{ URL::route('testtype.index') }}">Test Type</a></li>
-	  <li class="active">Edit Test Type</li>
+	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
+	  <li><a href="{{ URL::route('testtype.index') }}">{{Lang::choice('messages.test-type',1)}}</a></li>
+	  <li class="active">{{trans('messages.edit-test-type')}}</li>
 	</ol>
 </div>
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-edit"></span>
-		Edit Test Type
+		{{trans('messages.edit-test-type')}}
 	</div>
 	{{ Form::model($testtype, array(
 			'route' => array('testtype.update', $testtype->id), 'method' => 'PUT',
@@ -24,21 +24,21 @@
 			@endif
 
 			<div class="form-group">
-				{{ Form::label('name', 'Name') }}
+				{{ Form::label('name', Lang::choice('messages.name',1)) }}
 				{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('description', 'Description') }}
+				{{ Form::label('description', trans('messages.description')) }}
 				{{ Form::textarea('description', Input::old('description'), 
 					array('class' => 'form-control', 'rows' => '2' )) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('section_id', 'Section') }}
+				{{ Form::label('section_id', Lang::choice('messages.test-category',1)) }}
 				{{ Form::select('section_id', $labsections->lists('name', 'id'), Input::old('section_id'), 
 					array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('specimen_types', 'Select Specimen Types') }}
+				{{ Form::label('specimen_types', trans('messages.select-specimen-types')) }}
 				<div class="form-pane panel panel-default">
 					<div class="container-fluid">
 						<?php 
@@ -64,7 +64,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				{{ Form::label('measures', 'Select Measures') }}
+				{{ Form::label('measures', trans('messages.select-measures')) }}
 				<div class="form-pane panel panel-default">
 					<div class="container-fluid">
 						<?php 
@@ -90,21 +90,21 @@
 				</div>
 			</div>
 			<div class="form-group">
-				{{ Form::label('targetTAT', 'Target Turnaround Time') }}
+				{{ Form::label('targetTAT', trans('messages.target-turnaround-time')) }}
 				{{ Form::text('targetTAT', Input::old('targetTAT'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('prevalence_threshold', 'Prevalence Threshold') }}
+				{{ Form::label('prevalence_threshold', trans('messages.prevalence-threshold')) }}
 				{{ Form::text('prevalence_threshold', Input::old('prevalence_threshold'), 
 					array('class' => 'form-control')) }}
 			</div>
 		</div>
 		<div class="panel-footer">
 			<div class="form-group actions-row">
-				{{ Form::button('<span class="glyphicon glyphicon-save"></span> Save', 
+				{{ Form::button('<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'), 
 					['class' => 'btn btn-primary', 'onclick' => 'submit()']
 				) }}
-				{{ Form::button('Cancel', 
+				{{ Form::button(trans('messages.cancel'), 
 					['class' => 'btn btn-default', 'onclick' => 'javascript:history.go(-1)']
 				) }}
 			</div>
