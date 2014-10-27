@@ -117,6 +117,12 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@index"
     ));
 
+     Route::any("/test/{id}/receive", array(
+        "before" => "checkPerms:receive_external_test",
+        "as"   => "test.receive",
+        "uses" => "TestController@receive"
+    ));
+
     Route::any("/test/create/{patient?}", array(
         "before" => "checkPerms:request_test",
         "as"   => "test.create",

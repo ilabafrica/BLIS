@@ -138,6 +138,8 @@ return array(
     'patient-name' => 'Patient',
     'pending' => 'Test Pending',
     'physician' => 'Requesting Physician',
+    'receive-test' => 'Receive',
+    'receive-test-title' => 'Receive Test',
     'registered-by' => 'Registered By',
     'save-test' => 'Save Test Request',
     'save-test-results' => 'Save Results',

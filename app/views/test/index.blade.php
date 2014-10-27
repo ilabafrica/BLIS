@@ -50,7 +50,7 @@
 
     <br>
 
-    <div class="panel panel-primary test-create">
+    <div class="panel panel-primary tests-log">
         <div class="panel-heading ">
             <div class="container-fluid">
                 <div class="row less-gutter">
@@ -120,7 +120,7 @@
                                     <div class="col-md-12">
                                         <!-- Specimen statuses -->
                                         @if($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
-                                            <span class='label label-info'>
+                                            <span class='label label-default'>
                                                 {{trans('messages.specimen-not-collected-label')}}</span>
                                         @elseif($test->specimen->specimen_status_id == Specimen::ACCEPTED)
                                             <span class='label label-success'>
@@ -141,7 +141,16 @@
                                 {{trans('messages.view-details')}}
                             </a>
                             
-                        @if ($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
+                        @if ($test->test_status_id == Test::NOT_RECEIVED) 
+                            @if(Auth::user()->can('receive_external_test'))
+                            <a class="btn btn-sm btn-default receive-test"
+                                href="{{URL::route('test.receive', array($test->id))}}"
+                                title="{{trans('messages.receive-test-title')}}">
+                                <span class="glyphicon glyphicon-thumbs-up"></span>
+                                {{trans('messages.receive-test')}}
+                            </a>
+                            @endif
+                        @elseif ($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
                             @if(Auth::user()->can('accept_test_specimen'))
                             <a class="btn btn-sm btn-info accept-specimen" href="javascript:void(0)"
                                 data-test-id="{{$test->id}}" data-specimen-id="{{$test->specimen->id}}"

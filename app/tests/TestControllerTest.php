@@ -159,7 +159,7 @@ class TestControllerTest extends TestCase
     }
     /*
     * - index
-    *   + Check that returned view has test-create css class defined
+    *   + Check that returned view has tests-log css class defined
     */
     public function testListTests(){
       $url = URL::route('test.index');
@@ -169,7 +169,7 @@ class TestControllerTest extends TestCase
 
       $crawler = $this->client->request('GET', $url);
 
-      $this->assertCount(1, $crawler->filter('div.panel.test-create'));
+      $this->assertCount(1, $crawler->filter('div.panel.tests-log'));
     }
     /*
     * - reject - Attempt to launch rejection form for elligible specimen
@@ -259,6 +259,31 @@ class TestControllerTest extends TestCase
         // Submit the form
         $crawler = $this->client->submit($form);
         $this->assertRedirectedToRoute('test.reject', array($specimenID));
+
+        $this->flushSession();
+      }
+    }
+    /*
+    * - receive: For all tests whose test_status is NOT_RECEIVED, attempt to RECEIVE
+    *   + Required input: id (test_id)
+    *   + Check that the new status of the test is PENDING
+    */
+    public function testReceiveTest(){
+      $testIDs = Test::where('test_status_id','==', Test::NOT_RECEIVED);
+      if(count($testIDs) == 0){
+        $this->assertTrue(false);//Seed data lacking
+      }
+
+      // Set the current user to admin
+      $this->be(User::first());
+
+      foreach ($testIDs as $id) {
+
+        $url = URL::route('test.receive', array($id));
+
+        $crawler = $this->client->request('GET', $url);
+
+        $this->assertTrue(Test::find($id)->test_status_id == Test::PENDING);
 
         $this->flushSession();
       }
