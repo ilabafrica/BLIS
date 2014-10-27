@@ -35,7 +35,8 @@
                     <td>{{ $role->name }}</td>
                     <td>{{ $role->description }}</td>
                     <td>
-                        <a class="btn btn-sm btn-info {{($role == Role::getAdminRole()) ? 'disabled': ''}}" href="{{ URL::to("role/" . $role->id . "/edit") }}" >
+                        <a class="btn btn-sm btn-info {{($role == Role::getAdminRole()) ? 'disabled': ''}}" 
+                            href="{{ URL::to("role/" . $role->id . "/edit") }}" >
                             <span class="glyphicon glyphicon-edit"></span>
                             {{ trans('messages.edit') }}
                         </a>

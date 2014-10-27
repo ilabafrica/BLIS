@@ -63,8 +63,11 @@ return array(
     |   Patient
     */
     'age' => 'Age',
+    'create-patient' => 'Create Patient',
     'date-created' => 'Registration Date',
     'date-of-birth' => 'Date of Birth',
+    'edit-patient' => 'Edit Patient',
+    'edit-patient-details' => 'Edit Patient Details',
     'email-address' => 'Email Address',
     'external-patient-number' => 'External Patient Number',
     'female' => 'Female',
