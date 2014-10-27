@@ -2,14 +2,6 @@
 
 class PrevalenceRatesReportController extends \BaseController {
 
-	#Get months
-	function __construct()
-	{
-		$from_date = Input::get('from');
-		$to_date = Input::get('to');
-		$this->months = Report::getMonths($from_date, $to_date);
-	}
-	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -38,9 +30,9 @@ class PrevalenceRatesReportController extends \BaseController {
 	}
 
 	public static function prevalenceRatesChart(){
-		$from_date = Input::get('from');
-		$to_date = Input::get('to');
-		$months = Report::getMonths($from_date, $to_date);
+		$from = Input::get('start');
+		$to = Input::get('end');
+		$months = Report::getMonths($from, $to);
 		$test_types = TestType::select('test_types.id', 'test_types.name')
 							->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
             				->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
@@ -51,10 +43,10 @@ class PrevalenceRatesReportController extends \BaseController {
 	       "chart": {
 	        "caption": "Prevalence Rates",
 	        "subcaption": ';
-	        if($from_date==$to_date)
+	        if($from==$to)
 	        	$chart.='"For the year '.date('Y').'",';
 	        else
-	        	$chart.='"From '.$from_date.' To '.$to_date.'",';
+	        	$chart.='"From '.$from.' To '.$to.'",';
             $chart.='"xaxisname": "Time",
             "yaxisname": "Prevalence Rates (In %)",
 	        "linethickness": "1",
@@ -140,11 +132,11 @@ class PrevalenceRatesReportController extends \BaseController {
 	 */
 	public static function filterByDate()
 	{
-		$from_date = Input::get('from');
-		$to_date = Input::get('to');
+		$from = Input::get('start');
+		$to = Input::get('end');
 		
-		$months = Report::getMonths($from_date, $to_date);
-		$data = Report::prevalenceCounts($from_date, $to_date);
+		$months = Report::getMonths($from, $to);
+		$data = Report::prevalenceCounts($from, $to);
 		$chart = self::prevalenceRatesChart();
 		return Response::json(array('values'=>$data, 'chart'=>$chart));
 		//array('values'=>$data, 'chart'=>$chart)

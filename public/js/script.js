@@ -362,22 +362,17 @@ $(function(){
 
 	/*Submit prevalence report filters without page reload*/
 	$('#prevalence_rates').submit(function(event){
-		var from=$('#start').val();
-		var to=$('#end').val();
+		var from=new Date($('#start').val());
+		var to=new Date($('#end').val());
 		var today = new Date();
+		
+		console.log("todate "+to);
+		console.log("today date "+today);
 		var errorDiv = $('#error');
-    	if(from>to){
+    	if(from>today||from>to||to>today){
     		errorDiv.show();
     		errorDiv.text('Please check your dates range and try again.');
 
-    	}
-    	else if(to>today){
-    		errorDiv.show();
-    		errorDiv.text('Please check your dates range and try again.');
-    	}
-    	else if(from>today){
-    		errorDiv.show();
-    		errorDiv.text('Please check your dates range and try again.');
     	}
     	else{
 	        $.ajax({
@@ -389,7 +384,7 @@ $(function(){
 
 	        .success(function(data) {
 	    		errorDiv.hide();
-	            var tableBody =""; 
+	            var tableBody ="<tbody class='data'>"; 
 	            if(data.length!=0){
 
 	            	try {
@@ -410,14 +405,14 @@ $(function(){
 						+" <td>"+elem.rate+"</td>"
 						+"</tr>";
 					});
+					tableBody+="</tbody>"
 	        	}
 	        	else{
 	        		tableBody += "<tr>"
 						+" <td colspan='5'>No records found for that time range.</td>"
 						+"</tr>";
 	        	}
-	        	$(".data").remove();
-	            $("#tableBody").append(tableBody);
+	        	$(".data").replaceWith(tableBody);
 	            
 	        });
 	    }

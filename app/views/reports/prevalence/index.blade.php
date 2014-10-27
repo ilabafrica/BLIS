@@ -44,8 +44,8 @@
 		  <div id="chart"></div>
 		  <div id="grid">
 		  	<div class="table-responsive">
-			  <table class="table table-striped">
-			    <tbody id="tableBody">
+			  <table class="table table-striped" id="rates">
+			    <thead>
 				    <tr>
 				    	<th>{{trans('messages.test-type')}}</th>
 				    	<th>{{trans('messages.total-specimen')}}</th>
@@ -53,8 +53,10 @@
 				    	<th>{{trans('messages.negative')}}</th>
 				    	<th>{{trans('messages.prevalence-rate')}}</th>
 				    </tr>
+				</thead>
+				<tbody  class="data">
 				    @forelse($data as $datum)
-				    <tr class="data">
+				    <tr>
 				    	<td>{{$datum->test}}</td>
 		  				<td>{{$datum->total}}</td>
 		  				<td>{{$datum->positive}}</td>

@@ -107,7 +107,6 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		// providers array:
-	    'Chumper\Datatable\DatatableServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
 		'Thujohn\Pdf\PdfServiceProvider',
 
@@ -177,7 +176,6 @@ return array(
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
 		'SoftDeletingTrait'     => 'Illuminate\Database\Eloquent\SoftDeletingTrait',
-		'Datatable' => 'Chumper\Datatable\Facades\DatatableFacade',
 		'Entrust'         => 'Zizaco\Entrust\EntrustFacade',
 		'PDF' => 'Thujohn\Pdf\PdfFacade',
 	),
