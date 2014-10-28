@@ -13,9 +13,17 @@ class SanitasInterfacer implements InterfacerInterface{
     /**
     * Sends results back to the originating system
     */
-    public function send($message)
+    public function send($testId)
     {
-        //Sends results or any other flag back to where they came from
+        //Get the test and results and the measures
+        $testResults = Test::find($testId)->testResults();
+
+        //Get external requests and all its children
+        
+        //Match the two things
+        //MeasureID -> labNo
+        //Create JSON string 
+        //Send back
     }
 
     /**
@@ -26,9 +34,6 @@ class SanitasInterfacer implements InterfacerInterface{
      */
     public function process($labRequest)
     {
-        //Check if it is a payment request. Similar request but receiptnumber not null
-        //Test if on duplicate key works with save natively
-
         //First: Check if patient exists, if true dont save again
         $patient = Patient::where('patient_number', '=', $labRequest['patient']['id'])->first();
         
@@ -46,8 +51,13 @@ class SanitasInterfacer implements InterfacerInterface{
         }
 
         //We check if the test exists in our system if not we just save the request in stagingTable
-        $testType = new TestType();
-        $testTypeId = $testType->getTestTypeIdByTestName($labRequest['investigation']);
+        if($labRequest['parentLabNo'] == '0')
+        {
+            $testTypeId = TestType::getTestTypeIdByTestName($labRequest['investigation']);
+        }
+        else {
+            $testTypeId = null;
+        }
 
         if(is_null($testTypeId) && $labRequest['parentLabNo'] == '0')
         {

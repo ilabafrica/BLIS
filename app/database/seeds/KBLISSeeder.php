@@ -377,8 +377,8 @@ class KBLISSeeder extends DatabaseSeeder
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT12M8S'))->format('Y-m-d H:i:s'),
             )
-        );        
-        
+        );
+
         $test_hb_accepted_completed = Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
@@ -396,7 +396,7 @@ class KBLISSeeder extends DatabaseSeeder
                 "time_completed" => $now->add(new DateInterval('PT5M23S'))->format('Y-m-d H:i:s'),
             )
         );
-        
+
         $tests_accepted_started = Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
@@ -481,7 +481,7 @@ class KBLISSeeder extends DatabaseSeeder
                 "requested_by" => "Bony Em",
                 "time_started" => $now->format('Y-m-d H:i:s'),
             )
-        );        
+        );
         
         $tests_rejected_completed = Test::create(
             array(
@@ -501,7 +501,27 @@ class KBLISSeeder extends DatabaseSeeder
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT30M4S'))->format('Y-m-d H:i:s'),
             )
-        );        
+        );
+
+        $test_urinalysis_accepted_completed = Test::create(
+            array(
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
+                "test_type_id" => $test_type_urinalysis->id,
+                "specimen_id" => $this->createSpecimen(
+                        Test::COMPLETED, Specimen::ACCEPTED, 
+                        SpecimenType::all()->last()->id, 
+                        $users[rand(0, count($users)-1)]->id),
+                "interpretation" => "Whats this !!!! ###%%% ^ *() /",
+                "test_status_id" => Test::COMPLETED,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "tested_by" => $users[rand(0, count($users)-1)]->id,
+                "requested_by" => "Dr. Abou Meyang",
+                "time_started" => $now->format('Y-m-d H:i:s'),
+                "time_completed" => $now->add(new DateInterval('PT12M8S'))->format('Y-m-d H:i:s'),
+                "external_id" => 596699,
+            )
+        );
+
         $this->command->info('tests seeded');
 
         /* Test Results table */
@@ -536,7 +556,98 @@ class KBLISSeeder extends DatabaseSeeder
                 "measure_id" => $measureBSforMPS->id,//BS for MPS
                 "result" => "No mps seen",
             ),
-        );        
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis1->id,//BS for MPS
+                "result" => "50",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis2->id,//BS for MPS
+                "result" => "1050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis3->id,//BS for MPS
+                "result" => "2050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis4->id,//BS for MPS
+                "result" => "3050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis5->id,//BS for MPS
+                "result" => "4050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis6->id,//BS for MPS
+                "result" => "5050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis7->id,//BS for MPS
+                "result" => "6050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis8->id,//BS for MPS
+                "result" => "7050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis9->id,//BS for MPS
+                "result" => "8050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis10->id,//BS for MPS
+                "result" => "9050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis11->id,//BS for MPS
+                "result" => "10050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis12->id,//BS for MPS
+                "result" => "11050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis13->id,//BS for MPS
+                "result" => "12050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis14->id,//BS for MPS
+                "result" => "130.50",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis15->id,//BS for MPS
+                "result" => "14.50",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis16->id,//BS for MPS
+                "result" => "15050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis17->id,//BS for MPS
+                "result" => "16050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis18->id,//BS for MPS
+                "result" => "17050",
+            ),
+
+        );
         foreach ($testResults as $testResult)
         {
             TestResult::create($testResult);
