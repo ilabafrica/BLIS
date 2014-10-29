@@ -36,7 +36,6 @@ class ExternalDump extends Eloquent {
             return null;
         }
         $externalLabRequestTree = new Collection();
-        $externalLabRequestTree->push($labRequestParent);
         $externalLabRequestTree = $this->getLabRequestChildrenRecursive($labNo, $externalLabRequestTree);
 
         return $externalLabRequestTree;

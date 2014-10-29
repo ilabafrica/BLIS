@@ -15,14 +15,33 @@ class SanitasInterfacer implements InterfacerInterface{
     */
     public function send($testId)
     {
-        //Get the test and results and the measures
-        $testResults = Test::find($testId)->testResults();
+
+        //Match the results by measure name
+        //Validate
+        //HTTP send(json) laravel may have this functionality
+        //Put jsonResponseString in array then loop through the array sending each string individually
+
+        //Get the test and results 
+        $test = Test::find($testId);
+        $testResults = $test->testResults;
+        $externalDump = new ExternalDump();
+
+        //Measures
+        $testTypeId = $test->testType()->get()->lists('id')[0];
+        $testType = TestType::find($testTypeId);
+        $measures = $testType->measures;
 
         //Get external requests and all its children
-        
-        //Match the two things
-        //MeasureID -> labNo
-        //Create JSON string 
+        $labNo = ExternalDump::where('test_id', '=', $testId)->get()->lists('labNo')[0];
+        $externlabRequestTree = $externalDump->getLabRequestAndMeasures($labNo);
+
+        $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
+            $labNo, $test->tested_by, $test->interpretation, $test->tested_by, $test->test_status_id);
+
+        foreach ($testResults as $key => $result) {
+            $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
+                $externlabRequestTree[$key]->labNo, $test->tested_by, $result->result, $test->tested_by, $test->test_status_id);
+        }
         //Send back
     }
 

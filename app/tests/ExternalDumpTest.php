@@ -18,17 +18,20 @@ class ExternalDumpTest extends TestCase
     //Urinalysis
     public function testGetComplexLabRequestAndMeasuresTree()
     {
+        echo "\n\nEXTERNAL DUMP MODEL TEST\n\n";
+
+        $requestCount = count($this->labRequestUrinalysis);
         //Sending requests for urinalysis
-        for ($i=0; $i < count($this->labRequestUrinalysis); $i++) { 
+        for ($i=0; $i < $requestCount; $i++) { 
             Interfacer::retrieve($this->labRequestUrinalysis[$i]);
         }
 
         $externalDump = new ExternalDump();
         $externalDumpTree = $externalDump->getLabRequestAndMeasures($this->labRequestUrinalysis[0]['labNo']);
 
-        $this->assertTrue(count($externalDumpTree) == 19);
-        $this->assertEquals($externalDumpTree->first()->labNo, 596699);
-        $this->assertEquals($externalDumpTree->last()->labNo, 596717);
+        $this->assertEquals(count($externalDumpTree), $requestCount-1); //The number of requests for urinalysis
+        $this->assertEquals($externalDumpTree->first()->labNo, $this->labRequestUrinalysis[1]['labNo']);
+        $this->assertEquals($externalDumpTree->last()->labNo, $this->labRequestUrinalysis[$requestCount-1]['labNo']);
     }
 
     //BS for MPS
@@ -40,8 +43,7 @@ class ExternalDumpTest extends TestCase
         $externalDump = new ExternalDump();
         $externalDumpTree = $externalDump->getLabRequestAndMeasures($this->labRequestJsonSimpleTest['labNo']);
 
-        $this->assertTrue(count($externalDumpTree) == 1);
-        $this->assertEquals($externalDumpTree->first()->labNo, $this->labRequestJsonSimpleTest['labNo']);
+        $this->assertEquals(count($externalDumpTree), 0); //1 request
     }
 
     public function setVariables()
@@ -73,118 +75,99 @@ class ExternalDumpTest extends TestCase
             }', true);//When TRUE, returned objects will be converted into associative arrays.
 
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596699,"parentLabNo":0,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Urinalysis",
-                "requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":100,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596906,"parentLabNo":0,"requestingClinician":"TEST DOCTOR",
+                "investigation":"Urinalysis","requestDate":"2014-10-14 12:09:52","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596700,"parentLabNo":596699,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Urine microscopy",
-                "requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596907,"parentLabNo":596906,"requestingClinician":"TEST DOCTOR",
+                "investigation":"Urine microscopy","requestDate":"2014-10-14 12:09:52","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596701,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Pus cells",
-                "requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596908,"parentLabNo":596907,"requestingClinician":"TEST DOCTOR",
+                "investigation":"Pus cells","requestDate":"2014-10-14 12:09:52","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596702,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"S. haematobium",
-                "requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596909,"parentLabNo":596907,"requestingClinician":"TEST DOCTOR",
+                "investigation":"S. haematobium","requestDate":"2014-10-14 12:09:52","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596703,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"T. vaginalis",
-                "requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596910,"parentLabNo":596907,"requestingClinician":"TEST DOCTOR",
+                "investigation":"T. vaginalis","requestDate":"2014-10-14 12:09:52","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596704,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Yeast cells",
-                "requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596911,"parentLabNo":596907,"requestingClinician":"TEST DOCTOR",
+                "investigation":"Yeast cells","requestDate":"2014-10-14 12:09:52","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596705,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Red blood cells",
-                "requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596912,"parentLabNo":596907,"requestingClinician":"TEST DOCTOR",
+                "investigation":"Red blood cells","requestDate":"2014-10-14 12:09:52","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596706,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Bacteria",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596913,"parentLabNo":596907,"requestingClinician":"TEST DOCTOR",
+                "investigation":"Bacteria","requestDate":"2014-10-14 12:09:52","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596707,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Spermatozoa",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596914,"parentLabNo":596907,"requestingClinician":"TEST DOCTOR",
+                "investigation":"Spermatozoa","requestDate":"2014-10-14 12:09:52","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596708,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Epithelial cells",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596915,"parentLabNo":596907,"requestingClinician":"TEST DOCTOR",
+                "investigation":"Epithelial cells","requestDate":"2014-10-14 12:09:52","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596709,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"ph",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596916,"parentLabNo":596907,"requestingClinician":"TEST DOCTOR",
+                "investigation":"ph","requestDate":"2014-10-14 12:09:53","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596710,"parentLabNo":596699,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Urine chemistry",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596917,"parentLabNo":596906,"requestingClinician":"TEST DOCTOR",
+                "investigation":"Urine chemistry","requestDate":"2014-10-14 12:09:53","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596711,"parentLabNo":596710,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Glucose",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596918,"parentLabNo":596917,"requestingClinician":"TEST DOCTOR",
+                "investigation":"Glucose","requestDate":"2014-10-14 12:09:53","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596712,"parentLabNo":596710,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Ketones",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596919,"parentLabNo":596917,"requestingClinician":"TEST DOCTOR",
+                "investigation":"Ketones","requestDate":"2014-10-14 12:09:53","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596713,"parentLabNo":596710,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Proteins",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596920,"parentLabNo":596917,"requestingClinician":"TEST DOCTOR",
+                "investigation":"Proteins","requestDate":"2014-10-14 12:09:53","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596714,"parentLabNo":596710,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Blood",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596921,"parentLabNo":596917,"requestingClinician":"TEST DOCTOR",
+                "investigation":"Blood","requestDate":"2014-10-14 12:09:53","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596715,"parentLabNo":596710,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Bilirubin",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596922,"parentLabNo":596917,"requestingClinician":"TEST DOCTOR",
+                "investigation":"Bilirubin","requestDate":"2014-10-14 12:09:53","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596716,"parentLabNo":596710,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Urobilinogen Phenlpyruvic acid",
-                "requestDate":"2014-10-14 10:20:37","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596923,"parentLabNo":596917,"requestingClinician":"TEST DOCTOR",
+                "investigation":"Urobilinogen Phenlpyruvic acid","requestDate":"2014-10-14 12:09:53","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596717,"parentLabNo":596710,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"pH",
-                "requestDate":"2014-10-14 10:20:37","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":0,"receiptNumber":"RT-1413278436324","receiptType":"standard","labNo":596924,"parentLabNo":596917,"requestingClinician":"TEST DOCTOR",
+                "investigation":"pH","requestDate":"2014-10-14 12:09:53","orderStage":"op","patientVisitNumber":647181,"patient":{"id":192404,
+                "fullName":"JOHN DOE WAYNE","dateOfBirth":"1982-07-12 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"254729492952","city":null}}',true);
     }
 }
