@@ -10,6 +10,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	Use HasRole;
 
 	const EXTERNAL_SYSTEM_USER = 2;
+	const MALE = 0;
+	const FEMALE = 1;
 	/**
 	 * Enabling soft deletes on the user table.
 	 *

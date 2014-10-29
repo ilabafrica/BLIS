@@ -29,16 +29,7 @@ Route::group(array("before" => "guest"), function()
 	    "as" => "user.login",
 	    "uses" => "UserController@loginAction"
 	));
-
-	Route::any("/request", array(
-	    "as"   => "user.request",
-	    "uses" => "UserController@requestAction"
-	));
-
-	Route::any("/reset", array(
-	    "as"   => "user.reset",
-	    "uses" => "UserController@resetAction"
-	));
+    
 });
 
 /* Routes accessible AFTER logging in */

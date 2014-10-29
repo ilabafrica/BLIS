@@ -4,6 +4,7 @@
 */
 
 return array(
+
     /* 
     |   Generic names
     */
@@ -35,12 +36,14 @@ return array(
     'user' => 'User|Users',
     'username' => 'Username',
     'view' => 'View',
+
     /* 
     |   Generic phrases
     */
     'confirm-delete-title' => 'Confirm Delete',
     'confirm-delete-message' => 'Do you wish to delete this item?',
     'confirm-delete-irreversible' => 'This action is irreversible.',
+
     /* 
     |   User
     */
@@ -51,14 +54,19 @@ return array(
     'edit-user' => 'Edit User',
     'edit-user-details' => 'Edit User Details',
     'edit-profile' => 'Edit Profile',
-    'incorrect-current-passord' => 'Incorrect Current Password Entered',
+    'failure-creating-user' => 'Failed to create user.',
+    'incorrect-current-passord' => 'Incorrect \''.Lang::get('validation.attributes.current-password').'\' Entered',
+    'invalid-login' => 'Username and/or password invalid.',
     'new-password' => 'New Password',
     'new-user' => 'New User',
     'password-mismatch' => 'Passwords do not match',
-    're-enter-password' => 'Re-enter Password',
+    'repeat-password' => 'Retype Password',
     'reset-password' => 'Reset Password',
+    'success-creating-user' => 'Successfully created the user!',
+    'success-deleting-user' => 'The user was successfully deleted!',
     'user-details' => 'User Details',
     'user-profile-edit-success' => 'The user details were successfully updated!',
+
     /* 
     |   Patient
     */

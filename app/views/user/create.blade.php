@@ -33,6 +33,10 @@
 					{{ Form::password('password', ['class' => 'form-control']) }}
 				</div>
 				<div class="form-group">
+					{{ Form::label('repeat_password', trans('messages.repeat-password')) }}
+					{{ Form::password('repeat_password', ['class' => 'form-control']) }}
+				</div>
+				<div class="form-group">
 					{{ Form::label('name', trans('messages.full-name')) }}
 					{{ Form::text('name', Input::old('name'), ["placeholder" => "Jay Siku", 
 						'class' => 'form-control']) }}
@@ -49,15 +53,17 @@
 				</div>
                 <div class="form-group">
                     {{ Form::label('gender', trans('messages.gender')) }}
-                    <div>{{ Form::radio('gender', '0', true) }}<span class='input-tag'>Male</span></div>
-                    <div>{{ Form::radio("gender", '1', false) }}<span class='input-tag'>Female</span></div>
+                    <div>{{ Form::radio('gender', Patient::MALE, true) }}
+                    	<span class='input-tag'>{{trans('messages.male')}}</span></div>
+                    <div>{{ Form::radio("gender", Patient::FEMALE, false) }}
+                    	<span class='input-tag'>{{trans('messages.female')}}</span></div>
                 </div>
                 <div class="form-group">
                 	{{ Form::label('image', trans('messages.photo')) }}
                     {{ Form::file("image") }}
                 </div>
 				<div class="form-group actions-row">
-					{{ Form::button('<span class="glyphicon glyphicon-save"></span> '.trans('messages.home'), 
+					{{ Form::button('<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'), 
 						['class' => 'btn btn-primary', 'onclick' => 'submit()']
 					) }}
 				</div>

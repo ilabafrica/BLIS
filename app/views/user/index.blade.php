@@ -25,7 +25,7 @@
 			<thead>
 				<tr>
 					<th>{{ trans('messages.username') }}</th>
-					<th>{{ trans('messages.name') }}</th>
+					<th>{{ Lang::choice('messages.name',1) }}</th>
 					<th>{{ trans('messages.email') }}</th>
 					<th>{{ trans('messages.gender') }}</th>
 					<th>{{ trans('messages.designation') }}</th>

@@ -26,84 +26,16 @@ class UserController extends Controller {
                     );
 
                 if(Auth::attempt($credentials)){
-                    //To do: redirect to the URL they came from
                     return Redirect::route("user.home");
                 }
 
             }
             return Redirect::route('user.login')->withInput(Input::except('password'))
                 ->withErrors($validator)
-                ->with('message', 'Username and/or password invalid.');
+                ->with('message', trans('messages.invalid-login'));
         }
 
         return View::make("user.login");
-    }
-
-    public function requestAction(){
-        $data = array("requested" => Input::old("requested"));
-
-        if(Input::get("back", false) ){
-            return Redirect::route("user.login");
-        }
-        else if(Input::get("reset", false) && Input::server("REQUEST_METHOD") == "POST")
-        {
-            $validator = Validator::make(Input::all(), array("email" => "required"));
-            if($validator->passes()){
-                $credentials = array("email" => Input::get("email"));
-                Password::remind($credentials,
-                    function($message, $user){
-                        $message->from("jsiku@example.com");
-                    }
-                );
-                $data["requested"] = true;
-
-                return Redirect::route("user.request")->withInput($data);
-            }
-        }
-
-        return View::make("user.request", $data);
-    }
-
-    public function resetAction(){
-        $token = "?token=" . Input::get("token");
-        $errors = new MessageBag();
-
-        if($old = Input::old("errors")){
-            $errors = $old;
-        }
-
-        $data = array(
-            "token" => $token,
-            "errors" => $errors
-        );
-
-        if(Input::server("REQUEST_METHOD") == "POST"){
-            $validator = Validator::make(Input::all(), array(
-                "email"                 => "required|email",
-                "password"              => "required|min:6",
-                "password_confirmation" => "same:password",
-                "token"                 => "exists:token,token"
-            ));
-
-            if($validator->passes()){
-                $credentials = array("email" => Input::get("email"));
-                Password::reset($credentials, function($user, $password){
-                    $user->password = Hash::make($password);
-                    $user->save();
-
-                    Auth::login($user);
-
-                    return Redirect::route("user.index");
-                });
-            }
-
-            $data["email"] = Input::get("email");
-            $data["errors"] = $validator->errors();
-
-            return Redirect::to(URL::route("user.reset") . $token)->withInput($data);
-        }
-
-        return View::make("user.reset", $data);
     }
 
     public function logoutAction(){
@@ -159,7 +91,7 @@ class UserController extends Controller {
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('user/create')
+            return Redirect::route('user.create')
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
@@ -174,7 +106,6 @@ class UserController extends Controller {
 
             $user->save();
             $id = $user->id;
-            /* Set default password*/
 
             if (Input::hasFile('image')) {
                 try {
@@ -185,19 +116,16 @@ class UserController extends Controller {
                     $file = Input::file('image')->move($destination, $filename);
                     $user->image = "/i/users/$filename";
 
-                } catch (Exception $e) {
-                }
+                } catch (Exception $e) {}
             }
 
             try{
                 $user->save();
-                return Redirect::to('user')->with('message', 'Successfully created the user!');
+                return Redirect::route('user.index')->with('message', trans('messages.success-creating-user'));
             }catch(QueryException $e){
                 Log::error($e);
-                return Redirect::to('user/create')
-                    ->withErrors($errors)
-                    ->withInput(Input::except('password'))
-                    ->with('message', "Please select another username.");
+                return Redirect::route('user.index')
+                    ->with('message', trans('messages.failure-creating-user'));
             }
             
             // redirect
@@ -258,7 +186,7 @@ class UserController extends Controller {
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('user/' . $id . '/edit')
+            return Redirect::route('user.edit', array($id))
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
@@ -280,7 +208,7 @@ class UserController extends Controller {
                     $user->image = "/i/users/$filename";
 
                 } catch (Exception $e) {
-                    Log::info($e);
+                    Log::error($e);
                 }
             }
             
@@ -292,8 +220,7 @@ class UserController extends Controller {
             $user->save();
 
             // redirect
-            return Redirect::to('user')->with('message', trans('messages.user-profile-edit-success'));
-
+            return Redirect::route('user.index')->with('message', trans('messages.user-profile-edit-success'));
         }
     }
 
@@ -329,11 +256,10 @@ class UserController extends Controller {
             }
 
             $user->save();
-
-            // redirect
-            return Redirect::to('user')->with('message', trans('messages.user-profile-edit-success'));
-
         }
+
+        // redirect
+        return Redirect::route('user.index')->with('message', trans('messages.user-profile-edit-success'));
     }
 
     /**
@@ -361,6 +287,6 @@ class UserController extends Controller {
         $user->delete();
 
         // redirect
-        return Redirect::to('user')->with('message', 'The user was successfully deleted!');
+        return Redirect::route('user.index')->with('message', trans('success-deleting-user'));
     }
 }

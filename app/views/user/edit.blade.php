@@ -123,7 +123,7 @@
 									<span class="new-pwd-empty hidden" >{{trans('messages.field-required')}}</span>
 								</div>
 								<div class="form-group">
-									{{ Form::label('repeat-password', trans('messages.re-enter-password')) }}
+									{{ Form::label('repeat-password', trans('messages.repeat-password')) }}
 									{{ Form::password('repeat-password', ['class' => 'form-control']) }}
 									<span class="new-pwdrepeat-empty hidden" >{{trans('messages.field-required')}}</span>
 									<span class="new-pwdmatch-error hidden" >{{trans('messages.password-mismatch')}}</span>

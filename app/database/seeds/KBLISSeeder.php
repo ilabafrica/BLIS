@@ -12,11 +12,11 @@ class KBLISSeeder extends DatabaseSeeder
             ),
             array(
                 "username" => "external", "password" => Hash::make("password"), "email" => "admin@kblis.org",
-                "name" => "External System User", "designation" => "Administrator"
+                "name" => "External System User", "designation" => "Administrator", "image" => "/i/users/user-2.jpg"
             ),
             array(
                 "username" => "lmorena", "password" => Hash::make("password"), "email" => "lmorena@kblis.org",
-                "name" => "L. Morena", "designation" => "Lab Technologist"
+                "name" => "L. Morena", "designation" => "Lab Technologist", "image" => "/i/users/user-3.png"
             ),
             array(
                 "username" => "abumeyang", "password" => Hash::make("password"), "email" => "abumeyang@kblis.org",
