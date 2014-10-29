@@ -13,6 +13,7 @@ class SpecimenTypeControllerTest extends TestCase
     public function setUp(){
         parent::setUp();
         Artisan::call('migrate');
+        Artisan::call('db:seed');
         $this->setVariables();
     }
 	/**
@@ -48,8 +49,9 @@ class SpecimenTypeControllerTest extends TestCase
         Input::replace($this->specimenData);
         $specimenType = new SpecimenTypeController;
         $specimenType->store();
+		$specimenTypestored = SpecimenType::orderBy('id','desc')->take(1)->get()->toArray();
 
-		$specimenTypesSaved = SpecimenType::find(1);
+		$specimenTypesSaved = SpecimenType::find($specimenTypestored[0]['id']);
 		$this->assertEquals($specimenTypesSaved->name , $this->specimenData['name']);
 		$this->assertEquals($specimenTypesSaved->description ,$this->specimenData['description']);
   	}
@@ -64,10 +66,12 @@ class SpecimenTypeControllerTest extends TestCase
         Input::replace($this->specimenData);
         $specimenType = new SpecimenTypeController;
         $specimenType->store();
-        Input::replace($this->specimenDataUpdate);
-        $specimenType->update(1);
+		$specimenTypestored = SpecimenType::orderBy('id','desc')->take(1)->get()->toArray();
 
-		$specimenTypeUpdated = SpecimenType::find(1);
+        Input::replace($this->specimenDataUpdate);
+        $specimenType->update($specimenTypestored[0]['id']);
+
+		$specimenTypeUpdated = SpecimenType::find($specimenTypestored[0]['id']);
 		$this->assertEquals($specimenTypeUpdated->name , $this->specimenDataUpdate['name']);
 		$this->assertEquals($specimenTypeUpdated->description ,$this->specimenDataUpdate['description']);
 	}
@@ -82,9 +86,11 @@ class SpecimenTypeControllerTest extends TestCase
         Input::replace($this->specimenData);
         $specimenType = new SpecimenTypeController;
         $specimenType->store();
-        $specimenType->delete(1);
+		$specimenTypestored = SpecimenType::orderBy('id','desc')->take(1)->get()->toArray();
 
-		$specimenTypesDeleted = SpecimenType::withTrashed()->find(1);
+        $specimenType->delete($specimenTypestored[0]['id']);
+
+		$specimenTypesDeleted = SpecimenType::withTrashed()->find($specimenTypestored[0]['id']);
 		$this->assertNotNull($specimenTypesDeleted->deleted_at);
 	}
 }
