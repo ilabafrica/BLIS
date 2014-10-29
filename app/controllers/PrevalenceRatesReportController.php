@@ -65,7 +65,7 @@ class PrevalenceRatesReportController extends \BaseController {
 	        "canvasborderthickness": "1",
 	        "legendiconscale": "1.5",
 	        "legendshadow": "0",
-	        "legendborderalpha": "0",
+	        "legendborderalpha": "30",
 	        "canvasborderalpha": "50",
 	        "numvdivlines": "5",
 	        "vdivlinealpha": "20",

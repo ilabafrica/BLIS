@@ -330,6 +330,11 @@ Route::group(array("before" => "auth"), function()
         "as"   => "reports.tat.index",
         "uses" => "TatReportController@index"
     ));
+
+    Route::post("/tat/filter", array(
+        "as"   => "reports.tat.filter",
+        "uses" => "TatReportController@filterTaT"
+    ));
     
     /*Route Infection Report Controller*/
 

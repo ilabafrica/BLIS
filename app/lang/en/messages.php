@@ -42,7 +42,7 @@ return array(
     'export-to-word'    =>  'Export to Word',
     'export-to-pdf'    =>  'Export to PDF',
     'print' => 'Print',
-    'expected-tat'  =>  'Expected TAT',
+    'expected-tat'  =>  'Target TAT',
     'actual-tat'    =>  'Actual TAT',
     'waiting-time'  =>  'Waiting Time',
     'no-records-found'  =>  'No records found.',
@@ -51,6 +51,8 @@ return array(
     'rejected'  =>  'Rejected',
     'total' =>  'Total',
     'person-talked-to'  =>  'Talked to',
+    'tests-in-interval'  =>   'Total Tests in Interval',
+    'tests-exceeding-interval'  =>   'Tests exceeding Target TAT',
 
     /* 
     |   Generic phrases

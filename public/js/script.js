@@ -456,4 +456,49 @@ $(function(){
 		
 	});
 	/*End toggling*/
+	/*Submit turnaround time report filters without page reload*/
+	$('#turnaround').submit(function(event){
+		var from=new Date($('#start').val());
+		var to=new Date($('#end').val());
+		var today = new Date();
+		
+		console.log("todate "+to);
+		console.log("today date "+today);
+		var errorDiv = $('#error');
+    	if(from>today||from>to||to>today){
+    		errorDiv.show();
+    		errorDiv.text('Please check your dates range and try again.');
+
+    	}
+    	else{
+	        $.ajax({
+	            type: 'POST',
+	            url: '/tat/filter',
+	            data: $('form#turnaround').serialize(),
+	            dataType: 'json',
+	        })
+
+	        .success(function(data) {
+	    		errorDiv.hide();
+	            var tableBody ="<tbody class='data'>"; 
+	            if(data.length!=0){
+
+	            	try {
+				    	$('#chartContainer').hide();
+				    	changeData(data);
+
+				    } catch (e) {
+				        window.console.warn("Wrong format JSON data received");
+				        window.console.warn(data);
+				    }
+	            	
+					
+	        	}
+	            
+	        });
+	    }
+
+        event.preventDefault();
+    });
+	/*End ajax submit*/
 }

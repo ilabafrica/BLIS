@@ -291,7 +291,33 @@ class Report{
         return round($cumulative_diff/count($tests), 2);
 	}
 	#	End function to return expected TAT for all test types in a lab section 
-	
+	#	Begin function to return weeks in a month
+	public static function getWeeks($from, $to){
+		$dates = Test::select(DB::raw('DISTINCT WEEK(time_created) as weekNumber, DATE_ADD(time_created, INTERVAL(2-DAYOFWEEK(time_created)) DAY) as label, MONTH(time_created) as monthNumber, LEFT(MONTHNAME(time_created), 3) as monthName, YEAR(time_created) as annum'));
+		if($from==$to){
+			$year = date('Y');
+			$dates->whereRaw('YEAR(time_created) = '.$year);
+		}
+		else{
+			$dates->whereBetween('time_created', array($from, $to));
+			}
+		return $dates->orderBy('time_created', 'ASC')
+					 ->groupBy(DB::raw('WEEK(time_created)'))->get();
+	}
+	#	End function to return weeks in a month
+	#	Begin function to return days in a month
+	public static function getDays($from, $to){
+		$dates = Test::select(DB::raw('DATE(time_created) as label, YEAR(time_created) as annum'));
+		if($from==$to){
+			$year = date('Y');
+			$dates->whereRaw('YEAR(time_created) = '.$year);
+		}
+		else{
+			$dates->whereBetween('time_created', array($from, $to));
+			}
+		return $dates->orderBy('time_created', 'ASC')->get();
+	}
+	#	End function to return days in a month
 	/*
 	*	End turnaround time functions
 	*/
