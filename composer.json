@@ -5,7 +5,6 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.2.*",
-		"chumper/datatable": "2.*",
 		"zizaco/entrust": "1.2.*",
 		"thujohn/pdf": "dev-master"
 	},
