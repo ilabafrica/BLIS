@@ -24,7 +24,6 @@ class SanitasInterfacer implements InterfacerInterface{
         //Get the test and results 
         $test = Test::find($testId);
         $testResults = $test->testResults;
-        $externalDump = new ExternalDump();
 
         //Measures
         $testTypeId = $test->testType()->get()->lists('id')[0];
@@ -32,15 +31,30 @@ class SanitasInterfacer implements InterfacerInterface{
         $measures = $testType->measures;
 
         //Get external requests and all its children
+        $externalDump = new ExternalDump();
         $labNo = ExternalDump::where('test_id', '=', $testId)->get()->lists('labNo')[0];
         $externlabRequestTree = $externalDump->getLabRequestAndMeasures($labNo);
 
         $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
             $labNo, $test->tested_by, $test->interpretation, $test->tested_by, $test->test_status_id);
+        var_dump($jsonResponseString);
 
-        foreach ($testResults as $key => $result) {
-            $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
-                $externlabRequestTree[$key]->labNo, $test->tested_by, $result->result, $test->tested_by, $test->test_status_id);
+        foreach ($externlabRequestTree as $key => $externlabRequest){ 
+            $measures->filter(function($measure) use ($externlabRequest, $testResults, $externlabRequestTree, $test){
+                if($measure->name == $externlabRequest->investigation)
+                {
+                    $id = $measure->id;
+                        foreach ($testResults as $key => $result) {
+                            if($result->measure_id == $id){
+                                $x = $result;
+                                break;
+                            }
+                        }
+                        $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
+                                $externlabRequestTree[$key]->labNo, $test->tested_by, $x->result, $test->tested_by, $test->test_status_id);
+                        var_dump($jsonResponseString);
+                }
+            });
         }
         //Send back
     }

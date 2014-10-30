@@ -154,6 +154,11 @@ class SanitasInterfacerTest extends TestCase
             $externalDumpPayment->first()->receiptNumber);
     }
 
+    public function testInterfacerSend()
+    {
+        Interfacer::send('13');
+    }
+
     public function setVariables()
     {
         $this->labRequestJsonSimpleTest = 
