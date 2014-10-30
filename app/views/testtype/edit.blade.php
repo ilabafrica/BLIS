@@ -25,7 +25,7 @@
 
 			<div class="form-group">
 				{{ Form::label('test_type_name', Lang::choice('messages.name',1)) }}
-				{{ Form::text('test_type_name', Input::old('test_type_name'), array('class' => 'form-control')) }}
+				{{ Form::text('test_type_name', $testtype->name, array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
 				{{ Form::label('description', trans('messages.description')) }}
