@@ -12,7 +12,7 @@
 		<span class="glyphicon glyphicon-cog"></span>
 		{{trans('messages.create-test-type')}}
 	</div>
-	{{ Form::open(array('url' => 'testtype', 'id' => 'form-create-testtype')) }}
+	{{ Form::open(array('route' => array('testtype.index'), 'id' => 'form-create-testtype')) }}
 	<div class="panel-body">
 	<!-- if there are creation errors, they will show here -->
 		
@@ -23,8 +23,8 @@
 		@endif
 
 			<div class="form-group">
-				{{ Form::label('name', Lang::choice('messages.name',1)) }}
-				{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
+				{{ Form::label('test_type_name', Lang::choice('messages.name',1)) }}
+				{{ Form::text('test_type_name', Input::old('test_type_name'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
 				{{ Form::label('description', trans('messages.description')) }}

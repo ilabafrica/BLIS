@@ -71,6 +71,7 @@ return array(
 	"unique"               => "The :attribute has already been taken.",
 	"url"                  => "The :attribute format is invalid.",
 
+
 	/*
 	|--------------------------------------------------------------------------
 	| Custom Validation Language Lines
@@ -83,8 +84,11 @@ return array(
 	*/
 
 	'custom' => array(
-		'attribute-name' => array(
-			'rule-name' => 'custom-message',
+		'specimentypes' => array(
+			'required' => "At least one of the ':attribute' should be selected.",
+		),
+		'measures' => array(
+			'required' => "At least one of the ':attribute' should be selected.",
 		),
 	),
 
@@ -105,6 +109,8 @@ return array(
 		'password' => 'Password',
 		'username' => 'Username',
 		'current_password' => 'Current Password',
+		'test_type_name' => 'Name',
+		'specimentypes' => 'Specimen Types',
 		),
 
 );

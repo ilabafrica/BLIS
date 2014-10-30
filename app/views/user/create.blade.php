@@ -21,7 +21,7 @@
 				</div>
 			@endif
 
-			{{ Form::open(array('url' => 'user', 'id' => 'form-create-user', 'files' => true)) }}
+			{{ Form::open(array('route' => array('user.index'), 'id' => 'form-create-user', 'files' => true)) }}
 
 				<div class="form-group">
 					{{ Form::label('username', trans('messages.username')) }}

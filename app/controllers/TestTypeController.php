@@ -48,7 +48,7 @@ class TestTypeController extends \BaseController {
 	{
 		//
 		$rules = array(
-			'name' => 'required|unique:test_types,name',
+			'test_type_name' => 'required|unique:test_types,name',
 			'section_id' => 'required',
 			'specimentypes' => 'required',
 			'measures' => 'required',
@@ -61,7 +61,7 @@ class TestTypeController extends \BaseController {
 		} else {
 			// store 
 			$testtype = new TestType;
-			$testtype->name = Input::get('name');
+			$testtype->name = Input::get('test_type_name');
 			$testtype->description = Input::get('description');
 			$testtype->section_id = Input::get('section_id');
 			$testtype->targetTAT = Input::get('targetTAT');
@@ -126,7 +126,7 @@ class TestTypeController extends \BaseController {
 	{
 		//
 		$rules = array(
-			'name' => 'required',
+			'test_type_name' => 'required',
 			'section_id' => 'required',
 			'specimentypes' => 'required',
 		);
@@ -138,7 +138,7 @@ class TestTypeController extends \BaseController {
 		} else {
 			// Update
 			$testtype = TestType::find($id);
-			$testtype->name = Input::get('name');
+			$testtype->name = Input::get('test_type_name');
 			$testtype->description = Input::get('description');
 			$testtype->section_id = Input::get('section_id');
 			$testtype->targetTAT = Input::get('targetTAT');
