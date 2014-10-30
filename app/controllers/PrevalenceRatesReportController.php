@@ -12,23 +12,16 @@ class PrevalenceRatesReportController extends \BaseController {
 		$year = date('Y');
 		$periods = Report::loadMonths($year);
 		foreach ($periods as $period) {
-			$data = Report::prevalenceCounts($period->start, $period->end);
+			$data = self::prevalenceCounts($period->start, $period->end);
 		}
 		return View::make('reports.prevalence.index')
 					->with('data', $data);
 	}
-
-
 	/**
-	 * Show the form for creating a new resource.
+	 * Display prevalence rates chart
 	 *
 	 * @return Response
 	 */
-	public function create()
-	{
-		//
-	}
-
 	public static function prevalenceRatesChart(){
 		$from = Input::get('start');
 		$to = Input::get('end');
@@ -71,7 +64,9 @@ class PrevalenceRatesReportController extends \BaseController {
 	        "vdivlinealpha": "20",
 	        "showborder": "1",
 	        "anchorRadius": "6",
-            "anchorBorderThickness": "2"
+            "anchorBorderThickness": "2",
+            "yAxisMinValue": "0",
+            "yAxisMaxValue": "100"
 	    },
 	    "categories": [
 	        {
@@ -96,7 +91,7 @@ class PrevalenceRatesReportController extends \BaseController {
         			"data": [';
         				$counter = count($months);
             			foreach ($months as $month) {
-            			$data = Report::prevalenceCountsByTestType($month, $test_type->id);
+            			$data = self::prevalenceCountsByTestType($month, $test_type->id);
             			foreach ($data as $datum) {
             				$chart.= '{"value": "'.$datum->rate;
             				if($counter==1)
@@ -136,69 +131,48 @@ class PrevalenceRatesReportController extends \BaseController {
 		$to = Input::get('end');
 		
 		$months = Report::getMonths($from, $to);
-		$data = Report::prevalenceCounts($from, $to);
+		$data = self::prevalenceCounts($from, $to);
 		$chart = self::prevalenceRatesChart();
 		return Response::json(array('values'=>$data, 'chart'=>$chart));
 		//array('values'=>$data, 'chart'=>$chart)
 	}
 
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
+	#Begin function to return test_type_id, test_type_name, total specimen tested, positive and negative counts
+	public static function prevalenceCounts($from, $to){
+		$data =  Test::select(DB::raw('test_types.id as id, test_types.name as test, count(tests.specimen_id) as total, 
+					SUM(IF(test_results.result=\'Positive\',1,0)) positive, SUM(IF(test_results.result=\'Negative\',1,0)) negative,
+					ROUND( SUM( IF( test_results.result =  \'Positive\', 1, 0 ) ) *100 / COUNT( tests.specimen_id ) , 2 ) AS rate'))
+					->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
+					->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
+					->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
+					->join('test_results', 'tests.id', '=', 'test_results.test_id')
+					->join('measure_types', 'measure_types.id', '=', 'measures.measure_type_id')
+					->where('measures.measure_range', 'LIKE', '%Positive/Negative%')
+					->whereBetween('time_created', array($from, $to))
+					->whereRaw('(tests.test_status_id = '.Test::COMPLETED.' OR tests.test_status_id = '.Test::VERIFIED.')')
+					->groupBy('test_types.id')
+					->get();
+		return $data;
 	}
+	#End function to return counts
 
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
+	#	Begin function to return counts by month and test type
+	public static function prevalenceCountsByTestType($month, $test_type){
+		$data =  Test::select(DB::raw('ROUND( SUM( IF( test_results.result =  \'Positive\', 1, 0 ) ) *100 / COUNT( tests.specimen_id ) , 2 ) AS rate'))
+					->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
+					->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
+					->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
+					->join('test_results', 'tests.id', '=', 'test_results.test_id')
+					->join('measure_types', 'measure_types.id', '=', 'measures.measure_type_id')
+					->where('measures.measure_range', 'LIKE', '%Positive/Negative%')
+					->where('test_types.id', '=', $test_type)
+					->whereRaw('MONTH(time_created) = '.$month->months)
+					->whereRaw('YEAR(time_created) = '.$month->annum)
+					->whereRaw('(tests.test_status_id = '.Test::COMPLETED.' OR tests.test_status_id = '.Test::VERIFIED.')')
+					->groupBy('test_types.id')
+					->get();
+		return $data;
 	}
-
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
+	#	End function to return counts by month and test type
 
 }

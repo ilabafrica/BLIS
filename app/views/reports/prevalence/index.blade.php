@@ -31,8 +31,6 @@
 					        array('class' => 'btn btn-info', 'id' => 'toggle')) }}</td>
 		        <td>{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
 					        array('class' => 'btn btn-primary', 'style' => 'width:125px', 'id' => 'filter', 'type' => 'submit')) }}</td>
-		  		<td>{{ Form::button("<span class='glyphicon glyphicon-remove'></span> ".trans('messages.close'), 
-					        array('class' => 'btn btn-warning', 'style' => 'width:125px', 'id' => 'close')) }}</td>
 		    </tr>
 		</thead>
 		<tbody>
