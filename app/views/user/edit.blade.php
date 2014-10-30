@@ -47,8 +47,7 @@
 										<div class="col-md-8">
 											<div class="form-group">
 												{{ Form::label('username', trans('messages.username')) }}
-												{{ Form::text('username', Input::old('username'), 
-													["placeholder" => "jsiku", 'class' => 'form-control']) }}
+												<p class="form-control-static">{{$user->username}}</p>
 											</div>
 											<div class="form-group">
 												{{ Form::label('name', trans('messages.full-name')) }}
@@ -108,23 +107,21 @@
 				            </div>
 							<!-- For users to edit their own passwords -->
 							<div class="tab-pane fade" id="change-password">
-								{{ Form::model($user, array(
-									'route' => array('user.updateOwnPassword', $user->id), 
-									'method' => 'PUT', 'role' => 'form', 'id' => 'form-edit-password'
-								 )) }}
+								{{ Form::open(array('route' => array('user.updateOwnPassword', $user->id),
+									 'id' => 'form-edit-password', 'method' => 'PUT')) }}
 								<div class="form-group">
-									{{ Form::label('current-password', trans('messages.current-password')) }}
-									{{ Form::password('current-password', ['class' => 'form-control']) }}
+									{{ Form::label('current_password', trans('messages.current-password')) }}
+									{{ Form::password('current_password', ['class' => 'form-control']) }}
 									<span class="curr-pwd-empty hidden" >{{trans('messages.field-required')}}</span>
 								</div>
 								<div class="form-group">
-									{{ Form::label('new-password', trans('messages.new-password')) }}
-									{{ Form::password('new-password', ['class' => 'form-control']) }}
+									{{ Form::label('new_password', trans('messages.new-password')) }}
+									{{ Form::password('new_password', ['class' => 'form-control']) }}
 									<span class="new-pwd-empty hidden" >{{trans('messages.field-required')}}</span>
 								</div>
 								<div class="form-group">
-									{{ Form::label('repeat-password', trans('messages.repeat-password')) }}
-									{{ Form::password('repeat-password', ['class' => 'form-control']) }}
+									{{ Form::label('new_password_confirmation', trans('messages.repeat-password')) }}
+									{{ Form::password('new_password_confirmation', ['class' => 'form-control']) }}
 									<span class="new-pwdrepeat-empty hidden" >{{trans('messages.field-required')}}</span>
 									<span class="new-pwdmatch-error hidden" >{{trans('messages.password-mismatch')}}</span>
 								</div>

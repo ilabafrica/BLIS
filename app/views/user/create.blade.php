@@ -33,8 +33,8 @@
 					{{ Form::password('password', ['class' => 'form-control']) }}
 				</div>
 				<div class="form-group">
-					{{ Form::label('repeat_password', trans('messages.repeat-password')) }}
-					{{ Form::password('repeat_password', ['class' => 'form-control']) }}
+					{{ Form::label('password_confirmation', trans('messages.repeat-password')) }}
+					{{ Form::password('password_confirmation', ['class' => 'form-control']) }}
 				</div>
 				<div class="form-group">
 					{{ Form::label('name', trans('messages.full-name')) }}

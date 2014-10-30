@@ -100,11 +100,11 @@ return array(
 	*/
 
 	'attributes' => array(
-		'user-email' => 'Email Address',
-		'user-full-name' => 'Full Name',
+		'email' => 'Email Address',
+		'name' => 'Full Name',
 		'password' => 'Password',
 		'username' => 'Username',
-		'current-password' => 'Current Password',
+		'current_password' => 'Current Password',
 		),
 
 );

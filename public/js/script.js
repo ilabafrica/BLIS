@@ -73,10 +73,7 @@ $(function(){
 
 	$('.btn-delete').click(function(){
 		$('.confirm-delete-modal').modal('toggle');
-		$.ajax({url: $('#delete-url').val()})
-			.done(function(){
-				location.reload(true);
-			});
+		window.location.href = $('#delete-url').val();
 	});
 
 	UIComponents();
@@ -273,9 +270,9 @@ $(function(){
 	function editUserProfile()
 	{
 		/*If Password-Change Validation*/
-	    var currpwd = $('#current-password').val();
-	    var newpwd1 = $('#new-password').val();
-	    var newpwd2= $('#repeat-password').val();
+	    var currpwd = $('#current_password').val();
+	    var newpwd1 = $('#new_password').val();
+	    var newpwd2= $('#new_password_confirmation').val();
 	    var newpwd1_len = newpwd1.length;
 	    var newpwd2_len = newpwd2.length;
 	    var error_flag = false;

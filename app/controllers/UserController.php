@@ -82,8 +82,8 @@ class UserController extends Controller {
     {
         //
         $rules = array(
-            'username' => 'required|unique:users,username|min:6',
-            'password' => 'required|min:6',
+            'username' => 'alpha_num|required|unique:users,username|min:6',
+            'password' => 'confirmed|required|min:6',
             'name' => 'required',
             'email' => 'required|email'
         );
@@ -102,7 +102,7 @@ class UserController extends Controller {
             $user->gender = Input::get('gender');
             $user->designation = Input::get('designation');
             $user->email = Input::get('email');
-            $user->password = Input::get('password');
+            $user->password = Hash::make(Input::get('password'));
 
             $user->save();
             $id = $user->id;
@@ -172,7 +172,6 @@ class UserController extends Controller {
     {
         //
         $rules = array(
-            'username' => 'required',
             'name'       => 'required',
             'email' => 'required|email',
             'image' => 'image|max:500'
@@ -192,7 +191,6 @@ class UserController extends Controller {
         } else {
             // Update
             $user = User::find($id);
-            $user->username = Input::get('username');
             $user->name = Input::get('name');
             $user->gender = Input::get('gender');
             $user->designation = Input::get('designation');
@@ -234,8 +232,8 @@ class UserController extends Controller {
     {
         //
         $rules = array(
-            'current-password' => 'required|min:6',
-            'new-password'       => 'required|min:6',
+            'current_password' => 'required|min:6',
+            'new_password'  => 'confirmed|required|min:6',
         );
 
         $validator = Validator::make(Input::all(), $rules);
@@ -247,9 +245,9 @@ class UserController extends Controller {
             // Update
             $user = User::find($id);
             // change password if parameters were entered (changing ones own password)
-            if (Hash::check(Input::get('current-password'), $user->password))
+            if (Hash::check(Input::get('current_password'), $user->password))
             {
-                $user->password = Hash::make(Input::get('new-password'));
+                $user->password = Hash::make(Input::get('new_password'));
             }else{
                 return Redirect::route('user.edit', array($id))
                         ->withErrors(trans('messages.incorrect-current-passord'));
@@ -287,6 +285,6 @@ class UserController extends Controller {
         $user->delete();
 
         // redirect
-        return Redirect::route('user.index')->with('message', trans('success-deleting-user'));
+        return Redirect::route('user.index')->with('message', trans('messages.success-deleting-user'));
     }
 }

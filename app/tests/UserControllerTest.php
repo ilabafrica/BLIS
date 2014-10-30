@@ -5,11 +5,11 @@
  */
 class UserControllerTest extends TestCase 
 {
-	  /**
-     * Initial setup function for tests
-     *
-     * @return void
-     */
+    /**
+    * Initial setup function for tests
+    *
+    * @return void
+    */
     public function setUp(){
         parent::setUp();
         Artisan::call('migrate');
@@ -28,21 +28,22 @@ class UserControllerTest extends TestCase
 			'username' => 'dotmatrix',
 			'email' => 'johxdoe@example.com',
 			'name' => 'John Dot',
-			'gender' => '1',
+			'gender' => User::FEMALE,
 			'designation' => 'LabTechnikan',
-      'password' => Hash::make("goodpassword"),
-    );
+            'password' => "goodpassword",
+            'password_confirmation' => "goodpassword",
+        );
 
-    // Edition sample data
-    $this->userDataUpdate = array(
-      'username' => 'doe',
-      'email' => 'johndoe@example.com',
-      'name' => 'John Doe',
-      'gender' => '0',
-      'designation' => 'LabTechnician',
-      'current-password' => 'goodpassword',
-      'new-password' => 'newpassword',
-    );
+        // Edition sample data
+        $this->userDataUpdate = array(
+          'email' => 'johndoe@example.com',
+          'name' => 'John Doe',
+          'gender' => User::MALE,
+          'designation' => 'LabTechnician',
+          'current_password' => 'goodpassword',
+          'new_password' => 'newpassword',
+          'new_password_confirmation' => 'newpassword',
+        );
 
         // sample login data
         $this->userDataLoginBad = array(
@@ -62,7 +63,6 @@ class UserControllerTest extends TestCase
             'password' => 'goo',
         );
 
-		$this->testUserId = NULL;
     }
 	
 	/**
@@ -70,10 +70,10 @@ class UserControllerTest extends TestCase
 	 * @return int $testUserId ID of User stored; used in testUpdate() to identify test for update
 	 */    
  	public function testStore() 
-  	{
-		echo "\n\nUSER CONTROLLER TEST\n\n";
-  		 // Store the User
-		Input::replace($this->userData);
+	{
+        echo "\n\nUSER CONTROLLER TEST\n\n";
+        // Store the User
+        Input::replace($this->userData);
         $user = new UserController;
         $user->store();
 
@@ -84,47 +84,47 @@ class UserControllerTest extends TestCase
 		$this->assertEquals($userSaved->name , $this->userData['name']);
 		$this->assertEquals($userSaved->gender , $this->userData['gender']);
 		$this->assertEquals($userSaved->designation , $this->userData['designation']);
-  	}
+	}
 
   /**
    * Tests the update function in the UserController
    * @param  void
    * @return void
    */
-  public function testUpdate()
-  {
-    // Update the User Types
+    public function testUpdate()
+    {
+        // Update the User Types
         Input::replace($this->userData);
         $user = new UserController;
         $user->store();
         Input::replace($this->userDataUpdate);
         $user->update(1);
 
-    $userUpdated = User::find(1);
-    $this->assertEquals($userUpdated->username , $this->userDataUpdate['username']);
-    $this->assertEquals($userUpdated->email , $this->userDataUpdate['email']);
-    $this->assertEquals($userUpdated->name , $this->userDataUpdate['name']);
-    $this->assertEquals($userUpdated->gender , $this->userDataUpdate['gender']);
-    $this->assertEquals($userUpdated->designation , $this->userDataUpdate['designation']);
-  }
+        $userUpdated = User::find(1);
+        $this->assertEquals($userUpdated->email , $this->userDataUpdate['email']);
+        $this->assertEquals($userUpdated->name , $this->userDataUpdate['name']);
+        $this->assertEquals($userUpdated->gender , $this->userDataUpdate['gender']);
+        $this->assertEquals($userUpdated->designation , $this->userDataUpdate['designation']);
+    }
 
-  /**
-   * Tests the updateOwnPassword function in the UserController
-   * @param  void
-   * @return void
-   */
-  public function testUpdateOwnPassword()
-  {
-    // Update the User Types
+    /**
+    * Tests the updateOwnPassword function in the UserController
+    * @param  void
+    * @return void
+    */
+    public function testUpdateOwnPassword()
+    {
+        // Update the User Types
         Input::replace($this->userData);
         $user = new UserController;
         $user->store();
         Input::replace($this->userDataUpdate);
         $user->updateOwnPassword(1);
 
-    $userUpdated = User::find(1);
-    $this->assertTrue(Hash::check($this->userDataUpdate['new-password'], $userUpdated->password));
-  }
+        $userUpdated = User::find(1);
+
+        $this->assertTrue(Hash::check($this->userDataUpdate['new_password'], $userUpdated->password));
+    }
 
 	/**
    * Tests the update function in the UserController
