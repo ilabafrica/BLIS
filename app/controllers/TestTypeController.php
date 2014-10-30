@@ -72,7 +72,7 @@ class TestTypeController extends \BaseController {
 				$testtype->setMeasures(Input::get('measures'));
 				$testtype->setSpecimenTypes(Input::get('specimentypes'));
 
-				return Redirect::route('testtype.index')->with('message', 'Successfully created test type!');
+				return Redirect::route('testtype.index')->with('message', 'messages.success-creating-test-type');
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -154,7 +154,7 @@ class TestTypeController extends \BaseController {
 
 			// redirect
 			return Redirect::route('testtype.index')
-						->with('message', 'The test type details were successfully updated!');
+						->with('message', 'messages.success-updating-test-type');
 		}
 	}
 
@@ -182,13 +182,13 @@ class TestTypeController extends \BaseController {
         $inUseByTests = $testtype->tests->toArray();
 
 		if (empty($inUseByTests)) {
-		    // The test category is not in use
+		    // The test type is not in use
 			$testtype->delete();
 		} else {
-		    // The test category is in use
+		    // The test type is in use
 		    return Redirect::route('testtype.index')->with('message', 'messages.failure-test-type-in-use');
 		}
 		// redirect
-		return Redirect::route('testtype.index')->with('message', 'The test type was successfully deleted!');
+		return Redirect::route('testtype.index')->with('message', 'messages.success-deleting-test-type');
 	}
 }

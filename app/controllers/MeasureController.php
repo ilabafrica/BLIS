@@ -82,14 +82,14 @@ class MeasureController extends \BaseController {
                     $measurerange->range_upper = $val['rangemax'][$i];
                     $measurerange->save();
                  }
-                return Redirect::route('measure.index')->with('message', 'Successfully created measure!');
+                return Redirect::route('measure.index')->with('message', 'messages.success-creating-measure');
             }else if (Input::get('measure_type_id') == 2 || Input::get('measure_type_id') == 3) {
                 $values = Input::get('val');
                 $measure->measure_range = join('/', $values);
                 $measure->save();
-                return Redirect::route('measure.index')->with('message', 'Successfully created measure!');
+                return Redirect::route('measure.index')->with('message', 'messages.success-creating-measure');
             }
-            return Redirect::route("measure.create")->with('message', 'Error occured while creating measure!');
+            return Redirect::route("measure.create")->with('message', 'messages.error-creating-measure');
         }
     }
     /**
@@ -198,11 +198,9 @@ class MeasureController extends \BaseController {
                 // Since its not a numeric range, delete any references to this id in the measure_range table
                 MeasureRange::where('measure_id', '=', $measure->id)->delete();
             }
-
-
             // redirect
             return Redirect::route('measure.index')
-                    ->with('message', 'The measure details were successfully updated!');
+                    ->with('message', 'messages.success-updating-measure');
         }
     }
 
@@ -219,13 +217,13 @@ class MeasureController extends \BaseController {
         $inUseByTesttype = $measure->testTypes->toArray();
 
         if (empty($inUseByTesttype)) {
-            // The test category is not in use
+            // The measure is not in use
             $measure->delete();
         } else {
-            // The test category is in use
+            // The measure is in use
             return Redirect::route('measure.index')->with('message', 'messages.failure-test-measure-in-use');
         }
         // redirect
-        return Redirect::route('measure.index')->with('message', 'The measure was successfully deleted!');
+        return Redirect::route('measure.index')->with('message', 'messages.success-deleting-measure');
     }
 }

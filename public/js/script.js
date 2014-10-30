@@ -73,10 +73,7 @@ $(function(){
 
 	$('.btn-delete').click(function(){
 		$('.confirm-delete-modal').modal('toggle');
-		$.ajax({url: $('#delete-url').val()})
-			.done(function(){
-				location.reload(true);
-			});
+		window.location.href = $('#delete-url').val(); 
 	});
 
 	UIComponents();

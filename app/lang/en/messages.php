@@ -1,12 +1,12 @@
 <?php
-/* 
-|   To aid quick referencing, keep entries in the same section ALPHABETICALLY ORDERED
-*/
+/** 
+ *   To aid quick referencing, keep entries in the same section ALPHABETICALLY ORDERED
+ */
 
 return array(
-    /* 
-    |   Generic names
-    */
+    /** 
+     *   Generic names
+     */
     'actions' => 'Actions',
     'back' => 'Previous Page',
     'cancel' => 'Cancel',
@@ -37,15 +37,15 @@ return array(
     'users' => 'Users',
     'username' => 'Username',
     'view' => 'View',
-    /* 
-    |   Generic phrases
-    */
+    /** 
+     *   Generic phrases
+     */
     'confirm-delete-title' => 'Confirm Delete',
     'confirm-delete-message' => 'Do you wish to delete this item?',
     'confirm-delete-irreversible' => 'This action is irreversible.',
-    /* 
-    |   User
-    */
+    /** 
+     *   User
+     */
     'change-password' => 'Change Password',
     'current-password' => 'Current Password',
     'designation' => 'Designation',
@@ -59,9 +59,9 @@ return array(
     're-enter-password' => 'Re-enter Password',
     'reset-password' => 'Reset Password',
     'user-profile-edit-success' => 'The user details were successfully updated!',
-    /* 
-    |   Patient
-    */
+    /** 
+     *   Patient
+     */
     'age' => 'Age',
     'date-created' => 'Registration Date',
     'date-of-birth' => 'Date of Birth',
@@ -79,9 +79,9 @@ return array(
     'patient-number' => 'Patient Number',
     'phone-number' => 'Phone Number',
     'physical-address' => 'Physical Address',
-    /* 
-    |   Specimen
-    */
+    /** 
+     *   Specimen
+     */
     'accept-specimen' => 'Accept',
     'accept-specimen-title' => 'Accept Specimen',
     'change-specimen' => 'Change',
@@ -105,21 +105,33 @@ return array(
     'specimen-type-title' => 'Specimen Type',
     'success-rejecting-specimen' => 'The specimen was rejected!',
     'update' => 'Update',
-    /* 
-    |   Test Categories
-    */
+    /** 
+     *   Test Catalog
+     */
     'create-test-category' => 'Create Lab Section',
+    'error-creating-measure' => 'Error occured while creating measure!',
     'edit-test-category' => 'Edit Lab Section',
-    'failure-test-category-in-use' => 'This category is a group of Test Types in Use',
+    'failure-specimen-type-in-use' => 'This Specimen Type is in use'
+    'failure-test-category-in-use' => 'This category is a group of Test Types in use',
+    'failure-test-measure-in-use' => 'This Measure is in use'
+    'failure-test-type-in-use' => 'This Test Type is in use'
     'list-test-categories' => 'List Lab Sections',
+    'success-creating-measure' => 'Successfully created measure!',
+    'success-creating-specimen-type' => 'Successfully created specimen type!',
+    'success-creating-test-type' => 'Successfully created test type!',
     'success-creating-test-category' => 'Successfully created Lab Section.',
     'success-deleting-test-category' => 'Successfully deleted the Lab Section.',
+    'success-deleting-test-type' => 'Successfully deleted the Test Type!',
+    'success-deleting-specimen-type' => 'Successfully deleted the Specimen Type!',
+    'success-updating-measure' => 'The measure details were successfully updated!',
+    'success-updating-specimen-type' => 'The specimen type details were successfully updated!',
+    'success-updating-test-type' => 'The test type details were successfully updated!',
     'success-updating-test-category' => 'The lab section was successfully updated!',
     'test-category' => 'Lab Section',
     'test-category-details' => 'Lab Section Details',
-    /* 
-    |   Tests
-    */
+    /** 
+     *   Tests
+     */
     'all' => 'All',
     'create-new-test' => 'Create New Test',
     'completed' => 'Test Completed',
@@ -173,15 +185,15 @@ return array(
     'visit-number' => 'Lab No.',
     'visit-type' => 'Visit Type',
 
-    /* 
-    |   Tests search panel
-    */
+    /** 
+     *   Tests search panel
+     */
     'from' => 'From',
     'to' => 'To',
 
-    /* 
-    |   Permissions
-    */
+    /** 
+     *   Permissions
+     */
     'permission' => 'Permission|Permissions',
     'no-permissions-found' => 'No permissions found',
     'no-users-found' => 'No Users found',
