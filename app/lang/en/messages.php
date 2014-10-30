@@ -110,6 +110,7 @@ return array(
     */
     'create-test-category' => 'Create Lab Section',
     'edit-test-category' => 'Edit Lab Section',
+    'failure-test-category-in-use' => 'This category is a group of Test Types in Use',
     'list-test-categories' => 'List Lab Sections',
     'success-creating-test-category' => 'Successfully created Lab Section.',
     'success-deleting-test-category' => 'Successfully deleted the Lab Section.',

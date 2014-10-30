@@ -144,12 +144,17 @@ class SpecimenTypeController extends \BaseController {
 	{
 		//Soft delete the specimentype
 		$specimentype = SpecimenType::find($id);
-
-		$specimentype->delete();
-
+		$inUseByTesttype = $specimentype->testTypes->toArray();
+		$inUseBySpecimen = $specimentype->specimen->toArray();
+		if (empty($inUseByTesttype) && empty($inUseBySpecimen)) {
+		    // The specimen type is not in use
+			$specimentype->delete();
+		} else {
+		    // The specimen type is in use
+		    return Redirect::route('testcategory.index')->with('message', 'messages.failure-test-category-in-use');
+		}
 		// redirect
 		return Redirect::route('specimentype.index')
                     ->with('message', 'The specimen type was successfully deleted!');
 	}
-
 }

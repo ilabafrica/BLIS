@@ -216,10 +216,16 @@ class MeasureController extends \BaseController {
     {
         //Soft delete the measure
         $measure = Measure::find($id);
-        $measure->delete();
+        $inUseByTesttype = $measure->testTypes->toArray();
 
+        if (empty($inUseByTesttype)) {
+            // The test category is not in use
+            $measure->delete();
+        } else {
+            // The test category is in use
+            return Redirect::route('measure.index')->with('message', 'messages.failure-test-measure-in-use');
+        }
         // redirect
         return Redirect::route('measure.index')->with('message', 'The measure was successfully deleted!');
     }
-
 }

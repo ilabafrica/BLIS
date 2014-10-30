@@ -138,11 +138,21 @@ class TestCategoryController extends \BaseController {
 		//Soft delete the test category
 		$testcategory = TestCategory::find($id);
 
-		$testcategory->delete();
-
+		$testCategoryInUse = TestType::where('section_id', '=', $id)->first();
+		if (empty($testCategoryInUse)) {
+		    // The test category is not in use
+			$testcategory->delete();
+		} else {
+		    // The test category is in use
+		    return Redirect::route('testcategory.index')->with('message', 'messages.failure-test-category-in-use');
+		}
 		// redirect
 		return Redirect::route('testcategory.index')->with('message', 'messages.success-deleting-test-category');
 	}
-
-
 }
+
+
+
+
+
+

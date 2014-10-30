@@ -179,11 +179,16 @@ class TestTypeController extends \BaseController {
 	{
 		//Soft delete the testtype
 		$testtype = TestType::find($id);
+        $inUseByTests = $testtype->tests->toArray();
 
-		$testtype->delete();
-
+		if (empty($inUseByTests)) {
+		    // The test category is not in use
+			$testtype->delete();
+		} else {
+		    // The test category is in use
+		    return Redirect::route('testtype.index')->with('message', 'messages.failure-test-type-in-use');
+		}
 		// redirect
 		return Redirect::route('testtype.index')->with('message', 'The test type was successfully deleted!');
 	}
-
 }
