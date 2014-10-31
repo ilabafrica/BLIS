@@ -19,7 +19,7 @@ class SanitasInterfacer implements InterfacerInterface{
         //Match the results by measure name
         //Validate
         //HTTP send(json) laravel may have this functionality
-        //Put jsonResponseString in array then loop through the array sending each string individually
+        //Put jsonResponseArray[] in array then loop through the array sending each string individually
 
         //Get the test and results 
         $test = Test::find($testId);
@@ -28,33 +28,49 @@ class SanitasInterfacer implements InterfacerInterface{
         //Measures
         $testTypeId = $test->testType()->get()->lists('id')[0];
         $testType = TestType::find($testTypeId);
-        $measures = $testType->measures;
+        $testMeasures = $testType->measures;
 
         //Get external requests and all its children
         $externalDump = new ExternalDump();
-        $labNo = ExternalDump::where('test_id', '=', $testId)->get()->lists('labNo')[0];
+        $externRequest = ExternalDump::where('test_id', '=', $testId)->get();
+        $labNo = $externRequest->lists('labNo')[0];
         $externlabRequestTree = $externalDump->getLabRequestAndMeasures($labNo);
 
-        $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
+        $jsonResponseArray[] = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
             $labNo, $test->tested_by, $test->interpretation, $test->tested_by, $test->test_status_id);
-        var_dump($jsonResponseString);
 
         foreach ($externlabRequestTree as $key => $externlabRequest){ 
-            $measures->filter(function($measure) use ($externlabRequest, $testResults, $externlabRequestTree, $test){
-                if($measure->name == $externlabRequest->investigation)
-                {
-                    $id = $measure->id;
-                        foreach ($testResults as $key => $result) {
-                            if($result->measure_id == $id){
-                                $x = $result;
-                                break;
-                            }
-                        }
-                        $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
-                                $externlabRequestTree[$key]->labNo, $test->tested_by, $x->result, $test->tested_by, $test->test_status_id);
-                        var_dump($jsonResponseString);
-                }
-            });
+
+            $mKey = array_search($externlabRequest->investigation, $testMeasures->lists('name'));
+            $measureId = $testMeasures->get($mKey)->id;
+
+            $rKey = array_search($measureId, $testResults->lists('measure_id'));
+            $matchingResult = $testResults->get($rKey);
+
+            $jsonResponseArray[] = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
+                        $externlabRequest->labNo, $test->tested_by, $matchingResult->result, $test->tested_by, $test->test_status_id);
+        }
+
+        //$httpRequest = new HttpRequest('localhost', HttpRequest::METH_POST);
+        foreach ($jsonResponseArray as $key => $jsonResponse) {
+            $httpRequest->addPostFields(array('labResult' => $jsonResponse));
+
+            try {
+                $response = $httpRequest->send()->getBody();
+            } catch (HttpException $ex) {
+                Log::error("HTTP Exception: SanitasInterfacer failed to send $jsonResponse : Error message $ex");
+            }
+
+            if($response == "Test updated")
+            {
+                $updatedExternalRequest = ExternalDump::find($externRequest->id);
+                $updatedExternalRequest->result_returned = 1;
+                $updatedExternalRequest::save();
+            }
+            else if($response!="Test updated")
+            {
+                Log::error("HTTP Exception: SanitasInterfacer failed to send $jsonResponse : Error message $ex");
+            }
         }
         //Send back
     }
