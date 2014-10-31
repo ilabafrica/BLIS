@@ -39,7 +39,7 @@
 						<td>{{ $value->description }}</td>
 						<td>
 							<!-- show the measure (uses the show method found at GET /measure/{id} -->
-							<a class="btn btn-sm btn-success" href="{{ URL::route('measure.index', array($value->id)) }}">
+							<a class="btn btn-sm btn-success" href="{{ URL::route('measure.show', array($value->id)) }}">
 								<span class="glyphicon glyphicon-eye-open"></span>
 								{{ trans('messages.view') }}
 							</a>
