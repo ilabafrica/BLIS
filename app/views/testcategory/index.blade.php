@@ -24,7 +24,7 @@
 		<table class="table table-striped table-hover table-condensed">
 			<thead>
 				<tr>
-					<th>{{ Lang::choice('messages.name',1) }}</th>
+					<th>{{ trans('messages.name') }}</th>
 					<th>{{ trans('messages.description') }}</th>
 				</tr>
 			</thead>

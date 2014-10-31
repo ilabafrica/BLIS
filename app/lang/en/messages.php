@@ -9,13 +9,16 @@ return array(
      */
     'actions' => 'Actions',
     'back' => 'Previous Page',
+    'both' => 'Both',
     'cancel' => 'Cancel',
     'close' => 'Close',
     'create' => 'Create',
+    'date-created' => 'Date Created',
     'delete' => 'Delete',
     'description' => 'Description',
     'edit' => 'Edit',
     'email' => 'Email',
+    'female' => 'Female',
     'email-address' => 'Email Address',
     'gender' => 'Gender',
     'field-required' => 'This field is required',
@@ -23,6 +26,7 @@ return array(
     'home' => 'Home',
     'image-alternative' => 'No photo available',
     'login' => 'Login',
+    'male' => 'Male',
     'name' => 'Name',
     'names' => 'Names',
     'next' => 'Next',
@@ -32,17 +36,21 @@ return array(
     'role' => 'Role',
     'roles' => 'Roles',
     'save' => 'Save',
+    'type' => 'Type',
+    'unit' => 'Unit',
     'update' => 'Update',
     'user' => 'User',
     'users' => 'Users',
     'username' => 'Username',
     'view' => 'View',
+    
     /** 
      *   Generic phrases
      */
     'confirm-delete-title' => 'Confirm Delete',
     'confirm-delete-message' => 'Do you wish to delete this item?',
     'confirm-delete-irreversible' => 'This action is irreversible.',
+    
     /** 
      *   User
      */
@@ -59,18 +67,16 @@ return array(
     're-enter-password' => 'Re-enter Password',
     'reset-password' => 'Reset Password',
     'user-profile-edit-success' => 'The user details were successfully updated!',
+    
     /** 
      *   Patient
      */
     'age' => 'Age',
-    'date-created' => 'Registration Date',
+    'date-registered' => 'Registration Date',
     'date-of-birth' => 'Date of Birth',
     'email-address' => 'Email Address',
     'external-patient-number' => 'External Patient Number',
-    'female' => 'Female',
-    'gender' => 'Gender',
     'list-patients' => 'List Patients',
-    'male' => 'Male',
     'new-patient' => 'New Patient',
     'patient' => 'Patient',
     'patient-details' => 'Patient Details',
@@ -79,6 +85,7 @@ return array(
     'patient-number' => 'Patient Number',
     'phone-number' => 'Phone Number',
     'physical-address' => 'Physical Address',
+    
     /** 
      *   Specimen
      */
@@ -105,30 +112,62 @@ return array(
     'specimen-type-title' => 'Specimen Type',
     'success-rejecting-specimen' => 'The specimen was rejected!',
     'update' => 'Update',
+    
     /** 
      *   Test Catalog
      */
-    'create-test-category' => 'Create Lab Section',
+    /*Measure*/
+    'add-new-measure-range' => 'Add New Range',
+    'agemax' => 'Age Max',
+    'agemin' => 'Age Min',
+    'create-measure' => 'Create Measure',
     'error-creating-measure' => 'Error occured while creating measure!',
-    'edit-test-category' => 'Edit Lab Section',
-    'failure-specimen-type-in-use' => 'This Specimen Type is in use'
-    'failure-test-category-in-use' => 'This category is a group of Test Types in use',
-    'failure-test-measure-in-use' => 'This Measure is in use'
-    'failure-test-type-in-use' => 'This Test Type is in use'
-    'list-test-categories' => 'List Lab Sections',
+    'edit-measure' => 'Edit Measure',
+    'edit-measure-details' => 'Edit Measure Details',
+    'failure-test-measure-in-use' => 'This Measure is in use',
+    'freetext-measure-config-input-message' => 'A text box will appear for results entry',
+    'list-measures' => 'List Measures',
+    'measure' => 'Measure',
+    'measure-age-range' => 'Age Range',
+    'measure-details' => 'Measure Details',
+    'measure-range' => 'Measure Range',
+    'measure-range-values' => 'Range Values',
+    'measure-type' => 'Measure Type',
+    'new-measure' => 'New Measure',
+    'rangemin' => 'Range Lower Limit',
+    'rangemax' => 'Range Upper Limit',
+    'save-measure' => 'Save Measure',
     'success-creating-measure' => 'Successfully created measure!',
+    'success-deleting-measure' => 'Successfully deleted the Measure!',
+    'success-updating-measure' => 'The measure details were successfully updated!',
+    'update-measure' => 'Update Measure',
+    /*Specimen Type*/
+    'create-specimen-type' => 'Create Specimen Type',
+    'edit-specimen-type' => 'Edit Specimen Type',
+    'failure-specimen-type-in-use' => 'This Specimen Type is in use',
+    'list-specimen-types' => 'List Specimen Types',
+    'new-specimen-type' => 'New Specimen Type',
+    'specimen-type' => 'Specimen Type',
+    'specimen-type-details' => 'Specimen Type Details',
     'success-creating-specimen-type' => 'Successfully created specimen type!',
-    'success-creating-test-type' => 'Successfully created test type!',
+    'success-deleting-specimen-type' => 'Successfully deleted the Specimen Type!',
+    'success-updating-specimen-type' => 'The specimen type details were successfully updated!',
+    /*Test Category*/
+    'create-test-category' => 'Create Lab Section',
+    'edit-test-category' => 'Edit Lab Section',
+    'failure-test-category-in-use' => 'This category is a group of Test Types in use',
     'success-creating-test-category' => 'Successfully created Lab Section.',
     'success-deleting-test-category' => 'Successfully deleted the Lab Section.',
-    'success-deleting-test-type' => 'Successfully deleted the Test Type!',
-    'success-deleting-specimen-type' => 'Successfully deleted the Specimen Type!',
-    'success-updating-measure' => 'The measure details were successfully updated!',
-    'success-updating-specimen-type' => 'The specimen type details were successfully updated!',
-    'success-updating-test-type' => 'The test type details were successfully updated!',
     'success-updating-test-category' => 'The lab section was successfully updated!',
     'test-category' => 'Lab Section',
     'test-category-details' => 'Lab Section Details',
+    /*Test Type*/
+    'failure-test-type-in-use' => 'This Test Type is in use',
+    'list-test-categories' => 'List Lab Sections',
+    'success-creating-test-type' => 'Successfully created test type!',
+    'success-deleting-test-type' => 'Successfully deleted the Test Type!',
+    'success-updating-test-type' => 'The test type details were successfully updated!',
+    
     /** 
      *   Tests
      */
@@ -184,10 +223,7 @@ return array(
     'view-details-title' => 'View Test Details',
     'visit-number' => 'Lab No.',
     'visit-type' => 'Visit Type',
-
-    /** 
-     *   Tests search panel
-     */
+    /*Tests search panel*/
     'from' => 'From',
     'to' => 'To',
 

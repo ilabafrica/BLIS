@@ -34,7 +34,7 @@
                 <p class="view-striped"><strong>{{ trans('messages.physical-address') }}</strong>{{ $patient->address }}</p>
                 <p class="view"><strong>{{ trans('messages.phone-number') }}</strong>{{ $patient->phone_number }}</p>
                 <p class="view-striped"><strong>{{ trans('messages.email-address') }}</strong>{{ $patient->email }}</p>
-                <p class="view"><strong>{{ trans('messages.date-created') }}</strong>{{ $patient->created_at }}</p>
+                <p class="view"><strong>{{ trans('messages.date-registered') }}</strong>{{ $patient->created_at }}</p>
             </div>
         </div>
     </div>

@@ -2,27 +2,27 @@
 @section("content")
 	<div>
 		<ol class="breadcrumb">
-		  <li><a href="{{{URL::route('user.home')}}}">Home</a></li>
-		  <li><a href="{{ URL::route('specimentype.index') }}">Specimen Type</a></li>
-		  <li class="active">Specimen Type Details</li>
+		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
+		  <li><a href="{{ URL::route('specimentype.index') }}">{{trans('messages.specimen-type')}}</a></li>
+		  <li class="active">{{trans('messages.specimen-type-details')}}</li>
 		</ol>
 	</div>
 	<div class="panel panel-primary specimentype-create">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-user"></span>
-			Specimen Type Details
+			{{trans('messages.specimen-type-details')}}
 			<div class="panel-btn">
 				<a class="btn btn-sm btn-info" href="{{ URL::to("specimentype/". $specimentype->id ."/edit") }}">
 					<span class="glyphicon glyphicon-edit"></span>
-					Edit
+					{{trans('messages.edit')}}
 				</a>
 			</div>
 		</div>
 		<div class="panel-body">
 			<div class="display-details">
-				<h3 class="view"><strong>Name:</strong>{{ $specimentype->name }} </h3>
-				<p class="view-striped"><strong>Description:</strong>{{ $specimentype->description }}</p>
-				<p class="view"><strong>Date Created:</strong>{{ $specimentype->created_at }}</p>
+				<h3 class="view"><strong>{{trans('messages.name')}}:</strong>{{ $specimentype->name }} </h3>
+				<p class="view-striped"><strong>{{trans('messages.description')}}:</strong>{{ $specimentype->description }}</p>
+				<p class="view"><strong>{{trans('messages.date-created')}}:</strong>{{ $specimentype->created_at }}</p>
 			</div>
 		</div>
 	</div>

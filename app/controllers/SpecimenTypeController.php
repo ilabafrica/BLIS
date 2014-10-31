@@ -3,7 +3,7 @@
 use Illuminate\Database\QueryException;
 
 /**
- *Contains functions for managing specimen types  
+ * Contains functions for managing specimen types  
  *
  */
 class SpecimenTypeController extends \BaseController {
