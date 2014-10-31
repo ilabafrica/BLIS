@@ -32,11 +32,11 @@
 					<table class="table table-condensed table-hover table-striped">
 						<thead>
 							<tr>
-								<th>{{ trans('messages.age-min') }}</th>
-								<th>{{ trans('messages.age-max') }}</th>
+								<th>{{ trans('messages.agemin') }}</th>
+								<th>{{ trans('messages.agemax') }}</th>
 								<th>{{ trans('messages.gender') }}</th>
-								<th>{{ trans('messages.range-lower-limit') }}</th>
-								<th>{{ trans('messages.range-upper-limit') }}</th>
+								<th>{{ trans('messages.rangemin') }}</th>
+								<th>{{ trans('messages.rangemax') }}</th>
 							</tr>
 						</thead>
 						<tbody>

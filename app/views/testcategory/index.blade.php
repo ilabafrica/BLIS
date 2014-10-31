@@ -47,6 +47,7 @@
 							<span class="glyphicon glyphicon-edit"></span>
 							{{ trans('messages.edit') }}
 						</a>
+						
 					<!-- delete this test category (uses delete method found at GET /testcategory/{id}/delete -->
 						<button class="btn btn-sm btn-danger delete-item-link"
 							data-toggle="modal" data-target=".confirm-delete-modal"	

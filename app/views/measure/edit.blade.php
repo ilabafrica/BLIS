@@ -53,29 +53,29 @@
 									<div>
 										<span class="range-title">{{trans('messages.measure-age-range')}}:</span>
 										<input name="agemin[]" type="text" value="{{{$value->age_min}}}"
-										title="{{trans('messages.lower-age-limit'))}}">
+										title="{{trans('messages.lower-age-limit')}}">
 
 										<span>:</span>
 										<input name="agemax[]" type="text" value="{{{$value->age_max}}}"
-											title="{{trans('messages.upper-age-limit'))}}">
+											title="{{trans('messages.upper-age-limit')}}">
 									</div>
 									<div>
 										<span class="range-title">trans('messages.gender'))</span>
 										<?php $selection = array("","","");?>
 										<?php $selection[$value->gender] = "selected='selected'"; ?>
 										<select name="gender[]">
-											<option value="0" {{$selection[0]}}>trans('messages.male'))</option>
-											<option value="1" {{$selection[1]}}>trans('messages.female'))</option>
-											<option value="2" {{$selection[2]}}>trans('messages.both'))</option>
+											<option value="0" {{$selection[0]}}>{{trans('messages.male')}}</option>
+											<option value="1" {{$selection[1]}}>{{trans('messages.female')}}</option>
+											<option value="2" {{$selection[2]}}>{{trans('messages.both')}}</option>
 										</select>
 									</div>
 									<div>
 										<span class="range-title">trans('messages.measure-range'))</span>
 										<input name="rangemin[]" type="text" value="{{{$value->range_lower}}}" 
-											title="{{trans('messages.lower-range'))}}">
+											title="{{trans('messages.lower-range')}}">
 										<span>:</span>
 										<input name="rangemax[]" type="text" value="{{{$value->range_upper}}}"
-											title="{{trans('messages.upper-range'))}}">
+											title="{{trans('messages.upper-range')}}">
 									</div>
 								</div>
 								@endforeach
