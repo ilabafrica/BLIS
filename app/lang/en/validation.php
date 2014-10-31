@@ -105,11 +105,11 @@ return array(
 
 	'attributes' => array(
 		'email' => 'Email Address',
-		'name' => 'Full Name',
+		'full_name' => 'Full Name',
 		'password' => 'Password',
 		'username' => 'Username',
 		'current_password' => 'Current Password',
-		'test_type_name' => 'Name',
+		'name' => 'Name',
 		'specimentypes' => 'Specimen Types',
 		),
 

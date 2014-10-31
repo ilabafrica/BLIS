@@ -84,7 +84,7 @@ class UserController extends Controller {
         $rules = array(
             'username' => 'alpha_num|required|unique:users,username|min:6',
             'password' => 'confirmed|required|min:6',
-            'name' => 'required',
+            'full_name' => 'required',
             'email' => 'required|email'
         );
         $validator = Validator::make(Input::all(), $rules);
@@ -98,7 +98,7 @@ class UserController extends Controller {
             // store
             $user = new User;
             $user->username = Input::get('username');
-            $user->name = Input::get('name');
+            $user->name = Input::get('full_name');
             $user->gender = Input::get('gender');
             $user->designation = Input::get('designation');
             $user->email = Input::get('email');
@@ -172,7 +172,7 @@ class UserController extends Controller {
     {
         //
         $rules = array(
-            'name'       => 'required',
+            'full_name'       => 'required',
             'email' => 'required|email',
             'image' => 'image|max:500'
         );
@@ -191,7 +191,7 @@ class UserController extends Controller {
         } else {
             // Update
             $user = User::find($id);
-            $user->name = Input::get('name');
+            $user->name = Input::get('full_name');
             $user->gender = Input::get('gender');
             $user->designation = Input::get('designation');
             $user->email = Input::get('email');

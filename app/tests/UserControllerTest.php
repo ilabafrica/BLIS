@@ -27,7 +27,7 @@ class UserControllerTest extends TestCase
 		$this->userData = array(
 			'username' => 'dotmatrix',
 			'email' => 'johxdoe@example.com',
-			'name' => 'John Dot',
+			'full_name' => 'John Dot',
 			'gender' => User::FEMALE,
 			'designation' => 'LabTechnikan',
             'password' => "goodpassword",
@@ -37,7 +37,7 @@ class UserControllerTest extends TestCase
         // Edition sample data
         $this->userDataUpdate = array(
           'email' => 'johndoe@example.com',
-          'name' => 'John Doe',
+          'full_name' => 'John Doe',
           'gender' => User::MALE,
           'designation' => 'LabTechnician',
           'current_password' => 'goodpassword',
@@ -81,7 +81,7 @@ class UserControllerTest extends TestCase
 
 		$this->assertEquals($userSaved->username , $this->userData['username']);
 		$this->assertEquals($userSaved->email , $this->userData['email']);
-		$this->assertEquals($userSaved->name , $this->userData['name']);
+		$this->assertEquals($userSaved->name , $this->userData['full_name']);
 		$this->assertEquals($userSaved->gender , $this->userData['gender']);
 		$this->assertEquals($userSaved->designation , $this->userData['designation']);
 	}
@@ -102,7 +102,7 @@ class UserControllerTest extends TestCase
 
         $userUpdated = User::find(1);
         $this->assertEquals($userUpdated->email , $this->userDataUpdate['email']);
-        $this->assertEquals($userUpdated->name , $this->userDataUpdate['name']);
+        $this->assertEquals($userUpdated->name , $this->userDataUpdate['full_name']);
         $this->assertEquals($userUpdated->gender , $this->userDataUpdate['gender']);
         $this->assertEquals($userUpdated->designation , $this->userDataUpdate['designation']);
     }

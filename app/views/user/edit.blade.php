@@ -50,8 +50,8 @@
 												<p class="form-control-static">{{$user->username}}</p>
 											</div>
 											<div class="form-group">
-												{{ Form::label('name', trans('messages.full-name')) }}
-												{{ Form::text('name', Input::old('name'), ["placeholder" => "Jay Siku",
+												{{ Form::label('full_name', trans('messages.full-name')) }}
+												{{ Form::text('full_name', $user->name, ["placeholder" => "Jay Siku",
 													'class' => 'form-control']) }}
 											</div>
 											<div class="form-group">
