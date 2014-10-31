@@ -117,11 +117,11 @@ class CreatekBLIStables extends Migration {
             $table->increments('id')->unsigned();
             $table->string('name', 100);
             $table->string('description', 100)->nullable();
-            $table->integer('section_id')->unsigned();
+            $table->integer('test_category_id')->unsigned();
             $table->string('targetTAT', 50)->nullable();
             $table->string('prevalence_threshold', 50)->nullable();
             
-            $table->foreign('section_id')->references('id')->on('test_categories');
+            $table->foreign('test_category_id')->references('id')->on('test_categories');
 
             $table->softDeletes();
             $table->timestamps();

@@ -7,7 +7,7 @@
 	</ol>
 </div>
 @if (Session::has('message'))
-	<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
+	<div class="alert alert-info">{{ Session::get('message') }}</div>
 @endif
 <div class="panel panel-primary">
 	<div class="panel-heading ">

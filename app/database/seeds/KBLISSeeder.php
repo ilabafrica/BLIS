@@ -148,10 +148,10 @@ class KBLISSeeder extends DatabaseSeeder
         $this->command->info('measures seeded');
         
         /* Test Types table */
-        $test_types = TestType::create(array("name" => "BS for mps", "section_id" => $test_categories->id));
-        $test_type_gxm = TestType::create(array("name" => "GXM", "section_id" => $test_categories->id));
-        $test_type_hb = TestType::create(array("name" => "HB", "section_id" => $test_categories->id));
-        $test_type_urinalysis = TestType::create(array("name" => "Urinalysis", "section_id" => $test_categories->id));
+        $test_types = TestType::create(array("name" => "BS for mps", "test_category_id" => $test_categories->id));
+        $test_type_gxm = TestType::create(array("name" => "GXM", "test_category_id" => $test_categories->id));
+        $test_type_hb = TestType::create(array("name" => "HB", "test_category_id" => $test_categories->id));
+        $test_type_urinalysis = TestType::create(array("name" => "Urinalysis", "test_category_id" => $test_categories->id));
         $this->command->info('test_types seeded');
 
         /* TestType Measure table */

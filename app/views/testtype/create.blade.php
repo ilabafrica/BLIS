@@ -32,8 +32,8 @@
 					array('class' => 'form-control', 'rows' => '2')) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('section_id', Lang::choice('messages.test-category',1)) }}
-				{{ Form::select('section_id', $labsections->lists('name', 'id'), Input::old('section_id'),
+				{{ Form::label('test_category_id', Lang::choice('messages.test-category',1)) }}
+				{{ Form::select('test_category_id', $labsections->lists('name', 'id'), Input::old('test_category_id'),
 					array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">

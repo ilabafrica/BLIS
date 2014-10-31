@@ -49,7 +49,7 @@ class TestTypeController extends \BaseController {
 		//
 		$rules = array(
 			'name' => 'required|unique:test_types,name',
-			'section_id' => 'required',
+			'test_category_id' => 'required',
 			'specimentypes' => 'required',
 			'measures' => 'required',
 		);
@@ -63,7 +63,7 @@ class TestTypeController extends \BaseController {
 			$testtype = new TestType;
 			$testtype->name = Input::get('name');
 			$testtype->description = Input::get('description');
-			$testtype->section_id = Input::get('section_id');
+			$testtype->test_category_id = Input::get('test_category_id');
 			$testtype->targetTAT = Input::get('targetTAT');
 			$testtype->prevalence_threshold = Input::get('prevalence_threshold');
 			try{
@@ -127,7 +127,7 @@ class TestTypeController extends \BaseController {
 		//
 		$rules = array(
 			'name' => 'required',
-			'section_id' => 'required',
+			'test_category_id' => 'required',
 			'specimentypes' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
@@ -140,7 +140,7 @@ class TestTypeController extends \BaseController {
 			$testtype = TestType::find($id);
 			$testtype->name = Input::get('name');
 			$testtype->description = Input::get('description');
-			$testtype->section_id = Input::get('section_id');
+			$testtype->test_category_id = Input::get('test_category_id');
 			$testtype->targetTAT = Input::get('targetTAT');
 			$testtype->prevalence_threshold = Input::get('prevalence_threshold');
 
