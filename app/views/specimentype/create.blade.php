@@ -4,7 +4,7 @@
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
 	  <li>
-	  	<a href="{{ URL::route('specimentype.index') }}">{{trans('messages.specimen-type')}}</a>
+	  	<a href="{{ URL::route('specimentype.index') }}">{{Lang::choice('messages.specimen-type',2)}}</a>
 	  </li>
 	  <li class="active">{{trans('messages.create-specimen-type')}}</li>
 	</ol>
@@ -26,7 +26,7 @@
 		{{ Form::open(array('url' => 'specimentype', 'id' => 'form-create-specimentype')) }}
 
 			<div class="form-group">
-				{{ Form::label('name', trans('messages.name')) }}
+				{{ Form::label('name', Lang::choice('messages.name', 1)) }}
 				{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
@@ -36,7 +36,7 @@
 			</div>
 			<div class="form-group actions-row">
 				{{ Form::button(
-					'<span class="glyphicon glyphicon-save"></span>'.trans('messages.save'),
+					'<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'),
 					['class' => 'btn btn-primary', 'onclick' => 'submit()'] 
 				) }}
 			</div>

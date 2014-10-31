@@ -53,7 +53,7 @@ class TestCategoryController extends \BaseController {
 			try{
 				$testcategory->save();
 				return Redirect::route('testcategory.index')
-							->with('message', 'messages.success-creating-test-category');
+							->with('message', trans('messages.success-creating-test-category'));
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -112,7 +112,7 @@ class TestCategoryController extends \BaseController {
 			$testcategory->save();
 
 			// redirect
-			return Redirect::route('testcategory.index')->with('message', 'messages.success-updating-test-category');
+			return Redirect::route('testcategory.index')->with('message', trans('messages.success-updating-test-category'));
 		}
 	}
 
@@ -147,7 +147,7 @@ class TestCategoryController extends \BaseController {
 		    return Redirect::route('testcategory.index')->with('message', 'messages.failure-test-category-in-use');
 		}
 		// redirect
-		return Redirect::route('testcategory.index')->with('message', 'messages.success-deleting-test-category');
+		return Redirect::route('testcategory.index')->with('message', trans('messages.success-deleting-test-category'));
 	}
 }
 

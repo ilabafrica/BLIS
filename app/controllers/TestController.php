@@ -9,7 +9,8 @@ use Illuminate\Database\QueryException;
 class TestController extends \BaseController {
 
 	/**
-	 * Display a listing of the resource.
+	 * Display a listing of Tests. Factors in filter parameters
+	 * The search string may match: patient_number, patient name, test type name, specimen ID or visit ID
 	 *
 	 * @return Response
 	 */
@@ -17,25 +18,46 @@ class TestController extends \BaseController {
 	{
 		$testStatus = TestStatus::all();
 		$searchString = Input::get('search');
-		$testStatusId = Input::get('testStatusId');
-		$dateFrom = Input::get('dateFrom');
-		$dateTo = Input::get('dateTo');
+		$testStatusId = Input::get('test_status');
+		$dateFrom = Input::get('date_from');
+		$dateTo = Input::get('date_to');
+
 		if($searchString||$testStatusId||$dateFrom||$dateTo){
-			$tests = Test::with('visit', 'visit.patient', 'testType', 'specimen', 'testStatus', 'testStatus.testPhase')->where(function($q) use ($searchString){
-				$q->whereHas('visit', function($q) use ($searchString){
-					$q->whereHas('patient', function($q)  use ($searchString){
-						(is_numeric($searchString)) ? $q->where('patient_number', 'like', '%' . $searchString . '%') : $q->where('name', 'like', '%' . $searchString . '%');
+
+			$tests = Test::with('visit', 'visit.patient', 'testType', 'specimen', 'testStatus', 'testStatus.testPhase')
+				->where(function($q) use ($searchString){
+
+				$q->whereHas('visit', function($q) use ($searchString)
+				{
+					$q->whereHas('patient', function($q)  use ($searchString)
+					{
+						if(is_numeric($searchString))
+						{
+							$q->where('patient_number', 'like', '%' . $searchString . '%');
+						}
+						else
+						{
+							$q->where('name', 'like', '%' . $searchString . '%');
+						}
 					});
-				})->orWhereHas('testType', function($q) use ($searchString){
+				})
+				->orWhereHas('testType', function($q) use ($searchString)
+				{
 				    $q->where('name', 'like', '%' . $searchString . '%');//Search by test type
-				})->orWhereHas('specimen', function($q) use ($searchString){
+				})
+				->orWhereHas('specimen', function($q) use ($searchString)
+				{
 				    $q->where('id', 'like', '%' . $searchString . '%');//Search by specimen number
-				})->orWhereHas('visit',  function($q) use ($searchString){
+				})
+				->orWhereHas('visit',  function($q) use ($searchString)
+				{
 					$q->where('id', 'like', '%' . $searchString . '%');//Search by visit number
 				});
 			});
-			if ($testStatusId) {
-				$tests = $tests->where(function($q) use ($testStatusId){
+
+			if ($testStatusId > 0) {
+				$tests = $tests->where(function($q) use ($testStatusId)
+				{
 					$q->whereHas('testStatus', function($q) use ($testStatusId){
 					    $q->where('id','=', $testStatusId);//Filter by test status
 					});
@@ -43,39 +65,36 @@ class TestController extends \BaseController {
 			}
 
 			if ($dateFrom||$dateTo) {
-				$tests = $tests->where(function($q) use ($dateFrom, $dateTo){
-					$q->whereHas('specimen', function($q) use ($dateFrom, $dateTo){//Filter by date created
+				$tests = $tests->where(function($q) use ($dateFrom, $dateTo)
+				{
+					$q->whereHas('specimen', function($q) use ($dateFrom, $dateTo)//Filter by date created
+					{
 						$q = $q->where('time_created', '>=', $dateFrom);
 						(empty($dateTo)) ? $q : $q->where('time_created', '<=', $dateTo);
 					});
 				});
 			}
+
 			$tests = $tests->orderBy('time_created', 'DESC')->paginate(Config::get('kblis.page-items'));
+
 			if (count($tests) == 0) {
-			 	Session::flash('message', 'Your search <b>'.$searchString.'</b>, did not match any test record!');
+			 	Session::flash('message', trans('messages.empty-search'));
 			}
 		}
-		else{
+		else
+		{
 		// List all the active tests
 			$tests = Test::orderBy('time_created', 'desc')->paginate(Config::get('kblis.page-items'));
 		}
-		// Load the view and pass the tests
-		return View::make('test.index')->with('testSet', $tests)
-									   ->with('testStatus', $testStatus)
-									   ->with('search', $searchString)
-									   ->with('testStatusId', $testStatusId)
-									   ->with('dateFrom', $dateFrom)
-									   ->with('dateTo', $dateTo);
-	}
 
-	/**
-	 * Test Search
-	 *
-	 * @return Response
-	 */
-	public function testSearch()
-	{
-		//
+		// Create Test Statuses array. Include a first entry for ALL
+		$statuses = array('all')+TestStatus::all()->lists('name','id');
+		foreach ($statuses as $key => $value) {
+			$statuses[$key] = trans("messages.$value");
+		}
+
+		// Load the view and pass it the tests
+		return View::make('test.index')->with('testSet', $tests)->with('testStatus', $statuses)->withInput(Input::all());
 	}
 
 	/**
@@ -105,6 +124,7 @@ class TestController extends \BaseController {
 		if ($patientID == 0) {
 			$patientID = Input::get('patient_id');
 		}
+
 		$testTypes = TestType::all();
 		$patient = Patient::find($patientID);
 
@@ -309,8 +329,7 @@ class TestController extends \BaseController {
 		}
 
 		// redirect
-		Session::flash('message', 'Results successfully saved!');
-		return Redirect::route('test.index');
+		return Redirect::route('test.index')->with('message', trans('messages.success-saving-results'));
 	}
 
 	/**

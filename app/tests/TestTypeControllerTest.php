@@ -29,7 +29,7 @@ class TestTypeControllerTest extends TestCase
 			'name' => 'BSforMPS',
 			'description' => 'Blood Smear',
 			'targetTAT' => '25',
-			'section_id' => '1',
+			'test_category_id' => '1',
 			'prevalence_threshold' => 'Whatisdis',
 			'measures' => ['1','2', '3','5'],
 			'specimentypes' =>  ['1'],
@@ -40,7 +40,7 @@ class TestTypeControllerTest extends TestCase
 			'name' => 'BS for MPS aka Malaria yo',
 			'description' => 'Blood Smears',
 			'targetTAT' => '20',
-			'section_id' => '1',
+			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'measures' => ['1','2', '5','6'],
 			'specimentypes' =>  ['1'],
@@ -68,7 +68,7 @@ class TestTypeControllerTest extends TestCase
 		$this->assertEquals($testTypeSaved->description , $this->testTypeData['description']);
 		$this->assertEquals($testTypeSaved->targetTAT , $this->testTypeData['targetTAT']);
 		$this->assertEquals($testTypeSaved->prevalence_threshold , $this->testTypeData['prevalence_threshold']);
-		$this->assertEquals($testTypeSaved->section_id , $this->testTypeData['section_id']);
+		$this->assertEquals($testTypeSaved->test_category_id , $this->testTypeData['test_category_id']);
 
 		//Getting the Measure related to this test type
 		$testTypeMeasure = $testTypeSaved->measures->toArray();
@@ -104,7 +104,7 @@ class TestTypeControllerTest extends TestCase
 		$this->assertEquals($testTypeSavedUpdated->description , $this->testTypeDataUpdate['description']);
 		$this->assertEquals($testTypeSavedUpdated->targetTAT , $this->testTypeDataUpdate['targetTAT']);
 		$this->assertEquals($testTypeSavedUpdated->prevalence_threshold , $this->testTypeDataUpdate['prevalence_threshold']);
-		$this->assertEquals($testTypeSavedUpdated->section_id , $this->testTypeDataUpdate['section_id']);
+		$this->assertEquals($testTypeSavedUpdated->test_category_id , $this->testTypeDataUpdate['test_category_id']);
 		
 		$testTypeMeasureUpdated = TestType::find($testTypestored[0]['id'])->measures->toArray();
 		$this->assertEquals($testTypeMeasureUpdated[0]['id'], $this->testTypeDataUpdate['measures'][0]);

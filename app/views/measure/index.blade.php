@@ -2,8 +2,8 @@
 @section("content")
 	<div>
 		<ol class="breadcrumb">
-		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-		  <li class="active">{{trans('messages.measure')}}</li>
+		  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
+		  <li class="active">{{ Lang::choice('messages.measure',1) }}</li>
 		</ol>
 	</div>
 	@if (Session::has('message'))
@@ -24,10 +24,10 @@
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
 					<tr>
-						<th>{{trans('messages.name')}}</th>
-						<th>{{trans('messages.measure-range')}}</th>
-						<th>{{trans('messages.unit')}}</th>
-						<th>{{trans('messages.description')}}</th>
+						<th>{{ Lang::choice('messages.name',1) }}</th>
+						<th>{{ trans('messages.measure-range') }}</th>
+						<th>{{ trans('messages.unit') }}</th>
+						<th>{{ trans('messages.description') }}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -39,22 +39,22 @@
 						<td>{{ $value->description }}</td>
 						<td>
 							<!-- show the measure (uses the show method found at GET /measure/{id} -->
-							<a class="btn btn-sm btn-success" href="{{ URL::to('measure/' . $value->id) }}">
+							<a class="btn btn-sm btn-success" href="{{ URL::route('measure.index', array($value->id)) }}">
 								<span class="glyphicon glyphicon-eye-open"></span>
-								{{trans('messages.view')}}
+								{{ trans('messages.view') }}
 							</a>
 
 							<!-- edit this measure (uses the edit method found at GET /measure/{id}/edit -->
-							<a class="btn btn-sm btn-info" href="{{ URL::to('measure/' . $value->id . '/edit') }}" >
+							<a class="btn btn-sm btn-info" href="{{ URL::route('measure.edit', array($value->id)) }}" >
 								<span class="glyphicon glyphicon-edit"></span>
-								{{trans('messages.edit')}}
+								{{ trans('messages.edit') }}
 							</a>
 							<!-- delete this measure (uses the delete method found at GET /measure/{id}/delete -->
 							<button class="btn btn-sm btn-danger delete-item-link" 
 								data-toggle="modal" data-target=".confirm-delete-modal"	
-								data-id='{{ URL::to("measure/" . $value->id . "/delete") }}'>
+								data-id='{{ URL::to("measure.delete", array($value->id)) }}'>
 								<span class="glyphicon glyphicon-trash"></span>
-								{{trans('messages.delete')}}
+								{{ trans('messages.delete') }}
 							</button>
 						</td>
 					</tr>

@@ -3,11 +3,11 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-	  <li class="active">{{ trans('messages.test-category') }}</li>
+	  <li class="active">{{Lang::choice('messages.test-category',1)}}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
-	<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
+	<div class="alert alert-info">{{ Session::get('message') }}</div>
 @endif
 <div class="panel panel-primary">
 	<div class="panel-heading ">

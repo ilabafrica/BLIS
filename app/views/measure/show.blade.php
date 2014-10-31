@@ -2,19 +2,19 @@
 @section("content")
 	<div>
 		<ol class="breadcrumb">
-		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-		  <li><a href="{{ URL::route('measure.index') }}">{{trans('messages.measure')}}</a></li>
-		  <li class="active">{{trans('messages.measure-details')}}</li>
+		  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
+		  <li><a href="{{ URL::route('measure.index') }}">{{ Lang::choice('messages.measure',1) }}</a></li>
+		  <li class="active">{{ trans('messages.measure-details') }}</li>
 		</ol>
 	</div>
 	<div class="panel panel-primary">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-user"></span>
-			{{trans('messages.measure-details')}}
+			{{ trans('messages.measure-details') }}
 			<div class="panel-btn">
 				<a class="btn btn-sm btn-info" href="{{ URL::to('measure/'. $measure->id .'/edit') }}" >
 					<span class="glyphicon glyphicon-edit"></span>
-					{{trans('messages.edit')}}
+					{{ trans('messages.edit') }}
 				</a>
 			</div>
 		</div>
@@ -32,11 +32,11 @@
 					<table class="table table-condensed table-hover table-striped">
 						<thead>
 							<tr>
-								<th>{{trans('messages.agemin')}}</th>
-								<th>{{trans('messages.agemax')}}</th>
-								<th>{{trans('messages.gender')}}</th>
-								<th>{{trans('messages.rangemin')}}</th>
-								<th>{{trans('messages.rangemax')}}</th>
+								<th>{{ trans('messages.age-min') }}</th>
+								<th>{{ trans('messages.age-max') }}</th>
+								<th>{{ trans('messages.gender') }}</th>
+								<th>{{ trans('messages.range-lower-limit') }}</th>
+								<th>{{ trans('messages.range-upper-limit') }}</th>
 							</tr>
 						</thead>
 						<tbody>

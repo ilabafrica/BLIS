@@ -3,7 +3,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-		  <li><a href="{{ URL::route('test.index') }}">{{trans('messages.tests')}}</a></li>
+		  <li><a href="{{ URL::route('test.index') }}">{{Lang::choice('messages.test',2)}}</a></li>
 		  <li class="active">{{trans('messages.test-details')}}</li>
 		</ol>
 	</div>
@@ -45,7 +45,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="display-details">
-							<h3 class="view"><strong>{{trans('messages.test-type')}}</strong>
+							<h3 class="view"><strong>{{Lang::choice('messages.test-type',1)}}</strong>
 								{{ $test->testType->name or trans('messages.unknown') }}</h3>
 							<p class="view"><strong>{{trans('messages.visit-number')}}</strong>
 								{{$test->visit->id or trans('messages.unknown') }}</p>
@@ -63,26 +63,11 @@
 							<p class="view"><strong>{{trans('messages.verified-by')}}</strong>
 								{{$test->verifiedBy->name or trans('messages.verification-pending')}}</p>
 							@endif
-							@if($test->specimen->specimen_status_id != Specimen::REJECTED && ($test->test_status_id == Test::COMPLETED || $test->test_status_id == Test::VERIFIED))
+							@if($test->specimen->specimen_status_id != Specimen::REJECTED && 
+								($test->test_status_id == Test::COMPLETED || $test->test_status_id == Test::VERIFIED))
 							<!-- Not Rejected and (Verified or Completed)-->
 							<p class="view-striped"><strong>{{trans('messages.turnaround-time')}}</strong>
-								<?php
-									$tat = $test->getTurnaroundTime();
-									$dtat = "";
-									$tat_y = intval($tat/(365*24*60*60));
-									$tat_w = intval(($tat-($tat_y*(365*24*60*60)))/(7*24*60*60));
-									$tat_d = intval(($tat-($tat_y*(365*24*60*60))-($tat_w*(7*24*60*60)))/(24*60*60));
-									$tat_h = intval(($tat-($tat_y*(365*24*60*60))-($tat_w*(7*24*60*60))-($tat_d*(24*60*60)))/(60*60));
-									$tat_m = intval(($tat-($tat_y*(365*24*60*60))-($tat_w*(7*24*60*60))-($tat_d*(24*60*60))-($tat_h*(60*60)))/(60));
-									$tat_s = intval(($tat-($tat_y*(365*24*60*60))-($tat_w*(7*24*60*60))-($tat_d*(24*60*60))-($tat_h*(60*60))-($tat_m*(60))));
-									if($tat_y > 0) $dtat = $tat_y." years ";
-									if($tat_w > 0) $dtat .= $tat_w." weeks ";
-									if($tat_d > 0) $dtat .= $tat_d." days ";
-									if($tat_h > 0) $dtat .= $tat_h." hours ";
-									if($tat_m > 0) $dtat .= $tat_m." minutes ";
-									if($tat_s > 0) $dtat .= $tat_s." seconds ";
-								?>
-								{{$dtat or trans('messages.pending')}}</p>
+								{{$test->getFormattedTurnaroundTime()}}</p>
 							@endif
 						</div>
 					</div>
@@ -100,7 +85,7 @@
 											{{$test->visit->patient->patient_number}}</div></div>
 									<div class="row">
 										<div class="col-md-3">
-											<p><strong>{{trans("messages.name")}}</strong></p></div>
+											<p><strong>{{Lang::choice('messages.name',1)}}</strong></p></div>
 										<div class="col-md-9">
 											{{$test->visit->patient->name}}</div></div>
 									<div class="row">
@@ -125,7 +110,7 @@
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-md-4">
-											<p><strong>{{trans('messages.specimen-type')}}</strong></p>
+											<p><strong>{{Lang::choice('messages.specimen-type',1)}}</strong></p>
 										</div>
 										<div class="col-md-8">
 											{{$test->specimen->specimenType->name or trans('messages.pending') }}

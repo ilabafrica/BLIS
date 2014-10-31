@@ -177,11 +177,6 @@ label, input {
                 padding-left: 25px;
                 width: 100%;
             }
-            .login-page .login-form .form-group .glyphicon {
-                position: absolute;
-                left: 5px;
-                top:16px;
-            }
     .login-page .help {
         text-align:right;
         padding-right: 27px;
