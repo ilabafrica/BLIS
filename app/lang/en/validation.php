@@ -84,6 +84,9 @@ return array(
 	*/
 
 	'custom' => array(
+		'testtypes' => array(
+			'required' => "At least one of the ':attribute' should be selected.",
+		),
 		'specimentypes' => array(
 			'required' => "At least one of the ':attribute' should be selected.",
 		),
@@ -111,6 +114,9 @@ return array(
 		'current_password' => 'Current Password',
 		'name' => 'Name',
 		'specimentypes' => 'Specimen Types',
+		'testtypes' => 'Tests',
+		'physician' => 'Requesting Physician',
+		'reject_explained_to' => 'Person Talked To',
 		),
 
 );

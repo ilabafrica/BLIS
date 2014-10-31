@@ -10,43 +10,42 @@
         <div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
     @endif
 
-    {{ Form::open(array('route' => array('test.index'), 'class'=>'form-inline')) }}
-            <div class="form-group">
-                <label for="search" class="sr-only">search</label>
-                <input class="form-control test-search" placeholder="{{trans('messages.search')}}" 
-                value="{{isset($search) ? $search : ''}}" name="search" type="text" id="search">
-            </div>
+    <div class='container-fluid'>
+        <div class='row'>
+            <div class='col-md-12'>
+                {{ Form::open(array('route' => array('test.index'), 'class'=>'form-inline')) }}
+                    <div class="form-group">
+                        {{ Form::label('search', trans('messages.search'), array('class' => 'sr-only')) }}
+                        {{ Form::text('search', isset($input['search'])?$input['search']:'', 
+                            array('class' => 'form-control')) }}
+                    </div>
+                    <div class="form-group">
+                        {{ Form::label('test_status', trans('messages.test-status'), array('class' => 'sr-only')) }}
+                        {{ Form::select('test_status', $testStatus, 
+                            isset($input['test_status'])?$input['test_status']:'', array('class' => 'form-control')) }}
+                    </div>
 
-            <div class="form-group">
-                <label for="testStatus" class="sr-only">testStatus</label>
-                <select class="form-control" id="testStatus" name="testStatusId">
-                    <option value="">{{trans('messages.all')}}</option>
-                    @foreach ($testStatus as $status)
-                        {{"<option value=\"".$status->id."\" "}}
-                        {{( isset($testStatusId) && $status->id == $testStatusId) ? 'selected>': '>'}}
-                        {{ trans("messages.$status->name").'</option>'}}
-                    @endforeach
-                </select>
-            </div>
+                    {{trans('messages.from')}} 
+                    <div class="form-group">
+                        {{ Form::label('date_from', trans('messages.from'), array('class' => 'sr-only')) }}
+                        {{ Form::text('date_from', isset($input['date_from'])?$input['date_from']:'', 
+                            array('class' => 'form-control standard-datepicker')) }}
+                    </div>
 
-            {{trans('messages.from')}} 
-            <div class="form-group">
-                <label class="sr-only" for="date-from">{{trans('messages.from')}}</label>
-                <input class="form-control standard-datepicker" name="dateFrom" type="text" 
-                    value="{{ isset($dateFrom) ? $dateFrom : '' }}" id="date-from">
-            </div>
+                    {{trans('messages.to')}} 
+                    <div class="form-group">
+                        {{ Form::label('date_to', trans('messages.to'), array('class' => 'sr-only')) }}
+                        {{ Form::text('date_to', isset($input['date_to'])?$input['date_to']:'', 
+                            array('class' => 'form-control standard-datepicker')) }}
+                    </div>
 
-            {{trans('messages.to')}} 
-            <div class="form-group">
-                <label class="sr-only" for="date-to">{{trans('messages.to')}}</label>
-                <input class="form-control standard-datepicker" name="dateTo" type="text" 
-                    value="{{ isset($dateTo) ? $dateTo : '' }}" id="date-to">
+                    <div class="form-group">
+                        {{ Form::submit(trans('messages.search'), array('class'=>'btn btn-primary')) }}
+                    </div>
+                {{ Form::close() }}
             </div>
-
-            <div class="form-group">
-                {{ Form::submit(trans('messages.search'), array('class'=>'btn btn-primary')) }}
-            </div>
-    {{ Form::close() }}
+        </div>
+    </div>
 
     <br>
 
@@ -250,7 +249,7 @@
                       <thead>
                         <th> </th>
                         <th>{{ trans('messages.patient-id') }}</th>
-                        <th>{{ trans('messages.names') }}</th>
+                        <th>{{ Lang::choice('messages.name',2) }}</th>
                       </thead>
                       <tbody>
                       </tbody>

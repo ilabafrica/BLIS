@@ -23,28 +23,33 @@ class TestControllerTest extends TestCase
   	{
  
       echo "\n\nTEST CONTROLLER TEST\n\n";
-      $searchbyPending = array('search' => '', 'testStatusId' => '1', 'dateFrom' => '', 'dateTo' => '');//Pending
-      $searchbyStarted = array('search' => '', 'testStatusId' => '2', 'dateFrom' => '', 'dateTo' => '');//Started
-      $searchbyCompleted = array('search' => '', 'testStatusId' => '3', 'dateFrom' => '', 'dateTo' => '');//Completed
-      $searchbyVerified = array('search' => '', 'testStatusId' => '4', 'dateFrom' => '', 'dateTo' => '');//Verified
-      $searchbyNonExistentString = array('search' => 'gaslfjkdre', 'testStatusId' => '', 'dateFrom' => '', 'dateTo' => '');//Non existent search string - retun nothing
-      $searchBetweenDates = array('search' => '', 'testStatusId' => '', 'dateFrom' => '2014-09-26', 'dateTo' => '2014-09-27');//Between dates - empty
-      // $searchBetweenDates = array('search' => '', 'testStatusId' => '', 'dateFrom' => '2014-09-12', 'dateTo' => '2014-09-27');//Between dates - got ecetera
-      $searchbyPatientName = array('search' => 'Lance Opiyo', 'testStatusId' => '', 'dateFrom' => '', 'dateTo' => '');//Search by patient Name
-      $searchbyPatientNumber = array('search' => '2150', 'testStatusId' => '', 'dateFrom' => '', 'dateTo' => '');//Search by patient Number
-      $searchbyTestType = array('search' => 'GXM', 'testStatusId' => '', 'dateFrom' => '', 'dateTo' => '');//Search by test Type
-      $searchbySpecimenNumber = array('search' => '4', 'testStatusId' => '', 'dateFrom' => '', 'dateTo' => '');//Search by specimen Number
-      $searchbyVisitNumber = array('search' => '7', 'testStatusId' => '', 'dateFrom' => '', 'dateTo' => '');//Search by visit Number
+      $searchbyPending = array('search' => '', 'test_status' => '1', 'date_from' => '', 'date_to' => '');//Pending
+      $searchbyStarted = array('search' => '', 'test_status' => '2', 'date_from' => '', 'date_to' => '');//Started
+      $searchbyCompleted = array('search' => '', 'test_status' => '3', 'date_from' => '', 'date_to' => '');//Completed
+      $searchbyVerified = array('search' => '', 'test_status' => '4', 'date_from' => '', 'date_to' => '');//Verified
+      //Non existent search string - return nothing
+      $searchbyNonExistentString = array('search' => 'gaslfjkdre', 'test_status' => '', 'date_from' => '', 'date_to' => '');
+      //Between dates - empty
+      $searchBetweenDates = array('search' => '', 'test_status' => '', 'date_from' => '2014-09-26', 'date_to' => '2014-09-27');
+      //Search by patient Name
+      $searchbyPatientName = array('search' => 'Lance Opiyo', 'test_status' => '', 'date_from' => '', 'date_to' => '');
+      //Search by patient Number
+      $searchbyPatientNumber = array('search' => '2150', 'test_status' => '', 'date_from' => '', 'date_to' => '');
+      //Search by test Type
+      $searchbyTestType = array('search' => 'GXM', 'test_status' => '', 'date_from' => '', 'date_to' => '');
+      //Search by specimen Number
+      $searchbySpecimenNumber = array('search' => '4', 'test_status' => '', 'date_from' => '', 'date_to' => '');
+      //Search by visit Number
+      $searchbyVisitNumber = array('search' => '7', 'test_status' => '', 'date_from' => '', 'date_to' => '');
 
 
-      $this->runIndex($searchbyPending['testStatusId'], $searchbyPending, 'test_status_id');
-      $this->runIndex($searchbyStarted['testStatusId'], $searchbyStarted, 'test_status_id');
-      $this->runIndex($searchbyCompleted['testStatusId'], $searchbyCompleted, 'test_status_id');
-      $this->runIndex($searchbyVerified['testStatusId'], $searchbyVerified, 'test_status_id');
+      $this->runIndex($searchbyPending['test_status'], $searchbyPending, 'test_status_id');
+      $this->runIndex($searchbyStarted['test_status'], $searchbyStarted, 'test_status_id');
+      $this->runIndex($searchbyCompleted['test_status'], $searchbyCompleted, 'test_status_id');
+      $this->runIndex($searchbyVerified['test_status'], $searchbyVerified, 'test_status_id');
       $this->runIndex(0, $searchbyNonExistentString, 'Non existent string');//Non existent search string
       $this->runIndex(0, $searchBetweenDates, 'Non existent date range');//Between dates
-      // $this->runIndex($searchBetweenDates['dateFrom'], $searchBetweenDates, 'time_created');
-      // $this->runIndex($searchBetweenDates['dateTo'], $searchBetweenDates, 'time_created');
+
       $this->runIndex($searchbyPatientName['search'], $searchbyPatientName, 'visit', 'patient', 'name');
       $this->runIndex($searchbyPatientNumber['search'], $searchbyPatientNumber, 'visit', 'patient', 'patient_number');
       $this->runIndex($searchbyTestType['search'], $searchbyTestType, 'testType', 'name');

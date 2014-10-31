@@ -160,10 +160,6 @@ return array(
     'create-new-test' => 'Create New Test',
     'completed' => 'Test Completed',
     'date-ordered' => 'Date Ordered',
-    'edit-test-results' => 'Edit Test Results',
-    'enter-results' => 'Enter Results',
-    'enter-results-title' => 'Enter Test Results',
-    'enter-test-results' => 'Enter Test Results',
     'first-select-patient' => 'First select a patient below',
     'in-patient' => 'In Patient',
     'interpretation' => 'Interpretation',
@@ -177,9 +173,6 @@ return array(
     'physician' => 'Requesting Physician',
     'registered-by' => 'Registered By',
     'save-test' => 'Save Test Request',
-    'save-test-results' => 'Save Results',
-    'search' => 'Search',
-    'search-patient-placeholder' => 'Enter patient name or ID',
     'select-tests' => 'Select Test(s)',
     'start-test' => 'Start',
     'start-test-title' => 'Start Test',
@@ -190,7 +183,6 @@ return array(
     'test-details' => 'Test Details',
     'test-phase' => 'Test Phase',
     'test-remarks' => 'Remarks',
-    'test-results' => 'Results',
     'test-status' => 'Test Status',
     'tested-by' => 'Performed By',
     'turnaround-time' => 'Turnaround Time',
@@ -209,8 +201,22 @@ return array(
     /* 
     |   Tests search panel
     */
+    'empty-search' => 'Your search did not match any test record!',
     'from' => 'From',
+    'search' => 'Search',
+    'search-patient-placeholder' => 'Enter patient name or ID',
     'to' => 'To',
+
+    /* 
+    |   Tests Results
+    */
+    'edit-test-results' => 'Edit Test Results',
+    'enter-results' => 'Enter Results',
+    'enter-results-title' => 'Enter Test Results',
+    'enter-test-results' => 'Enter Test Results',
+    'save-test-results' => 'Save Results',
+    'success-saving-results' => 'The results successfully saved!',
+    'test-results' => 'Results',
 
     /* 
     |   Access Controls
