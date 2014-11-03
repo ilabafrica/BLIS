@@ -11,15 +11,22 @@ class SanitasInterfacer implements InterfacerInterface{
     }
 
     /**
-    * Sends results back to the originating system
+    * Process Sends results back to the originating system
+    *
+    * @param testId the id of the test to send
+    * @param status either in testing stage or verification stage or edit
     */
-    public function send($testId)
+    public function send($testId, $status)
     {
+        //Send verified results
+        //Send unverified results
+        //Send edits ?
+        //if($comments==null or $comments==''){$comments = 'No Comments';
 
-        //Match the results by measure name
-        //Validate
-        //HTTP send(json) laravel may have this functionality
-        //Put jsonResponseArray[] in array then loop through the array sending each string individually
+        //We use curl to send the requests
+        $httpCurl = curl_init(Config::get('kblis.sanitas-url'));
+        curl_setopt($httpCurl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($httpCurl, CURLOPT_POST, true);
 
         //Get the test and results 
         $test = Test::find($testId);
@@ -36,50 +43,58 @@ class SanitasInterfacer implements InterfacerInterface{
         $labNo = $externRequest->lists('labNo')[0];
         $externlabRequestTree = $externalDump->getLabRequestAndMeasures($labNo);
 
-        $jsonResponseArray[] = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
+        $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
             $labNo, $test->tested_by, $test->interpretation, $test->tested_by, $test->test_status_id);
+        $this->sendRequest($httpCurl, $jsonResponseString, $labNo);
 
+        //loop through labRequests and foreach of them get the result and put in an array
         foreach ($externlabRequestTree as $key => $externlabRequest){ 
 
             $mKey = array_search($externlabRequest->investigation, $testMeasures->lists('name'));
-            $measureId = $testMeasures->get($mKey)->id;
-
-            $rKey = array_search($measureId, $testResults->lists('measure_id'));
-            $matchingResult = $testResults->get($rKey);
-
-            $jsonResponseArray[] = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
-                        $externlabRequest->labNo, $test->tested_by, $matchingResult->result, $test->tested_by, $test->test_status_id);
-        }
-
-        //$httpRequest = new HttpRequest('localhost', HttpRequest::METH_POST);
-        foreach ($jsonResponseArray as $key => $jsonResponse) {
-            $httpRequest->addPostFields(array('labResult' => $jsonResponse));
-
-            try {
-                $response = $httpRequest->send()->getBody();
-            } catch (HttpException $ex) {
-                Log::error("HTTP Exception: SanitasInterfacer failed to send $jsonResponse : Error message $ex");
+            
+            if($mKey === false){
+                Log::error("MEASURE NOT FOUND: Measure $externlabRequest->investigation not found in our system");
             }
+            else {
+                $measureId = $testMeasures->get($mKey)->id;
 
-            if($response == "Test updated")
-            {
-                $updatedExternalRequest = ExternalDump::find($externRequest->id);
-                $updatedExternalRequest->result_returned = 1;
-                $updatedExternalRequest::save();
-            }
-            else if($response!="Test updated")
-            {
-                Log::error("HTTP Exception: SanitasInterfacer failed to send $jsonResponse : Error message $ex");
+                $rKey = array_search($measureId, $testResults->lists('measure_id'));
+                $matchingResult = $testResults->get($rKey);
+
+                $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
+                            $externlabRequest->labNo, $test->tested_by, $matchingResult->result, $test->tested_by, $test->test_status_id);
+                $this->sendRequest($httpCurl, $jsonResponseString, $externlabRequest->labNo);
             }
         }
-        //Send back
+        curl_close($httpCurl);
+    }
+
+    private function sendRequest($httpCurl, $jsonResponse, $labNo)
+    {
+        //Foreach result in the array of results send to sanitas-url in config
+        curl_setopt($httpCurl, CURLOPT_POSTFIELDS, "labResult=".$jsonResponse);
+
+        $response = curl_exec($httpCurl);
+
+        //"Test updated" is the actual response 
+        //TODO: Replace true with actual expected response this is just for testing
+        if($response == true)
+        {
+            $updatedExternalRequest = ExternalDump::where('labNo', '=', $labNo)->first();
+            $updatedExternalRequest->result_returned = 1;
+            $updatedExternalRequest->save();
+        }
+        else if($response == false)
+        {
+            Log::error("HTTP Error: SanitasInterfacer failed to send $jsonResponse : Error message "+ curl_error($httpCurl));
+        }
     }
 
     /**
      * Function for processing the requests we receive from the external system
      * and putting the data into our system.
      *
-     * @var array lab _requests
+     * @var array lab_requests
      */
     public function process($labRequest)
     {
