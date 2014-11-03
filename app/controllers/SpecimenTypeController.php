@@ -56,7 +56,7 @@ class SpecimenTypeController extends \BaseController {
 			try{
 				$specimentype->save();
 				return Redirect::route('specimentype.index')
-                        ->with('message', 'messages.success-creating-specimen-type');
+                    ->with('message', trans('messages.success-creating-specimen-type'));
 			}catch(QueryException $e){
                 Log::error($e);
 			}
@@ -119,7 +119,7 @@ class SpecimenTypeController extends \BaseController {
 
 			// redirect
 			return Redirect::route('specimentype.index')
-                    ->with('message', 'messages.success-updating-specimen-type');
+                ->with('message', trans('messages.success-updating-specimen-type'));
 		}
 	}
 
@@ -151,10 +151,11 @@ class SpecimenTypeController extends \BaseController {
 			$specimentype->delete();
 		} else {
 		    // The specimen type is in use
-		    return Redirect::route('specimentype.index')->with('message', 'messages.failure-specimen-type-in-use');
+		    return Redirect::route('specimentype.index')
+		    	->with('message', trans('messages.failure-specimen-type-in-use'));
 		}
 		// redirect
 		return Redirect::route('specimentype.index')
-                    ->with('message', 'messages.success-deleting-specimen-type');
+            ->with('message', trans('messages.success-deleting-specimen-type'));
 	}
 }

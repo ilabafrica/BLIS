@@ -29,12 +29,12 @@ class TestTypeController extends \BaseController {
 	 */
 	public function create()
 	{
-		$measures = Measure::all();
-		$specimentypes = SpecimenType::all();
-		$labsections = TestCategory::all();
+		$measures = Measure::orderBy('name')->get();
+		$specimentypes = SpecimenType::orderBy('name')->get();
+		$testcategory = TestCategory::all();
 		//Create TestType
 		return View::make('testtype.create')
-					->with('labsections', $labsections)
+					->with('testcategory', $testcategory)
 					->with('measures', $measures)
 					->with('specimentypes', $specimentypes);
 	}
@@ -72,7 +72,8 @@ class TestTypeController extends \BaseController {
 				$testtype->setMeasures(Input::get('measures'));
 				$testtype->setSpecimenTypes(Input::get('specimentypes'));
 
-				return Redirect::route('testtype.index')->with('message', trans('messages.success-creating-test-type'));
+				return Redirect::route('testtype.index')
+					->with('message', trans('messages.success-creating-test-type'));
 
 			}catch(QueryException $e){
 				Log::error($e);
@@ -105,14 +106,14 @@ class TestTypeController extends \BaseController {
 	{
 		//Get the testtype
 		$testtype = TestType::find($id);
-		$measures = Measure::all();
-		$specimentypes = SpecimenType::all();
-		$labsections = TestCategory::all();
+		$measures = Measure::orderBy('name')->get();
+		$specimentypes = SpecimenType::orderBy('name')->get();
+		$testcategory = TestCategory::all();
 
 		//Open the Edit View and pass to it the $testtype
 		return View::make('testtype.edit')
 					->with('testtype', $testtype)
-					->with('labsections', $labsections)
+					->with('testcategory', $testcategory)
 					->with('measures', $measures)
 					->with('specimentypes', $specimentypes);
 	}
@@ -187,9 +188,11 @@ class TestTypeController extends \BaseController {
 			$testtype->delete();
 		} else {
 		    // The test type is in use
-		    return Redirect::route('testtype.index')->with('message', 'messages.failure-test-type-in-use');
+		    return Redirect::route('testtype.index')
+		    	->with('message', 'messages.failure-test-type-in-use');
 		}
 		// redirect
-		return Redirect::route('testtype.index')->with('message', trans('messages.success-deleting-test-type'));
+		return Redirect::route('testtype.index')
+			->with('message', trans('messages.success-deleting-test-type'));
 	}
 }
