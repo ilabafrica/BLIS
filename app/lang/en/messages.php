@@ -206,6 +206,8 @@ return array(
     'results-entry-date' => 'Entry Date',
     'date-tested' => 'Date Tested',
     'date-verified' => 'Date Verified',
-    'collected-by'  =>  'Collected By'
+    'collected-by'  =>  'Collected By',
+    'no-records-found' => 'No records found.',
+    'hospital-number'   =>  'Hospital number'
 
 );

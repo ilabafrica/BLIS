@@ -45,47 +45,32 @@ class ReportController extends \BaseController {
 
 	public function viewPatientReport($id){
 		$patient_id = Input::get('patient');
-		$date_from = Input::get('from');
-		$date_to = Input::get('to');
+		$from = Input::get('start');
+		$to = Input::get('end');
 		$pending_tests = Input::get('pending');
 		$range_visualization = Input::get('range');
-		if($pending_tests||$range_visualization||$date_from||$date_to){
-			$patient = Patient::where('id', '=', $patient_id)
-								->where(function($query_string) use ($patient, $date_from, $date_to, $pending_tests){
-														$query_string->whereHas('visits', function($query_string) use ($date_from, $date_to){
-															$query_string->whereBetween('visits.created_at', array($date_from, $date_to));
-														})->whereHas('test', function($query_string) use ($pending_tests){
-																$query_string->where('test_status_id', '=', $pending_tests);
-															});
-														});
-								
-									
-		}
-		else if($range_visualization){
-			$patient = Patient::where('id', '=', $patient_id)
-								->where(function($query_string) use ($date_from, $date_to, $pending_tests){
-									$query_string->whereHas('visit', function($query_string) use ($date_from, $date_to){
-										$query_string->whereBetween('visits.created_at', array($date_from, $date_to));
-									});
-								});
-		}
-		else if($date_from||$date_to){
-			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime(date('Y-m-d'))||strtotime($to)>strtotime(date('Y-m-d'))){
-					Session::flash('message', 'Please check your dates range and try again!');
+
+		if($pending_tests||$range_visualization||$from||$to){
+			$visits = Visit::where('patient_id', '=', $id);
+			if($from||$to){
+				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime(date('Y-m-d'))||strtotime($to)>strtotime(date('Y-m-d'))){
+						Session::flash('message', 'Please check your dates range and try again!');
+				}
+				else{
+					$visits=$visits->where('created_at', '>=', $from)->where('created_at', '<=', $to);
+				}
 			}
-			else{
-				$patient=$patient->where(function($q) use ($from, $to){
-					$q->whereHas('visits', function($q) use ($from, $to){//Filter by date created
-						$q = $q->where('created_at', '>=', $from);
-						(empty($to)) ? $q : $q->where('created_at', '<=', $to);
-					});
-				});
-			}
+			$visits = $visits->get();
 		}
 		else{
-			$patient = Patient::find($id);
+			$visits = Visit::where('patient_id', '=', $id)
+						->join('tests', 'visits.id', '=', 'tests.visit_id')
+						->whereRaw('(tests.test_status_id = '.Test::COMPLETED.' OR tests.test_status_id = '.Test::VERIFIED.')')
+						->where('visits.created_at', 'LIKE', '%'.date('Y-m-d').'%')
+						->get();
 		}
-		return View::make('reports.patient.report')->with('patient', $patient);
+		$patient = Patient::find($id);
+		return View::make('reports.patient.report')->with('patient', $patient)->with('visits', $visits);
 	}
 
 	/*	Function to export patient report to word 	*/

@@ -250,8 +250,4 @@ Route::group(array("before" => "checkPerms:view_reports"), function()
         "as" => "reports.patient.exportWord",
         "uses" => "ReportController@exportToWord"
         ));
-    Route::post("/patientreport/{id}/filter", array(
-        "as"   => "reports.patient.filterReport",
-        "uses" => "ReportController@viewPatientReport"
-    ));
 });

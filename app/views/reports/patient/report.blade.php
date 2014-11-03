@@ -50,7 +50,7 @@
 	</div>
 	<div class="panel-body">
 		@if (Session::has('message'))
-			<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
+			<div class="alert alert-danger">{{ trans(Session::get('message')) }}</div>
 		@endif
 
 		<!-- if there are search errors, they will show here -->
@@ -75,7 +75,7 @@
 				</tr>
 			</thead>
 		</table>
-		<table class="table">
+		<table class="table table-bordered">
 			<tbody>
 				<tr>
 					<th>{{ trans('messages.patient-name')}}</th>
@@ -84,8 +84,8 @@
 					<td>{{ ($patient->gender==Patient::MALE?trans('messages.male'):trans('messages.female')) }}</td>
 				</tr>
 				<tr>
-					<th>{{ trans('messages.external-patient-number')}}</th>
-					<td>{{ $patient->patient_number."(".$patient->external_patient_number.")" }}</td>
+					<th>{{ trans("messages.patient-number")}}</th>
+					<td>{{ $patient->patient_number}}</td>
 					<th>{{ trans('messages.age')}}</th>
 					<td>{{ $patient->getAge()}}</td>
 				</tr>
@@ -97,13 +97,11 @@
 				</tr>
 			</tbody>
 		</table>
-		<table class="table">
-			<thead>
+		<table class="table table-bordered">
+			<tbody>
 				<tr>
 					<th colspan="5">{{trans('messages.specimen')}}</th>
 				</tr>
-			</thead>
-			<tbody>
 				<tr>
 					<th>{{ trans('messages.specimen-type')}}</th>
 					<th>{{ trans('messages.tests')}}</th>
@@ -111,8 +109,8 @@
 					<th>{{ trans('messages.lab-receipt-date')}}</th>
 					<th>{{ trans('messages.collected-by')}}</th>
 				</tr>
-				@forelse(Patient::with('visits')->find($patient->id)->visits as $visit)
-					@foreach(Visit::with('tests')->find($visit->id)->tests as $test)
+				@forelse($visits as $visit)
+					@foreach($visit->tests as $test)
 						<tr>
 							<td>{{ $test->specimen->specimenType->name }}</td>
 							<td>{{ $test->testType->name }}</td>
@@ -129,13 +127,11 @@
 
 			</tbody>
 		</table>
-		<table class="table">
-			<thead>
+		<table class="table table-bordered">
+			<tbody>
 				<tr>
 					<th colspan="7">{{trans('messages.test-results')}}</th>
 				</tr>
-			</thead>
-			<tbody>
 				<tr>
 					<th>{{trans('messages.test-results-values')}}</th>
 					<th>{{trans('messages.results-entry-date')}}</th>
@@ -145,20 +141,22 @@
 					<th>{{trans('messages.verified-by')}}</th>
 					<th>{{trans('messages.date-verified')}}</th>
 				</tr>
-				@forelse(Visit::with('tests')->find($visit->id)->tests as $test)
-					<tr>
-						<td>@foreach($test->testResults as $result)
-								<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
-							@endforeach</td>
-						<td>@foreach($test->testResults as $result)
-								<p>{{$result->time_entered}}</p>
-							@endforeach</td>
-						<td>{{ $test->interpretation }}</td>
-						<td>{{ $test->testedBy->name or trans('messages.unknown')}}</td>
-						<td>{{ $test->time_completed }}</td>
-						<td>{{ $test->verifiedBy->name or trans('messages.verification-pending')}}</td>
-						<td>{{ $test->time_verified }}</td>
-					</tr>
+				@forelse($visits as $visit)
+					@foreach($visit->tests as $test)
+						<tr>
+							<td>@foreach($test->testResults as $result)
+									<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
+								@endforeach</td>
+							<td>@foreach($test->testResults as $result)
+									<p>{{$result->time_entered}}</p>
+								@endforeach</td>
+							<td>{{ $test->interpretation }}</td>
+							<td>{{ $test->testedBy->name or trans('messages.unknown')}}</td>
+							<td>{{ $test->time_completed }}</td>
+							<td>{{ $test->verifiedBy->name or trans('messages.verification-pending')}}</td>
+							<td>{{ $test->time_verified }}</td>
+						</tr>
+					@endforeach
 				@empty
 					<tr>
 						<td colspan="7">{{trans("messages.no-records-found")}}</td>
