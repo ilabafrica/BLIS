@@ -325,3 +325,36 @@ $(function(){
 	        $('#form-edit-password').submit();
 	    }
 	}
+
+//	Functions used in reports blades
+function reports(){
+	//	Set default date for 'from' and 'to' date range i.e. today's date
+	/*Get today's date*/
+	var currentDate = new Date();
+	var day = currentDate.getDate();
+	var month = currentDate.getMonth() + 1;
+	if(day<10) {
+	    day='0'+day
+		if(month<10) {
+	    	month='0'+month
+		}
+	} 	
+	var year = currentDate.getFullYear();
+	/* Begin Datepicker */
+	$('#start').datepicker({ dateFormat: "yy-mm-dd" });
+	$('#end').datepicker({ dateFormat: "yy-mm-dd" });
+	$("#start").val(year + "-" + month + "-" + day);
+	$("#end").val(year + "-" + month + "-" + day);
+	/*	End Datepicker 	*/
+}
+
+//	Function to check dates range
+function checkDateRange(){
+	var from = new Date($('#start').val());
+	var to = new Date($('#end').val());
+	var today = new Date();
+	if(from>today||from>to||to>today)
+		return 1;
+	else
+		return 0;
+}

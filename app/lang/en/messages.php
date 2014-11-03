@@ -188,5 +188,24 @@ return array(
     'new-role' => 'New Role',
     'access-controls' => 'Access Controls',
     'assign-roles-to-users' => 'Assign roles to Users',
-    'edit-role' => 'Edit Role'
+    'edit-role' => 'Edit Role',
+    /* 
+    |   Reports
+    */
+    'reports' => 'Reports',
+    'patient-report' => 'Patient Report',
+    'view-report' => 'View Report',
+    'include-pending-tests' => 'Include Pending Tests',
+    'include-range-visualization' => 'Include Range Visualization',
+    'print' => 'Print',
+    'export-to-word' => 'Export to Word',
+    'export-to-pdf' => 'Export to PDF',
+    'requesting-facility-department' => 'Requesting Facility/Department',
+    'specimen' => 'Specimen',
+    'test-results-values' => 'Test:Result',
+    'results-entry-date' => 'Entry Date',
+    'date-tested' => 'Date Tested',
+    'date-verified' => 'Date Verified',
+    'collected-by'  =>  'Collected By'
+
 );

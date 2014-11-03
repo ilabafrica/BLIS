@@ -233,3 +233,25 @@ Event::listen('api.receivedLabRequest', function($labRequest)
     //We instruct the interfacer to handle the request
     Interfacer::retrieve($labRequest);
 });
+
+//  Check if able to manage reports
+Route::group(array("before" => "checkPerms:view_reports"), function()
+{
+    Route::any("/patientreport", array(
+        "as"   => "reports.patient.index",
+        "uses" => "ReportController@index"
+    ));
+
+    Route::any("/patientreport/{id}", array(
+        "as" => "reports.patient.report",
+        "uses" => "ReportController@viewPatientReport"
+        ));
+    Route::get("/patientreport/word/{id}", array(
+        "as" => "reports.patient.exportWord",
+        "uses" => "ReportController@exportToWord"
+        ));
+    Route::post("/patientreport/{id}/filter", array(
+        "as"   => "reports.patient.filterReport",
+        "uses" => "ReportController@viewPatientReport"
+    ));
+});
