@@ -33,7 +33,7 @@
 				  {{ Form::checkbox('range', 'yes', false, array('id' => 'range')) }} {{trans('messages.include-range-visualization')}}
 				</label>
 	        </td>
-	        <td><a href="{{ URL::to('/patientreport/word/'.$patient->id)}}" id="word" style="width:160px;" class='btn btn-success'><span class='glyphicon glyphicon-file'></span> {{trans('messages.export-to-word')}}</a></td>
+	        <td><a href="#" id="word" style="width:160px;" class='btn btn-success'><span class='glyphicon glyphicon-file'></span> {{trans('messages.export-to-word')}}</a></td>
 	        <td><a href="{{ URL::to('/pdf/'.$patient->id)}}" id="pdf" style="width:160px;" class='btn btn-info'><span class='glyphicon glyphicon-bookmark'></span> {{trans('messages.export-to-pdf')}}</a></td>
 	        <td>{{ Form::button("<span class='glyphicon glyphicon-send'></span> ".trans('messages.print'), 
 	                        array('class' => 'btn btn-default', 'style' => 'width:125px', 'id' => 'print', 'onclick' => 'printContent("patientReport")')) }}</td>

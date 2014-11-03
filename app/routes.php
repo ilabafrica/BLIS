@@ -246,7 +246,7 @@ Route::group(array("before" => "checkPerms:view_reports"), function()
         "as" => "reports.patient.report",
         "uses" => "ReportController@viewPatientReport"
         ));
-    Route::get("/patientreport/word/{id}", array(
+    Route::any("/patientreport/{id}/word", array(
         "as" => "reports.patient.exportWord",
         "uses" => "ReportController@exportToWord"
         ));
