@@ -2,8 +2,8 @@
 @section("content")
 	<div>
 		<ol class="breadcrumb">
-		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-		  <li><a href="{{ URL::route('patient.index') }}">{{Lang::choice('messages.patient',2)}}</a></li>
+		  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
+		  <li><a href="{{ URL::route('patient.index') }}">{{ trans('messages.patients') }}</a></li>
 		  <li class="active">{{trans('messages.create-patient')}}</li>
 		</ol>
 	</div>
@@ -29,7 +29,7 @@
 						array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">
-					{{ Form::label('name', Lang::choice('messages.name',2)) }}
+					{{ Form::label('name', trans('messages.names')) }}
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">

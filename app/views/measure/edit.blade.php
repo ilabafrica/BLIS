@@ -3,7 +3,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-		  <li><a href="{{URL::route('measure.index')}}">{{ Lang::choice('messages.measure',1) }}</a></li>
+		  <li><a href="{{URL::route('measure.index')}}">{{ trans('messages.measure') }}</a></li>
 		  <li class="active">{{ trans('messages.edit-measure') }}</li>
 		</ol>
 	</div>
@@ -22,11 +22,11 @@
 				'id' => 'form-edit-measure')) }}
 
 				<div class="form-group">
-					{{ Form::label('name', Lang::choice('messages.name',1)) }}
+					{{ Form::label('name', trans('messages.name')) }}
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">
-					{{ Form::label('measure_type_id', Lang::choice('messages.specimen-type',1)) }}
+					{{ Form::label('measure_type_id', trans('messages.specimen-type')) }}
 					{{ Form::select('measure_type_id', $measuretype, Input::old('measure_type_id'), 
 						array('class' => 'form-control meauretype-input-trigger', 'id' => 'measuretype')) 
 					}}

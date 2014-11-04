@@ -8,7 +8,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-		  <li><a href="{{ URL::route('testcategory.index') }}">{{Lang::choice('messages.test-category',1)}}</a></li>
+		  <li><a href="{{ URL::route('testcategory.index') }}">{{trans('messages.test-category')}}</a></li>
 		  <li class="active">{{ trans('messages.test-category-details') }}</li>
 		</ol>
 	</div>
@@ -25,7 +25,7 @@
 		</div>
 		<div class="panel-body">
 			<div class="display-details">
-				<h3 class="view"><strong>{{ Lang::choice('messages.name',1) }}:</strong>{{ $testcategory->name }} </h3>
+				<h3 class="view"><strong>{{ trans('messages.name') }}:</strong>{{ $testcategory->name }} </h3>
 				<p class="view-striped"><strong>{{ trans('messages.description') }}:</strong>
 					{{ $testcategory->description }}</p>
 				
