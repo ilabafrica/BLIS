@@ -43,7 +43,7 @@
 								</div>
 								<div class="panel-body inline-display-details">
 									<span><strong>{{trans("messages.patient-number")}}</strong> {{ $patient->patient_number }}</span>
-									<span><strong>{{trans("messages.name")}}</strong> {{ $patient->name }}</span>
+									<span><strong>{{trans('messages.name')}}</strong> {{ $patient->name }}</span>
 									<span><strong>{{trans("messages.age")}}</strong> {{ $patient->getAge() }}</span>
 									<span><strong>{{trans("messages.gender")}}</strong>
 										{{ $patient->gender==0?trans("messages.male"):trans("messages.female") }}</span>
@@ -86,9 +86,7 @@
 							<div class="form-group actions-row">
 								{{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save-test'), 
 									array('class' => 'btn btn-primary', 'onclick' => 'submit()', 'alt' => 'save_new_test')) }}
-<!-- 								{{ Form::button(trans('messages.save-test'), 
-									array('class' => 'btn btn-primary', 'onclick' => 'submit()', 'alt' => 'save_new_test')) }}
- -->							</div>
+							</div>
 						</div>
 					</div>
 				</div>

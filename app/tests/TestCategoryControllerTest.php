@@ -13,6 +13,7 @@ class TestCategoryControllerTest extends TestCase
     public function setUp(){
         parent::setUp();
         Artisan::call('migrate');
+        Artisan::call('db:seed');
         $this->setVariables();
     }
 
@@ -49,8 +50,9 @@ class TestCategoryControllerTest extends TestCase
         Input::replace($this->testCategoryData);
         $testCategory = new TestCategoryController;
         $testCategory->store();
+		$testCategorystored = TestCategory::orderBy('id','desc')->take(1)->get()->toArray();
 
-		$testCategoriesSaved = TestCategory::find(1);
+		$testCategoriesSaved = TestCategory::find($testCategorystored[0]['id']);
 		$this->assertEquals($testCategoriesSaved->name , $this->testCategoryData['name']);
 		$this->assertEquals($testCategoriesSaved->description ,$this->testCategoryData['description']);
   	}
@@ -66,10 +68,12 @@ class TestCategoryControllerTest extends TestCase
         Input::replace($this->testCategoryData);
         $testCategory = new TestCategoryController;
         $testCategory->store();
-        Input::replace($this->testCategoryUpdate);
-        $testCategory->update(1);
+		$testCategorystored = TestCategory::orderBy('id','desc')->take(1)->get()->toArray();
 
-		$testCategorySaved = TestCategory::find(1);
+        Input::replace($this->testCategoryUpdate);
+        $testCategory->update($testCategorystored[0]['id']);
+
+		$testCategorySaved = TestCategory::find($testCategorystored[0]['id']);
 		$this->assertEquals($testCategorySaved->name , $this->testCategoryUpdate['name']);
 		$this->assertEquals($testCategorySaved->description ,$this->testCategoryUpdate['description']);
 	}
@@ -84,10 +88,11 @@ class TestCategoryControllerTest extends TestCase
         Input::replace($this->testCategoryData);
         $testCategory = new TestCategoryController;
         $testCategory->store();
+		$testCategorystored = TestCategory::orderBy('id','desc')->take(1)->get()->toArray();
 
-        $testCategory->delete(1);
+        $testCategory->delete($testCategorystored[0]['id']);
 
-		$testCategoriesDeleted = TestCategory::withTrashed()->find(1);
+		$testCategoriesDeleted = TestCategory::withTrashed()->find($testCategorystored[0]['id']);
 		$this->assertNotNull($testCategoriesDeleted->deleted_at);
 	}
 }

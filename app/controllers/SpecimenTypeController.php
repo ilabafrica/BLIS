@@ -3,7 +3,7 @@
 use Illuminate\Database\QueryException;
 
 /**
- *Contains functions for managing specimen types  
+ * Contains functions for managing specimen types  
  *
  */
 class SpecimenTypeController extends \BaseController {
@@ -56,7 +56,7 @@ class SpecimenTypeController extends \BaseController {
 			try{
 				$specimentype->save();
 				return Redirect::route('specimentype.index')
-                        ->with('message', 'Successfully created specimen type!');
+                    ->with('message', trans('messages.success-creating-specimen-type'));
 			}catch(QueryException $e){
                 Log::error($e);
 			}
@@ -119,7 +119,7 @@ class SpecimenTypeController extends \BaseController {
 
 			// redirect
 			return Redirect::route('specimentype.index')
-                    ->with('message', 'The specimen type details were successfully updated!');
+                ->with('message', trans('messages.success-updating-specimen-type'));
 		}
 	}
 
@@ -144,12 +144,18 @@ class SpecimenTypeController extends \BaseController {
 	{
 		//Soft delete the specimentype
 		$specimentype = SpecimenType::find($id);
-
-		$specimentype->delete();
-
+		$inUseByTesttype = $specimentype->testTypes->toArray();
+		$inUseBySpecimen = $specimentype->specimen->toArray();
+		if (empty($inUseByTesttype) && empty($inUseBySpecimen)) {
+		    // The specimen type is not in use
+			$specimentype->delete();
+		} else {
+		    // The specimen type is in use
+		    return Redirect::route('specimentype.index')
+		    	->with('message', trans('messages.failure-specimen-type-in-use'));
+		}
 		// redirect
 		return Redirect::route('specimentype.index')
-                    ->with('message', 'The specimen type was successfully deleted!');
+            ->with('message', trans('messages.success-deleting-specimen-type'));
 	}
-
 }

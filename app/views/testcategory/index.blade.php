@@ -3,11 +3,11 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-	  <li class="active">{{ trans('messages.test-category') }}</li>
+	  <li class="active">{{trans('messages.test-category')}}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
-	<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
+	<div class="alert alert-info">{{ Session::get('message') }}</div>
 @endif
 <div class="panel panel-primary">
 	<div class="panel-heading ">
@@ -24,7 +24,7 @@
 		<table class="table table-striped table-hover table-condensed">
 			<thead>
 				<tr>
-					<th>{{ Lang::choice('messages.name',1) }}</th>
+					<th>{{ trans('messages.name') }}</th>
 					<th>{{ trans('messages.description') }}</th>
 				</tr>
 			</thead>
@@ -47,6 +47,7 @@
 							<span class="glyphicon glyphicon-edit"></span>
 							{{ trans('messages.edit') }}
 						</a>
+						
 					<!-- delete this test category (uses delete method found at GET /testcategory/{id}/delete -->
 						<button class="btn btn-sm btn-danger delete-item-link"
 							data-toggle="modal" data-target=".confirm-delete-modal"	

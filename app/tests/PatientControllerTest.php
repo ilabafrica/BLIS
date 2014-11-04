@@ -10,6 +10,7 @@ class PatientControllerTest extends TestCase
 	    {
 	    	parent::setUp();
 	    	Artisan::call('migrate');
+      		Artisan::call('db:seed');
 			$this->setVariables();
 	    }
 	
@@ -21,9 +22,9 @@ class PatientControllerTest extends TestCase
 		public function setVariables(){
 		// Initial sample storage data
 		$this->input = array(
-			'patient_number' => '5681',
-			'name' => 'Bob Thebuilder',
-			'dob' => '1900-07-05',
+			'patient_number' => '6666',//Must be unique!
+			'name' => 'Bob Tzhebuilder',
+			'dob' => '1930-07-05',
 			'gender' => '0',//male
 			'email' => 'builderone@concretejungle.com',
 			'address' => '788347 W3-x2 Down.croncrete',
@@ -32,13 +33,13 @@ class PatientControllerTest extends TestCase
 
 		// Edition sample data
 		$this->inputUpdate = array(
-			'patient_number' => '5681',
+			'patient_number' => '5555',
 			'name' => 'Bob Thebuilder',
 			'dob' => '1900-07-05',
 			'gender' => '0',//male
-			'email' => 'builderone@concretejungle.com',
-			'address' => '788347 W3-x2 Down.croncrete',
-			'phone_number' => '+189012402938',
+			'email' => 'buildandt@concretejungle.com',
+			'address' => '788357 W3-x2 Down.croncrete',
+			'phone_number' => '+18966602938',
 		);
 	}
 	/**
@@ -52,15 +53,15 @@ class PatientControllerTest extends TestCase
   		 // Store the Patient Types
 		$this->runStore($this->input);
 
-		$patientSaved = Patient::find(1);
+		$patientSaved = Patient::orderBy('id','desc')->take(1)->get()->toArray();
 		
-		$this->assertEquals($patientSaved->patient_number, $this->input['patient_number']);
-		$this->assertEquals($patientSaved->name, $this->input['name']);
-		$this->assertEquals($patientSaved->dob, $this->input['dob']);
-		$this->assertEquals($patientSaved->gender, $this->input['gender']);
-		$this->assertEquals($patientSaved->email, $this->input['email']);
-		$this->assertEquals($patientSaved->address, $this->input['address']);
-		$this->assertEquals($patientSaved->phone_number, $this->input['phone_number']);
+		$this->assertEquals($patientSaved[0]['patient_number'], $this->input['patient_number']);
+		$this->assertEquals($patientSaved[0]['name'], $this->input['name']);
+		$this->assertEquals($patientSaved[0]['dob'], $this->input['dob']);
+		$this->assertEquals($patientSaved[0]['gender'], $this->input['gender']);
+		$this->assertEquals($patientSaved[0]['email'], $this->input['email']);
+		$this->assertEquals($patientSaved[0]['address'], $this->input['address']);
+		$this->assertEquals($patientSaved[0]['phone_number'], $this->input['phone_number']);
   	}
 
   	/**
@@ -72,18 +73,19 @@ class PatientControllerTest extends TestCase
 	public function testUpdate()
 	{
 		$this->runStore($this->input);
+		$patientSaved = Patient::orderBy('id','desc')->take(1)->get()->toArray();
 		// Update the Patient Types
-		$this->runUpdate($this->inputUpdate, 1);
+		$this->runUpdate($this->inputUpdate, $patientSaved[0]['id']);
 
-		$patientsUpdated = Patient::find(1);
+		$patientUpdated = Patient::orderBy('id','desc')->take(1)->get()->toArray();
 
-		$this->assertEquals($patientsUpdated->patient_number, $this->inputUpdate['patient_number']);
-		$this->assertEquals($patientsUpdated->name, $this->inputUpdate['name']);
-		$this->assertEquals($patientsUpdated->dob, $this->inputUpdate['dob']);
-		$this->assertEquals($patientsUpdated->gender, $this->inputUpdate['gender']);
-		$this->assertEquals($patientsUpdated->email, $this->inputUpdate['email']);
-		$this->assertEquals($patientsUpdated->address, $this->inputUpdate['address']);
-		$this->assertEquals($patientsUpdated->phone_number, $this->inputUpdate['phone_number']);
+		$this->assertEquals($patientUpdated[0]['patient_number'], $this->inputUpdate['patient_number']);
+		$this->assertEquals($patientUpdated[0]['name'], $this->inputUpdate['name']);
+		$this->assertEquals($patientUpdated[0]['dob'], $this->inputUpdate['dob']);
+		$this->assertEquals($patientUpdated[0]['gender'], $this->inputUpdate['gender']);
+		$this->assertEquals($patientUpdated[0]['email'], $this->inputUpdate['email']);
+		$this->assertEquals($patientUpdated[0]['address'], $this->inputUpdate['address']);
+		$this->assertEquals($patientUpdated[0]['phone_number'], $this->inputUpdate['phone_number']);
 	}
 
 	
@@ -97,10 +99,11 @@ class PatientControllerTest extends TestCase
 	public function testDelete()
 	{
 		$this->runStore($this->input);
+		$patientSaved = Patient::orderBy('id','desc')->take(1)->get()->toArray();
 
 		$patient = new PatientController;
-    		$patient->delete(1);
-		$patientsDeleted = Patient::withTrashed()->find(1);
+    	$patient->delete($patientSaved[0]['id']);
+		$patientsDeleted = Patient::withTrashed()->find($patientSaved[0]['id']);
 		$this->assertNotNull($patientsDeleted->deleted_at);
 	}
 	

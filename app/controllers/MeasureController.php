@@ -49,7 +49,9 @@ class MeasureController extends \BaseController {
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::route("measure.create")->withErrors($validator)->withInput(Input::except('password'));
+            return Redirect::route("measure.create")
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
         } else {
             // store
             $measure = new Measure;
@@ -82,14 +84,17 @@ class MeasureController extends \BaseController {
                     $measurerange->range_upper = $val['rangemax'][$i];
                     $measurerange->save();
                  }
-                return Redirect::route('measure.index')->with('message', 'Successfully created measure!');
+                return Redirect::route('measure.index')
+                    ->with('message', trans('messages.success-creating-measure'));
             }else if (Input::get('measure_type_id') == 2 || Input::get('measure_type_id') == 3) {
                 $values = Input::get('val');
                 $measure->measure_range = join('/', $values);
                 $measure->save();
-                return Redirect::route('measure.index')->with('message', 'Successfully created measure!');
+                return Redirect::route('measure.index')
+                    ->with('message', trans('messages.success-creating-measure'));
             }
-            return Redirect::route("measure.create")->with('message', 'Error occured while creating measure!');
+            return Redirect::route("measure.create")
+                ->with('message', trans('messages.error-creating-measure'));
         }
     }
     /**
@@ -140,7 +145,9 @@ class MeasureController extends \BaseController {
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
+            return Redirect::back()
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
         } else {
             // Update
             $measure = Measure::find($id);
@@ -198,11 +205,9 @@ class MeasureController extends \BaseController {
                 // Since its not a numeric range, delete any references to this id in the measure_range table
                 MeasureRange::where('measure_id', '=', $measure->id)->delete();
             }
-
-
             // redirect
             return Redirect::route('measure.index')
-                    ->with('message', 'The measure details were successfully updated!');
+                    ->with('message', trans('messages.success-updating-measure'));
         }
     }
 
@@ -216,10 +221,18 @@ class MeasureController extends \BaseController {
     {
         //Soft delete the measure
         $measure = Measure::find($id);
-        $measure->delete();
+        $inUseByTesttype = $measure->testTypes->toArray();
 
+        if (empty($inUseByTesttype)) {
+            // The measure is not in use
+            $measure->delete();
+        } else {
+            // The measure is in use
+            return Redirect::route('measure.index')
+                ->with('message', trans('messages.failure-test-measure-in-use'));
+        }
         // redirect
-        return Redirect::route('measure.index')->with('message', 'The measure was successfully deleted!');
+        return Redirect::route('measure.index')
+            ->with('message', trans('messages.success-deleting-measure'));
     }
-
 }

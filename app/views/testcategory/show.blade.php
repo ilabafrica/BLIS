@@ -17,7 +17,7 @@
 			<span class="glyphicon glyphicon-adjust"></span>
 			{{ trans('messages.test-category-details') }}
 			<div class="panel-btn">
-				<a class="btn btn-sm btn-info" href="{{ URL::to("testcategory/" . $testcategory->id . "/edit") }}">
+				<a class="btn btn-sm btn-info" href="{{ URL::route('testcategory.edit', array($testcategory->id)) }}">
 					<span class="glyphicon glyphicon-edit"></span>
 					{{ trans('messages.edit') }}
 				</a>
@@ -25,7 +25,7 @@
 		</div>
 		<div class="panel-body">
 			<div class="display-details">
-				<h3 class="view"><strong>{{ Lang::choice('messages.name',1) }}:</strong>{{ $testcategory->name }} </h3>
+				<h3 class="view"><strong>{{ trans('messages.name') }}:</strong>{{ $testcategory->name }} </h3>
 				<p class="view-striped"><strong>{{ trans('messages.description') }}:</strong>
 					{{ $testcategory->description }}</p>
 				

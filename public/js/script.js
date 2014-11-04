@@ -10,9 +10,9 @@
 // menu.
 
 $(function(){
-	/*	HEADER
-	|   Username display
-	*/
+	/**	HEADER
+	 *   Username display
+	 */
 	$('.user-link').click(function(){
 		$('.user-settings').toggle();
 	});
@@ -33,9 +33,9 @@ $(function(){
 		$(this).siblings().show();
 	});
 
-	/*  USER 
-	|-  Load password reset input field
-	*/
+	/**  USER 
+	 *-  Load password reset input field
+	 */
 
 	$('a.reset-password').click(function() {
 		if ( $('input.reset-password').hasClass('hidden')) {
@@ -50,19 +50,29 @@ $(function(){
 			editUserProfile();
 	});
 
-	/*  MEASURES 
-	|-  Add another measure button 
-	*/
+	/** 
+	 *	MEASURES 
+	 *  - Add another measure button 
+	 */
 	$('.add-another-range').click(function(){
-		var mtval = $("#measuretype").val() - 1;
-		$(".measurevalue" ).append(measureInputs[mtval]);
+		var inputClass = ['.numericInputLoader', '.alphanumericInputLoader', '.autocompleteInputLoader', '.freetextInputLoader']; 
+		var id = $("#measuretype").val() - 1;
+		var inputHtml = $(inputClass[id]).html();
+		$(".measurevalue" ).append(inputHtml);
+		$('.measurevalue').children().removeClass('hidden');
 	});
-	
 	/*  load measure range input UI for the selected measure type */
-	$( "#measuretype" ).change(function() {
-		var mtval = $(this).val() - 1;
-		$(".measurevalue" ).html(measureInputs[mtval]);
+	$( '.meauretype-input-trigger' ).change(function() {
+		var inputClass = ['.numericInputLoader', '.alphanumericInputLoader', '.autocompleteInputLoader', '.freetextInputLoader']; 
+		var id = $(this).val() - 1;
+		var inputHtml = $(inputClass[id]).html();
+		$('.measurevalue').empty();
+		$('.measurevalue').append(inputHtml);
+		$('.measurevalue').children().removeClass('hidden');
 	});
+
+
+
 
 	/** GLOBAL DELETE	
 	 *	Alert on irreversible delete
@@ -73,10 +83,7 @@ $(function(){
 
 	$('.btn-delete').click(function(){
 		$('.confirm-delete-modal').modal('toggle');
-		$.ajax({url: $('#delete-url').val()})
-			.done(function(){
-				location.reload(true);
-			});
+		window.location.href = $('#delete-url').val();
 	});
 
 	UIComponents();
@@ -92,10 +99,10 @@ $(function(){
 		$(this).parent().remove();
 	});
 
-	/* 
-	* Search for patient from new test modal
-	* UI Rendering Logic here
-	*/
+	/** 
+	 * Search for patient from new test modal
+	 * UI Rendering Logic here
+	 */
 
 	$('#new-test-modal .search-patient').click(function(){
 		var searchText = $('#new-test-modal .search-text').val();
@@ -128,10 +135,10 @@ $(function(){
 		}
 	});
 
-	/* - Get a Test->id from the button clicked,
-	|  - Fetch corresponding test and default specimen data
-	|  - Display all in the modal.
-	*/
+	/** - Get a Test->id from the button clicked,
+	 *  - Fetch corresponding test and default specimen data
+	 *  - Display all in the modal.
+	 */
 	$('#change-specimen-modal').on('show.bs.modal', function(e) {
 	    //get data-id attribute of the clicked element
 	    var id = $(e.relatedTarget).data('test-id');
@@ -143,10 +150,10 @@ $(function(){
 	    });
 	});
 
-	/* Accept Specimen button.
-	|  - Updates the Specimen status via an AJAX call
-	|  - Changes the UI to show the right status and buttons
-	*/
+	/** Accept Specimen button.
+	 *  - Updates the Specimen status via an AJAX call
+	 *  - Changes the UI to show the right status and buttons
+	 */
 	$('.tests-log').on( "click", ".accept-specimen", function(e) {
 		var testID = $(this).data('test-id');
 		var specID = $(this).data('specimen-id');
@@ -174,10 +181,10 @@ $(function(){
 		$(this).remove();
 	});
 
-	/* Start Test button.
-	|  - Updates the Test status via an AJAX call
-	|  - Changes the UI to show the right status and buttons
-	*/
+	/** Start Test button.
+	 *  - Updates the Test status via an AJAX call
+	 *  - Changes the UI to show the right status and buttons
+	 */
 	$('.tests-log').on( "click", ".start-test", function(e) {
 		var testID = $(this).data('test-id');
 		var url = $(this).data('url');
@@ -202,11 +209,11 @@ $(function(){
 	});
 
 });
-	/*
-	|-----------------------------------
-	| Section for AJAX loaded components
-	|-----------------------------------
-	*/
+	/**
+	 *-----------------------------------
+	 * Section for AJAX loaded components
+	 *-----------------------------------
+	 */
 	$( document ).ajaxComplete(function() {
 		/* - Identify the selected patient by setting the hidden input field
 		   - Enable the 'Next' button on the modal
@@ -228,43 +235,6 @@ $(function(){
 		});
 	});
 
-	/**
-	 * HTML ELEMENTS
-	 */
-	 
-	 /*
-	 | Measure Inputs
-	 | TODO: Move the HTML lines to the appropriate view
-	 */
-
-	var numericInput ='<div class="numeric-range-measure">' +
-		'<input name="measurerangeid[]" type="hidden" value="0">' +
-		'<button class="close" aria-hidden="true" type="button" title="Delete">×</button>' +
-		'<div><span class="range-title">Age Range:</span>' +
-		  '<input name="agemin[]" type="text"><span>:</span>' +
-			'<input name="agemax[]" type="text">' +
-		'</div><div><span class="range-title">Gender:</span>' +
-			'<select name="gender[]">' +
-				'<option value="0">Male</option>' +
-				'<option value="1">Female</option>' +
-				'<option value="2">Both</option>' +
-			'</select>' +
-		'</div><div><span class="range-title">Measure Range:</span>' +
-      
-			'<input name="rangemax[]" type="text">' +
-		'</div></div>';
-
-	var alphanumericInput = '<div class="alphanumericInput">' +
-								'<input name="val[]" type="text">' +
-								'<span class="alphanumericSlash">/</span></div>';
-
-	var autocompleteInput = '<div class="autocompleteInput">' +
-								'<input name="val[]" type="text"></div>';
-
-	var freetextInput = '<p>A text box will appear for results entry</p>';
-
-	var measureInputs = [numericInput, alphanumericInput, autocompleteInput, freetextInput]; 
-
 	function UIComponents(){
 		/* Datepicker */
 		$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
@@ -273,9 +243,9 @@ $(function(){
 	function editUserProfile()
 	{
 		/*If Password-Change Validation*/
-	    var currpwd = $('#current-password').val();
-	    var newpwd1 = $('#new-password').val();
-	    var newpwd2= $('#repeat-password').val();
+	    var currpwd = $('#current_password').val();
+	    var newpwd1 = $('#new_password').val();
+	    var newpwd2= $('#new_password_confirmation').val();
 	    var newpwd1_len = newpwd1.length;
 	    var newpwd2_len = newpwd2.length;
 	    var error_flag = false;

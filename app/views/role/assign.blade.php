@@ -19,8 +19,8 @@
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th>{{Lang::choice('messages.user',2)}}</th>
-                        <th colspan="{{ count($roles)}}">{{Lang::choice('messages.role',2)}}</th>
+                        <th>{{trans('messages.user')}}</th>
+                        <th colspan="{{ count($roles)}}">{{trans('messages.roles')}}</th>
                     </tr>
                 </thead>
                 <tbody>

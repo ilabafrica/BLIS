@@ -16,11 +16,11 @@
                     <div class="user-settings">
                         <div>
                             <span class="glyphicon glyphicon-edit"></span>
-                            <a href='{{ URL::to("user/".Auth::user()->id."/edit") }}'>Edit Profile</a>
+                            <a href='{{ URL::to("user/".Auth::user()->id."/edit") }}'>{{trans('messages.edit-profile')}}</a>
                         </div>
                         <div>
                             <span class="glyphicon glyphicon-log-out"></span>
-                            <a href="{{ URL::route("user.logout") }}">Logout</a>
+                            <a href="{{ URL::route("user.logout") }}">{{trans('messages.logout')}}</a>
                         </div>
                     </div>
                 @endif
