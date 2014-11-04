@@ -7,7 +7,6 @@
 	  <li class="active">{{ trans('messages.patient-report') }}</li>
 	</ol>
 </div>
-<div id="non-printable" >
 {{ Form::open(array('url' => 'patientreport/'.$patient->id, 'id' => 'form-patientreport-filter', 'method'=>'POST')) }}
 	{{ Form::hidden('patient', $patient->id, array('id' => 'patient')) }}
 	<div class="table-responsive">
@@ -33,16 +32,15 @@
 				  {{ Form::checkbox('range', 'yes', false, array('id' => 'range')) }} {{trans('messages.include-range-visualization')}}
 				</label>
 	        </td>
-	        <td><a href="#" id="word" style="width:160px;" class='btn btn-success'><span class='glyphicon glyphicon-file'></span> {{trans('messages.export-to-word')}}</a></td>
-	        <td><a href="{{ URL::to('/pdf/'.$patient->id)}}" id="pdf" style="width:160px;" class='btn btn-info'><span class='glyphicon glyphicon-bookmark'></span> {{trans('messages.export-to-pdf')}}</a></td>
+	        <td>{{ Form::submit(trans('messages.export-to-word'), array('class' => 'btn btn-success', 'style' => 'width:160px', 'id' => 'word', 'name' => 'word')) }}</td>
+	        <td>{{ Form::submit(trans('messages.export-to-pdf'), array('class' => 'btn btn-info', 'style' => 'width:160px', 'id' => 'pdf', 'name' => 'pdf')) }}</td>
 	        <td>{{ Form::button("<span class='glyphicon glyphicon-send'></span> ".trans('messages.print'), 
-	                        array('class' => 'btn btn-default', 'style' => 'width:125px', 'id' => 'print', 'onclick' => 'printContent("patientReport")')) }}</td>
+	                        array('class' => 'btn btn-default', 'style' => 'width:125px', 'id' => 'print', 'onclick'=>'printDiv("report_content")')) }}</td>
 	     </tr>
 	</tbody>
 </table>
 </div>
 {{ Form::close() }}
-</div>
 <div class="panel panel-primary" id="patientReport">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
@@ -69,7 +67,7 @@
 						Phone: +254 055-30401 Ext 203/208</p>
 
 						<p>LABORATORY REPORT<br>
-						Patient Report for {{date('d-m-Y')}}</p></strong>			
+						Patient Report @if($from!=$to){{'From '.$from.' To '.$to}}@else{{'For '.date('d-m-Y')}}@endif</p></strong>			
 					</td>
 					<td><img src="{{ Config::get('kblis.organization-logo') }}" alt="" height="90" width="90" style="float:right;"></td>
 				</tr>

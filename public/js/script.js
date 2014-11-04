@@ -346,47 +346,14 @@ function reports(){
 	$("#start").val(year + "-" + month + "-" + day);
 	$("#end").val(year + "-" + month + "-" + day);
 	/*	End Datepicker 	*/
-
-	/*	Export patient report to .doc format	*/
-	$("#word").click(function(event){
-		var from=new Date($('#start').val());
-		var to=new Date($('#end').val());
-		var today = new Date();
-		var id = $('#patient').val();
-		
-		console.log("todate "+to);
-		console.log("today date "+today);
-		var errorDiv = $('#error');
-    	if(from>today||from>to||to>today){
-    		errorDiv.show();
-    		errorDiv.text('Please check your dates range and try again.');
-
-    	}
-    	else{
-    		errorDiv.hide();
-	        $.ajax({
-	            type: 'POST',
-	            url: '/patientreport/'+id+'/word',
-	            data: $('form#form-patientreport-filter').serialize(),
-	            dataType: 'json',
-	        })
-
-	        .success(function(data) {
-	    		window.open(data);
-	        });
-	    }
-
-        event.preventDefault();
-    });
 }
 
-//	Function to check dates range
-function checkDateRange(){
-	var from = new Date($('#start').val());
-	var to = new Date($('#end').val());
-	var today = new Date();
-	if(from>today||from>to||to>today)
-		return 1;
-	else
-		return 0;
+function printDiv(divName) {
+    var printContents = document.getElementById(divName).innerHTML;     
+   	var originalContents = document.body.innerHTML;       
+   	document.body.innerHTML = printContents;      
+   	window.print();      
+   	document.body.innerHTML = originalContents;
+   	$("#start").val(year + "-" + month + "-" + day);
+	$("#end").val(year + "-" + month + "-" + day);
 }

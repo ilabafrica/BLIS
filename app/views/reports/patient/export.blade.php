@@ -7,7 +7,7 @@
 <div id="wrap">
     <div class="container-fluid">
         <div class="row">
-			<table>
+			<table width="100%">
 				<tbody>
 					<tr>
 						<td>{{ HTML::image('i/org_logo_90x90.png', 'Kenya Court of Arms', array('width' => '90px')) }}</td>
@@ -20,13 +20,13 @@
 							Phone: +254 055-30401 Ext 203/208</p>
 
 							<p>LABORATORY REPORT<br>
-							Patient Report for {{date('d-m-Y')}}</p></strong>			
+							Patient Report @if($from!=$to){{'From '.$from.' To '.$to}}@else{{'For '.date('d-m-Y')}}@endif</p></strong>			
 						</td>
 						<td>{{ HTML::image('i/org_logo_90x90.png', 'Kenya Court of Arms', array('width' => '90px')) }}</td>
 					</tr>
 				</tbody>
 			</table>
-			<table class="table table-bordered">
+			<table class="table table-bordered" width="100%">
 			<tbody>
 				<tr>
 					<th>{{ trans('messages.patient-name')}}</th>
@@ -48,10 +48,10 @@
 				</tr>
 			</tbody>
 		</table>
-		<table class="table table-bordered">
+		<table class="table table-bordered" width="100%">
 			<tbody>
 				<tr>
-					<th colspan="5">{{trans('messages.specimen')}}</th>
+					<th colspan="5" align="left">{{trans('messages.specimen')}}</th>
 				</tr>
 				<tr>
 					<th>{{ trans('messages.specimen-type')}}</th>
@@ -78,10 +78,10 @@
 
 			</tbody>
 		</table>
-		<table class="table table-bordered">
+		<table class="table table-bordered" width="100%">
 			<tbody>
 				<tr>
-					<th colspan="7">{{trans('messages.test-results')}}</th>
+					<th colspan="7" align="left">{{trans('messages.test-results')}}</th>
 				</tr>
 				<tr>
 					<th>{{trans('messages.test-results-values')}}</th>

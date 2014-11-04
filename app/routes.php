@@ -243,11 +243,7 @@ Route::group(array("before" => "checkPerms:view_reports"), function()
     ));
 
     Route::any("/patientreport/{id}", array(
-        "as" => "reports.patient.report",
+        "as" => "reports.patient.report", 
         "uses" => "ReportController@viewPatientReport"
-        ));
-    Route::any("/patientreport/{id}/word", array(
-        "as" => "reports.patient.exportWord",
-        "uses" => "ReportController@exportToWord"
         ));
 });
