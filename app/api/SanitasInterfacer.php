@@ -16,11 +16,8 @@ class SanitasInterfacer implements InterfacerInterface{
     * @param testId the id of the test to send
     * @param status either in testing stage or verification stage or edit
     */
-    public function send($testId, $status)
+    public function send($testId)
     {
-        //Send verified results
-        //Send unverified results
-        //Send edits ?
         //if($comments==null or $comments==''){$comments = 'No Comments';
 
         //We use curl to send the requests
@@ -43,8 +40,29 @@ class SanitasInterfacer implements InterfacerInterface{
         $labNo = $externRequest->lists('labNo')[0];
         $externlabRequestTree = $externalDump->getLabRequestAndMeasures($labNo);
 
+        $resultForMainTest = "";
+        //IF the test has no children prepend the status to the result
+
+        if (is_null($externlabRequestTree)) {
+            if($test->test_status_id == Test::COMPLETED){
+                $resultForMainTest = "Done: ".$testResults->first()->result;;
+            }
+            elseif ($test->test_status_id == Test::VERIFIED) {
+                $resultForMainTest = "Tested and verified: ".$testResults->first()->result;;
+            }
+        }
+        //IF the test has children, prepend the status to the interpretation
+        else {
+            
+            if($test->test_status_id == Test::COMPLETED){
+                $resultForMainTest = "Done ".$test->interpretation;
+            }
+            elseif ($test->test_status_id == Test::VERIFIED) {
+                $resultForMainTest = "Tested and verified ".$test->interpretation;
+            }
+        }
         $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
-            $labNo, $test->tested_by, $test->interpretation, $test->tested_by, $test->test_status_id);
+            $labNo, $test->tested_by, $resultForMainTest, $test->tested_by, $test->test_status_id);
         $this->sendRequest($httpCurl, $jsonResponseString, $labNo);
 
         //loop through labRequests and foreach of them get the result and put in an array
