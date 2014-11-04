@@ -157,6 +157,17 @@ class SanitasInterfacerTest extends TestCase
     public function testInterfacerSend()
     {
         Interfacer::send('13');
+
+        $dump1 = ExternalDump::find(1);
+
+        $this->assertEquals($dump1->result_returned, 1);
+
+        $extD = new ExternalDump();
+        $externalLabRequestTree = $extD->getLabRequestAndMeasures($dump1->labNo);
+
+        foreach ($externalLabRequestTree as $key => $externalLabRequest) {
+            $this->assertEquals(1, $externalLabRequest->result_returned);
+        }
     }
 
     public function setVariables()
