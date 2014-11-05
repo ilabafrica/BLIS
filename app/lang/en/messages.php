@@ -5,9 +5,9 @@
 
 return array(
 
-    /* 
-    |   Generic names
-    */
+    /** 
+     *   Generic names
+     */
 
     'actions' => 'Actions',
     'back' => 'Previous Page',
@@ -44,16 +44,16 @@ return array(
     'username' => 'Username',
     'view' => 'View',
 
-    /* 
-    |   Generic phrases
-    */
+    /** 
+     *   Generic phrases
+     */
     'confirm-delete-title' => 'Confirm Delete',
     'confirm-delete-message' => 'Do you wish to delete this item?',
     'confirm-delete-irreversible' => 'This action is irreversible.',
 
-    /* 
-    |   User
-    */
+    /** 
+     *   User
+     */
     'create-user' => 'Create User',
     'change-password' => 'Change Password',
     'current-password' => 'Current Password',
@@ -74,9 +74,9 @@ return array(
     'user-details' => 'User Details',
     'user-profile-edit-success' => 'The user details were successfully updated!',
 
-    /* 
-    |   Patient
-    */
+    /** 
+     *  Patient
+     */
 
     'age' => 'Age',
     'create-patient' => 'Create Patient',
@@ -166,11 +166,18 @@ return array(
     'success-deleting-specimen-type' => 'Successfully deleted the Specimen Type!',
     'success-updating-specimen-type' => 'The specimen type details were successfully updated!',
 
+    /*Specimen Rejection*/
+    
+    'add-rejection-reason' => 'Add New Rejection Reason',
+    'edit-rejection-reason' => ' Edit Rejection Reason',
+    'failure-specimen-rejection-reason-in-use' => 'This Rejection Reason is in Use',
+    'specimen-rejection' => 'Specimen Rejection',
+    'success-creating-rejection-reason' => 'Rejection Reason Successfully Created',
+    'success-deleting-rejection-reason' => 'Rejection Reason Successfully Deleted',
+    'success-updating-rejection-reason' => 'Rejection Reason Successfully Updated',
 
+    /*Test Categories*/
 
-    /* 
-    |   Test Categories
-    */
     'create-test-category' => 'Create Lab Section',
     'edit-test-category' => 'Edit Lab Section',
     'failure-test-category-in-use' => 'This category is a group of Test Types in use',
@@ -181,9 +188,7 @@ return array(
     'test-category-details' => 'Lab Section Details',
     'list-test-categories' => 'List Lab Sections',
 
-    /* 
-    |   Test Types
-    */
+    /* Test Types*/
 
     'compatible-specimen' => 'Compatible Specimen',
     'create-test-type' => 'Create Test Type',
@@ -201,9 +206,9 @@ return array(
     'test-type' => 'Test Type|Test Types',
     'test-type-details' => 'Test Type Details',
 
-    /* 
-    |   Tests
-    */
+    /**
+     *  Tests
+     */
 
     'all' => 'All',
     'create-new-test' => 'Create New Test',
@@ -249,9 +254,9 @@ return array(
     'visit-number' => 'Lab No.',
     'visit-type' => 'Visit Type',
 
-    /* 
-    |   Tests search panel
-    */
+    /** 
+     *   Tests search panel
+     */
     'empty-search' => 'Your search did not match any test record!',
     'from' => 'From',
     'search' => 'Search',
@@ -259,9 +264,9 @@ return array(
     'to' => 'To',
 
 
-    /* 
-    |   Tests Results
-    */
+    /**
+     *   Tests Results
+     */
     'edit-test-results' => 'Edit Test Results',
     'enter-results' => 'Enter Results',
     'enter-results-title' => 'Enter Test Results',
@@ -270,9 +275,9 @@ return array(
     'success-saving-results' => 'The results successfully saved!',
     'test-results' => 'Results',
 
-    /* 
-    |   Access Controls
-    */
+    /** 
+     *   Access Controls
+     */
 
     'access-controls' => 'Access Controls',
     'assign-roles' => 'Assign Roles',
@@ -285,9 +290,9 @@ return array(
     'permission' => 'Permission|Permissions',
     'user-accounts' => 'User Accounts',
 
-    /* 
-    |   Reports
-    */
+    /** 
+     *   Reports
+     */
     'aggregate-reports' => 'Aggregate Reports',
     'counts' => 'Counts',
     'daily-log' => 'Daily Log',
@@ -298,14 +303,14 @@ return array(
     'report' => 'Report|Reports',
 
 
-    /* 
-    |   Configurations
-    */
+    /** 
+     *   Configurations
+     */
     'lab-configuration' => 'Lab Configuration',
 
-    /* 
-    |   Dates
-    */
+    /** 
+     *   Dates
+     */
     'year' => 'Year|Years',
     'week' => 'Week|Weeks',
     'day' => 'Day|Days',
