@@ -26,88 +26,56 @@
 					</tr>
 				</tbody>
 			</table>
-			<table class="table table-bordered" width="100%">
+			<table class="table table-bordered"  width="100%">
 			<tbody>
-				<tr>
+				<tr align="left">
 					<th>{{ trans('messages.patient-name')}}</th>
 					<td>{{ $patient->name }}</td>
 					<th>{{ trans('messages.gender')}}</th>
 					<td>{{ ($patient->gender==Patient::MALE?trans('messages.male'):trans('messages.female')) }}</td>
 				</tr>
-				<tr>
+				<tr align="left">
 					<th>{{ trans("messages.patient-number")}}</th>
 					<td>{{ $patient->patient_number}}</td>
 					<th>{{ trans('messages.age')}}</th>
 					<td>{{ $patient->getAge()}}</td>
 				</tr>
-				<tr>
+				<tr align="left">
 					<th>{{ trans('messages.visit-number')}}</th>
 					<td>{{ $patient->id }}</td>
 					<th>{{ trans('messages.requesting-facility-department')}}</th>
-					<td></td>
+					<td>{{ 'Bungoma District Hospital' }}</td>
 				</tr>
 			</tbody>
 		</table>
-		<table class="table table-bordered" width="100%">
+		<table class="table table-bordered"  width="100%">
 			<tbody>
-				<tr>
-					<th colspan="5" align="left">{{trans('messages.specimen')}}</th>
+				<tr align="left">
+					<th colspan="7">{{trans('messages.test-results')}}</th>
 				</tr>
-				<tr>
-					<th>{{ trans('messages.specimen-type')}}</th>
-					<th>{{ trans('messages.tests')}}</th>
-					<th>{{ trans('messages.test-category')}}</th>
-					<th>{{ trans('messages.lab-receipt-date')}}</th>
-					<th>{{ trans('messages.collected-by')}}</th>
-				</tr>
-				@forelse($visits as $visit)
-					@foreach($visit->tests as $test)
-						<tr>
-							<td>{{ $test->specimen->specimenType->name }}</td>
-							<td>{{ $test->testType->name }}</td>
-							<td>{{ $test->testType->testCategory->name }}</td>
-							<td>{{ $test->specimen->time_accepted }}</td>
-							<td>{{ $test->specimen->acceptedBy->name or trans('messages.unknown')}}</td>
-						</tr>
-					@endforeach
-				@empty
-					<tr>
-						<td colspan="5">{{trans("messages.no-records-found")}}</td>
-					</tr>
-				@endforelse
-
-			</tbody>
-		</table>
-		<table class="table table-bordered" width="100%">
-			<tbody>
-				<tr>
-					<th colspan="7" align="left">{{trans('messages.test-results')}}</th>
-				</tr>
-				<tr>
+				<tr align="left">
 					<th>{{trans('messages.test-results-values')}}</th>
-					<th>{{trans('messages.results-entry-date')}}</th>
 					<th>{{trans('messages.test-remarks')}}</th>
 					<th>{{trans('messages.tested-by')}}</th>
+					<th>{{trans('messages.results-entry-date')}}</th>
 					<th>{{trans('messages.date-tested')}}</th>
 					<th>{{trans('messages.verified-by')}}</th>
 					<th>{{trans('messages.date-verified')}}</th>
 				</tr>
-				@forelse($visits as $visit)
-					@foreach($visit->tests as $test)
-						<tr>
-							<td>@foreach($test->testResults as $result)
-									<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
-								@endforeach</td>
-							<td>@foreach($test->testResults as $result)
-									<p>{{$result->time_entered}}</p>
-								@endforeach</td>
-							<td>{{ $test->interpretation }}</td>
-							<td>{{ $test->testedBy->name or trans('messages.unknown')}}</td>
-							<td>{{ $test->time_completed }}</td>
-							<td>{{ $test->verifiedBy->name or trans('messages.verification-pending')}}</td>
-							<td>{{ $test->time_verified }}</td>
-						</tr>
-					@endforeach
+				@forelse($tests as $test)
+					<tr>
+						<td>@foreach($test->testResults as $result)
+								<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
+							@endforeach</td>
+						<td>{{ $test->interpretation }}</td>
+						<td>{{ $test->testedBy->name or trans('messages.unknown')}}</td>
+						<td>@foreach($test->testResults as $result)
+								<p>{{$result->time_entered}}</p>
+							@endforeach</td>
+						<td>{{ $test->time_completed }}</td>
+						<td>{{ $test->verifiedBy->name or trans('messages.verification-pending')}}</td>
+						<td>{{ $test->time_verified }}</td>
+					</tr>
 				@empty
 					<tr>
 						<td colspan="7">{{trans("messages.no-records-found")}}</td>
