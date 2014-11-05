@@ -13,30 +13,22 @@
 	  <table class="table">
 	    <tbody>
 	    <tr>
-	        <td>{{ Form::label('name', trans("messages.from")) }}</td>
-        	<td>{{ Form::text('start', Input::old('start'), array('class' => 'form-control', 'id' => 'start')) }}</td>
-	        <td>{{ Form::label('name', trans("messages.to")) }}</td>
-        	<td>{{ Form::text('end', Input::old('end'), array('class' => 'form-control', 'id' => 'end')) }}</td>
-	        <td>{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
-	                        array('class' => 'btn btn-primary', 'style' => 'width:125px', 'id' => 'filter', 'type' => 'submit')) }}</td>
-	    </tr>
-	    <tr>
-	        <td>
+	    	<td>
 	        	<label class="checkbox-inline">
 	              <!-- {{ Form::hidden('pending', false) }} -->
-				  {{ Form::checkbox('pending', 1, null, array('id' => 'pending')) }} {{trans('messages.include-pending-tests')}}
+	              <input type="checkbox" id="tests" name="tests" value="1" @if(isset($pending)){{"checked='checked'"}}@endif> {{trans('messages.include-pending-tests')}}
 				</label>
 	        </td>
-	        <td>
-	        	<label class="checkbox-inline">
-				  {{ Form::checkbox('range', 'yes', false, array('id' => 'range')) }} {{trans('messages.include-range-visualization')}}
-				</label>
-	        </td>
+	        <td>{{ Form::label('name', trans("messages.from")) }}</td>
+        	<td><input class="form-control standard-datepicker" name="start" type="text" 
+                    value="{{ isset($from) ? $from : '' }}" id="start"></td>
+	        <td>{{ Form::label('name', trans("messages.to")) }}</td>
+        	<td><input class="form-control standard-datepicker" name="end" type="text" 
+                    value="{{ isset($to) ? $to : '' }}" id="end"></td>
+	        <td>{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
+	                        array('class' => 'btn btn-primary', 'style' => 'width:125px', 'id' => 'filter', 'type' => 'submit')) }}</td>
 	        <td>{{ Form::submit(trans('messages.export-to-word'), array('class' => 'btn btn-success', 'style' => 'width:160px', 'id' => 'word', 'name' => 'word')) }}</td>
-	        <td>{{ Form::submit(trans('messages.export-to-pdf'), array('class' => 'btn btn-info', 'style' => 'width:160px', 'id' => 'pdf', 'name' => 'pdf')) }}</td>
-	        <td>{{ Form::button("<span class='glyphicon glyphicon-send'></span> ".trans('messages.print'), 
-	                        array('class' => 'btn btn-default', 'style' => 'width:125px', 'id' => 'print', 'onclick'=>'printDiv("report_content")')) }}</td>
-	     </tr>
+	    </tr>
 	</tbody>
 </table>
 </div>
@@ -47,8 +39,8 @@
 		{{ trans('messages.patient-report') }}
 	</div>
 	<div class="panel-body">
-		@if (Session::has('message'))
-			<div class="alert alert-danger">{{ trans(Session::get('message')) }}</div>
+		@if(Session::has('message'))
+			<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
 		@endif
 
 		<!-- if there are search errors, they will show here -->
@@ -91,11 +83,11 @@
 					<th>{{ trans('messages.visit-number')}}</th>
 					<td>{{ $patient->id }}</td>
 					<th>{{ trans('messages.requesting-facility-department')}}</th>
-					<td></td>
+					<td>{{ 'Bungoma District Hospital' }}</td>
 				</tr>
 			</tbody>
 		</table>
-		<table class="table table-bordered">
+		<table class="table table-bordered" style="display:none">
 			<tbody>
 				<tr>
 					<th colspan="5">{{trans('messages.specimen')}}</th>
@@ -107,16 +99,14 @@
 					<th>{{ trans('messages.lab-receipt-date')}}</th>
 					<th>{{ trans('messages.collected-by')}}</th>
 				</tr>
-				@forelse($visits as $visit)
-					@foreach($visit->tests as $test)
-						<tr>
-							<td>{{ $test->specimen->specimenType->name }}</td>
-							<td>{{ $test->testType->name }}</td>
-							<td>{{ $test->testType->testCategory->name }}</td>
-							<td>{{ $test->specimen->time_accepted }}</td>
-							<td>{{ $test->specimen->acceptedBy->name or trans('messages.unknown')}}</td>
-						</tr>
-					@endforeach
+				@forelse($tests as $test)
+					<tr>
+						<td>{{ $test->specimen->specimenType->name }}</td>
+						<td>{{ $test->testType->name }}</td>
+						<td>{{ $test->testType->testCategory->name }}</td>
+						<td>{{ $test->specimen->time_accepted }}</td>
+						<td>{{ $test->specimen->acceptedBy->name or trans('messages.unknown')}}</td>
+					</tr>
 				@empty
 					<tr>
 						<td colspan="5">{{trans("messages.no-records-found")}}</td>
@@ -132,29 +122,27 @@
 				</tr>
 				<tr>
 					<th>{{trans('messages.test-results-values')}}</th>
-					<th>{{trans('messages.results-entry-date')}}</th>
 					<th>{{trans('messages.test-remarks')}}</th>
 					<th>{{trans('messages.tested-by')}}</th>
+					<th>{{trans('messages.results-entry-date')}}</th>
 					<th>{{trans('messages.date-tested')}}</th>
 					<th>{{trans('messages.verified-by')}}</th>
 					<th>{{trans('messages.date-verified')}}</th>
 				</tr>
-				@forelse($visits as $visit)
-					@foreach($visit->tests as $test)
-						<tr>
-							<td>@foreach($test->testResults as $result)
-									<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
-								@endforeach</td>
-							<td>@foreach($test->testResults as $result)
-									<p>{{$result->time_entered}}</p>
-								@endforeach</td>
-							<td>{{ $test->interpretation }}</td>
-							<td>{{ $test->testedBy->name or trans('messages.unknown')}}</td>
-							<td>{{ $test->time_completed }}</td>
-							<td>{{ $test->verifiedBy->name or trans('messages.verification-pending')}}</td>
-							<td>{{ $test->time_verified }}</td>
-						</tr>
-					@endforeach
+				@forelse($tests as $test)
+					<tr>
+						<td>@foreach($test->testResults as $result)
+								<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
+							@endforeach</td>
+						<td>{{ $test->interpretation }}</td>
+						<td>{{ $test->testedBy->name or trans('messages.unknown')}}</td>
+						<td>@foreach($test->testResults as $result)
+								<p>{{$result->time_entered}}</p>
+							@endforeach</td>
+						<td>{{ $test->time_completed }}</td>
+						<td>{{ $test->verifiedBy->name or trans('messages.verification-pending')}}</td>
+						<td>{{ $test->time_verified }}</td>
+					</tr>
 				@empty
 					<tr>
 						<td colspan="7">{{trans("messages.no-records-found")}}</td>
@@ -166,9 +154,4 @@
 	</div>
 
 </div>
-<script type="text/javascript">
-	$(document).ready(function(){
-		reports();
-	});
-</script>
 @stop

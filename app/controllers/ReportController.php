@@ -4,10 +4,10 @@ class ReportController extends \BaseController {
 	//	Begin patient report functions
 	/**
 	 * Display a listing of the resource.
-	 *
+	 * Called loadPatients because the same controller shall be used for all other reports
 	 * @return Response
 	 */
-	public function index()
+	public function loadPatients()
 	{
 		$search = Input::get('search');
 		$from = Input::get('start');
@@ -17,22 +17,12 @@ class ReportController extends \BaseController {
 								->orWhere('patient_number', 'LIKE', '%'.$search.'%')
 								->orWhere('name', 'LIKE', '%'.$search.'%')
 								->orWhere('external_patient_number', 'LIKE', '%'.$search.'%');
-			if($from||$to){
-				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime(date('Y-m-d'))||strtotime($to)>strtotime(date('Y-m-d'))){
-					Session::flash('message', 'Please check your dates range and try again!');
-				}
-				else{
-					$patients=$patients->where(function($q) use ($from, $to){
-						$q->whereHas('visits', function($q) use ($from, $to){//Filter by date created
-							$q = $q->where('created_at', '>=', $from);
-							(empty($to)) ? $q : $q->where('created_at', '<=', $to);
-						});
-					});
-				}
-			}
 			$patients=$patients->paginate(Config::get('kblis.page-items'));
 			if (count($patients) == 0) {
 			 	Session::flash('message', 'Your search <b>'.$search.'</b>, did not match any patient record!');
+			}
+			else{
+				Session::flash('message', 'Your search <b>'.$search.'</b>, matched the following patient records.');
 			}
 		}
 		else{
@@ -42,35 +32,52 @@ class ReportController extends \BaseController {
 		// Load the view and pass the patients
 		return View::make('reports.patient.index')->with('patients', $patients);
 	}
-
+	/**
+	 * Display data after applying the filters on the report uses patient ID
+	 *
+	 * @return Response
+	 */
 	public function viewPatientReport($id){
 		$from = Input::get('start');
 		$to = Input::get('end');
-		$pending_tests = Input::get('pending');
-		$range_visualization = Input::get('range');
-
-		if($pending_tests||$range_visualization||$from||$to){
-			$visits = Visit::where('patient_id', '=', $id);
+		$pending = Input::get('tests');
+		//	Check checkbox if checked and assign the 'checked' value
+		if (Input::get('tests') === '1') {
+		    $pending='checked';
+		}
+		if($pending||$from||$to){
+			$tests = Test::select('tests.id','test_type_id', 'specimen_id', 'interpretation', 'test_status_id', 'created_by', 'tested_by', 'verified_by', 'time_created', 'time_started', 'time_completed', 'time_verified')
+						->join('visits', 'visits.id', '=', 'tests.visit_id')
+						->where('patient_id', '=', $id);
 			if($from||$to){
-				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime(date('Y-m-d'))||strtotime($to)>strtotime(date('Y-m-d'))||strtotime($from)==strtotime($to)){
+				if(!$to){
+					$to = date('Y-m-d');
+				}
+				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime(date('Y-m-d'))||strtotime($to)>strtotime(date('Y-m-d'))){
 						Session::flash('message', 'Please check your dates range and try again!');
 				}
 				else{
-					$visits=$visits->where('created_at', '>=', $from)->where('created_at', '<=', $to);
+					$tests=$tests->whereBetween('created_at', array($from,$to));
 				}
 			}
-			$visits = $visits->get();
+			$tests = $tests->get();
 		}
 		else{
-			$visits = Visit::where('patient_id', '=', $id)
-						->join('tests', 'visits.id', '=', 'tests.visit_id')
+			$tests = Test::select('tests.id','test_type_id', 'specimen_id', 'interpretation', 'test_status_id', 'created_by', 'tested_by', 'verified_by', 'time_created', 'time_started', 'time_completed', 'time_verified')
+						->join('visits', 'visits.id', '=', 'tests.visit_id')
+						->where('patient_id', '=', $id)
 						->whereRaw('(tests.test_status_id = '.Test::COMPLETED.' OR tests.test_status_id = '.Test::VERIFIED.')')
 						->where('visits.created_at', 'LIKE', '%'.date('Y-m-d').'%')
 						->get();
 		}
 		$patient = Patient::find($id);
 		if(Input::has('filter')){
-			return View::make('reports.patient.report')->with('patient', $patient)->with('visits', $visits)->with('from', $from)->with('to', $to);
+			return View::make('reports.patient.report')
+						->with('patient', $patient)
+						->with('tests', $tests)
+						->with('from', $from)
+						->with('to', $to)
+						->with('pending', $pending);
 		}
 		else if(Input::has('word')){
 			$date = date("Ymdhi");
@@ -79,15 +86,20 @@ class ReportController extends \BaseController {
 			    "Content-type"=>"text/html",
 			    "Content-Disposition"=>"attachment;Filename=".$file_name
 			);
-			$content = View::make('reports.patient.export')->with('patient', $patient)->with('visits', $visits)->with('from', $from)->with('to', $to);
+			$content = View::make('reports.patient.export')
+							->with('patient', $patient)
+							->with('tests', $tests)
+							->with('from', $from)
+							->with('to', $to);
 	    	return Response::make($content,200, $headers);
 		}
-		else if(Input::has('pdf')){
-			$html = View::make('reports.patient.export')->with('patient', $patient)->with('visits', $visits)->with('from', $from)->with('to', $to);
-    		return PDF::load($html, 'A4', 'portrait')->show();
-		}
 		else{
-			return View::make('reports.patient.report')->with('patient', $patient)->with('visits', $visits)->with('from', $from)->with('to', $to);
+			return View::make('reports.patient.report')
+						->with('patient', $patient)
+						->with('tests', $tests)
+						->with('from', $from)
+						->with('to', $to)
+						->with('pending', $pending);
 		}
 	}
 	//	End patient report functions
