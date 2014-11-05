@@ -13,30 +13,22 @@
 	  <table class="table">
 	    <tbody>
 	    <tr>
-	        <td>{{ Form::label('name', trans("messages.from")) }}</td>
-        	<td>{{ Form::text('start', Input::old('start'), array('class' => 'form-control', 'id' => 'start')) }}</td>
-	        <td>{{ Form::label('name', trans("messages.to")) }}</td>
-        	<td>{{ Form::text('end', Input::old('end'), array('class' => 'form-control', 'id' => 'end')) }}</td>
-	        <td>{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
-	                        array('class' => 'btn btn-primary', 'style' => 'width:125px', 'id' => 'filter', 'type' => 'submit')) }}</td>
-	    </tr>
-	    <tr>
-	        <td>
+	    	<td>
 	        	<label class="checkbox-inline">
 	              <!-- {{ Form::hidden('pending', false) }} -->
-				  {{ Form::checkbox('pending', 1, null, array('id' => 'pending')) }} {{trans('messages.include-pending-tests')}}
+	              <input type="checkbox" id="tests" name="tests" value="1" @if(isset($pending)){{"checked='checked'"}}@endif> {{trans('messages.include-pending-tests')}}
 				</label>
 	        </td>
-	        <td>
-	        	<label class="checkbox-inline">
-				  {{ Form::checkbox('range', 'yes', false, array('id' => 'range')) }} {{trans('messages.include-range-visualization')}}
-				</label>
-	        </td>
+	        <td>{{ Form::label('name', trans("messages.from")) }}</td>
+        	<td><input class="form-control standard-datepicker" name="start" type="text" 
+                    value="{{ isset($from) ? $from : '' }}" id="start"></td>
+	        <td>{{ Form::label('name', trans("messages.to")) }}</td>
+        	<td><input class="form-control standard-datepicker" name="end" type="text" 
+                    value="{{ isset($to) ? $to : '' }}" id="end"></td>
+	        <td>{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
+	                        array('class' => 'btn btn-primary', 'style' => 'width:125px', 'id' => 'filter', 'type' => 'submit')) }}</td>
 	        <td>{{ Form::submit(trans('messages.export-to-word'), array('class' => 'btn btn-success', 'style' => 'width:160px', 'id' => 'word', 'name' => 'word')) }}</td>
-	        <td>{{ Form::submit(trans('messages.export-to-pdf'), array('class' => 'btn btn-info', 'style' => 'width:160px', 'id' => 'pdf', 'name' => 'pdf')) }}</td>
-	        <td>{{ Form::button("<span class='glyphicon glyphicon-send'></span> ".trans('messages.print'), 
-	                        array('class' => 'btn btn-default', 'style' => 'width:125px', 'id' => 'print', 'onclick'=>'printDiv("report_content")')) }}</td>
-	     </tr>
+	    </tr>
 	</tbody>
 </table>
 </div>
@@ -91,7 +83,7 @@
 					<th>{{ trans('messages.visit-number')}}</th>
 					<td>{{ $patient->id }}</td>
 					<th>{{ trans('messages.requesting-facility-department')}}</th>
-					<td></td>
+					<td>{{ 'Bungoma District Hospital' }}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -166,9 +158,4 @@
 	</div>
 
 </div>
-<script type="text/javascript">
-	$(document).ready(function(){
-		reports();
-	});
-</script>
 @stop

@@ -6,27 +6,18 @@
 	  <li class="active">{{ trans('messages.reports') }}</li>
 	</ol>
 </div>
-{{ Form::open(array('route' => array('reports.patient.index'), 'class'=>'form-inline', 'method'=>'POST')) }}
-  <table class="table">
-    <thead>
-	    <tr>
-	    	<td>
-	    		<div class="form-group">
-	                <label for="search" class="sr-only">search</label>
-	                <input class="form-control test-search" placeholder="{{trans('messages.search')}}" 
-	                value="{{isset($search) ? $search : ''}}" name="search" type="text" id="search">
-	            </div>
-	    	</td>
-	        <td>{{ Form::label('name', trans("messages.from")) }}</td>
-        	<td>{{ Form::text('start', Input::old('start'), array('class' => 'form-control', 'id' => 'start')) }}</td>
-	        <td>{{ Form::label('name', trans("messages.to")) }}</td>
-        	<td>{{ Form::text('end', Input::old('end'), array('class' => 'form-control', 'id' => 'end')) }}</td>
-	        <td>{{ Form::button("<span class='glyphicon glyphicon-search'></span> ".trans('messages.search'), 
-	                        array('class' => 'btn btn-primary', 'id' => 'filter', 'type' => 'submit')) }}</td>
-	    </tr>
-	</thead>
-  </table>
+{{ Form::open(array('route' => array('reports.patient.index'), 'class'=>'form-inline', 'role'=>'form', 'method'=>'POST')) }}
+  <div class="form-group">
+    <label for="search" class="sr-only">search</label>
+    <input class="form-control test-search" placeholder="{{trans('messages.search')}}" 
+    value="{{isset($search) ? $search : ''}}" name="search" type="text" id="search">
+</div>
+<div class="form-group">
+{{ Form::button("<span class='glyphicon glyphicon-search'></span> ".trans('messages.search'), 
+	                        array('class' => 'btn btn-primary', 'id' => 'filter', 'type' => 'submit')) }}
+	                        </div>
   {{ Form::close() }}
+  <br>
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>

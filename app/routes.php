@@ -239,7 +239,7 @@ Route::group(array("before" => "checkPerms:view_reports"), function()
 {
     Route::any("/patientreport", array(
         "as"   => "reports.patient.index",
-        "uses" => "ReportController@index"
+        "uses" => "ReportController@loadPatients"
     ));
 
     Route::any("/patientreport/{id}", array(
