@@ -39,8 +39,8 @@
 		{{ trans('messages.patient-report') }}
 	</div>
 	<div class="panel-body">
-		@if(Session::has('message'))
-			<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
+		@if(Session::has('error'))
+			<div class="alert alert-danger">{{ trans(Session::get('error')) }}</div>
 		@endif
 
 		<!-- if there are search errors, they will show here -->

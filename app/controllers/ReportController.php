@@ -49,15 +49,18 @@ class ReportController extends \BaseController {
 			$tests = Test::select('tests.id','test_type_id', 'specimen_id', 'interpretation', 'test_status_id', 'created_by', 'tested_by', 'verified_by', 'time_created', 'time_started', 'time_completed', 'time_verified')
 						->join('visits', 'visits.id', '=', 'tests.visit_id')
 						->where('patient_id', '=', $id);
+			if(!$pending){
+				$tests=$tests->whereRaw('(tests.test_status_id = '.Test::COMPLETED.' OR tests.test_status_id = '.Test::VERIFIED.')');
+			}
 			if($from||$to){
 				if(!$to){
 					$to = date('Y-m-d');
 				}
 				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime(date('Y-m-d'))||strtotime($to)>strtotime(date('Y-m-d'))){
-						Session::flash('message', 'Please check your dates range and try again!');
+						Session::flash('error', 'Please check your dates range and try again!');
 				}
 				else{
-					$tests=$tests->whereBetween('created_at', array($from,$to));
+					$tests=$tests->whereRaw('tests.time_created BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)');
 				}
 			}
 			$tests = $tests->get();
@@ -67,7 +70,7 @@ class ReportController extends \BaseController {
 						->join('visits', 'visits.id', '=', 'tests.visit_id')
 						->where('patient_id', '=', $id)
 						->whereRaw('(tests.test_status_id = '.Test::COMPLETED.' OR tests.test_status_id = '.Test::VERIFIED.')')
-						->where('visits.created_at', 'LIKE', '%'.date('Y-m-d').'%')
+						->where('tests.time_created', 'LIKE', '%'.date('Y-m-d').'%')
 						->get();
 		}
 		$patient = Patient::find($id);
