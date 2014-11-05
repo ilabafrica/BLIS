@@ -67,7 +67,7 @@ class SpecimenRejectionController extends \BaseController {
         //Get the Rejection Reason
         $rejection = RejectionReason::find($id);
         //Open the Edit View and pass to it the $rejection
-        return View::make('specimenrejection.edit')->with('rejection', $rejection);
+        return View::make('specimenrejection.edit')->with('reason', $rejection);
     }
 
     /**

@@ -24,11 +24,12 @@
 					{{ HTML::ul($errors->all()) }}
 				</div>
 			@endif
-			{{ Form::open(array('route' => 'specimenrejection.store', 'id' => 'form-add-rejection-reason')) }}
-
+			{{ Form::model($reason, array(
+                'route' => array('specimenrejection.update', $reason->id), 'method' => 'PUT',
+                'id' => 'form-edit-rejection-reason')) }}
 				<div class="form-group">
-					{{ Form::label('name', trans('messages.rejection-reason')) }}
-					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
+					{{ Form::label('reason', trans('messages.rejection-reason')) }}
+					{{ Form::text('reason', Input::old('reason'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group actions-row">
 					{{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 
