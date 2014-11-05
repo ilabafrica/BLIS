@@ -134,6 +134,8 @@ return array(
     'specimen-type-title' => 'Specimen Type',
     'success-rejecting-specimen' => 'The specimen was rejected!',
     'update' => 'Update',
+    'refer-sample' => 'Refer sample',
+    'referals' => 'Referals',
     
     /** 
      *   Test Catalog

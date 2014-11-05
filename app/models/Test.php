@@ -85,6 +85,20 @@ class Test extends Eloquent
 	}
 
 	/**
+	 * Check to see if test is external or internal
+	 *
+	 * @return boolean
+	 */
+	public function isExternal()
+	{
+		if($this->external_id == null){
+			return false;
+		}
+		else 
+			return true;
+	}
+
+	/**
 	 * Wait Time: Time difference from test reception to start
 	 */
 	public function getWaitTime()

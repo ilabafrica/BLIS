@@ -204,8 +204,7 @@ class CreatekBLIStables extends Migration {
             $table->integer('rejected_by')->unsigned()->default(0);
 			$table->integer('rejection_reason_id')->unsigned()->nullable();
             $table->string('reject_explained_to',100)->nullable();
-			$table->integer('referred_from')->unsigned()->default(0);
-			$table->integer('referred_to')->unsigned()->default(0);
+			$table->integer('referral_status')->unsigned()->default(0);
 			$table->timestamp('time_accepted')->nullable();
 			$table->timestamp('time_rejected')->nullable();
 			
@@ -256,7 +255,13 @@ class CreatekBLIStables extends Migration {
 		Schema::create('referrals', function(Blueprint $table)
 		{
 			$table->increments('id')->unsigned();
-			$table->string('referring_institution', 100);
+			$table->string('referring_institution', 500);
+            $table->string('handler', 500);
+            $table->text('contacts', 100);
+            $table->integer('specimen_id')->unsigned();;
+            $table->integer('user_id');
+
+            $table->foreign('specimen_id')->references('id')->on('specimens');
 		});
 	}
 

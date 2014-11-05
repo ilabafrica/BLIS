@@ -542,19 +542,7 @@ class KBLISSeeder extends DatabaseSeeder
             TestResult::create($testResult);
         }
         $this->command->info('test results seeded');
-        
-        /* Referrals table */
-        $referrals_array = array(
-                array("Bungoma District Hospital"),
-                array("Bumula Sub-District Hospital"),
-                array("Kenyatta National Hospital"),
-                array("Moi Referral Teaching Hospital"),
-                array("Webuye Sub-District Hospital"));
-        foreach ($referrals_array as $ref) {
-            DB::insert("INSERT INTO referrals (referring_institution) VALUES (?)", $ref);
-        }
 
-        $this->command->info('referrals seeded');
         /* Permissions table */
         $permissions = array(
             array("name" => "view_names", "display_name" => "Can view patient names"),
@@ -570,6 +558,7 @@ class KBLISSeeder extends DatabaseSeeder
             array("name" => "edit_test_results", "display_name" => "Can edit test results"),
             array("name" => "verify_test_results", "display_name" => "Can verify test results"),
             array("name" => "send_results_to_external_system", "display_name" => "Can send test results to external systems"),
+            array("name" => "refer_specimens", "display_name" => "Can refer specimens"),
 
             array("name" => "manage_users", "display_name" => "Can manage users"),
             array("name" => "manage_test_catalog", "display_name" => "Can manage test catalog"),
