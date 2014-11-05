@@ -303,6 +303,24 @@ return array(
     */
     'lab-configuration' => 'Lab Configuration',
 
+    /*
+    *   Instrumentation
+    */
+    'add-instrument' => 'Add Instrument',
+    'edit-instrument' => 'Edit Instrument',
+    'compatible-test-types' => 'Can perform:',
+    'host' => 'Hostname',
+    'host-name' => 'Hostname',
+    'instrument' => 'Instrument|Instruments',
+    'instrument-details' => 'Instrument Details',
+    'interfacing-class' => 'Instrument Interface Class',
+    'ip' => 'IP Address',
+    'list-instruments' => 'List Instruments',
+    'new-instrument' => 'New Instrument',
+    'select-test-types' => 'Select Test Types',
+    'success-creating-instrument' => 'The instrument was added successfully!',
+    'success-updating-instrument' => 'The instrument details were successfully updated!',
+
     /* 
     |   Dates
     */

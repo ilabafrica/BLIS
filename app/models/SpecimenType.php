@@ -27,7 +27,7 @@ class SpecimenType extends Eloquent
 	}
 
 	/**
-	 * TestType relationship
+	 * Specimen relationship
 	 */
 	public function specimen()
 	{

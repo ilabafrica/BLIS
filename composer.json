@@ -20,7 +20,10 @@
 			"app/database/seeds",
 			"app/tests/TestCase.php",
 			"app/api"
-		]
+		],
+		"psr-4": {
+			"KBLIS\\": "app/kblis"
+		}
 	},
 	"scripts": {
 		"post-install-cmd": [

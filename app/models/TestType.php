@@ -53,6 +53,14 @@ class TestType extends Eloquent
     }
 
 	/**
+	 * Instrument relationship
+	 */
+	public function instruments()
+	{
+	  return $this->belongsToMany('Instrument', 'instrument_testtypes');
+	}
+
+	/**
 	 * Set compatible specimen types
 	 *
 	 * @return void

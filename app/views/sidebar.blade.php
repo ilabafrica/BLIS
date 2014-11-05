@@ -6,7 +6,8 @@
 		case 'home': $active[0] = "active"; break;
 		case 'patient': $active[1] = "active"; break;
 		case 'test': $active[2] = "active"; break;
-		case 'labconfig': $active[3] = "active"; break;
+		case 'labconfig': 
+		case 'instrument': $active[3] = "active"; break;
 		case 'testcategory': 
 		case 'testtype': 
 		case 'measure': 
@@ -35,18 +36,24 @@
 		<li>
 			<div class="main-menu {{$active[2]}}">
 				<a href="{{ URL::route('test.index')}}">
-				<!-- <a href="javascript:void(0);"> -->
 					<span class="glyphicon glyphicon-filter"></span> {{Lang::choice('messages.test', 2)}}</a>
 			</div>
 		</li>
 		@if(Entrust::can('manage_lab_configurations'))
 		<li>
 			<div class="main-menu {{$active[3]}}">
-				<a href="javascript:void(0);">
+				<a href="{{ URL::route('instrument.index') }}">
 					<span class="glyphicon glyphicon-wrench"></span> {{trans('messages.lab-configuration')}}</a>
 			</div>
 			<div class="sub-menu {{$active[3]}}">
 				<ul class="sub-menu-items">
+					<li>
+						<div>
+							<a href="{{ URL::route('instrument.index')}}">
+								<span class="glyphicon glyphicon-tag"></span>
+								{{Lang::choice('messages.instrument', 1)}}</a>
+						</div>
+					</li>
 					<li>
 						<div>
 							<span class="glyphicon glyphicon-tag"></span>

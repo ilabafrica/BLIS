@@ -179,22 +179,22 @@ class KBLISSeeder extends DatabaseSeeder
         $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis18->id));
 
         /* testtype_specimentypes table */
-        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
-            array($test_types->id, $spec_types[count($spec_types)-1]->id));
-        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
-            array($test_type_gxm->id, $spec_types[count($spec_types)-1]->id));
-        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
-            array($test_type_hb->id, $spec_types[count($spec_types)-1]->id));
-        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
-            array($test_type_hb->id, $spec_types[6]->id));
-        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
-            array($test_type_hb->id, $spec_types[7]->id));
-        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
-            array($test_type_hb->id, $spec_types[12]->id));
-        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
-            array($test_type_urinalysis->id, $spec_types[19]->id));
-        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
-            array($test_type_urinalysis->id, $spec_types[20]->id));
+        DB::table('testtype_specimentypes')->insert(
+            array("test_type_id" => $test_types->id, "specimen_type_id" => $spec_types[count($spec_types)-1]->id));
+        DB::table('testtype_specimentypes')->insert(
+            array("test_type_id" => $test_type_gxm->id, "specimen_type_id" => $spec_types[count($spec_types)-1]->id));
+        DB::table('testtype_specimentypes')->insert(
+            array("test_type_id" => $test_type_hb->id, "specimen_type_id" => $spec_types[count($spec_types)-1]->id));
+        DB::table('testtype_specimentypes')->insert(
+            array("test_type_id" => $test_type_hb->id, "specimen_type_id" => $spec_types[6]->id));
+        DB::table('testtype_specimentypes')->insert(
+            array("test_type_id" => $test_type_hb->id, "specimen_type_id" => $spec_types[7]->id));
+        DB::table('testtype_specimentypes')->insert(
+            array("test_type_id" => $test_type_hb->id, "specimen_type_id" => $spec_types[12]->id));
+        DB::table('testtype_specimentypes')->insert(
+            array("test_type_id" => $test_type_urinalysis->id, "specimen_type_id" => $spec_types[19]->id));
+        DB::table('testtype_specimentypes')->insert(
+            array("test_type_id" => $test_type_urinalysis->id, "specimen_type_id" => $spec_types[20]->id));
 
         $this->command->info('testtype_specimentypes seeded');
 
@@ -555,6 +555,7 @@ class KBLISSeeder extends DatabaseSeeder
         }
 
         $this->command->info('referrals seeded');
+
         /* Permissions table */
         $permissions = array(
             array("name" => "view_names", "display_name" => "Can view patient names"),
@@ -602,6 +603,24 @@ class KBLISSeeder extends DatabaseSeeder
         }
         //Assign role Administrator to user 1 administrator
         $user1->attachRole($role1);
+
+        /* Instruments table */
+        $instrument = array(
+            "name" => "Celltac F Mek 8222",
+            "description" => "Automatic analyzer with 22 parameters and WBC 5 part diff Hematology Analyzer",
+            "ip" => "192.168.1.12",
+            "hostname" => "HEMASERVER",
+            "interfacing_class" => "CelltacFullHaemogram",
+            "created_at" => date('Y-m-d H:i:s')
+        );
+        
+        $instrumentID = DB::table('instruments')->insertGetId($instrument);
+
+        DB::table('instrument_testtypes')->insert(
+            array("instrument_id" => $instrumentID, "test_type_id" => $test_type_hb->id));
+
+        $this->command->info('Instruments table seeded');
+
     }
 
     public function createSpecimen(
