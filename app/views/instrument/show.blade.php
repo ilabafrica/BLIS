@@ -3,7 +3,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-		  <li><a href="{{ URL::route('instrument.index') }}">{{Lang::choice('messages.instrument',1)}}</a></li>
+		  <li><a href="{{ URL::route('instrument.index') }}">{{Lang::choice('messages.instrument',2)}}</a></li>
 		  <li class="active">{{trans('messages.instrument-details')}}</li>
 		</ol>
 	</div>
@@ -27,8 +27,6 @@
 					{{ $instrument->ip }}</p>
 				<p class="view-striped"><strong>{{trans('messages.host-name')}}</strong>
 					{{ $instrument->hostname }}</p>
-				<p class="view-striped"><strong>{{trans('messages.interfacing-class')}}</strong>
-					{{ $instrument->interfacing_class }}</p>
 				<p class="view-striped"><strong>{{trans('messages.compatible-test-types')}}</strong>
 					{{ implode(", ", $instrument->testTypes->lists('name')) }}</p>
 				<p class="view-striped"><strong>{{trans('messages.date-created')}}</strong>

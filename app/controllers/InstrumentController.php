@@ -61,10 +61,12 @@ class InstrumentController extends \BaseController {
 			$instrument->ip = Input::get('ip');
 			$instrument->hostname = Input::get('hostname');
 
+			$interfacingClasses = array_values(array_filter(Input::get('interfacing_class')));
+
 			try{
 				$instrument->save();
 
-				$instrument->setTestTypes(Input::get('testtypes'), Input::get('interfacing_class'));
+				$instrument->setTestTypes(Input::get('testtypes'), $interfacingClasses);
 
 				return Redirect::route('instrument.index')->with('message', trans('messages.success-creating-instrument'));
 
@@ -134,9 +136,11 @@ class InstrumentController extends \BaseController {
 			$instrument->ip = Input::get('ip');
 			$instrument->hostname = Input::get('hostname');
 
+			$interfacingClasses = array_values(array_filter(Input::get('interfacing_class')));
+
 			try{
 				$instrument->save();
-				$instrument->setTestTypes(Input::get('testtypes'), Input::get('interfacing_class'));
+				$instrument->setTestTypes(Input::get('testtypes'), $interfacingClasses);
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -183,8 +187,9 @@ class InstrumentController extends \BaseController {
 	public function getTestResult()
 	{
 		//Get Instrument
-		$instrument = Instrument::find(Input::get("instrument_id"));
-		$class = "KBLIS\\Instrumentation\\".$instrument->interfacing_class;	
+		$instrument = TestType::find(Input::get("test_type_id"))->instruments->first();
+		$interfacingClass = $instrument->pivot->interfacing_class;
+		$class = "KBLIS\\Instrumentation\\".$interfacingClass;	
  
 		$result = (new $class($instrument->ip))->getResult();
 

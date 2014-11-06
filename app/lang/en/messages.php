@@ -315,7 +315,7 @@ return array(
     'host-name' => 'Hostname',
     'instrument' => 'Instrument|Instruments',
     'instrument-details' => 'Instrument Details',
-    'interfacing-class' => 'Instrument Interface Class',
+    'interfacing-class' => 'Instrument Interfacing Class for ',
     'ip' => 'IP Address',
     'list-instruments' => 'List Instruments',
     'new-instrument' => 'New Instrument',

@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li><a href="{{ URL::route('instrument.index') }}">{{Lang::choice('messages.instrument',1)}}</a></li>
+	  <li><a href="{{ URL::route('instrument.index') }}">{{Lang::choice('messages.instrument',2)}}</a></li>
 	  <li class="active">{{trans('messages.add-instrument')}}</li>
 	</ol>
 </div>
@@ -53,15 +53,21 @@
 							$cnt++;
 							$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
 						?>
-						<div class="col-md-3">
-							<label  class="checkbox">
-								<input type="checkbox" name="testtypes[]" value="{{ $value->id}}" />{{$value->name}}
-							</label>
+						<div class="col-md-6">
+							<div class="col-md-3">
+								{{$value->name }}
+							</div>
+							<div class="col-md-9">
+								<div class="input-group">
+									<span class="input-group-addon">
+										{{ Form::checkbox('testtypes[]', $value->id)}}
+									</span>
+									{{ Form::text('interfacing_class[]', "", array('class' => 'form-control',
+										'title' => trans('messages.interfacing-class').$value->name)) }}
+								</div>
+							</div>
 						</div>
-						<div class="form-group col-md-3">
-							{{ Form::label('interfacing_class[]', trans('messages.interfacing-class'), array('class' => 'sr-only')) }}
-							{{ Form::text('interfacing_class[]', Input::old('interfacing_class'), array('class' => 'form-control')) }}
-						</div>
+
 						{{ ($cnt%2==0)?"</div>":"" }}
 					@endforeach
 					</div>
