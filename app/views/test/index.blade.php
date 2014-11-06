@@ -190,12 +190,12 @@
                                     <span class="glyphicon glyphicon-play"></span>
                                     {{trans('messages.start-test')}}
                                 </a>
+                                @endif
                                 @if(Auth::user()->can('refer_specimens') && !($test->isExternal()))
-                                <a class="btn btn-sm btn-info" href="{{ URL::to('#') }}">
+                                <a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->specimen_id.'/refer') }}">
                                     <span class="glyphicon glyphicon-edit"></span>
                                     {{trans('messages.refer-sample')}}
                                 </a>
-                                @endif
                                 @endif
                             @elseif ($test->test_status_id == Test::STARTED)
                                 @if(Auth::user()->can('enter_test_results'))

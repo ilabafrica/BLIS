@@ -194,6 +194,19 @@ class CreatekBLIStables extends Migration {
 			$table->string("reason", 100);
 		});
 
+        Schema::create('referrals', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->integer('status')->unsigned();
+            $table->string('facility', 500);
+            $table->string('person', 500);
+            $table->text('contacts', 100);
+            $table->integer('user_id')->unsigned();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+        });
+
 		Schema::create('specimens', function(Blueprint $table)
 		{
 			$table->increments('id')->unsigned();
@@ -204,7 +217,7 @@ class CreatekBLIStables extends Migration {
             $table->integer('rejected_by')->unsigned()->default(0);
 			$table->integer('rejection_reason_id')->unsigned()->nullable();
             $table->string('reject_explained_to',100)->nullable();
-			$table->integer('referral_status')->unsigned()->default(0);
+			$table->integer('referral_id')->unsigned()->nullable();
 			$table->timestamp('time_accepted')->nullable();
 			$table->timestamp('time_rejected')->nullable();
 			
@@ -212,6 +225,7 @@ class CreatekBLIStables extends Migration {
 			$table->foreign('specimen_status_id')->references('id')->on('specimen_statuses');
 			$table->foreign('rejection_reason_id')->references('id')->on('rejection_reasons');
 			$table->foreign('test_phase_id')->references('id')->on('test_phases');
+            $table->foreign('referral_id')->references('id')->on('referrals');
 		});
 
 		Schema::create('tests', function(Blueprint $table)
@@ -250,18 +264,6 @@ class CreatekBLIStables extends Migration {
 			$table->foreign('test_id')->references('id')->on('tests');
 			$table->foreign('measure_id')->references('id')->on('measures');
 			$table->unique(array('test_id','measure_id'));
-		});
-
-		Schema::create('referrals', function(Blueprint $table)
-		{
-			$table->increments('id')->unsigned();
-			$table->string('referring_institution', 500);
-            $table->string('handler', 500);
-            $table->text('contacts', 100);
-            $table->integer('specimen_id')->unsigned();;
-            $table->integer('user_id');
-
-            $table->foreign('specimen_id')->references('id')->on('specimens');
 		});
 	}
 

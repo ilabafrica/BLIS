@@ -46,6 +46,12 @@ return array(
     'users' => 'Users',
     'username' => 'Username',
     'view' => 'View',
+    'facility' => 'Facility',
+    'person' => 'Person',
+    'contacts' => 'Contacts',
+    'refer' => 'Refer',
+    'in' => 'In',
+    'out' => 'Out',
 
     /* 
     |   Generic phrases
@@ -136,6 +142,7 @@ return array(
     'update' => 'Update',
     'refer-sample' => 'Refer sample',
     'referals' => 'Referals',
+    'specimen-succesful-refer' => 'The specimen was referred',
     
     /** 
      *   Test Catalog

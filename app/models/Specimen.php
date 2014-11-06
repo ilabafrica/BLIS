@@ -63,4 +63,27 @@ class Specimen extends Eloquent
     {
         return $this->hasOne('Test');
     }
+
+    /**
+	 * referrals relationship
+	 */
+	public function refferal()
+    {
+        return $this->hasOne('Referral');
+    }
+
+    /**
+	 * Specimen verified
+	 *
+	 * @return boolean
+	 */
+    public function isReferred()
+    {
+    	if($this->refferal()->isEmpty())
+    	{
+    		return false;
+    	}
+    	else 
+    		return true;
+    }
 }
