@@ -208,6 +208,8 @@ return array(
     'date-verified' => 'Date Verified',
     'collected-by'  =>  'Collected By',
     'no-records-found' => 'No records found.',
-    'hospital-number'   =>  'Hospital number'
+    'hospital-number'   =>  'Hospital number',
+    'rejected-by'   =>  'Rejected by',
+    'date-checked'  =>  'Date Checked'
 
 );

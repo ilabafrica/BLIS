@@ -49,8 +49,8 @@ class ReportController extends \BaseController {
 			$tests = Test::select('tests.id','test_type_id', 'specimen_id', 'interpretation', 'test_status_id', 'created_by', 'tested_by', 'verified_by', 'time_created', 'time_started', 'time_completed', 'time_verified')
 						->join('visits', 'visits.id', '=', 'tests.visit_id')
 						->where('patient_id', '=', $id);
-			if(!$pending){
-				$tests=$tests->whereRaw('(tests.test_status_id = '.Test::COMPLETED.' OR tests.test_status_id = '.Test::VERIFIED.')');
+			if($pending){
+				$tests=$tests->whereRaw('tests.test_status_id != '.Test::NOT_RECEIVED);
 			}
 			if($from||$to){
 				if(!$to){

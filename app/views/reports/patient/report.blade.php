@@ -87,29 +87,41 @@
 				</tr>
 			</tbody>
 		</table>
-		<table class="table table-bordered" style="display:none">
+		<table class="table table-bordered">
 			<tbody>
 				<tr>
-					<th colspan="5">{{trans('messages.specimen')}}</th>
+					<th colspan="6">{{trans('messages.specimen')}}</th>
 				</tr>
 				<tr>
 					<th>{{ trans('messages.specimen-type')}}</th>
 					<th>{{ trans('messages.tests')}}</th>
 					<th>{{ trans('messages.test-category')}}</th>
-					<th>{{ trans('messages.lab-receipt-date')}}</th>
-					<th>{{ trans('messages.collected-by')}}</th>
+					<th>{{ trans('messages.specimen-status')}}</th>
+					<th>{{ trans('messages.collected-by')."/".trans('messages.rejected-by')}}</th>
+					<th>{{ trans('messages.date-checked')}}</th>
 				</tr>
 				@forelse($tests as $test)
 					<tr>
 						<td>{{ $test->specimen->specimenType->name }}</td>
 						<td>{{ $test->testType->name }}</td>
 						<td>{{ $test->testType->testCategory->name }}</td>
-						<td>{{ $test->specimen->time_accepted }}</td>
-						<td>{{ $test->specimen->acceptedBy->name or trans('messages.unknown')}}</td>
+						@if($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
+							<td>{{trans('messages.specimen-not-collected')}}</td>
+							<td></td>
+							<td></td>
+						@elseif($test->specimen->specimen_status_id == Specimen::ACCEPTED)
+							<td>{{trans('messages.specimen-accepted')}}</td>
+							<td>{{$test->specimen->acceptedBy->name}}</td>
+							<td>{{$test->specimen->time_accepted}}</td>
+						@elseif($test->specimen->specimen_status_id == Specimen::REJECTED)
+							<td>{{trans('messages.specimen-rejected')}}</td>
+							<td>{{$test->specimen->rejectedBy->name}}</td>
+							<td>{{$test->specimen->time_rejected}}</td>
+						@endif
 					</tr>
 				@empty
 					<tr>
-						<td colspan="5">{{trans("messages.no-records-found")}}</td>
+						<td colspan="6">{{trans("messages.no-records-found")}}</td>
 					</tr>
 				@endforelse
 
@@ -118,9 +130,10 @@
 		<table class="table table-bordered">
 			<tbody>
 				<tr>
-					<th colspan="7">{{trans('messages.test-results')}}</th>
+					<th colspan="8">{{trans('messages.test-results')}}</th>
 				</tr>
 				<tr>
+					<th>{{trans('messages.test-type')}}</th>
 					<th>{{trans('messages.test-results-values')}}</th>
 					<th>{{trans('messages.test-remarks')}}</th>
 					<th>{{trans('messages.tested-by')}}</th>
@@ -131,11 +144,12 @@
 				</tr>
 				@forelse($tests as $test)
 					<tr>
+						<td>{{ $test->testType->name }}</td>
 						<td>@foreach($test->testResults as $result)
 								<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
 							@endforeach</td>
 						<td>{{ $test->interpretation }}</td>
-						<td>{{ $test->testedBy->name or trans('messages.unknown')}}</td>
+						<td>{{ $test->testedBy->name or trans('messages.pending')}}</td>
 						<td>@foreach($test->testResults as $result)
 								<p>{{$result->time_entered}}</p>
 							@endforeach</td>
@@ -145,7 +159,7 @@
 					</tr>
 				@empty
 					<tr>
-						<td colspan="7">{{trans("messages.no-records-found")}}</td>
+						<td colspan="8">{{trans("messages.no-records-found")}}</td>
 					</tr>
 				@endforelse
 			</tbody>
