@@ -11,6 +11,7 @@
 		case 'testtype': 
 		case 'measure': 
 		case 'specimentype': 
+		case 'specimenrejection': 
 			$active[4] = "active"; break;
 		case 'report': $active[5] = "active"; break;
 		case 'permission': 
@@ -77,6 +78,12 @@
 								<span class="glyphicon glyphicon-tag"></span> {{Lang::choice('messages.specimen-type', 2)}}</a>
 						</div>
 					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route("specimenrejection.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.specimen-rejection')}}</a>
+						</div>
+					</li>					
 					<li>
 						<div>
 							<a href="{{ URL::route("testtype.index")}}">

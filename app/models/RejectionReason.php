@@ -10,5 +10,12 @@ class RejectionReason extends Eloquent
 	protected $table = 'rejection_reasons';
 
 	public $timestamps = false;
-	
+
+	/**
+	 * Specimen relationship
+	 */
+	public function specimen()
+	{
+		return $this->hasMany('Specimen');
+	}
 }
