@@ -264,7 +264,6 @@ class CreatekBLIStables extends Migration {
             $table->string('ip', 15);
             $table->string('hostname', 100)->nullable();
             $table->string('description', 100)->nullable();
-            $table->string('interfacing_class', 100)->nullable();
             $table->timestamps();
         });
 
@@ -272,6 +271,7 @@ class CreatekBLIStables extends Migration {
         {
             $table->integer('instrument_id')->unsigned();
             $table->integer('test_type_id')->unsigned();
+            $table->string('interfacing_class', 100)->nullable();
 
             $table->foreign('instrument_id')->references('id')->on('instruments');
             $table->foreign('test_type_id')->references('id')->on('test_types');

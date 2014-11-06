@@ -14,7 +14,7 @@ class Instrument extends Eloquent
 	 */
 	public function testTypes()
 	{
-	  return $this->belongsToMany('TestType', 'instrument_testtypes');
+	  return $this->belongsToMany('TestType', 'instrument_testtypes')->withPivot('interfacing_class');
 	}
 
 	/**
@@ -22,16 +22,21 @@ class Instrument extends Eloquent
 	 *
 	 * @return void
 	 */
-	public function setTestTypes($testTypes){
+	public function setTestTypes($testTypes, $instrumentClasses = array()){
 
 		$testTypesAdded = array();
-		$instrumentID = (int)$this->id;	
+		$instrumentID = (int)$this->id;
+		$interfacingClass = "";
 
 		if(is_array($testTypes)){
 			foreach ($testTypes as $key => $value) {
+
+				if(isset($instrumentClasses[$key])) $interfacingClass = $instrumentClasses[$key];
+
 				$testTypesAdded[] = array(
 					'instrument_id' => $instrumentID,
-					'test_type_id' => (int)$value
+					'test_type_id' => (int)$value,
+					'interfacing_class' => $interfacingClass
 					);
 			}
 		}

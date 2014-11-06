@@ -3,6 +3,12 @@ namespace KBLIS\Instrumentation;
  
 class CelltacFullHaemogram extends AbstractInstrumentor
 {   
+	/**
+	* Fetch Test Result from machine and format it into a JSON string
+	*
+	* @return Response (JSON)
+	*
+	*/
     public function getResult() {
 
     	/*
@@ -44,30 +50,32 @@ class CelltacFullHaemogram extends AbstractInstrumentor
 		*-------------------
 		* WBC, LY%, MO%, NE%, EO%, BA%, LY, MO, NE, EO, BA, RBC, HGB, HCT, MCV, MCH, MCHC, RDW, PLT, PCT, MPV, PDW
 		*/
-    	$result[] = array("SAMPLE_ID", "339869");
-    	$result[] = array("WBC", "6.2");
-    	$result[] = array("LY%", "17.8L");
-    	$result[] = array("MO%", "74.2*");
-    	$result[] = array("NE%", "7.2*");
-    	$result[] = array("EO%", "0.7");
-    	$result[] = array("BA%", "0.1");
-    	$result[] = array("LY", "1.1L");
-    	$result[] = array("MO", "4.7*");
-    	$result[] = array("NE", "0.4*");
-    	$result[] = array("EO", "0.0");
-    	$result[] = array("BA", "0.0");
-    	$result[] = array("RBC", "4.26");
-    	$result[] = array("HGB", "10.5L");
-    	$result[] = array("HCT", "35.5L");
-    	$result[] = array("MCV", "83.3");
-    	$result[] = array("MCH", "24.6L");
-    	$result[] = array("MCHC", "29.6L");
-    	$result[] = array("RDW", "13.0");
-    	$result[] = array("PLT", "35L");
-    	$result[] = array("PCT", "0.02L");
-    	$result[] = array("MPV", "7.0");
-    	$result[] = array("PDW", "21.3H");
+    	$result = array(
+    		"SAMPLE_ID" => "339869",
+    		"WBC" => "6.2",
+    		"LY%" => "17.8L",
+    		"MO%" => "74.2*",
+    		"NE%" => "7.2*",
+    		"EO%" => "0.7",
+    		"BA%" => "0.1",
+    		"LY" => "1.1L",
+	    	"MO" => "4.7*",
+	    	"NE" => "0.4*",
+	    	"EO" => "0.0",
+	    	"BA" => "0.0",
+	    	"RBC" => "4.26",
+	    	"HGB" => "10.5L",
+	    	"HCT" => "35.5L",
+	    	"MCV" => "83.3",
+	    	"MCH" => "24.6L",
+	    	"MCHC" => "29.6L",
+	    	"RDW" => "13.0",
+	    	"PLT" => "35L",
+	    	"PCT" => "0.02L",
+	    	"MPV" => "7.0",
+	    	"PDW" => "21.3H"
+	    	);
 
-        return $result;
+        return json_encode($result);
     }
 }

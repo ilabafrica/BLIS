@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\QueryException;
+// use KBLIS\Instrumentation\;
 
 /**
  *Contains functions for managing instruments
@@ -59,12 +60,11 @@ class InstrumentController extends \BaseController {
 			$instrument->description = Input::get('description');
 			$instrument->ip = Input::get('ip');
 			$instrument->hostname = Input::get('hostname');
-			$instrument->interfacing_class = Input::get('interfacing_class');
 
 			try{
 				$instrument->save();
 
-				$instrument->setTestTypes(Input::get('testtypes'));
+				$instrument->setTestTypes(Input::get('testtypes'), Input::get('interfacing_class'));
 
 				return Redirect::route('instrument.index')->with('message', trans('messages.success-creating-instrument'));
 
@@ -133,11 +133,10 @@ class InstrumentController extends \BaseController {
 			$instrument->description = Input::get('description');
 			$instrument->ip = Input::get('ip');
 			$instrument->hostname = Input::get('hostname');
-			$instrument->interfacing_class = Input::get('interfacing_class');
 
 			try{
 				$instrument->save();
-				$instrument->setTestTypes(Input::get('testtypes'));
+				$instrument->setTestTypes(Input::get('testtypes'), Input::get('interfacing_class'));
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -174,5 +173,21 @@ class InstrumentController extends \BaseController {
 
 		// redirect
 		return Redirect::route('instrument.index')->with('message', trans('messages.success-deleting-instrument'));
+	}
+
+	/**
+	 * Pull test results from an instrument as JSON.
+	 *
+	 * @return Response
+	 */
+	public function getTestResult()
+	{
+		//Get Instrument
+		$instrument = Instrument::find(Input::get("instrument_id"));
+		$class = "KBLIS\\Instrumentation\\".$instrument->interfacing_class;	
+ 
+		$result = (new $class($instrument->ip))->getResult();
+
+		return $result;
 	}
 }

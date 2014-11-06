@@ -4,14 +4,14 @@ namespace KBLIS\Instrumentation;
 abstract class AbstractInstrumentor implements InstrumentorInterface
 {
     protected $ip;
-    protected $host;
+    protected $hostname;
  
     public function __construct($ip, $hostname = null) {
         if ($ip !== null) {
             $this->setIP($ip);
         }
-        if ($host !== null) {
-            $this->setHost($host);
+        if ($hostname !== null) {
+            $this->setHost($hostname);
         }
     }
  
@@ -21,9 +21,9 @@ abstract class AbstractInstrumentor implements InstrumentorInterface
         return $this;    
     }
  
-    public function setHost($host) {
-        $this->checkHost($host);
-        $this->host = $host;
+    public function setHost($hostname) {
+        $this->checkHost($hostname);
+        $this->hostname = $hostname;
         return $this;    
     }
  

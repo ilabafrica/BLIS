@@ -57,7 +57,7 @@ class TestType extends Eloquent
 	 */
 	public function instruments()
 	{
-	  return $this->belongsToMany('Instrument', 'instrument_testtypes');
+	  return $this->belongsToMany('Instrument', 'instrument_testtypes')->withPivot('interfacing_class');
 	}
 
 	/**

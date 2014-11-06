@@ -110,6 +110,11 @@ Route::group(array("before" => "auth"), function()
             "as"   => "instrument.delete",
             "uses" => "InstrumentController@delete"
         ));
+
+        Route::any("/instrument/getresult", array(
+            "as"   => "instrument.getResult",
+            "uses" => "InstrumentController@getTestResult"
+        ));
     });
 
     Route::any("/test", array(

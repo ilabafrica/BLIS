@@ -209,6 +209,8 @@ return array(
     'create-new-test' => 'Create New Test',
     'completed' => 'Test Completed',
     'date-ordered' => 'Date Ordered',
+    'fetch-test-data' => 'Fetch',
+    'fetch-test-data-title' => 'Fetch Test data from associated instrument.',
     'first-select-patient' => 'First select a patient below',
     'in-patient' => 'In Patient',
     'interpretation' => 'Interpretation',

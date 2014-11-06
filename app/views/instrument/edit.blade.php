@@ -41,31 +41,33 @@
 				{{ Form::text('hostname', Input::old('hostname'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('interfacing_class', trans('messages.interfacing-class')) }}
-				{{ Form::text('interfacing_class', Input::old('interfacing_class'), array('class' => 'form-control')) }}
-			</div>
-			<div class="form-group">
 				{{ Form::label('test_types', trans('messages.select-test-types')) }}
-				<div class="form-pane panel panel-default">
+				<div class="form-pane panel">
 					<div class="container-fluid">
 						<?php 
 							$cnt = 0;
 							$zebra = "";
 						?>
 					@foreach($testtypes as $key=>$value)
-						{{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
+						{{ ($cnt%2==0)?"<div class='row $zebra'>":"" }}
 						<?php
 							$cnt++;
 							$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
 						?>
-						<div class="col-md-3">
+						<div class="col-md-2">
 							<label  class="checkbox">
 								<input type="checkbox" name="testtypes[]" value="{{ $value->id}}" 
 									{{ in_array($value->id, $instrument->testTypes->lists('id'))?"checked":"" }} />
 									{{$value->name }}
 							</label>
 						</div>
-						{{ ($cnt%4==0)?"</div>":"" }}
+<pre>{{var_dump($value->instruments->get($instrument->id))}}</pre>
+						<div class="col-md-4">
+							{{ Form::label('interfacing_class', trans('messages.interfacing-class'), array('class' => 'sr-only')) }}
+							{{ Form::text('interfacing_class[]', "",
+								array('class' => 'form-control', 'title' => trans('messages.interfacing-class'))) }}
+						</div>
+						{{ ($cnt%2==0)?"</div>":"" }}
 					@endforeach
 					</div>
 				</div>

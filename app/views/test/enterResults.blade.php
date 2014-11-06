@@ -13,6 +13,16 @@
                 <div class="row less-gutter">
                     <div class="col-md-11">
                         <span class="glyphicon glyphicon-user"></span> {{ trans('messages.test-results') }}
+                        @if($test->testType->instruments->count() > 0)
+                        <div class="panel-btn">
+                            <a class="btn btn-sm btn-info fetch-test-data" href="javascript:void(0)"
+                                title="{{trans('messages.fetch-test-data-title')}}"
+                                data-instrument-id="{{$test->testType->instruments->first()->id}}">
+                                <span class="glyphicon glyphicon-plus-sign"></span>
+                                {{trans('messages.fetch-test-data')}}
+                            </a>
+                        </div>
+                        @endif
                     </div>
                     <div class="col-md-1">
                         <a class="btn btn-sm btn-primary pull-right" href="{{URL::previous()}}"
@@ -30,7 +40,8 @@
                     {{ HTML::ul($errors->all()) }}
                 </div>
             @endif
-            {{ Form::open(array('url' => 'test/'.$test->id.'/saveresults', 'method' => 'POST', 'id' => 'form-enter-results')) }}
+            {{ Form::open(array('route' => array('test.saveResults',$test->id), 'method' => 'POST',
+                'id' => 'form-enter-results')) }}
                 @foreach($test->testType->measures as $measure)
                     <div class="form-group">
                         <?php
