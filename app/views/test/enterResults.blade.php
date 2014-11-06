@@ -17,7 +17,7 @@
                         <div class="panel-btn">
                             <a class="btn btn-sm btn-info fetch-test-data" href="javascript:void(0)"
                                 title="{{trans('messages.fetch-test-data-title')}}"
-                                data-instrument-id="{{$test->testType->id}}">
+                                data-test-type-id="{{$test->testType->id}}">
                                 <span class="glyphicon glyphicon-plus-sign"></span>
                                 {{trans('messages.fetch-test-data')}}
                             </a>

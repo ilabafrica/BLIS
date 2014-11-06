@@ -60,6 +60,6 @@ class CelltacWBC extends AbstractInstrumentor
     		"Baso" => "0.1"
 	    	);
 
-        return json_encode($result);
+        return $result;
     }
 }

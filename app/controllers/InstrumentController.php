@@ -186,13 +186,33 @@ class InstrumentController extends \BaseController {
 	 */
 	public function getTestResult()
 	{
-		//Get Instrument
-		$instrument = TestType::find(Input::get("test_type_id"))->instruments->first();
+		//Get Instrument Interface Class file
+		$testTypeID = Input::get("test_type_id");
+		$testType = TestType::find($testTypeID);
+		$instrument = $testType->instruments->first();
 		$interfacingClass = $instrument->pivot->interfacing_class;
 		$class = "KBLIS\\Instrumentation\\".$interfacingClass;	
  
+ 		// Invoke the Instrument Interface Class to get the results
 		$result = (new $class($instrument->ip))->getResult();
 
-		return $result;
+
+		// Change measure names to measure_ids in the returned array
+		$resultWithIDs = array();
+
+		foreach ($result as $measureName => $value) {
+			$measureFound = $testType->measures->filter(function($measure) use ($measureName){
+				if($measure->name == $measureName) return $measure;
+			});
+
+			if(empty($measureFound->toArray())){
+				$resultWithIDs[$measureName] = $value;
+			}else{
+				$resultWithIDs['m_'.$measureFound->first()->id] = $value;
+			}
+		}
+
+		// Send back a json result
+		return json_encode($resultWithIDs);
 	}
 }
