@@ -2,6 +2,11 @@
 <head>
 {{ HTML::style('css/bootstrap.min.css') }}
 {{ HTML::style('css/bootstrap-theme.min.css') }}
+<style type="text/css">
+	#content table, #content th, #content td {
+   border: 1px solid black;
+}
+</style>
 </head>
 <body>
 <div id="wrap">
@@ -26,6 +31,7 @@
 					</tr>
 				</tbody>
 			</table>
+			<div id="content">
 			<table class="table table-bordered"  width="100%">
 			<tbody>
 				<tr align="left">
@@ -48,6 +54,7 @@
 				</tr>
 			</tbody>
 		</table>
+		<br>
 		<table class="table table-bordered" width="100%">
 			<tbody align="left">
 				<tr>
@@ -88,6 +95,7 @@
 
 			</tbody>
 		</table>
+		<br>
 		<table class="table table-bordered"  width="100%">
 			<tbody align="left">
 				<tr>
@@ -125,6 +133,7 @@
 				@endforelse
 			</tbody>
 		</table>
+		</div>
 		</div>
 	</div>
 </div>
