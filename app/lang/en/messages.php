@@ -114,6 +114,7 @@ return array(
     'reject-title' => 'Reject Specimen',
     'rejection-reason' => 'Reason',
     'rejection-reason-title' => 'Rejection Reason',
+    'specimen' => 'Specimen',
     'specimen-accepted' => 'Accepted',
     'specimen-accepted-label' => 'Specimen Accepted',
     'specimen-details' => 'Specimen Details',
@@ -294,13 +295,29 @@ return array(
      *   Reports
      */
     'aggregate-reports' => 'Aggregate Reports',
+    'collected-by'  =>  'Collected By',
     'counts' => 'Counts',
     'daily-log' => 'Daily Log',
     'daily-reports' => 'Daily Reports',
+    'date-checked'  =>  'Date Checked',
+    'date-tested' => 'Date Tested',
+    'date-verified' => 'Date Verified',
+    'export-to-pdf' => 'Export to PDF',
+    'export-to-word' => 'Export to Word',
+    'hospital-number'   =>  'Hospital number',
+    'include-pending-tests' => 'Include Pending Tests',
+    'include-range-visualization' => 'Include Range Visualization',
     'infection-report' => 'Infection Report',
+    'no-records-found' => 'No records found.',
     'patient-report' => 'Patient Report',
     'prevalence-rates' => 'Prevalence Rates',
+    'print' => 'Print',
+    'rejected-by'   =>  'Rejected by',
     'report' => 'Report|Reports',
+    'requesting-facility-department' => 'Requesting Facility/Department',
+    'results-entry-date' => 'Entry Date',
+    'test-results-values' => 'Test:Result',
+    'view-report' => 'View Report',
 
 
     /** 
