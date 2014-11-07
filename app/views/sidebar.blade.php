@@ -13,7 +13,7 @@
 		case 'specimentype': 
 		case 'specimenrejection': 
 			$active[4] = "active"; break;
-		case 'report': $active[5] = "active"; break;
+		case 'patientreport': $active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
 		case 'user': 
@@ -100,18 +100,22 @@
 			</div>
 		</li>
 		@endif
+		@if(Entrust::can('view_reports'))
 		<li>
 			<div class="main-menu {{$active[5]}}">
 				<a href="javascript:void(0);">
 					<span class="glyphicon glyphicon-stats"></span> {{trans('messages.reports')}}</a>
+				<a href="{{ URL::route('reports.patient.index')}}">
+					<span class="glyphicon glyphicon-stats"></span> {{Lang::choice('messages.report', 2)}} </a>
 			</div>
 			<div class="sub-menu {{$active[5]}}">
 				<div class="sub-menu-title">{{trans('messages.daily-reports')}}</div>
 				<ul class="sub-menu-items">
 					<li>
 						<div>
-							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.patient-report')}}
+							<a href="{{ URL::route('reports.patient.index')}}" title="Patient Report">
+								<span class="glyphicon glyphicon-tag"></span>
+								{{trans('messages.patient-report')}}</a>
 						</div>
 					</li>
 					<li>
@@ -150,6 +154,7 @@
 				</ul>
 			</div>
 		</li>
+		@endif
 		<li>
 			<div class="main-menu {{$active[6]}}">
 				<a href="{{ (Entrust::can('manage_users')) ? URL::route('user.index') : URL::to('user/'.Auth::user()->id.'/edit') }}">

@@ -63,4 +63,20 @@ class Specimen extends Eloquent
     {
         return $this->hasOne('Test');
     }
+
+    /**
+	 * User (accepted) relationship
+	 */
+	public function acceptedBy()
+	{
+		return $this->belongsTo('User', 'accepted_by', 'id');
+	}
+
+	/**
+	 * User (rejected) relationship
+	 */
+	public function rejectedBy()
+	{
+		return $this->belongsTo('User', 'rejected_by', 'id');
+	}
 }
