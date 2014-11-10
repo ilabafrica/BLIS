@@ -105,6 +105,7 @@ class CreatekBLIStables extends Migration {
             $table->integer('age_min')->unsigned();
             $table->integer('age_max')->unsigned();
             $table->tinyInteger('gender')->unsigned();
+            $table->string('interpretation', 200)->default('');
             $table->decimal('range_lower', 7, 3);
             $table->decimal('range_upper', 7, 3);
 

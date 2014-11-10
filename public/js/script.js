@@ -181,6 +181,26 @@ $(function(){
 		$(this).remove();
 	});
 
+	/**
+	 * Updates the test  result via ajax call
+	 */
+	$(".result-interpretation-trigger").focusout(function() {
+		var interpretation = "";
+		var url = $(this).data('url');
+		var measureid = $(this).data('measureid');
+		var age = $(this).data('age');
+		var gender = $(this).data('gender');
+		var measurevalue = $(this).val();
+		$.post(url, { 
+				measureid: measureid,
+				age: age,
+				measurevalue: measurevalue,
+				gender: gender
+			}).done( function( interpretation ){
+			$( ".result-interpretation" ).val( interpretation );
+		});
+	});
+
 	/** Start Test button.
 	 *  - Updates the Test status via an AJAX call
 	 *  - Changes the UI to show the right status and buttons

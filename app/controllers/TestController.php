@@ -308,6 +308,21 @@ class TestController extends \BaseController {
 	}
 
 	/**
+	 * Returns test result intepretation
+	 * @param
+	 * @return
+	 */
+	public function getResultInterpretation()
+	{
+		$measureid = Input::get('measureid');
+		$age = Input::get('age');
+		$measurevalue = Input::get('measurevalue');
+		$gender = Input::get('gender');
+		$interpretation = new Measure;
+		return $interpretation->getResultInterpretation($measureid, $age, $measurevalue, $gender);
+	}
+
+	/**
 	 * Saves Test Results
 	 *
 	 * @param

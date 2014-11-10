@@ -145,6 +145,28 @@ class KBLISSeeder extends DatabaseSeeder
         $measureUrinalysis17 = Measure::create(array("measure_type_id" => "4", "name" => "Urobilinogen Phenlpyruvic acid", "measure_range" => "", "unit" => ""));
         $measureUrinalysis18 = Measure::create(array("measure_type_id" => "4", "name" => "pH", "measure_range" => "", "unit" => ""));
 
+        MeasureRange::create(array(
+            "measure_id" => $measureHB->id,
+            "age_min" => "0",
+            "age_max" => "120",
+            "gender" => Patient::MALE,
+            "range_lower" => "13.5",
+            "range_upper" => "17.5",
+            "interpretation" => "low/normal/high",
+            )
+        );
+
+        MeasureRange::create(array(
+            "measure_id" => $measureHB->id,
+            "age_min" => "0",
+            "age_max" => "120",
+            "gender" => Patient::FEMALE,
+            "range_lower" => "12.0",
+            "range_upper" => "15.5",
+            "interpretation" => "low/normal/high",
+            )
+        );
+        
         $this->command->info('measures seeded');
         
         /* Test Types table */
