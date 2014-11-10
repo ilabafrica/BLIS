@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
-use Illuminate\Database\Eloquent\ModelNotFoundException;  
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TestType extends Eloquent
 {
@@ -41,7 +41,7 @@ class TestType extends Eloquent
 	 */
 	public function measures()
 	{
-	  return $this->belongsToMany('Measure', 'testtype_measures');	
+	  return $this->belongsToMany('Measure', 'testtype_measures');
 	}
 
 	/**
@@ -110,7 +110,7 @@ class TestType extends Eloquent
 	*
 	* @param $testname the name of the test
 	*/
-	public function getTestTypeIdByTestName($testName)
+	public static function getTestTypeIdByTestName($testName)
 	{
 		try 
 		{

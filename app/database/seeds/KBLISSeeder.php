@@ -377,8 +377,8 @@ class KBLISSeeder extends DatabaseSeeder
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT12M8S'))->format('Y-m-d H:i:s'),
             )
-        );        
-        
+        );
+
         $test_hb_accepted_completed = Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
@@ -396,7 +396,7 @@ class KBLISSeeder extends DatabaseSeeder
                 "time_completed" => $now->add(new DateInterval('PT5M23S'))->format('Y-m-d H:i:s'),
             )
         );
-        
+
         $tests_accepted_started = Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
@@ -481,7 +481,7 @@ class KBLISSeeder extends DatabaseSeeder
                 "requested_by" => "Bony Em",
                 "time_started" => $now->format('Y-m-d H:i:s'),
             )
-        );        
+        );
         
         $tests_rejected_completed = Test::create(
             array(
@@ -501,7 +501,27 @@ class KBLISSeeder extends DatabaseSeeder
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT30M4S'))->format('Y-m-d H:i:s'),
             )
-        );        
+        );
+
+        $test_urinalysis_accepted_completed = Test::create(
+            array(
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
+                "test_type_id" => $test_type_urinalysis->id,
+                "specimen_id" => $this->createSpecimen(
+                        Test::COMPLETED, Specimen::ACCEPTED, 
+                        SpecimenType::all()->last()->id, 
+                        $users[rand(0, count($users)-1)]->id),
+                "interpretation" => "Whats this !!!! ###%%% ^ *() /",
+                "test_status_id" => Test::COMPLETED,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "tested_by" => $users[rand(0, count($users)-1)]->id,
+                "requested_by" => "Dr. Abou Meyang",
+                "time_started" => $now->format('Y-m-d H:i:s'),
+                "time_completed" => $now->add(new DateInterval('PT12M8S'))->format('Y-m-d H:i:s'),
+                "external_id" => 596699,
+            )
+        );
+
         $this->command->info('tests seeded');
 
         /* Test Results table */
@@ -536,7 +556,98 @@ class KBLISSeeder extends DatabaseSeeder
                 "measure_id" => $measureBSforMPS->id,//BS for MPS
                 "result" => "No mps seen",
             ),
-        );        
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis1->id,//BS for MPS
+                "result" => "50",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis2->id,//BS for MPS
+                "result" => "1050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis3->id,//BS for MPS
+                "result" => "2050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis4->id,//BS for MPS
+                "result" => "3050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis5->id,//BS for MPS
+                "result" => "4050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis6->id,//BS for MPS
+                "result" => "5050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis7->id,//BS for MPS
+                "result" => "6050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis8->id,//BS for MPS
+                "result" => "7050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis9->id,//BS for MPS
+                "result" => "8050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis10->id,//BS for MPS
+                "result" => "9050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis11->id,//BS for MPS
+                "result" => "10050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis12->id,//BS for MPS
+                "result" => "11050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis13->id,//BS for MPS
+                "result" => "12050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis14->id,//BS for MPS
+                "result" => "130.50",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis15->id,//BS for MPS
+                "result" => "14.50",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis16->id,//BS for MPS
+                "result" => "15050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis17->id,//BS for MPS
+                "result" => "16050",
+            ),
+            array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measureUrinalysis18->id,//BS for MPS
+                "result" => "17050",
+            ),
+
+        );
         foreach ($testResults as $testResult)
         {
             TestResult::create($testResult);
@@ -602,6 +713,112 @@ class KBLISSeeder extends DatabaseSeeder
         }
         //Assign role Administrator to user 1 administrator
         $user1->attachRole($role1);
+
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596699,"parentLabNo":0,"requestingClinician":"frankenstein Dr",
+        "investigation":"Urinalysis","requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596700,"parentLabNo":596699,"requestingClinician":"frankenstein Dr",
+        "investigation":"Urine microscopy","requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596701,"parentLabNo":596700,"requestingClinician":"frankenstein Dr",
+        "investigation":"Pus cells","requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596702,"parentLabNo":596700,"requestingClinician":"frankenstein Dr",
+        "investigation":"S. haematobium","requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596703,"parentLabNo":596700,"requestingClinician":"frankenstein Dr",
+        "investigation":"T. vaginalis","requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596704,"parentLabNo":596700,"requestingClinician":"frankenstein Dr",
+        "investigation":"Yeast cells","requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596705,"parentLabNo":596700,"requestingClinician":"frankenstein Dr",
+        "investigation":"Red blood cells","requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596706,"parentLabNo":596700,"requestingClinician":"frankenstein Dr",
+        "investigation":"Bacteria","requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596707,"parentLabNo":596700,"requestingClinician":"frankenstein Dr",
+        "investigation":"Spermatozoa","requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596708,"parentLabNo":596700,"requestingClinician":"frankenstein Dr",
+        "investigation":"Epithelial cells","requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596709,"parentLabNo":596700,"requestingClinician":"frankenstein Dr",
+        "investigation":"ph","requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596710,"parentLabNo":596699,"requestingClinician":"frankenstein Dr",
+        "investigation":"Urine chemistry","requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596711,"parentLabNo":596710,"requestingClinician":"frankenstein Dr",
+        "investigation":"Glucose","requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596712,"parentLabNo":596710,"requestingClinician":"frankenstein Dr",
+        "investigation":"Ketones","requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596713,"parentLabNo":596710,"requestingClinician":"frankenstein Dr",
+        "investigation":"Proteins","requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596714,"parentLabNo":596710,"requestingClinician":"frankenstein Dr",
+        "investigation":"Blood","requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596715,"parentLabNo":596710,"requestingClinician":"frankenstein Dr",
+        "investigation":"Bilirubin","requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596716,"parentLabNo":596710,"requestingClinician":"frankenstein Dr",
+        "investigation":"Urobilinogen Phenlpyruvic acid","requestDate":"2014-10-14 10:20:37","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+        $labRequestUrinalysis[] = 
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596717,"parentLabNo":596710,"requestingClinician":"frankenstein Dr",
+        "investigation":"pH","requestDate":"2014-10-14 10:20:37","orderStage":"ip","patientVisitNumber":643660,"patient":{"id":326983,
+        "fullName":"Macau Macau","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+
+         for ($i=0; $i < count($labRequestUrinalysis); $i++) { 
+
+            $dumper = new ExternalDump();
+            $dumper->labNo = $labRequestUrinalysis[$i]['labNo'];
+            $dumper->parentLabNo = $labRequestUrinalysis[$i]['parentLabNo'];
+            $dumper->test_id = ($i == 0) ? $test_urinalysis_accepted_completed->id : null;
+            $dumper->requestingClinician = $labRequestUrinalysis[$i]['requestingClinician'];
+            $dumper->investigation = $labRequestUrinalysis[$i]['investigation'];
+            $dumper->provisional_diagnosis = '';
+            $dumper->requestDate = $labRequestUrinalysis[$i]['requestDate'];
+            $dumper->orderStage = $labRequestUrinalysis[$i]['orderStage'];
+            $dumper->patientVisitNumber = $labRequestUrinalysis[$i]['patientVisitNumber'];
+            $dumper->patient_id = $labRequestUrinalysis[$i]['patient']['id'];
+            $dumper->fullName = $labRequestUrinalysis[$i]['patient']["fullName"];
+            $dumper->dateOfBirth = $labRequestUrinalysis[$i]['patient']["dateOfBirth"];
+            $dumper->gender = $labRequestUrinalysis[$i]['patient']['gender'];
+            $dumper->address = $labRequestUrinalysis[$i]['address']["address"];
+            $dumper->postalCode = '';
+            $dumper->phoneNumber = $labRequestUrinalysis[$i]['address']["phoneNumber"];
+            $dumper->city = $labRequestUrinalysis[$i]['address']["city"];
+            $dumper->cost = $labRequestUrinalysis[$i]['cost'];
+            $dumper->receiptNumber = $labRequestUrinalysis[$i]['receiptNumber'];
+            $dumper->receiptType = $labRequestUrinalysis[$i]['receiptType'];
+            $dumper->waiver_no = '';
+            $dumper->system_id = "sanitas";
+            $dumper->save();
+        }
+        $this->command->info('ExternalDump table seeded');
     }
 
     public function createSpecimen(
