@@ -26,7 +26,7 @@
 			{{ Form::open(array('route' => 'testcategory.store', 'id' => 'form-create-testcategory')) }}
 
 				<div class="form-group">
-					{{ Form::label('name', trans("messages.name")) }}
+					{{ Form::label('name', trans('messages.name')) }}
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">

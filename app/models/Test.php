@@ -110,4 +110,27 @@ class Test extends Eloquent
 		return $turnaroundTime;
 	}
 
+	/**
+	 * Turnaround Time as a formated string (Years Weeks Days Hours Minutes Seconds)
+	 */
+	public function getFormattedTurnaroundTime()
+	{
+		$tat = $this->getTurnaroundTime();
+		$ftat = "";
+		$tat_y = intval($tat/(365*24*60*60));
+		$tat_w = intval(($tat-($tat_y*(365*24*60*60)))/(7*24*60*60));
+		$tat_d = intval(($tat-($tat_y*(365*24*60*60))-($tat_w*(7*24*60*60)))/(24*60*60));
+		$tat_h = intval(($tat-($tat_y*(365*24*60*60))-($tat_w*(7*24*60*60))-($tat_d*(24*60*60)))/(60*60));
+		$tat_m = intval(($tat-($tat_y*(365*24*60*60))-($tat_w*(7*24*60*60))-($tat_d*(24*60*60))-($tat_h*(60*60)))/(60));
+		$tat_s = intval(($tat-($tat_y*(365*24*60*60))-($tat_w*(7*24*60*60))-($tat_d*(24*60*60))-($tat_h*(60*60))-($tat_m*(60))));
+		if($tat_y > 0) $ftat = $tat_y." ".Lang::choice('messages.year',$tat_y)." ";
+		if($tat_w > 0) $ftat .= $tat_w." ".Lang::choice('messages.week',$tat_w)." ";
+		if($tat_d > 0) $ftat .= $tat_d." ".Lang::choice('messages.day',$tat_d)." ";
+		if($tat_h > 0) $ftat .= $tat_h." ".Lang::choice('messages.hour',$tat_h)." ";
+		if($tat_m > 0) $ftat .= $tat_m." ".Lang::choice('messages.minute',$tat_m)." ";
+		if($tat_s > 0) $ftat .= $tat_s." ".Lang::choice('messages.second',$tat_s);
+
+		return $ftat;
+	}
+
 }

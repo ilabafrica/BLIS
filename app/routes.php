@@ -29,16 +29,7 @@ Route::group(array("before" => "guest"), function()
 	    "as" => "user.login",
 	    "uses" => "UserController@loginAction"
 	));
-
-	Route::any("/request", array(
-	    "as"   => "user.request",
-	    "uses" => "UserController@requestAction"
-	));
-
-	Route::any("/reset", array(
-	    "as"   => "user.reset",
-	    "uses" => "UserController@resetAction"
-	));
+    
 });
 
 /* Routes accessible AFTER logging in */
@@ -109,7 +100,15 @@ Route::group(array("before" => "auth"), function()
             "as"   => "testtype.delete",
             "uses" => "TestTypeController@delete"
         ));
+
+        Route::resource('specimenrejection', 'SpecimenRejectionController');
+
+        Route::any("/specimenrejection/{id}/delete", array(
+            "as"   => "specimenrejection.delete",
+            "uses" => "SpecimenRejectionController@delete"
+        ));
     });
+
 
 
     Route::any("/test", array(
@@ -219,6 +218,20 @@ Route::group(array("before" => "auth"), function()
             "uses" => "RoleController@delete"
         ));
     });
+    
+    //  Check if able to manage reports
+    Route::group(array("before" => "checkPerms:view_reports"), function()
+    {
+        Route::any("/patientreport", array(
+            "as"   => "reports.patient.index",
+            "uses" => "ReportController@loadPatients"
+        ));
+
+        Route::any("/patientreport/{id}", array(
+            "as" => "reports.patient.report", 
+            "uses" => "ReportController@viewPatientReport"
+            ));
+    });
 });
 
 // Display all SQL executed in Eloquent
@@ -233,3 +246,4 @@ Event::listen('api.receivedLabRequest', function($labRequest)
     //We instruct the interfacer to handle the request
     Interfacer::retrieve($labRequest);
 });
+

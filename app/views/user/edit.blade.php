@@ -47,35 +47,45 @@
 										<div class="col-md-8">
 											<div class="form-group">
 												{{ Form::label('username', trans('messages.username')) }}
-												{{ Form::text('username', Input::old('username'), ["placeholder" => "jsiku", 'class' => 'form-control']) }}
+												<p class="form-control-static">{{$user->username}}</p>
 											</div>
 											<div class="form-group">
-												{{ Form::label('name', trans('messages.full-name')) }}
-												{{ Form::text('name', Input::old('name'), ["placeholder" => "Jay Siku", 'class' => 'form-control']) }}
+												{{ Form::label('full_name', trans('messages.full-name')) }}
+												{{ Form::text('full_name', $user->name, ["placeholder" => "Jay Siku",
+													'class' => 'form-control']) }}
 											</div>
 											<div class="form-group">
 												{{ Form::label('email', trans('messages.email-address')) }}
-												{{ Form::email('email', Input::old('email'), ["placeholder" => "j.siku@ilabafrica.ac.ke", 'class' => 'form-control']) }}
+												{{ Form::email('email', Input::old('email'), 
+													["placeholder" => "j.siku@ilabafrica.ac.ke",
+													'class' => 'form-control']) }}
 											</div>
 											<div class="form-group">
 												{{ Form::label('designation', trans('messages.designation')) }}
-												{{ Form::text('designation', Input::old('designation'), ["placeholder" => "Lab Technologist", 'class' => 'form-control']) }}
+												{{ Form::text('designation', Input::old('designation'), 
+													["placeholder" => "Lab Technologist", 'class' => 'form-control'])}}
 											</div>
 							                <div class="form-group">
 							                    {{ Form::label('gender', trans('messages.gender')) }}
-							                    <div>{{ Form::radio('gender', '0', true) }}<span class='input-tag'>{{trans('messages.male')}}</span></div>
-							                    <div>{{ Form::radio('gender', '1', false) }}<span class='input-tag'>{{trans('messages.female')}}</span></div>
+							                    <div>{{ Form::radio('gender', '0', true) }}<span class='input-tag'>
+							                    	{{trans('messages.male')}}</span></div>
+							                    <div>{{ Form::radio('gender', '1', false) }}<span class='input-tag'>
+							                    	{{trans('messages.female')}}</span></div>
 							                </div>
 											@if(Auth::id() != $user->id && Entrust::hasRole(Role::getAdminRole()->name))
 												<!-- For the administrator to reset other users' passwords -->
 								                <div class="form-group">
-								                	<label for="reset-password"><a class="reset-password" href="javascript:void(0)">{{trans('messages.reset-password')}}</label></a>
-													{{ Form::password('reset-password', ['class' => 'form-control reset-password hidden']) }}
+								                	<label for="reset-password"><a class="reset-password" 
+								                		href="javascript:void(0)">{{trans('messages.reset-password')}}
+								                		</label></a>
+													{{ Form::password('reset-password', 
+														['class' => 'form-control reset-password hidden']) }}
 								                </div>
 							                @endif
 							                <div class="form-group actions-row">
-												{{ Form::button('<span class="glyphicon glyphicon-save"></span> '.trans('messages.update'), 
-														['class' => 'btn btn-primary', 'onclick' => 'submit()']) }}
+												{{ Form::button('<span class="glyphicon glyphicon-save"></span> '.
+													trans('messages.update'), 
+													['class' => 'btn btn-primary', 'onclick' => 'submit()']) }}
 											</div>
 							            </div>
 										<div class="col-md-4">
@@ -85,7 +95,9 @@
 								                    {{ Form::file("image") }}
 								                </div>
 								                <div class="form-group">
-								                	<img class="img-responsive img-thumbnail user-image" src="{{ $user->image }}" alt="{{trans('messages.image-alternative')}}"></img>
+								                	<img class="img-responsive img-thumbnail user-image"
+								                		src="{{ $user->image }}" 
+								                		alt="{{trans('messages.image-alternative')}}"></img>
 								                </div>
 											</div>
 							            </div>
@@ -95,23 +107,21 @@
 				            </div>
 							<!-- For users to edit their own passwords -->
 							<div class="tab-pane fade" id="change-password">
-								{{ Form::model($user, array(
-									'route' => array('user.updateOwnPassword', $user->id), 
-									'method' => 'PUT', 'role' => 'form', 'id' => 'form-edit-password'
-								 )) }}
+								{{ Form::open(array('route' => array('user.updateOwnPassword', $user->id),
+									 'id' => 'form-edit-password', 'method' => 'PUT')) }}
 								<div class="form-group">
-									{{ Form::label('current-password', trans('messages.current-password')) }}
-									{{ Form::password('current-password', ['class' => 'form-control']) }}
+									{{ Form::label('current_password', trans('messages.current-password')) }}
+									{{ Form::password('current_password', ['class' => 'form-control']) }}
 									<span class="curr-pwd-empty hidden" >{{trans('messages.field-required')}}</span>
 								</div>
 								<div class="form-group">
-									{{ Form::label('new-password', trans('messages.new-password')) }}
-									{{ Form::password('new-password', ['class' => 'form-control']) }}
+									{{ Form::label('new_password', trans('messages.new-password')) }}
+									{{ Form::password('new_password', ['class' => 'form-control']) }}
 									<span class="new-pwd-empty hidden" >{{trans('messages.field-required')}}</span>
 								</div>
 								<div class="form-group">
-									{{ Form::label('repeat-password', trans('messages.re-enter-password')) }}
-									{{ Form::password('repeat-password', ['class' => 'form-control']) }}
+									{{ Form::label('new_password_confirmation', trans('messages.repeat-password')) }}
+									{{ Form::password('new_password_confirmation', ['class' => 'form-control']) }}
 									<span class="new-pwdrepeat-empty hidden" >{{trans('messages.field-required')}}</span>
 									<span class="new-pwdmatch-error hidden" >{{trans('messages.password-mismatch')}}</span>
 								</div>

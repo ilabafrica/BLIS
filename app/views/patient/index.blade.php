@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li class="active">{{trans('messages.patient')}}</li>
+	  <li class="active">{{trans('messages.patients')}}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -14,7 +14,7 @@
 		<span class="glyphicon glyphicon-user"></span>
 		{{trans('messages.list-patients')}}
 		<div class="panel-btn">
-			<a class="btn btn-sm btn-info" href="{{ URL::to('patient/create') }}">
+			<a class="btn btn-sm btn-info" href="{{ URL::route('patient.create') }}">
 				<span class="glyphicon glyphicon-plus-sign"></span>
 				{{trans('messages.new-patient')}}
 			</a>
@@ -44,20 +44,20 @@
 					<td>
 
 						<!-- show the patient (uses the show method found at GET /patient/{id} -->
-						<a class="btn btn-sm btn-success" href="{{ URL::to('patient/' . $value->id) }}" >
+						<a class="btn btn-sm btn-success" href="{{ URL::route('patient.show', array($value->id)) }}" >
 							<span class="glyphicon glyphicon-eye-open"></span>
 							{{trans('messages.view')}}
 						</a>
 
 						<!-- edit this patient (uses the edit method found at GET /patient/{id}/edit -->
-						<a class="btn btn-sm btn-info" href="{{ URL::to('patient/' . $value->id . '/edit') }}" >
+						<a class="btn btn-sm btn-info" href="{{ URL::route('patient.edit', array($value->id)) }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							{{trans('messages.edit')}}
 						</a>
 						<!-- delete this patient (uses the delete method found at GET /patient/{id}/delete -->
 						<button class="btn btn-sm btn-danger delete-item-link" 
 							data-toggle="modal" data-target=".confirm-delete-modal"	
-							data-id="{{ URL::to('patient/' . $value->id . '/delete') }}">
+							data-id="{{ URL::route('patient.delete', array($value->id)) }}">
 							<span class="glyphicon glyphicon-trash"></span>
 							{{trans('messages.delete')}}
 						</button>

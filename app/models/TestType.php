@@ -25,7 +25,7 @@ class TestType extends Eloquent
 	 */
 	public function testCategory()
 	{
-	  return $this->belongsTo('TestCategory', 'section_id');
+	  return $this->belongsTo('TestCategory', 'test_category_id');
 	}
 
 	/**

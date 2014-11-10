@@ -29,12 +29,12 @@ class TestTypeController extends \BaseController {
 	 */
 	public function create()
 	{
-		$measures = Measure::all();
-		$specimentypes = SpecimenType::all();
-		$labsections = TestCategory::all();
+		$measures = Measure::orderBy('name')->get();
+		$specimentypes = SpecimenType::orderBy('name')->get();
+		$testcategory = TestCategory::all();
 		//Create TestType
 		return View::make('testtype.create')
-					->with('labsections', $labsections)
+					->with('testcategory', $testcategory)
 					->with('measures', $measures)
 					->with('specimentypes', $specimentypes);
 	}
@@ -49,7 +49,7 @@ class TestTypeController extends \BaseController {
 		//
 		$rules = array(
 			'name' => 'required|unique:test_types,name',
-			'section_id' => 'required',
+			'test_category_id' => 'required',
 			'specimentypes' => 'required',
 			'measures' => 'required',
 		);
@@ -63,7 +63,7 @@ class TestTypeController extends \BaseController {
 			$testtype = new TestType;
 			$testtype->name = Input::get('name');
 			$testtype->description = Input::get('description');
-			$testtype->section_id = Input::get('section_id');
+			$testtype->test_category_id = Input::get('test_category_id');
 			$testtype->targetTAT = Input::get('targetTAT');
 			$testtype->prevalence_threshold = Input::get('prevalence_threshold');
 			try{
@@ -72,7 +72,9 @@ class TestTypeController extends \BaseController {
 				$testtype->setMeasures(Input::get('measures'));
 				$testtype->setSpecimenTypes(Input::get('specimentypes'));
 
-				return Redirect::route('testtype.index')->with('message', 'Successfully created test type!');
+				return Redirect::route('testtype.index')
+					->with('message', trans('messages.success-creating-test-type'));
+
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -104,14 +106,14 @@ class TestTypeController extends \BaseController {
 	{
 		//Get the testtype
 		$testtype = TestType::find($id);
-		$measures = Measure::all();
-		$specimentypes = SpecimenType::all();
-		$labsections = TestCategory::all();
+		$measures = Measure::orderBy('name')->get();
+		$specimentypes = SpecimenType::orderBy('name')->get();
+		$testcategory = TestCategory::all();
 
 		//Open the Edit View and pass to it the $testtype
 		return View::make('testtype.edit')
 					->with('testtype', $testtype)
-					->with('labsections', $labsections)
+					->with('testcategory', $testcategory)
 					->with('measures', $measures)
 					->with('specimentypes', $specimentypes);
 	}
@@ -127,7 +129,7 @@ class TestTypeController extends \BaseController {
 		//
 		$rules = array(
 			'name' => 'required',
-			'section_id' => 'required',
+			'test_category_id' => 'required',
 			'specimentypes' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
@@ -140,7 +142,7 @@ class TestTypeController extends \BaseController {
 			$testtype = TestType::find($id);
 			$testtype->name = Input::get('name');
 			$testtype->description = Input::get('description');
-			$testtype->section_id = Input::get('section_id');
+			$testtype->test_category_id = Input::get('test_category_id');
 			$testtype->targetTAT = Input::get('targetTAT');
 			$testtype->prevalence_threshold = Input::get('prevalence_threshold');
 
@@ -154,7 +156,7 @@ class TestTypeController extends \BaseController {
 
 			// redirect
 			return Redirect::route('testtype.index')
-						->with('message', 'The test type details were successfully updated!');
+						->with('message', trans('messages.success-updating-test-type'));
 		}
 	}
 
@@ -179,11 +181,18 @@ class TestTypeController extends \BaseController {
 	{
 		//Soft delete the testtype
 		$testtype = TestType::find($id);
+        $inUseByTests = $testtype->tests->toArray();
 
-		$testtype->delete();
-
+		if (empty($inUseByTests)) {
+		    // The test type is not in use
+			$testtype->delete();
+		} else {
+		    // The test type is in use
+		    return Redirect::route('testtype.index')
+		    	->with('message', 'messages.failure-test-type-in-use');
+		}
 		// redirect
-		return Redirect::route('testtype.index')->with('message', 'The test type was successfully deleted!');
+		return Redirect::route('testtype.index')
+			->with('message', trans('messages.success-deleting-test-type'));
 	}
-
 }

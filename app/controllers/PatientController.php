@@ -184,7 +184,7 @@ class PatientController extends \BaseController {
                     $txt = Input::get('text');
                     $query->where("name", "LIKE", "%".$txt."%")
                         ->orWhere("patient_number", "LIKE", "%".$txt."%");
-                })->get()->toJson();
+                })->take(Config::get('kblis.limit-items'))->get()->toJson();
 	}
 
 }

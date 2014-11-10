@@ -11,7 +11,7 @@
         {{trans('messages.'.$test->specimen->specimenStatus->name)}}
     </p>
     <p class="view-striped">
-        <strong>{{trans('messages.specimen-type')}}</strong>
+        <strong>{{trans('messages.specimen-types')}}</strong>
         {{ Form::select('specimen_type', $test->testType->specimenTypes->lists('name','id'),
             array($test->specimen->specimen_type_id), array('class' => 'form-control')) }}</p>
 </div>

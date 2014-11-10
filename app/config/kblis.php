@@ -49,9 +49,14 @@ return array(
 	/*
 	|--------------------------------------------------------------------------
 	|	Sanitas inbound results URL
+	*/
+	'sanitas-url' => 'localhost',
+	
+	/*
+	|--------------------------------------------------------------------------
+	|	Limit: Maximum number of items to return (Use in patient search)
 	|--------------------------------------------------------------------------
 	|
 	*/
-
-	'sanitas-url' => 'localhost',
+	'limit-items' => 10,
 );

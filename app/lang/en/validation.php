@@ -55,7 +55,7 @@ return array(
 	"not_in"               => "The selected :attribute is invalid.",
 	"numeric"              => "The :attribute must be a number.",
 	"regex"                => "The :attribute format is invalid.",
-	"required"             => "The :attribute field is required.",
+	"required"             => "The ':attribute' field is required.",
 	"required_if"          => "The :attribute field is required when :other is :value.",
 	"required_with"        => "The :attribute field is required when :values is present.",
 	"required_with_all"    => "The :attribute field is required when :values is present.",
@@ -71,6 +71,7 @@ return array(
 	"unique"               => "The :attribute has already been taken.",
 	"url"                  => "The :attribute format is invalid.",
 
+
 	/*
 	|--------------------------------------------------------------------------
 	| Custom Validation Language Lines
@@ -83,8 +84,14 @@ return array(
 	*/
 
 	'custom' => array(
-		'attribute-name' => array(
-			'rule-name' => 'custom-message',
+		'testtypes' => array(
+			'required' => "At least one of the ':attribute' should be selected.",
+		),
+		'specimentypes' => array(
+			'required' => "At least one of the ':attribute' should be selected.",
+		),
+		'measures' => array(
+			'required' => "At least one of the ':attribute' should be selected.",
 		),
 	),
 
@@ -100,10 +107,16 @@ return array(
 	*/
 
 	'attributes' => array(
-		'email' => 'Email',
-		'name' => 'Name',
+		'email' => 'Email Address',
+		'full_name' => 'Full Name',
 		'password' => 'Password',
 		'username' => 'Username',
+		'current_password' => 'Current Password',
+		'name' => 'Name',
+		'specimentypes' => 'Specimen Types',
+		'testtypes' => 'Tests',
+		'physician' => 'Requesting Physician',
+		'reject_explained_to' => 'Person Talked To',
 		),
 
 );

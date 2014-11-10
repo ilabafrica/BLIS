@@ -17,6 +17,8 @@
                         <div class="alert alert-danger">
                             {{ HTML::ul($errors->all()) }}
                         </div>
+                    @elseif (Session::has('message'))
+                        <div class="alert alert-danger">{{ Session::get('message') }}</div>
                     @endif
                 </div>
                 {{ Form::open(array(
@@ -26,18 +28,22 @@
                     "role" => "form"
                 )) }}
                     <div class="form-group">
-                        <span class="glyphicon glyphicon-user"></span>
-                        {{ Form::text("username", Input::old("username"), array(
-                            "placeholder" => trans('messages.username'),
-                            "class" => "form-control"
-                        )) }}
+                        <div class="input-group">
+                            <span class="input-group-addon glyphicon glyphicon-user"></span>
+                            {{ Form::text("username", Input::old("username"), array(
+                                "placeholder" => trans('messages.username'),
+                                "class" => "form-control"
+                            )) }}
+                        </div>
                     </div>
                     <div class="form-group">
-                        <span class="glyphicon glyphicon-lock"></span>
-                        {{ Form::password("password", array(
-                            "placeholder" => Lang::choice('messages.password',1),
-                            "class" => "form-control"
-                        )) }}
+                        <div class="input-group">
+                            <span class="input-group-addon glyphicon glyphicon-lock"></span>
+                            {{ Form::password("password", array(
+                                "placeholder" => trans('messages.password'),
+                                "class" => "form-control"
+                            )) }}
+                        </div>
                     </div>
                     <div class="form-group">
                         <div>
