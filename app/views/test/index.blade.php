@@ -191,7 +191,7 @@
                                     {{trans('messages.start-test')}}
                                 </a>
                                 @endif
-                                @if(Auth::user()->can('refer_specimens') && !($test->isExternal()))
+                                @if(Auth::user()->can('refer_specimens') && !($test->isExternal()) && !($test->specimen->isReferred()))
                                 <a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->specimen_id.'/refer') }}">
                                     <span class="glyphicon glyphicon-edit"></span>
                                     {{trans('messages.refer-sample')}}

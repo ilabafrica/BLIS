@@ -67,9 +67,9 @@ class Specimen extends Eloquent
     /**
 	 * referrals relationship
 	 */
-	public function refferal()
+	public function referral()
     {
-        return $this->hasOne('Referral');
+        return $this->belongsTo('Referral');
     }
 
     /**
@@ -79,11 +79,12 @@ class Specimen extends Eloquent
 	 */
     public function isReferred()
     {
-    	if($this->refferal()->isEmpty())
+    	if(is_null($this->referral))
     	{
     		return false;
     	}
-    	else 
+    	else {
     		return true;
+    	}
     }
 }
