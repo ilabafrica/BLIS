@@ -13,7 +13,9 @@
 		case 'specimentype': 
 		case 'specimenrejection': 
 			$active[4] = "active"; break;
-		case 'patientreport': $active[5] = "active"; break;
+		case 'patientreport': 
+		case 'dailylog': 
+			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
 		case 'user': 
@@ -103,8 +105,6 @@
 		@if(Entrust::can('view_reports'))
 		<li>
 			<div class="main-menu {{$active[5]}}">
-				<a href="javascript:void(0);">
-					<span class="glyphicon glyphicon-stats"></span> {{trans('messages.reports')}}</a>
 				<a href="{{ URL::route('reports.patient.index')}}">
 					<span class="glyphicon glyphicon-stats"></span> {{Lang::choice('messages.report', 2)}} </a>
 			</div>
@@ -119,9 +119,9 @@
 						</div>
 					</li>
 					<li>
-						<div>
+						<div><a href="{{ URL::route('reports.daily.log')}}">
 							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.daily-log')}}
+							{{trans('messages.daily-log')}}</a>
 						</div>
 					</li>
 				</ul>
