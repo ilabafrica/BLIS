@@ -51,7 +51,7 @@
 						<div>
 							<a href="{{ URL::route('instrument.index')}}">
 								<span class="glyphicon glyphicon-tag"></span>
-								{{Lang::choice('messages.instrument', 1)}}</a>
+								{{Lang::choice('messages.instrument', 2)}}</a>
 						</div>
 					</li>
 					<li>

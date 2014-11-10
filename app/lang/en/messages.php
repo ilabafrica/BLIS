@@ -210,7 +210,7 @@ return array(
     'completed' => 'Test Completed',
     'date-ordered' => 'Date Ordered',
     'fetch-test-data' => 'Fetch',
-    'fetch-test-data-title' => 'Fetch Test data from associated instrument.',
+    'fetch-test-data-title' => 'Fetch Test data from associated equipment.',
     'first-select-patient' => 'First select a patient below',
     'in-patient' => 'In Patient',
     'interpretation' => 'Interpretation',
@@ -308,20 +308,20 @@ return array(
     /*
     *   Instrumentation
     */
-    'add-instrument' => 'Add Instrument',
-    'edit-instrument' => 'Edit Instrument',
+    'add-instrument' => 'Add Equipment',
+    'edit-instrument' => 'Edit Equipment',
     'compatible-test-types' => 'Can perform:',
     'host' => 'Hostname',
     'host-name' => 'Hostname',
-    'instrument' => 'Instrument|Instruments',
-    'instrument-details' => 'Instrument Details',
-    'interfacing-class' => 'Instrument Interfacing Class for ',
+    'instrument' => 'Equipment|Equipment',
+    'instrument-details' => 'Equipment Details',
+    'interfacing-class' => 'Equipment Interfacing Class for ',
     'ip' => 'IP Address',
-    'list-instruments' => 'List Instruments',
-    'new-instrument' => 'New Instrument',
+    'list-instruments' => 'List Equipment',
+    'new-instrument' => 'New Equipment',
     'select-test-types' => 'Select Test Types',
-    'success-creating-instrument' => 'The instrument was added successfully!',
-    'success-updating-instrument' => 'The instrument details were successfully updated!',
+    'success-creating-instrument' => 'The equipment was added successfully!',
+    'success-updating-instrument' => 'The equipment details were successfully updated!',
 
     /* 
     |   Dates
