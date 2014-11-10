@@ -103,8 +103,6 @@
 		@if(Entrust::can('view_reports'))
 		<li>
 			<div class="main-menu {{$active[5]}}">
-				<a href="javascript:void(0);">
-					<span class="glyphicon glyphicon-stats"></span> {{trans('messages.reports')}}</a>
 				<a href="{{ URL::route('reports.patient.index')}}">
 					<span class="glyphicon glyphicon-stats"></span> {{Lang::choice('messages.report', 2)}} </a>
 			</div>
