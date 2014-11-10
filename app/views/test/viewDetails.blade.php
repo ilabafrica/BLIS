@@ -166,6 +166,7 @@
 										</div>
 										<div class="col-md-9">
 											{{$result->result}}
+											{{Measure::find($result->measure_id)->unit}}
 										</div>
 									</div>
 								@endforeach

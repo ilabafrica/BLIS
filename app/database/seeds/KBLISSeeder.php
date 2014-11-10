@@ -125,7 +125,8 @@ class KBLISSeeder extends DatabaseSeeder
                 "name" => "Blood Grouping", 
                 "measure_range" => "O-/O+/A-/A+/B-/B+/AB-/AB+", 
                 "unit" => ""));
-        $measureHB = Measure::create(array("measure_type_id" => "1", "name" => "HB", "measure_range" => "", "unit" => "g/dL"));
+        $measureHB = Measure::create(array("measure_type_id" => MeasureType::NUMERIC_RANGE, "name" => "HB", "measure_range" => "",
+            "unit" => "g/dL"));
 
         $measuresUrinalysisData = array(
             array("measure_type_id" => "4", "name" => "Urine microscopy", "measure_range" => "", "unit" => ""),
@@ -674,8 +675,8 @@ class KBLISSeeder extends DatabaseSeeder
             "name" => "Celltac F Mek 8222",
             "description" => "Automatic analyzer with 22 parameters and WBC 5 part diff Hematology Analyzer",
             "ip" => "192.168.1.12",
-            "hostname" => "HEMASERVER",
-            "created_at" => date('Y-m-d H:i:s')
+            "hostname" => "HEMASERVER"
+            // "created_at" => date('Y-m-d H:i:s')
         );
         
         $instrumentID = DB::table('instruments')->insertGetId($instrument);

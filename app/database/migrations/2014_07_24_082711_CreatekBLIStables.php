@@ -264,7 +264,7 @@ class CreatekBLIStables extends Migration {
             $table->string('ip', 15);
             $table->string('hostname', 100)->nullable();
             $table->string('description', 100)->nullable();
-            $table->timestamps();
+            $table->nullableTimestamps();
         });
 
         Schema::create('instrument_testtypes', function(Blueprint $table)

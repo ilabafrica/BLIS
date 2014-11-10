@@ -53,9 +53,9 @@ class CelltacWBC extends AbstractInstrumentor
     	$result = array(
     		"SAMPLE_ID" => "339869",
     		"WBC" => "6.2",
-    		"Lym" => "17.8L",
-    		"Mon" => "74.2*",
-    		"Neu" => "7.2*",
+    		"Lym" => "17.8",
+    		"Mon" => "74.2",
+    		"Neu" => "7.2",
     		"Eos" => "0.7",
     		"Baso" => "0.1"
 	    	);
