@@ -218,6 +218,20 @@ Route::group(array("before" => "auth"), function()
             "uses" => "RoleController@delete"
         ));
     });
+    
+    //  Check if able to manage reports
+    Route::group(array("before" => "checkPerms:view_reports"), function()
+    {
+        Route::any("/patientreport", array(
+            "as"   => "reports.patient.index",
+            "uses" => "ReportController@loadPatients"
+        ));
+
+        Route::any("/patientreport/{id}", array(
+            "as" => "reports.patient.report", 
+            "uses" => "ReportController@viewPatientReport"
+            ));
+    });
 });
 
 // Display all SQL executed in Eloquent
