@@ -106,4 +106,58 @@ class ReportController extends \BaseController {
 		}
 	}
 	//	End patient report functions
+
+	//	Begin Daily Log-Patient report functions
+	/**
+	 * Display a view of the daily patient records.
+	 *
+	 */
+	public function dailyLog()
+	{
+		$from = Input::get('start');
+		$to = Input::get('end');
+		$date = date('Y-m-d');
+		
+		if($from||$to){
+			if(!$to){
+				$to = $date;
+			}
+			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+					Session::flash('error', 'Please check your dates range and try again!');
+			}
+			else{
+				$visits = Visit::whereRaw('created_at BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)')->get();
+			}
+			if (count($visits) == 0) {
+			 	Session::flash('message', 'Your filter from <b>'.$from.'</b> to <b>'.$to.'</b>, did not match any records!');
+			}
+			else{
+				Session::flash('message', 'Your filter from <b>'.$from.'</b> to <b>'.$to.'</b>, matched the following records.');
+			}
+		}
+		else{
+
+			$visits = Visit::where('created_at', 'LIKE', $date.'%')->orderBy('patient_id')->get();
+		}
+		if(Input::has('word')){
+			$date = date("Ymdhi");
+			$file_name = "dailylog_patients_".$date.".doc";
+			$headers = array(
+			    "Content-type"=>"text/html",
+			    "Content-Disposition"=>"attachment;Filename=".$file_name
+			);
+			$content = View::make('reports.daily.exportPatientLog')
+							->with('visits', $visits)
+							->with('from', $from)
+							->with('to', $to);;
+	    	return Response::make($content,200, $headers);
+		}
+		else{
+			return View::make('reports.daily.patient')
+							->with('visits', $visits)
+							->with('from', $from)
+							->with('to', $to);
+		}
+	}
+	//	End Daily Log-Patient report functions
 }

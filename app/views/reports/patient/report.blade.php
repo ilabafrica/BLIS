@@ -46,25 +46,8 @@
 		<!-- if there are search errors, they will show here -->
 		<div class="alert alert-danger" id="error" style="display:none"></div>
 		<div id="report_content">
-		<table class="table">
-			<thead>
-				<tr>
-					<td><img src="{{ Config::get('kblis.organization-logo') }}" alt="" height="90" width="90"></td>
-					<td colspan="3" style="text-align:center;">
-						<strong><p>BUNGOMA DISTRICT HOSPITAL LABORATORY<br>
-						BUNGOMA TOWN, HOSPITAL ROAD<br>
-						OPPOSITE POLICE LINE/DISTRICT HEADQUARTERS<br>
-						P.O. BOX 14,<br>
-						BUNGOMA TOWN.<br>
-						Phone: +254 055-30401 Ext 203/208</p>
-
-						<p>LABORATORY REPORT<br>
-						Patient Report @if($from!=$to){{'From '.$from.' To '.$to}}@else{{'For '.date('d-m-Y')}}@endif</p></strong>			
-					</td>
-					<td><img src="{{ Config::get('kblis.organization-logo') }}" alt="" height="90" width="90" style="float:right;"></td>
-				</tr>
-			</thead>
-		</table>
+		@include("reportHeader")
+		<strong><p>{{trans('messages.patient-report')}} @if($from!=$to){{'From '.$from.' To '.$to}}@else{{'For '.date('d-m-Y')}}@endif</p></strong>
 		<table class="table table-bordered">
 			<tbody>
 				<tr>

@@ -330,6 +330,13 @@ return array(
     'results-entry-date' => 'Entry Date',
     'test-results-values' => 'Test:Result',
     'view-report' => 'View Report',
+    'test-records'  =>  'Test Records',
+    'patient-records' =>    'Patient Records',
+    'rejected-specimen' =>  'Rejected Specimen Records',
+    'show-hide' =>  'Show/Hide Summary',
+    'total-visits'  =>  'Total Visits',
+    'summary'   =>  'Summary',
+    'daily-visits' =>  'Daily visits',
 
 
     /** 

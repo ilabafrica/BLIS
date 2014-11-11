@@ -13,7 +13,9 @@
 		case 'specimentype': 
 		case 'specimenrejection': 
 			$active[4] = "active"; break;
-		case 'patientreport': $active[5] = "active"; break;
+		case 'patientreport': 
+		case 'dailylog': 
+			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
 		case 'user': 
@@ -111,15 +113,15 @@
 				<ul class="sub-menu-items">
 					<li>
 						<div>
-							<a href="{{ URL::route('reports.patient.index')}}" title="Patient Report">
+							<a href="{{ URL::route('reports.patient.index')}}">
 								<span class="glyphicon glyphicon-tag"></span>
 								{{trans('messages.patient-report')}}</a>
 						</div>
 					</li>
 					<li>
-						<div>
+						<div><a href="{{ URL::route('reports.daily.log')}}">
 							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.daily-log')}}
+							{{trans('messages.daily-log')}}</a>
 						</div>
 					</li>
 				</ul>
