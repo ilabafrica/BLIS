@@ -132,7 +132,7 @@
 											{{trans('messages.'.$test->specimen->specimenStatus->name) }}
 										</div>
 									</div>
-								@if($test->specimen->specimen_status_id == Specimen::REJECTED)
+								@if($test->specimen->isRejected())
 									<div class="row">
 										<div class="col-md-4">
 											<p><strong>{{trans('messages.rejection-reason-title')}}</strong></p>
@@ -147,6 +147,53 @@
 										</div>
 										<div class="col-md-8">
 											{{$test->specimen->reject_explained_to or trans('messages.pending') }}
+										</div>
+									</div>
+								@endif
+								@if($test->specimen->isReferred())
+								<br>
+									<div class="row">
+										<div class="col-md-4">
+											<p><strong>{{trans("messages.specimen-referred-label")}}</strong></p>
+										</div>
+										<div class="col-md-8">
+											@if($test->specimen->referral->status == Referral::REFERRED_IN)
+												{{ trans("messages.in") }}
+											@elseif($test->specimen->referral->status == Referral::REFERRED_OUT)
+												{{ trans("messages.out") }}
+											@endif
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<p><strong>{{trans("messages.facility")}}</strong></p>
+										</div>
+										<div class="col-md-8">
+											{{$test->specimen->referral->facility }}
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<p><strong>{{trans("messages.person-involved")}}</strong></p>
+										</div>
+										<div class="col-md-8">
+											{{$test->specimen->referral->person }}
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<p><strong>{{trans("messages.contacts")}}</strong></p>
+										</div>
+										<div class="col-md-8">
+											{{$test->specimen->referral->contacts }}
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<p><strong>{{trans("messages.referred-by")}}</strong></p>
+										</div>
+										<div class="col-md-8">
+											{{ $test->specimen->referral->user->name }}
 										</div>
 									</div>
 								@endif

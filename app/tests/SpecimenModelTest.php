@@ -9,7 +9,7 @@ class SpecimenModelTest extends TestCase {
         Artisan::call('db:seed');
     }
 
-    public function stestIsReferred()
+    public function testIsReferred()
     {
         //Insert into referral table
         $referral = new Referral();
@@ -31,7 +31,20 @@ class SpecimenModelTest extends TestCase {
     {
         $specimen = Specimen::find(1);
         $this->assertEquals($specimen->isReferred(), false);
+    }
 
+    public function testIsRejected()
+    {
+        $specimenRejected = Specimen::where('specimen_status_id', '=', 3)->first();
+
+        $this->assertEquals($specimenRejected->isRejected(), true);
+    }
+
+    public function testIsNotRejected()
+    {
+        $specimenRejected = Specimen::where('specimen_status_id', '!=', 3)->first();
+
+        $this->assertEquals($specimenRejected->isRejected(), false);
     }
 
 }

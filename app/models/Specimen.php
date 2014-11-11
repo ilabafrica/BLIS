@@ -73,7 +73,7 @@ class Specimen extends Eloquent
     }
 
     /**
-	 * Specimen verified
+	 * Check if specimen is referred
 	 *
 	 * @return boolean
 	 */
@@ -86,5 +86,21 @@ class Specimen extends Eloquent
     	else {
     		return true;
     	}
+    }
+
+    /**
+    * Check if specimen is rejected
+    *
+    * @return boolean
+    */
+    public function isRejected()
+    {
+        if($this->specimen_status_id == Specimen::REJECTED)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

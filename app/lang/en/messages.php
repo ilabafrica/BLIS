@@ -143,7 +143,10 @@ return array(
     'refer-sample' => 'Refer sample',
     'referals' => 'Referals',
     'specimen-succesful-refer' => 'The specimen was referred',
-    
+    'specimen-referred-label' => 'Specimen Referred',
+    'person-involved' => 'Person involved',
+    'referred-by' => 'Referred by',
+
     /** 
      *   Test Catalog
      */

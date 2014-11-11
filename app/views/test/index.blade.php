@@ -121,6 +121,15 @@
                                         @if($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
                                             <span class='label label-default'>
                                                 {{trans('messages.specimen-not-collected-label')}}</span>
+                                        @elseif($test->specimen->isReferred())
+                                            <span class='label label-primary'>
+                                                {{trans('messages.specimen-referred-label') }}
+                                                @if($test->specimen->referral->status == Referral::REFERRED_IN)
+                                                    {{ trans("messages.in") }}
+                                                @elseif($test->specimen->referral->status == Referral::REFERRED_OUT)
+                                                    {{ trans("messages.out") }}
+                                                @endif
+                                            </span>
                                         @elseif($test->specimen->specimen_status_id == Specimen::ACCEPTED)
                                             <span class='label label-success'>
                                                 {{trans('messages.specimen-accepted-label')}}</span>
@@ -174,7 +183,7 @@
                             @endif
                         @endif
                         @if ($test->specimen->specimen_status_id == Specimen::ACCEPTED && $test->test_status_id != Test::VERIFIED)
-                            @if(Auth::user()->can('reject_test_specimen'))
+                            @if(Auth::user()->can('reject_test_specimen') && !($test->specimen->isReferred()))
                             <a class="btn btn-sm btn-danger" id="reject-{{$test->id}}-link"
                                 href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"
                                 title="{{trans('messages.reject-title')}}">
@@ -204,6 +213,12 @@
                                     title="{{trans('messages.enter-results-title')}}">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                     {{trans('messages.enter-results')}}
+                                </a>
+                                @endif
+                                 @if(Auth::user()->can('refer_specimens') && !($test->isExternal()) && !($test->specimen->isReferred()))
+                                <a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->specimen_id.'/refer') }}">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                    {{trans('messages.refer-sample')}}
                                 </a>
                                 @endif
                             @elseif ($test->test_status_id == Test::COMPLETED)
@@ -359,4 +374,11 @@
             <span class="glyphicon glyphicon-pencil"></span>
             {{trans('messages.enter-results')}}</a>
     </div> <!-- /. enter-result-buttons -->
+
+    <div class="hidden refer-button">
+        <a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->specimen_id.'/refer') }}">
+            <span class="glyphicon glyphicon-edit"></span>
+            {{trans('messages.refer-sample')}}
+        </a>
+    </div> <!-- /. referral-button -->
 @stop
