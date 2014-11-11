@@ -334,6 +334,9 @@ return array(
     'patient-records' =>    'Patient Records',
     'rejected-specimen' =>  'Rejected Specimen Records',
     'show-hide' =>  'Show/Hide Summary',
+    'total-visits'  =>  'Total Visits',
+    'summary'   =>  'Summary',
+    'daily-visits' =>  'Daily visits',
 
 
     /** 

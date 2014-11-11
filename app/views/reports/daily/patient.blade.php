@@ -58,34 +58,18 @@
 		<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
 	@endif
   <div id="patient_records_div">
-  <table class="table">
-		<thead>
-			<tr>
-				<td><img src="{{ Config::get('kblis.organization-logo') }}" alt="" height="90" width="90"></td>
-				<td colspan="3" style="text-align:center;">
-					<strong><p>BUNGOMA DISTRICT HOSPITAL LABORATORY<br>
-					BUNGOMA TOWN, HOSPITAL ROAD<br>
-					OPPOSITE POLICE LINE/DISTRICT HEADQUARTERS<br>
-					P.O. BOX 14,<br>
-					BUNGOMA TOWN.<br>
-					Phone: +254 055-30401 Ext 203/208</p>
-
-					<p>LABORATORY REPORT<br>
-					Daily Patient Records @if($from!=$to){{'From '.$from.' To '.$to}}@else{{'For '.date('d-m-Y')}}@endif</p></strong>			
-				</td>
-				<td><img src="{{ Config::get('kblis.organization-logo') }}" alt="" height="90" width="90" style="float:right;"></td>
-			</tr>
-		</thead>
-	</table>
+  
+	@include("reportHeader")
+	<strong><p>{{trans('messages.daily-visits')}} @if($from!=$to){{'From '.$from.' To '.$to}}@else{{'For '.date('d-m-Y')}}@endif</p></strong>
 	<div id="summary">
 	<table class="table table-bordered">
 		<tbody>
 			<tr>
-				<th colspan="3">Summary</th>
+				<th colspan="3">{{trans('messages.summary')}}</th>
 			</tr>
-			<th>Total Patients Seen</th>
-			<th>Male</th>
-			<th>Female</th>
+			<th>{{trans('messages.total-visits')}}</th>
+			<th>{{trans('messages.male')}}</th>
+			<th>{{trans('messages.female')}}</th>
 			<tr>
 				<td>{{count($visits)}}</td>
 				<td>
@@ -116,7 +100,7 @@
 				<td>{{ $visit->patient->id }}</td>
 				<td>{{ $visit->patient->name }}</td>
 				<td>{{ $visit->patient->getAge() }}</td>
-				<td>@if($visit->patient->gender==0){{ 'M' }} @else {{ 'F' }} @endif</td>
+				<td>{{ $visit->patient->gender==0?trans("messages.male"):trans("messages.female")}}</td>
 				<td>@foreach($visit->tests as $test)
 						<p>{{ $test->specimen->id }}</p>
 					@endforeach

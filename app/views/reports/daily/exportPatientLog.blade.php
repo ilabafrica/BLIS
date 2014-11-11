@@ -9,35 +9,18 @@
 </style>
 </head>
 <body>
+@include("reportHeader")
 <div id="content">
-<table width="100%">
-		<thead>
-			<tr>
-				<td>{{ HTML::image('i/org_logo_90x90.png', 'Kenya Court of Arms', array('width' => '90px')) }}</td>
-				<td colspan="3" style="text-align:center;">
-					<strong><p>BUNGOMA DISTRICT HOSPITAL LABORATORY<br>
-					BUNGOMA TOWN, HOSPITAL ROAD<br>
-					OPPOSITE POLICE LINE/DISTRICT HEADQUARTERS<br>
-					P.O. BOX 14,<br>
-					BUNGOMA TOWN.<br>
-					Phone: +254 055-30401 Ext 203/208</p>
-
-					<p>LABORATORY REPORT<br>
-					Daily Patient Records @if($from!=$to){{'From '.$from.' To '.$to}}@else{{'For '.date('d-m-Y')}}@endif</p></strong>			
-				</td>
-				<td>{{ HTML::image('i/org_logo_90x90.png', 'Kenya Court of Arms', array('width' => '90px')) }}</td>td>
-			</tr>
-		</thead>
-	</table>
+<strong><p>{{trans('messages.daily-visits')}} @if($from!=$to){{'From '.$from.' To '.$to}}@else{{'For '.date('d-m-Y')}}@endif</p></strong>
 	<br>
 	<table class="table table-bordered"  width="100%">
 		<tbody align="left">
 			<tr>
-				<th colspan="3">Summary</th>
+				<th colspan="3">{{trans('messages.summary')}}</th>
 			</tr>
-			<th>Total Patients Seen</th>
-			<th>Male</th>
-			<th>Female</th>
+			<th>{{trans('messages.total-visits')}}</th>
+			<th>{{trans('messages.male')}}</th>
+			<th>{{trans('messages.female')}}</th>
 			<tr>
 				<td>{{count($visits)}}</td>
 				<td>
