@@ -43,7 +43,7 @@ class Measure extends Eloquent
 	  return $this->belongsToMany('TestType', 'testtype_measures');
 	}
 
-	public function getResultInterpretation($measureid, $age, $measurevalue, $gender)
+	public function getResultInterpretation($measureid, $age = null, $measurevalue = null, $gender = null)
 	{
 		$measure = Measure::find($measureid);
 
@@ -53,18 +53,20 @@ class Measure extends Eloquent
 				// If the given range is available
 				try {
 					$measurerange = MeasureRange::where('measure_id', '=', $measureid)
-						->where('gender', '=', $gender)
-						// ->where('age_min', '<=', $age)
-						// ->where('age_max', '>=', $age)
-						->where('range_lower', '<=', $measurevalue)
-						->where('range_upper', '>=', $measurevalue)
-						->get()->toArray();
+						->where('gender', '=', $gender)->where('age_min', '<=', $age)
+						->where('age_max', '>=', $age)->get()->toArray();
 
-					$interpretation = $measurerange[0]['interpretation'];
+					if ($measurevalue > $measurerange[0]['range_upper']) {
+						$interpretation = 'high';
+					}elseif ($measurevalue < $measurerange[0]['range_lower']) {
+						$interpretation = 'low';
+					}else{
+						$interpretation = 'normal';
+					}
 
 				} catch (Exception $e) {
 					
-					$interpretation = Null;
+					$interpretation = null;
 				}
 				break;
 			

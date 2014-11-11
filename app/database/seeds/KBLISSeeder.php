@@ -152,7 +152,6 @@ class KBLISSeeder extends DatabaseSeeder
             "gender" => Patient::MALE,
             "range_lower" => "13.5",
             "range_upper" => "17.5",
-            "interpretation" => "low/normal/high",
             )
         );
 
@@ -163,7 +162,6 @@ class KBLISSeeder extends DatabaseSeeder
             "gender" => Patient::FEMALE,
             "range_lower" => "12.0",
             "range_upper" => "15.5",
-            "interpretation" => "low/normal/high",
             )
         );
         

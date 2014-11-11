@@ -150,7 +150,9 @@ class TestController extends \BaseController {
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::route('test.create', array(Input::get('patient_id')))->withInput()->withErrors($validator);
+			return Redirect::route('test.create', array(Input::get('patient_id')))
+				->withInput()
+				->withErrors($validator);
 		} else {
 
 			$visitType = ['In-patient', 'Out-patient'];
@@ -223,7 +225,9 @@ class TestController extends \BaseController {
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
-			return Redirect::route('test.reject', array(Input::get('specimen_id')))->withInput()->withErrors($validator);
+			return Redirect::route('test.reject', array(Input::get('specimen_id')))
+				->withInput()
+				->withErrors($validator);
 		} else {
 			$specimen = Specimen::find(Input::get('specimen_id'));
 			$specimen->rejection_reason_id = Input::get('rejectionReason');
@@ -232,7 +236,8 @@ class TestController extends \BaseController {
 			$specimen->reject_explained_to = Input::get('reject_explained_to');
 			$specimen->save();
 			
-			return Redirect::route('test.index')->with('message', 'messages.success-rejecting-specimen');
+			return Redirect::route('test.index')
+				->with('message', 'messages.success-rejecting-specimen');
 		}
 	}
 
@@ -315,11 +320,16 @@ class TestController extends \BaseController {
 	public function getResultInterpretation()
 	{
 		$measureid = Input::get('measureid');
-		$age = Input::get('age');
 		$measurevalue = Input::get('measurevalue');
 		$gender = Input::get('gender');
 		$interpretation = new Measure;
-		return $interpretation->getResultInterpretation($measureid, $age, $measurevalue, $gender);
+
+		$birthDate = new DateTime(Input::get('age'));
+		$now = new DateTime();
+		$interval = $birthDate->diff($now);
+		$ageSeconds = ($interval->days * 24 * 3600) + ($interval->h * 3600) + ($interval->i * 60) + ($interval->s);
+		$ageYears = $ageSeconds/(365*24*60*60);
+		return $interpretation->getResultInterpretation($measureid, $ageYears, $measurevalue, $gender);
 	}
 
 	/**
