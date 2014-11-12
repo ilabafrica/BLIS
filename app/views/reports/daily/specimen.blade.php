@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-	  <li class="active">{{ trans('messages.reports') }}</li>
+	  <li class="active"><a href="{{ URL::route('reports.patient.index') }}">{{ trans('messages.reports') }}</a></li>
 	  <li class="active">{{ trans('messages.daily-log') }}</li>
 	</ol>
 </div>
@@ -65,16 +65,16 @@
 	@endif
   <div id="specimen_records_div">
   @include("reportHeader")
-	<strong><p>{{trans('messages.daily-visits')}} @if($from!=$to){{'From '.$from.' To '.$to}}@else{{'For '.date('d-m-Y')}}@endif</p></strong>
+	<strong><p>{{trans('messages.rejected-specimen')}} @if($from!=$to){{'From '.$from.' To '.$to}}@else{{'For '.date('d-m-Y')}}@endif</p></strong>
 	<table class="table table-bordered">
 		<tbody>
-			<th>{{trans('messages.specimen-number')}}</th>
-			<th>{{trans('messages.specimen-type')}}</th>
+			<th>{{trans('messages.specimen-number-title')}}</th>
+			<th>{{trans('messages.specimen')}}</th>
 			<th>{{trans('messages.lab-receipt-date')}}</th>
 			<th>{{trans('messages.tests')}}</th>
 			<th>{{trans('messages.test-category')}}</th>
-			<th>{{trans('messages.reason-for-rejection')}}</th>
-			<th>{{trans('messages.person-talked-to')}}</th>
+			<th>{{trans('messages.rejection-reason-title')}}</th>
+			<th>{{trans('messages.reject-explained-to')}}</th>
 			<th>{{trans('messages.date-rejected')}}</th>
 			@forelse($specimens as $specimen)
 			<tr>
@@ -88,7 +88,7 @@
 				<td>{{ $specimen->time_rejected }}</td>
 			</tr>
 			@empty
-			<tr><td colspan="13">{{trans('messages.no-records-found')}}</td></tr>
+			<tr><td colspan="8">{{trans('messages.no-records-found')}}</td></tr>
 			@endforelse
 		</tbody>
 	</table>
