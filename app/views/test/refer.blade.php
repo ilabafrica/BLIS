@@ -4,7 +4,7 @@
         <ol class="breadcrumb">
           <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
           <li><a href="{{ URL::route('test.index') }}">{{trans('messages.tests')}}</a></li>
-          <li class="active">{{trans('messages.referals')}}</li>
+          <li class="active">{{trans('messages.referrals')}}</li>
         </ol>
     </div>
     <div class="panel panel-primary">
