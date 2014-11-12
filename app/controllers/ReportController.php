@@ -150,7 +150,7 @@ class ReportController extends \BaseController {
 			}
 			if(Input::has('word')){
 				$date = date("Ymdhi");
-				$file_name = "dailylog_patients_".$date.".doc";
+				$file_name = "daily_visits_log_".$date.".doc";
 				$headers = array(
 				    "Content-type"=>"text/html",
 				    "Content-Disposition"=>"attachment;Filename=".$file_name
@@ -158,7 +158,7 @@ class ReportController extends \BaseController {
 				$content = View::make('reports.daily.exportPatientLog')
 								->with('visits', $visits)
 								->with('from', $from)
-								->with('to', $to);;
+								->with('to', $to);
 		    	return Response::make($content,200, $headers);
 			}
 			else{
@@ -211,12 +211,27 @@ class ReportController extends \BaseController {
 
 				$specimens = $specimens->where('time_rejected', 'LIKE', $date.'%')->orderBy('id')->get();
 			}
-			return View::make('reports.daily.specimen')
-						->with('labsections', $labsections)
-						->with('testtypes', $testtypes)
-						->with('specimens', $specimens)
-						->with('from', $from)
-						->with('to', $to);
+			if(Input::has('word')){
+				$date = date("Ymdhi");
+				$file_name = "daily_rejected_specimen_".$date.".doc";
+				$headers = array(
+				    "Content-type"=>"text/html",
+				    "Content-Disposition"=>"attachment;Filename=".$file_name
+				);
+				$content = View::make('reports.daily.exportSpecimenLog')
+								->with('specimens', $specimens)
+								->with('from', $from)
+								->with('to', $to);
+		    	return Response::make($content,200, $headers);
+			}
+			else{
+				return View::make('reports.daily.specimen')
+							->with('labsections', $labsections)
+							->with('testtypes', $testtypes)
+							->with('specimens', $specimens)
+							->with('from', $from)
+							->with('to', $to);
+			}
 		}
 		//Begin test records
 		else{
@@ -266,13 +281,27 @@ class ReportController extends \BaseController {
 							 ->orderBy('id')
 							 ->get();
 			}
-			//$tests = Test::all();
-			return View::make('reports.daily.test')
-						->with('labsections', $labsections)
-						->with('testtypes', $testtypes)
-						->with('tests', $tests)
-						->with('from', $from)
-						->with('to', $to);
+			if(Input::has('word')){
+				$date = date("Ymdhi");
+				$file_name = "daily_test_records_".$date.".doc";
+				$headers = array(
+				    "Content-type"=>"text/html",
+				    "Content-Disposition"=>"attachment;Filename=".$file_name
+				);
+				$content = View::make('reports.daily.exportTestLog')
+								->with('tests', $tests)
+								->with('from', $from)
+								->with('to', $to);
+		    	return Response::make($content,200, $headers);
+			}
+			else{
+				return View::make('reports.daily.test')
+							->with('labsections', $labsections)
+							->with('testtypes', $testtypes)
+							->with('tests', $tests)
+							->with('from', $from)
+							->with('to', $to);
+			}
 		}
 	}
 	//	End Daily Log-Patient report functions
