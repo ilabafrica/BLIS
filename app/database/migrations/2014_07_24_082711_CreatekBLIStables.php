@@ -274,10 +274,10 @@ class CreatekBLIStables extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('referrals');
 		Schema::dropIfExists('test_results');
 		Schema::dropIfExists('tests');
 		Schema::dropIfExists('specimens');
+        Schema::dropIfExists('referrals');
 		Schema::dropIfExists('rejection_reasons');
 		Schema::dropIfExists('visits');
 		Schema::dropIfExists('test_statuses');
