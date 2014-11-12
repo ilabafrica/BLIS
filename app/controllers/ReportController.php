@@ -50,7 +50,7 @@ class ReportController extends \BaseController {
 						->join('visits', 'visits.id', '=', 'tests.visit_id')
 						->where('patient_id', '=', $id);
 			if($pending){
-				$tests=$tests->whereRaw('tests.test_status_id != '.Test::NOT_RECEIVED);
+				$tests=$tests->where('tests.test_status_id', '!=', Test::NOT_RECEIVED);
 			}
 			if($from||$to){
 				if(!$to){
@@ -69,25 +69,17 @@ class ReportController extends \BaseController {
 			$tests = Test::select('tests.id','test_type_id', 'specimen_id', 'interpretation', 'test_status_id', 'created_by', 'tested_by', 'verified_by', 'time_created', 'time_started', 'time_completed', 'time_verified')
 						->join('visits', 'visits.id', '=', 'tests.visit_id')
 						->where('patient_id', '=', $id)
-						->whereRaw('(tests.test_status_id = '.Test::COMPLETED.' OR tests.test_status_id = '.Test::VERIFIED.')')
+						->whereIn('tests.test_status_id', [Test::COMPLETED, Test::VERIFIED])
 						->where('tests.time_created', 'LIKE', '%'.date('Y-m-d').'%')
 						->get();
 		}
 		$patient = Patient::find($id);
-		if(Input::has('filter')){
-			return View::make('reports.patient.report')
-						->with('patient', $patient)
-						->with('tests', $tests)
-						->with('from', $from)
-						->with('to', $to)
-						->with('pending', $pending);
-		}
-		else if(Input::has('word')){
+		if(Input::has('word')){
 			$date = date("Ymdhi");
-			$file_name = "blispatient_".$id."_".$date.".doc";
+			$fileName = "blispatient_".$id."_".$date.".doc";
 			$headers = array(
 			    "Content-type"=>"text/html",
-			    "Content-Disposition"=>"attachment;Filename=".$file_name
+			    "Content-Disposition"=>"attachment;Filename=".$fileName
 			);
 			$content = View::make('reports.patient.export')
 							->with('patient', $patient)
@@ -110,11 +102,11 @@ class ReportController extends \BaseController {
 	*	Function to return test types of a particular test category to fill test types dropdown
 	*/
 	public function reportsDropdown(){
-        $input = Input::get('option');
-        $testCategory = TestCategory::find($input);
-        $testTypes = $testCategory->testTypes();
-        return Response::make($testTypes->get(['id','name']));
-    }
+            $input = Input::get('option');
+            $testCategory = TestCategory::find($input);
+            $testTypes = $testCategory->testTypes();
+            return Response::make($testTypes->get(['id','name']));
+        }
 	//	Begin Daily Log-Patient report functions
 	/**
 	 * Display a view of the daily patient records.
@@ -158,10 +150,10 @@ class ReportController extends \BaseController {
 			}
 			if(Input::has('word')){
 				$date = date("Ymdhi");
-				$file_name = "daily_visits_log_".$date.".doc";
+				$fileName = "daily_visits_log_".$date.".doc";
 				$headers = array(
 				    "Content-type"=>"text/html",
-				    "Content-Disposition"=>"attachment;Filename=".$file_name
+				    "Content-Disposition"=>"attachment;Filename=".$fileName
 				);
 				$content = View::make('reports.daily.exportPatientLog')
 								->with('visits', $visits)
@@ -221,10 +213,10 @@ class ReportController extends \BaseController {
 			}
 			if(Input::has('word')){
 				$date = date("Ymdhi");
-				$file_name = "daily_rejected_specimen_".$date.".doc";
+				$fileName = "daily_rejected_specimen_".$date.".doc";
 				$headers = array(
 				    "Content-type"=>"text/html",
-				    "Content-Disposition"=>"attachment;Filename=".$file_name
+				    "Content-Disposition"=>"attachment;Filename=".$fileName
 				);
 				$content = View::make('reports.daily.exportSpecimenLog')
 								->with('specimens', $specimens)
@@ -291,10 +283,10 @@ class ReportController extends \BaseController {
 			}
 			if(Input::has('word')){
 				$date = date("Ymdhi");
-				$file_name = "daily_test_records_".$date.".doc";
+				$fileName = "daily_test_records_".$date.".doc";
 				$headers = array(
 				    "Content-type"=>"text/html",
-				    "Content-Disposition"=>"attachment;Filename=".$file_name
+				    "Content-Disposition"=>"attachment;Filename=".$fileName
 				);
 				$content = View::make('reports.daily.exportTestLog')
 								->with('tests', $tests)

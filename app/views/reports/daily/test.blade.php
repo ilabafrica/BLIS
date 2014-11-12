@@ -15,12 +15,12 @@
         <td>{{ Form::label('from', trans("messages.from")) }}</td>
         <td>
             <input class="form-control standard-datepicker" name="start" type="text" 
-                    value="{{ isset($from) ? $from : '' }}" id="start">
+                    value="{{ isset($from) ? $from : date('Y-m-d') }}" id="start">
         </td>
         <td>{{ Form::label('to', trans("messages.to")) }}</td>
          <td>
             <input class="form-control standard-datepicker" name="end" type="text" 
-                    value="{{ isset($to) ? $to : '' }}" id="end">
+                    value="{{ isset($to) ? $to : date('Y-m-d') }}" id="end">
          </td>
         <td class="inline">{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
                         array('class' => 'btn btn-info', 'style' => 'width:125px', 'id' => 'filter', 'type' => 'submit')) }}
