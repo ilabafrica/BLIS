@@ -100,7 +100,7 @@
 				<td>{{ $visit->patient->id }}</td>
 				<td>{{ $visit->patient->name }}</td>
 				<td>{{ $visit->patient->getAge() }}</td>
-				<td>{{ $visit->patient->gender==0?trans("messages.male"):trans("messages.female")}}</td>
+				<td>{{ $visit->patient->getGender()}}</td>
 				<td>@foreach($visit->tests as $test)
 						<p>{{ $test->specimen->id }}</p>
 					@endforeach

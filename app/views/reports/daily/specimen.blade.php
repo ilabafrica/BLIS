@@ -27,13 +27,13 @@
     </tr>
     <tr>
         <td colspan="2"><label class="radio-inline">
-			  {{ Form::radio('records', 'tests', true, array('data-toggle' => 'radio', 'id' => 'tests')) }} {{trans('messages.test-records')}}
+			  {{ Form::radio('records', 'tests', false, array('data-toggle' => 'radio', 'id' => 'tests')) }} {{trans('messages.test-records')}}
 			</label></td>
         <td><label class="radio-inline">
 			  {{ Form::radio('records', 'patients', false, array('data-toggle' => 'radio', 'id' => 'patients')) }} {{trans('messages.patient-records')}}
 			</label></td>
         <td><label class="radio-inline">
-			  {{ Form::radio('records', 'rejections', false, array('data-toggle' => 'radio', 'id' => 'rejections')) }} {{trans('messages.rejected-specimen')}}
+			  {{ Form::radio('records', 'rejections', true, array('data-toggle' => 'radio', 'id' => 'rejections')) }} {{trans('messages.rejected-specimen')}}
 			</label></td>
 		<td>{{Form::submit('Export to Word', array('class' => 'btn btn-success', 'id'=>'word', 'name'=>'word'))}}</td>
     </tr>

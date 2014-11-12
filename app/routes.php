@@ -235,12 +235,9 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.daily.log",
             "uses" => "ReportController@dailyLog"
         ));
-        Route::get('reports/dropdown', function(){
-            $input = Input::get('option');
-            $testCategory = TestCategory::find($input);
-            $testTypes = $testCategory->testTypes();
-            return Response::make($testTypes->get(['id','name']));
-        });
+        Route::get('reports/dropdown', array(
+            "as"    =>  "reports.dropdown",
+            "uses"  =>  "ReportController@reportsDropdown"));
     });
 });
 

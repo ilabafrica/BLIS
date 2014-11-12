@@ -106,7 +106,15 @@ class ReportController extends \BaseController {
 		}
 	}
 	//	End patient report functions
-
+	/**
+	*	Function to return test types of a particular test category to fill test types dropdown
+	*/
+	public function reportsDropdown(){
+        $input = Input::get('option');
+        $testCategory = TestCategory::find($input);
+        $testTypes = $testCategory->testTypes();
+        return Response::make($testTypes->get(['id','name']));
+    }
 	//	Begin Daily Log-Patient report functions
 	/**
 	 * Display a view of the daily patient records.
