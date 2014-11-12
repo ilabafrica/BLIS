@@ -1,0 +1,105 @@
+@extends("layout")
+@section("content")
+<div>
+	<ol class="breadcrumb">
+	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
+	  <li class="active">{{ trans('messages.reports') }}</li>
+	  <li class="active">{{ trans('messages.daily-log') }}</li>
+	</ol>
+</div>
+{{ Form::open(array('route' => array('reports.daily.log'), 'class' => 'form-inline', 'role' => 'form')) }}
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+    <tr>
+        <td>{{ Form::label('from', trans("messages.from")) }}</td>
+        <td>
+            <input class="form-control standard-datepicker" name="start" type="text" 
+                    value="{{ isset($from) ? $from : '' }}" id="start">
+        </td>
+        <td>{{ Form::label('to', trans("messages.to")) }}</td>
+         <td>
+            <input class="form-control standard-datepicker" name="end" type="text" 
+                    value="{{ isset($to) ? $to : '' }}" id="end">
+         </td>
+        <td>{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
+                        array('class' => 'btn btn-info', 'style' => 'width:125px', 'id' => 'filter', 'type' => 'submit')) }}</td>
+    </tr>
+    <tr>
+        <td colspan="2"><label class="radio-inline">
+			  {{ Form::radio('records', 'tests', true, array('data-toggle' => 'radio', 'id' => 'tests')) }} {{trans('messages.test-records')}}
+			</label></td>
+        <td><label class="radio-inline">
+			  {{ Form::radio('records', 'patients', false, array('data-toggle' => 'radio', 'id' => 'patients')) }} {{trans('messages.patient-records')}}
+			</label></td>
+        <td><label class="radio-inline">
+			  {{ Form::radio('records', 'rejections', false, array('data-toggle' => 'radio', 'id' => 'rejections')) }} {{trans('messages.rejected-specimen')}}
+			</label></td>
+		<td>{{Form::submit('Export to Word', array('class' => 'btn btn-success', 'id'=>'word', 'name'=>'word'))}}</td>
+    </tr>
+    <tr id="sections">
+        <td>{{ Form::label('description', trans("messages.test-category")) }}</td>
+        <td>{{ Form::select('section_id', array(''=>'Select Lab Section')+$labsections, Input::old('section_id'), 
+					array('class' => 'form-control', 'id' => 'section_id')) }}</td>
+		<td></td>
+        <td>{{ Form::label('description', trans("messages.test-type")) }}</td>
+        <td>{{ Form::select('test_type', array('' => 'Select Test Type'), Input::old('test_type'), 
+					array('class' => 'form-control', 'id' => 'test_type')) }}</td>
+     </tr>
+</thead>
+<tbody>
+	
+</tbody>
+</table>
+{{ Form::close() }}
+<div class="panel panel-primary">
+	<div class="panel-heading ">
+		<span class="glyphicon glyphicon-user"></span>
+		{{ trans('messages.daily-log') }}
+	</div>
+	<div class="panel-body">
+
+	<!-- if there are search errors, they will show here -->
+	@if (Session::has('message'))
+		<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
+	@endif
+  <div id="specimen_records_div">
+  @include("reportHeader")
+	<strong><p>{{trans('messages.daily-visits')}} @if($from!=$to){{'From '.$from.' To '.$to}}@else{{'For '.date('d-m-Y')}}@endif</p></strong>
+	<table class="table table-bordered">
+		<tbody>
+			<th>{{trans('messages.specimen-number')}}</th>
+			<th>{{trans('messages.specimen-type')}}</th>
+			<th>{{trans('messages.lab-receipt-date')}}</th>
+			<th>{{trans('messages.tests')}}</th>
+			<th>{{trans('messages.test-category')}}</th>
+			<th>{{trans('messages.reason-for-rejection')}}</th>
+			<th>{{trans('messages.person-talked-to')}}</th>
+			<th>{{trans('messages.date-rejected')}}</th>
+			@forelse($specimens as $specimen)
+			<tr>
+				<td>{{ $specimen->id }}</td>
+				<td>{{ $specimen->specimenType->name }}</td>
+				<td>{{ $specimen->test->time_created }}</td>
+				<td>{{ $specimen->test->testType->name }}</td>
+				<td>{{ $specimen->test->testType->testCategory->name }}</td>
+				<td>{{ $specimen->rejectionReason->reason }}</td>
+				<td>{{ $specimen->reject_explained_to }}</td>
+				<td>{{ $specimen->time_rejected }}</td>
+			</tr>
+			@empty
+			<tr><td colspan="13">{{trans('messages.no-records-found')}}</td></tr>
+			@endforelse
+		</tbody>
+	</table>
+  </div>
+</div>
+
+</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		reportScripts();
+	});
+</script>
+@stop

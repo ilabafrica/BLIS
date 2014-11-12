@@ -27,13 +27,13 @@
     </tr>
     <tr>
         <td><label class="radio-inline">
-			  {{ Form::radio('records', '1', false, array('data-toggle' => 'radio', 'id' => 'tests')) }} {{trans('messages.test-records')}}
+			  {{ Form::radio('records', 'tests', false, array('data-toggle' => 'radio', 'id' => 'tests')) }} {{trans('messages.test-records')}}
 			</label></td>
         <td><label class="radio-inline">
-			  {{ Form::radio('records', '2', true, array('data-toggle' => 'radio', 'id' => 'patients')) }} {{trans('messages.patient-records')}}
+			  {{ Form::radio('records', 'patients', true, array('data-toggle' => 'radio', 'id' => 'patients')) }} {{trans('messages.patient-records')}}
 			</label></td>
         <td><label class="radio-inline">
-			  {{ Form::radio('records', '3', false, array('data-toggle' => 'radio', 'id' => 'specimens')) }} {{trans('messages.rejected-specimen')}}
+			  {{ Form::radio('records', 'rejections', false, array('data-toggle' => 'radio', 'id' => 'specimens')) }} {{trans('messages.rejected-specimen')}}
 			</label></td>
 		<td>{{ Form::button("<span class='glyphicon glyphicon-eye-open'></span> ".trans('messages.show-hide'), 
                         array('class' => 'btn btn-default', 'id' => 'reveal')) }}</td>

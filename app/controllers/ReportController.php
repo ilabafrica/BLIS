@@ -116,47 +116,163 @@ class ReportController extends \BaseController {
 	{
 		$from = Input::get('start');
 		$to = Input::get('end');
+		$all = Input::get('all');
+		$pending = Input::get('pending');
 		$date = date('Y-m-d');
+		$records = Input::get('records');
+		$category = Input::get('section_id');
+		$testtype = Input::get('test_type');
+		$date = date('Y-m-d');
+		$labsections = TestCategory::lists('name', 'id');
+		$testtypes = TestType::all();
 		
-		if($from||$to){
-			if(!$to){
-				$to = $date;
-			}
-			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-					Session::flash('error', 'Please check your dates range and try again!');
+		if($records=='patients'){
+			if($from||$to){
+				if(!$to){
+					$to = $date;
+				}
+				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+						Session::flash('error', 'Please check your dates range and try again!');
+				}
+				else{
+					$visits = Visit::whereRaw('created_at BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)')->get();
+				}
+				if (count($visits) == 0) {
+				 	Session::flash('message', 'Your filter from <b>'.$from.'</b> to <b>'.$to.'</b>, did not match any records!');
+				}
+				else{
+					Session::flash('message', 'Your filter from <b>'.$from.'</b> to <b>'.$to.'</b>, matched the following records.');
+				}
 			}
 			else{
-				$visits = Visit::whereRaw('created_at BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)')->get();
-			}
-			if (count($visits) == 0) {
-			 	Session::flash('message', 'Your filter from <b>'.$from.'</b> to <b>'.$to.'</b>, did not match any records!');
-			}
-			else{
-				Session::flash('message', 'Your filter from <b>'.$from.'</b> to <b>'.$to.'</b>, matched the following records.');
-			}
-		}
-		else{
 
-			$visits = Visit::where('created_at', 'LIKE', $date.'%')->orderBy('patient_id')->get();
+				$visits = Visit::where('created_at', 'LIKE', $date.'%')->orderBy('patient_id')->get();
+			}
+			if(Input::has('word')){
+				$date = date("Ymdhi");
+				$file_name = "dailylog_patients_".$date.".doc";
+				$headers = array(
+				    "Content-type"=>"text/html",
+				    "Content-Disposition"=>"attachment;Filename=".$file_name
+				);
+				$content = View::make('reports.daily.exportPatientLog')
+								->with('visits', $visits)
+								->with('from', $from)
+								->with('to', $to);;
+		    	return Response::make($content,200, $headers);
+			}
+			else{
+				return View::make('reports.daily.patient')
+								->with('visits', $visits)
+								->with('from', $from)
+								->with('to', $to);
+			}
 		}
-		if(Input::has('word')){
-			$date = date("Ymdhi");
-			$file_name = "dailylog_patients_".$date.".doc";
-			$headers = array(
-			    "Content-type"=>"text/html",
-			    "Content-Disposition"=>"attachment;Filename=".$file_name
-			);
-			$content = View::make('reports.daily.exportPatientLog')
-							->with('visits', $visits)
-							->with('from', $from)
-							->with('to', $to);;
-	    	return Response::make($content,200, $headers);
+		//Begin specimen rejections
+		else if($records=='rejections'){
+			$specimens = Specimen::where('specimen_status_id', '=', Specimen::REJECTED);
+			if($category||$testtype||$from||$to){
+				/*Filter by date*/
+				if($from||$to){
+					if(!$to){
+						$to = $date;
+					}
+					if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+							Session::flash('error', 'Please check your dates range and try again!');
+					}
+					else{
+						$specimens = $specimens->whereRaw('time_rejected BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)');
+					}
+				}
+				else{
+					$specimens = $specimens->where('time_rejected', 'LIKE', $date.'%')->orderBy('id')->get();
+				}
+				/*Filter by test category*/
+				if($category){
+					$specimens = $specimens->join('tests', 'specimens.id', '=', 'tests.specimen_id')
+										   ->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
+										   ->where('test_types.test_category_id', '=', $category);
+				}
+				/*Filter by test type*/
+				if($testtype){
+					$specimens = $specimens->join('tests', 'specimens.id', '=', 'tests.specimen_id')
+					   					   ->where('tests.test_type_id', '=', $testtype);
+				}
+				/*Check if filters returned any values and display*/
+				$specimens = $specimens->get();
+				if (count($specimens) == 0) {
+				 	Session::flash('message', 'Your filter did not match any records!');
+				}
+				else{
+					Session::flash('message', 'Your filter matched the following records.');
+				}
+			}
+			else{
+
+				$specimens = $specimens->where('time_rejected', 'LIKE', $date.'%')->orderBy('id')->get();
+			}
+			return View::make('reports.daily.specimen')
+						->with('labsections', $labsections)
+						->with('testtypes', $testtypes)
+						->with('specimens', $specimens)
+						->with('from', $from)
+						->with('to', $to);
 		}
+		//Begin test records
 		else{
-			return View::make('reports.daily.patient')
-							->with('visits', $visits)
-							->with('from', $from)
-							->with('to', $to);
+			if($category||$testtype||$all||$pending||$from||$to){
+				$tests = Test::whereNotIn('test_status_id', [Test::NOT_RECEIVED]);
+				/*Filter by date*/
+				if($from||$to){
+					if(!$to){
+						$to = $date;
+					}
+					if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+							Session::flash('error', 'Please check your dates range and try again!');
+					}
+					else{
+						$tests = $tests->whereRaw('time_created BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)');
+					}
+				}
+				else{
+					$tests = $tests->where('time_created', 'LIKE', $date.'%');
+				}
+				/*Filter by test category*/
+				if($category){
+					$tests = $tests->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
+								   ->where('test_types.test_category_id', '=', $category);
+				}
+				/*Filter by test type*/
+				if($testtype){
+					$tests = $tests->where('test_type_id', '=', $testtype);
+				}
+				/*Filter by all tests*/
+				if($pending){
+					$tests = $tests->whereIn('test_status_id', [Test::PENDING, Test::STARTED]);
+				}
+				/*Get collection of tests*/
+				$tests = $tests->get();
+				if (count($tests) == 0) {
+				 	Session::flash('message', 'Your filter did not match any records!');
+				}
+				else{
+					Session::flash('message', 'Your filter matched the following records.');
+				}
+			}
+			else{
+
+				$tests = Test::whereIn('test_status_id', [Test::COMPLETED, Test::VERIFIED])
+							 ->where('time_created', 'LIKE', $date.'%')
+							 ->orderBy('id')
+							 ->get();
+			}
+			//$tests = Test::all();
+			return View::make('reports.daily.test')
+						->with('labsections', $labsections)
+						->with('testtypes', $testtypes)
+						->with('tests', $tests)
+						->with('from', $from)
+						->with('to', $to);
 		}
 	}
 	//	End Daily Log-Patient report functions
