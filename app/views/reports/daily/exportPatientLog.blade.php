@@ -11,7 +11,15 @@
 <body>
 @include("reportHeader")
 <div id="content">
-<strong><p>{{trans('messages.daily-visits')}} @if($from!=$to){{'From '.$from.' To '.$to}}@else{{'For '.date('d-m-Y')}}@endif</p></strong>
+	<strong>
+		<p>
+			{{trans('messages.daily-visits')}} @if($from!=$to)
+				{{'From '.$from.' To '.$to}}
+			@else
+				{{'For '.date('d-m-Y')}}
+			@endif
+		</p>
+	</strong>
 	<br>
 	<table class="table table-bordered"  width="100%">
 		<tbody align="left">

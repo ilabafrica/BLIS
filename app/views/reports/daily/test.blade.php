@@ -75,7 +75,15 @@
 	@endif
   <div id="test_records_div">
   @include("reportHeader")
-	<strong><p>{{trans('messages.test-records')}} @if($from!=$to){{'From '.$from.' To '.$to}}@else{{'For '.date('d-m-Y')}}@endif</p></strong>
+	<strong>
+		<p>
+			{{trans('messages.test-records')}} @if($from!=$to)
+				{{'From '.$from.' To '.$to}}
+			@else
+				{{'For '.date('d-m-Y')}}
+			@endif
+		</p>
+	</strong>
 	<table class="table table-bordered">
 		<tbody>
 			<th>{{trans('messages.specimen-number-title')}}</th>

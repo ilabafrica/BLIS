@@ -60,7 +60,15 @@
   <div id="patient_records_div">
   
 	@include("reportHeader")
-	<strong><p>{{trans('messages.daily-visits')}} @if($from!=$to){{'From '.$from.' To '.$to}}@else{{'For '.date('d-m-Y')}}@endif</p></strong>
+	<strong>
+		<p>
+			{{trans('messages.daily-visits')}} @if($from!=$to)
+				{{'From '.$from.' To '.$to}}
+			@else
+				{{'For '.date('d-m-Y')}}
+			@endif
+		</p>
+	</strong>
 	<div id="summary">
 	<table class="table table-bordered">
 		<tbody>
