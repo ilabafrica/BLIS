@@ -88,6 +88,7 @@ class CreatekBLIStables extends Migration {
             $table->integer('measure_type_id')->unsigned();
             $table->string('name', 100);
             $table->string('measure_range', 60)->nullable();
+            $table->string('interpretation', 200)->nullable();
             $table->string('unit', 30);
             $table->string('description', 150)->nullable();
 

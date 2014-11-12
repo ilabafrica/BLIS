@@ -319,17 +319,18 @@ class TestController extends \BaseController {
 	 */
 	public function getResultInterpretation()
 	{
-		$measureid = Input::get('measureid');
-		$measurevalue = Input::get('measurevalue');
-		$gender = Input::get('gender');
-		$interpretation = new Measure;
+		$result = array();
+		//save if it is available
+		
+		if (Input::get('age')) {
+			$result['birthdate'] = Input::get('age');
+			$result['gender'] = Input::get('gender');
+		}
+		$result['measureid'] = Input::get('measureid');
+		$result['measurevalue'] = Input::get('measurevalue');
 
-		$birthDate = new DateTime(Input::get('age'));
-		$now = new DateTime();
-		$interval = $birthDate->diff($now);
-		$ageSeconds = ($interval->days * 24 * 3600) + ($interval->h * 3600) + ($interval->i * 60) + ($interval->s);
-		$ageYears = $ageSeconds/(365*24*60*60);
-		return $interpretation->getResultInterpretation($measureid, $ageYears, $measurevalue, $gender);
+		$measure = new Measure;
+		return trans('messages.'.$measure->getResultInterpretation($result));
 	}
 
 	/**

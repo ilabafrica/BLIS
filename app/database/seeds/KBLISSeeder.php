@@ -88,6 +88,7 @@ class KBLISSeeder extends DatabaseSeeder
             array("measure_type_id" => "2",
                 "name" => "BS for mps", 
                 "measure_range" => "No mps seen/+/++/+++/++++", 
+                "interpretation" => "Negative/Positive/Positive/Positive/Positive", 
                 "unit" => ""));
         $measures = array(
             array("measure_type_id" => "2", "name" => "Grams stain", "measure_range" => "Positive/Negative", "unit" => ""),

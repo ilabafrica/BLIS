@@ -63,7 +63,11 @@
                         ?>
                             {{ Form::label($fieldName , $measure->name) }}
                             {{ Form::select($fieldName, $measure_values, array_search($ans, $measure_values),
-                                array('class' => 'form-control')) }}
+                                array('class' => 'form-control result-interpretation-trigger',
+                                'data-url' => URL::route('test.resultinterpretation'),
+                                'data-measureid' => $measure->id
+                                )) 
+                            }}
                         <?php
                         break;
                         case 3:
