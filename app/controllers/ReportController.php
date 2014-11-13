@@ -121,11 +121,11 @@ class ReportController extends \BaseController {
 		$pending = Input::get('pending');
 		$date = date('Y-m-d');
 		$records = Input::get('records');
-		$category = Input::get('section_id');
-		$testtype = Input::get('test_type');
+		$testCategory = Input::get('section_id');
+		$testType = Input::get('test_type');
 		$date = date('Y-m-d');
-		$labsections = TestCategory::lists('name', 'id');
-		$testtypes = TestType::all();
+		$labSections = TestCategory::lists('name', 'id');
+		$testTypes = TestType::all();
 		
 		if($records=='patients'){
 			if($from||$to){
@@ -172,46 +172,33 @@ class ReportController extends \BaseController {
 		//Begin specimen rejections
 		else if($records=='rejections'){
 			$specimens = Specimen::where('specimen_status_id', '=', Specimen::REJECTED);
-			if($category||$testtype||$from||$to){
-				/*Filter by date*/
-				if($from||$to){
-					if(!$to){
-						$to = $date;
-					}
-					if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-							Session::flash('error', 'Please check your dates range and try again!');
-					}
-					else{
-						$specimens = $specimens->whereRaw('time_rejected BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)');
-					}
+			/*Filter by date*/
+			if($from||$to){
+				if(!$to){
+					$to = $date;
+				}
+				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+						Session::flash('error', 'Please check your dates range and try again!');
 				}
 				else{
-					$specimens = $specimens->where('time_rejected', 'LIKE', $date.'%')->orderBy('id')->get();
-				}
-				/*Filter by test category*/
-				if($category){
-					$specimens = $specimens->join('tests', 'specimens.id', '=', 'tests.specimen_id')
-										   ->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
-										   ->where('test_types.test_category_id', '=', $category);
-				}
-				/*Filter by test type*/
-				if($testtype){
-					$specimens = $specimens->join('tests', 'specimens.id', '=', 'tests.specimen_id')
-					   					   ->where('tests.test_type_id', '=', $testtype);
-				}
-				/*Check if filters returned any values and display*/
-				$specimens = $specimens->get(array('specimens.*'));
-				if (count($specimens) == 0) {
-				 	Session::flash('message', 'Your filter did not match any records!');
-				}
-				else{
-					Session::flash('message', 'Your filter matched the following records.');
+					$specimens = $specimens->whereRaw('time_rejected BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)');
 				}
 			}
 			else{
-
 				$specimens = $specimens->where('time_rejected', 'LIKE', $date.'%')->orderBy('id')->get();
 			}
+			/*Filter by test category*/
+			if($testCategory&&!$testType){
+				$specimens = $specimens->join('tests', 'specimens.id', '=', 'tests.specimen_id')
+									   ->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
+									   ->where('test_types.test_category_id', '=', $testCategory);
+			}
+			/*Filter by test type*/
+			if($testCategory&&$testType){
+				$specimens = $specimens->join('tests', 'specimens.id', '=', 'tests.specimen_id')
+				   					   ->where('tests.test_type_id', '=', $testType);
+			}
+			$specimens = $specimens->get(array('specimens.*'));
 			if(Input::has('word')){
 				$date = date("Ymdhi");
 				$fileName = "daily_rejected_specimen_".$date.".doc";
@@ -221,67 +208,63 @@ class ReportController extends \BaseController {
 				);
 				$content = View::make('reports.daily.exportSpecimenLog')
 								->with('specimens', $specimens)
+								->with('testCategory', $testCategory)
+								->with('testType', $testType)
 								->with('from', $from)
 								->with('to', $to);
 		    	return Response::make($content,200, $headers);
 			}
 			else{
 				return View::make('reports.daily.specimen')
-							->with('labsections', $labsections)
-							->with('testtypes', $testtypes)
+							->with('labSections', $labSections)
+							->with('testTypes', $testTypes)
 							->with('specimens', $specimens)
+							->with('testCategory', $testCategory)
+							->with('testType', $testType)
 							->with('from', $from)
 							->with('to', $to);
 			}
 		}
 		//Begin test records
 		else{
-			if($category||$testtype||$all||$pending||$from||$to){
-				$tests = Test::whereNotIn('test_status_id', [Test::NOT_RECEIVED]);
-				/*Filter by date*/
-				if($from||$to){
-					if(!$to){
-						$to = $date;
-					}
-					if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-							Session::flash('error', 'Please check your dates range and try again!');
-					}
-					else{
-						$tests = $tests->whereRaw('time_created BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)');
-					}
+			$tests = Test::whereNotIn('test_status_id', [Test::NOT_RECEIVED]);
+			/*Filter by date*/
+			if($from||$to){
+				if(!$to){
+					$to = $date;
+				}
+				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+						Session::flash('error', 'Please check your dates range and try again!');
 				}
 				else{
-					$tests = $tests->where('time_created', 'LIKE', $date.'%');
-				}
-				/*Filter by test category*/
-				if($category){
-					$tests = $tests->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
-								   ->where('test_types.test_category_id', '=', $category);
-				}
-				/*Filter by test type*/
-				if($testtype){
-					$tests = $tests->where('test_type_id', '=', $testtype);
-				}
-				/*Filter by all tests*/
-				if($pending){
-					$tests = $tests->whereIn('test_status_id', [Test::PENDING, Test::STARTED]);
-				}
-				/*Get collection of tests*/
-				$tests = $tests->get(array('tests.*'));
-				if (count($tests) == 0) {
-				 	Session::flash('message', 'Your filter did not match any records!');
-				}
-				else{
-					Session::flash('message', 'Your filter matched the following records.');
+					$tests = $tests->whereRaw('time_created BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)');
 				}
 			}
 			else{
-
-				$tests = Test::whereIn('test_status_id', [Test::COMPLETED, Test::VERIFIED])
-							 ->where('time_created', 'LIKE', $date.'%')
-							 ->orderBy('id')
-							 ->get(array('tests.*'));
+				$tests = $tests->where('time_created', 'LIKE', $date.'%');
 			}
+			/*Filter by test category*/
+			if($testCategory&&!$testType){
+				$tests = $tests->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
+							   ->where('test_types.test_category_id', '=', $testCategory);
+			}
+			/*Filter by test type*/
+			if($testType){
+				$tests = $tests->where('test_type_id', '=', $testType);
+			}
+			/*Filter by all tests*/
+			if($pending){
+				$tests = $tests->whereIn('test_status_id', [Test::PENDING, Test::STARTED]);
+			}
+			else if($all){
+				$tests = $tests->whereIn('test_status_id', [Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED]);
+			}
+			else{
+				$tests = $tests->whereIn('test_status_id', [Test::COMPLETED, Test::VERIFIED]);
+			}
+			/*Get collection of tests*/
+			$tests = $tests->get(array('tests.*'));
+				
 			if(Input::has('word')){
 				$date = date("Ymdhi");
 				$fileName = "daily_test_records_".$date.".doc";
@@ -291,15 +274,21 @@ class ReportController extends \BaseController {
 				);
 				$content = View::make('reports.daily.exportTestLog')
 								->with('tests', $tests)
+								->with('testCategory', $testCategory)
+								->with('testType', $testType)
+								->with('pending', $pending)
+								->with('all', $all)
 								->with('from', $from)
 								->with('to', $to);
 		    	return Response::make($content,200, $headers);
 			}
 			else{
 				return View::make('reports.daily.test')
-							->with('labsections', $labsections)
-							->with('testtypes', $testtypes)
+							->with('labSections', $labSections)
+							->with('testTypes', $testTypes)
 							->with('tests', $tests)
+							->with('testCategory', $testCategory)
+							->with('testType', $testType)
 							->with('pending', $pending)
 							->with('all', $all)
 							->with('from', $from)

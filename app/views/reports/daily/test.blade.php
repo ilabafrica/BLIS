@@ -50,10 +50,10 @@
     </tr>
     <tr id="sections">
         <td>{{ Form::label('description', trans("messages.test-category")) }}</td>
-        <td colspan="2">{{ Form::select('section_id', array(''=>'Select Lab Section')+$labsections, Input::old('section_id'), 
+        <td colspan="2">{{ Form::select('section_id', array(''=>'Select Lab Section')+$labSections, Request::old('testCategory') ? Request::old('testCategory') : $testCategory, 
 					array('class' => 'form-control', 'id' => 'section_id')) }}</td>
 		<td>{{ Form::label('description', trans("messages.test-type")) }}</td>
-        <td colspan="2">{{ Form::select('test_type', array('' => 'Select Test Type'), Input::old('test_type'), 
+        <td colspan="2">{{ Form::select('test_type', array('' => 'Select Test Type'), Request::old('testType') ? Request::old('testType') : $testType, 
 					array('class' => 'form-control', 'id' => 'test_type')) }}</td>
      </tr>
 </thead>
@@ -77,7 +77,21 @@
   @include("reportHeader")
 	<strong>
 		<p>
-			{{trans('messages.test-records')}} @if($from!=$to)
+			{{trans('messages.test-records')}} 
+			@if($pending)
+				{{' - '.trans('messages.pending-only')}}
+			@elseif($all)
+				{{' - '.trans('messages.all-tests')}}
+			@else
+				{{' - '.trans('messages.complete-tests')}}
+			@endif
+			@if($testCategory)
+				{{' - '.TestCategory::find($testCategory)->name}}
+			@endif
+			@if($testType)
+				{{' ('.TestType::find($testType)->name.') '}}
+			@endif
+			@if($from!=$to)
 				{{'From '.$from.' To '.$to}}
 			@else
 				{{'For '.date('d-m-Y')}}

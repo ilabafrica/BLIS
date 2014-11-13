@@ -13,7 +13,14 @@
 <div id="content">
 	<strong>
 		<p>
-			{{trans('messages.rejected-specimen')}} @if($from!=$to)
+			{{trans('messages.rejected-specimen')}} 
+			@if($testCategory)
+				{{' - '.TestCategory::find($testCategory)->name}}
+			@endif
+			@if($testType)
+				{{' ('.TestType::find($testType)->name.') '}}
+			@endif
+			@if($from!=$to)
 				{{'From '.$from.' To '.$to}}
 			@else
 				{{'For '.date('d-m-Y')}}

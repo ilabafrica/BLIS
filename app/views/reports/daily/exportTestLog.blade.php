@@ -13,7 +13,21 @@
 <div id="content">
 	<strong>
 		<p>
-			{{trans('messages.test-records')}} @if($from!=$to)
+			{{trans('messages.test-records')}} 
+			@if($pending)
+				{{' - '.trans('messages.pending-only')}}
+			@elseif($all)
+				{{' - '.trans('messages.all-tests')}}
+			@else
+				{{' - '.trans('messages.complete-tests')}}
+			@endif
+			@if($testCategory)
+				{{' - '.TestCategory::find($testCategory)->name}}
+			@endif
+			@if($testType)
+				{{' ('.TestType::find($testType)->name.') '}}
+			@endif
+			@if($from!=$to)
 				{{'From '.$from.' To '.$to}}
 			@else
 				{{'For '.date('d-m-Y')}}
