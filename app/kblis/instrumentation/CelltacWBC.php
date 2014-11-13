@@ -6,10 +6,9 @@ class CelltacWBC extends AbstractInstrumentor
 	/**
 	* Fetch Test Result from machine and format it into a JSON string
 	*
-	* @return Response (JSON)
-	*
+	* @return array
 	*/
-    public function getResult() {
+    public function getResult($testTypeID = 0) {
 
     	/*
     	* 1. Read result file stored on the local machine (Use IP/host to verify that I'm on the correct host)
@@ -18,7 +17,7 @@ class CelltacWBC extends AbstractInstrumentor
     	*/
 
 		/*-------------
-		* Sample output
+		* Sample file output
 		*--------------
 		339869         
 		 6.2  

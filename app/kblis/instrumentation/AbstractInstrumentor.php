@@ -15,29 +15,55 @@ abstract class AbstractInstrumentor implements InstrumentorInterface
         }
     }
  
-    public function setIP($id) {
-        $this->checkIP($id);
-        $this->id = $id;
+    /**
+    * Sets the IP Address of the instrument 
+    *
+    * @param int ip
+    * @return AbstractInstrumentor implementation
+    */
+    public function setIP($ip) {
+        $this->checkIP($ip);
+        $this->ip = $ip;
         return $this;    
     }
  
+    /**
+    * Sets the Hostname of the instrument 
+    *
+    * @param String hostname
+    * @return AbstractInstrumentor implementation
+    */
     public function setHost($hostname) {
         $this->checkHost($hostname);
         $this->hostname = $hostname;
         return $this;    
     }
  
-    protected function checkHost($value) {
-        if (!preg_match('/^[a-z0-9_-]+$/', $value)) {
-            throw new InvalidArgumentException(
-                "This hostname is invalid.");
-        }
-    }
- 
+    /**
+    * Validates the IP Address of the instrument 
+    *
+    * @param int ip
+    * @return void
+    * @throws InvalidArgumentException
+    */
     protected function checkIP($value) {
         if (!filter_var($value, FILTER_VALIDATE_IP)) {
             throw new InvalidArgumentException(
                 "The ip address is invalid.");
+        }
+    }
+ 
+    /**
+    * Validates the hostname of the instrument 
+    *
+    * @param String hostname
+    * @return void
+    * @throws InvalidArgumentException
+    */
+    protected function checkHost($value) {
+        if (!preg_match('/^[a-z0-9_-]+$/', $value)) {
+            throw new InvalidArgumentException(
+                "This hostname is invalid.");
         }
     }
 }
