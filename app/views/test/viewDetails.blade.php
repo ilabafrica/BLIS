@@ -13,7 +13,7 @@
                 <div class="row less-gutter">
                     <div class="col-md-11">
 						<span class="glyphicon glyphicon-cog"></span>{{trans('messages.test-details')}}
-						@if($test->test_status_id != Test::VERIFIED &&
+						@if($test->test_status_id == Test::COMPLETED &&
 							$test->specimen->specimen_status_id == Specimen::ACCEPTED)
 						<div class="panel-btn">
 							@if(Auth::user()->can('edit_test_results'))
@@ -22,8 +22,7 @@
 									{{trans('messages.edit-test-results')}}
 								</a>
 							@endif
-							@if($test->test_status_id != Test::VERIFIED && 
-								Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
+							@if(Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
 							<a class="btn btn-sm btn-success" href="{{ URL::route('test.verify', array($test->id)) }}">
 								<span class="glyphicon glyphicon-thumbs-up"></span>
 								{{trans('messages.verify')}}
