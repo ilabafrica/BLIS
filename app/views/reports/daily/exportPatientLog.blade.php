@@ -59,7 +59,7 @@
 				<td>{{ $visit->patient->id }}</td>
 				<td>{{ $visit->patient->name }}</td>
 				<td>{{ $visit->patient->getAge() }}</td>
-				<td>@if($visit->patient->gender==0){{ 'M' }} @else {{ 'F' }} @endif</td>
+				<td>{{ $visit->patient->getGender()}}</td>
 				<td>@foreach($visit->tests as $test)
 						<p>{{ $test->specimen->id }}</p>
 					@endforeach

@@ -13,7 +13,15 @@
     <div class="container-fluid">
         <div class="row">
 			@include("reportHeader")
-			<strong><p>{{trans('messages.patient-report')}} @if($from!=$to){{'From '.$from.' To '.$to}}@else{{'For '.date('d-m-Y')}}@endif</p></strong>
+			<strong>
+				<p>
+					{{trans('messages.patient-report')}} @if($from!=$to)
+						{{'From '.$from.' To '.$to}}
+					@else
+						{{'For '.date('d-m-Y')}}
+					@endif
+				</p>
+			</strong>
 			<div id="content">
 			<table class="table table-bordered"  width="100%">
 			<tbody>
@@ -21,7 +29,7 @@
 					<th>{{ trans('messages.patient-name')}}</th>
 					<td>{{ $patient->name }}</td>
 					<th>{{ trans('messages.gender')}}</th>
-					<td>{{ ($patient->gender==Patient::MALE?trans('messages.male'):trans('messages.female')) }}</td>
+					<td>{{ $patient->getGender() }}</td>
 				</tr>
 				<tr align="left">
 					<th>{{ trans("messages.patient-number")}}</th>
