@@ -40,39 +40,40 @@ class ReportController extends \BaseController {
 	public function viewPatientReport($id){
 		$from = Input::get('start');
 		$to = Input::get('end');
-		$pending = Input::get('tests');
+		$pending = Input::get('pending');
+		$date = date('Y-m-d');
 		//	Check checkbox if checked and assign the 'checked' value
 		if (Input::get('tests') === '1') {
 		    $pending='checked';
 		}
-		if($pending||$from||$to){
-			$tests = Test::select('tests.id','test_type_id', 'specimen_id', 'interpretation', 'test_status_id', 'created_by', 'tested_by', 'verified_by', 'time_created', 'time_started', 'time_completed', 'time_verified')
-						->join('visits', 'visits.id', '=', 'tests.visit_id')
-						->where('patient_id', '=', $id);
-			if($pending){
-				$tests=$tests->where('tests.test_status_id', '!=', Test::NOT_RECEIVED);
-			}
-			if($from||$to){
-				if(!$to){
-					$to = date('Y-m-d');
-				}
-				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime(date('Y-m-d'))||strtotime($to)>strtotime(date('Y-m-d'))){
-						Session::flash('error', 'Please check your dates range and try again!');
-				}
-				else{
-					$tests=$tests->whereRaw('tests.time_created BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)');
-				}
-			}
-			$tests = $tests->get();
+		//	Query to get tests of a particular patient
+		$tests = Test::join('visits', 'visits.id', '=', 'tests.visit_id')
+					->where('patient_id', '=', $id);
+		//	Begin filters - include/exclude pending tests
+		if($pending){
+			$tests=$tests->where('tests.test_status_id', '!=', Test::NOT_RECEIVED);
 		}
 		else{
-			$tests = Test::select('tests.id','test_type_id', 'specimen_id', 'interpretation', 'test_status_id', 'created_by', 'tested_by', 'verified_by', 'time_created', 'time_started', 'time_completed', 'time_verified')
-						->join('visits', 'visits.id', '=', 'tests.visit_id')
-						->where('patient_id', '=', $id)
-						->whereIn('tests.test_status_id', [Test::COMPLETED, Test::VERIFIED])
-						->where('tests.time_created', 'LIKE', '%'.date('Y-m-d').'%')
-						->get();
+			$tests = $tests->whereIn('tests.test_status_id', [Test::COMPLETED, Test::VERIFIED]);
 		}
+		//	Date filters
+		if($from||$to){
+			if(!$to){
+				$to = $date;
+			}
+			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+					Session::flash('error', 'Please check your dates range and try again!');
+			}
+			else{
+				$tests=$tests->whereRaw('tests.time_created BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)');
+			}
+		}
+		else{
+			$tests = $tests->where('tests.time_created', 'LIKE', '%'.date('Y-m-d').'%');
+		}
+		//	Get tests collection
+		$tests = $tests->get(array('tests.*'));
+		//	Get patient details
 		$patient = Patient::find($id);
 		if(Input::has('word')){
 			$date = date("Ymdhi");
@@ -199,7 +200,7 @@ class ReportController extends \BaseController {
 					   					   ->where('tests.test_type_id', '=', $testtype);
 				}
 				/*Check if filters returned any values and display*/
-				$specimens = $specimens->get();
+				$specimens = $specimens->get(array('specimens.*'));
 				if (count($specimens) == 0) {
 				 	Session::flash('message', 'Your filter did not match any records!');
 				}
@@ -266,7 +267,7 @@ class ReportController extends \BaseController {
 					$tests = $tests->whereIn('test_status_id', [Test::PENDING, Test::STARTED]);
 				}
 				/*Get collection of tests*/
-				$tests = $tests->get();
+				$tests = $tests->get(array('tests.*'));
 				if (count($tests) == 0) {
 				 	Session::flash('message', 'Your filter did not match any records!');
 				}
@@ -279,7 +280,7 @@ class ReportController extends \BaseController {
 				$tests = Test::whereIn('test_status_id', [Test::COMPLETED, Test::VERIFIED])
 							 ->where('time_created', 'LIKE', $date.'%')
 							 ->orderBy('id')
-							 ->get();
+							 ->get(array('tests.*'));
 			}
 			if(Input::has('word')){
 				$date = date("Ymdhi");
@@ -299,6 +300,8 @@ class ReportController extends \BaseController {
 							->with('labsections', $labsections)
 							->with('testtypes', $testtypes)
 							->with('tests', $tests)
+							->with('pending', $pending)
+							->with('all', $all)
 							->with('from', $from)
 							->with('to', $to);
 			}
