@@ -122,7 +122,13 @@ class ReportController extends \BaseController {
 		$date = date('Y-m-d');
 		$records = Input::get('records');
 		$testCategory = Input::get('section_id');
-		$testType = Input::get('test_type');
+		$testType = '';
+		if(Input::get('test_type')){
+			$testType = Input::get('test_type');
+		}
+		else if(Input::get('test_type_id')){
+			$testType = Input::get('test_type_id');
+		}
 		$date = date('Y-m-d');
 		$labSections = TestCategory::lists('name', 'id');
 		$testTypes = TestType::all();

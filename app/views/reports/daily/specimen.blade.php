@@ -48,7 +48,7 @@
      </tr>
 </thead>
 <tbody>
-	
+{{ Form::hidden('test_type_id', Request::old('testType') ? Request::old('testType') : $testType, array('id' => 'test_type')) }}
 </tbody>
 </table>
 {{ Form::close() }}
