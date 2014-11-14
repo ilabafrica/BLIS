@@ -4,7 +4,7 @@ namespace KBLIS\Instrumentation;
 interface InstrumentorInterface
 {
 	/**
-	* Returns test results obtained from an instrument 
+	* Returns information about an instrument 
 	*
 	* @return array('name' => '', 'description' => '', 'testTypes' => array()) 
 	*/

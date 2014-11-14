@@ -30,9 +30,23 @@ class InstrumentController extends \BaseController {
 	 */
 	public function create()
 	{
-		$testtypes = TestType::all();
+		// Get a list of all installed plugins
+		$plugins = glob(app_path()."/kblis/plugins/*");
+		$dummyIP = "10.10.10.1";
+		$plugs = array();
+
+		foreach ($plugins as $plugin) {
+			try {
+				$className = "KBLIS\\Plugins\\".head(explode(".", last(explode("/", $plugin))));
+				$instrument = new $className($dummyIP);
+				$plugs[$instrument->getEquipmentInfo()['code']] = $instrument->getEquipmentInfo()['name'];
+			} catch (Exception $e) {
+				Log::error($e);
+			}
+		}
+
 		//Create Instrument view
-		return View::make('instrument.create')->with('testtypes', $testtypes);
+		return View::make('instrument.create')->with('instruments', $plugs);
 	}
 
 	/**
@@ -44,9 +58,8 @@ class InstrumentController extends \BaseController {
 	{
 		//
 		$rules = array(
-			'name' => 'required|unique:instruments,name',
+			'instrument' => 'required',
 			'ip' => 'required',
-			'testtypes' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -55,7 +68,7 @@ class InstrumentController extends \BaseController {
 			return Redirect::route('instrument.create')->withErrors($validator);
 		} else {
 			// store 
-			$instrument = new Instrument;
+			$instrument = Instrument::where('name', '=', Input::get('instrument'));
 			$instrument->name = Input::get('name');
 			$instrument->description = Input::get('description');
 			$instrument->ip = Input::get('ip');

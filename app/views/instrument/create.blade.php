@@ -23,13 +23,8 @@
 		@endif
 
 			<div class="form-group">
-				{{ Form::label('name', Lang::choice('messages.name',1)) }}
-				{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
-			</div>
-			<div class="form-group">
-				{{ Form::label('description', trans('messages.description')) }}
-				{{ Form::textarea('description', Input::old('description'), 
-					array('class' => 'form-control', 'rows' => '2')) }}
+				{{ Form::label('instrument', Lang::choice('messages.instrument',1)) }}
+                {{ Form::select('instrument', $instruments, '', array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
 				{{ Form::label('ip', trans('messages.ip')) }}
@@ -38,40 +33,6 @@
 			<div class="form-group">
 				{{ Form::label('hostname', trans('messages.host-name')) }}
 				{{ Form::text('hostname', Input::old('hostname'), array('class' => 'form-control')) }}
-			</div>
-			<div class="form-group">
-				{{ Form::label('test_types', trans('messages.select-test-types')) }}
-				<div class="form-pane panel panel-default">
-					<div class="container-fluid">
-						<?php 
-							$cnt = 0;
-							$zebra = "";
-						?>
-					@foreach($testtypes as $key=>$value)
-						{{ ($cnt%2==0)?"<div class='row $zebra'>":"" }}
-						<?php
-							$cnt++;
-							$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
-						?>
-						<div class="col-md-6">
-							<div class="col-md-3">
-								{{$value->name }}
-							</div>
-							<div class="col-md-9">
-								<div class="input-group">
-									<span class="input-group-addon">
-										{{ Form::checkbox('testtypes[]', $value->id)}}
-									</span>
-									{{ Form::text('interfacing_class[]', "", array('class' => 'form-control',
-										'title' => trans('messages.interfacing-class').$value->name)) }}
-								</div>
-							</div>
-						</div>
-
-						{{ ($cnt%2==0)?"</div>":"" }}
-					@endforeach
-					</div>
-				</div>
 			</div>
 		</div>
 		<div class="panel-footer">
