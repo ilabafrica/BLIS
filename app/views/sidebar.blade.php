@@ -106,7 +106,7 @@
 		<li>
 			<div class="main-menu {{$active[5]}}">
 				<a href="{{ URL::route('reports.patient.index')}}">
-					<span class="glyphicon glyphicon-stats"></span> {{Lang::choice('messages.report', 2)}} </a>
+					<span class="glyphicon glyphicon-stats"></span> {{trans('messages.reports')}}</a>
 			</div>
 			<div class="sub-menu {{$active[5]}}">
 				<div class="sub-menu-title">{{trans('messages.daily-reports')}}</div>

@@ -235,6 +235,9 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.daily.log",
             "uses" => "ReportController@dailyLog"
         ));
+        Route::get('reports/dropdown', array(
+            "as"    =>  "reports.dropdown",
+            "uses"  =>  "ReportController@reportsDropdown"));
     });
 });
 

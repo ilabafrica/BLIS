@@ -337,6 +337,10 @@ return array(
     'total-visits'  =>  'Total Visits',
     'summary'   =>  'Summary',
     'daily-visits' =>  'Daily visits',
+    'pending-only'  =>  'Pending Tests Only',
+    'all-tests' =>  'All Tests',
+    'date-rejected' =>  'Date Rejected',
+    'complete-tests'    =>  'Complete Tests',
 
 
     /** 

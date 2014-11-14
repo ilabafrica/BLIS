@@ -15,25 +15,25 @@
         <td>{{ Form::label('from', trans("messages.from")) }}</td>
         <td>
             <input class="form-control standard-datepicker" name="start" type="text" 
-                    value="{{ isset($from) ? $from : '' }}" id="start">
+                    value="{{ isset($from) ? $from : date('Y-m-d') }}" id="start">
         </td>
         <td>{{ Form::label('to', trans("messages.to")) }}</td>
          <td>
              <input class="form-control standard-datepicker" name="end" type="text" 
-                    value="{{ isset($to) ? $to : '' }}" id="end">
+                    value="{{ isset($to) ? $to : date('Y-m-d') }}" id="end">
          </td>
         <td>{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
                         array('class' => 'btn btn-primary', 'style' => 'width:125px', 'id' => 'filter', 'type' => 'submit')) }}</td>
     </tr>
     <tr>
         <td><label class="radio-inline">
-			  {{ Form::radio('records', '1', false, array('data-toggle' => 'radio', 'id' => 'tests')) }} {{trans('messages.test-records')}}
+			  {{ Form::radio('records', 'tests', false, array('data-toggle' => 'radio', 'id' => 'tests')) }} {{trans('messages.test-records')}}
 			</label></td>
         <td><label class="radio-inline">
-			  {{ Form::radio('records', '2', true, array('data-toggle' => 'radio', 'id' => 'patients')) }} {{trans('messages.patient-records')}}
+			  {{ Form::radio('records', 'patients', true, array('data-toggle' => 'radio', 'id' => 'patients')) }} {{trans('messages.patient-records')}}
 			</label></td>
         <td><label class="radio-inline">
-			  {{ Form::radio('records', '3', false, array('data-toggle' => 'radio', 'id' => 'specimens')) }} {{trans('messages.rejected-specimen')}}
+			  {{ Form::radio('records', 'rejections', false, array('data-toggle' => 'radio', 'id' => 'specimens')) }} {{trans('messages.rejected-specimen')}}
 			</label></td>
 		<td>{{ Form::button("<span class='glyphicon glyphicon-eye-open'></span> ".trans('messages.show-hide'), 
                         array('class' => 'btn btn-default', 'id' => 'reveal')) }}</td>
@@ -60,7 +60,15 @@
   <div id="patient_records_div">
   
 	@include("reportHeader")
-	<strong><p>{{trans('messages.daily-visits')}} @if($from!=$to){{'From '.$from.' To '.$to}}@else{{'For '.date('d-m-Y')}}@endif</p></strong>
+	<strong>
+		<p>
+			{{trans('messages.daily-visits')}} @if($from!=$to)
+				{{'From '.$from.' To '.$to}}
+			@else
+				{{'For '.date('d-m-Y')}}
+			@endif
+		</p>
+	</strong>
 	<div id="summary">
 	<table class="table table-bordered">
 		<tbody>
@@ -100,7 +108,7 @@
 				<td>{{ $visit->patient->id }}</td>
 				<td>{{ $visit->patient->name }}</td>
 				<td>{{ $visit->patient->getAge() }}</td>
-				<td>{{ $visit->patient->gender==0?trans("messages.male"):trans("messages.female")}}</td>
+				<td>{{ $visit->patient->getGender()}}</td>
 				<td>@foreach($visit->tests as $test)
 						<p>{{ $test->specimen->id }}</p>
 					@endforeach

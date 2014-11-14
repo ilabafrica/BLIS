@@ -15,16 +15,15 @@
 	    <tr>
 	    	<td>
 	        	<label class="checkbox-inline">
-	              <!-- {{ Form::hidden('pending', false) }} -->
-	              <input type="checkbox" id="tests" name="tests" value="1" @if(isset($pending)){{"checked='checked'"}}@endif> {{trans('messages.include-pending-tests')}}
+	              	<input type="checkbox" id="pending" name="pending" value="1" @if(isset($pending)){{"checked='checked'"}}@endif> {{trans('messages.include-pending-tests')}}
 				</label>
 	        </td>
 	        <td>{{ Form::label('name', trans("messages.from")) }}</td>
         	<td><input class="form-control standard-datepicker" name="start" type="text" 
-                    value="{{ isset($from) ? $from : '' }}" id="start"></td>
+                    value="{{ isset($from) ? $from : date('Y-m-d') }}" id="start"></td>
 	        <td>{{ Form::label('name', trans("messages.to")) }}</td>
         	<td><input class="form-control standard-datepicker" name="end" type="text" 
-                    value="{{ isset($to) ? $to : '' }}" id="end"></td>
+                    value="{{ isset($to) ? $to : date('Y-m-d') }}" id="end"></td>
 	        <td>{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
 	                        array('class' => 'btn btn-primary', 'style' => 'width:125px', 'id' => 'filter', 'type' => 'submit')) }}</td>
 	        <td>{{ Form::submit(trans('messages.export-to-word'), array('class' => 'btn btn-success', 'style' => 'width:160px', 'id' => 'word', 'name' => 'word')) }}</td>
@@ -47,14 +46,22 @@
 		<div class="alert alert-danger" id="error" style="display:none"></div>
 		<div id="report_content">
 		@include("reportHeader")
-		<strong><p>{{trans('messages.patient-report')}} @if($from!=$to){{'From '.$from.' To '.$to}}@else{{'For '.date('d-m-Y')}}@endif</p></strong>
+		<strong>
+			<p>
+				{{trans('messages.patient-report')}} @if($from!=$to)
+					{{'From '.$from.' To '.$to}}
+				@else
+					{{'For '.date('d-m-Y')}}
+				@endif
+			</p>
+		</strong>
 		<table class="table table-bordered">
 			<tbody>
 				<tr>
 					<th>{{ trans('messages.patient-name')}}</th>
 					<td>{{ $patient->name }}</td>
 					<th>{{ trans('messages.gender')}}</th>
-					<td>{{ ($patient->gender==Patient::MALE?trans('messages.male'):trans('messages.female')) }}</td>
+					<td>{{ $patient->getGender() }}</td>
 				</tr>
 				<tr>
 					<th>{{ trans("messages.patient-number")}}</th>
@@ -84,24 +91,24 @@
 					<th>{{ trans('messages.date-checked')}}</th>
 				</tr>
 				@forelse($tests as $test)
-					<tr>
-						<td>{{ $test->specimen->specimenType->name }}</td>
-						<td>{{ $test->testType->name }}</td>
-						<td>{{ $test->testType->testCategory->name }}</td>
-						@if($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
-							<td>{{trans('messages.specimen-not-collected')}}</td>
-							<td></td>
-							<td></td>
-						@elseif($test->specimen->specimen_status_id == Specimen::ACCEPTED)
-							<td>{{trans('messages.specimen-accepted')}}</td>
-							<td>{{$test->specimen->acceptedBy->name}}</td>
-							<td>{{$test->specimen->time_accepted}}</td>
-						@elseif($test->specimen->specimen_status_id == Specimen::REJECTED)
-							<td>{{trans('messages.specimen-rejected')}}</td>
-							<td>{{$test->specimen->rejectedBy->name}}</td>
-							<td>{{$test->specimen->time_rejected}}</td>
-						@endif
-					</tr>
+						<tr>
+							<td>{{ $test->specimen->specimenType->name }}</td>
+							<td>{{ $test->testType->name }}</td>
+							<td>{{ $test->testType->testCategory->name }}</td>
+							@if($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
+								<td>{{trans('messages.specimen-not-collected')}}</td>
+								<td></td>
+								<td></td>
+							@elseif($test->specimen->specimen_status_id == Specimen::ACCEPTED)
+								<td>{{trans('messages.specimen-accepted')}}</td>
+								<td>{{$test->specimen->acceptedBy->name}}</td>
+								<td>{{$test->specimen->time_accepted}}</td>
+							@elseif($test->specimen->specimen_status_id == Specimen::REJECTED)
+								<td>{{trans('messages.specimen-rejected')}}</td>
+								<td>{{$test->specimen->rejectedBy->name}}</td>
+								<td>{{$test->specimen->time_rejected}}</td>
+							@endif
+						</tr>
 				@empty
 					<tr>
 						<td colspan="6">{{trans("messages.no-records-found")}}</td>
@@ -126,20 +133,20 @@
 					<th>{{trans('messages.date-verified')}}</th>
 				</tr>
 				@forelse($tests as $test)
-					<tr>
-						<td>{{ $test->testType->name }}</td>
-						<td>@foreach($test->testResults as $result)
-								<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
-							@endforeach</td>
-						<td>{{ $test->interpretation }}</td>
-						<td>{{ $test->testedBy->name or trans('messages.pending')}}</td>
-						<td>@foreach($test->testResults as $result)
-								<p>{{$result->time_entered}}</p>
-							@endforeach</td>
-						<td>{{ $test->time_completed }}</td>
-						<td>{{ $test->verifiedBy->name or trans('messages.verification-pending')}}</td>
-						<td>{{ $test->time_verified }}</td>
-					</tr>
+						<tr>
+							<td>{{ $test->testType->name }}</td>
+							<td>@foreach($test->testResults as $result)
+									<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
+								@endforeach</td>
+							<td>{{ $test->interpretation }}</td>
+							<td>{{ $test->testedBy->name or trans('messages.pending')}}</td>
+							<td>@foreach($test->testResults as $result)
+									<p>{{$result->time_entered}}</p>
+								@endforeach</td>
+							<td>{{ $test->time_completed }}</td>
+							<td>{{ $test->verifiedBy->name or trans('messages.verification-pending')}}</td>
+							<td>{{ $test->time_verified }}</td>
+						</tr>
 				@empty
 					<tr>
 						<td colspan="8">{{trans("messages.no-records-found")}}</td>
