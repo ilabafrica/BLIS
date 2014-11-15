@@ -135,9 +135,6 @@ class ReportController extends \BaseController {
 		
 		if($records=='patients'){
 			if($from||$to){
-				if(!$to){
-					$to = $date;
-				}
 				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
 						Session::flash('error', 'Please check your dates range and try again!');
 				}
@@ -178,21 +175,6 @@ class ReportController extends \BaseController {
 		//Begin specimen rejections
 		else if($records=='rejections'){
 			$specimens = Specimen::where('specimen_status_id', '=', Specimen::REJECTED);
-			/*Filter by date*/
-			if($from||$to){
-				if(!$to){
-					$to = $date;
-				}
-				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-						Session::flash('error', 'Please check your dates range and try again!');
-				}
-				else{
-					$specimens = $specimens->whereRaw('time_rejected BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)');
-				}
-			}
-			else{
-				$specimens = $specimens->where('time_rejected', 'LIKE', $date.'%')->orderBy('id')->get();
-			}
 			/*Filter by test category*/
 			if($testCategory&&!$testType){
 				$specimens = $specimens->join('tests', 'specimens.id', '=', 'tests.specimen_id')
@@ -204,7 +186,21 @@ class ReportController extends \BaseController {
 				$specimens = $specimens->join('tests', 'specimens.id', '=', 'tests.specimen_id')
 				   					   ->where('tests.test_type_id', '=', $testType);
 			}
-			$specimens = $specimens->get(array('specimens.*'));
+
+			/*Filter by date*/
+			if($from||$to){
+				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+						Session::flash('message', 'Please check your dates range and try again!');
+				}
+				else{
+					$specimens = $specimens->whereRaw('time_rejected BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)')
+											->get(array('specimens.*'));
+				}
+			}
+			else{
+				$specimens = $specimens->where('time_rejected', 'LIKE', $date.'%')->orderBy('id')
+										->get(array('specimens.*'));
+			}
 			if(Input::has('word')){
 				$date = date("Ymdhi");
 				$fileName = "daily_rejected_specimen_".$date.".doc";
@@ -234,21 +230,7 @@ class ReportController extends \BaseController {
 		//Begin test records
 		else{
 			$tests = Test::whereNotIn('test_status_id', [Test::NOT_RECEIVED]);
-			/*Filter by date*/
-			if($from||$to){
-				if(!$to){
-					$to = $date;
-				}
-				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-						Session::flash('error', 'Please check your dates range and try again!');
-				}
-				else{
-					$tests = $tests->whereRaw('time_created BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)');
-				}
-			}
-			else{
-				$tests = $tests->where('time_created', 'LIKE', $date.'%');
-			}
+			
 			/*Filter by test category*/
 			if($testCategory&&!$testType){
 				$tests = $tests->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
@@ -269,7 +251,20 @@ class ReportController extends \BaseController {
 				$tests = $tests->whereIn('test_status_id', [Test::COMPLETED, Test::VERIFIED]);
 			}
 			/*Get collection of tests*/
-			$tests = $tests->get(array('tests.*'));
+			/*Filter by date*/
+			if($from||$to){
+				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+						Session::flash('message', 'Please check your dates range and try again!');
+				}
+				else{
+					$tests = $tests->whereRaw('time_created BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)')
+									->get(array('tests.*'));
+				}
+			}
+			else{
+				$tests = $tests->where('time_created', 'LIKE', $date.'%')
+								->get(array('tests.*'));
+			}
 				
 			if(Input::has('word')){
 				$date = date("Ymdhi");
