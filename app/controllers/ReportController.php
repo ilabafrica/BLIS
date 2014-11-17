@@ -348,7 +348,7 @@ class ReportController extends \BaseController {
 		$from = Input::get('start');
 		$to = Input::get('end');
 		$months = self::getMonths($from, $to);
-		$test_types = TestType::select('test_types.id', 'test_types.name')
+		$testTypes = TestType::select('test_types.id', 'test_types.name')
 							->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
             				->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
             				->where('measure_range', 'LIKE', '%Positive/Negative%')
@@ -407,14 +407,14 @@ class ReportController extends \BaseController {
 	        }
 	    ],
 	    "dataset": [';
-	    	$counts = count($test_types);
-	    	foreach ($test_types as $test_type) {
+	    	$counts = count($testTypes);
+	    	foreach ($testTypes as $testType) {
         		$chart.= '{
-        			"seriesname": "'.$test_type->name.'",
+        			"seriesname": "'.$testType->name.'",
         			"data": [';
         				$counter = count($months);
             			foreach ($months as $month) {
-            			$data = self::getPrevalenceCountsByTestType($month, $test_type->id);
+            			$data = self::getPrevalenceCountsByTestType($month, $testType->id);
             			foreach ($data as $datum) {
             				$chart.= '{"value": "'.$datum->rate;
             				if($counter==1)
@@ -458,7 +458,7 @@ class ReportController extends \BaseController {
 					->join('test_results', 'tests.id', '=', 'test_results.test_id')
 					->join('measure_types', 'measure_types.id', '=', 'measures.measure_type_id')
 					->where('measures.measure_range', 'LIKE', '%Positive/Negative%')
-					->whereBetween('time_created', array($from, $to))
+					->whereRaw('time_created BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)')
 					->whereRaw('(tests.test_status_id = '.Test::COMPLETED.' OR tests.test_status_id = '.Test::VERIFIED.')')
 					->groupBy('test_types.id')
 					->get();
@@ -467,7 +467,7 @@ class ReportController extends \BaseController {
 	/**
 	 * Function to return counts by month and test type
 	 */
-	public static function getPrevalenceCountsByTestType($month, $test_type){
+	public static function getPrevalenceCountsByTestType($month, $testType){
 		$data =  Test::select(DB::raw('ROUND( SUM( IF( test_results.result =  \'Positive\', 1, 0 ) ) *100 / COUNT( tests.specimen_id ) , 2 ) AS rate'))
 					->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
 					->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
@@ -475,7 +475,7 @@ class ReportController extends \BaseController {
 					->join('test_results', 'tests.id', '=', 'test_results.test_id')
 					->join('measure_types', 'measure_types.id', '=', 'measures.measure_type_id')
 					->where('measures.measure_range', 'LIKE', '%Positive/Negative%')
-					->where('test_types.id', '=', $test_type)
+					->where('test_types.id', '=', $testType)
 					->whereRaw('MONTH(time_created) = '.$month->months)
 					->whereRaw('YEAR(time_created) = '.$month->annum)
 					->whereRaw('(tests.test_status_id = '.Test::COMPLETED.' OR tests.test_status_id = '.Test::VERIFIED.')')
