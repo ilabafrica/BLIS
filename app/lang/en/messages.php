@@ -309,19 +309,27 @@ return array(
     *   Instrumentation
     */
     'add-instrument' => 'Add Equipment',
+    'driver-file' => 'Select File',
     'edit-instrument' => 'Edit Equipment',
     'compatible-test-types' => 'Can perform:',
+    'failure-creating-instrument' => 'The equipment could not be added!',
+    'failure-updating-instrument' => 'The equipment could not be updated!',
     'host' => 'Hostname',
     'host-name' => 'Hostname',
+    'import-instrument-driver-title' => 'Add New Equipment Drivers',
     'instrument' => 'Equipment|Equipment',
     'instrument-details' => 'Equipment Details',
     'interfacing-class' => 'Equipment Interfacing Class for ',
     'ip' => 'IP Address',
     'list-instruments' => 'List Equipment',
     'new-instrument' => 'New Equipment',
+    'new-instrument-driver' => 'New Driver',
     'select-test-types' => 'Select Test Types',
     'success-creating-instrument' => 'The equipment was added successfully!',
+    'success-deleting-instrument' => 'The equipment was successfully deleted!',
     'success-updating-instrument' => 'The equipment details were successfully updated!',
+    'supported-test-types' => 'Supported Tests',
+    'unwriteable-destination-folder' => 'Unable to write to the plugins folder',
 
     /* 
     |   Dates

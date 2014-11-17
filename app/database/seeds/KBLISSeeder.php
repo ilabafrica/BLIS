@@ -671,19 +671,15 @@ class KBLISSeeder extends DatabaseSeeder
         $user1->attachRole($role1);
 
         /* Instruments table */
-        $instrument = array(
+        $instrumentsData = array(
             "name" => "Celltac F Mek 8222",
             "description" => "Automatic analyzer with 22 parameters and WBC 5 part diff Hematology Analyzer",
             "ip" => "192.168.1.12",
             "hostname" => "HEMASERVER"
-            // "created_at" => date('Y-m-d H:i:s')
         );
         
-        $instrumentID = DB::table('instruments')->insertGetId($instrument);
-
-        DB::table('instrument_testtypes')->insert(
-            array("instrument_id" => $instrumentID, "test_type_id" => $testTypeWBC->id,
-                "interfacing_class" => "CelltacWBC"));
+        $instrument = Instrument::create($instrumentsData);
+        $instrument->testTypes()->attach(array($testTypeWBC->id));
 
         $this->command->info('Instruments table seeded');
 

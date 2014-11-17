@@ -59,33 +59,52 @@ class InstrumentController extends \BaseController {
 		//
 		$rules = array(
 			'instrument' => 'required',
-			'ip' => 'required',
+			'ip' => 'required|ip',
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
-		// process the login
+		// Validate form input
 		if ($validator->fails()) {
 			return Redirect::route('instrument.create')->withErrors($validator);
 		} else {
-			// store 
-			$instrument = Instrument::where('name', '=', Input::get('instrument'));
-			$instrument->name = Input::get('name');
-			$instrument->description = Input::get('description');
-			$instrument->ip = Input::get('ip');
-			$instrument->hostname = Input::get('hostname');
+			// Get the instrument
 
-			$interfacingClasses = array_values(array_filter(Input::get('interfacing_class')));
+			$plugins = glob(app_path()."/kblis/plugins/*");
+			$instrument = null;
+			$ip = Input::get('ip');
 
-			try{
-				$instrument->save();
+			foreach ($plugins as $plugin) {
+				try {
+					$className = "KBLIS\\Plugins\\".head(explode(".", last(explode("/", $plugin))));
 
-				$instrument->setTestTypes(Input::get('testtypes'), $interfacingClasses);
-
-				return Redirect::route('instrument.index')->with('message', trans('messages.success-creating-instrument'));
-
-			}catch(QueryException $e){
-				Log::error($e);
+					// If the instrument code matches that of the select box, WE HAVE A MATCH
+					if((new $className($ip))->getEquipmentInfo()['code'] == Input::get('instrument')){
+						$instrument = new $className($ip);
+						break;	
+					}
+				} catch (Exception $e) {
+					Log::error($e);
+				}
 			}
+
+			if(isset($instrument)){
+				$deviceInfo = $instrument->getEquipmentInfo();
+
+				$newInstrument = new Instrument();
+				$newInstrument->name = $deviceInfo['name'];
+				$newInstrument->description = $deviceInfo['description'];
+				$newInstrument->ip = $ip;
+				$newInstrument->hostname = Input::get('hostname');
+
+				try{
+					$newInstrument->save();
+					$newInstrument->setTestTypes($deviceInfo['testTypes']);
+					return Redirect::route('instrument.index')->with('message', trans('messages.success-creating-instrument'));
+				}catch(QueryException $e){
+					Log::error($e);
+				}
+			}
+			return Redirect::route('instrument.index')->with('message', trans('messages.failure-creating-instrument'));
 		}
 	}
 
@@ -133,8 +152,7 @@ class InstrumentController extends \BaseController {
 		//
 		$rules = array(
 			'name' => 'required',
-			'ip' => 'required|ip',
-			'testtypes' => 'required',
+			'ip' => 'required|ip'
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -149,18 +167,16 @@ class InstrumentController extends \BaseController {
 			$instrument->ip = Input::get('ip');
 			$instrument->hostname = Input::get('hostname');
 
-			$interfacingClasses = array_values(array_filter(Input::get('interfacing_class')));
-
 			try{
 				$instrument->save();
-				$instrument->setTestTypes(Input::get('testtypes'), $interfacingClasses);
+				return Redirect::route('instrument.index')
+						->with('message', trans('messages.success-updating-instrument'));
 			}catch(QueryException $e){
 				Log::error($e);
 			}
 
-			// redirect
 			return Redirect::route('instrument.index')
-						->with('message', trans('messages.success-updating-instrument'));
+						->with('message', trans('messages.failure-updating-instrument'));
 		}
 	}
 
@@ -186,6 +202,7 @@ class InstrumentController extends \BaseController {
 		//Delete the instrument
 		$instrument = Instrument::find($id);
  
+		$instrument->testTypes()->detach();
 		$instrument->delete();
 
 		// redirect
@@ -227,5 +244,43 @@ class InstrumentController extends \BaseController {
 
 		// Send back a json result
 		return json_encode($resultWithIDs);
+	}
+
+	/**
+	 * Save an imported implemention of the Intrumentation class.
+	 *
+	 * @param String route
+	 * @return Response
+	 */
+	public function importDriver()
+	{
+		$route = (Input::get('import_file') !== null)?Input::get('import_file'):"instrument.index";
+
+        $rules = array(
+            'import_file' => 'required|max:500'
+        );
+
+        $validator = Validator::make(Input::all(), $rules);
+        $message = null;
+
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::route('instrument.index')->withErrors($validator);
+        } else {
+            if (Input::hasFile('import_file')) {
+                try {
+                    $inputFile = Input::file('import_file');
+                    $destination = app_path().'/kblis/plugins/';
+
+                    $inputFile->move($destination, $inputFile->getClientOriginalName());
+
+                } catch (Exception $e) {
+                	$message = trans('messages.unwriteable-destination-folder');
+                    Log::error($e);
+                }
+            }
+        }
+
+		return Redirect::route($route)->with('message', $message);
 	}
 }

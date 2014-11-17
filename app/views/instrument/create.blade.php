@@ -13,14 +13,14 @@
 		{{trans('messages.add-instrument')}}
 	</div>
 	{{ Form::open(array('route' => array('instrument.index'), 'id' => 'form-add-instrument')) }}
-	<div class="panel-body">
-	<!-- if there are creation errors, they will show here -->
-		
-		@if($errors->all())
-			<div class="alert alert-danger">
-				{{ HTML::ul($errors->all()) }}
-			</div>
-		@endif
+		<div class="panel-body">
+		<!-- if there are creation errors, they will show here -->
+			
+			@if($errors->all())
+				<div class="alert alert-danger">
+					{{ HTML::ul($errors->all()) }}
+				</div>
+			@endif
 
 			<div class="form-group">
 				{{ Form::label('instrument', Lang::choice('messages.instrument',1)) }}

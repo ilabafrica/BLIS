@@ -41,39 +41,9 @@
 				{{ Form::text('hostname', Input::old('hostname'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('test_types', trans('messages.select-test-types')) }}
-				<div class="form-pane panel panel-default">
-					<div class="container-fluid">
-						<?php 
-							$cnt = 0;
-							$zebra = "";
-						?>
-					@foreach($testtypes as $key=>$value)
-						{{ ($cnt%2==0)?"<div class='row $zebra'>":"" }}
-						<?php
-							$cnt++;
-							$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
-						?>
-						<div class="col-md-6">
-							<div class="col-md-3">
-								{{$value->name }}
-							</div>
-							<div class="col-md-9">
-								<div class="input-group">
-									<span class="input-group-addon">
-										{{ Form::checkbox('testtypes[]', $value->id, $instrument->testTypes->contains($value)) }}
-									</span>
-									{{ Form::text('interfacing_class[]', 
-										($instrument->testTypes->contains($value))?$instrument->testTypes->find($value)->pivot->interfacing_class:"",
-										array('class' => 'form-control', 'title' => trans('messages.interfacing-class').$value->name)) }}
-								</div>
-							</div>
-						</div>
-
-						{{ ($cnt%2==0)?"</div>":"" }}
-					@endforeach
-					</div>
-				</div>
+				{{ Form::label('test_types', trans('messages.supported-test-types')) }}
+				{{ Form::text('test_types', implode(",", $instrument->testTypes()->lists('name')),
+					 array('class' => 'form-control', 'readonly')) }}
 			</div>
 		</div>
 		<div class="panel-footer">

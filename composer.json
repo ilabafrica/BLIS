@@ -22,7 +22,8 @@
 			"app/api"
 		],
 		"psr-4": {
-			"KBLIS\\": "app/kblis"
+			"KBLIS\\Instrumentation\\": "app/kblis/instrumentation",
+			"KBLIS\\Plugins\\": "app/kblis/plugins"
 		}
 	},
 	"scripts": {

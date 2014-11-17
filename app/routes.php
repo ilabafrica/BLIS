@@ -115,6 +115,11 @@ Route::group(array("before" => "auth"), function()
             "as"   => "instrument.getResult",
             "uses" => "InstrumentController@getTestResult"
         ));
+
+        Route::any("/instrument/importdriver", array(
+            "as"   => "instrument.importDriver",
+            "uses" => "InstrumentController@importDriver"
+        ));
     });
 
     Route::any("/test", array(
