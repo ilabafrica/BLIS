@@ -237,7 +237,19 @@ Route::group(array("before" => "auth"), function()
         ));
         Route::get('reports/dropdown', array(
             "as"    =>  "reports.dropdown",
-            "uses"  =>  "ReportController@reportsDropdown"));
+            "uses"  =>  "ReportController@reportsDropdown"
+        ));
+
+        Route::any("/prevalence", array(
+            "as"   => "reports.aggregate.prevalence",
+            "uses" => "ReportController@prevalenceRates"
+        ));
+
+        Route::any("/prevalence/filter", array(
+            "as"   => "reports.aggregate.prevalenceFilter",
+            "uses" => "ReportController@filterPrevalenceRates"
+        ));
+        
     });
 });
 

@@ -341,6 +341,10 @@ return array(
     'all-tests' =>  'All Tests',
     'date-rejected' =>  'Date Rejected',
     'complete-tests'    =>  'Complete Tests',
+    'total-specimen'    =>  'Total Specimen',
+    'positive'  =>  'Positive',
+    'negative'  =>  'Negative',
+    'prevalence-rates-label'    =>  'Cummulative Prevalence Rates (%)',
 
 
     /** 

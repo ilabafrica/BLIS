@@ -317,4 +317,66 @@ $(function(){
 		$('#reveal').click(function(){
 			$('#summary').toggle();
 		});
+		/*	Prevalence rates filter by ajax 	*/
+		/*Submit prevalence report filters without page reload*/
+		$('#prevalence_rates').submit(function(event){
+			var from=new Date($('#start').val());
+			var to=new Date($('#end').val());
+			var today = new Date();
+			
+			console.log("todate "+to);
+			console.log("today date "+today);
+			var errorDiv = $('#error');
+	    	if(from>today||from>to||to>today){
+	    		errorDiv.show();
+	    		errorDiv.text('Please check your dates range and try again.');
+
+	    	}
+	    	else{
+		        $.ajax({
+		            type: 'POST',
+		            url: '/prevalence/filter',
+		            data: $('form#prevalence_rates').serialize(),
+		            dataType: 'json',
+		        })
+
+		        .success(function(data) {
+		    		errorDiv.hide();
+		            var tableBody ="<tbody class='data'>"; 
+		            if(data.length!=0){
+
+		            	try {
+					    	$('#chartContainer').hide();
+					    	changeData(data.chart);
+					    	$('#chart').show();
+
+					    } catch (e) {
+					        window.console.warn("Wrong format JSON data received");
+					        window.console.warn(data.chart);
+					    }
+		            	
+						$.each(data.values, function(index, elem){
+							tableBody += "<tr>"
+							+" <td>"+elem.test+" </td>"
+							+" <td>"+elem.total+"</td>"
+							+" <td>"+elem.positive+"</td>"
+							+" <td>"+elem.negative+"</td>"
+							+" <td>"+elem.rate+"</td>"
+							+"</tr>";
+						});
+						tableBody+="</tbody>"
+		        	}
+		        	else{
+		        		tableBody += "<tr>"
+							+" <td colspan='5'>No records found for that time range.</td>"
+							+"</tr>";
+		        	}
+		        	$(".data").replaceWith(tableBody);
+		            
+		        });
+		    }
+
+	        event.preventDefault();
+	    });
+		/*End ajax submit*/
 	}
