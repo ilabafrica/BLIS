@@ -849,4 +849,490 @@ class KBLISSeeder extends DatabaseSeeder
 
         return $specimen->id;
     }
+
+    //  Begin seed for prevalence rates report
+    /* Test Categories table - These map on to the lab sections */
+    $lab_section_hematology = TestCategory::create(array("name" => "HEMATOLOGY","description" => ""));
+    $lab_section_serology = TestCategory::create(array("name" => "SEROLOGY","description" => ""));
+    $lab_section_trans = TestCategory::create(array("name" => "BLOOD TRANSFUSION","description" => ""));
+    $this->command->info('Lab Sections seeded');
+    /* Test Types for prevalence */
+    $test_types_salmonella = TestType::create(array("name" => "Salmonella Antigen Test", "section_id" => $test_categories->id));
+    $test_types_direct = TestType::create(array("name" => "Direct COOMBS Test", "section_id" => $lab_section_trans->id));
+    $test_types_du = TestType::create(array("name" => "DU Test", "section_id" => $lab_section_trans->id));
+    $test_types_sickling = TestType::create(array("name" => "Sickling Test", "section_id" => $lab_section_hematology->id));
+    $test_types_borrelia = TestType::create(array("name" => "Borrelia", "section_id" => $test_categories->id));
+    $test_types_vdrl = TestType::create(array("name" => "VDRL", "section_id" => $lab_section_serology->id));
+    $test_types_pregnancy = TestType::create(array("name" => "Pregnancy Test", "section_id" => $lab_section_serology->id));
+    $test_types_brucella = TestType::create(array("name" => "Brucella", "section_id" => $lab_section_serology->id));
+    $test_types_pylori = TestType::create(array("name" => "H. Pylori", "section_id" => $lab_section_serology->id));
+    $this->command->info('Test Types seeded');
+
+    /* Test Types and specimen types relationship for prevalence */
+    DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+        array($test_types_salmonella->id, "13"));
+    DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+        array($test_types_direct->id, "23"));
+    DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+        array($test_types_du->id, "23"));
+     DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+        array($test_types_sickling->id, "23"));
+    DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+        array($test_types_borrelia->id, "23"));
+    DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+        array($test_types_vdrl->id, "13"));
+     DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+        array($test_types_pregnancy->id, "20"));
+    DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+        array($test_types_brucella->id, "13"));
+    DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+        array($test_types_pylori->id, "13"));
+    $this->command->info('TestTypes/SpecimenTypes seeded');
+    
+    /*New measures for prevalence*/
+    $measure_salmonella = Measure::create(array("measure_type_id" => "2", "name" => "Salmonella Antigen Test", "measure_range" => "Positive/Negative", "unit" => ""));
+    $measure_direct = Measure::create(array("measure_type_id" => "2", "name" => "Direct COOMBS Test", "measure_range" => "Positive/Negative", "unit" => ""));
+    $measure_du = Measure::create(array("measure_type_id" => "2", "name" => "Du Test", "measure_range" => "Positive/Negative", "unit" => ""));
+    $measure_sickling = Measure::create(array("measure_type_id" => "2", "name" => "Sickling Test", "measure_range" => "Positive/Negative", "unit" => ""));
+    $measure_borrelia = Measure::create(array("measure_type_id" => "2", "name" => "Borrelia", "measure_range" => "Positive/Negative", "unit" => ""));
+    $measure_vdrl = Measure::create(array("measure_type_id" => "2", "name" => "VDRL", "measure_range" => "Positive/Negative", "unit" => ""));
+    $measure_pregnancy = Measure::create(array("measure_type_id" => "2", "name" => "Pregnancy Test", "measure_range" => "Positive/Negative", "unit" => ""));
+    $measure_brucella = Measure::create(array("measure_type_id" => "2", "name" => "Brucella", "measure_range" => "Positive/Negative", "unit" => ""));
+    $measure_pylori = Measure::create(array("measure_type_id" => "2", "name" => "H. Pylori", "measure_range" => "Positive/Negative", "unit" => ""));
+    $this->command->info('Measures seeded');
+
+    /* TestType Measure for prevalence */
+    $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_types_salmonella->id, "measure_id" => $measure_salmonella->id));
+    $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_types_direct->id, "measure_id" => $measure_direct->id));
+    $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_types_du->id, "measure_id" => $measure_du->id));
+    $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_types_sickling->id, "measure_id" => $measure_sickling->id));
+    $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_types_borrelia->id, "measure_id" => $measure_borrelia->id));
+    $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_types_vdrl->id, "measure_id" => $measure_vdrl->id));
+    $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_types_pregnancy->id, "measure_id" => $measure_pregnancy->id));
+    $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_types_brucella->id, "measure_id" => $measure_brucella->id));
+    $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_types_pylori->id, "measure_id" => $measure_pylori->id));
+    $this->command->info('Test Type Measures seeded');
+
+    /*  Tests for prevalence rates  */
+    $tests_completed_one = Test::create(array(
+            "visit_id" => "1",
+            "test_type_id" => $test_types_salmonella->id,
+            "specimen_id" => "4",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::COMPLETED,
+            "created_by" => "2",
+            "tested_by" => "3",
+            "requested_by" => "Ariel Smith",
+            "time_created" => "2014-07-23 15:16:15",
+            "time_started" => "2014-07-23 16:07:15",
+            "time_completed" => "2014-07-23 16:17:19",
+        )
+    );
+    $tests_completed_two = Test::create(array(
+            "visit_id" => "2",
+            "test_type_id" => $test_types_direct->id,
+            "specimen_id" => "3",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::COMPLETED,
+            "created_by" => "2",
+            "tested_by" => "3",
+            "requested_by" => "Ariel Smith",
+            "time_created" => "2014-07-26 10:16:15",
+            "time_started" => "2014-07-26 13:27:15",
+            "time_completed" => "2014-07-26 13:57:01",
+        )
+    );
+    $tests_completed_three = Test::create(array(
+            "visit_id" => "3",
+            "test_type_id" => $test_types_du->id,
+            "specimen_id" => "2",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::COMPLETED,
+            "created_by" => "2",
+            "tested_by" => "3",
+            "requested_by" => "Ariel Smith",
+            "time_created" => "2014-08-13 09:16:15",
+            "time_started" => "2014-08-13 10:07:15",
+            "time_completed" => "2014-08-13 10:18:11",
+        )
+    );
+    $tests_completed_four = Test::create(array(
+            "visit_id" => "4",
+            "test_type_id" => $test_types_sickling->id,
+            "specimen_id" => "1",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::COMPLETED,
+            "created_by" => "2",
+            "tested_by" => "3",
+            "requested_by" => "Ariel Smith",
+            "time_created" => "2014-08-16 09:06:53",
+            "time_started" => "2014-08-16 09:09:15",
+            "time_completed" => "2014-08-16 09:23:37",
+        )
+    );
+    $tests_completed_five = Test::create(array(
+            "visit_id" => "5",
+            "test_type_id" => $test_types_borrelia->id,
+            "specimen_id" => "1",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::COMPLETED,
+            "created_by" => "2",
+            "tested_by" => "3",
+            "requested_by" => "Ariel Smith",
+            "time_created" => "2014-08-23 10:16:15",
+            "time_started" => "2014-08-23 11:54:39",
+            "time_completed" => "2014-08-23 12:07:18",
+        )
+    );
+    $tests_completed_six = Test::create(array(
+            "visit_id" => "6",
+            "test_type_id" => $test_types_vdrl->id,
+            "specimen_id" => "2",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::COMPLETED,
+            "created_by" => "2",
+            "tested_by" => "3",
+            "requested_by" => "Ariel Smith",
+            "time_created" => "2014-09-07 07:23:15",
+            "time_started" => "2014-09-07 08:07:20",
+            "time_completed" => "2014-09-07 08:41:13",
+        )
+    );
+    $tests_completed_seven = Test::create(array(
+            "visit_id" => "7",
+            "test_type_id" => $test_types_pregnancy->id,
+            "specimen_id" => "3",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::COMPLETED,
+            "created_by" => "2",
+            "tested_by" => "3",
+            "requested_by" => "Ariel Smith",
+            "time_created" => "2014-10-03 11:52:15",
+            "time_started" => "2014-10-03 12:31:04",
+            "time_completed" => "2014-10-03 12:45:18",
+        )
+    );
+    $tests_completed_eight = Test::create(array(
+            "visit_id" => "1",
+            "test_type_id" => $test_types_brucella->id,
+            "specimen_id" => "4",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::COMPLETED,
+            "created_by" => "2",
+            "tested_by" => "3",
+            "requested_by" => "Ariel Smith",
+            "time_created" => "2014-10-15 17:01:15",
+            "time_started" => "2014-10-15 17:05:24",
+            "time_completed" => "2014-10-15 18:07:15",
+        )
+    );
+    $tests_completed_nine = Test::create(array(
+            "visit_id" => "2",
+            "test_type_id" => $test_types_pylori->id,
+            "specimen_id" => "4",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::COMPLETED,
+            "created_by" => "2",
+            "tested_by" => "3",
+            "requested_by" => "Ariel Smith",
+            "time_created" => "2014-10-23 16:06:15",
+            "time_started" => "2014-10-23 16:07:15",
+            "time_completed" => "2014-10-23 16:39:02",
+        )
+    );
+    $tests_completed_ten = Test::create(array(
+            "visit_id" => "4",
+            "test_type_id" => $test_types_salmonella->id,
+            "specimen_id" => "3",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::COMPLETED,
+            "created_by" => "2",
+            "tested_by" => "3",
+            "requested_by" => "Ariel Smith",
+            "time_created" => "2014-10-21 19:16:15",
+            "time_started" => "2014-10-21 19:17:15",
+            "time_completed" => "2014-10-21 19:52:40",
+        )
+    );     
+    
+    $tests_verified_one = Test::create(
+        array(
+            "visit_id" => "3",
+            "test_type_id" => $test_types_direct->id,
+            "specimen_id" => "2",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::VERIFIED,
+            "created_by" => "3",
+            "tested_by" => "2",
+            "verified_by" => "3",
+            "requested_by" => "Genghiz Khan",
+            "time_created" => "2014-07-21 19:16:15",
+            "time_started" => "2014-07-21 19:17:15",
+            "time_completed" => "2014-07-21 19:52:40",
+            "time_verified" => "2014-07-21 19:53:48",
+        )
+    );
+    $tests_verified_two = Test::create(
+        array(
+            "visit_id" => "2",
+            "test_type_id" => $test_types_du->id,
+            "specimen_id" => "1",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::VERIFIED,
+            "created_by" => "3",
+            "tested_by" => "2",
+            "verified_by" => "3",
+            "requested_by" => "Genghiz Khan",
+            "time_created" => "2014-08-21 19:16:15",
+            "time_started" => "2014-08-21 19:17:15",
+            "time_completed" => "2014-08-21 19:52:40",
+            "time_verified" => "2014-08-21 19:53:48",
+        )
+    );
+    $tests_verified_three = Test::create(
+        array(
+            "visit_id" => "3",
+            "test_type_id" => $test_types_sickling->id,
+            "specimen_id" => "4",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::VERIFIED,
+            "created_by" => "3",
+            "tested_by" => "2",
+            "verified_by" => "3",
+            "requested_by" => "Genghiz Khan",
+            "time_created" => "2014-08-26 19:16:15",
+            "time_started" => "2014-08-26 19:17:15",
+            "time_completed" => "2014-08-26 19:52:40",
+            "time_verified" => "2014-08-26 19:53:48",
+        )
+    );
+    $tests_verified_four = Test::create(
+        array(
+            "visit_id" => "4",
+            "test_type_id" => $test_types_borrelia->id,
+            "specimen_id" => "2",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::VERIFIED,
+            "created_by" => "3",
+            "tested_by" => "2",
+            "verified_by" => "3",
+            "requested_by" => "Genghiz Khan",
+            "time_created" => "2014-09-21 19:16:15",
+            "time_started" => "2014-09-21 19:17:15",
+            "time_completed" => "2014-09-21 19:52:40",
+            "time_verified" => "2014-09-21 19:53:48",
+        )
+    );
+    $tests_verified_five = Test::create(
+        array(
+            "visit_id" => "1",
+            "test_type_id" => $test_types_vdrl->id,
+            "specimen_id" => "3",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::VERIFIED,
+            "created_by" => "3",
+            "tested_by" => "2",
+            "verified_by" => "3",
+            "requested_by" => "Genghiz Khan",
+            "time_created" => "2014-09-22 19:16:15",
+            "time_started" => "2014-09-22 19:17:15",
+            "time_completed" => "2014-09-22 19:52:40",
+            "time_verified" => "2014-09-22 19:53:48",
+        )
+    );
+    $tests_verified_six = Test::create(
+        array(
+            "visit_id" => "1",
+            "test_type_id" => $test_types_pregnancy->id,
+            "specimen_id" => "4",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::VERIFIED,
+            "created_by" => "3",
+            "tested_by" => "2",
+            "verified_by" => "3",
+            "requested_by" => "Genghiz Khan",
+            "time_created" => "2014-09-23 19:16:15",
+            "time_started" => "2014-09-23 19:17:15",
+            "time_completed" => "2014-09-23 19:52:40",
+            "time_verified" => "2014-09-23 19:53:48",
+        )
+    );
+    $tests_verified_seven = Test::create(
+        array(
+            "visit_id" => "1",
+            "test_type_id" => $test_types_brucella->id,
+            "specimen_id" => "2",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::VERIFIED,
+            "created_by" => "3",
+            "tested_by" => "2",
+            "verified_by" => "3",
+            "requested_by" => "Genghiz Khan",
+            "time_created" => "2014-09-27 19:16:15",
+            "time_started" => "2014-09-27 19:17:15",
+            "time_completed" => "2014-09-27 19:52:40",
+            "time_verified" => "2014-09-27 19:53:48",
+        )
+    );
+    $tests_verified_eight = Test::create(
+        array(
+            "visit_id" => "3",
+            "test_type_id" => $test_types_pylori->id,
+            "specimen_id" => "4",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::VERIFIED,
+            "created_by" => "3",
+            "tested_by" => "2",
+            "verified_by" => "3",
+            "requested_by" => "Genghiz Khan",
+            "time_created" => "2014-10-22 19:16:15",
+            "time_started" => "2014-10-22 19:17:15",
+            "time_completed" => "2014-10-22 19:52:40",
+            "time_verified" => "2014-10-22 19:53:48",
+        )
+    );
+    $tests_verified_nine = Test::create(
+        array(
+            "visit_id" => "4",
+            "test_type_id" => $test_types_pregnancy->id,
+            "specimen_id" => "3",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::VERIFIED,
+            "created_by" => "3",
+            "tested_by" => "2",
+            "verified_by" => "3",
+            "requested_by" => "Genghiz Khan",
+            "time_created" => "2014-10-17 19:16:15",
+            "time_started" => "2014-10-17 19:17:15",
+            "time_completed" => "2014-10-17 19:52:40",
+            "time_verified" => "2014-10-17 19:53:48",
+        )
+    );
+    $tests_verified_ten = Test::create(
+        array(
+            "visit_id" => "2",
+            "test_type_id" => $test_types_pregnancy->id,
+            "specimen_id" => "1",
+            "interpretation" => "Budda Boss",
+            "test_status_id" => Test::VERIFIED,
+            "created_by" => "3",
+            "tested_by" => "2",
+            "verified_by" => "3",
+            "requested_by" => "Genghiz Khan",
+            "time_created" => "2014-10-02 19:16:15",
+            "time_started" => "2014-10-02 19:17:15",
+            "time_completed" => "2014-10-02 19:52:40",
+            "time_verified" => "2014-10-02 19:53:48",
+        )
+    );
+    $this->command->info('Tests seeded');
+    //  Test results for prevalence
+    $results = array(
+        array(
+            "test_id" => $tests_completed_one->id,
+            "measure_id" => $measure_salmonella->id,//BS for MPS
+            "result" => "Positive",
+        ),
+        array(
+            "test_id" => $tests_completed_two->id,
+            "measure_id" => $measure_direct->id,
+            "result" => "Positive",
+        ),
+        array(
+            "test_id" => $tests_completed_three->id,
+            "measure_id" => $measure_du->id,
+            "result" => "Positive",
+        ),
+        array(
+            "test_id" => $tests_completed_four->id,
+            "measure_id" => $measure_sickling->id,
+            "result" => "Positive",
+        ),
+         array(
+            "test_id" => $tests_completed_five->id,
+            "measure_id" => $measure_borrelia->id,//BS for MPS
+            "result" => "Positive",
+        ),
+        array(
+            "test_id" => $tests_completed_six->id,
+            "measure_id" => $measure_vdrl->id,
+            "result" => "Positive",
+        ),
+        array(
+            "test_id" => $tests_completed_seven->id,
+            "measure_id" => $measure_pregnancy->id,
+            "result" => "Positive",
+        ),
+        array(
+            "test_id" => $tests_completed_eight->id,
+            "measure_id" => $measure_brucella->id,
+            "result" => "Positive",
+        ),
+         array(
+            "test_id" => $tests_completed_nine->id,
+            "measure_id" => $measure_pylori->id,//BS for MPS
+            "result" => "Positive",
+        ),
+        array(
+            "test_id" => $tests_completed_ten->id,
+            "measure_id" => $measure_salmonella->id,
+            "result" => "Positive",
+        ),
+        array(
+            "test_id" => $tests_verified_one->id,
+            "measure_id" => $measure_direct->id,
+            "result" => "Negative",
+        ),
+        array(
+            "test_id" => $tests_verified_two->id,
+            "measure_id" => $measure_du->id,
+            "result" => "Positive",
+        ),
+         array(
+            "test_id" => $tests_verified_three->id,
+            "measure_id" => $measure_sickling->id,//BS for MPS
+            "result" => "Positive",
+        ),
+        array(
+            "test_id" => $tests_verified_four->id,
+            "measure_id" => $measure_borrelia->id,
+            "result" => "Negative",
+        ),
+        array(
+            "test_id" => $tests_verified_five->id,
+            "measure_id" => $measure_vdrl->id,
+            "result" => "Negative",
+        ),
+        array(
+            "test_id" => $tests_verified_six->id,
+            "measure_id" => $measure_pregnancy->id,
+            "result" => "Negative",
+        ),
+         array(
+            "test_id" => $tests_verified_seven->id,
+            "measure_id" => $measure_brucella->id,//BS for MPS
+            "result" => "Positive",
+        ),
+        array(
+            "test_id" => $tests_verified_eight->id,
+            "measure_id" => $measure_pylori->id,
+            "result" => "Positive",
+        ),
+        array(
+            "test_id" => $tests_verified_nine->id,
+            "measure_id" => $measure_pregnancy->id,
+            "result" => "Negative",
+        ),
+        array(
+            "test_id" => $tests_verified_ten->id,
+            "measure_id" => $measure_pregnancy->id,
+            "result" => "Positive",
+        ),
+    );        
+    foreach ($results as $result)
+    {
+        TestResult::create($result);
+    }
+    $this->command->info('Test results seeded');
+    //  End prevalence rates seed
 }
