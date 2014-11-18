@@ -42,40 +42,40 @@
 	</div>
 	<div class="panel-body">
 	<!-- if there are search errors, they will show here -->
-	<div class="alert alert-danger" id="error" style="display:none;"></div>
-	<div id="chartContainer" style="height:500px;"></div>
-	<div id="chart" style="height:500px;display:none;"></div>
-	<div class="table-responsive">
-		<div id="summary" style="display:none;">
-		  	<br>
-			<div class="table-responsive">
-			  <table class="table table-bordered" id="rates">
-			   <tr>
-			    	<th>{{trans('messages.test-type')}}</th>
-			    	<th>{{trans('messages.total-specimen')}}</th>
-			    	<th>{{trans('messages.positive')}}</th>
-			    	<th>{{trans('messages.negative')}}</th>
-			    	<th>{{trans('messages.prevalence-rates-label')}}</th>
-			    </tr>
-				<tbody  class="data">
-				    @forelse($data as $datum)
-				    <tr>
-				    	<td>{{$datum->test}}</td>
-		  				<td>{{$datum->total}}</td>
-		  				<td>{{$datum->positive}}</td>
-		  				<td>{{$datum->negative}}</td>
-		  				<td>{{$datum->rate}}</td>
+		<div class="alert alert-danger" id="error" style="display:none;"></div>
+		<div id="chartContainer" style="height:500px;"></div>
+		<div id="chart" style="height:500px;display:none;"></div>
+		<div class="table-responsive">
+			<div id="summary" style="display:none;">
+			  	<br>
+				<div class="table-responsive">
+				  <table class="table table-bordered" id="rates">
+				   <tr>
+				    	<th>{{trans('messages.test-type')}}</th>
+				    	<th>{{trans('messages.total-specimen')}}</th>
+				    	<th>{{trans('messages.positive')}}</th>
+				    	<th>{{trans('messages.negative')}}</th>
+				    	<th>{{trans('messages.prevalence-rates-label')}}</th>
 				    </tr>
-				    @empty
-				    <tr>
-				    	<td colspan="5">{{trans('messages.no-records-found')}}</td>
-				    </tr>
-				    @endforelse
-			    </tbody>
-			  </table>
+					<tbody  class="data">
+					    @forelse($data as $datum)
+					    <tr>
+					    	<td>{{$datum->test}}</td>
+			  				<td>{{$datum->total}}</td>
+			  				<td>{{$datum->positive}}</td>
+			  				<td>{{$datum->negative}}</td>
+			  				<td>{{$datum->rate}}</td>
+					    </tr>
+					    @empty
+					    <tr>
+					    	<td colspan="5">{{trans('messages.no-records-found')}}</td>
+					    </tr>
+					    @endforelse
+				    </tbody>
+				  </table>
+				</div>
+			  </div>
 			</div>
-		  </div>
-		</div>
 		</div>
 	</div>
 

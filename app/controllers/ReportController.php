@@ -298,6 +298,7 @@ class ReportController extends \BaseController {
 		}
 	}
 	//	End Daily Log-Patient report functions
+
 	/*	Begin Aggregate reports functions	*/
 	//	Begin prevalence rates reports functions
 	/**
@@ -307,23 +308,16 @@ class ReportController extends \BaseController {
 	 */
 	public function prevalenceRates()
 	{
-		$year = date('Y');
-		$periods = self::loadMonths($year);
-		foreach ($periods as $period) {
-			$data = self::getPrevalenceCounts($period->start, $period->end);
-		}
-		return View::make('reports.prevalence.index')
-					->with('data', $data);
+		// Get all tests for the current year
+		$test = Test::where('time_created', 'LIKE', date('Y').'%');
+		$periodStart = $test->min('time_created'); //Get the minimum date
+		$periodEnd = $test->max('time_created'); //Get the maximum date
+
+		$data = self::getPrevalenceCounts($periodStart, $periodEnd);
+
+		return View::make('reports.prevalence.index')->with('data', $data);
 	}
-	/**
-	* Load months: Load time period in months when filter dates are not set
-	*/
-	public static function loadMonths($year){
-		$months = Test::select(DB::raw('MIN(time_created) as start, MAX(time_created) as end'))
-							->whereRaw('YEAR(time_created) = '.$year)
-							->get();
-		return $months;
-	}
+
 	/**
 	* Get months: return months for time_created column when filter dates are set
 	*/	
