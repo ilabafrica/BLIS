@@ -14,14 +14,13 @@ class MeasureRange extends Eloquent
 
 	public $timestamps = false;
 
-
 	/**
 	 * MeasureRange constants
 	 */
-	//Numeric Test Result Interpretaion
-	const HIGH = 'high';
-	const NORMAL = 'normal';
-	const LOW = 'low';
+	//Numeric Test Result Interpretaion Array Key
+	const HIGH = 2;
+	const NORMAL = 1;
+	const LOW = 0;
 
 	/**
 	 * Measure relationship

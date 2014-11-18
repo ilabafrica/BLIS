@@ -61,12 +61,13 @@ class Measure extends Eloquent
 						->where('gender', '=', $result['gender'])->where('age_min', '<=', $age)
 						->where('age_max', '>=', $age)->get()->toArray();
 
+						$interpretationArray = explode("/", $measure->interpretation);
 					if ($result['measurevalue'] > $measurerange[0]['range_upper']) {
-						$interpretation = MeasureRange::HIGH;
+						$interpretation = $interpretationArray[MeasureRange::HIGH];
 					}elseif ($result['measurevalue'] < $measurerange[0]['range_lower']) {
-						$interpretation = MeasureRange::LOW;
+						$interpretation = $interpretationArray[MeasureRange::LOW];
 					}else{
-						$interpretation = MeasureRange::NORMAL;
+						$interpretation = $interpretationArray[MeasureRange::NORMAL];
 					}
 
 				} catch (Exception $e) {

@@ -94,21 +94,21 @@ class KBLISSeeder extends DatabaseSeeder
             array("measure_type_id" => "2", "name" => "Grams stain", "measure_range" => "Positive/Negative", "unit" => ""),
             array("measure_type_id" => "2", "name" => "SERUM AMYLASE", "measure_range" => "Low/Normal/High", "unit" => ""),
             array("measure_type_id" => "2", "name" => "calcium", "measure_range" => "Low/Normal/High", "unit" => ""),
-            array("measure_type_id" => "1", "name" => "URIC ACID", "measure_range" => "", "unit" => "mg/dl"),
+            array("measure_type_id" => "1", "name" => "URIC ACID", "measure_range" => "", "interpretation" => "Low/Normal/High", "unit" => "mg/dl"),
             array("measure_type_id" => "4", "name" => "CSF for biochemistry", "measure_range" => "", "unit" => ""),
             array("measure_type_id" => "4", "name" => "PSA", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "1", "name" => "Total", "measure_range" => "", "unit" => "mg/dl"),
-            array("measure_type_id" => "1", "name" => "Alkaline Phosphate", "measure_range" => "", "unit" => "u/l"),
+            array("measure_type_id" => "1", "name" => "Total", "measure_range" => "", "interpretation" => "Low/Normal/High", "unit" => "mg/dl"),
+            array("measure_type_id" => "1", "name" => "Alkaline Phosphate", "measure_range" => "", "interpretation" => "Low/Normal/High", "unit" => "u/l"),
             array("measure_type_id" => "2", "name" => "SGOT", "measure_range" => "Low/Normal/High", "unit" => ""),
-            array("measure_type_id" => "1", "name" => "Direct", "measure_range" => "", "unit" => "mg/dl"),
-            array("measure_type_id" => "1", "name" => "Total Proteins", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "1", "name" => "Direct", "measure_range" => "", "interpretation" => "Low/Normal/High", "unit" => "mg/dl"),
+            array("measure_type_id" => "1", "name" => "Total Proteins", "measure_range" => "", "interpretation" => "Low/Normal/High", "unit" => ""),
             array("measure_type_id" => "4", "name" => "LFTS", "measure_range" => "", "unit" => "NULL"),
-            array("measure_type_id" => "1", "name" => "Chloride", "measure_range" => "", "unit" => "mmol/l"),
-            array("measure_type_id" => "1", "name" => "Potassium", "measure_range" => "", "unit" => "mmol/l"),
-            array("measure_type_id" => "1", "name" => "Sodium", "measure_range" => "", "unit" => "mmol/l"),
+            array("measure_type_id" => "1", "name" => "Chloride", "measure_range" => "", "interpretation" => "Low/Normal/High", "unit" => "mmol/l"),
+            array("measure_type_id" => "1", "name" => "Potassium", "measure_range" => "", "interpretation" => "Low/Normal/High", "unit" => "mmol/l"),
+            array("measure_type_id" => "1", "name" => "Sodium", "measure_range" => "", "interpretation" => "Low/Normal/High", "unit" => "mmol/l"),
             array("measure_type_id" => "4", "name" => "Electrolytes", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "1", "name" => "Creatinine", "measure_range" => "", "unit" => "mg/dl"),
-            array("measure_type_id" => "1", "name" => "Urea", "measure_range" => "", "unit" => "mg/dl"),
+            array("measure_type_id" => "1", "name" => "Creatinine", "measure_range" => "", "interpretation" => "Low/Normal/High", "unit" => "mg/dl"),
+            array("measure_type_id" => "1", "name" => "Urea", "measure_range" => "", "interpretation" => "Low/Normal/High", "unit" => "mg/dl"),
             array("measure_type_id" => "4", "name" => "RFTS", "measure_range" => "", "unit" => ""),
             array("measure_type_id" => "4", "name" => "TFT", "measure_range" => "", "unit" => ""),
             array("measure_type_id" => "2", "name" => "Indirect COOMBS test", "measure_range" => "Positive/Negative", "unit" => ""),
@@ -126,7 +126,7 @@ class KBLISSeeder extends DatabaseSeeder
                 "name" => "Blood Grouping", 
                 "measure_range" => "O-/O+/A-/A+/B-/B+/AB-/AB+", 
                 "unit" => ""));
-        $measureHB = Measure::create(array("measure_type_id" => "1", "name" => "HB", "measure_range" => "", "unit" => "g/dL"));
+        $measureHB = Measure::create(array("measure_type_id" => "1", "name" => "HB", "measure_range" => "", "interpretation" => "Low/Normal/High", "unit" => "g/dL"));
         $measureUrinalysis1 = Measure::create(array("measure_type_id" => "4", "name" => "Urine microscopy", "measure_range" => "", "unit" => ""));
         $measureUrinalysis2 = Measure::create(array("measure_type_id" => "4", "name" => "Pus cells", "measure_range" => "", "unit" => ""));
         $measureUrinalysis3 = Measure::create(array("measure_type_id" => "4", "name" => "S. haematobium", "measure_range" => "", "unit" => ""));

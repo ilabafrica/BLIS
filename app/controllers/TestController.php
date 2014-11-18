@@ -330,7 +330,7 @@ class TestController extends \BaseController {
 		$result['measurevalue'] = Input::get('measurevalue');
 
 		$measure = new Measure;
-		return trans('messages.'.$measure->getResultInterpretation($result));
+		return $measure->getResultInterpretation($result);
 	}
 
 	/**
