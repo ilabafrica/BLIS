@@ -324,14 +324,33 @@ class ReportController extends \BaseController {
 	public static function getMonths($from, $to){
 		$today = "'".date("Y-m-d")."'";
 		$year = date('Y');
-		$dates = Test::select(DB::raw('DISTINCT MONTH(time_created) as months, LEFT(MONTHNAME(time_created), 3) as label, YEAR(time_created) as annum'));
+		$tests = Test::select('time_created')->distinct();
+
 		if(strtotime($from)===strtotime($today)){
-			$dates->whereRaw('YEAR(time_created) = '.$year);
+			$tests = $tests->where('time_created', 'LIKE', $year.'%');
 		}
-		else{
-			$dates->whereRaw('time_created BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)');
+		else
+		{
+			$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+			$tests = $tests->where('time_created', '>', $from)
+						   ->where('time_created', '<', $toPlusOne);
 		}
-		return $dates->orderBy('time_created', 'ASC')->get();
+
+		$allDates = $tests->lists('time_created');
+
+		asort($allDates);
+		$yearMonth = function($value){return strtotime(substr($value, 0, 7));};
+		$allDates = array_map($yearMonth, $allDates);
+		$allMonths = array_unique($allDates);
+
+		$dates = array();
+
+		foreach ($allMonths as $date) {
+			$dateInfo = getdate($date);
+			$dates[] = array('months' => $dateInfo['mon'], 'label' => substr($dateInfo['month'], 0, 3),
+				'annum' => $dateInfo['year']);
+		}
+		return json_encode($dates);
 	}
 	/**
 	 * Display prevalence rates chart
@@ -341,12 +360,19 @@ class ReportController extends \BaseController {
 	public static function getPrevalenceRatesChart(){
 		$from = Input::get('start');
 		$to = Input::get('end');
-		$months = self::getMonths($from, $to);
-		$testTypes = TestType::select('test_types.id', 'test_types.name')
-							->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
-            				->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
-            				->where('measure_range', 'LIKE', '%Positive/Negative%')
-            				->get();
+		$months = json_decode(self::getMonths($from, $to));
+
+		$testTypes = new Illuminate\Database\Eloquent\Collection();
+		$measures = Measure::where('measure_range', 'LIKE', '%Positive/Negative%')->get();
+
+		foreach ($measures as $measure) {
+			$objArray = $measure->testTypes()->first();
+			if(!empty($objArray)){
+				foreach ($measure->testTypes()->get() as $tType) {
+					$testTypes->add($tType);
+				}
+			}
+		}
 
 		$chart = '{
 	       "chart": {
@@ -403,6 +429,7 @@ class ReportController extends \BaseController {
 	    "dataset": [';
 	    	$counts = count($testTypes);
 	    	foreach ($testTypes as $testType) {
+
         		$chart.= '{
         			"seriesname": "'.$testType->name.'",
         			"data": [';
@@ -485,10 +512,8 @@ class ReportController extends \BaseController {
 		$from = Input::get('start');
 		$to = Input::get('end');
 		
-		$months = self::getMonths($from, $to);
 		$data = self::getPrevalenceCounts($from, $to);
 		$chart = self::getPrevalenceRatesChart();
 		return Response::json(array('values'=>$data, 'chart'=>$chart));
-		//array('values'=>$data, 'chart'=>$chart)
 	}
 }
