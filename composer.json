@@ -18,6 +18,7 @@
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",
+			"app/database/seeds/massiveseed",
 			"app/tests/TestCase.php",
 			"app/api"
 		]
