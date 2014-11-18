@@ -1,5 +1,5 @@
 <?php
-class Seed extends KBLISSeeder
+class OtherSeeds extends KBLISSeeder
 {
 	public static function getMeasureType()
 	{

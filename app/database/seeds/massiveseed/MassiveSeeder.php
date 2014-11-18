@@ -1,60 +1,60 @@
 <?php
 
-class KBLISBulkSeeder extends DatabaseSeeder
+class MassiveSeeder extends DatabaseSeeder
 {
     public function run()
     {
         /* Users table */
-        foreach (Seed::getUser() as $user)
+        foreach (OtherSeeds::getUser() as $user)
         {
             User::create($user);
         }
         $this->command->info('users seeded');
 
         /* Specimen Types table */
-        foreach (Seed::getSpecimenType() as $specimen_type)
+        foreach (OtherSeeds::getSpecimenType() as $specimen_type)
         {
             SpecimenType::create($specimen_type);
         }
         $this->command->info('specimen_types seeded');
 
         /* Test Categories table */
-        foreach (Seed::getTestCategory() as $test_category)
+        foreach (OtherSeeds::getTestCategory() as $test_category)
         {
             TestCategory::create($test_category);
         }
         $this->command->info('specimen_types seeded');
         
         /* Measure Types */
-        foreach (Seed::getMeasureType() as $measure_type)
+        foreach (OtherSeeds::getMeasureType() as $measure_type)
         {
             MeasureType::create($measure_type);
         }
         $this->command->info('measure_types seeded');
                 
         /* Measures table */
-        foreach (Seed::getMeasure() as $measure)
+        foreach (OtherSeeds::getMeasure() as $measure)
         {
             Measure::create($measure);
         }
         $this->command->info('measures seeded');
         
         /* Test Types table */
-        foreach (Seed::getTestType() as $test_type)
+        foreach (OtherSeeds::getTestType() as $test_type)
         {
             TestType::create($test_type);
         }
         $this->command->info('test_types seeded');
 
         /* TestType Measure table */
-        foreach (Seed::getTestTypeMeasure() as $testtype_measure)
+        foreach (OtherSeeds::getTestTypeMeasure() as $testtype_measure)
         {
             TestTypeMeasure::create($testtype_measure);
         }
         $this->command->info('testtype_measures seeded');
 
         /* testtype_specimentypes table */
-        foreach (Seed::getTesttypeSpecimentype() as $testtype_specimentype)
+        foreach (OtherSeeds::getTesttypeSpecimentype() as $testtype_specimentype)
         {
             DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
                 $testtype_specimentype
@@ -70,21 +70,21 @@ class KBLISBulkSeeder extends DatabaseSeeder
         $this->command->info('patients seeded');
 
         /* Test Phase table */
-        foreach (Seed::getTestPhase() as $test_phase)
+        foreach (OtherSeeds::getTestPhase() as $test_phase)
         {
             TestPhase::create($test_phase);
         }
         $this->command->info('test_phases seeded');
 
         /* Test Status table */
-        foreach (Seed::getTestStatus() as $test_status)
+        foreach (OtherSeeds::getTestStatus() as $test_status)
         {
             TestStatus::create($test_status);
         }
         $this->command->info('test_statuses seeded');
 
         /* Specimen Status table */
-        foreach (Seed::getSpecimenStatus() as $specimen_status)
+        foreach (OtherSeeds::getSpecimenStatus() as $specimen_status)
         {
             SpecimenStatus::create($specimen_status);
         }
@@ -98,7 +98,7 @@ class KBLISBulkSeeder extends DatabaseSeeder
         $this->command->info('visits seeded');
 
         /* Rejection Reasons table */
-        foreach (Seed::getRejectionReason() as $rejection_reason)
+        foreach (OtherSeeds::getRejectionReason() as $rejection_reason)
         {
             RejectionReason::create($rejection_reason);
         }
@@ -126,19 +126,19 @@ class KBLISBulkSeeder extends DatabaseSeeder
         $this->command->info('test results seeded');
         
         /* Referrals table */
-        foreach (Seed::getReferral() as $ref) {
+        foreach (OtherSeeds::getReferral() as $ref) {
             DB::insert("INSERT INTO referrals (referring_institution) VALUES (?)", $ref);
         }
 
         $this->command->info('referrals seeded');
         /* Permissions table */
-        foreach (Seed::getPermission() as $permission) {
+        foreach (OtherSeeds::getPermission() as $permission) {
             Permission::create($permission);
         }
         $this->command->info('Permissions table seeded');
 
         /* Roles table */
-        foreach (Seed::getRole() as $role) {
+        foreach (OtherSeeds::getRole() as $role) {
             Role::create($role);
         }
         $this->command->info('Roles table seeded');
