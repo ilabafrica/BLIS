@@ -123,4 +123,22 @@ class TestType extends Eloquent
 			return null;
 		}
 	}
+	/**
+	 * Function to return prevalence counts by month and test type
+	 */
+	public function getPrevalenceCounts($month){
+		return Test::select(DB::raw('ROUND( SUM( IF( test_results.result =  \'Positive\', 1, 0 ) ) *100 / COUNT( tests.specimen_id ) , 2 ) AS rate'))
+					->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
+					->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
+					->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
+					->join('test_results', 'tests.id', '=', 'test_results.test_id')
+					->join('measure_types', 'measure_types.id', '=', 'measures.measure_type_id')
+					->where('measures.measure_range', 'LIKE', '%Positive/Negative%')
+					->where('test_types.id', '=', $this->id)
+					->whereRaw('MONTH(time_created) = '.$month->months)
+					->whereRaw('YEAR(time_created) = '.$month->annum)
+					->whereRaw('(tests.test_status_id = '.Test::COMPLETED.' OR tests.test_status_id = '.Test::VERIFIED.')')
+					->groupBy('test_types.id')
+					->get();
+	}
 }

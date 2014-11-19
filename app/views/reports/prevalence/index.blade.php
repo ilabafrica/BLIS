@@ -7,10 +7,7 @@
 	  <li class="active">{{ trans('messages.prevalence-rates') }}</li>
 	</ol>
 </div>
-@if (Session::has('message'))
-	<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
-@endif
-{{ Form::open(array('url' => 'prevalence/filter', 'id' => 'prevalence_rates', 'method' => 'post')) }}
+{{ Form::open(array('route' => array('reports.aggregate.prevalence'), 'id' => 'prevalence_rates', 'method' => 'post')) }}
   	<table class="table table-responsive">
 	    <thead>
 		    <tr>
@@ -26,8 +23,7 @@
 		        </td>
 		        <td>{{ Form::button("<span class='glyphicon glyphicon-eye-open'></span> ".trans('messages.show-hide'), 
 					        array('class' => 'btn btn-info', 'id' => 'reveal')) }}</td>
-		        <td>{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
-					        array('class' => 'btn btn-primary', 'style' => 'width:125px', 'id' => 'filter', 'type' => 'submit')) }}</td>
+		        <td>{{Form::submit(trans('messages.view'), array('class' => 'btn btn-primary', 'style' => 'width:125px', 'id'=>'filter', 'name'=>'filter'))}}</td>
 		    </tr>
 		</thead>
 		<tbody>
@@ -41,23 +37,23 @@
 		{{ trans('messages.prevalence-rates') }}
 	</div>
 	<div class="panel-body">
-	<!-- if there are search errors, they will show here -->
-	<div class="alert alert-danger" id="error" style="display:none;"></div>
-	<div id="chartContainer" style="height:500px;"></div>
-	<div id="chart" style="height:500px;display:none;"></div>
+	<!-- if there are filter errors, they will show here -->
+	@if (Session::has('message'))
+		<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
+	@endif
 	<div class="table-responsive">
 		<div id="summary" style="display:none;">
 		  	<br>
 			<div class="table-responsive">
 			  <table class="table table-bordered" id="rates">
-			   <tr>
-			    	<th>{{trans('messages.test-type')}}</th>
-			    	<th>{{trans('messages.total-specimen')}}</th>
-			    	<th>{{trans('messages.positive')}}</th>
-			    	<th>{{trans('messages.negative')}}</th>
-			    	<th>{{trans('messages.prevalence-rates-label')}}</th>
-			    </tr>
-				<tbody  class="data">
+			  <tbody>
+				   <tr>
+				    	<th>{{trans('messages.test-type')}}</th>
+				    	<th>{{trans('messages.total-specimen')}}</th>
+				    	<th>{{trans('messages.positive')}}</th>
+				    	<th>{{trans('messages.negative')}}</th>
+				    	<th>{{trans('messages.prevalence-rates-label')}}</th>
+				    </tr>
 				    @forelse($data as $datum)
 				    <tr>
 				    	<td>{{$datum->test}}</td>
@@ -76,47 +72,21 @@
 			</div>
 		  </div>
 		</div>
-		</div>
+		<div id="highChart" style="min-width: 310px; height: 500px; margin: 0 auto"></div>
+	</div>
 	</div>
 
 </div>
 
-<!-- Begin FusionCharts scripts -->
-{{ HTML::script('fusioncharts/js/fusioncharts.js') }}
-{{ HTML::script('fusioncharts/js/themes/fusioncharts.theme.ocean.js') }}
-<!-- End fusioncharts scripts -->
+<!-- Begin HighCharts scripts -->
+{{ HTML::script('highcharts/highcharts.js') }}
+{{ HTML::script('highcharts/exporting.js') }}
+<!-- End HighCharts scripts -->
 <script type="text/javascript">
 	$(document).ready(function(){
 		reportScripts();
+		//	Load prevalence chart
+		$('#highChart').highcharts(<?php echo $chart; ?>);
 	});
-
-	FusionCharts.ready(function(){
-	  var prevalenceChart = new FusionCharts({type: "msline",
-	      width: "100%",
-	      height: "100%",
-	      dataFormat: "json",
-	      dataSource: <?php echo ReportController::getPrevalenceRatesChart(); ?>});
-	  prevalenceChart.render("chartContainer");
-	});
-
-	$('#toggle').click(function(){
-   		$('#chartContainer').toggle('hide');
-   		$('#chart').toggle('hide');
-    });
-
-   /*Begin function to change data for chart*/
-   function changeData(data)
-    {
-    	$('#chartContainer').empty();
-    	FusionCharts.ready(function(){
-		  var updatedChart = new FusionCharts({type: "msline",
-	      width: "100%",
-	      height: "100%",
-	      dataFormat: "json",
-	      dataSource: data});
-		  updatedChart.render("chart");
-		});
-    }
-	/*End function to change chart data*/
 </script>
 @stop

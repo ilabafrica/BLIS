@@ -19,10 +19,7 @@ class ReportController extends \BaseController {
 								->orWhere('external_patient_number', 'LIKE', '%'.$search.'%');
 			$patients=$patients->paginate(Config::get('kblis.page-items'));
 			if (count($patients) == 0) {
-			 	Session::flash('message', 'Your search <b>'.$search.'</b>, did not match any patient record!');
-			}
-			else{
-				Session::flash('message', 'Your search <b>'.$search.'</b>, matched the following patient records.');
+			 	Session::flash('message', trans('messages.no-match'));
 			}
 		}
 		else{
@@ -62,7 +59,7 @@ class ReportController extends \BaseController {
 				$to = $date;
 			}
 			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-					Session::flash('error', 'Please check your dates range and try again!');
+					Session::flash('error', trans('messages.check-date-range'));
 			}
 			else{
 				$tests=$tests->whereRaw('tests.time_created BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)');
@@ -136,16 +133,13 @@ class ReportController extends \BaseController {
 		if($records=='patients'){
 			if($from||$to){
 				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-						Session::flash('error', 'Please check your dates range and try again!');
+						Session::flash('error', trans('messages.check-date-range'));
 				}
 				else{
 					$visits = Visit::whereRaw('created_at BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)')->get();
 				}
 				if (count($visits) == 0) {
-				 	Session::flash('message', 'Your filter from <b>'.$from.'</b> to <b>'.$to.'</b>, did not match any records!');
-				}
-				else{
-					Session::flash('message', 'Your filter from <b>'.$from.'</b> to <b>'.$to.'</b>, matched the following records.');
+				 	Session::flash('message', trans('messages.no-match'));
 				}
 			}
 			else{
@@ -190,7 +184,7 @@ class ReportController extends \BaseController {
 			/*Filter by date*/
 			if($from||$to){
 				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-						Session::flash('message', 'Please check your dates range and try again!');
+						Session::flash('message', trans('messages.check-date-range'));
 				}
 				else{
 					$specimens = $specimens->whereRaw('time_rejected BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)')
@@ -254,7 +248,7 @@ class ReportController extends \BaseController {
 			/*Filter by date*/
 			if($from||$to){
 				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-						Session::flash('message', 'Please check your dates range and try again!');
+						Session::flash('message', trans('messages.check-date-range'));
 				}
 				else{
 					$tests = $tests->whereRaw('time_created BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)')
@@ -307,13 +301,31 @@ class ReportController extends \BaseController {
 	 */
 	public function prevalenceRates()
 	{
+		$from = Input::get('start');
+		$to = Input::get('end');
+		$today = date('Y-m-d');
 		$year = date('Y');
-		$periods = self::loadMonths($year);
-		foreach ($periods as $period) {
-			$data = self::getPrevalenceCounts($period->start, $period->end);
+		//	Apply filters if any
+		if(Input::has('filter')){
+			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($today)||strtotime($to)>strtotime($today)){
+				Session::flash('message', trans('messages.check-date-range'));
+			}
+			$months = self::getMonths($from, $to);
+			$data = self::getPrevalenceCounts($from, $to);
+			$chart = self::getPrevalenceRatesChart();
+		}
+		else{
+			$periods = self::loadMonths($year);
+			foreach ($periods as $period) {
+				$data = self::getPrevalenceCounts($period->start, $period->end);
+			}
+			$chart = self::getPrevalenceRatesChart();
 		}
 		return View::make('reports.prevalence.index')
-					->with('data', $data);
+						->with('data', $data)
+						->with('chart', $chart)
+						->with('from', $from)
+						->with('to', $to);
 	}
 	/**
 	* Load months: Load time period in months when filter dates are not set
@@ -354,96 +366,85 @@ class ReportController extends \BaseController {
             				->where('measure_range', 'LIKE', '%Positive/Negative%')
             				->get();
 
-		$chart = '{
-	       "chart": {
-	        "caption": "Prevalence Rates",
-	        "subcaption": ';
-	        if($from==$to)
-	        	$chart.='"For the year '.date('Y').'",';
-	        else
-	        	$chart.='"From '.$from.' To '.$to.'",';
-            $chart.='"xaxisname": "Time",
-            "yaxisname": "Prevalence Rates (In %)",
-	        "linethickness": "1",
-	        "exportEnabled":"1",
-	        "showvalues": "0",
-	        "formatnumberscale": "0",
-	        "numbersuffix": "%",
-	        "anchorradius": "2",
-	        "divlinecolor": "666666",
-	        "divlinealpha": "30",
-	        "divlineisdashed": "1",
-	        "labelstep": "1",
-	        "bgcolor": "FFFFFF",
-	        "showalternatehgridcolor": "0",
-	        "labelpadding": "10",
-			"canvasborderthickness": "1",
-	        "legendiconscale": "1.5",
-	        "legendshadow": "0",
-	        "legendborderalpha": "30",
-	        "canvasborderalpha": "50",
-	        "numvdivlines": "5",
-	        "vdivlinealpha": "20",
-	        "showborder": "1",
-	        "anchorRadius": "6",
-            "anchorBorderThickness": "2",
-	        "yAxisMinValue": "0",
-            "yAxisMaxValue": "100"
+		$options = '{
+		    "chart": {
+		        "type": "spline"
+		    },
+		    "title": {
+		        "text":"'.trans('messages.prevalence-rates').'"
+		    },
+		    "subtitle": {
+		        "text":'; 
+		        if($from==$to)
+		        	$options.='"'.trans('messages.for-the-year').' '.date('Y').'"';
+		        else
+		        	$options.='"'.trans('messages.from').' '.$from.' '.trans('messages.to').' '.$to.'"';
+		    $options.='},
+		    "credits": {
+		        "enabled": false
+		    },
+		    "navigation": {
+		        "buttonOptions": {
+		            "align": "right"
+		        }
+		    },
+		    "series": [';
+		    	$counts = count($testTypes);
+			    	foreach ($testTypes as $testType) {
+		        		$options.= '{
+		        			"name": "'.$testType->name.'","data": [';
+		        				$counter = count($months);
+		            			foreach ($months as $month) {
+		            			$data = $testType->getPrevalenceCounts($month);
+		            				if($data->isEmpty()){
+		            					$options.= '0.00';
+		            					if($counter==1)
+			            					$options.='';
+			            				else
+			            					$options.=',';
+		            				}
+		            				else{
+		            					foreach ($data as $datum) {
+				            				$options.= $datum->rate;
 
-	    },
-	    "categories": [
-	        {
-	            "category": [';
-	            	$count = count($months);
+				            				if($counter==1)
+				            					$options.='';
+				            				else
+				            					$options.=',';
+					            		}
+		            				}
+		            			$counter--;
+				    		}
+				    		$options.=']';
+				    	if($counts==1)
+							$options.='}';
+						else
+							$options.='},';
+						$counts--;
+					}
+			$options.='],
+		    "xAxis": {
+		        "categories": [';
+		        $count = count($months);
 	            	foreach ($months as $month) {
-	    				$chart.= '{ "label": "'.$month->label." ".$month->annum;
+	    				$options.= '"'.$month->label." ".$month->annum;
 	    				if($count==1)
-	    					$chart.='" }';
+	    					$options.='" ';
 	    				else
-	    					$chart.='" },';
+	    					$options.='" ,';
 	    				$count--;
-		            }
-	            $chart.=']
-	        }
-	    ],
-	    "dataset": [';
-	    	$counts = count($testTypes);
-	    	foreach ($testTypes as $testType) {
-        		$chart.= '{
-        			"seriesname": "'.$testType->name.'",
-        			"data": [';
-        				$counter = count($months);
-            			foreach ($months as $month) {
-            			$data = self::getPrevalenceCountsByTestType($month, $testType->id);
-            			foreach ($data as $datum) {
-            				$chart.= '{"value": "'.$datum->rate;
-            				if($counter==1)
-            					$chart.='"}';
-            				else
-            					$chart.='"},';
-	            		}
-
-	            		if($data->isEmpty())
-            			{
-            				$chart.= '{ "value": "0.00';
-            				if($counter==1)
-            					$chart.='"}';
-            				else
-            					$chart.='"},';
-            			}
-            			$counter--;
-			    	}
-		    	$chart.=']';
-		    	if($counts==1)
-					$chart.='}';
-				else
-					$chart.='},';
-				$counts--;
+	    			}
+	            $options.=']
+		    },
+		    "yAxis": {
+		        "title": {
+		            "text": "'.trans('messages.prevalence-rates-label').'"
+		        },
+	            "min": "0",
+	            "max": "100"
 		    }
-           $chart.='
-	    	]
-	    }';
-	return $chart;
+		}';
+	return $options;
 	}
 	/**
 	 * Function to return prevalence counts by dates
@@ -483,18 +484,5 @@ class ReportController extends \BaseController {
 					->get();
 		return $data;
 	}
-	/**
-	 * Function to filter prevalence rates by dates
-	 */
-	public static function filterPrevalenceRates()
-	{
-		$from = Input::get('start');
-		$to = Input::get('end');
-		
-		$months = self::getMonths($from, $to);
-		$data = self::getPrevalenceCounts($from, $to);
-		$chart = self::getPrevalenceRatesChart();
-		return Response::json(array('values'=>$data, 'chart'=>$chart));
-		//array('values'=>$data, 'chart'=>$chart)
-	}
+	
 }

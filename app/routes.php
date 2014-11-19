@@ -244,11 +244,6 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.aggregate.prevalence",
             "uses" => "ReportController@prevalenceRates"
         ));
-
-        Route::any("/prevalence/filter", array(
-            "as"   => "reports.aggregate.prevalenceFilter",
-            "uses" => "ReportController@filterPrevalenceRates"
-        ));
         
     });
 });

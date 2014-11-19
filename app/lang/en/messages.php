@@ -344,7 +344,14 @@ return array(
     'total-specimen'    =>  'Total Specimen',
     'positive'  =>  'Positive',
     'negative'  =>  'Negative',
-    'prevalence-rates-label'    =>  'Cummulative Prevalence Rates (%)',
+    'prevalence-rates-label'    =>  'Cummulative Percentage (%)',
+    'no-match'  =>  'Your filter did not match any records.',
+    'check-date-range'  =>  'Please check your dates range and try again!',
+    'time-in-years' =>  'Time(yrs)',
+    'time-in-months'    =>  'Time(months)',
+    'time-in-weeks' =>  'Time(weeks)',
+    'time-in-days'  =>  'Time(Days)',
+    'for-the-year'  =>  'For the Year',
 
 
     /** 
