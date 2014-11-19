@@ -310,15 +310,16 @@ class ReportController extends \BaseController {
 			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($today)||strtotime($to)>strtotime($today)){
 				Session::flash('message', trans('messages.check-date-range'));
 			}
-			$months = self::getMonths($from, $to);
-			$data = self::getPrevalenceCounts($from, $to);
+			$months = json_decode(self::getMonths($from, $to));
+			$data = TestType::getPrevalenceCounts($from, $to);
 			$chart = self::getPrevalenceRatesChart();
 		}
 		else{
-			$periods = self::loadMonths($year);
-			foreach ($periods as $period) {
-				$data = self::getPrevalenceCounts($period->start, $period->end);
-			}
+			// Get all tests for the current year
+			$test = Test::where('time_created', 'LIKE', date('Y').'%');
+			$periodStart = $test->min('time_created'); //Get the minimum date
+			$periodEnd = $test->max('time_created'); //Get the maximum date
+			$data = TestType::getPrevalenceCounts($periodStart, $periodEnd);
 			$chart = self::getPrevalenceRatesChart();
 		}
 		return View::make('reports.prevalence.index')
@@ -328,28 +329,32 @@ class ReportController extends \BaseController {
 						->with('to', $to);
 	}
 	/**
-	* Load months: Load time period in months when filter dates are not set
-	*/
-	public static function loadMonths($year){
-		$months = Test::select(DB::raw('MIN(time_created) as start, MAX(time_created) as end'))
-							->whereRaw('YEAR(time_created) = '.$year)
-							->get();
-		return $months;
-	}
-	/**
 	* Get months: return months for time_created column when filter dates are set
 	*/	
 	public static function getMonths($from, $to){
 		$today = "'".date("Y-m-d")."'";
 		$year = date('Y');
-		$dates = Test::select(DB::raw('DISTINCT MONTH(time_created) as months, LEFT(MONTHNAME(time_created), 3) as label, YEAR(time_created) as annum'));
+		$tests = Test::select('time_created')->distinct();
 		if(strtotime($from)===strtotime($today)){
-			$dates->whereRaw('YEAR(time_created) = '.$year);
+			$tests = $tests->where('time_created', 'LIKE', $year.'%');
 		}
-		else{
-			$dates->whereRaw('time_created BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)');
+		else
+		{
+			$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+			$tests = $tests->whereBetween('time_created', array($from, $toPlusOne));
 		}
-		return $dates->orderBy('time_created', 'ASC')->get();
+		$allDates = $tests->lists('time_created');
+		asort($allDates);
+		$yearMonth = function($value){return strtotime(substr($value, 0, 7));};
+		$allDates = array_map($yearMonth, $allDates);
+		$allMonths = array_unique($allDates);
+		$dates = array();
+		foreach ($allMonths as $date) {
+			$dateInfo = getdate($date);
+			$dates[] = array('months' => $dateInfo['mon'], 'label' => substr($dateInfo['month'], 0, 3),
+				'annum' => $dateInfo['year']);
+		}
+		return json_encode($dates);
 	}
 	/**
 	 * Display prevalence rates chart
@@ -359,12 +364,17 @@ class ReportController extends \BaseController {
 	public static function getPrevalenceRatesChart(){
 		$from = Input::get('start');
 		$to = Input::get('end');
-		$months = self::getMonths($from, $to);
-		$testTypes = TestType::select('test_types.id', 'test_types.name')
-							->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
-            				->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
-            				->where('measure_range', 'LIKE', '%Positive/Negative%')
-            				->get();
+		$months = json_decode(self::getMonths($from, $to));
+		$testTypes = new Illuminate\Database\Eloquent\Collection();
+		$measures = Measure::where('measure_range', 'LIKE', '%Positive/Negative%')->get();
+		foreach ($measures as $measure) {
+			$objArray = $measure->testTypes()->first();
+			if(!empty($objArray)){
+				foreach ($measure->testTypes()->get() as $tType) {
+					$testTypes->add($tType);
+				}
+			}
+		}
 
 		$options = '{
 		    "chart": {
@@ -395,7 +405,7 @@ class ReportController extends \BaseController {
 		        			"name": "'.$testType->name.'","data": [';
 		        				$counter = count($months);
 		            			foreach ($months as $month) {
-		            			$data = $testType->getPrevalenceCounts($month);
+		            			$data = $testType->getPrevalenceCount($month->annum, $month->months);
 		            				if($data->isEmpty()){
 		            					$options.= '0.00';
 		            					if($counter==1)
@@ -446,43 +456,4 @@ class ReportController extends \BaseController {
 		}';
 	return $options;
 	}
-	/**
-	 * Function to return prevalence counts by dates
-	 */
-	public static function getPrevalenceCounts($from, $to){
-		$data =  Test::select(DB::raw('test_types.id as id, test_types.name as test, count(tests.specimen_id) as total, 
-					SUM(IF(test_results.result=\'Positive\',1,0)) positive, SUM(IF(test_results.result=\'Negative\',1,0)) negative,
-					ROUND( SUM( IF( test_results.result =  \'Positive\', 1, 0 ) ) *100 / COUNT( tests.specimen_id ) , 2 ) AS rate'))
-					->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
-					->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
-					->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
-					->join('test_results', 'tests.id', '=', 'test_results.test_id')
-					->join('measure_types', 'measure_types.id', '=', 'measures.measure_type_id')
-					->where('measures.measure_range', 'LIKE', '%Positive/Negative%')
-					->whereRaw('time_created BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)')
-					->whereRaw('(tests.test_status_id = '.Test::COMPLETED.' OR tests.test_status_id = '.Test::VERIFIED.')')
-					->groupBy('test_types.id')
-					->get();
-		return $data;
-	}
-	/**
-	 * Function to return counts by month and test type
-	 */
-	public static function getPrevalenceCountsByTestType($month, $testType){
-		$data =  Test::select(DB::raw('ROUND( SUM( IF( test_results.result =  \'Positive\', 1, 0 ) ) *100 / COUNT( tests.specimen_id ) , 2 ) AS rate'))
-					->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
-					->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
-					->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
-					->join('test_results', 'tests.id', '=', 'test_results.test_id')
-					->join('measure_types', 'measure_types.id', '=', 'measures.measure_type_id')
-					->where('measures.measure_range', 'LIKE', '%Positive/Negative%')
-					->where('test_types.id', '=', $testType)
-					->whereRaw('MONTH(time_created) = '.$month->months)
-					->whereRaw('YEAR(time_created) = '.$month->annum)
-					->whereRaw('(tests.test_status_id = '.Test::COMPLETED.' OR tests.test_status_id = '.Test::VERIFIED.')')
-					->groupBy('test_types.id')
-					->get();
-		return $data;
-	}
-	
 }
