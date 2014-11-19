@@ -31,22 +31,10 @@ class InstrumentController extends \BaseController {
 	public function create()
 	{
 		// Get a list of all installed plugins
-		$plugins = glob(app_path()."/kblis/plugins/*");
-		$dummyIP = "10.10.10.1";
-		$plugs = array();
-
-		foreach ($plugins as $plugin) {
-			try {
-				$className = "KBLIS\\Plugins\\".head(explode(".", last(explode("/", $plugin))));
-				$instrument = new $className($dummyIP);
-				$plugs[$instrument->getEquipmentInfo()['code']] = $instrument->getEquipmentInfo()['name'];
-			} catch (Exception $e) {
-				Log::error($e);
-			}
-		}
+		$plugins = Instrument::getInstalledPlugins();
 
 		//Create Instrument view
-		return View::make('instrument.create')->with('instruments', $plugs);
+		return View::make('instrument.create')->with('instruments', $plugins);
 	}
 
 	/**
@@ -69,7 +57,7 @@ class InstrumentController extends \BaseController {
 		} else {
 			// Get the instrument
 
-			$plugins = glob(app_path()."/kblis/plugins/*");
+			$plugins = glob(app_path()."/kblis/plugins/*.php");
 			$instrument = null;
 			$ip = Input::get('ip');
 
@@ -263,21 +251,11 @@ class InstrumentController extends \BaseController {
         $validator = Validator::make(Input::all(), $rules);
         $message = null;
 
-        // process the login
         if ($validator->fails()) {
             return Redirect::route('instrument.index')->withErrors($validator);
         } else {
             if (Input::hasFile('import_file')) {
-                try {
-                    $inputFile = Input::file('import_file');
-                    $destination = app_path().'/kblis/plugins/';
-
-                    $inputFile->move($destination, $inputFile->getClientOriginalName());
-
-                } catch (Exception $e) {
-                	$message = trans('messages.unwriteable-destination-folder');
-                    Log::error($e);
-                }
+            	$message = Instrument::saveDriver(Input::file('import_file'));
             }
         }
 
