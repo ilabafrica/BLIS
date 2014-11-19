@@ -313,7 +313,7 @@ class ReportController extends \BaseController {
 		$periodStart = $test->min('time_created'); //Get the minimum date
 		$periodEnd = $test->max('time_created'); //Get the maximum date
 
-		$data = self::getPrevalenceCounts($periodStart, $periodEnd);
+		$data = TestType::getPrevalenceCounts($periodStart, $periodEnd);
 
 		return View::make('reports.prevalence.index')->with('data', $data);
 	}
@@ -332,8 +332,7 @@ class ReportController extends \BaseController {
 		else
 		{
 			$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
-			$tests = $tests->where('time_created', '>', $from)
-						   ->where('time_created', '<', $toPlusOne);
+			$tests = $tests->whereBetween('time_created', array($from, $toPlusOne));
 		}
 
 		$allDates = $tests->lists('time_created');
@@ -435,7 +434,7 @@ class ReportController extends \BaseController {
         			"data": [';
         				$counter = count($months);
             			foreach ($months as $month) {
-            			$data = self::getPrevalenceCountsByTestType($month, $testType->id);
+            			$data = $testType->getPrevalenceCount($month->annum, $month->months);
             			foreach ($data as $datum) {
             				$chart.= '{"value": "'.$datum->rate;
             				if($counter==1)
@@ -464,55 +463,20 @@ class ReportController extends \BaseController {
            $chart.='
 	    	]
 	    }';
-	return $chart;
+		return $chart;
 	}
-	/**
-	 * Function to return prevalence counts by dates
-	 */
-	public static function getPrevalenceCounts($from, $to){
-		$data =  Test::select(DB::raw('test_types.id as id, test_types.name as test, count(tests.specimen_id) as total, 
-					SUM(IF(test_results.result=\'Positive\',1,0)) positive, SUM(IF(test_results.result=\'Negative\',1,0)) negative,
-					ROUND( SUM( IF( test_results.result =  \'Positive\', 1, 0 ) ) *100 / COUNT( tests.specimen_id ) , 2 ) AS rate'))
-					->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
-					->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
-					->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
-					->join('test_results', 'tests.id', '=', 'test_results.test_id')
-					->join('measure_types', 'measure_types.id', '=', 'measures.measure_type_id')
-					->where('measures.measure_range', 'LIKE', '%Positive/Negative%')
-					->whereRaw('time_created BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)')
-					->whereRaw('(tests.test_status_id = '.Test::COMPLETED.' OR tests.test_status_id = '.Test::VERIFIED.')')
-					->groupBy('test_types.id')
-					->get();
-		return $data;
-	}
-	/**
-	 * Function to return counts by month and test type
-	 */
-	public static function getPrevalenceCountsByTestType($month, $testType){
-		$data =  Test::select(DB::raw('ROUND( SUM( IF( test_results.result =  \'Positive\', 1, 0 ) ) *100 / COUNT( tests.specimen_id ) , 2 ) AS rate'))
-					->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
-					->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
-					->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
-					->join('test_results', 'tests.id', '=', 'test_results.test_id')
-					->join('measure_types', 'measure_types.id', '=', 'measures.measure_type_id')
-					->where('measures.measure_range', 'LIKE', '%Positive/Negative%')
-					->where('test_types.id', '=', $testType)
-					->whereRaw('MONTH(time_created) = '.$month->months)
-					->whereRaw('YEAR(time_created) = '.$month->annum)
-					->whereRaw('(tests.test_status_id = '.Test::COMPLETED.' OR tests.test_status_id = '.Test::VERIFIED.')')
-					->groupBy('test_types.id')
-					->get();
-		return $data;
-	}
+
 	/**
 	 * Function to filter prevalence rates by dates
+	 *
+	 * @return JSON
 	 */
 	public static function filterPrevalenceRates()
 	{
 		$from = Input::get('start');
 		$to = Input::get('end');
 		
-		$data = self::getPrevalenceCounts($from, $to);
+		$data = TestType::getPrevalenceCounts($from, $to);
 		$chart = self::getPrevalenceRatesChart();
 		return Response::json(array('values'=>$data, 'chart'=>$chart));
 	}
