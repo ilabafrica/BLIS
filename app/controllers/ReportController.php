@@ -117,6 +117,9 @@ class ReportController extends \BaseController {
 		$all = Input::get('all');
 		$pending = Input::get('pending');
 		$date = date('Y-m-d');
+		if(!$to){
+			$to=$date;
+		}
 		$records = Input::get('records');
 		$testCategory = Input::get('section_id');
 		$testType = '';
@@ -292,6 +295,7 @@ class ReportController extends \BaseController {
 		}
 	}
 	//	End Daily Log-Patient report functions
+
 	/*	Begin Aggregate reports functions	*/
 	//	Begin prevalence rates reports functions
 	/**
@@ -307,6 +311,9 @@ class ReportController extends \BaseController {
 		$year = date('Y');
 		//	Apply filters if any
 		if(Input::has('filter')){
+			if(!$to){
+				$to=$today;
+			}
 			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($today)||strtotime($to)>strtotime($today)){
 				Session::flash('message', trans('messages.check-date-range'));
 			}
@@ -328,6 +335,7 @@ class ReportController extends \BaseController {
 						->with('from', $from)
 						->with('to', $to);
 	}
+
 	/**
 	* Get months: return months for time_created column when filter dates are set
 	*/	

@@ -43,8 +43,7 @@
 	@endif
 	<div class="table-responsive">
 		<div id="summary" style="display:none;">
-		  	<br>
-			<div class="table-responsive">
+		  	<div class="table-responsive">
 			  <table class="table table-bordered" id="rates">
 			  <tbody>
 				   <tr>
@@ -61,23 +60,23 @@
 		  				<td>{{$datum->positive}}</td>
 		  				<td>{{$datum->negative}}</td>
 		  				<td>{{$datum->rate}}</td>
-				    </tr>
-				    @empty
-				    <tr>
-				    	<td colspan="5">{{trans('messages.no-records-found')}}</td>
-				    </tr>
-				    @endforelse
-			    </tbody>
-			  </table>
+					    </tr>
+					    @empty
+					    <tr>
+					    	<td colspan="5">{{trans('messages.no-records-found')}}</td>
+					    </tr>
+					    @endforelse
+				    </tbody>
+				  </table>
+				</div>
+			  </div>
 			</div>
+			<div id="highChart" style="min-width: 310px; height: 500px; margin: 0 auto"></div>
 		  </div>
 		</div>
-		<div id="highChart" style="min-width: 310px; height: 500px; margin: 0 auto"></div>
 	</div>
 	</div>
-
 </div>
-
 <!-- Begin HighCharts scripts -->
 {{ HTML::script('highcharts/highcharts.js') }}
 {{ HTML::script('highcharts/exporting.js') }}
