@@ -502,6 +502,21 @@ class KBLISSeeder extends DatabaseSeeder
                 "time_started" => $now->format('Y-m-d H:i:s'),
             )
         );        
+
+        //  WBC Started
+        Test::create(
+            array(
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
+                "test_type_id" => $testTypeWBC->id,
+                "specimen_id" => $this->createSpecimen(
+                        Test::STARTED, Specimen::ACCEPTED,
+                        SpecimenType::all()->last()->id,
+                        $users[rand(0, count($users)-1)]->id),
+                "test_status_id" => Test::PENDING,
+                "requested_by" => "Fred Astaire",
+                "created_by" => $users[rand(0, count($users)-1)]->id,
+            )
+        );        
         
         $tests_rejected_started = Test::create(
             array(
@@ -674,6 +689,7 @@ class KBLISSeeder extends DatabaseSeeder
         $instrumentsData = array(
             "name" => "Celltac F Mek 8222",
             "description" => "Automatic analyzer with 22 parameters and WBC 5 part diff Hematology Analyzer",
+            "driver_name" => "KBLIS\\Plugins\\CelltacFMachine",
             "ip" => "192.168.1.12",
             "hostname" => "HEMASERVER"
         );

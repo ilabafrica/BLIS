@@ -83,9 +83,11 @@ class Instrument extends Eloquent
 	/**
 	 * Get a list of all installed plugins
 	 *
-	 * @return array('code' => 'name')
+	 * @param optional boolean withClassName
+	 *
+	 * @return array('code' => array('name', 'className'))
 	 */
-	public static function getInstalledPlugins(){
+	public static function getInstalledPlugins($withClassName = false){
 
 		$plugins = glob(app_path()."/kblis/plugins/*.php");
 		$dummyIP = "10.10.10.1";
@@ -94,9 +96,21 @@ class Instrument extends Eloquent
 		foreach ($plugins as $plugin) {
 			try {
 				$className = "KBLIS\\Plugins\\".head(explode(".", last(explode("/", $plugin))));
+
 				if(class_exists($className)){
+
 					$instrument = new $className($dummyIP);
-					$plugs[$instrument->getEquipmentInfo()['code']] = $instrument->getEquipmentInfo()['name'];
+
+					$code = $instrument->getEquipmentInfo()['code'];
+					$name = $instrument->getEquipmentInfo()['name'];
+
+					if ($withClassName) {
+						$plugs[$code] = array('name' => $name, 'class' => $className);
+					}
+					else
+					{
+						$plugs[$code] = $name;
+					}
 				}
 			} catch (Exception $e) {
 				Log::error($e);
@@ -106,5 +120,47 @@ class Instrument extends Eloquent
 		return $plugs;
 	}
 
+	/**
+	 * Save instrument
+	 *
+	 * @param String machineCode, String ip, optional String hostname
+	 * @return String success/failure message
+	 */
+	public static function saveInstrument($code, $ip, $hostname = ""){
 
+		$plugin = Instrument::getInstalledPlugins(true);
+		$className = "";
+
+		// Get the class name of the user selected plugin
+		foreach ($plugin as $key => $plug) {
+			// If the instrument_code matches that of the select box, WE HAVE A MATCH
+			if($key == $code){
+				$className = $plug['class'];
+				break;	
+			}
+		}
+
+		if (class_exists($className)) {
+			$instrument = new $className($ip);
+
+			$deviceInfo = $instrument->getEquipmentInfo();
+
+			$newInstrument = new Instrument();
+			$newInstrument->name = $deviceInfo['name'];
+			$newInstrument->description = $deviceInfo['description'];
+			$newInstrument->driver_name = $className;
+			$newInstrument->ip = $ip;
+			$newInstrument->hostname = Input::get('hostname');
+
+			try{
+				$newInstrument->save();
+				$newInstrument->setTestTypes($deviceInfo['testTypes']);
+				return trans('messages.success-creating-instrument');
+			}catch(QueryException $e){
+				Log::error($e);
+			}
+		}
+
+		return trans('messages.failure-creating-instrument');
+	}
 }

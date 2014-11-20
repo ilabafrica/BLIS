@@ -72,10 +72,9 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $instruments->links(); ?>
+		{{$instruments->links()}}
 	</div>
 </div>
-
 
 <!-- MODALS -->
     <div class="modal fade" id="import-driver-modal">
@@ -92,6 +91,11 @@
                 {{trans('messages.import-instrument-driver-title')}}</h4>
           </div>
           <div class="modal-body">
+				<div class="alert alert-danger" role="alert">
+				  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				  <span class="sr-only">{{trans('messages.error')}}:</span>
+				  {{trans('messages.import-trusted-sources-only')}}
+				</div>
                 <div class="form-group">
                 	{{ Form::label('import_file', trans('messages.driver-file')) }}
                     {{ Form::file("import_file") }}

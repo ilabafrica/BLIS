@@ -264,6 +264,7 @@ class CreatekBLIStables extends Migration {
             $table->string('ip', 15);
             $table->string('hostname', 100)->nullable();
             $table->string('description', 100)->nullable();
+            $table->string('driver_name', 100)->nullable();
             $table->nullableTimestamps();
         });
 

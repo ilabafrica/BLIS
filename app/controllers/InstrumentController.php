@@ -55,44 +55,14 @@ class InstrumentController extends \BaseController {
 		if ($validator->fails()) {
 			return Redirect::route('instrument.create')->withErrors($validator);
 		} else {
-			// Get the instrument
-
-			$plugins = glob(app_path()."/kblis/plugins/*.php");
-			$instrument = null;
+			// Save the instrument
+			$code = Input::get('instrument');
 			$ip = Input::get('ip');
+			$hostname = Input::get('code');
 
-			foreach ($plugins as $plugin) {
-				try {
-					$className = "KBLIS\\Plugins\\".head(explode(".", last(explode("/", $plugin))));
+			$message = Instrument::saveInstrument($code, $ip, $hostname);
 
-					// If the instrument code matches that of the select box, WE HAVE A MATCH
-					if((new $className($ip))->getEquipmentInfo()['code'] == Input::get('instrument')){
-						$instrument = new $className($ip);
-						break;	
-					}
-				} catch (Exception $e) {
-					Log::error($e);
-				}
-			}
-
-			if(isset($instrument)){
-				$deviceInfo = $instrument->getEquipmentInfo();
-
-				$newInstrument = new Instrument();
-				$newInstrument->name = $deviceInfo['name'];
-				$newInstrument->description = $deviceInfo['description'];
-				$newInstrument->ip = $ip;
-				$newInstrument->hostname = Input::get('hostname');
-
-				try{
-					$newInstrument->save();
-					$newInstrument->setTestTypes($deviceInfo['testTypes']);
-					return Redirect::route('instrument.index')->with('message', trans('messages.success-creating-instrument'));
-				}catch(QueryException $e){
-					Log::error($e);
-				}
-			}
-			return Redirect::route('instrument.index')->with('message', trans('messages.failure-creating-instrument'));
+			return Redirect::route('instrument.index')->with('message', $message);
 		}
 	}
 
@@ -121,12 +91,10 @@ class InstrumentController extends \BaseController {
 	{
 		//Get the instrument
 		$instrument = Instrument::find($id);
-		$testtypes = TestType::all();
 
 		//Open the Edit View and pass to it the $instrument
 		return View::make('instrument.edit')
-					->with('instrument', $instrument)
-					->with('testtypes', $testtypes);
+					->with('instrument', $instrument);
 	}
 
 	/**
@@ -157,14 +125,13 @@ class InstrumentController extends \BaseController {
 
 			try{
 				$instrument->save();
-				return Redirect::route('instrument.index')
-						->with('message', trans('messages.success-updating-instrument'));
+				$message = trans('messages.success-updating-instrument');
 			}catch(QueryException $e){
+				$message = trans('messages.failure-updating-instrument');
 				Log::error($e);
 			}
 
-			return Redirect::route('instrument.index')
-						->with('message', trans('messages.failure-updating-instrument'));
+			return Redirect::route('instrument.index')->with('message', $message);
 		}
 	}
 
@@ -208,11 +175,9 @@ class InstrumentController extends \BaseController {
 		$testTypeID = Input::get("test_type_id");
 		$testType = TestType::find($testTypeID);
 		$instrument = $testType->instruments->first();
-		$interfacingClass = $instrument->pivot->interfacing_class;
-		$class = "KBLIS\\Instrumentation\\".$interfacingClass;	
- 
+
  		// Invoke the Instrument Interface Class to get the results
-		$result = (new $class($instrument->ip))->getResult();
+		$result = (new $instrument->driver_name($instrument->ip))->getResult();
 
 
 		// Change measure names to measure_ids in the returned array
