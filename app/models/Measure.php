@@ -47,44 +47,26 @@ class Measure extends Eloquent
 	{
 		$measure = Measure::find($result['measureid']);
 
-		switch ($measure->measureType->id) {
-
-			case MeasureType::NUMERIC_RANGE:
-				// If the given range is available
+		try {
+			$measurerange = MeasureRange::where('measure_id', '=', $result['measureid']);
+			if ($measure->measureType->id == MeasureType::NUMERIC_RANGE) {
 				$birthDate = new DateTime($result['birthdate']);
 				$now = new DateTime();
 				$interval = $birthDate->diff($now);
 				$seconds = ($interval->days * 24 * 3600) + ($interval->h * 3600) + ($interval->i * 60) + ($interval->s);
 				$age = $seconds/(365*24*60*60);
-				try {
-					$measurerange = MeasureRange::where('measure_id', '=', $result['measureid'])
-						->where('gender', '=', $result['gender'])->where('age_min', '<=', $age)
-						->where('age_max', '>=', $age)->get()->toArray();
+				$measurerange = $measurerange->where('gender', '=', $result['gender'])
+					->where('age_min', '<=', $age)
+					->where('age_max', '>=', $age);
+			} else{
+				$measurerange = $measurerange->where('alphanumeric', '=', $result['measurevalue']);
+			}
+			$measurerange = $measurerange->get()->toArray();
 
-						$interpretationArray = explode("/", $measure->interpretation);
-					if ($result['measurevalue'] > $measurerange[0]['range_upper']) {
-						$interpretation = $interpretationArray[MeasureRange::HIGH];
-					}elseif ($result['measurevalue'] < $measurerange[0]['range_lower']) {
-						$interpretation = $interpretationArray[MeasureRange::LOW];
-					}else{
-						$interpretation = $interpretationArray[MeasureRange::NORMAL];
-					}
+			$interpretation = $measurerange[0]['interpretation'];
 
-				} catch (Exception $e) {
-					
-					$interpretation = null;
-				}
-				break;
-			
-			case MeasureType::ALPHANUMERIC:
-
-				//check range - eplode and pic the one
-				$results = explode("/", $measure->measure_range);
-				//Searches the array for a given value and returns the corresponding key
-				$interpretationKey = array_search($result['measurevalue'], $results);
-				$interpretationArray = explode("/", $measure->interpretation);
-				$interpretation = $interpretationArray[$interpretationKey];
-				break;
+		} catch (Exception $e) {
+			$interpretation = null;
 		}
 		return $interpretation;
 	}

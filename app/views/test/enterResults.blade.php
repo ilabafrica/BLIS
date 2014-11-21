@@ -58,8 +58,10 @@
                         <?php
                         break;
                         case 2:
-                            $values = explode("/", $measure->measure_range);
-                            $measure_values = array_combine($values, $values);
+                            $measure_values = array();
+                            foreach ($measure->measureRanges as $range) {
+                                $measure_values[$range->alphanumeric] = $range->alphanumeric;
+                            }
                         ?>
                             {{ Form::label($fieldName , $measure->name) }}
                             {{ Form::select($fieldName, $measure_values, array_search($ans, $measure_values),

@@ -212,7 +212,6 @@ class MeasureController extends \BaseController {
                 foreach ($allMeasureRanges as $key => $value) {
                     if (!in_array($value->id, $allRangeIDs)) {
                         $deleteRanges[] = $value->id;
-                        Log::info($value->id);
                     }
                 }
                 if(count($deleteRanges)>0)MeasureRange::destroy($deleteRanges);
