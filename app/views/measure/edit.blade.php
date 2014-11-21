@@ -46,21 +46,25 @@
 						<div class="panel-body">
 							<div class="measurevalue">
 							@if ($measure->measure_type_id == 1)
+								<div>
+					                <span class="col-md-2 range-title">{{trans('messages.measure-age-range')}}</span>
+					                <span class="col-md-2 range-title">{{trans('messages.gender')}}</span>
+					                <span class="col-md-3 range-title">{{trans('messages.measure-range')}}</span>
+					                <span class="col-md-2 interpretation-title">{{trans('messages.interpretation')}}</span>
+								</div>     
 								@foreach($measure->measureRanges as $key=>$value)
 						        <div class="measure-input">
 						            <button class="close" aria-hidden="true" type="button" 
 						            title="{{trans('messages.delete')}}">×</button>
 						            <input value="{{ $value->id }}" name="measurerangeid[]" type="hidden">
-						            <div>
-						                <span class="range-title">{{trans('messages.measure-age-range')}}:</span>
-						                <input name="agemin[]" type="text" value="{{ $value->age_min }}"
+						            <div class="col-md-2">
+						                <input class="col-md-4" name="agemin[]" type="text" value="{{ $value->age_min }}"
 						                	title="{{trans('messages.lower-age-limit')}}">
-						                <span>:</span>
-						                <input name="agemax[]" type="text" value="{{ $value->age_max }}"
+						                <span class="col-md-2">:</span>
+						                <input class="col-md-4" name="agemax[]" type="text" value="{{ $value->age_max }}"
 						                    title="{{trans('messages.upper-age-limit')}}">
 						            </div>
-						            <div>
-						                <span class="range-title">{{trans('messages.gender')}}:</span>
+						            <div class="col-md-2">
 											<?php $selection = array("","","");?>
 											<?php $selection[$value->gender] = "selected='selected'"; ?>
 						                <select name="gender[]">
@@ -69,35 +73,35 @@
 						                    <option value="2" {{ $selection[2] }}>{{trans('messages.both')}}</option>
 						                </select>
 						            </div>
-						            <div>
-						                <span class="range-title">{{trans('messages.measure-range')}}:</span>
-						                <input name="rangemin[]" type="text" value="{{ $value->range_lower }}" 
+						            <div class="col-md-3">
+						                <input class="col-md-4" name="rangemin[]" type="text" value="{{ $value->range_lower }}" 
 						                    title="{{trans('messages.lower-range')}}">
-						                <span>:</span>
-						                <input name="rangemax[]" type="text" value="{{ $value->range_upper }}"
+						                <span class="col-md-2">:</span>
+						                <input class="col-md-4" name="rangemax[]" type="text" value="{{ $value->range_upper }}"
 						                    title="{{trans('messages.upper-range')}}">
 						            </div>
-						            <div>
-						                <span class="interpretation-title">{{trans('messages.interpretation')}}:</span>
-						                <input class="interpretation" name="interpretation[]" type="text" 
+						            <div class="col-md-2">
+						                <input name="interpretation[]" type="text" 
 						                    value="{{ $value->interpretation }}">
 						            </div>
 						        </div>
 								@endforeach
 
 							@elseif ($measure->measure_type_id == 2)
+						            <div>
+						                <span class="col-md-2 interpretation-title">{{trans('messages.range')}}</span>
+						                <span class="col-md-2 interpretation-title">{{trans('messages.interpretation')}}</span>
+						            </div>
 								@foreach($measure->measureRanges as $key=>$value)
 						        <div class="measure-input">
 						            <button class="close" aria-hidden="true" type="button" 
 						            	title="{{trans('messages.delete')}}">×</button>
 						        	<input value="{{ $value->id }}" name="measurerangeid[]" type="hidden">
-						            <div>
-						                <span class="interpretation-title">{{trans('messages.range')}}:</span>
-						                <input class="interpretation" value="{{ $value->alphanumeric }}" name="val[]" type="text">
+						            <div class="col-md-2">
+						                <input class="col-md-8 interpretation" value="{{ $value->alphanumeric }}" name="val[]" type="text">
 						            </div>
-						            <div>
-						                <span class="interpretation-title">{{trans('messages.interpretation')}}:</span>
-						                <input class="interpretation" value="{{ $value->interpretation }}" name="interpretation[]" type="text">
+						            <div class="col-md-2">
+						                <input class="col-md-8 interpretation" value="{{ $value->interpretation }}" name="interpretation[]" type="text">
 						            </div>
 						        </div>  
 								@endforeach
