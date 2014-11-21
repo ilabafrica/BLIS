@@ -47,50 +47,74 @@
 							<div class="measurevalue">
 							@if ($measure->measure_type_id == 1)
 								@foreach($measure->measureRanges as $key=>$value)
-								<div class="numeric-range-measure">
-									<button class="close" aria-hidden="true" type="button" title="{{trans(messages.delete)}}">×</button>
-									<input value="{{{$value->id}}}" name="measurerangeid[]" type="hidden">
-									<div>
-										<span class="range-title">{{trans('messages.measure-age-range')}}:</span>
-										<input name="agemin[]" type="text" value="{{{$value->age_min}}}"
-										title="{{trans('messages.lower-age-limit')}}">
-
-										<span>:</span>
-										<input name="agemax[]" type="text" value="{{{$value->age_max}}}"
-											title="{{trans('messages.upper-age-limit')}}">
-									</div>
-									<div>
-										<span class="range-title">trans('messages.gender'))</span>
-										<?php $selection = array("","","");?>
-										<?php $selection[$value->gender] = "selected='selected'"; ?>
-										<select name="gender[]">
-											<option value="0" {{$selection[0]}}>{{trans('messages.male')}}</option>
-											<option value="1" {{$selection[1]}}>{{trans('messages.female')}}</option>
-											<option value="2" {{$selection[2]}}>{{trans('messages.both')}}</option>
-										</select>
-									</div>
-									<div>
-										<span class="range-title">trans('messages.measure-range'))</span>
-										<input name="rangemin[]" type="text" value="{{{$value->range_lower}}}" 
-											title="{{trans('messages.lower-range')}}">
-										<span>:</span>
-										<input name="rangemax[]" type="text" value="{{{$value->range_upper}}}"
-											title="{{trans('messages.upper-range')}}">
-									</div>
-								</div>
+						        <div class="measure-input">
+						            <button class="close" aria-hidden="true" type="button" 
+						            title="{{trans('messages.delete')}}">×</button>
+						            <input value="{{ $value->id }}" name="measurerangeid[]" type="hidden">
+						            <div>
+						                <span class="range-title">{{trans('messages.measure-age-range')}}:</span>
+						                <input name="agemin[]" type="text" value="{{ $value->age_min }}"
+						                	title="{{trans('messages.lower-age-limit')}}">
+						                <span>:</span>
+						                <input name="agemax[]" type="text" value="{{ $value->age_max }}"
+						                    title="{{trans('messages.upper-age-limit')}}">
+						            </div>
+						            <div>
+						                <span class="range-title">{{trans('messages.gender')}}:</span>
+											<?php $selection = array("","","");?>
+											<?php $selection[$value->gender] = "selected='selected'"; ?>
+						                <select name="gender[]">
+						                    <option value="0" {{ $selection[0] }}>{{trans('messages.male')}}</option>
+						                    <option value="1" {{ $selection[1] }}>{{trans('messages.female')}}</option>
+						                    <option value="2" {{ $selection[2] }}>{{trans('messages.both')}}</option>
+						                </select>
+						            </div>
+						            <div>
+						                <span class="range-title">{{trans('messages.measure-range')}}:</span>
+						                <input name="rangemin[]" type="text" value="{{ $value->range_lower }}" 
+						                    title="{{trans('messages.lower-range')}}">
+						                <span>:</span>
+						                <input name="rangemax[]" type="text" value="{{ $value->range_upper }}"
+						                    title="{{trans('messages.upper-range')}}">
+						            </div>
+						            <div>
+						                <span class="interpretation-title">{{trans('messages.interpretation')}}:</span>
+						                <input class="interpretation" name="interpretation[]" type="text" 
+						                    value="{{ $value->interpretation }}">
+						            </div>
+						        </div>
 								@endforeach
+
 							@elseif ($measure->measure_type_id == 2)
 								<?php $val = explode('/', $measure->measure_range); ?>
 								@foreach($val as $key => $value)
-									<div class="alphanumericInput">
-										<input class="form-control input-small" value="{{{$value}}}" name="val[]"
-										type="text"><span class="alphanumericSlash">/</span>
-									</div>
+						        <div class="measure-input">
+						            <button class="close" aria-hidden="true" type="button" 
+						            	title="{{trans('messages.delete')}}">×</button>
+						            <div>
+						                <span class="interpretation-title">{{trans('messages.range')}}:</span>
+						                <input class="interpretation" value="{{ $value }}" name="val[]" type="text">
+						            </div>
+						            <div>
+						                <span class="interpretation-title">{{trans('messages.interpretation')}}:</span>
+						                <input class="interpretation" value="{{ $value }}" name="interpretation[]" type="text">
+						            </div>
+						        </div>  
 								@endforeach
+
 							@elseif ($measure->measure_type_id == 3)
-								<div class="col-md-4">
-									<input class="form-control" value="trans('messages.none'))" name="val[]" type="text">
-								</div>
+						        <div class="measure-input">
+						            <button class="close" aria-hidden="true" type="button"
+						            	title="{{trans('messages.delete')}}">×</button>
+						            <div>
+						                <span class="interpretation-title">{{trans('messages.range')}}:</span>
+						                <input class="interpretation" value="{{ $value }}" name="val[]" type="text">
+						            </div>
+						            <div>
+						                <span class="interpretation-title">{{trans('messages.interpretation')}}:</span>
+						                <input class="interpretation"  value="{{ $value }}" name="interpretation[]" type="text">
+						            </div>
+							    </div>
 							@endif
 							</div>
 						</div>
@@ -105,5 +129,5 @@
 			{{ Form::close() }}
 		</div>
 	</div>
- @include("measure.measureinput")
+	@include("measure.measureinput")
 @stop

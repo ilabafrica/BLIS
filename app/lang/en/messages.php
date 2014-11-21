@@ -151,6 +151,7 @@ return array(
     'measure-range-values' => 'Range Values',
     'measure-type' => 'Measure Type',
     'new-measure' => 'New Measure',
+    'range' => 'Range',
     'rangemin' => 'Range Lower Limit',
     'rangemax' => 'Range Upper Limit',
     'save-measure' => 'Save Measure',

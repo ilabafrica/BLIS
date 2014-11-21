@@ -87,8 +87,6 @@ class CreatekBLIStables extends Migration {
             $table->increments('id')->unsigned();
             $table->integer('measure_type_id')->unsigned();
             $table->string('name', 100);
-            $table->string('measure_range', 60)->nullable();
-            $table->string('interpretation', 200)->nullable();
             $table->string('unit', 30);
             $table->string('description', 150)->nullable();
 
@@ -108,6 +106,8 @@ class CreatekBLIStables extends Migration {
             $table->tinyInteger('gender')->unsigned();
             $table->decimal('range_lower', 7, 3);
             $table->decimal('range_upper', 7, 3);
+            $table->string('alphanumeric', 60)->nullable();
+            $table->string('interpretation', 100)->nullable();
 
             $table->softDeletes();
             $table->foreign('measure_id')->references('id')->on('measures');

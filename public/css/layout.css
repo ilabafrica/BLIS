@@ -363,20 +363,14 @@ label, input {
 /**
  *MEASURE VIEW
  */
-.alphanumericInput{
-    float: left;
-}
-.alphanumericSlash{
-    font-size:30px;
-}
-.form-group .form-control.input-small{
-    width: 120px;
-}
 .measurevalue div {
     overflow: hidden;
     margin-right: 2px;
 }
-.measurevalue .numeric-range-measure {
+.measurevalue .alphanumericInput,
+.measurevalue .autocompleteInput,
+.measurevalue .measure-input
+{
     border: 1px solid #D1D1D1;
     border-radius: 3px;
     float: left;
@@ -387,11 +381,18 @@ label, input {
         width: 60px;
         border-radius: 2;
     }
+    .measurevalue div input.interpretation{
+        width: 125px;
+        border-radius: 2;
+    }
     .measurevalue div span{
         float: left;
         line-height: 40px;
     }
     .measurevalue div span.range-title{
+        min-width: 120px;
+    }
+    .measurevalue div span.interpretation-title{
         min-width: 120px;
     }
 

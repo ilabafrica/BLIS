@@ -72,6 +72,7 @@ class MeasureController extends \BaseController {
                 $val['gender'] = Input::get('gender');
                 $val['rangemin'] = Input::get('rangemin');
                 $val['rangemax'] = Input::get('rangemax');
+                $val['interpretation'] = Input::get('interpretation');
 
                 // Add ranges for this measure
                 for ($i=0; $i < count($val['agemin']); $i++) { 
@@ -82,13 +83,14 @@ class MeasureController extends \BaseController {
                     $measurerange->gender = $val['gender'][$i];
                     $measurerange->range_lower = $val['rangemin'][$i];
                     $measurerange->range_upper = $val['rangemax'][$i];
+                    $measurerange->interpretation = $val['interpretation'][$i];
                     $measurerange->save();
                  }
                 return Redirect::route('measure.index')
                     ->with('message', trans('messages.success-creating-measure'));
             }else if (Input::get('measure_type_id') == 2 || Input::get('measure_type_id') == 3) {
-                $values = Input::get('val');
-                $measure->measure_range = join('/', $values);
+                $measure->measure_range = join('/', Input::get('val'));
+                $measure->interpretation = join('/', Input::get('interpretation'));
                 $measure->save();
                 return Redirect::route('measure.index')
                     ->with('message', trans('messages.success-creating-measure'));
@@ -156,8 +158,8 @@ class MeasureController extends \BaseController {
             $measure->unit = Input::get('unit');
             $measure->measure_range = "";
             if (Input::get('measure_type_id') == 2 || Input::get('measure_type_id') == 3) {
-                $values = Input::get('val');
-                $measure->measure_range = join('/', $values);
+                $measure->measure_range = join('/', Input::get('val'));
+                $measure->interpretation = join('/', Input::get('interpretation'));
             }
             $measure->description = Input::get('description');
             $measure->save();
@@ -169,6 +171,7 @@ class MeasureController extends \BaseController {
                 $val['rangemin'] = Input::get('rangemin');
                 $val['rangemax'] = Input::get('rangemax');
                 $val['measurerangeid'] = Input::get('measurerangeid');
+                $val['interpretation'] = Input::get('interpretation');
 
                 $allRangeIDs = array();
 
@@ -185,6 +188,7 @@ class MeasureController extends \BaseController {
                     $measurerange->gender = $val['gender'][$i];
                     $measurerange->range_lower = $val['rangemin'][$i];
                     $measurerange->range_upper = $val['rangemax'][$i];
+                    $measurerange->interpretation = $val['interpretation'][$i];
 
                     $measurerange->save();
 

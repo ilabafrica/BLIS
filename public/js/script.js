@@ -59,7 +59,6 @@ $(function(){
 		var id = $("#measuretype").val() - 1;
 		var inputHtml = $(inputClass[id]).html();
 		$(".measurevalue" ).append(inputHtml);
-		$('.measurevalue').children().removeClass('hidden');
 	});
 	/*  load measure range input UI for the selected measure type */
 	$( '.meauretype-input-trigger' ).change(function() {
@@ -68,7 +67,6 @@ $(function(){
 		var inputHtml = $(inputClass[id]).html();
 		$('.measurevalue').empty();
 		$('.measurevalue').append(inputHtml);
-		$('.measurevalue').children().removeClass('hidden');
 	});
 
 
@@ -93,9 +91,9 @@ $(function(){
 		$(this).siblings('input').trigger('click');
 	});
 
-	// Delete numeric range
+	// Delete measure range
 
-	$("body").on("click", ".numeric-range-measure .close", function(){
+	$("body").on("click", ".measure-input .close", function(){
 		$(this).parent().remove();
 	});
 
