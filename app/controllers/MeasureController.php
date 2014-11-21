@@ -89,9 +89,15 @@ class MeasureController extends \BaseController {
                 return Redirect::route('measure.index')
                     ->with('message', trans('messages.success-creating-measure'));
             }else if (Input::get('measure_type_id') == 2 || Input::get('measure_type_id') == 3) {
-                $measure->measure_range = join('/', Input::get('val'));
-                $measure->interpretation = join('/', Input::get('interpretation'));
-                $measure->save();
+                $val['val'] = Input::get('val');
+                $val['interpretation'] = Input::get('interpretation');
+                for ($i=0; $i < count($val['val']); $i++) { 
+                    $measurerange = new MeasureRange;
+                    $measurerange->measure_id = $measure->id;
+                    $measurerange->alphanumeric = $val['val'][$i];
+                    $measurerange->interpretation = $val['interpretation'][$i];
+                    $measurerange->save();
+                }
                 return Redirect::route('measure.index')
                     ->with('message', trans('messages.success-creating-measure'));
             }
@@ -152,42 +158,47 @@ class MeasureController extends \BaseController {
                 ->withInput(Input::except('password'));
         } else {
             // Update
+            $measureTypeId = Input::get('measure_type_id');
             $measure = Measure::find($id);
             $measure->name = Input::get('name');
-            $measure->measure_type_id = Input::get('measure_type_id');
+            $measure->measure_type_id = $measureTypeId;
             $measure->unit = Input::get('unit');
-            $measure->measure_range = "";
-            if (Input::get('measure_type_id') == 2 || Input::get('measure_type_id') == 3) {
-                $measure->measure_range = join('/', Input::get('val'));
-                $measure->interpretation = join('/', Input::get('interpretation'));
-            }
             $measure->description = Input::get('description');
             $measure->save();
-
-            if ($measure->measure_type_id == 1) {
-                $val['agemin'] = Input::get('agemin');
-                $val['agemax'] = Input::get('agemax');
-                $val['gender'] = Input::get('gender');
-                $val['rangemin'] = Input::get('rangemin');
-                $val['rangemax'] = Input::get('rangemax');
+            if ($measureTypeId != 4) {
+               
+                if ($measureTypeId == 1){
+                    $val['agemin'] = Input::get('agemin');
+                    $val['agemax'] = Input::get('agemax');
+                    $val['gender'] = Input::get('gender');
+                    $val['rangemin'] = Input::get('rangemin');
+                    $val['rangemax'] = Input::get('rangemax');
+                }else{
+                    $val['val'] = Input::get('val');
+                }
                 $val['measurerangeid'] = Input::get('measurerangeid');
                 $val['interpretation'] = Input::get('interpretation');
 
                 $allRangeIDs = array();
 
-                for ($i=0; $i < count($val['agemin']); $i++) {
+                for ($i=0; $i < count((Input::get('agemin')) ? $val['agemin'] : $val['val']); $i++) {
                     if ($val['measurerangeid'][$i]==0) {
                         $measurerange = new MeasureRange;
                     }else{
                         $measurerange = MeasureRange::find($val['measurerangeid'][$i]);
                     }
-
                     $measurerange->measure_id = $measure->id;
-                    $measurerange->age_min = $val['agemin'][$i];
-                    $measurerange->age_max = $val['agemax'][$i];
-                    $measurerange->gender = $val['gender'][$i];
-                    $measurerange->range_lower = $val['rangemin'][$i];
-                    $measurerange->range_upper = $val['rangemax'][$i];
+
+                    if ($measureTypeId == 1){
+                        $measurerange->age_min = $val['agemin'][$i];
+                        $measurerange->age_max = $val['agemax'][$i];
+                        $measurerange->gender = $val['gender'][$i];
+                        $measurerange->range_lower = $val['rangemin'][$i];
+                        $measurerange->range_upper = $val['rangemax'][$i];
+                    }else{
+                        $measurerange->alphanumeric = $val['val'][$i];
+                    }
+
                     $measurerange->interpretation = $val['interpretation'][$i];
 
                     $measurerange->save();
@@ -206,7 +217,7 @@ class MeasureController extends \BaseController {
                 }
                 if(count($deleteRanges)>0)MeasureRange::destroy($deleteRanges);
             }else{
-                // Since its not a numeric range, delete any references to this id in the measure_range table
+                // Since this id has no ranges, delete any references to this id in the measure_range table
                 MeasureRange::where('measure_id', '=', $measure->id)->delete();
             }
             // redirect

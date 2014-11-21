@@ -86,18 +86,18 @@
 								@endforeach
 
 							@elseif ($measure->measure_type_id == 2)
-								<?php $val = explode('/', $measure->measure_range); ?>
-								@foreach($val as $key => $value)
+								@foreach($measure->measureRanges as $key=>$value)
 						        <div class="measure-input">
 						            <button class="close" aria-hidden="true" type="button" 
 						            	title="{{trans('messages.delete')}}">×</button>
+						        	<input value="{{ $value->id }}" name="measurerangeid[]" type="hidden">
 						            <div>
 						                <span class="interpretation-title">{{trans('messages.range')}}:</span>
-						                <input class="interpretation" value="{{ $value }}" name="val[]" type="text">
+						                <input class="interpretation" value="{{ $value->alphanumeric }}" name="val[]" type="text">
 						            </div>
 						            <div>
 						                <span class="interpretation-title">{{trans('messages.interpretation')}}:</span>
-						                <input class="interpretation" value="{{ $value }}" name="interpretation[]" type="text">
+						                <input class="interpretation" value="{{ $value->interpretation }}" name="interpretation[]" type="text">
 						            </div>
 						        </div>  
 								@endforeach
@@ -106,6 +106,7 @@
 						        <div class="measure-input">
 						            <button class="close" aria-hidden="true" type="button"
 						            	title="{{trans('messages.delete')}}">×</button>
+						        	<input value="{{ $value->id }}" name="measurerangeid[]" type="hidden">
 						            <div>
 						                <span class="interpretation-title">{{trans('messages.range')}}:</span>
 						                <input class="interpretation" value="{{ $value }}" name="val[]" type="text">

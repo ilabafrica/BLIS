@@ -35,6 +35,7 @@
     <div class="hidden alphanumericInputLoader">
         <div class="measure-input">
             <button class="close" aria-hidden="true" type="button" title="{{trans('messages.delete')}}">×</button>
+            <input  name="measurerangeid[]" type="hidden">
             <div>
                 <span class="interpretation-title">{{trans('messages.range')}}:</span>
                 <input class="interpretation" name="val[]" type="text">
@@ -48,6 +49,7 @@
     <div class="hidden autocompleteInputLoader">
         <div class="measure-input">
             <button class="close" aria-hidden="true" type="button" title="{{trans('messages.delete')}}">×</button>
+            <input  name="measurerangeid[]" type="hidden">
             <div>
                 <span class="interpretation-title">{{trans('messages.range')}}:</span>
                 <input class="interpretation" name="val[]" type="text">
