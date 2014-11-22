@@ -15,6 +15,7 @@
 			$active[4] = "active"; break;
 		case 'patientreport': 
 		case 'dailylog': 
+		case 'prevalence':
 			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
@@ -128,9 +129,9 @@
 				<div class="sub-menu-title">{{trans('messages.aggregate-reports')}}</div>
 				<ul class="sub-menu-items">
 					<li>
-						<div>
+						<div><a href="{{ URL::route('reports.aggregate.prevalence')}}">
 							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.prevalence-rates')}}
+							{{trans('messages.prevalence-rates')}}</a>
 						</div>
 					</li>
 					<li>

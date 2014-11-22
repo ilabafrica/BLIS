@@ -10,26 +10,32 @@
 {{ Form::open(array('url' => 'patientreport/'.$patient->id, 'id' => 'form-patientreport-filter', 'method'=>'POST')) }}
 	{{ Form::hidden('patient', $patient->id, array('id' => 'patient')) }}
 	<div class="table-responsive">
-	  <table class="table">
+	  <table class="table report-filter">
 	    <tbody>
 	    <tr>
 	    	<td>
 	        	<label class="checkbox-inline">
-	              	<input type="checkbox" id="pending" name="pending" value="1" @if(isset($pending)){{"checked='checked'"}}@endif> {{trans('messages.include-pending-tests')}}
+	        		{{ Form::checkbox('pending', "1", isset($pending)) }}
+	              	{{trans('messages.include-pending-tests')}}
 				</label>
 	        </td>
-	        <td>{{ Form::label('name', trans("messages.from")) }}</td>
-        	<td><input class="form-control standard-datepicker" name="start" type="text" 
-                    value="{{ isset($from) ? $from : date('Y-m-d') }}" id="start"></td>
-	        <td>{{ Form::label('name', trans("messages.to")) }}</td>
-        	<td><input class="form-control standard-datepicker" name="end" type="text" 
-                    value="{{ isset($to) ? $to : date('Y-m-d') }}" id="end"></td>
+	        <td>{{ Form::label('start', trans("messages.from")) }}</td>
+        	<td>
+                {{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
+                    array('class' => 'form-control standard-datepicker')) }}
+                </td>
+	        <td>{{ Form::label('end', trans("messages.to")) }}</td>
+        	<td>
+                {{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
+                    array('class' => 'form-control standard-datepicker')) }}
+                </td>
 	        <td>{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
-	                        array('class' => 'btn btn-primary', 'style' => 'width:125px', 'id' => 'filter', 'type' => 'submit')) }}</td>
-	        <td>{{ Form::submit(trans('messages.export-to-word'), array('class' => 'btn btn-success', 'style' => 'width:160px', 'id' => 'word', 'name' => 'word')) }}</td>
+                    array('class' => 'btn btn-primary', 'id' => 'filter', 'type' => 'submit')) }}</td>
+	        <td>{{ Form::submit(trans('messages.export-to-word'), array('class' => 'btn btn-success', 
+	        	'id' => 'word', 'name' => 'word')) }}</td>
 	    </tr>
-	</tbody>
-</table>
+		</tbody>
+	</table>
 </div>
 {{ Form::close() }}
 <div class="panel panel-primary" id="patientReport">
@@ -39,19 +45,21 @@
 	</div>
 	<div class="panel-body">
 		@if(Session::has('error'))
+		<!-- if there are search errors, they will show here -->
 			<div class="alert alert-danger">{{ trans(Session::get('error')) }}</div>
 		@endif
 
-		<!-- if there are search errors, they will show here -->
-		<div class="alert alert-danger" id="error" style="display:none"></div>
 		<div id="report_content">
 		@include("reportHeader")
 		<strong>
 			<p>
-				{{trans('messages.patient-report')}} @if($from!=$to)
-					{{'From '.$from.' To '.$to}}
+				{{trans('messages.patient-report')}}
+				<?php $from = isset($input['start'])?$input['start']:date('Y-m-d'); ?>
+				<?php $to = isset($input['end'])?$input['end']:date('Y-m-d'); ?>
+				@if($from!=$to)
+					{{trans('messages.from').' '.$from.' '.trans('messages.to').' '.$to}}
 				@else
-					{{'For '.date('d-m-Y')}}
+					{{trans('messages.for').' '.date('d-m-Y')}}
 				@endif
 			</p>
 		</strong>
@@ -61,7 +69,7 @@
 					<th>{{ trans('messages.patient-name')}}</th>
 					<td>{{ $patient->name }}</td>
 					<th>{{ trans('messages.gender')}}</th>
-					<td>{{ $patient->getGender() }}</td>
+					<td>{{ $patient->getGender(false) }}</td>
 				</tr>
 				<tr>
 					<th>{{ trans("messages.patient-number")}}</th>
@@ -135,12 +143,14 @@
 				@forelse($tests as $test)
 						<tr>
 							<td>{{ $test->testType->name }}</td>
-							<td>@foreach($test->testResults as $result)
+							<td>
+								@foreach($test->testResults as $result)
 									<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
 								@endforeach</td>
 							<td>{{ $test->interpretation }}</td>
 							<td>{{ $test->testedBy->name or trans('messages.pending')}}</td>
-							<td>@foreach($test->testResults as $result)
+							<td>
+								@foreach($test->testResults as $result)
 									<p>{{$result->time_entered}}</p>
 								@endforeach</td>
 							<td>{{ $test->time_completed }}</td>

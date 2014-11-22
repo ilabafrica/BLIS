@@ -10,28 +10,17 @@ class ReportController extends \BaseController {
 	public function loadPatients()
 	{
 		$search = Input::get('search');
-		$from = Input::get('start');
-		$to = Input::get('end');
-		if($search||$from||$to){
-			$patients = Patient::where('id', 'LIKE', '%'.$search.'%')
-								->orWhere('patient_number', 'LIKE', '%'.$search.'%')
-								->orWhere('name', 'LIKE', '%'.$search.'%')
-								->orWhere('external_patient_number', 'LIKE', '%'.$search.'%');
-			$patients=$patients->paginate(Config::get('kblis.page-items'));
-			if (count($patients) == 0) {
-			 	Session::flash('message', 'Your search <b>'.$search.'</b>, did not match any patient record!');
-			}
-			else{
-				Session::flash('message', 'Your search <b>'.$search.'</b>, matched the following patient records.');
-			}
+
+		$patients = Patient::search($search)->paginate(Config::get('kblis.page-items'));
+
+		if (count($patients) == 0) {
+		 	Session::flash('message', trans('messages.no-match'));
 		}
-		else{
-			// List all the active patients
-			$patients = Patient::paginate(Config::get('kblis.page-items'));
-		}
+
 		// Load the view and pass the patients
 		return View::make('reports.patient.index')->with('patients', $patients);
 	}
+
 	/**
 	 * Display data after applying the filters on the report uses patient ID
 	 *
@@ -58,17 +47,20 @@ class ReportController extends \BaseController {
 		}
 		//	Date filters
 		if($from||$to){
-			if(!$to){
-				$to = $date;
-			}
+
+			if(!$to) $to = $date;
+
 			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-					Session::flash('error', 'Please check your dates range and try again!');
+					Session::flash('error', trans('messages.check-date-range'));
 			}
-			else{
-				$tests=$tests->whereRaw('tests.time_created BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)');
+			else
+			{
+				$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+				$tests=$tests->whereBetween('time_created', array($from, $toPlusOne));
 			}
 		}
-		else{
+		else
+		{
 			$tests = $tests->where('tests.time_created', 'LIKE', '%'.date('Y-m-d').'%');
 		}
 		//	Get tests collection
@@ -93,21 +85,22 @@ class ReportController extends \BaseController {
 			return View::make('reports.patient.report')
 						->with('patient', $patient)
 						->with('tests', $tests)
-						->with('from', $from)
-						->with('to', $to)
-						->with('pending', $pending);
+						->with('pending', $pending)
+						->withInput(Input::all());
 		}
 	}
 	//	End patient report functions
+
 	/**
 	*	Function to return test types of a particular test category to fill test types dropdown
 	*/
 	public function reportsDropdown(){
-            $input = Input::get('option');
-            $testCategory = TestCategory::find($input);
-            $testTypes = $testCategory->testTypes();
-            return Response::make($testTypes->get(['id','name']));
-        }
+        $input = Input::get('option');
+        $testCategory = TestCategory::find($input);
+        $testTypes = $testCategory->testTypes();
+        return Response::make($testTypes->get(['id','name']));
+    }
+
 	//	Begin Daily Log-Patient report functions
 	/**
 	 * Display a view of the daily patient records.
@@ -117,9 +110,13 @@ class ReportController extends \BaseController {
 	{
 		$from = Input::get('start');
 		$to = Input::get('end');
+		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
 		$all = Input::get('all');
 		$pending = Input::get('pending');
 		$date = date('Y-m-d');
+		if(!$to){
+			$to=$date;
+		}
 		$records = Input::get('records');
 		$testCategory = Input::get('section_id');
 		$testType = '';
@@ -136,16 +133,13 @@ class ReportController extends \BaseController {
 		if($records=='patients'){
 			if($from||$to){
 				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-						Session::flash('error', 'Please check your dates range and try again!');
+						Session::flash('error', trans('messages.check-date-range'));
 				}
 				else{
-					$visits = Visit::whereRaw('created_at BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)')->get();
+					$visits = Visit::whereBetween('created_at', array($from, $toPlusOne))->get();
 				}
 				if (count($visits) == 0) {
-				 	Session::flash('message', 'Your filter from <b>'.$from.'</b> to <b>'.$to.'</b>, did not match any records!');
-				}
-				else{
-					Session::flash('message', 'Your filter from <b>'.$from.'</b> to <b>'.$to.'</b>, matched the following records.');
+				 	Session::flash('message', trans('messages.no-match'));
 				}
 			}
 			else{
@@ -168,12 +162,12 @@ class ReportController extends \BaseController {
 			else{
 				return View::make('reports.daily.patient')
 								->with('visits', $visits)
-								->with('from', $from)
-								->with('to', $to);
+								->withInput(Input::all());
 			}
 		}
 		//Begin specimen rejections
-		else if($records=='rejections'){
+		else if($records=='rejections')
+		{
 			$specimens = Specimen::where('specimen_status_id', '=', Specimen::REJECTED);
 			/*Filter by test category*/
 			if($testCategory&&!$testType){
@@ -190,14 +184,16 @@ class ReportController extends \BaseController {
 			/*Filter by date*/
 			if($from||$to){
 				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-						Session::flash('message', 'Please check your dates range and try again!');
+						Session::flash('message', trans('messages.check-date-range'));
 				}
-				else{
-					$specimens = $specimens->whereRaw('time_rejected BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)')
-											->get(array('specimens.*'));
+				else
+				{
+					$specimens = $specimens->whereBetween('time_rejected', 
+						array($from, $toPlusOne))->get(array('specimens.*'));
 				}
 			}
-			else{
+			else
+			{
 				$specimens = $specimens->where('time_rejected', 'LIKE', $date.'%')->orderBy('id')
 										->get(array('specimens.*'));
 			}
@@ -212,23 +208,24 @@ class ReportController extends \BaseController {
 								->with('specimens', $specimens)
 								->with('testCategory', $testCategory)
 								->with('testType', $testType)
-								->with('from', $from)
-								->with('to', $to);
+								->with('to', $to)
+								->with('from', $from);
 		    	return Response::make($content,200, $headers);
 			}
-			else{
+			else
+			{
 				return View::make('reports.daily.specimen')
 							->with('labSections', $labSections)
 							->with('testTypes', $testTypes)
 							->with('specimens', $specimens)
 							->with('testCategory', $testCategory)
 							->with('testType', $testType)
-							->with('from', $from)
-							->with('to', $to);
+							->withInput(Input::all());
 			}
 		}
 		//Begin test records
-		else{
+		else
+		{
 			$tests = Test::whereNotIn('test_status_id', [Test::NOT_RECEIVED]);
 			
 			/*Filter by test category*/
@@ -245,7 +242,8 @@ class ReportController extends \BaseController {
 				$tests = $tests->whereIn('test_status_id', [Test::PENDING, Test::STARTED]);
 			}
 			else if($all){
-				$tests = $tests->whereIn('test_status_id', [Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED]);
+				$tests = $tests->whereIn('test_status_id', 
+					[Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED]);
 			}
 			else{
 				$tests = $tests->whereIn('test_status_id', [Test::COMPLETED, Test::VERIFIED]);
@@ -254,16 +252,16 @@ class ReportController extends \BaseController {
 			/*Filter by date*/
 			if($from||$to){
 				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-						Session::flash('message', 'Please check your dates range and try again!');
+						Session::flash('message', trans('messages.check-date-range'));
 				}
-				else{
-					$tests = $tests->whereRaw('time_created BETWEEN '."'".$from."'".' AND DATE_ADD('."'".$to."'".', INTERVAL 1 DAY)')
-									->get(array('tests.*'));
+				else
+				{
+					$tests = $tests->whereBetween('time_created', array($from, $toPlusOne))->get(array('tests.*'));
 				}
 			}
-			else{
-				$tests = $tests->where('time_created', 'LIKE', $date.'%')
-								->get(array('tests.*'));
+			else
+			{
+				$tests = $tests->where('time_created', 'LIKE', $date.'%')->get(array('tests.*'));
 			}
 				
 			if(Input::has('word')){
@@ -280,10 +278,11 @@ class ReportController extends \BaseController {
 								->with('pending', $pending)
 								->with('all', $all)
 								->with('from', $from)
-								->with('to', $to);
+								->with('to',$to);
 		    	return Response::make($content,200, $headers);
 			}
-			else{
+			else
+			{
 				return View::make('reports.daily.test')
 							->with('labSections', $labSections)
 							->with('testTypes', $testTypes)
@@ -292,10 +291,183 @@ class ReportController extends \BaseController {
 							->with('testType', $testType)
 							->with('pending', $pending)
 							->with('all', $all)
-							->with('from', $from)
-							->with('to', $to);
+							->withInput(Input::all());
 			}
 		}
 	}
 	//	End Daily Log-Patient report functions
+
+	/*	Begin Aggregate reports functions	*/
+	//	Begin prevalence rates reports functions
+	/**
+	 * Display a both chart and table on load.
+	 *
+	 * @return Response
+	 */
+	public function prevalenceRates()
+	{
+		$from = Input::get('start');
+		$to = Input::get('end');
+		$today = date('Y-m-d');
+		$year = date('Y');
+		//	Apply filters if any
+		if(Input::has('filter')){
+			if(!$to){
+				$to=$today;
+			}
+			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($today)||strtotime($to)>strtotime($today)){
+				Session::flash('message', trans('messages.check-date-range'));
+			}
+			$months = json_decode(self::getMonths($from, $to));
+			$data = TestType::getPrevalenceCounts($from, $to);
+			$chart = self::getPrevalenceRatesChart();
+		}
+		else{
+			// Get all tests for the current year
+			$test = Test::where('time_created', 'LIKE', date('Y').'%');
+			$periodStart = $test->min('time_created'); //Get the minimum date
+			$periodEnd = $test->max('time_created'); //Get the maximum date
+			$data = TestType::getPrevalenceCounts($periodStart, $periodEnd);
+			$chart = self::getPrevalenceRatesChart();
+		}
+		return View::make('reports.prevalence.index')
+						->with('data', $data)
+						->with('chart', $chart)
+						->withInput(Input::all());
+	}
+
+	/**
+	* Get months: return months for time_created column when filter dates are set
+	*/	
+	public static function getMonths($from, $to){
+		$today = "'".date("Y-m-d")."'";
+		$year = date('Y');
+		$tests = Test::select('time_created')->distinct();
+
+		if(strtotime($from)===strtotime($today)){
+			$tests = $tests->where('time_created', 'LIKE', $year.'%');
+		}
+		else
+		{
+			$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+			$tests = $tests->whereBetween('time_created', array($from, $toPlusOne));
+		}
+
+		$allDates = $tests->lists('time_created');
+		asort($allDates);
+		$yearMonth = function($value){return strtotime(substr($value, 0, 7));};
+		$allDates = array_map($yearMonth, $allDates);
+		$allMonths = array_unique($allDates);
+		$dates = array();
+
+		foreach ($allMonths as $date) {
+			$dateInfo = getdate($date);
+			$dates[] = array('months' => $dateInfo['mon'], 'label' => substr($dateInfo['month'], 0, 3),
+				'annum' => $dateInfo['year']);
+		}
+
+		return json_encode($dates);
+	}
+	/**
+	 * Display prevalence rates chart
+	 *
+	 * @return Response
+	 */
+	public static function getPrevalenceRatesChart(){
+		$from = Input::get('start');
+		$to = Input::get('end');
+		$months = json_decode(self::getMonths($from, $to));
+		$testTypes = new Illuminate\Database\Eloquent\Collection();
+
+		$measures = Measure::where('measure_range', 'LIKE', '%Positive/Negative%')->get();
+
+		foreach ($measures as $measure) {
+			$objArray = $measure->testTypes()->first();
+			if(!empty($objArray)){
+				foreach ($measure->testTypes()->get() as $tType) {
+					$testTypes->add($tType);
+				}
+			}
+		}
+
+		$options = '{
+		    "chart": {
+		        "type": "spline"
+		    },
+		    "title": {
+		        "text":"'.trans('messages.prevalence-rates').'"
+		    },
+		    "subtitle": {
+		        "text":'; 
+		        if($from==$to)
+		        	$options.='"'.trans('messages.for-the-year').' '.date('Y').'"';
+		        else
+		        	$options.='"'.trans('messages.from').' '.$from.' '.trans('messages.to').' '.$to.'"';
+		    $options.='},
+		    "credits": {
+		        "enabled": false
+		    },
+		    "navigation": {
+		        "buttonOptions": {
+		            "align": "right"
+		        }
+		    },
+		    "series": [';
+		    	$counts = count($testTypes);
+			    	foreach ($testTypes as $testType) {
+		        		$options.= '{
+		        			"name": "'.$testType->name.'","data": [';
+		        				$counter = count($months);
+		            			foreach ($months as $month) {
+		            			$data = $testType->getPrevalenceCount($month->annum, $month->months);
+		            				if($data->isEmpty()){
+		            					$options.= '0.00';
+		            					if($counter==1)
+			            					$options.='';
+			            				else
+			            					$options.=',';
+		            				}
+		            				else{
+		            					foreach ($data as $datum) {
+				            				$options.= $datum->rate;
+
+				            				if($counter==1)
+				            					$options.='';
+				            				else
+				            					$options.=',';
+					            		}
+		            				}
+		            			$counter--;
+				    		}
+				    		$options.=']';
+				    	if($counts==1)
+							$options.='}';
+						else
+							$options.='},';
+						$counts--;
+					}
+			$options.='],
+		    "xAxis": {
+		        "categories": [';
+		        $count = count($months);
+	            	foreach ($months as $month) {
+	    				$options.= '"'.$month->label." ".$month->annum;
+	    				if($count==1)
+	    					$options.='" ';
+	    				else
+	    					$options.='" ,';
+	    				$count--;
+	    			}
+	            $options.=']
+		    },
+		    "yAxis": {
+		        "title": {
+		            "text": "'.trans('messages.prevalence-rates-label').'"
+		        },
+	            "min": "0",
+	            "max": "100"
+		    }
+		}';
+	return $options;
+	}
 }
