@@ -8,28 +8,31 @@
 	</ol>
 </div>
 {{ Form::open(array('route' => array('reports.aggregate.prevalence'), 'id' => 'prevalence_rates', 'method' => 'post')) }}
-  	<table class="table table-responsive">
+<div class="table-responsive">
+  	<table class="table report-filter">
 	    <thead>
 		    <tr>
-		        <td>{{ Form::label('from', trans("messages.from")) }}</td>
+		        <td>{{ Form::label('start', trans("messages.from")) }}</td>
 		        <td>
-		            <input class="form-control standard-datepicker" name="start" type="text" 
-		                    value="{{ isset($from) ? $from : date('Y-m-d') }}" id="start">
+                    {{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
+                        array('class' => 'form-control standard-datepicker')) }}
 		        </td>
 		        <td>{{ Form::label('to', trans("messages.to")) }}</td>
 		        <td>
-		            <input class="form-control standard-datepicker" name="end" type="text" 
-		                    value="{{ isset($to) ? $to : date('Y-m-d') }}" id="end">
+                    {{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
+                        array('class' => 'form-control standard-datepicker')) }}
 		        </td>
 		        <td>{{ Form::button("<span class='glyphicon glyphicon-eye-open'></span> ".trans('messages.show-hide'), 
 					        array('class' => 'btn btn-info', 'id' => 'reveal')) }}</td>
-		        <td>{{Form::submit(trans('messages.view'), array('class' => 'btn btn-primary', 'style' => 'width:125px', 'id'=>'filter', 'name'=>'filter'))}}</td>
+		        <td>{{Form::submit(trans('messages.view'), 
+		        	array('class' => 'btn btn-primary', 'id'=>'filter', 'name'=>'filter'))}}</td>
 		    </tr>
 		</thead>
 		<tbody>
 		
 		</tbody>
   	</table>
+</div>
 {{ Form::close() }}
 <div class="panel panel-primary">
 	<div class="panel-heading ">
@@ -42,26 +45,26 @@
 		<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
 	@endif
 	<div class="table-responsive">
-		<div id="summary" style="display:none;">
+		<div id="summary" class="hidden">
 		  	<div class="table-responsive">
 			  <table class="table table-bordered" id="rates">
-			  <tbody>
-				   <tr>
-				    	<th>{{trans('messages.test-type')}}</th>
-				    	<th>{{trans('messages.total-specimen')}}</th>
-				    	<th>{{trans('messages.positive')}}</th>
-				    	<th>{{trans('messages.negative')}}</th>
-				    	<th>{{trans('messages.prevalence-rates-label')}}</th>
-				    </tr>
-				    @forelse($data as $datum)
-				    <tr>
-				    	<td>{{$datum->test}}</td>
-		  				<td>{{$datum->total}}</td>
-		  				<td>{{$datum->positive}}</td>
-		  				<td>{{$datum->negative}}</td>
-		  				<td>{{$datum->rate}}</td>
+				  <tbody>
+					   <tr>
+					    	<th>{{trans('messages.test-type')}}</th>
+					    	<th>{{trans('messages.total-specimen')}}</th>
+					    	<th>{{trans('messages.positive')}}</th>
+					    	<th>{{trans('messages.negative')}}</th>
+					    	<th>{{trans('messages.prevalence-rates-label')}}</th>
 					    </tr>
-					    @empty
+					    @forelse($data as $datum)
+					    <tr>
+					    	<td>{{$datum->test}}</td>
+			  				<td>{{$datum->total}}</td>
+			  				<td>{{$datum->positive}}</td>
+			  				<td>{{$datum->negative}}</td>
+			  				<td>{{$datum->rate}}</td>
+					    </tr>
+						    @empty
 					    <tr>
 					    	<td colspan="5">{{trans('messages.no-records-found')}}</td>
 					    </tr>
@@ -71,7 +74,7 @@
 				</div>
 			  </div>
 			</div>
-			<div id="highChart" style="min-width: 310px; height: 500px; margin: 0 auto"></div>
+			<div id="highChart"></div>
 		  </div>
 		</div>
 	</div>
@@ -83,7 +86,6 @@
 <!-- End HighCharts scripts -->
 <script type="text/javascript">
 	$(document).ready(function(){
-		reportScripts();
 		//	Load prevalence chart
 		$('#highChart').highcharts(<?php echo $chart; ?>);
 	});

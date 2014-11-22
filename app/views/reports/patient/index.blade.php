@@ -1,23 +1,22 @@
 @extends("layout")
 @section("content")
-<div>
-	<ol class="breadcrumb">
-	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-	  <li class="active">{{ Lang::choice('messages.report', 2) }}</li>
-	</ol>
-</div>
-{{ Form::open(array('route' => array('reports.patient.index'), 'class'=>'form-inline', 'role'=>'form', 'method'=>'POST')) }}
-  <div class="form-group">
-    <label for="search" class="sr-only">search</label>
-    <input class="form-control test-search" placeholder="{{trans('messages.search')}}" 
-    value="{{isset($search) ? $search : ''}}" name="search" type="text" id="search">
-</div>
-<div class="form-group">
-{{ Form::button("<span class='glyphicon glyphicon-search'></span> ".trans('messages.search'), 
-	                        array('class' => 'btn btn-primary', 'id' => 'filter', 'type' => 'submit')) }}
-	                        </div>
-  {{ Form::close() }}
-  <br>
+	<div>
+		<ol class="breadcrumb">
+		  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
+		  <li class="active">{{ Lang::choice('messages.report', 2) }}</li>
+		</ol>
+	</div>
+	{{ Form::open(array('route' => array('reports.patient.index'), 'class'=>'form-inline', 'role'=>'form', 'method'=>'POST')) }}
+		<div class="form-group">
+		    {{ Form::label('search', "search", array('class' => 'sr-only')) }}
+            {{ Form::text('search', (isset($search) ? $search : ''), array('class' => 'form-control test-search')) }}
+		</div>
+		<div class="form-group">
+			{{ Form::button("<span class='glyphicon glyphicon-search'></span> ".trans('messages.search'), 
+		        array('class' => 'btn btn-primary', 'id' => 'filter', 'type' => 'submit')) }}
+		</div>
+	{{ Form::close() }}
+	<br>
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
