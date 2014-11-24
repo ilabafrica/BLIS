@@ -365,6 +365,8 @@ return array(
     'time-in-weeks' =>  'Time(weeks)',
     'time-in-days'  =>  'Time(Days)',
     'for-the-year'  =>  'For the Year',
+    'pending-tests'  =>  'Pending Tests',
+    'completed-tests'  =>  'Completed Tests',
 
 
     /** 

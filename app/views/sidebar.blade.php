@@ -16,6 +16,7 @@
 		case 'patientreport': 
 		case 'dailylog': 
 		case 'prevalence':
+		case 'counts':
 			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
@@ -135,9 +136,9 @@
 						</div>
 					</li>
 					<li>
-						<div>
+						<div><a href="{{ URL::route('reports.aggregate.counts')}}">
 							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.counts')}}
+							{{trans('messages.counts')}}</a>
 						</div>
 					</li>
 					<li>

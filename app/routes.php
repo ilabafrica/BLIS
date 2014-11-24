@@ -256,6 +256,11 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.aggregate.prevalence",
             "uses" => "ReportController@prevalenceRates"
         ));
+
+        Route::any("/counts", array(
+            "as"   => "reports.aggregate.counts",
+            "uses" => "ReportController@counts"
+        ));
         
     });
 });
