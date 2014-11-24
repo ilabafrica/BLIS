@@ -111,8 +111,11 @@ class ReportController extends \BaseController {
 		$from = Input::get('start');
 		$to = Input::get('end');
 		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
-		$all = Input::get('all');
-		$pending = Input::get('pending');
+		$pendingOrAll = Input::get('pending_or_all');
+		//	Check radiobutton for pending/all tests is checked and assign the 'true' value
+		if (Input::get('tests') === '1') {
+		    $pending='true';
+		}
 		$date = date('Y-m-d');
 		if(!$to){
 			$to=$date;
@@ -235,10 +238,10 @@ class ReportController extends \BaseController {
 				$tests = $tests->where('test_type_id', '=', $testType);
 			}
 			/*Filter by all tests*/
-			if($pending){
+			if($pendingOrAll=='pending'){
 				$tests = $tests->whereIn('test_status_id', [Test::PENDING, Test::STARTED]);
 			}
-			else if($all){
+			else if($pendingOrAll=='all'){
 				$tests = $tests->whereIn('test_status_id', 
 					[Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED]);
 			}
@@ -286,8 +289,7 @@ class ReportController extends \BaseController {
 							->with('tests', $tests)
 							->with('testCategory', $testCategory)
 							->with('testType', $testType)
-							->with('pending', $pending)
-							->with('all', $all)
+							->with('pendingOrAll', $pendingOrAll)
 							->withInput(Input::all());
 			}
 		}

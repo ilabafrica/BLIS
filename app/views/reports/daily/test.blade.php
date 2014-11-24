@@ -43,13 +43,15 @@
 						  	'id' => 'specimens')) }} {{trans('messages.rejected-specimen')}}
 						</label></td>
 					<td colspan="2">
-				    	<label class="checkbox-inline">
-				    		{{Form::checkbox('pending', '1', isset($input['pending']))}} {{trans('messages.pending-only')}}
+				    	<label class="radio-inline">
+				    		{{ Form::radio('pending_or_all', 'pending', ($pendingOrAll=='pending')?true:false, array('data-toggle' => 'radio',
+						  	'id' => 'pending')) }} {{trans('messages.pending-only')}}
 						</label>
 				    </td>
 				    <td>
-				    	<label class="checkbox-inline">
-				    		{{Form::checkbox('all', '1', isset($input['all']))}} {{trans('messages.all-tests')}}
+				    	<label class="radio-inline">
+				    		{{ Form::radio('pending_or_all', 'all', ($pendingOrAll=='all')?true:false, array('data-toggle' => 'radio',
+						  	'id' => 'all')) }} {{trans('messages.all-tests')}}
 						</label>
 				    </td>
 				</tr>
