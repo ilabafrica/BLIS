@@ -41,7 +41,7 @@
 					<th>{{ trans('messages.visit-number')}}</th>
 					<td>{{ $patient->id }}</td>
 					<th>{{ trans('messages.requesting-facility-department')}}</th>
-					<td>{{ 'Bungoma District Hospital' }}</td>
+					<td>{{ Config::get('kblis.organization') }}</td>
 				</tr>
 			</tbody>
 		</table>
