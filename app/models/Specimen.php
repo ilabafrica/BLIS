@@ -65,6 +65,46 @@ class Specimen extends Eloquent
     }
 
     /**
+	 * referrals relationship
+	 */
+	public function referral()
+    {
+        return $this->belongsTo('Referral');
+    }
+
+    /**
+	 * Check if specimen is referred
+	 *
+	 * @return boolean
+	 */
+    public function isReferred()
+    {
+    	if(is_null($this->referral))
+    	{
+    		return false;
+    	}
+    	else {
+    		return true;
+    	}
+    }
+
+    /**
+    * Check if specimen is rejected
+    *
+    * @return boolean
+    */
+    public function isRejected()
+    {
+        if($this->specimen_status_id == Specimen::REJECTED)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
+    /**
 	 * User (accepted) relationship
 	 */
 	public function acceptedBy()

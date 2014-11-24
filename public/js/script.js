@@ -169,6 +169,8 @@ $(function(){
 		// Add the new buttons
 		var newButtons = $('.reject-start-buttons').html();
 		parent.append(newButtons);
+		var rejectButton = $('.refer-button').html();
+		parent.append(rejectButton);
 
 		// Set properties for the new buttons
 		var rejectURL = location.protocol+ "//"+location.host+ "/test/" + specID+ "/reject";
@@ -199,6 +201,8 @@ $(function(){
 		// Add the new buttons
 		var newButtons = $('.enter-result-buttons').html();
 		parent.append(newButtons);
+		var rejectButton = $('.refer-button').html();
+		parent.append(rejectButton);
 
 		// Set properties for the new buttons
 		var resultURL = location.protocol+ "//"+location.host+ "/test/" + testID+ "/enterresults";

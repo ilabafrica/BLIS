@@ -47,6 +47,12 @@ return array(
     'users' => 'Users',
     'username' => 'Username',
     'view' => 'View',
+    'facility' => 'Facility',
+    'person' => 'Person',
+    'contacts' => 'Contacts',
+    'refer' => 'Refer',
+    'in' => 'In',
+    'out' => 'Out',
 
     /** 
      *   Generic phrases
@@ -136,7 +142,13 @@ return array(
     'specimen-type-title' => 'Specimen Type',
     'success-rejecting-specimen' => 'The specimen was rejected!',
     'update' => 'Update',
-    
+    'refer-sample' => 'Refer sample',
+    'referrals' => 'Referals',
+    'specimen-succesful-refer' => 'The specimen was referred',
+    'specimen-referred-label' => 'Specimen Referred',
+    'person-involved' => 'Person involved',
+    'referred-by' => 'Referred by',
+
     /** 
      *   Test Catalog
      */

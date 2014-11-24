@@ -140,6 +140,18 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@accept"
     ));
 
+     Route::get("/test/{id}/refer", array(
+        "before" => "checkPerms:refer_specimens",
+        "as"   => "test.refer",
+        "uses" => "TestController@showRefer"
+    ));
+
+    Route::post("/test/referaction", array(
+        "before" => "checkPerms:refer_specimens",
+        "as"   => "test.referAction",
+        "uses" => "TestController@referAction"
+    ));
+
     Route::get("/test/{id}/reject", array(
         "before" => "checkPerms:reject_test_specimen",
         "as"   => "test.reject",

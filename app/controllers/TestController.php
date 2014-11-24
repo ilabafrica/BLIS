@@ -373,4 +373,61 @@ class TestController extends \BaseController {
 		return View::make('test.viewDetails')->with('test', $test);
 	}
 
+	/**
+	 * Refer the test
+	 *
+	 * @param specimenId
+	 * @return View
+	 */
+	public function showRefer($specimenId)
+	{
+		$specimen = Specimen::find($specimenId);
+		//Referral facilities
+		return View::make('test.refer')->with('specimen', $specimen);
+	}
+
+	/**
+	 * Refer action
+	 *
+	 * @return View
+	 */
+	public function referAction()
+	{
+		//Validate
+		$rules = array(
+			'referal-status' => 'required',
+			'facility' => 'required',
+			'person' => 'required',
+			'contacts' => 'required'
+			);
+		$validator = Validator::make(Input::all(), $rules);
+		$specimenId = Input::get('specimen_id');
+
+		if ($validator->fails())
+		{
+			return Redirect::route('test.refer', array($specimenId))-> withInput()->withErrors($validator);
+		}
+
+		//Insert into referral table
+		$referral = new Referral();
+		$referral->status = Input::get('referal-status');
+		$referral->facility = Input::get('facility');
+		$referral->person = Input::get('person');
+		$referral->contacts = Input::get('contacts');
+		$referral->user_id = Auth::user()->id;
+
+		//Update specimen referral status
+		$specimen = Specimen::find($specimenId);
+
+		DB::transaction(function() use ($referral, $specimen) {
+			$referral->save();
+			$specimen->referral_id = $referral->id;
+			$specimen->save();
+		});
+
+		//Start test
+
+		//Return view
+		return Redirect::route('test.index')->with('message', trans('messages.specimen-succesful-refer'));
+	}
 }
