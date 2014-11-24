@@ -75,7 +75,7 @@
 {{ Form::close() }}
 <div class="panel panel-primary">
 	<div class="panel-heading ">
-		<span class="glyphicon glyphicon-user"></span> {{ trans('messages.daily-log') }}
+		<span class="glyphicon glyphicon-user"></span> {{ trans('messages.daily-log') }} - {{ trans('messages.test-records') }}
 	</div>
 
 	<div class="panel-body">

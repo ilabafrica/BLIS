@@ -61,7 +61,7 @@
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
-		{{ trans('messages.daily-log') }}
+		{{ trans('messages.daily-log') }} - {{ trans('messages.rejected-specimen') }}
 	</div>
 	<div class="panel-body">
 		<!-- if there are search errors, they will show here -->

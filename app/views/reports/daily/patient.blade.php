@@ -4,7 +4,7 @@
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
 	  <li class="active"><a href="{{ URL::route('reports.patient.index') }}">{{ trans('messages.reports') }}</a></li>
-	  <li class="active">{{ trans('messages.daily-log') }} - {{trans('messages.patient-records')}}</li>
+	  <li class="active">{{ trans('messages.daily-log') }}</li>
 	</ol>
 </div>
 {{ Form::open(array('route' => array('reports.daily.log'), 'class' => 'form-inline', 'role' => 'form')) }}
