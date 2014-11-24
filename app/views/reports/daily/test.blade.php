@@ -61,14 +61,12 @@
 								array('class' => 'form-control', 'id' => 'section_id')) }}</td>
 					<td>{{ Form::label('description', trans("messages.test-type")) }}</td>
 				    <td colspan="2">
-				    	{{ Form::select('test_type', array('' => 'Select Test Type'), 
+				    	{{ Form::select('test_type', array('' => 'Select Test Type')+$testTypes, 
 				    		Request::old('testType') ? Request::old('testType') : $testType, 
 								array('class' => 'form-control', 'id' => 'test_type')) }}</td>
 				 </tr>
 			</thead>
 			<tbody>
-				{{ Form::hidden('test_type_id', Request::old('testType') ? Request::old('testType') : $testType, 
-					array('id' => 'test_type')) }}
 			</tbody>
 		</table>
 	</div>

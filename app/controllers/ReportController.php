@@ -119,16 +119,13 @@ class ReportController extends \BaseController {
 		}
 		$records = Input::get('records');
 		$testCategory = Input::get('section_id');
-		$testType = '';
-		if(Input::get('test_type')){
-			$testType = Input::get('test_type');
-		}
-		else if(Input::get('test_type_id')){
-			$testType = Input::get('test_type_id');
-		}
+		$testType = Input::get('test_type');
 		$date = date('Y-m-d');
 		$labSections = TestCategory::lists('name', 'id');
-		$testTypes = TestType::all();
+		if($testCategory)
+			$testTypes = TestCategory::find($testCategory)->testTypes->lists('name', 'id');
+		else
+			$testTypes = array(""=>"");
 		
 		if($records=='patients'){
 			if($from||$to){
