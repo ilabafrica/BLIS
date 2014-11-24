@@ -363,18 +363,11 @@ label, input {
 /**
  *MEASURE VIEW
  */
-.measurevalue div {
-    overflow: hidden;
-    margin-right: 2px;
-}
-.measurevalue .measure-input
+.measurevalue .measure-input div
 {
     border-bottom: 1px solid #D1D1D1;
     padding:5px 0px;
 }
-    .measurevalue .measure-input div{
-        float: left;
-    }
 
 /*
 * REJECT Specimen shading - Used on test-index view

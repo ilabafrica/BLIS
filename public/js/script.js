@@ -55,17 +55,27 @@ $(function(){
 	 *  - Add another measure button 
 	 */
 	$('.add-another-range').click(function(){
-		var inputClass = ['.numericInputLoader', '.alphanumericInputLoader', '.autocompleteInputLoader', '.freetextInputLoader']; 
+		var inputClass = ['.numericInputLoader', '.alphanumericInputLoader', '.alphanumericInputLoader', '.freetextInputLoader']; 
 		var id = $("#measuretype").val() - 1;
 		var inputHtml = $(inputClass[id]).html();
 		$(".measurevalue" ).append(inputHtml);
 	});
 	/*  load measure range input UI for the selected measure type */
 	$( '.meauretype-input-trigger' ).change(function() {
-		var inputClass = ['.numericInputLoader', '.alphanumericInputLoader', '.autocompleteInputLoader', '.freetextInputLoader']; 
+		var headerClass = ['.numericHeaderLoader', '.alphanumericHeaderLoader', '.alphanumericHeaderLoader', '.freetextHeaderLoader']; 
+		var inputClass = ['.numericInputLoader', '.alphanumericInputLoader', '.alphanumericInputLoader', '.freetextInputLoader']; 
 		var id = $(this).val() - 1;
+		var headerHtml = $(headerClass[id]).html();
 		var inputHtml = $(inputClass[id]).html();
+		if (id == 0) {
+			$('.measurevalue').removeClass('col-md-6');
+			$('.measurevalue').addClass('col-md-12');
+		} else{
+			$('.measurevalue').removeClass('col-md-12');
+			$('.measurevalue').addClass('col-md-6');
+		}
 		$('.measurevalue').empty();
+		$('.measurevalue').append(headerHtml);
 		$('.measurevalue').append(inputHtml);
 	});
 
@@ -94,7 +104,7 @@ $(function(){
 	// Delete measure range
 
 	$("body").on("click", ".measure-input .close", function(){
-		$(this).parent().remove();
+		$(this).parent().parent().remove();
 	});
 
 	/** 
