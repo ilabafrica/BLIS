@@ -59,6 +59,8 @@
 					</li>
 				</ul>
 			</div>
+			
+
 		</li>
 		@endif
 		@if(Entrust::can('manage_test_catalog'))
