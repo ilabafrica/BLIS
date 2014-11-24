@@ -179,12 +179,7 @@ class PatientController extends \BaseController {
 	 */
 	public function search()
 	{
-        return Patient::select('id', 'patient_number','name')
-                ->where(function($query){
-                    $txt = Input::get('text');
-                    $query->where("name", "LIKE", "%".$txt."%")
-                        ->orWhere("patient_number", "LIKE", "%".$txt."%");
-                })->take(Config::get('kblis.limit-items'))->get()->toJson();
+        return Patient::search(Input::get('text'))->take(Config::get('kblis.limit-items'))->get()->toJson();
 	}
 
 }

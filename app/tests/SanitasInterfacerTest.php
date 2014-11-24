@@ -23,19 +23,19 @@ class SanitasInterfacerTest extends TestCase
                 array(), array(), array('application/json'));
 
         // Was the data stored in the external dump?
-        $externalDump = ExternalDump::where('labNo', '=', $this->labRequestJsonSimpleTest['labNo']);
+        $externalDump = ExternalDump::where('labNo', '=', $this->labRequestJsonSimpleTest['labNo'])->get();
         $this->assertTrue(count($externalDump) > 0);
 
         // Was a new patient created?
-        $patient = Patient::where('patient_number', '=', $externalDump->first()->patient_id);
+        $patient = Patient::where('patient_number', '=', $externalDump->first()->patient_id)->get();
         $this->assertTrue(count($patient) > 0);
 
         // Is there a Visit for this new patient?
-        $visit = Visit::where('patient_id', '=', $patient->first()->id);
+        $visit = Visit::where('patient_id', '=', $patient->first()->id)->get();
         $this->assertTrue(count($visit) > 0);
 
         // Is there a Test for this visit?
-        $test = Test::where('visit_id', '=', $visit->first()->id);
+        $test = Test::where('visit_id', '=', $visit->first()->id)->get();
         $this->assertTrue(count($visit) > 0);
 
         // Is there a Specimen for this new Test?
@@ -51,15 +51,15 @@ class SanitasInterfacerTest extends TestCase
                 array(), array(), array('application/json'));
 
         // Was the data stored in the external dump?
-        $externalDump = ExternalDump::where('labNo', '=', $this->labRequestJsonSimpleTestNotFoundInSanitas['labNo']);
+        $externalDump = ExternalDump::where('labNo', '=', $this->labRequestJsonSimpleTestNotFoundInSanitas['labNo'])->get();
         $this->assertTrue(count($externalDump) > 0);
 
         // Was a new patient created?
-        $patient = Patient::where('patient_number', '=', $externalDump->first()->patient_id);
+        $patient = Patient::where('patient_number', '=', $externalDump->first()->patient_id)->get();
         $this->assertTrue(count($patient) > 0);
 
         // Is there a Visit for this new patient?
-        $visit = Visit::where('patient_id', '=', $patient->first()->id);
+        $visit = Visit::where('patient_id', '=', $patient->first()->id)->get();
         $this->assertTrue(empty($visit->first()));
 
         // Is there a Test for this visit? ... a Specimen for this new Test? No need to check these.
@@ -73,44 +73,44 @@ class SanitasInterfacerTest extends TestCase
         }
         Interfacer::retrieve($this->labRequestJsonSimpleTest); //bs for mps
 
-    // Check that all the 'urinalysis' data was stored
+        // Check that all the 'urinalysis' data was stored
         // Was the data stored in the external dump?
         for ($i=0; $i < count($this->labRequestUrinalysis); $i++) { 
-            $externalDump[] = ExternalDump::where('labNo', '=', $this->labRequestUrinalysis[$i]['labNo']);
+            $externalDump[] = ExternalDump::where('labNo', '=', $this->labRequestUrinalysis[$i]['labNo'])->get();
             $this->assertTrue(count($externalDump[$i]) > 0);
         }
 
         // Was a new patient created?
-        $patient = Patient::where('patient_number', '=', $externalDump[0]->first()->patient_id);
+        $patient = Patient::where('patient_number', '=', $externalDump[0]->first()->patient_id)->get();
         $this->assertTrue(count($patient) > 0);
 
         // Is there a Visit for this new patient?
-        $visit = Visit::where('patient_id', '=', $patient->first()->id);
+        $visit = Visit::where('patient_id', '=', $patient->first()->id)->get();
         $this->assertTrue(count($visit) > 0);
 
         // Is there a Test for this visit?
-        $test = Test::where('visit_id', '=', $visit->first()->id);
+        $test = Test::where('visit_id', '=', $visit->first()->id)->get();
         $this->assertTrue(count($visit) > 0);
 
         // Is there a Specimen for this new Test?
         $specimen = $test->first()->specimen;
         $this->assertTrue(count($specimen) > 0);
 
-    // Check that the 'bs for mps' data was stored
+        // Check that the 'bs for mps' data was stored
         // Was the data stored in the external dump?
-        $externalDumpBS = ExternalDump::where('labNo', '=', $this->labRequestJsonSimpleTest['labNo']);
+        $externalDumpBS = ExternalDump::where('labNo', '=', $this->labRequestJsonSimpleTest['labNo'])->get();
         $this->assertTrue(count($externalDump) > 0);
 
         // Was a new patient created?
-        $patient = Patient::where('patient_number', '=', $externalDumpBS->first()->patient_id);
+        $patient = Patient::where('patient_number', '=', $externalDumpBS->first()->patient_id)->get();
         $this->assertTrue(count($patient) > 0);
 
         // Is there a Visit for this new patient?
-        $visit = Visit::where('patient_id', '=', $patient->first()->id);
+        $visit = Visit::where('patient_id', '=', $patient->first()->id)->get();
         $this->assertTrue(count($visit) > 0);
 
         // Is there a Test for this visit?
-        $test = Test::where('visit_id', '=', $visit->first()->id);
+        $test = Test::where('visit_id', '=', $visit->first()->id)->get();
         $this->assertTrue(count($visit) > 0);
 
         // Is there a Specimen for this new Test?
@@ -124,19 +124,19 @@ class SanitasInterfacerTest extends TestCase
         Interfacer::retrieve($this->labRequestJsonSimpleTest);
 
         // Was the data stored in the external dump?
-        $externalDump = ExternalDump::where('labNo', '=', $this->labRequestJsonSimpleTest['labNo']);
+        $externalDump = ExternalDump::where('labNo', '=', $this->labRequestJsonSimpleTest['labNo'])->get();
         $this->assertTrue(count($externalDump) > 0);
 
         // Was a new patient created?
-        $patient = Patient::where('patient_number', '=', $externalDump->first()->patient_id);
+        $patient = Patient::where('patient_number', '=', $externalDump->first()->patient_id)->get();
         $this->assertTrue(count($patient) > 0);
 
         // Is there a Visit for this new patient?
-        $visit = Visit::where('patient_id', '=', $patient->first()->id);
+        $visit = Visit::where('patient_id', '=', $patient->first()->id)->get();
         $this->assertTrue(count($visit) > 0);
 
         // Is there a Test for this visit?
-        $test = Test::where('visit_id', '=', $visit->first()->id);
+        $test = Test::where('visit_id', '=', $visit->first()->id)->get();
         $this->assertTrue(count($visit) > 0);
 
         // Is there a Specimen for this new Test?
@@ -148,10 +148,27 @@ class SanitasInterfacerTest extends TestCase
 
         // Was the data stored in the external dump?
         // There should only be one record. The second only updates the first
-        $externalDumpPayment = ExternalDump::where('labNo', '=', $this->labRequestJsonSimpleTest['labNo']);
+        $externalDumpPayment = ExternalDump::where('labNo', '=', $this->labRequestJsonSimpleTest['labNo'])->get();
         $this->assertTrue(count($externalDumpPayment) == 1);
         $this->assertEquals($this->labRequestJsonSimpleTestPayMentRequest['receiptNumber'],
             $externalDumpPayment->first()->receiptNumber);
+    }
+
+    public function rethinktestInterfacerSend()
+    {
+        //Curent method of testing not working
+        Interfacer::send('13');
+
+        $dump1 = ExternalDump::find(1);
+
+        $this->assertEquals($dump1->result_returned, 1);
+
+        $extD = new ExternalDump();
+        $externalLabRequestTree = $extD->getLabRequestAndMeasures($dump1->labNo);
+
+        foreach ($externalLabRequestTree as $key => $externalLabRequest) {
+            $this->assertEquals(1, $externalLabRequest->result_returned);
+        }
     }
 
     public function setVariables()
@@ -232,118 +249,99 @@ class SanitasInterfacerTest extends TestCase
             }', true);
 
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596699,"parentLabNo":0,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Urinalysis",
-                "requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597579,"parentLabNo":0,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"Urinalysis","requestDate":"2014-10-15 08:35:38","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596700,"parentLabNo":596699,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Urine microscopy",
-                "requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597580,"parentLabNo":597579,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"Urine microscopy","requestDate":"2014-10-15 08:35:39","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596701,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Pus cells",
-                "requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597581,"parentLabNo":597580,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"Pus cells","requestDate":"2014-10-15 08:35:39","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596702,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"S. haematobium",
-                "requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597582,"parentLabNo":597580,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"S. haematobium","requestDate":"2014-10-15 08:35:39","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596703,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"T. vaginalis",
-                "requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597583,"parentLabNo":597580,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"T. vaginalis","requestDate":"2014-10-15 08:35:39","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596704,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Yeast cells",
-                "requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597584,"parentLabNo":597580,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"Yeast cells","requestDate":"2014-10-15 08:35:39","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596705,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Red blood cells",
-                "requestDate":"2014-10-14 10:20:35","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597585,"parentLabNo":597580,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"Red blood cells","requestDate":"2014-10-15 08:35:39","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596706,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Bacteria",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597586,"parentLabNo":597580,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"Bacteria","requestDate":"2014-10-15 08:35:39","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596707,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Spermatozoa",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597587,"parentLabNo":597580,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"Spermatozoa","requestDate":"2014-10-15 08:35:39","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596708,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Epithelial cells",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597588,"parentLabNo":597580,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"Epithelial cells","requestDate":"2014-10-15 08:35:39","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596709,"parentLabNo":596700,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"ph",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597589,"parentLabNo":597580,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"ph","requestDate":"2014-10-15 08:35:39","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596710,"parentLabNo":596699,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Urine chemistry",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597590,"parentLabNo":597579,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"Urine chemistry","requestDate":"2014-10-15 08:35:40","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596711,"parentLabNo":596710,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Glucose",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597591,"parentLabNo":597590,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"Glucose","requestDate":"2014-10-15 08:35:40","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596712,"parentLabNo":596710,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Ketones",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597592,"parentLabNo":597590,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"Ketones","requestDate":"2014-10-15 08:35:40","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596713,"parentLabNo":596710,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Proteins",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597593,"parentLabNo":597590,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"Proteins","requestDate":"2014-10-15 08:35:40","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596714,"parentLabNo":596710,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Blood",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597594,"parentLabNo":597590,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"Blood","requestDate":"2014-10-15 08:35:40","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596715,"parentLabNo":596710,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Bilirubin",
-                "requestDate":"2014-10-14 10:20:36","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597595,"parentLabNo":597590,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"Bilirubin","requestDate":"2014-10-15 08:35:40","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596716,"parentLabNo":596710,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"Urobilinogen Phenlpyruvic acid",
-                "requestDate":"2014-10-14 10:20:37","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597596,"parentLabNo":597590,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"Urobilinogen Phenlpyruvic acid","requestDate":"2014-10-15 08:35:40","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
         $this->labRequestUrinalysis[] = 
-            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596717,"parentLabNo":596710,
-                "requestingClinician":"FELA ANIKULAPO KUTI","investigation":"pH",
-                "requestDate":"2014-10-14 10:20:37","orderStage":"ip","patientVisitNumber":643660,
-                "patient":{"id":326983,"fullName":"Nate Salman","dateOfBirth":"1996-10-09 00:00:00","gender":"Female"},
-                "address":{"address":null,"postalCode":null,"phoneNumber":"","city":null}}',true);
+            json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":597597,"parentLabNo":597590,"requestingClinician":"DOCTOR DING RING",
+                "investigation":"pH","requestDate":"2014-10-15 08:35:40","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
+                "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
+                "phoneNumber":"","city":null}}',true);
     }
 }

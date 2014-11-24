@@ -23,4 +23,12 @@ class TestCategory extends Eloquent
 	 *
 	 */
 	public static $rules = array('name' => 'required|unique:test_categories,name');
+
+	/**
+	 * Test types relationship
+	 *
+	 */
+	public function testTypes(){
+         return $this->hasMany('TestType', 'test_category_id');
+      }
 }

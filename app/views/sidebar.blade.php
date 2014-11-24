@@ -11,8 +11,12 @@
 		case 'testtype': 
 		case 'measure': 
 		case 'specimentype': 
+		case 'specimenrejection': 
 			$active[4] = "active"; break;
-		case 'report': $active[5] = "active"; break;
+		case 'patientreport': 
+		case 'dailylog': 
+		case 'prevalence':
+			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
 		case 'user': 
@@ -79,6 +83,12 @@
 					</li>
 					<li>
 						<div>
+							<a href="{{ URL::route("specimenrejection.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.specimen-rejection')}}</a>
+						</div>
+					</li>					
+					<li>
+						<div>
 							<a href="{{ URL::route("testtype.index")}}">
 								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.test-types')}}</a>
 						</div>
@@ -93,9 +103,10 @@
 			</div>
 		</li>
 		@endif
+		@if(Entrust::can('view_reports'))
 		<li>
 			<div class="main-menu {{$active[5]}}">
-				<a href="javascript:void(0);">
+				<a href="{{ URL::route('reports.patient.index')}}">
 					<span class="glyphicon glyphicon-stats"></span> {{trans('messages.reports')}}</a>
 			</div>
 			<div class="sub-menu {{$active[5]}}">
@@ -103,23 +114,24 @@
 				<ul class="sub-menu-items">
 					<li>
 						<div>
-							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.patient-report')}}
+							<a href="{{ URL::route('reports.patient.index')}}">
+								<span class="glyphicon glyphicon-tag"></span>
+								{{trans('messages.patient-report')}}</a>
 						</div>
 					</li>
 					<li>
-						<div>
+						<div><a href="{{ URL::route('reports.daily.log')}}">
 							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.daily-log')}}
+							{{trans('messages.daily-log')}}</a>
 						</div>
 					</li>
 				</ul>
 				<div class="sub-menu-title">{{trans('messages.aggregate-reports')}}</div>
 				<ul class="sub-menu-items">
 					<li>
-						<div>
+						<div><a href="{{ URL::route('reports.aggregate.prevalence')}}">
 							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.prevalence-rates')}}
+							{{trans('messages.prevalence-rates')}}</a>
 						</div>
 					</li>
 					<li>
@@ -143,6 +155,7 @@
 				</ul>
 			</div>
 		</li>
+		@endif
 		<li>
 			<div class="main-menu {{$active[6]}}">
 				<a href="{{ (Entrust::can('manage_users')) ? URL::route('user.index') : URL::to('user/'.Auth::user()->id.'/edit') }}">

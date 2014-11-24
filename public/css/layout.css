@@ -57,6 +57,10 @@ label, input {
     min-height: 150px;
 }
 
+.carousel-inner .img-responsive {
+    width: 100%;
+}
+
 /* Zebra grid on some div displays */
 .form-pane .row {
     border-bottom: 1px solid #DDDDDD;
@@ -247,6 +251,7 @@ label, input {
          top: 51px;
          position: fixed;
          padding: 0;
+         min-height: 100%;
     }
         .sidebar ul {
             list-style-type: none;
@@ -419,3 +424,12 @@ label, input {
     .row.less-gutter .col-md-11 > span{
         line-height: 30px;
     }
+
+/*
+* REPORTS PAGES
+* 
+*/
+
+.report-filter .btn{
+    min-width: 125px;
+}

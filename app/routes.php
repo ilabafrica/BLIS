@@ -100,7 +100,15 @@ Route::group(array("before" => "auth"), function()
             "as"   => "testtype.delete",
             "uses" => "TestTypeController@delete"
         ));
+
+        Route::resource('specimenrejection', 'SpecimenRejectionController');
+
+        Route::any("/specimenrejection/{id}/delete", array(
+            "as"   => "specimenrejection.delete",
+            "uses" => "SpecimenRejectionController@delete"
+        ));
     });
+
 
 
     Route::any("/test", array(
@@ -221,6 +229,34 @@ Route::group(array("before" => "auth"), function()
             "as"   => "role.delete",
             "uses" => "RoleController@delete"
         ));
+    });
+    
+    //  Check if able to manage reports
+    Route::group(array("before" => "checkPerms:view_reports"), function()
+    {
+        Route::any("/patientreport", array(
+            "as"   => "reports.patient.index",
+            "uses" => "ReportController@loadPatients"
+        ));
+
+        Route::any("/patientreport/{id}", array(
+            "as" => "reports.patient.report", 
+            "uses" => "ReportController@viewPatientReport"
+            ));
+        Route::any("/dailylog", array(
+            "as"   => "reports.daily.log",
+            "uses" => "ReportController@dailyLog"
+        ));
+        Route::get('reports/dropdown', array(
+            "as"    =>  "reports.dropdown",
+            "uses"  =>  "ReportController@reportsDropdown"
+        ));
+
+        Route::any("/prevalence", array(
+            "as"   => "reports.aggregate.prevalence",
+            "uses" => "ReportController@prevalenceRates"
+        ));
+        
     });
 });
 

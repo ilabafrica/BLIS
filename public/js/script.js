@@ -127,6 +127,7 @@ $(function(){
 			}
 		});
 	});
+
 	/* Prevent patient search modal form submit (default action) when the ENTER key is pressed*/
 	$('#new-test-modal .search-text').keypress(function( event ) {
 		if ( event.which == 13 ) {
@@ -211,6 +212,38 @@ $(function(){
 		// Now remove the unnecessary buttons
 		$(this).remove();
 	});
+
+	/**
+	 *-----------------------------------
+	 * REPORTS
+	 *-----------------------------------
+	 */
+
+		/*Dynamic loading of select list options*/
+		$('#section_id').change(function(){
+			$.get("/reports/dropdown", 
+				{ option: $(this).val() }, 
+				function(data) {
+					var test_type = $('#test_type');
+					test_type.empty();
+					test_type.append("<option value=''>Select Test Type</option>");
+					$.each(data, function(index, element) {
+			            test_type.append("<option value='"+ element.id +"'>" + element.name + "</option>");
+			        });
+				});
+		});
+		/*End dynamic select list options*/
+		
+		/*Toggle summary div for reports*/
+		$('#reveal').click(function(){
+			if ( $('#summary').hasClass('hidden')) {
+					$('#summary').removeClass('hidden');
+			}else {
+				$('#summary').addClass('hidden');
+			}
+		});
+
+
 
 });
 	/**
@@ -298,4 +331,8 @@ $(function(){
 	    {
 	        $('#form-edit-password').submit();
 	    }
+	}
+
+	/*	Functions to be used in reports blades	*/
+	function reportScripts(){
 	}
