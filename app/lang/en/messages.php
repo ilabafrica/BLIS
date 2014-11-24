@@ -329,6 +329,7 @@ return array(
     'select-test-types' => 'Select Test Types',
     'success-creating-instrument' => 'The equipment was added successfully!',
     'success-deleting-instrument' => 'The equipment was successfully deleted!',
+    'success-importing-driver' => 'The equipment driver was successfully imported!',
     'success-updating-instrument' => 'The equipment details were successfully updated!',
     'supported-test-types' => 'Supported Tests',
     'unwriteable-destination-folder' => 'Unable to write to the plugins folder',

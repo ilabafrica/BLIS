@@ -30,7 +30,7 @@ class Instrument extends Eloquent
 			foreach ($testTypes as $name) {
 				try {
 					$testTypesAdded[] = TestType::where('name', '=', $name)->first()->id;
-				} catch (Exception $e) {
+				} catch (\Exception $e) {
 					Log::error($e);
 				}
 			}
@@ -62,16 +62,19 @@ class Instrument extends Eloquent
         	return trans('messages.unwriteable-destination-folder');
         }
 
-		try {
-			$className = "KBLIS\\Plugins\\".head(explode(".", last(explode("/", $fileName))));
-			if(class_exists($className)){
-				$dummyIP = "10.10.10.1";
-				$instrument = new $className($dummyIP);
-				$plugs[$instrument->getEquipmentInfo()['code']] = $instrument->getEquipmentInfo()['name'];
-	        	return trans('messages.driver-imported-successfully');
+		$className = "KBLIS\\Plugins\\".head(explode(".", last(explode("/", $fileName))));
+
+		// Check if the className is a valid plugin file
+		if(class_exists($className)){
+			$dummyIP = "10.10.10.1";
+			$instrument = new $className($dummyIP);
+	
+			if(is_subclass_of($instrument, 'KBLIS\Instrumentation\AbstractInstrumentor')){
+				$instrument->getEquipmentInfo()['code'];
+	        	return trans('messages.success-importing-driver');
+			} else {
+				Log::error("invalid-driver-file: " . $className);
 			}
-		} catch (Exception $e) {
-			Log::error($e);
 		}
 
 		if (File::exists($destination.$fileName)) {
@@ -83,7 +86,7 @@ class Instrument extends Eloquent
 	/**
 	 * Get a list of all installed plugins
 	 *
-	 * @param optional boolean withClassName
+	 * @param optional boolean withClassName - Return the class name as well
 	 *
 	 * @return array('code' => array('name', 'className'))
 	 */
@@ -94,12 +97,14 @@ class Instrument extends Eloquent
 		$plugs = array();
 
 		foreach ($plugins as $plugin) {
-			try {
-				$className = "KBLIS\\Plugins\\".head(explode(".", last(explode("/", $plugin))));
+			$className = "KBLIS\\Plugins\\".head(explode(".", last(explode("/", $plugin))));
 
-				if(class_exists($className)){
+			// Check if its a valid plugin file
+			if(class_exists($className)){
 
-					$instrument = new $className($dummyIP);
+				$instrument = new $className($dummyIP);
+
+				if(is_subclass_of($instrument, 'KBLIS\Instrumentation\AbstractInstrumentor')){
 
 					$code = $instrument->getEquipmentInfo()['code'];
 					$name = $instrument->getEquipmentInfo()['name'];
@@ -111,9 +116,9 @@ class Instrument extends Eloquent
 					{
 						$plugs[$code] = $name;
 					}
+				} else {
+					Log::error("invalid-driver-file: " . $className);
 				}
-			} catch (Exception $e) {
-				Log::error($e);
 			}
 		}
 
