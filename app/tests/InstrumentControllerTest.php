@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests the TestController functions that store, edit and delete measures 
+ * Instrumentation Tests
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
 
@@ -15,10 +15,17 @@ class InstrumentControllerTest extends TestCase
 
 
     /*-------------------------------------------------------------------------------
-    * 14 methods in the InstrumentController class
+    *  InstrumentController and Instrument classes
     *--------------------------------------------------------------------------------
-    * - create - Shows create interface
-    *   + Check for expected field name: ip
+    * 1. list all equipment
+    *    - Click equipment side menu
+    *    - Check InstrumentController redirects to the correct view ('instrument.index')
+    */
+
+    /*
+    * 2. create - Shows create interface
+    *    - Click 'New Equipment' button on 'instrument.index' page
+    *    - Check for an expected field name: ip
     */
     public function testDisplayCreateForm(){
 
@@ -36,52 +43,62 @@ class InstrumentControllerTest extends TestCase
     }
 
     /*
-    * - saveNewInstrument
-    *   + Required Input: name, ip, testtypes
-    *   + Check TestController redirects to the correct view ('instrument.index')
+    * 3. store - Save a newly defined instruments locational details
+    *    - Click 'New Equipment' button on 'instrument.index' page
+    *    - Fill out the form. Input: instrument*, ip*, hostname
+    *    - Click 'Save' button
+    *    - Outcomes:
+    *      + Validation Failure: redirect to 'instrument.create'
+    *      + Success saving: redirects to 'instrument.index' with success message
+    *      + Failure saving: redirects to 'instrument.index' with failure message. DB failure/Corrupt driver
     */
-    public function testSaveNewInstrumentSuccess(){
-
-      $url = URL::route('instrument.create');
-
-      // Set the current user to admin
-      $this->be(User::first());
-
-      $crawler = $this->client->request('GET', $url);
-
-      // Get the form and set the form values
-      $form = $crawler->selectButton(trans('messages.save'))->form();
-
-      $form['ip'] = '10.10.1.10';
-      $form['hostname'] = 'CODE_HEARSE';
-
-      // Submit the form
-      $crawler = $this->client->submit($form);
-
-      $this->assertRedirectedToRoute('instrument.index');
-    }
 
     /*
-    * - saveNewInstrument
-    *   + Required Input: name, ip, testtypes
-    *   + Check TestController redirects to the correct view ('instrument.index')
+    * 4. show - Display instrument details
+    *    - Click 'View' button on 'instrument.index' page
+    *    - Check for redirection to 'instrument.show' then an expected string: {trans...compatible-test-types}
     */
-    public function testSaveNewInstrumentFailure(){
 
-      $url = URL::route('instrument.create');
+    /*
+    * 5. edit - Shows edit instrument interface
+    *    - Click 'Edit' button on 'instrument.index' page
+    *    - Check for an expected field name: ip
+    */
+ 
+    /*
+    * 6. update - Save edited details of an instrument
+    *    - Click 'Edit' button on 'instrument.index' page
+    *    - Fill out the form. Input: name*, description, ip*, hostname
+    *    - Click 'Save' button
+    *    - Outcomes:
+    *      + Validation Failure: redirect to 'instrument.edit'
+    *      + Success saving: redirects to 'instrument.index' with success message
+    *      + Failure saving: redirects to 'instrument.index' with failure message. DB failure
+    */
 
-      // Set the current user to admin
-      $this->be(User::first());
+    /*
+    * 7. delete - Deletes an instrument
+    *    - Click 'Delete' button on 'instrument.index' page
+    *    - Click 'Delete' button in the confirmation dialog
+    *    - Check for redirection to 'instrument.index' with success message
+    */
+ 
+    /*
+    * 8. getTestResult - Fetch data from a configured instrument
+    *    - Click 'Edit/Enter Results' button on 'instrument.index' page for a well configured test {WBC}
+    *    - Empty fields.
+    *    - Click 'Fetch' button
+    *    - Check that fields have been repopulated
+    */
 
-      $crawler = $this->client->request('GET', $url);
-
-      // Get the form and set the form values
-      $form = $crawler->selectButton(trans('messages.save'))->form();
-
-      // Submit the form
-      $crawler = $this->client->submit($form);
-
-      $this->assertRedirectedToRoute('instrument.create');
-    }
-
+    /*
+    * 9. importDriver - Import Equipment Driver
+    *    - Click 'New Driver' button on 'instrument.index' page
+    *    - On the resultant dialog box, click 'Browse', pick a file, then click 'Save'.
+    *    - Outcomes:
+    *      + Validation Failure: redirects to 'instrument.index' with validation failure message
+    *      + Success saving: redirects to 'instrument.index' with success message
+    *      + Failure saving: redirects to 'instrument.index' with failure message. No FS Write permissions, Invalid file
+    */
+ 
 }

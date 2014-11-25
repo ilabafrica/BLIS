@@ -58,7 +58,7 @@ class InstrumentController extends \BaseController {
 			// Save the instrument
 			$code = Input::get('instrument');
 			$ip = Input::get('ip');
-			$hostname = Input::get('code');
+			$hostname = Input::get('hostname');
 
 			$message = Instrument::saveInstrument($code, $ip, $hostname);
 
@@ -93,8 +93,7 @@ class InstrumentController extends \BaseController {
 		$instrument = Instrument::find($id);
 
 		//Open the Edit View and pass to it the $instrument
-		return View::make('instrument.edit')
-					->with('instrument', $instrument);
+		return View::make('instrument.edit')->with('instrument', $instrument);
 	}
 
 	/**
@@ -176,27 +175,8 @@ class InstrumentController extends \BaseController {
 		$testType = TestType::find($testTypeID);
 		$instrument = $testType->instruments->first();
 
- 		// Invoke the Instrument Interface Class to get the results
-		$result = (new $instrument->driver_name($instrument->ip))->getResult();
-
-
-		// Change measure names to measure_ids in the returned array
-		$resultWithIDs = array();
-
-		foreach ($result as $measureName => $value) {
-			$measureFound = $testType->measures->filter(function($measure) use ($measureName){
-				if($measure->name == $measureName) return $measure;
-			});
-
-			if(empty($measureFound->toArray())){
-				$resultWithIDs[$measureName] = $value;
-			}else{
-				$resultWithIDs['m_'.$measureFound->first()->id] = $value;
-			}
-		}
-
-		// Send back a json result
-		return json_encode($resultWithIDs);
+ 		// Fetch the results
+		return $instrument->fetchResult($testType);
 	}
 
 	/**

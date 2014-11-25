@@ -168,4 +168,37 @@ class Instrument extends Eloquent
 
 		return trans('messages.failure-creating-instrument');
 	}
+
+	/**
+	 * Set compatible specimen types
+	 *
+	 * @param $testType
+	 * @return Response json
+	 */
+	public function fetchResult($testType){
+
+ 		// Invoke the Instrument Class to get the results
+		$result = (new $this->driver_name($this->ip))->getResult();
+
+
+		// Change measure names to measure_ids in the returned array
+		$resultWithIDs = array();
+
+		foreach ($result as $measureName => $value) {
+			$measureFound = $testType->measures->filter(
+				function($measure) use ($measureName){
+					if($measure->name == $measureName) return $measure;
+			});
+
+			if(empty($measureFound->toArray())){
+				$resultWithIDs[$measureName] = $value;
+			}else{
+				$resultWithIDs['m_'.$measureFound->first()->id] = $value;
+			}
+		}
+
+		// Send back a json result
+		return json_encode($resultWithIDs);
+	}
+
 }
