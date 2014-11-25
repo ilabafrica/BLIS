@@ -61,7 +61,7 @@ $(function(){
 		$(".measurevalue" ).append(inputHtml);
 	});
 	/*  load measure range input UI for the selected measure type */
-	$( '.meauretype-input-trigger' ).change(function() {
+	$( '.measuretype-input-trigger' ).change(function() {
 		var headerClass = ['.numericHeaderLoader', '.alphanumericHeaderLoader', '.alphanumericHeaderLoader', '.freetextHeaderLoader']; 
 		var inputClass = ['.numericInputLoader', '.alphanumericInputLoader', '.alphanumericInputLoader', '.freetextInputLoader']; 
 		var id = $(this).val() - 1;
