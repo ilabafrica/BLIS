@@ -35,14 +35,14 @@ class SpecimenModelTest extends TestCase {
 
     public function testIsRejected()
     {
-        $specimenRejected = Specimen::where('specimen_status_id', '=', 3)->first();
+        $specimenRejected = Specimen::where('specimen_status_id', '=', Specimen::REJECTED)->first();
 
         $this->assertEquals($specimenRejected->isRejected(), true);
     }
 
     public function testIsNotRejected()
     {
-        $specimenRejected = Specimen::where('specimen_status_id', '!=', 3)->first();
+        $specimenRejected = Specimen::where('specimen_status_id', '!=', Specimen::REJECTED)->first();
 
         $this->assertEquals($specimenRejected->isRejected(), false);
     }

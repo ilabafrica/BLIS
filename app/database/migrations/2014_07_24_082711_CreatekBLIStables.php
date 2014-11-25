@@ -198,6 +198,7 @@ class CreatekBLIStables extends Migration {
         {
             $table->increments('id')->unsigned();
             $table->string('facility_name', 500);
+            $table->timestamps();
         });
 
         Schema::create('referrals', function(Blueprint $table)

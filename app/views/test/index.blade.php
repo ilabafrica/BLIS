@@ -201,7 +201,7 @@
                                 </a>
                                 @endif
                                 @if(Auth::user()->can('refer_specimens') && !($test->isExternal()) && !($test->specimen->isReferred()))
-                                <a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->specimen_id.'/refer') }}">
+                                <a class="btn btn-sm btn-info refer-button" href="{{ URL::to('test/'.$test->specimen_id.'/refer') }}">
                                     <span class="glyphicon glyphicon-edit"></span>
                                     {{trans('messages.refer-sample')}}
                                 </a>
@@ -213,12 +213,6 @@
                                     title="{{trans('messages.enter-results-title')}}">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                     {{trans('messages.enter-results')}}
-                                </a>
-                                @endif
-                                 @if(Auth::user()->can('refer_specimens') && !($test->isExternal()) && !($test->specimen->isReferred()))
-                                <a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->specimen_id.'/refer') }}">
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                    {{trans('messages.refer-sample')}}
                                 </a>
                                 @endif
                             @elseif ($test->test_status_id == Test::COMPLETED)

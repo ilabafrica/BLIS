@@ -201,8 +201,6 @@ $(function(){
 		// Add the new buttons
 		var newButtons = $('.enter-result-buttons').html();
 		parent.append(newButtons);
-		var rejectButton = $('.refer-button').html();
-		parent.append(rejectButton);
 
 		// Set properties for the new buttons
 		var resultURL = location.protocol+ "//"+location.host+ "/test/" + testID+ "/enterresults";
@@ -210,6 +208,7 @@ $(function(){
 		parent.children('.enter-result').attr('href',resultURL);
 
 		// Now remove the unnecessary buttons
+		$(this).siblings('.refer-button').remove();
 		$(this).remove();
 	});
 
