@@ -62,14 +62,14 @@ class Instrument extends Eloquent
         	return trans('messages.unwriteable-destination-folder');
         }
 
-		$className = "KBLIS\\Plugins\\".head(explode(".", last(explode("/", $fileName))));
+		$className = "\\KBLIS\\Plugins\\".head(explode(".", last(explode("/", $fileName))));
 
 		// Check if the className is a valid plugin file
 		if(class_exists($className)){
 			$dummyIP = "10.10.10.1";
 			$instrument = new $className($dummyIP);
 	
-			if(is_subclass_of($instrument, 'KBLIS\Instrumentation\AbstractInstrumentor')){
+			if(is_subclass_of($instrument, '\\KBLIS\\Instrumentation\\AbstractInstrumentor')){
 				$instrument->getEquipmentInfo()['code'];
 	        	return trans('messages.success-importing-driver');
 			} else {
@@ -97,14 +97,14 @@ class Instrument extends Eloquent
 		$plugs = array();
 
 		foreach ($plugins as $plugin) {
-			$className = "KBLIS\\Plugins\\".head(explode(".", last(explode("/", $plugin))));
+			$className = "\\KBLIS\\Plugins\\".head(explode(".", last(explode("/", $plugin))));
 
 			// Check if its a valid plugin file
 			if(class_exists($className)){
 
 				$instrument = new $className($dummyIP);
 
-				if(is_subclass_of($instrument, 'KBLIS\Instrumentation\AbstractInstrumentor')){
+				if(is_subclass_of($instrument, '\\KBLIS\\Instrumentation\\AbstractInstrumentor')){
 
 					$code = $instrument->getEquipmentInfo()['code'];
 					$name = $instrument->getEquipmentInfo()['name'];
