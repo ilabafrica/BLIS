@@ -118,7 +118,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <!-- Specimen statuses -->
-                                        @if($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
+                                        @if($test->specimen->isNotCollected())
                                             <span class='label label-default'>
                                                 {{trans('messages.specimen-not-collected-label')}}</span>
                                         @elseif($test->specimen->isReferred())
@@ -130,10 +130,10 @@
                                                     {{ trans("messages.out") }}
                                                 @endif
                                             </span>
-                                        @elseif($test->specimen->specimen_status_id == Specimen::ACCEPTED)
+                                        @elseif($test->specimen->isAccepted())
                                             <span class='label label-success'>
                                                 {{trans('messages.specimen-accepted-label')}}</span>
-                                        @elseif($test->specimen->specimen_status_id == Specimen::REJECTED)
+                                        @elseif($test->specimen->isRejected())
                                             <span class='label label-danger'>
                                                 {{trans('messages.specimen-rejected-label')}}</span>
                                         @endif
@@ -142,7 +142,7 @@
                         <!-- ACTION BUTTONS -->
                         <td>
                             <a class="btn btn-sm btn-success"
-                                href="{{ URL::to('test/'.$test->id.'/viewdetails') }}"
+                                href="{{ URL::route('test.viewDetails', $test->id) }}"
                                 id="view-details-{{$test->id}}-link" 
                                 title="{{trans('messages.view-details-title')}}">
                                 <span class="glyphicon glyphicon-eye-open"></span>
@@ -158,7 +158,7 @@
                                 {{trans('messages.receive-test')}}
                             </a>
                             @endif
-                        @elseif ($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
+                        @elseif ($test->specimen->isNotCollected())
                             @if(Auth::user()->can('accept_test_specimen'))
                             <a class="btn btn-sm btn-info accept-specimen" href="javascript:void(0)"
                                 data-test-id="{{$test->id}}" data-specimen-id="{{$test->specimen->id}}"
@@ -182,7 +182,7 @@
                             </a>
                             @endif
                         @endif
-                        @if ($test->specimen->specimen_status_id == Specimen::ACCEPTED && $test->isVerified())
+                        @if ($test->specimen->isAccepted() && $test->isVerified())
                             @if(Auth::user()->can('reject_test_specimen') && !($test->specimen->isReferred()))
                             <a class="btn btn-sm btn-danger" id="reject-{{$test->id}}-link"
                                 href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"
