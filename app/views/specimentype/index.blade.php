@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li class="active">{{trans('messages.specimen-types')}}</li>
+	  <li class="active">{{ Lang::choice('messages.specimen-type',2) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -24,7 +24,7 @@
 		<table class="table table-striped table-hover table-condensed">
 			<thead>
 				<tr>
-					<th>{{trans('messages.names')}}</th>
+					<th>{{ Lang::choice('messages.name',2) }}</th>
 					<th>{{trans('messages.description')}}</th>
 				</tr>
 			</thead>

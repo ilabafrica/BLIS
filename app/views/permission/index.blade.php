@@ -12,7 +12,7 @@
 <div class="panel panel-primary">
             <div class="panel-heading ">
                 <span class="glyphicon glyphicon-user"></span>
-                {{ trans('messages.permissions') }}
+                {{ Lang::choice('messages.permission', 2) 
                 <div class="panel-btn">
                     <a class="btn btn-sm btn-info" href="{{ URL::to('role/create') }}">
                         <span class="glyphicon glyphicon-plus-sign"></span>
@@ -25,8 +25,8 @@
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th>{{ trans('messages.permissions') }}</th>
-                        <th colspan="{{ count($roles)}}">{{ trans('messages.roles') }}</th>
+                        <th>{{ Lang::choice('messages.permission', 2) }}</th>
+                        <th colspan="{{ count($roles)}}">{{ Lang::choice('messages.role', 2) }}</th>
                     </tr>
                 </thead>
                 <tbody>

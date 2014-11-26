@@ -3,7 +3,7 @@
     <div>
         <ol class="breadcrumb">
           <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-          <li class="active">{{trans('messages.tests')}}</li>
+          <li class="active">{{ Lang::choice('messages.test',2) }}</li>
         </ol>
     </div>
     @if (Session::has('message'))
@@ -79,7 +79,7 @@
                     <tr>
                         <th>{{trans('messages.date-ordered')}}</th>
                         <th>{{trans('messages.patient-name')}}</th>
-                        <th>{{trans('messages.test')}}</th>
+                        <th>{{ Lang::choice('messages.test',1) }}</th>
                         <th>{{trans('messages.visit-type')}}</th>
                         <th>{{trans('messages.test-phase')}}</th>
                         <th>{{trans('messages.test-status')}}</th>
@@ -279,7 +279,7 @@
                       <thead>
                         <th> </th>
                         <th>{{ trans('messages.patient-id') }}</th>
-                        <th>{{ trans('messages.names') }}</th>
+                        <th>{{ Lang::choice('messages.name',2) }}</th>
                       </thead>
                       <tbody>
                       </tbody>
