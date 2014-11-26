@@ -49,7 +49,7 @@ class Measure extends Eloquent
 
 		try {
 			$measurerange = MeasureRange::where('measure_id', '=', $result['measureid']);
-			if ($measure->measureType->id == MeasureType::NUMERIC_RANGE) {
+			if ($measure->measureType->isNumeric()) {
 				$birthDate = new DateTime($result['birthdate']);
 				$now = new DateTime();
 				$interval = $birthDate->diff($now);
