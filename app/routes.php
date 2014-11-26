@@ -234,7 +234,12 @@ Route::group(array("before" => "auth"), function()
     // Check if able to manage lab configuration
     Route::group(array("before" => "checkPerms:manage_lab_configurations"), function()
     {
-        Route::resource("facilities", "FacilitiesController");
+        Route::resource("facility", "FacilityController");
+
+        Route::get("/facility/{id}/delete", array(
+            "as"   => "facility.delete",
+            "uses" => "FacilityController@delete"
+        ));
     });
     
     //  Check if able to manage reports

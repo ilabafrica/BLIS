@@ -6,6 +6,7 @@
 		case 'home': $active[0] = "active"; break;
 		case 'patient': $active[1] = "active"; break;
 		case 'test': $active[2] = "active"; break;
+		case 'facility':
 		case 'labconfig': $active[3] = "active"; break;
 		case 'testcategory': 
 		case 'testtype': 
@@ -55,6 +56,16 @@
 						<div>
 							<span class="glyphicon glyphicon-tag"></span>
 							{{trans('messages.reports')}}
+						</div>
+					</li>
+				</ul>
+				<ul class="sub-menu-items">
+					<li>
+						<div>
+							<a href="{{ URL::route("facility.index") }}">
+								<span class="glyphicon glyphicon-tag"></span>
+									{{trans('messages.referrals')}}
+							</a>
 						</div>
 					</li>
 				</ul>

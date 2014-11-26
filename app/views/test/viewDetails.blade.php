@@ -166,7 +166,7 @@
 									</div>
 									<div class="row">
 										<div class="col-md-4">
-											<p><strong>{{trans("messages.facility")}}</strong></p>
+											<p><strong>{{Lang::choice("messages.facility",2)}}</strong></p>
 										</div>
 										<div class="col-md-8">
 											{{$test->specimen->referral->facility }}

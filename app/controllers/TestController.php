@@ -428,6 +428,6 @@ class TestController extends \BaseController {
 		//Start test
 
 		//Return view
-		return Redirect::route('test.index')->with('message', trans('messages.specimen-succesful-refer'));
+		return Redirect::route('test.index')->with('message', trans('messages.specimen-successful-refer'));
 	}
 }

@@ -19,12 +19,6 @@ class TestCategory extends Eloquent
 	protected $table = 'test_categories';
 
 	/**
-	 * Validation rules for test categories
-	 *
-	 */
-	public static $rules = array('name' => 'required|unique:test_categories,name');
-
-	/**
 	 * Test types relationship
 	 *
 	 */

@@ -12,7 +12,7 @@
             <div class="container-fluid">
                 <div class="row less-gutter">
                     <div class="col-md-11">
-                        <span class="glyphicon glyphicon-filter"></span>{{trans('messages.referals')}}
+                        <span class="glyphicon glyphicon-filter"></span> {{trans('messages.referrals')}}
                     </div>
                     <div class="col-md-1">
                         <a class="btn btn-sm btn-primary pull-right" href="{{URL::previous()}}"
@@ -49,7 +49,7 @@
                         {{trans('messages.out')}}</span></div>
                 </div>
                 <div class="form-group">
-                    {{ Form::label('facility', trans("messages.facility")) }}
+                    {{ Form::label('facility', Lang::choice("messages.facility",2)) }}
                     {{Form::text('facility', Input::old('facility'),
                         array('class' => 'form-control'))}}
                 </div>

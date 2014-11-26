@@ -197,7 +197,7 @@ class CreatekBLIStables extends Migration {
         Schema::create('facilities', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
-            $table->string('facility_name', 500);
+            $table->string('name', 500);
             $table->timestamps();
         });
 
