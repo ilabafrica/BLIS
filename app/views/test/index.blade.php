@@ -98,7 +98,7 @@
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        @if($test->test_status_id == Test::NOT_RECEIVED)
+                                        @if($test->isNotReceived())
                                             <span class='label label-default'>
                                                 {{trans('messages.not-received')}}</span>
                                         @elseif($test->test_status_id == Test::PENDING)
@@ -149,7 +149,7 @@
                                 {{trans('messages.view-details')}}
                             </a>
                             
-                        @if ($test->test_status_id == Test::NOT_RECEIVED) 
+                        @if ($test->isNotReceived()) 
                             @if(Auth::user()->can('receive_external_test'))
                             <a class="btn btn-sm btn-default receive-test"
                                 href="{{URL::route('test.receive', array($test->id))}}"

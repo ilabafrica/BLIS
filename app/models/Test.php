@@ -99,6 +99,19 @@ class Test extends Eloquent
 	}
 
 	/**
+	 * Helper function: check if the Test status is NOT_RECEIVED
+	 *
+	 * @return boolean
+	 */
+	public function isNotReceived()
+	{
+		if($this->test_status_id == Test::NOT_RECEIVED)
+			return true;
+		else 
+			return false;
+	}
+
+	/**
 	 * Wait Time: Time difference from test reception to start
 	 */
 	public function getWaitTime()
