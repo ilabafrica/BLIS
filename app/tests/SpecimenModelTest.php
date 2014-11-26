@@ -14,7 +14,7 @@ class SpecimenModelTest extends TestCase {
         //Insert into referral table
         $referral = new Referral();
         $referral->status = Referral::REFERRED_IN;
-        $referral->facility = "ALUPE";
+        $referral->facility_id = 1;
         $referral->person = "Gentrix";
         $referral->contacts = "Saville Row : London";
         $referral->user_id = 1;
