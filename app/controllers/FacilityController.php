@@ -39,7 +39,7 @@ class FacilityController extends \BaseController {
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator)->withInput();
+			return Redirect::route('facility.index')->withErrors($validator)->withInput();
 		} else {
 			// Add
 			$facility = new Facility;
@@ -79,7 +79,6 @@ class FacilityController extends \BaseController {
 	{
 		//Get the facility
 		$facility = Facility::find($id);
-
 		return View::make('facility.edit')->with('facility', $facility);
 	}
 
@@ -97,7 +96,7 @@ class FacilityController extends \BaseController {
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator)->withInput();
+			return Redirect::route('facility.index')->withErrors($validator)->withInput();
 		} else {
 			// Update
 			$facility = Facility::find($id);

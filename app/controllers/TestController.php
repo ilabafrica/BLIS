@@ -382,8 +382,12 @@ class TestController extends \BaseController {
 	public function showRefer($specimenId)
 	{
 		$specimen = Specimen::find($specimenId);
+		$facilities = Facility::all();
 		//Referral facilities
-		return View::make('test.refer')->with('specimen', $specimen);
+		return View::make('test.refer')
+			->with('specimen', $specimen)
+			->with('facilities', $facilities);
+
 	}
 
 	/**
@@ -396,7 +400,7 @@ class TestController extends \BaseController {
 		//Validate
 		$rules = array(
 			'referal-status' => 'required',
-			'facility' => 'required',
+			'facility_id' => 'required',
 			'person' => 'required',
 			'contacts' => 'required'
 			);
@@ -411,7 +415,7 @@ class TestController extends \BaseController {
 		//Insert into referral table
 		$referral = new Referral();
 		$referral->status = Input::get('referal-status');
-		$referral->facility = Input::get('facility');
+		$referral->facility_id = Input::get('facility_id');
 		$referral->person = Input::get('person');
 		$referral->contacts = Input::get('contacts');
 		$referral->user_id = Auth::user()->id;
@@ -424,8 +428,6 @@ class TestController extends \BaseController {
 			$specimen->referral_id = $referral->id;
 			$specimen->save();
 		});
-
-		//Start test
 
 		//Return view
 		return Redirect::route('test.index')->with('message', trans('messages.specimen-successful-refer'));

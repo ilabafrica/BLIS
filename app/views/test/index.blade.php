@@ -369,8 +369,8 @@
             {{trans('messages.enter-results')}}</a>
     </div> <!-- /. enter-result-buttons -->
 
-    <div class="hidden refer-button">
-        <a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->specimen_id.'/refer') }}">
+    <div class="hidden start-refer-button">
+        <a class="btn btn-sm btn-info refer-button" href="#">
             <span class="glyphicon glyphicon-edit"></span>
             {{trans('messages.refer-sample')}}
         </a>

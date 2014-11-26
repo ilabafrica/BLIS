@@ -64,7 +64,7 @@
 						<div>
 							<a href="{{ URL::route("facility.index") }}">
 								<span class="glyphicon glyphicon-tag"></span>
-									{{trans('messages.referrals')}}
+									{{Lang::choice('messages.facility',2)}}
 							</a>
 						</div>
 					</li>
