@@ -45,7 +45,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="display-details">
-							<h3 class="view"><strong>{{ Lang::choice('messages.test-type',1) }}<</strong>
+							<h3 class="view"><strong>{{ Lang::choice('messages.test-type',1) }}</strong>
 								{{ $test->testType->name or trans('messages.unknown') }}</h3>
 							<p class="view"><strong>{{trans('messages.visit-number')}}</strong>
 								{{$test->visit->id or trans('messages.unknown') }}</p>
