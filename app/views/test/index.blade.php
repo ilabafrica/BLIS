@@ -101,16 +101,16 @@
                                         @if($test->isNotReceived())
                                             <span class='label label-default'>
                                                 {{trans('messages.not-received')}}</span>
-                                        @elseif($test->test_status_id == Test::PENDING)
+                                        @elseif($test->isPending())
                                             <span class='label label-info'>
                                                 {{trans('messages.pending')}}</span>
-                                        @elseif($test->test_status_id == Test::STARTED)
+                                        @elseif($test->isStarted())
                                             <span class='label label-warning'>
                                                 {{trans('messages.started')}}</span>
-                                        @elseif($test->test_status_id == Test::COMPLETED)
+                                        @elseif($test->isCompleted())
                                             <span class='label label-primary'>
                                                 {{trans('messages.completed')}}</span>
-                                        @elseif($test->test_status_id == Test::VERIFIED)
+                                        @elseif($test->isVerified())
                                             <span class='label label-success'>
                                                 {{trans('messages.verified')}}</span>
                                         @endif
@@ -182,7 +182,7 @@
                             </a>
                             @endif
                         @endif
-                        @if ($test->specimen->specimen_status_id == Specimen::ACCEPTED && $test->test_status_id != Test::VERIFIED)
+                        @if ($test->specimen->specimen_status_id == Specimen::ACCEPTED && $test->isVerified())
                             @if(Auth::user()->can('reject_test_specimen') && !($test->specimen->isReferred()))
                             <a class="btn btn-sm btn-danger" id="reject-{{$test->id}}-link"
                                 href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"
@@ -191,7 +191,7 @@
                                 {{trans('messages.reject')}}
                             </a>
                             @endif
-                            @if ($test->test_status_id == Test::PENDING)
+                            @if ($test->isPending())
                                 @if(Auth::user()->can('start_test'))
                                 <a class="btn btn-sm btn-warning start-test" href="javascript:void(0)"
                                     data-test-id="{{$test->id}}" data-url="{{ URL::route('test.start') }}"
@@ -206,7 +206,7 @@
                                     {{trans('messages.refer-sample')}}
                                 </a>
                                 @endif
-                            @elseif ($test->test_status_id == Test::STARTED)
+                            @elseif ($test->isStarted())
                                 @if(Auth::user()->can('enter_test_results'))
                                 <a class="btn btn-sm btn-info" id="enter-results-{{$test->id}}-link"
                                     href="{{ URL::to('test/'.$test->id.'/enterresults') }}"
@@ -221,7 +221,7 @@
                                     {{trans('messages.refer-sample')}}
                                 </a>
                                 @endif
-                            @elseif ($test->test_status_id == Test::COMPLETED)
+                            @elseif ($test->isCompleted())
                                 @if(Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
                                 <a class="btn btn-sm btn-success" id="verify-{{$test->id}}-link"
                                     href="{{ URL::to('test/'.$test->id.'/viewdetails') }}"

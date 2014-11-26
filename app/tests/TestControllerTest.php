@@ -23,10 +23,10 @@ class TestControllerTest extends TestCase
   	{
  
       echo "\n\nTEST CONTROLLER TEST\n\n";
-      $searchbyPending = array('search' => '', 'test_status' => '1', 'date_from' => '', 'date_to' => '');//Pending
-      $searchbyStarted = array('search' => '', 'test_status' => '2', 'date_from' => '', 'date_to' => '');//Started
-      $searchbyCompleted = array('search' => '', 'test_status' => '3', 'date_from' => '', 'date_to' => '');//Completed
-      $searchbyVerified = array('search' => '', 'test_status' => '4', 'date_from' => '', 'date_to' => '');//Verified
+      $searchbyPending = array('search' => '', 'test_status' => Test::PENDING, 'date_from' => '', 'date_to' => '');//Pending
+      $searchbyStarted = array('search' => '', 'test_status' => Test::STARTED, 'date_from' => '', 'date_to' => '');//Started
+      $searchbyCompleted = array('search' => '', 'test_status' => Test::COMPLETED, 'date_from' => '', 'date_to' => '');//Completed
+      $searchbyVerified = array('search' => '', 'test_status' => Test::VERIFIED, 'date_from' => '', 'date_to' => '');//Verified
       //Non existent search string - return nothing
       $searchbyNonExistentString = array('search' => 'gaslfjkdre', 'test_status' => '', 'date_from' => '', 'date_to' => '');
       //Between dates - empty

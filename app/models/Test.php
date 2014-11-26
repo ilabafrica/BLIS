@@ -112,6 +112,58 @@ class Test extends Eloquent
 	}
 
 	/**
+	 * Helper function: check if the Test status is PENDING
+	 *
+	 * @return boolean
+	 */
+	public function isPending()
+	{
+		if($this->test_status_id == Test::PENDING)
+			return true;
+		else 
+			return false;
+	}
+
+	/**
+	 * Helper function: check if the Test status is STARTED
+	 *
+	 * @return boolean
+	 */
+	public function isStarted()
+	{
+		if($this->test_status_id == Test::STARTED)
+			return true;
+		else 
+			return false;
+	}
+
+	/**
+	 * Helper function: check if the Test status is COMPLETED
+	 *
+	 * @return boolean
+	 */
+	public function isCompleted()
+	{
+		if($this->test_status_id == Test::COMPLETED)
+			return true;
+		else 
+			return false;
+	}
+
+	/**
+	 * Helper function: check if the Test status is VERIFIED
+	 *
+	 * @return boolean
+	 */
+	public function isVerified()
+	{
+		if($this->test_status_id == Test::VERIFIED)
+			return true;
+		else 
+			return false;
+	}
+
+	/**
 	 * Wait Time: Time difference from test reception to start
 	 */
 	public function getWaitTime()

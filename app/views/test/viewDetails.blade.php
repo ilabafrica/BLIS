@@ -13,8 +13,7 @@
                 <div class="row less-gutter">
                     <div class="col-md-11">
 						<span class="glyphicon glyphicon-cog"></span>{{trans('messages.test-details')}}
-						@if($test->test_status_id != Test::VERIFIED &&
-							$test->specimen->specimen_status_id == Specimen::ACCEPTED)
+						@if((!$test->isVerified()) && $test->specimen->specimen_status_id == Specimen::ACCEPTED)
 						<div class="panel-btn">
 							@if(Auth::user()->can('edit_test_results'))
 								<a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->id.'/edit') }}">
@@ -22,7 +21,7 @@
 									{{trans('messages.edit-test-results')}}
 								</a>
 							@endif
-							@if($test->test_status_id != Test::VERIFIED && 
+							@if((!$test->isVerified()) && 
 								Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
 							<a class="btn btn-sm btn-success" href="{{ URL::route('test.verify', array($test->id)) }}">
 								<span class="glyphicon glyphicon-thumbs-up"></span>
@@ -59,12 +58,12 @@
 								{{$test->createdBy->name or trans('messages.unknown') }}</p>
 							<p class="view"><strong>{{trans('messages.tested-by')}}</strong>
 								{{$test->testedBy->name or trans('messages.unknown')}}</p>
-							@if($test->test_status_id == Test::VERIFIED)
+							@if($test->isVerified())
 							<p class="view"><strong>{{trans('messages.verified-by')}}</strong>
 								{{$test->verifiedBy->name or trans('messages.verification-pending')}}</p>
 							@endif
 							@if($test->specimen->specimen_status_id != Specimen::REJECTED && 
-								($test->test_status_id == Test::COMPLETED || $test->test_status_id == Test::VERIFIED))
+								($test->isCompleted() || $test->isVerified()))
 							<!-- Not Rejected and (Verified or Completed)-->
 							<p class="view-striped"><strong>{{trans('messages.turnaround-time')}}</strong>
 								{{$test->getFormattedTurnaroundTime()}}</p>
