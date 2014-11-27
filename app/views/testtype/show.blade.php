@@ -23,7 +23,7 @@
 				<h3 class="view"><strong>{{ Lang::choice('messages.name',1) }}</strong>{{ $testtype->name }} </h3>
 				<p class="view-striped"><strong>{{trans('messages.description')}}</strong>
 					{{ $testtype->description }}</p>
-				<p class="view"><strong>{{trans('messages.test-category')}}</strong>
+				<p class="view"><strong>{{ Lang::choice('messages.test-category',1) }}</strong>
 					{{ $testtype->testCategory->name }}</p>
 				<p class="view-striped"><strong>{{trans('messages.compatible-specimen')}}</strong>
 					{{ implode(", ", $testtype->specimenTypes->lists('name')) }}</p>

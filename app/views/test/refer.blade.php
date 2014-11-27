@@ -3,7 +3,7 @@
     <div>
         <ol class="breadcrumb">
           <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-          <li><a href="{{ URL::route('test.index') }}">{{trans('messages.tests')}}</a></li>
+          <li><a href="{{ URL::route('test.index') }}">{{ Lang::choice('messages.test', 2) }}</a></li>
           <li class="active">{{trans('messages.referrals')}}</li>
         </ol>
     </div>
@@ -12,7 +12,7 @@
             <div class="container-fluid">
                 <div class="row less-gutter">
                     <div class="col-md-11">
-                        <span class="glyphicon glyphicon-filter"></span>{{trans('messages.referals')}}
+                        <span class="glyphicon glyphicon-filter"></span>{{trans('messages.referrals')}}
                     </div>
                     <div class="col-md-1">
                         <a class="btn btn-sm btn-primary pull-right" href="{{URL::previous()}}"
@@ -36,7 +36,7 @@
                     <p><strong>{{trans('messages.specimen-type-title')}}</strong>
                         {{$specimen->specimenType->name}}</p>
                     <p>
-                    <p><strong>{{trans('messages.test-type')}}</strong>
+                    <p><strong>{{ Lang::choice('messages.test-type',1) }}</strong>
                         {{$specimen->test->testType->name}}</p>
                     </p>
                 </div>

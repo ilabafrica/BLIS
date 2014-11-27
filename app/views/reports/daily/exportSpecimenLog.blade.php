@@ -33,7 +33,7 @@
 			<th>{{trans('messages.specimen-number-title')}}</th>
 			<th>{{trans('messages.specimen')}}</th>
 			<th>{{trans('messages.lab-receipt-date')}}</th>
-			<th>{{trans('messages.tests')}}</th>
+			<th>{{ Lang::choice('messages.test', 2) }}</th>
 			<th>{{trans('messages.test-category')}}</th>
 			<th>{{trans('messages.rejection-reason-title')}}</th>
 			<th>{{trans('messages.reject-explained-to')}}</th>

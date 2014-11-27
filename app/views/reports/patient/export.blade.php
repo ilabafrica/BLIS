@@ -15,10 +15,10 @@
 			@include("reportHeader")
 			<strong>
 				<p>
-					{{trans('messages.patient-report')}} @if($from!=$to)
-						{{'From '.$from.' To '.$to}}
+					{{ trans('messages.patient-report') }} @if($from!=$to)
+						{{ 'From '.$from.' To '.$to }}
 					@else
-						{{'For '.date('d-m-Y')}}
+						{{ 'For '.date('d-m-Y') }}
 					@endif
 				</p>
 			</strong>
@@ -49,11 +49,11 @@
 		<table class="table table-bordered" width="100%">
 			<tbody align="left">
 				<tr>
-					<th colspan="6">{{trans('messages.specimen')}}</th>
+					<th colspan="6">{{ trans('messages.specimen') }}</th>
 				</tr>
 				<tr>
 					<th>{{ trans('messages.specimen-type')}}</th>
-					<th>{{ trans('messages.tests')}}</th>
+					<th>{{ Lang::choice('messages.test', 2)  }}</th>
 					<th>{{ trans('messages.test-category')}}</th>
 					<th>{{ trans('messages.specimen-status')}}</th>
 					<th>{{ trans('messages.collected-by')."/".trans('messages.rejected-by')}}</th>
@@ -65,7 +65,7 @@
 						<td>{{ $test->testType->name }}</td>
 						<td>{{ $test->testType->testCategory->name }}</td>
 						@if($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
-							<td>{{trans('messages.specimen-not-collected')}}</td>
+							<td>{{trans('messages.specimen-not-collected') }}</td>
 							<td></td>
 							<td></td>
 						@elseif($test->specimen->specimen_status_id == Specimen::ACCEPTED)
@@ -80,7 +80,7 @@
 					</tr>
 				@empty
 					<tr>
-						<td colspan="6">{{trans("messages.no-records-found")}}</td>
+						<td colspan="6">{{ trans("messages.no-records-found") }}</td>
 					</tr>
 				@endforelse
 

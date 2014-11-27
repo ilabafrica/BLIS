@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-	  <li class="active"><a href="{{ URL::route('reports.patient.index') }}">{{ trans('messages.reports') }}</a></li>
+	  <li class="active"><a href="{{ URL::route('reports.patient.index') }}">{{ Lang::choice('messages.report', 2) }}</a></li>
 	  <li class="active">{{ trans('messages.daily-log') }}</li>
 	</ol>
 </div>
@@ -32,22 +32,22 @@
 				</label></td>
 	        <td><label class="radio-inline">
 				  {{ Form::radio('records', 'patients', false, array('data-toggle' => 'radio', 'id' => 'patients')) }} 
-				  {{trans('messages.patient-records')}}
+				  {{ trans('messages.patient-records') }}
 				</label></td>
 	        <td><label class="radio-inline">
 				  {{ Form::radio('records', 'rejections', true, array('data-toggle' => 'radio', 'id' => 'rejections')) }} 
-				  {{trans('messages.rejected-specimen')}}
+				  {{ trans('messages.rejected-specimen') }}
 				</label></td>
-			<td>{{Form::submit(trans('messages.export-to-word'), 
-				array('class' => 'btn btn-success', 'id'=>'word', 'name'=>'word'))}}</td>
+			<td>{{ Form::submit(trans('messages.export-to-word'), 
+				array('class' => 'btn btn-success', 'id'=>'word', 'name'=>'word')) }}</td>
 	    </tr>
 	    <tr id="sections">
-	        <td>{{ Form::label('section_id', trans("messages.test-category")) }}</td>
+	        <td>{{ Form::label('section_id', Lang::choice('messages.test-category', 2)) }}</td>
 	        <td>{{ Form::select('section_id', array(''=>'Select Lab Section')+$labSections, 
 	        		Request::old('testCategory') ? Request::old('testCategory') : $testCategory, 
 						array('class' => 'form-control', 'id' => 'section_id')) }}</td>
 			<td></td>
-	        <td>{{ Form::label('description', trans("messages.test-type")) }}</td>
+	        <td>{{ Form::label('description', Lang::choice('messages.test-type', 2)) }}</td>
 	        <td>{{ Form::select('test_type', array('' => 'Select Test Type'), 
 	        		Request::old('testType') ? Request::old('testType') : $testType, 
 						array('class' => 'form-control', 'id' => 'test_type')) }}</td>
@@ -94,14 +94,14 @@
 			<table class="table table-bordered">
 				<tbody>
 					<tr>
-						<th>{{trans('messages.specimen-number-title')}}</th>
-						<th>{{trans('messages.specimen')}}</th>
-						<th>{{trans('messages.lab-receipt-date')}}</th>
-						<th>{{trans('messages.tests')}}</th>
-						<th>{{trans('messages.test-category')}}</th>
-						<th>{{trans('messages.rejection-reason-title')}}</th>
-						<th>{{trans('messages.reject-explained-to')}}</th>
-						<th>{{trans('messages.date-rejected')}}</th>
+						<th>{{ trans('messages.specimen-number-title') }}</th>
+						<th>{{ trans('messages.specimen') }}</th>
+						<th>{{ trans('messages.lab-receipt-date') }}</th>
+						<th>{{ Lang::choice('messages.test', 2) }}</th>
+						<th>{{ trans('messages.test-category') }}</th>
+						<th>{{ trans('messages.rejection-reason-title') }}</th>
+						<th>{{ trans('messages.reject-explained-to') }}</th>
+						<th>{{ trans('messages.date-rejected') }}</th>
 					</tr>
 					@forelse($specimens as $specimen)
 					<tr>
@@ -115,7 +115,7 @@
 						<td>{{ $specimen->time_rejected }}</td>
 					</tr>
 					@empty
-					<tr><td colspan="8">{{trans('messages.no-records-found')}}</td></tr>
+					<tr><td colspan="8">{{ trans('messages.no-records-found') }}</td></tr>
 					@endforelse
 				</tbody>
 			</table>

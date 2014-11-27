@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-	  <li class="active"><a href="{{ URL::route('reports.patient.index') }}">{{ trans('messages.reports') }}</a></li>
+	  <li class="active"><a href="{{ URL::route('reports.patient.index') }}">{{ Lang::choice('messages.report', 2) }}</a></li>
 	  <li class="active">{{ trans('messages.daily-log') }}</li>
 	</ol>
 </div>
@@ -54,12 +54,12 @@
 				    </td>
 				</tr>
 				<tr id="sections">
-				    <td>{{ Form::label('description', trans("messages.test-category")) }}</td>
+				    <td>{{ Form::label('description',  Lang::choice('messages.test-category', 2)) }}</td>
 				    <td colspan="2">
 				    	{{ Form::select('section_id', array(''=>'Select Lab Section')+$labSections, 
 				    		Request::old('testCategory') ? Request::old('testCategory') : $testCategory, 
 								array('class' => 'form-control', 'id' => 'section_id')) }}</td>
-					<td>{{ Form::label('description', trans("messages.test-type")) }}</td>
+					<td>{{ Form::label('description', Lang::choice('messages.test-type', 1)) }}</td>
 				    <td colspan="2">
 				    	{{ Form::select('test_type', array('' => 'Select Test Type'), 
 				    		Request::old('testType') ? Request::old('testType') : $testType, 
@@ -120,15 +120,15 @@
 			<table class="table table-bordered">
 				<tbody>
 					<tr>
-						<th>{{trans('messages.specimen-number-title')}}</th>
-						<th>{{trans('messages.specimen')}}</th>
-						<th>{{trans('messages.lab-receipt-date')}}</th>
-						<th>{{trans('messages.tests')}}</th>
-						<th>{{trans('messages.tested-by')}}</th>
-						<th>{{trans('messages.test-results')}}</th>
-						<th>{{trans('messages.test-remarks')}}</th>
-						<th>{{trans('messages.results-entry-date')}}</th>
-						<th>{{trans('messages.verified-by')}}</th>
+						<th>{{ trans('messages.specimen-number-title') }}</th>
+						<th>{{ trans('messages.specimen') }}</th>
+						<th>{{ trans('messages.lab-receipt-date') }}</th>
+						<th>{{ Lang::choice('messages.test', 2) }}</th>
+						<th>{{ trans('messages.tested-by') }}</th>
+						<th>{{ trans('messages.test-results') }}</th>
+						<th>{{ trans('messages.test-remarks') }}</th>
+						<th>{{ trans('messages.results-entry-date') }}</th>
+						<th>{{ trans('messages.verified-by') }}</th>
 					</tr>
 					@forelse($tests as $key => $test)
 					<tr>

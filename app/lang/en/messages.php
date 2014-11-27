@@ -138,7 +138,7 @@ return array(
     'success-rejecting-specimen' => 'The specimen was rejected!',
     'update' => 'Update',
     'refer-sample' => 'Refer sample',
-    'referrals' => 'Referals',
+    'referrals' => 'Referrals',
     'specimen-succesful-refer' => 'The specimen was referred',
     'specimen-referred-label' => 'Specimen Referred',
     'person-involved' => 'Person involved',

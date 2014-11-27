@@ -12,7 +12,7 @@
 <div class="panel panel-primary">
             <div class="panel-heading ">
                 <span class="glyphicon glyphicon-user"></span>
-                {{ Lang::choice('messages.permission', 2) 
+                {{ Lang::choice('messages.permission', 2) }}
                 <div class="panel-btn">
                     <a class="btn btn-sm btn-info" href="{{ URL::to('role/create') }}">
                         <span class="glyphicon glyphicon-plus-sign"></span>
