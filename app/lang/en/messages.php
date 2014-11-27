@@ -365,6 +365,8 @@ return array(
     'time-in-weeks' =>  'Time(weeks)',
     'time-in-days'  =>  'Time(Days)',
     'for-the-year'  =>  'For the Year',
+    'select-lab-section' => 'Select Lab Section',
+    'select-test-type'  =>  'Select Test Type',
 
 
     /** 
