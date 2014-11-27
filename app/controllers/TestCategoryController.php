@@ -39,8 +39,9 @@ class TestCategoryController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
-		$validator = Validator::make(Input::all(), TestCategory::$rules);
+		//Validation
+		$rules = array('name' => 'required|unique:test_categories,name');
+		$validator = Validator::make(Input::all(), $rules);
 	
 		//process
 		if($validator->fails()){
@@ -97,7 +98,7 @@ class TestCategoryController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		//Validate
 		$rules = array('name' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
 

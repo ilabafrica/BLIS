@@ -14,7 +14,7 @@ class SpecimenModelTest extends TestCase {
         //Insert into referral table
         $referral = new Referral();
         $referral->status = Referral::REFERRED_IN;
-        $referral->facility = "ALUPE";
+        $referral->facility_id = 1;
         $referral->person = "Gentrix";
         $referral->contacts = "Saville Row : London";
         $referral->user_id = 1;
@@ -35,14 +35,14 @@ class SpecimenModelTest extends TestCase {
 
     public function testIsRejected()
     {
-        $specimenRejected = Specimen::where('specimen_status_id', '=', 3)->first();
+        $specimenRejected = Specimen::where('specimen_status_id', '=', Specimen::REJECTED)->first();
 
         $this->assertEquals($specimenRejected->isRejected(), true);
     }
 
     public function testIsNotRejected()
     {
-        $specimenRejected = Specimen::where('specimen_status_id', '!=', 3)->first();
+        $specimenRejected = Specimen::where('specimen_status_id', '!=', Specimen::REJECTED)->first();
 
         $this->assertEquals($specimenRejected->isRejected(), false);
     }

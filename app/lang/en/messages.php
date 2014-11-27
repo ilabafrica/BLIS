@@ -47,7 +47,7 @@ return array(
     'users' => 'Users',
     'username' => 'Username',
     'view' => 'View',
-    'facility' => 'Facility',
+    'facility' => 'Facility|Facilities',
     'person' => 'Person',
     'contacts' => 'Contacts',
     'refer' => 'Refer',
@@ -144,7 +144,7 @@ return array(
     'update' => 'Update',
     'refer-sample' => 'Refer sample',
     'referrals' => 'Referals',
-    'specimen-succesful-refer' => 'The specimen was referred',
+    'specimen-successful-refer' => 'The specimen was referred',
     'specimen-referred-label' => 'Specimen Referred',
     'person-involved' => 'Person involved',
     'referred-by' => 'Referred by',
@@ -373,6 +373,11 @@ return array(
      *   Configurations
      */
     'lab-configuration' => 'Lab Configuration',
+    'list-facilities' => 'List of facilities',
+    'add-facility' => 'Add a facility',
+    'edit-facility' => 'Edit facility',
+    'successfully-updated-facility' => 'Facility was successfully updated!',
+    'successfully-deleted-facility' => 'Facility was successfully deleted!',
 
     /** 
      *   Dates
