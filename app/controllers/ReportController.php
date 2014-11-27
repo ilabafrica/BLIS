@@ -478,25 +478,22 @@ class ReportController extends \BaseController {
 	public function counts(){
 		$from = Input::get('start');
 		$to = Input::get('end');
-		$date = date('Y-m-d');
-		if(!$to){
-			$to=$date;
-		}
 		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
-		$firstDayOfMonth = date('Y-m-01');
-		$data = Test::select(DB::raw('test_type_id, SUM(IF(tests.test_status_id IN ('.Test::COMPLETED.','.Test::VERIFIED.'), 1, 0)) AS complete, SUM(IF(tests.test_status_id IN ('.Test::PENDING.','.Test::STARTED.'), 1, 0)) AS pending'));
+		$date = date('Y-m-d');
 		if($from||$to){
 			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
 					Session::flash('message', trans('messages.check-date-range'));
 			}
-			else if(strtotime($from)==strtotime($to)){
-				$data = $data->whereBetween('time_created', array($from, $toPlusOne));
-			}
-			else{
-				$data = $data->whereBetween('time_created', array($firstDayOfMonth, $toPlusOne));
-			}
 		}
-		$data = $data->groupBy('test_type_id')->paginate(Config::get('kblis.page-items'));
+
+		$data = array();
+		foreach (TestType::all() as $testType) {
+			$pending = $testType->getTestsByTestType([Test::PENDING, Test::STARTED], $from, $toPlusOne->format('Y-m-d H:i:s'));
+			$complete = $testType->getTestsByTestType([Test::COMPLETED, Test::VERIFIED], $from, $toPlusOne->format('Y-m-d H:i:s'));
+			$data[$testType->id] = ["complete"=>$complete, "pending"=>$pending];
+		}
+
+		// $data = $data->groupBy('test_type_id')->paginate(Config::get('kblis.page-items'));
 		return View::make('reports.counts.ungroupedTestCount')
 						->with('data', $data)
 						->withInput(Input::all());

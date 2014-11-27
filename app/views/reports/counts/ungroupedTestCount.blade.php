@@ -49,11 +49,12 @@
 			    	<th>{{trans('messages.completed-tests')}}</th>
 			    	<th>{{trans('messages.pending-tests')}}</th>
 			    </tr>
-			    @forelse($data as $datum)
+			    @forelse($data as $key => $datum)
+
 			    <tr>
-			    	<td>{{ TestType::find($datum->test_type_id)->name }}</td>
-			    	<td>{{ $datum->complete }}</td>
-			    	<td>{{ $datum->pending }}</td>
+			    	<td>{{ TestType::find($key)->name }}</td>
+			    	<td>{{ $datum['complete'] }}</td>
+			    	<td>{{ $datum['pending'] }}</td>
 			    </tr>
 			    @empty
 			    <tr>
@@ -64,7 +65,6 @@
 		  </table>
 		</div>
 		@endif
-	{{$data->links()}}
 	</div>
 </div>
 

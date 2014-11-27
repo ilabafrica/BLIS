@@ -123,6 +123,39 @@ class TestType extends Eloquent
 			return null;
 		}
 	}
+
+	/**
+	* Given the test name we return the test type ID
+	*
+	* @param $testname the name of the test
+	*/
+	public function getTestsByTestType($testStatusID, $from = null, $to = null)
+	{
+
+		$tests = $this->tests->filter(function($test) use ($testStatusID){
+
+				if (in_array($test->test_status_id, $testStatusID)){
+					return true;
+				}
+				return false;
+			});
+
+		if($to && $from){
+			$tests = $tests->filter(function($test) use($to, $from){
+				// $temp = $test->whereBetween('time_created', [$to, $from])->first();
+				$timeCreated = strtotime($test->time_created);
+				if(strtotime($from) < $timeCreated && strtotime($to) >= $timeCreated)
+					return true;
+				else return false;
+				// return $test->whereBetween('time_created', [$to, $from])->get();
+				// return true;
+			});
+		}
+
+		return $tests->count();
+
+	}
+
 	/**
 	* Return the rate of positive test results (Optionally given the year, month, date)
 	*
