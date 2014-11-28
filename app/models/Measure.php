@@ -20,6 +20,14 @@ class Measure extends Eloquent
 	protected $table = 'measures';
 
 	/**
+	 * Measure constants
+	 */
+	const NUMERIC = 1;
+	const ALPHANUMERIC = 2;
+	const AUTOCOMPLETE = 3;
+	const FREETEXT = 4;
+
+	/**
 	 * Measure Range relationship
 	 */
 	public function measureRanges()
@@ -49,7 +57,7 @@ class Measure extends Eloquent
 
 		try {
 			$measurerange = MeasureRange::where('measure_id', '=', $result['measureid']);
-			if ($measure->measureType->isNumeric()) {
+			if ($measure->isNumeric()) {
 				$birthDate = new DateTime($result['birthdate']);
 				$now = new DateTime();
 				$interval = $birthDate->diff($now);
@@ -57,7 +65,9 @@ class Measure extends Eloquent
 				$age = $seconds/(365*24*60*60);
 				$measurerange = $measurerange->where('gender', '=', $result['gender'])
 					->where('age_min', '<=', $age)
-					->where('age_max', '>=', $age);
+					->where('age_max', '>=', $age)
+					->where('range_lower', '<=', $result['measurevalue'])
+					->where('range_upper', '>=', $result['measurevalue']);
 			} else{
 				$measurerange = $measurerange->where('alphanumeric', '=', $result['measurevalue']);
 			}
@@ -69,5 +79,61 @@ class Measure extends Eloquent
 			$interpretation = null;
 		}
 		return $interpretation;
+	}
+
+	/**
+	 *  Check to if the Measure Type is Numeric
+	 *
+	 * @return boolean
+	 */
+	public function isNumeric()
+	{
+		if($this->measureType->id == Measure::NUMERIC){
+			return true;
+		}
+		else 
+			return false;
+	}
+
+	/**
+	 *  Check to if the Measure Type is Alphanumeric
+	 *
+	 * @return boolean
+	 */
+	public function isAlphanumeric()
+	{
+		if($this->measureType->id == Measure::ALPHANUMERIC){
+			return true;
+		}
+		else 
+			return false;
+	}
+
+	/**
+	 *  Check to if the Measure Type is Autocomplete
+	 *
+	 * @return boolean
+	 */
+	public function isAutocomplete()
+	{
+		if($this->measureType->id == Measure::AUTOCOMPLETE){
+			return true;
+		}
+		else 
+			return false;
+	}
+
+	/**
+	 *  Check to if the Measure Type is Free Text
+	 *
+	 * @return boolean
+	 */
+	public function isFreeText()
+	{
+		if($this->measureType->id == Measure::FREETEXT){
+			return true;
+		}
+		else 
+			return false;
 	}
 }

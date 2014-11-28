@@ -155,6 +155,7 @@ return array(
     'rangemin' => 'Range Lower Limit',
     'rangemax' => 'Range Upper Limit',
     'save-measure' => 'Save Measure',
+    'select-measure-type' => 'Select Measure Type',
     'success-creating-measure' => 'Successfully created measure!',
     'success-deleting-measure' => 'Successfully deleted the Measure!',
     'success-updating-measure' => 'The measure details were successfully updated!',

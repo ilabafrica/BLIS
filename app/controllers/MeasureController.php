@@ -31,6 +31,7 @@ class MeasureController extends \BaseController {
     public function create()
     {
         $measuretype = MeasureType::all()->sortBy('id')->lists('name','id');
+        $measuretype = array_merge(array(0 => trans('messages.select-measure-type')), $measuretype);
 
         //Create measure
         return View::make('measure.create')->with('measuretype', $measuretype);
@@ -44,7 +45,10 @@ class MeasureController extends \BaseController {
     public function store()
     {
         //
-        $rules = array('name'=> 'required|unique:measures,name');
+        $rules = array(
+            'name'=> 'required|unique:measures,name',
+            'val' => 'required'
+        );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login

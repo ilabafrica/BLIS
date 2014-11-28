@@ -40,7 +40,7 @@
                         }
                     	$fieldName = "m_".$measure->id;
                         ?>
-						@if ( $measure->measureType->isNumeric() ) 
+						@if ( $measure->isNumeric() ) 
 	                        {{ Form::label($fieldName , $measure->name) }}
 	                        {{ Form::text($fieldName, $ans, array(
 	                            'class' => 'form-control result-interpretation-trigger',
@@ -51,7 +51,7 @@
 	                            ))
 	                        }}
 	                        <span class='units'>{{$measure->unit}}</span>
-						@elseif ( $measure->measureType->isAlphanumeric() || $measure->measureType->isAutocomplete() ) 
+						@elseif ( $measure->isAlphanumeric() || $measure->isAutocomplete() ) 
 	                        <?php
 	                        $measure_values = array();
 	                        foreach ($measure->measureRanges as $range) {
@@ -65,7 +65,7 @@
                                 'data-measureid' => $measure->id
                                 )) 
                             }}
-						@elseif ( $measure->measureType->isFreeText() ) 
+						@elseif ( $measure->isFreeText() ) 
                             {{ Form::label($fieldName, $measure->name) }}
                             {{Form::text($fieldName, $ans, array('class' => 'form-control'))}}
 						@endif

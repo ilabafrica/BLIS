@@ -27,7 +27,7 @@
 			<div class="form-group">
 				{{ Form::label('measure_type_id', Lang::choice('messages.measure-type',1)) }}
 				{{ Form::select('measure_type_id', $measuretype, 
-					Input::old('measure_type_id'), array('class' => 'form-control meauretype-input-trigger', 'id' => 'measuretype')) 
+					Input::old('measure_type_id'), array('class' => 'form-control measuretype-input-trigger', 'id' => 'measuretype')) 
 				}}
 			</div>
 			<div class="form-group">
