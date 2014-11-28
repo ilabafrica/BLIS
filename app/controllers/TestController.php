@@ -75,7 +75,7 @@ class TestController extends \BaseController {
 				});
 			}
 
-			$tests = $tests->orderBy('time_created', 'DESC')->paginate(Config::get('kblis.page-items'));
+			$tests = $tests->orderBy('time_created', 'DESC')->paginate(Config::get('kblis.page-items'))->appends(Input::except('page'));
 
 			if (count($tests) == 0) {
 			 	Session::flash('message', trans('messages.empty-search'));

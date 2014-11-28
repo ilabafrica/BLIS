@@ -18,7 +18,7 @@
 						<span class="glyphicon glyphicon-adjust"></span>{{trans('messages.new-test')}}
                     </div>
                     <div class="col-md-1">
-                        <a class="btn btn-sm btn-primary pull-right" href="{{URL::previous()}}"
+                        <a class="btn btn-sm btn-primary pull-right" href="#" onclick="window.history.back();return false;"
                             alt="{{trans('messages.back')}}" title="{{trans('messages.back')}}">
                             <span class="glyphicon glyphicon-backward"></span></a>
                     </div>
