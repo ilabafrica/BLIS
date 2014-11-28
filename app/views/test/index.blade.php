@@ -182,10 +182,10 @@
                             </a>
                             @endif
                         @endif
-                        @if ($test->specimen->isAccepted() && $test->isVerified())
+                        @if ($test->specimen->isAccepted() && !$test->isVerified())
                             @if(Auth::user()->can('reject_test_specimen') && !($test->specimen->isReferred()))
                             <a class="btn btn-sm btn-danger" id="reject-{{$test->id}}-link"
-                                href="{{URL::to('test/'.$test->specimen_id.'/reject')}}"
+                                href="{{URL::route('test.reject', array($test->specimen_id))}}"
                                 title="{{trans('messages.reject-title')}}">
                                 <span class="glyphicon glyphicon-thumbs-down"></span>
                                 {{trans('messages.reject')}}
@@ -201,7 +201,7 @@
                                 </a>
                                 @endif
                                 @if(Auth::user()->can('refer_specimens') && !($test->isExternal()) && !($test->specimen->isReferred()))
-                                <a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->specimen_id.'/refer') }}">
+                                <a class="btn btn-sm btn-info" href="{{ URL::route('test.refer', array($test->specimen_id)) }}">
                                     <span class="glyphicon glyphicon-edit"></span>
                                     {{trans('messages.refer-sample')}}
                                 </a>
@@ -209,22 +209,16 @@
                             @elseif ($test->isStarted())
                                 @if(Auth::user()->can('enter_test_results'))
                                 <a class="btn btn-sm btn-info" id="enter-results-{{$test->id}}-link"
-                                    href="{{ URL::to('test/'.$test->id.'/enterresults') }}"
+                                    href="{{ URL::route('test.enterResults', array($test->id)) }}"
                                     title="{{trans('messages.enter-results-title')}}">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                     {{trans('messages.enter-results')}}
                                 </a>
                                 @endif
-                                 @if(Auth::user()->can('refer_specimens') && !($test->isExternal()) && !($test->specimen->isReferred()))
-                                <a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->specimen_id.'/refer') }}">
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                    {{trans('messages.refer-sample')}}
-                                </a>
-                                @endif
                             @elseif ($test->isCompleted())
                                 @if(Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
                                 <a class="btn btn-sm btn-success" id="verify-{{$test->id}}-link"
-                                    href="{{ URL::to('test/'.$test->id.'/viewdetails') }}"
+                                    href="{{ URL::route('test.viewDetails', array($test->id)) }}"
                                     title="{{trans('messages.verify-title')}}">
                                     <span class="glyphicon glyphicon-thumbs-up"></span>
                                     {{trans('messages.verify')}}
@@ -232,7 +226,7 @@
                                 @endif
                                 @if(Auth::user()->can('edit_test_results'))
                                 <a class="btn btn-sm btn-info" id="edit-{{$test->id}}-link"
-                                    href="{{ URL::to('test/'.$test->id.'/edit') }}"
+                                    href="{{ URL::route('test.edit', array($test->id)) }}"
                                     title="{{trans('messages.edit-test-results')}}">
                                     <span class="glyphicon glyphicon-edit"></span>
                                     {{trans('messages.edit')}}

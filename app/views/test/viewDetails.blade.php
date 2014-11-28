@@ -13,7 +13,7 @@
                 <div class="row less-gutter">
                     <div class="col-md-11">
 						<span class="glyphicon glyphicon-cog"></span>{{trans('messages.test-details')}}
-						@if((!$test->isVerified()) && $test->specimen->isAccepted())
+						@if($test->isCompleted() && $test->specimen->isAccepted())
 						<div class="panel-btn">
 							@if(Auth::user()->can('edit_test_results'))
 								<a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->id.'/edit') }}">
