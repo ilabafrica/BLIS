@@ -87,7 +87,11 @@
                 </thead>
                 <tbody>
                 @foreach($testSet as $key => $test)
-                    <tr>
+                    <tr 
+                        @if(Session::has('activeTest'))
+                            {{(Session::get('activeTest') == $test->id)?"class='info'":""}}
+                        @endif
+                        >
                         <td>{{ $test->time_created }}</td>              <!--Date Ordered-->
                         <td>{{ $test->visit->patient->name }}</td>      <!--Patient Name -->
                         <td>{{ $test->testType->name }}</td>            <!--Test-->
@@ -160,77 +164,77 @@
                             @endif
                         @elseif ($test->specimen->isNotCollected())
                             @if(Auth::user()->can('accept_test_specimen'))
-                            <a class="btn btn-sm btn-info accept-specimen" href="javascript:void(0)"
-                                data-test-id="{{$test->id}}" data-specimen-id="{{$test->specimen->id}}"
-                                title="{{trans('messages.accept-specimen-title')}}"
-                                data-url="{{ URL::route('test.acceptSpecimen') }}">
-                                <span class="glyphicon glyphicon-thumbs-up"></span>
-                                {{trans('messages.accept-specimen')}}
-                            </a>
+                                <a class="btn btn-sm btn-info accept-specimen" href="javascript:void(0)"
+                                    data-test-id="{{$test->id}}" data-specimen-id="{{$test->specimen->id}}"
+                                    title="{{trans('messages.accept-specimen-title')}}"
+                                    data-url="{{ URL::route('test.acceptSpecimen') }}">
+                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                    {{trans('messages.accept-specimen')}}
+                                </a>
                             @endif
                             @if(count($test->testType->specimenTypes) > 1 && Auth::user()->can('change_test_specimen'))
                                 <!-- 
                                     If this test can be done using more than 1 specimen type,
                                     allow the user to change to any of the other eligible ones.
                                 -->
-                            <a class="btn btn-sm btn-danger change-specimen" href="#change-specimen-modal"
-                                data-toggle="modal" data-url="{{ URL::route('test.changeSpecimenType') }}"
-                                data-test-id="{{$test->id}}" data-target="#change-specimen-modal"
-                                title="{{trans('messages.change-specimen-title')}}">
-                                <span class="glyphicon glyphicon-transfer"></span>
-                                {{trans('messages.change-specimen')}}
-                            </a>
+                                <a class="btn btn-sm btn-danger change-specimen" href="#change-specimen-modal"
+                                    data-toggle="modal" data-url="{{ URL::route('test.changeSpecimenType') }}"
+                                    data-test-id="{{$test->id}}" data-target="#change-specimen-modal"
+                                    title="{{trans('messages.change-specimen-title')}}">
+                                    <span class="glyphicon glyphicon-transfer"></span>
+                                    {{trans('messages.change-specimen')}}
+                                </a>
                             @endif
                         @endif
-                        @if ($test->specimen->isAccepted() && !$test->isVerified())
+                        @if ($test->specimen->isAccepted() && !($test->isVerified()))
                             @if(Auth::user()->can('reject_test_specimen') && !($test->specimen->isReferred()))
-                            <a class="btn btn-sm btn-danger" id="reject-{{$test->id}}-link"
-                                href="{{URL::route('test.reject', array($test->specimen_id))}}"
-                                title="{{trans('messages.reject-title')}}">
-                                <span class="glyphicon glyphicon-thumbs-down"></span>
-                                {{trans('messages.reject')}}
-                            </a>
+                                <a class="btn btn-sm btn-danger" id="reject-{{$test->id}}-link"
+                                    href="{{URL::route('test.reject', array($test->specimen_id))}}"
+                                    title="{{trans('messages.reject-title')}}">
+                                    <span class="glyphicon glyphicon-thumbs-down"></span>
+                                    {{trans('messages.reject')}}
+                                </a>
                             @endif
                             @if ($test->isPending())
                                 @if(Auth::user()->can('start_test'))
-                                <a class="btn btn-sm btn-warning start-test" href="javascript:void(0)"
-                                    data-test-id="{{$test->id}}" data-url="{{ URL::route('test.start') }}"
-                                    title="{{trans('messages.start-test-title')}}">
-                                    <span class="glyphicon glyphicon-play"></span>
-                                    {{trans('messages.start-test')}}
-                                </a>
+                                    <a class="btn btn-sm btn-warning start-test" href="javascript:void(0)"
+                                        data-test-id="{{$test->id}}" data-url="{{ URL::route('test.start') }}"
+                                        title="{{trans('messages.start-test-title')}}">
+                                        <span class="glyphicon glyphicon-play"></span>
+                                        {{trans('messages.start-test')}}
+                                    </a>
                                 @endif
                                 @if(Auth::user()->can('refer_specimens') && !($test->isExternal()) && !($test->specimen->isReferred()))
-                                <a class="btn btn-sm btn-info" href="{{ URL::route('test.refer', array($test->specimen_id)) }}">
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                    {{trans('messages.refer-sample')}}
-                                </a>
+                                    <a class="btn btn-sm btn-info" href="{{ URL::route('test.refer', array($test->specimen_id)) }}">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                        {{trans('messages.refer-sample')}}
+                                    </a>
                                 @endif
                             @elseif ($test->isStarted())
                                 @if(Auth::user()->can('enter_test_results'))
-                                <a class="btn btn-sm btn-info" id="enter-results-{{$test->id}}-link"
-                                    href="{{ URL::route('test.enterResults', array($test->id)) }}"
-                                    title="{{trans('messages.enter-results-title')}}">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                    {{trans('messages.enter-results')}}
-                                </a>
+                                    <a class="btn btn-sm btn-info" id="enter-results-{{$test->id}}-link"
+                                        href="{{ URL::route('test.enterResults', array($test->id)) }}"
+                                        title="{{trans('messages.enter-results-title')}}">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                        {{trans('messages.enter-results')}}
+                                    </a>
                                 @endif
                             @elseif ($test->isCompleted())
-                                @if(Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
-                                <a class="btn btn-sm btn-success" id="verify-{{$test->id}}-link"
-                                    href="{{ URL::route('test.viewDetails', array($test->id)) }}"
-                                    title="{{trans('messages.verify-title')}}">
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                                    {{trans('messages.verify')}}
-                                </a>
-                                @endif
                                 @if(Auth::user()->can('edit_test_results'))
-                                <a class="btn btn-sm btn-info" id="edit-{{$test->id}}-link"
-                                    href="{{ URL::route('test.edit', array($test->id)) }}"
-                                    title="{{trans('messages.edit-test-results')}}">
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                    {{trans('messages.edit')}}
-                                </a>
+                                    <a class="btn btn-sm btn-info" id="edit-{{$test->id}}-link"
+                                        href="{{ URL::route('test.edit', array($test->id)) }}"
+                                        title="{{trans('messages.edit-test-results')}}">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                        {{trans('messages.edit')}}
+                                    </a>
+                                @endif
+                                @if(Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
+                                    <a class="btn btn-sm btn-success" id="verify-{{$test->id}}-link"
+                                        href="{{ URL::route('test.viewDetails', array($test->id)) }}"
+                                        title="{{trans('messages.verify-title')}}">
+                                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                                        {{trans('messages.verify')}}
+                                    </a>
                                 @endif
                             @endif
                         @endif

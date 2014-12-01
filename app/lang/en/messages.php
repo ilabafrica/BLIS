@@ -144,7 +144,7 @@ return array(
     'update' => 'Update',
     'refer-sample' => 'Refer sample',
     'referrals' => 'Referrals',
-    'specimen-succesful-refer' => 'The specimen was referred',
+    'specimen-successful-refer' => 'The specimen was referred',
     'specimen-referred-label' => 'Specimen Referred',
     'person-involved' => 'Person involved',
     'referred-by' => 'Referred by',

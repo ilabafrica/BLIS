@@ -51,7 +51,7 @@ class PermissionController extends \BaseController {
 				}
 			}
 		}
-		return Redirect::route('permission.index')->with('message', 'Roles/permissions succesfully updated!');
+		return Redirect::route('permission.index')->with('message', 'Roles/permissions successfully updated!');
 	}
 
 

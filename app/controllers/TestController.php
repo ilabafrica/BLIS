@@ -75,7 +75,7 @@ class TestController extends \BaseController {
 				});
 			}
 
-			$tests = $tests->orderBy('time_created', 'DESC')->paginate(Config::get('kblis.page-items'));
+			$tests = $tests->orderBy('time_created', 'DESC');
 
 			if (count($tests) == 0) {
 			 	Session::flash('message', trans('messages.empty-search'));
@@ -84,14 +84,18 @@ class TestController extends \BaseController {
 		else
 		{
 		// List all the active tests
-			$tests = Test::orderBy('time_created', 'desc')->paginate(Config::get('kblis.page-items'));
+			$tests = Test::orderBy('time_created', 'DESC');
 		}
 
 		// Create Test Statuses array. Include a first entry for ALL
 		$statuses = array('all')+TestStatus::all()->lists('name','id');
+
 		foreach ($statuses as $key => $value) {
 			$statuses[$key] = trans("messages.$value");
 		}
+
+		// Pagination
+		$tests = $tests->paginate(Config::get('kblis.page-items'));
 
 		// Load the view and pass it the tests
 		return View::make('test.index')->with('testSet', $tests)->with('testStatus', $statuses)->withInput(Input::all());
@@ -111,7 +115,7 @@ class TestController extends \BaseController {
 		$test->created_by = Auth::user()->id;
 		$test->save();
 
-		return Redirect::route('test.index');
+		return Redirect::route('test.index')->with('activeTest', $id);
 	}
 
 	/**
@@ -189,7 +193,8 @@ class TestController extends \BaseController {
 				}
 			}
 
-			return Redirect::route('test.index')->with('message', 'messages.success-creating-test');
+			return Redirect::route('test.index')->with('message', 'messages.success-creating-test')
+							->with('activeTest', $test->id);
 		}
 	}
 
@@ -232,7 +237,8 @@ class TestController extends \BaseController {
 			$specimen->reject_explained_to = Input::get('reject_explained_to');
 			$specimen->save();
 			
-			return Redirect::route('test.index')->with('message', 'messages.success-rejecting-specimen');
+			return Redirect::route('test.index')->with('message', 'messages.success-rejecting-specimen')
+								->with('activeTest', $specimen->test->id);
 		}
 	}
 
@@ -329,7 +335,8 @@ class TestController extends \BaseController {
 		}
 
 		// redirect
-		return Redirect::route('test.index')->with('message', trans('messages.success-saving-results'));
+		return Redirect::route('test.index')->with('message', trans('messages.success-saving-results'))
+							->with('activeTest', $testID);
 	}
 
 	/**
@@ -395,7 +402,7 @@ class TestController extends \BaseController {
 	{
 		//Validate
 		$rules = array(
-			'referal-status' => 'required',
+			'referral-status' => 'required',
 			'facility' => 'required',
 			'person' => 'required',
 			'contacts' => 'required'
@@ -410,7 +417,7 @@ class TestController extends \BaseController {
 
 		//Insert into referral table
 		$referral = new Referral();
-		$referral->status = Input::get('referal-status');
+		$referral->status = Input::get('referral-status');
 		$referral->facility = Input::get('facility');
 		$referral->person = Input::get('person');
 		$referral->contacts = Input::get('contacts');
@@ -426,8 +433,11 @@ class TestController extends \BaseController {
 		});
 
 		//Start test
+		Input::merge(array('id' => $specimen->test->id)); //Add the testID to the Input
+		$this->start();
 
 		//Return view
-		return Redirect::route('test.index')->with('message', trans('messages.specimen-succesful-refer'));
+		return Redirect::route('test.index')->with('message', trans('messages.specimen-successful-refer'))
+							->with('activeTest', $specimen->test->id);
 	}
 }

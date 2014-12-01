@@ -21,8 +21,7 @@
 									{{trans('messages.edit-test-results')}}
 								</a>
 							@endif
-							@if((!$test->isVerified()) && 
-								Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
+							@if(Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
 							<a class="btn btn-sm btn-success" href="{{ URL::route('test.verify', array($test->id)) }}">
 								<span class="glyphicon glyphicon-thumbs-up"></span>
 								{{trans('messages.verify')}}
