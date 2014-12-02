@@ -533,6 +533,35 @@ class ReportController extends \BaseController {
 							->withInput(Input::all());
 
 		}
+		else if($counts==trans('messages.grouped-specimen-counts')){
+			$ageRanges = array('0-5', '5-15', '15-120');	//	Age ranges - will definitely change in configurations
+			$gender = array(Patient::MALE, Patient::FEMALE); 	//	Array for gender - male/female
+
+			$perAgeRange = array();	// array for counts data for each test type and age range
+			$perSpecimenType = array();	//	array for counts data per testype
+			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+				Session::flash('message', trans('messages.check-date-range'));
+			}
+			$specimenTypes = SpecimenType::all();
+			foreach ($specimenTypes as $specimenType) {
+				$countAll = $specimenType->groupedSpecimenCount(null, null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$countMale = $specimenType->groupedSpecimenCount([Patient::MALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$countFemale = $specimenType->groupedSpecimenCount([Patient::FEMALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$perSpecimenType[$specimenType->id] = ['countAll'=>$countAll, 'countMale'=>$countMale, 'countFemale'=>$countFemale];
+				foreach ($ageRanges as $ageRange) {
+					$maleCount = $specimenType->groupedSpecimenCount([Patient::MALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
+					$femaleCount = $specimenType->groupedSpecimenCount([Patient::FEMALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
+					$perAgeRange[$specimenType->id][$ageRange] = ['male'=>$maleCount, 'female'=>$femaleCount];
+				}
+			}
+			return View::make('reports.counts.groupedSpecimenCount')
+						->with('specimenTypes', $specimenTypes)
+						->with('ageRanges', $ageRanges)
+						->with('gender', $gender)
+						->with('perSpecimenType', $perSpecimenType)
+						->with('perAgeRange', $perAgeRange)
+						->withInput(Input::all());
+		}
 		else{
 			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
 				Session::flash('message', trans('messages.check-date-range'));
