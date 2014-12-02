@@ -182,4 +182,32 @@ class TestType extends Eloquent
 					->get();
 		return $data;
 	}
+	/**
+	* Return the counts for a test type given the test_status_id, and date range for ungrouped tests
+	*
+	* @param $testStatusID, $from, $to
+	*/
+	public function countPerStatus($testStatusID, $from = null, $to = null)
+	{
+
+		$tests = $this->tests->filter(function($test) use ($testStatusID){
+
+				if (in_array($test->test_status_id, $testStatusID)){
+					return true;
+				}
+				return false;
+			});
+
+		if($to && $from){
+			$tests = $tests->filter(function($test) use($to, $from){
+				$timeCreated = strtotime($test->time_created);
+				if(strtotime($from) < $timeCreated && strtotime($to) >= $timeCreated)
+					return true;
+				else return false;
+			});
+		}
+
+		return $tests->count();
+
+	}
 }

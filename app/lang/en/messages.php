@@ -21,7 +21,7 @@ return array(
     'edit' => 'Edit',
     'email' => 'Email',
     'female' => 'Female',
-    'for' => 'for',
+    'for' => 'For',
     'email-address' => 'Email Address',
     'gender' => 'Gender',
     'field-required' => 'This field is required',
@@ -367,6 +367,11 @@ return array(
     'for-the-year'  =>  'For the Year',
     'select-lab-section' => 'Select Lab Section',
     'select-test-type'  =>  'Select Test Type',
+    'pending-tests' =>  'Pending Tests',
+    'ungrouped-test-counts' =>  'Test Counts (Ungrouped)',
+    'grouped-test-counts' =>  'Test Counts (Grouped)',
+    'ungrouped-specimen-counts' =>  'Specimen Counts (Ungrouped)',
+    'grouped-specimen-counts' =>  'Specimen Counts (Grouped)',
 
 
     /** 
