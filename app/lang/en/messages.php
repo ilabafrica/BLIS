@@ -372,6 +372,9 @@ return array(
     'grouped-test-counts' =>  'Test Counts (Grouped)',
     'ungrouped-specimen-counts' =>  'Specimen Counts (Ungrouped)',
     'grouped-specimen-counts' =>  'Specimen Counts (Grouped)',
+    'age-ranges'    =>  'Age Ranges',
+    'mf-total'  =>  'M/F Total',
+    'total-tests'   =>  'Total Tests',
 
 
     /** 

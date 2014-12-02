@@ -210,4 +210,51 @@ class TestType extends Eloquent
 		return $tests->count();
 
 	}
+	/**
+	* Returns grouped test Counts with optional gender, age range, date range
+	*
+	* @param $testStatusID, $from, $to
+	*/
+	public function groupedTestCount($gender=null, $ageRange=null, $from=null, $to=null){
+			$tests = $this->tests->filter(function($test){
+				if (in_array($test->test_status_id, [Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED])){
+					return true;
+				}
+				return false;
+			});
+			if($to && $from){
+				$tests = $tests->filter(function($test) use($to, $from){
+					$timeCreated = strtotime($test->time_created);
+					if(strtotime($from) < $timeCreated && strtotime($to) >= $timeCreated)
+						return true;
+					else return false;
+				});
+			}
+			if($gender){
+				$tests = $tests->filter(function($test) use ($gender){
+
+				if (in_array($test->visit->patient->gender, $gender)){
+					return true;
+				}
+				else return false;
+				});
+			}
+			if($ageRange){
+				$ageRange = explode('-', $ageRange);
+				$ageStart = $ageRange[0];
+				$ageEnd = $ageRange[1];
+				$tests = $tests->filter(function($test) use ($ageStart, $ageEnd){
+					$dateOfBirth = new DateTime($test->visit->patient->dob);
+					$now = new DateTime('now');
+					$interval = $dateOfBirth->diff($now);
+
+				if ($interval->y >= $ageStart && $interval->y < $ageEnd){
+					return true;
+					}
+					else return false;
+				});
+			}
+
+		return $tests->count();
+	}
 }

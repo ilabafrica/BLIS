@@ -481,20 +481,51 @@ class ReportController extends \BaseController {
 		$to = Input::get('end');
 		if(!$to) $to = $date;
 		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
-		if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-			Session::flash('message', trans('messages.check-date-range'));
-		}
+		//	Begin grouped test counts
+		if(Input::get('counts')==trans('messages.grouped-test-counts'))
+		{
+			$testCategories = TestCategory::all();
+			$testTypes = TestType::all();
+			$ageRanges = array('0-5', '5-15', '15-120');	//	Age ranges - will definitely change in configurations
+			$gender = array(Patient::MALE, Patient::FEMALE); 	//	Array for gender - male/female
 
-		$ungroupedTests = array();
-		foreach (TestType::all() as $testType) {
-			$pending = $testType->countPerStatus([Test::PENDING, Test::STARTED], $from, $toPlusOne->format('Y-m-d H:i:s'));
-			$complete = $testType->countPerStatus([Test::COMPLETED, Test::VERIFIED], $from, $toPlusOne->format('Y-m-d H:i:s'));
-			$ungroupedTests[$testType->id] = ["complete"=>$complete, "pending"=>$pending];
-		}
-
-		// $data = $data->groupBy('test_type_id')->paginate(Config::get('kblis.page-items'));
-		return View::make('reports.counts.ungroupedTestCount')
-						->with('ungroupedTests', $ungroupedTests)
+			$perAgeRange = array();	// array for counts data for each test type and age range
+			$perTestType = array();	//	array for counts data per testype
+			foreach ($testTypes as $testType) {
+				$countAll = $testType->groupedTestCount(null, null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$countMale = $testType->groupedTestCount([Patient::MALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$countFemale = $testType->groupedTestCount([Patient::FEMALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$perTestType[$testType->id] = ['countAll'=>$countAll, 'countMale'=>$countMale, 'countFemale'=>$countFemale];
+				foreach ($ageRanges as $ageRange) {
+					$maleCount = $testType->groupedTestCount([Patient::MALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
+					$femaleCount = $testType->groupedTestCount([Patient::FEMALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
+					$perAgeRange[$testType->id][$ageRange] = ['male'=>$maleCount, 'female'=>$femaleCount];
+				}
+			}
+			return View::make('reports.counts.groupedTestCount')
+						->with('testCategories', $testCategories)
+						->with('ageRanges', $ageRanges)
+						->with('gender', $gender)
+						->with('perTestType', $perTestType)
+						->with('perAgeRange', $perAgeRange)
 						->withInput(Input::all());
+		}
+		else{
+			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+				Session::flash('message', trans('messages.check-date-range'));
+			}
+
+			$ungroupedTests = array();
+			foreach (TestType::all() as $testType) {
+				$pending = $testType->countPerStatus([Test::PENDING, Test::STARTED], $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$complete = $testType->countPerStatus([Test::COMPLETED, Test::VERIFIED], $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$ungroupedTests[$testType->id] = ["complete"=>$complete, "pending"=>$pending];
+			}
+
+			// $data = $data->groupBy('test_type_id')->paginate(Config::get('kblis.page-items'));
+			return View::make('reports.counts.ungroupedTestCount')
+							->with('ungroupedTests', $ungroupedTests)
+							->withInput(Input::all());
+		}
 	}
 }
