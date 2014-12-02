@@ -118,8 +118,10 @@ class SpecimenTypeController extends \BaseController {
 			$specimentype->save();
 
 			// redirect
-			return Redirect::route('specimentype.index')
-                ->with('message', trans('messages.success-updating-specimen-type'));
+			$url = Session::get('key');
+			return Redirect::to($url)
+			->with('message', trans('messages.success-updating-specimen-type'));
+		
 		}
 	}
 

@@ -1,6 +1,8 @@
+
 @extends("layout")
 @section("content")
 <div>
+
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
 	  <li class="active">{{trans('messages.specimen-types')}}</li>
@@ -45,7 +47,9 @@
 					<!-- edit this specimentype (uses the edit method found at GET /specimentype/{id}/edit -->
 						<a class="btn btn-sm btn-info" href="{{ URL::to("specimentype/" . $value->id . "/edit") }}" >
 							<span class="glyphicon glyphicon-edit"></span>
+
 							{{trans('messages.edit')}}
+
 						</a>
 					<!-- delete this specimentype (uses delete method found at GET /specimentype/{id}/delete -->
 						<button class="btn btn-sm btn-danger delete-item-link" 
@@ -58,9 +62,12 @@
 					</td>
 				</tr>
 			@endforeach
+			{{$specimentypes->links()}}
 			</tbody>
 		</table>
-		<?php echo $specimentypes->links(); ?>
+		<?php echo $specimentypes->links();
+		Session::put('key', URL::full()); ?>
+		
 	</div>
 </div>
 @stop
