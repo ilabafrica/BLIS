@@ -481,8 +481,9 @@ class ReportController extends \BaseController {
 		$to = Input::get('end');
 		if(!$to) $to = $date;
 		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+		$counts = Input::get('counts');
 		//	Begin grouped test counts
-		if(Input::get('counts')==trans('messages.grouped-test-counts'))
+		if($counts==trans('messages.grouped-test-counts'))
 		{
 			$testCategories = TestCategory::all();
 			$testTypes = TestType::all();
@@ -491,6 +492,9 @@ class ReportController extends \BaseController {
 
 			$perAgeRange = array();	// array for counts data for each test type and age range
 			$perTestType = array();	//	array for counts data per testype
+			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+				Session::flash('message', trans('messages.check-date-range'));
+			}
 			foreach ($testTypes as $testType) {
 				$countAll = $testType->groupedTestCount(null, null, $from, $toPlusOne->format('Y-m-d H:i:s'));
 				$countMale = $testType->groupedTestCount([Patient::MALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
@@ -509,6 +513,25 @@ class ReportController extends \BaseController {
 						->with('perTestType', $perTestType)
 						->with('perAgeRange', $perAgeRange)
 						->withInput(Input::all());
+		}
+		else if($counts==trans('messages.ungrouped-specimen-counts')){
+			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+				Session::flash('message', trans('messages.check-date-range'));
+			}
+
+			$ungroupedSpecimen = array();
+			foreach (SpecimenType::all() as $specimenType) {
+				$rejected = $specimenType->countPerStatus([Specimen::REJECTED], $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$accepted = $specimenType->countPerStatus([Specimen::ACCEPTED], $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$total = $rejected+$accepted;
+				$ungroupedSpecimen[$specimenType->id] = ["total"=>$total, "rejected"=>$rejected, "accepted"=>$accepted];
+			}
+
+			// $data = $data->groupBy('test_type_id')->paginate(Config::get('kblis.page-items'));
+			return View::make('reports.counts.ungroupedSpecimenCount')
+							->with('ungroupedSpecimen', $ungroupedSpecimen)
+							->withInput(Input::all());
+
 		}
 		else{
 			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
