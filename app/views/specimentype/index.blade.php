@@ -66,7 +66,7 @@
 			</tbody>
 		</table>
 		<?php echo $specimentypes->links();
-		Session::put('key', URL::full()); ?>
+		Session::put('SOURCE_URL', URL::full()); ?>
 		
 	</div>
 </div>
