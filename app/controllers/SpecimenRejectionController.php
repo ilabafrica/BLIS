@@ -52,7 +52,10 @@ class SpecimenRejectionController extends \BaseController {
             $rejection->reason = Input::get('reason');
             $rejection->save();
         }
-        return Redirect::route("specimenrejection.index")
+            $url = Session::get('SOURCE_URL');
+            
+            return Redirect::to($url)
+            
             ->with('message', trans('messages.success-creating-rejection-reason'));
     }
 
@@ -92,7 +95,9 @@ class SpecimenRejectionController extends \BaseController {
             $rejection->save();
 
             // redirect
-            return Redirect::route('specimenrejection.index')
+            $url = Session::get('SOURCE_URL');
+            
+            return Redirect::to($url)
                     ->with('message', trans('messages.success-updating-rejection-reason'));
         }
     }
@@ -114,11 +119,15 @@ class SpecimenRejectionController extends \BaseController {
             $rejection->delete();
         } catch (Exception $e) {
             // The rejection is in use
-            return Redirect::route('specimenrejection.index')
+            $url = Session::get('SOURCE_URL');
+            
+            return Redirect::to($url)
                 ->with('message', trans('messages.failure-specimen-rejection-reason-in-use'));
         }
         // redirect
-        return Redirect::route('specimenrejection.index')
+            $url = Session::get('SOURCE_URL');
+            
+            return Redirect::to($url)
             ->with('message', trans('messages.success-deleting-rejection-reason'));
     }
 }

@@ -67,7 +67,8 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $patients->links(); ?>
+		<?php echo $patients->links(); 
+		Session::put('SOURCE_URL', URL::full());?>
 	</div>
 </div>
 @stop

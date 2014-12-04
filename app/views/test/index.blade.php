@@ -239,7 +239,10 @@
                 @endforeach
                 </tbody>
             </table>
-            {{$testSet->links()}}
+            
+            <?php echo $testSet->links();
+        Session::put('SOURCE_URL', URL::full()); ?>
+        
         </div>
     </div>
 

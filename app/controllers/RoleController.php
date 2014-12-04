@@ -62,7 +62,9 @@ class RoleController extends \BaseController {
 				}
 			}
 		}
-		return Redirect::route('role.assign')->with('message', 'Roles succesfully updated!');
+			$url = Session::get('SOURCE_URL');
+			return Redirect::to($url)
+			->with('message', 'Roles succesfully updated!');
 	}
 
 	/**
@@ -88,7 +90,9 @@ class RoleController extends \BaseController {
 			try
 			{
 				$role->save();
-				return Redirect::route('role.index')->with('message', 'Role succesfully added!');
+			$url = Session::get('SOURCE_URL');
+			return Redirect::to($url)
+			->with('message', 'Role succesfully added!');
 			}
 			catch (QueryException $e)
 			{
@@ -145,7 +149,9 @@ class RoleController extends \BaseController {
 			try
 			{
 				$role->save();
-				return Redirect::route('role.index')->with('message', 'Role succesfully updated!');
+			$url = Session::get('SOURCE_URL');
+			return Redirect::to($url)
+			->with('message', 'Role succesfully updated!');
 			}
 			catch (QueryException $e)
 			{
@@ -166,7 +172,10 @@ class RoleController extends \BaseController {
         $role = Role::find($id);
         $role->delete();
         // redirect
-        return Redirect::to('role')->with('message', 'The role was successfully deleted!');
+          $url = Session::get('SOURCE_URL');
+			
+			return Redirect::to($url)
+			->with('message', 'The role was successfully deleted!');
 	}
 
 	/**

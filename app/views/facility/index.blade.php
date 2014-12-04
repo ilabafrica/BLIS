@@ -49,7 +49,8 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $facilities->links(); ?>
+		<?php echo $facilities->links();
+		Session::put('SOURCE_URL', URL::full()); ?>
 	</div>
 </div>
 @stop

@@ -60,7 +60,8 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $testcategory->links(); ?>
+		<?php echo $testcategory->links(); 
+		Session::put('SOURCE_URL', URL::full());?>
 	</div>
 </div>
 @stop

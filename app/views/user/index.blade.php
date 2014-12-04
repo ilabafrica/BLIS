@@ -67,7 +67,8 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $users->links(); ?>
+		<?php echo $users->links(); 
+		Session::put('SOURCE_URL', URL::full());?>
 	</div>
 </div>
 @stop

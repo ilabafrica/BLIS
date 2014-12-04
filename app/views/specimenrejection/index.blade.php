@@ -52,7 +52,8 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $rejection->links(); ?>
+		<?php echo $rejection->links(); 
+		Session::put('SOURCE_URL', URL::full());?>
 	</div>
 </div>
 @stop	

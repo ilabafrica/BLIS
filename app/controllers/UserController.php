@@ -218,7 +218,9 @@ class UserController extends Controller {
             $user->save();
 
             // redirect
-            return Redirect::route('user.index')->with('message', trans('messages.user-profile-edit-success'));
+            $url = Session::get('SOURCE_URL');
+            
+            return Redirect::to($url)->with('message', trans('messages.user-profile-edit-success'));
         }
     }
 
@@ -257,7 +259,9 @@ class UserController extends Controller {
         }
 
         // redirect
-        return Redirect::route('user.index')->with('message', trans('messages.user-profile-edit-success'));
+        $url = Session::get('SOURCE_URL');
+            
+        return Redirect::to($url)->with('message', trans('messages.user-profile-edit-success'));
     }
 
     /**
@@ -285,6 +289,8 @@ class UserController extends Controller {
         $user->delete();
 
         // redirect
-        return Redirect::route('user.index')->with('message', trans('messages.success-deleting-user'));
+        $url = Session::get('SOURCE_URL');
+            
+        return Redirect::to($url)->with('message', trans('messages.success-deleting-user'));
     }
 }
