@@ -47,8 +47,15 @@ class MeasureController extends \BaseController {
         //
         $rules = array(
             'name'=> 'required|unique:measures,name',
-            'val' => 'required'
         );
+        if (Input::get('measure_type_id') != Measure::FREETEXT) {
+            if (Input::get('measure_type_id') == Measure::NUMERIC) {
+                $rules['rangemin'] = 'required';
+                $rules['rangemax'] = 'required';
+            } else {
+                $rules['val'] = 'required';
+            }
+        }
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
@@ -70,7 +77,7 @@ class MeasureController extends \BaseController {
                 Log::error($e);
             }
             
-            if ($measure->measure_type_id == 1) {
+            if ($measure->isNumeric()) {
                 $val['agemin'] = Input::get('agemin');
                 $val['agemax'] = Input::get('agemax');
                 $val['gender'] = Input::get('gender');
@@ -92,7 +99,7 @@ class MeasureController extends \BaseController {
                  }
                 return Redirect::route('measure.index')
                     ->with('message', trans('messages.success-creating-measure'));
-            }else if (Input::get('measure_type_id') == 2 || Input::get('measure_type_id') == 3) {
+            }else if( $measure->isAlphanumeric() || $measure->isAutocomplete() ) {
                 $val['val'] = Input::get('val');
                 $val['interpretation'] = Input::get('interpretation');
                 for ($i=0; $i < count($val['val']); $i++) { 
@@ -102,12 +109,12 @@ class MeasureController extends \BaseController {
                     $measurerange->interpretation = $val['interpretation'][$i];
                     $measurerange->save();
                 }
-                return Redirect::route('measure.index')
-                    ->with('message', trans('messages.success-creating-measure'));
             }
-            return Redirect::route("measure.create")
-                ->with('message', trans('messages.error-creating-measure'));
+            return Redirect::route('measure.index')
+                ->with('message', trans('messages.success-creating-measure'));
         }
+        return Redirect::route("measure.create")
+            ->with('message', trans('messages.error-creating-measure'));
     }
     /**
      * Display the specified resource.
@@ -169,9 +176,9 @@ class MeasureController extends \BaseController {
             $measure->unit = Input::get('unit');
             $measure->description = Input::get('description');
             $measure->save();
-            if ($measureTypeId != 4) {
+            if ($measureTypeId != Measure::FREETEXT) {
                
-                if ($measureTypeId == 1){
+                if ($measureTypeId == Measure::NUMERIC){
                     $val['agemin'] = Input::get('agemin');
                     $val['agemax'] = Input::get('agemax');
                     $val['gender'] = Input::get('gender');
@@ -193,7 +200,7 @@ class MeasureController extends \BaseController {
                     }
                     $measurerange->measure_id = $measure->id;
 
-                    if ($measureTypeId == 1){
+                    if ($measureTypeId == Measure::NUMERIC){
                         $measurerange->age_min = $val['agemin'][$i];
                         $measurerange->age_max = $val['agemax'][$i];
                         $measurerange->gender = $val['gender'][$i];
