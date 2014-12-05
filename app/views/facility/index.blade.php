@@ -29,7 +29,10 @@
 			</thead>
 			<tbody>
 			@foreach($facilities as $facility)
-				<tr>
+				<tr @if(Session::has('activefacility'))
+                            {{(Session::get('activefacility') == $facility->id)?"class='info'":""}}
+                        @endif
+                    >
 					<td>{{ $facility->name }}</td>
 					<td>
 					<!-- edit this facility (uses edit method found at GET /facility/{id}/edit -->

@@ -144,7 +144,8 @@ class PatientController extends \BaseController {
 			// redirect
 			$url = Session::get('SOURCE_URL');
 			return Redirect::to($url)
-			->with('message', 'The patient details were successfully updated!');
+			->with('message', 'The patient details were successfully updated!') ->with('activepatient',$patient ->id);
+
 		}
 	}
 

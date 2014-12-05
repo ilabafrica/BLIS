@@ -220,7 +220,7 @@ class UserController extends Controller {
             // redirect
             $url = Session::get('SOURCE_URL');
             
-            return Redirect::to($url)->with('message', trans('messages.user-profile-edit-success'));
+            return Redirect::to($url)->with('message', trans('messages.user-profile-edit-success')) ->with('activeuser', $user ->id);
         }
     }
 

@@ -151,7 +151,7 @@ class RoleController extends \BaseController {
 				$role->save();
 			$url = Session::get('SOURCE_URL');
 			return Redirect::to($url)
-			->with('message', 'Role succesfully updated!');
+			->with('message', 'Role succesfully updated!') ->with('activerole', $role ->id);
 			}
 			catch (QueryException $e)
 			{

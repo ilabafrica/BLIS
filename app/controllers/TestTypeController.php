@@ -155,8 +155,10 @@ class TestTypeController extends \BaseController {
 			}
 
 			// redirect
-			return Redirect::route('testtype.index')
-						->with('message', trans('messages.success-updating-test-type'));
+			$url = Session::get('SOURCE_URL');
+            
+            return Redirect::to($url)
+						->with('message', trans('messages.success-updating-test-type'))->with('activetesttype', $testtype ->id);
 		}
 	}
 

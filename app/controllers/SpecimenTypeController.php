@@ -122,7 +122,7 @@ class SpecimenTypeController extends \BaseController {
 			$url = Session::get('SOURCE_URL');
 			
 			return Redirect::to($url)
-			->with('message', trans('messages.success-updating-specimen-type'));
+			->with('message', trans('messages.success-updating-specimen-type'))->with('activespecimentype', $specimentype ->id);
 		
 		}
 	}

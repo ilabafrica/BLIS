@@ -34,7 +34,10 @@
 			</thead>
 			<tbody>
 			@foreach($patients as $key => $value)
-				<tr>
+				<tr  @if(Session::has('activepatient'))
+                            {{(Session::get('activepatient') == $value->id)?"class='info'":""}}
+                        @endif
+                        >
 					<td>{{ $value->patient_number }}</td>
 					<td>{{ $value->name }}</td>
 					<td>{{ $value->email }}</td>

@@ -31,7 +31,9 @@
             </thead>
             <tbody>
             @forelse($roles as $role)
-                <tr>
+                <tr @if(Session::has('activerole'))
+                            {{(Session::get('activerole') == $role->id)?"class='info'":""}}
+                        @endif>
                     <td>{{ $role->name }}</td>
                     <td>{{ $role->description }}</td>
                     <td>

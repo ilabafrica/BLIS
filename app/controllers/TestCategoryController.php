@@ -56,7 +56,7 @@ class TestCategoryController extends \BaseController {
 				$url = Session::get('SOURCE_URL');
             
             	return Redirect::to($url)
-					->with('message', trans('messages.success-creating-test-category'));
+					->with('message', trans('messages.success-creating-test-category')) ->with('activetestcategory', $testcategory ->id);
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -118,7 +118,7 @@ class TestCategoryController extends \BaseController {
 			$url = Session::get('SOURCE_URL');
             
             return Redirect::to($url)
-				->with('message', trans('messages.success-updating-test-category'));
+				->with('message', trans('messages.success-updating-test-category')) ->with('activetestcategory', $testcategory ->id);
 		}
 	}
 

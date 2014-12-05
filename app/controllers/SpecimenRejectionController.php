@@ -98,7 +98,7 @@ class SpecimenRejectionController extends \BaseController {
             $url = Session::get('SOURCE_URL');
             
             return Redirect::to($url)
-                    ->with('message', trans('messages.success-updating-rejection-reason'));
+                    ->with('message', trans('messages.success-updating-rejection-reason')) ->with('activerejection', $rejection->id);
         }
     }
 

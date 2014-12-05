@@ -30,7 +30,11 @@
 			</thead>
 			<tbody>
 			@foreach($testcategory as $key => $value)
-				<tr>
+				<tr @if(Session::has('activetestcategory'))
+                            {{(Session::get('activetestcategory') == $value->id)?"class='info'":""}}
+                        @endif
+                        >
+
 					<td>{{ $value->name }}</td>
 					<td>{{ $value->description }}</td>
 					

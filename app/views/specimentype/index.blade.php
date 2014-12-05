@@ -32,7 +32,11 @@
 			</thead>
 			<tbody>
 			@foreach($specimentypes as $key => $value)
-				<tr>
+				<tr @if(Session::has('activespecimentype'))
+                            {{(Session::get('activespecimentype') == $value->id)?"class='info'":""}}
+                        @endif
+                        >
+
 					<td>{{ $value->name }}</td>
 					<td>{{ $value->description }}</td>
 
