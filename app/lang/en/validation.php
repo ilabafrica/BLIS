@@ -118,6 +118,13 @@ return array(
 		'testtypes' => 'Tests',
 		'username' => 'Username',
 		'val' => 'Measure Range',
+		'validation.notzero' => 'Please Select a Measure Type',
+		'rangemin.0' => 'Minimum Measure Range',
+		'rangemax.0' => 'Maximum Measure Range',
+		'agemin.0' => 'Minimum Age Range',
+		'agemax.0' => 'Maximum Age Range',
+		'gender.0' => 'Gender',
+		'val.0' => 'Measure Range',
 		),
 
 );

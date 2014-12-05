@@ -238,3 +238,12 @@ Event::listen('api.receivedLabRequest', function($labRequest)
     Interfacer::retrieve($labRequest);
 });
 
+//Ensure form value is not zero
+Validator::extend('notzero', function($attribute, $value, $parameters)
+{
+    if($value!=0)
+    {
+        return true;
+    }
+    return false;
+});

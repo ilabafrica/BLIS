@@ -45,24 +45,37 @@ class MeasureController extends \BaseController {
     public function store()
     {
         //
-        $rules = array(
-            'name'=> 'required|unique:measures,name',
-        );
-        if (Input::get('measure_type_id') != Measure::FREETEXT) {
-            if (Input::get('measure_type_id') == Measure::NUMERIC) {
-                $rules['rangemin'] = 'required';
-                $rules['rangemax'] = 'required';
-            } else {
-                $rules['val'] = 'required';
-            }
+        $rules = array();
+        $rules['name'] = 'required|unique:measures,name';
+        $rules['measure_type_id'] = 'notzero';
+        
+        switch (Input::get('measure_type_id')) {
+            case Measure::NUMERIC:
+                $rules['rangemin.0'] = 'required';
+                $rules['rangemax.0'] = 'required';
+                $rules['agemin.0'] = 'required';
+                $rules['agemax.0'] = 'required';
+                $rules['gender.0'] = 'required';
+                break;
+            
+            case Measure::ALPHANUMERIC:
+                $rules['val.0'] = 'required';
+                break;
+            
+            case Measure::AUTOCOMPLETE:
+                $rules['val.0'] = 'required';
+                break;
+            
+            default:
+                break;
         }
+
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
             return Redirect::route("measure.create")
-                ->withErrors($validator)
-                ->withInput(Input::except('password'));
+                ->withErrors($validator);
         } else {
             // store
             $measure = new Measure;
@@ -113,8 +126,6 @@ class MeasureController extends \BaseController {
             return Redirect::route('measure.index')
                 ->with('message', trans('messages.success-creating-measure'));
         }
-        return Redirect::route("measure.create")
-            ->with('message', trans('messages.error-creating-measure'));
     }
     /**
      * Display the specified resource.
