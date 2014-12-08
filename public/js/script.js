@@ -55,29 +55,26 @@ $(function(){
 	 *  - Add another measure button 
 	 */
 	$('.add-another-range').click(function(){
-		var inputClass = ['.numericInputLoader', '.alphanumericInputLoader', '.alphanumericInputLoader', '.freetextInputLoader']; 
+		var inputClass = [
+			'.numericInputLoader',
+			'.alphanumericInputLoader',
+			'.alphanumericInputLoader',
+			'.freetextInputLoader'
+		]; 
 		var id = $("#measuretype").val() - 1;
 		var inputHtml = $(inputClass[id]).html();
 		$(".measurevalue" ).append(inputHtml);
 	});
 	/*  load measure range input UI for the selected measure type */
-	$( '.measuretype-input-trigger' ).change(function() {
-		var headerClass = ['.numericHeaderLoader', '.alphanumericHeaderLoader', '.alphanumericHeaderLoader', '.freetextHeaderLoader']; 
-		var inputClass = ['.numericInputLoader', '.alphanumericInputLoader', '.alphanumericInputLoader', '.freetextInputLoader']; 
-		var id = $(this).val() - 1;
-		var headerHtml = $(headerClass[id]).html();
-		var inputHtml = $(inputClass[id]).html();
-		if (id == 0) {
-			$('.measurevalue').removeClass('col-md-6');
-			$('.measurevalue').addClass('col-md-12');
-		} else{
-			$('.measurevalue').removeClass('col-md-12');
-			$('.measurevalue').addClass('col-md-6');
+	$( '.measuretype-input-trigger' ).change( loadRangeFields );
+
+	/*  re-load measure range input UI for the selected measure type on error */
+	if ($('.measurevalue').is(':empty')){
+		var measure_type = $( '.measuretype-input-trigger' ).val();
+		if ( measure_type > 0 ) {
+			loadRangeFields();
 		}
-		$('.measurevalue').empty();
-		$('.measurevalue').append(headerHtml);
-		$('.measurevalue').append(inputHtml);
-	});
+	}
 
 
 
@@ -262,6 +259,37 @@ $(function(){
 			$('#new-test-modal .modal-footer .next').prop('disabled', false);
 		});
 	});
+
+	/**
+	 *	Measure Functions
+	 */
+	function loadRangeFields () {
+		var headerClass = [
+			'.numericHeaderLoader',
+			'.alphanumericHeaderLoader',
+			'.alphanumericHeaderLoader',
+			'.freetextHeaderLoader'
+		]; 
+		var inputClass = [
+			'.numericInputLoader',
+			'.alphanumericInputLoader',
+			'.alphanumericInputLoader',
+			'.freetextInputLoader'
+		]; 
+		var id = $('.measuretype-input-trigger').val() - 1;
+		var headerHtml = $(headerClass[id]).html();
+		var inputHtml = $(inputClass[id]).html();
+		if (id == 0) {
+			$('.measurevalue').removeClass('col-md-6');
+			$('.measurevalue').addClass('col-md-12');
+		} else{
+			$('.measurevalue').removeClass('col-md-12');
+			$('.measurevalue').addClass('col-md-6');
+		}
+		$('.measurevalue').empty();
+		$('.measurevalue').append(headerHtml);
+		$('.measurevalue').append(inputHtml);
+	}
 
 	function UIComponents(){
 		/* Datepicker */

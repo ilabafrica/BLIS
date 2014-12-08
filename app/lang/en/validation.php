@@ -93,6 +93,9 @@ return array(
 		'measures' => array(
 			'required' => "At least one of the ':attribute' should be selected.",
 		),
+		'measure_type_id' => array(
+			'measure_type_selected' => "Please Select a 'Measure Type'",
+		),
 	),
 
 	/*
@@ -117,14 +120,12 @@ return array(
 		'specimentypes' => 'Specimen Types',
 		'testtypes' => 'Tests',
 		'username' => 'Username',
-		'val' => 'Measure Range',
-		'validation.notzero' => 'Please Select a Measure Type',
-		'rangemin.0' => 'Minimum Measure Range',
-		'rangemax.0' => 'Maximum Measure Range',
-		'agemin.0' => 'Minimum Age Range',
-		'agemax.0' => 'Maximum Age Range',
-		'gender.0' => 'Gender',
-		'val.0' => 'Measure Range',
+		'rangemin' => ['0' => 'Minimum Measure Range'],
+		'rangemax' => ['0' => 'Maximum Measure Range'],
+		'agemin' => ['0' => 'Minimum Age Range'],
+		'agemax' => ['0' => 'Maximum Age Range'],
+		'gender' => ['0' => 'Gender'],
+		'val' => ['0' => 'Measure Range'],
 		),
 
 );

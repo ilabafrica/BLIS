@@ -47,7 +47,7 @@ class MeasureController extends \BaseController {
         //
         $rules = array();
         $rules['name'] = 'required|unique:measures,name';
-        $rules['measure_type_id'] = 'notzero';
+        $rules['measure_type_id'] = 'measure_type_selected';
         
         switch (Input::get('measure_type_id')) {
             case Measure::NUMERIC:
@@ -75,6 +75,7 @@ class MeasureController extends \BaseController {
         // process the login
         if ($validator->fails()) {
             return Redirect::route("measure.create")
+                ->withInput(Input::all())
                 ->withErrors($validator);
         } else {
             // store
