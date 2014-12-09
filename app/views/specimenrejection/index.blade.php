@@ -29,7 +29,11 @@
 			</thead>
 			<tbody>
 			@foreach($rejection as $key => $value)
-				<tr>
+				<tr   @if(Session::has('activerejection'))
+                            {{(Session::get('activerejection') == $value->id)?"class='info'":""}}
+                        @endif
+                        >
+
 					<td>{{ $value->reason }}</td>
 
 					<td>
@@ -52,7 +56,8 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $rejection->links(); ?>
+		<?php echo $rejection->links(); 
+		Session::put('SOURCE_URL', URL::full());?>
 	</div>
 </div>
 @stop	

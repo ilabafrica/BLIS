@@ -32,7 +32,10 @@
 			</thead>
 			<tbody>
 			@foreach($testtypes as $key => $value)
-				<tr>
+				<tr @if(Session::has('activetesttype'))
+                            {{(Session::get('activetesttype') == $value->id)?"class='info'":""}}
+                        @endif
+                        >
 					<td>{{ $value->name }}</td>
 					<td>{{ $value->description }}</td>
 					<td>{{ $value->targetTAT }}</td>
@@ -64,7 +67,8 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $testtypes->links(); ?>
+		<?php echo $testtypes->links(); 
+		Session::put('SOURCE_URL', URL::full());?>
 	</div>
 </div>
 @stop

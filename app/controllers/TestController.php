@@ -189,7 +189,9 @@ class TestController extends \BaseController {
 				}
 			}
 
-			return Redirect::route('test.index')->with('message', 'messages.success-creating-test');
+			$url = Session::get('SOURCE_URL');
+			
+			return Redirect::to($url)->with('message', 'messages.success-creating-test');
 		}
 	}
 
@@ -232,7 +234,9 @@ class TestController extends \BaseController {
 			$specimen->reject_explained_to = Input::get('reject_explained_to');
 			$specimen->save();
 			
-			return Redirect::route('test.index')->with('message', 'messages.success-rejecting-specimen');
+			$url = Session::get('SOURCE_URL');
+			
+			return Redirect::to($url)->with('message', 'messages.success-rejecting-specimen');
 		}
 	}
 
@@ -329,7 +333,9 @@ class TestController extends \BaseController {
 		}
 
 		// redirect
-		return Redirect::route('test.index')->with('message', trans('messages.success-saving-results'));
+			$url = Session::get('SOURCE_URL');
+			
+			return Redirect::to($url)->with('message', trans('messages.success-saving-results'));
 	}
 
 	/**
@@ -430,6 +436,9 @@ class TestController extends \BaseController {
 		});
 
 		//Return view
-		return Redirect::route('test.index')->with('message', trans('messages.specimen-successful-refer'));
+			$url = Session::get('SOURCE_URL');
+			
+			return Redirect::to($url)
+			->with('message', trans('messages.specimen-successful-refer'));
 	}
 }

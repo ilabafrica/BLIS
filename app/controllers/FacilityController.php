@@ -47,8 +47,10 @@ class FacilityController extends \BaseController {
 			// redirect
 			try{
 				$facility->save();
-				return Redirect::route('facility.index')
-					->with('message', trans('messages.successfully-updated-facility'));
+				$url = Session::get('SOURCE_URL');
+				return Redirect::to($url)
+
+					->with('message', trans('messages.successfully-updated-facility'))->with('activefacility', $facility ->id);
 			} catch(QueryException $e){
 				Log::error($e);
 			}
@@ -103,8 +105,11 @@ class FacilityController extends \BaseController {
 			$facility->name = Input::get('name');
 			$facility->save();
 			// redirect
-			return Redirect::route('facility.index')
-				->with('message', trans('messages.successfully-updated-facility'));
+			$url = Session::get('SOURCE_URL');
+			
+			return Redirect::to($url)
+
+				->with('message', trans('messages.successfully-updated-facility')) ->with('activefacility', $facility ->id);
 		}
 	}
 
@@ -124,7 +129,10 @@ class FacilityController extends \BaseController {
 		$facility->delete();
 
 		// redirect
-		return Redirect::route('facility.index')
+		$url = Session::get('SOURCE_URL');
+			
+			return Redirect::to($url)
+
 			->with('message', trans('messages.successfully-deleted-facility'));
 	}
 

@@ -29,7 +29,10 @@
 			</thead>
 			<tbody>
 			@foreach($facilities as $facility)
-				<tr>
+				<tr @if(Session::has('activefacility'))
+                            {{(Session::get('activefacility') == $facility->id)?"class='info'":""}}
+                        @endif
+                    >
 					<td>{{ $facility->name }}</td>
 					<td>
 					<!-- edit this facility (uses edit method found at GET /facility/{id}/edit -->
@@ -49,7 +52,8 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $facilities->links(); ?>
+		<?php echo $facilities->links();
+		Session::put('SOURCE_URL', URL::full()); ?>
 	</div>
 </div>
 @stop
