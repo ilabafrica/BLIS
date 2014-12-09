@@ -66,7 +66,6 @@
 					</td>
 				</tr>
 			@endforeach
-			{{$specimentypes->links()}}
 			</tbody>
 		</table>
 		<?php echo $specimentypes->links();

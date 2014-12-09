@@ -64,6 +64,11 @@ class RoleControllerTest extends TestCase
 
     public function testUpdate()
     {
+         echo "\n\nROLE CONTROLLER TEST\n\n";
+
+          // Set SOURCE URL - the index page for roles
+        Session::put('SOURCE_URL', URL::route('role.index'));
+
         $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateWorks);
         $role1 = Role::find(1);
         $this->assertEquals($this->systemRoleUpdateWorks['name'], $role1->name);
@@ -85,6 +90,11 @@ class RoleControllerTest extends TestCase
 
     public function testDelete()
     {
+        echo "\n\nROLE CONTROLLER TEST\n\n";
+
+          // Set SOURCE URL - the index page for roles
+        Session::put('SOURCE_URL', URL::route('role.index'));
+        
         $this->action('GET', 'RoleController@delete', array("id"=>2));
         $role2 = Role::find(2);
         $this->assertNull($role2);

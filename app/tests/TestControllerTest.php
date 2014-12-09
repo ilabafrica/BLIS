@@ -11,6 +11,7 @@ class TestControllerTest extends TestCase
       parent::setUp();
       Artisan::call('migrate');
       Artisan::call('db:seed');
+      Session::start();
     }
 
 
@@ -119,6 +120,10 @@ class TestControllerTest extends TestCase
     *   + Check TestController redirects to the correct view ('test.index')
     */
     public function testSaveNewTestSuccess(){
+      echo "\n\nTEST CONTROLLER TEST\n\n";
+
+          // Set SOURCE URL - the index page for roles
+        Session::put('SOURCE_URL', URL::route('test.index'));
       $patient = Patient::first();
       $url = URL::route('test.create', array($patient->id));
 
@@ -208,6 +213,8 @@ class TestControllerTest extends TestCase
     *   + Check TestController redirects to the correct view ('test.index')
     */
     public function testRejectActionSuccess(){
+    
+
       $testIDs = Test::where('test_status_id','!=', Test::NOT_RECEIVED)
                 ->where('test_status_id','!=', Test::VERIFIED)->lists('id');
       if(count($testIDs) == 0){
@@ -218,6 +225,10 @@ class TestControllerTest extends TestCase
       $this->be(User::first());
 
       foreach ($testIDs as $id) {
+         echo "\n\nTEST CONTROLLER TEST\n\n";
+
+          // Set SOURCE URL - the index page for roles
+        Session::put('SOURCE_URL', URL::route('test.index'));
         $specimenID = Test::find($id)->specimen_id;
         $url = URL::route('test.reject', array($specimenID));
         $crawler = $this->client->request('GET', $url);
