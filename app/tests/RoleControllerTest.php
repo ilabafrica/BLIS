@@ -15,6 +15,7 @@ class RoleControllerTest extends TestCase
         parent::setUp();
         Artisan::call('migrate');
         Artisan::call('db:seed');
+        Session::start();
         $this->setVariables();
     }
 
@@ -22,6 +23,10 @@ class RoleControllerTest extends TestCase
     {
         echo "\n\nROLE CONTROLLER TEST\n\n";
 
+        // Set SOURCE URL - the index page for roles
+        Session::put('SOURCE_URL', URL::route('role.assign'));
+
+        // Invoke controller function
         $this->action('POST', 'RoleController@saveUserRoleAssignment', $this->userRolesMapping);
 
         $user1 = User::find(1);
