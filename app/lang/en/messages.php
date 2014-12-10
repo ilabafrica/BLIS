@@ -312,6 +312,10 @@ return array(
     'no-users-found' => 'No Users found',
     'permission' => 'Permission',
     'permissions' => 'Permissions',
+    'success-updating-permission' => 'Roles/permissions successfully updated!',
+    'success-adding-role' => 'Roles successfully added!',
+    'success-deleting-role' => 'Roles successfully deleted!',
+    'success-updating-role' => 'Roles successfully updated!',
     'user-accounts' => 'User Accounts',
 
     /** 
