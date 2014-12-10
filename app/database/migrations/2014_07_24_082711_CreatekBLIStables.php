@@ -194,17 +194,25 @@ class CreatekBLIStables extends Migration {
 			$table->string("reason", 100);
 		});
 
+        Schema::create('facilities', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->string('name', 500);
+            $table->timestamps();
+        });
+
         Schema::create('referrals', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
             $table->integer('status')->unsigned();
-            $table->string('facility', 500);
+            $table->integer('facility_id')->unsigned();
             $table->string('person', 500);
-            $table->text('contacts', 100);
+            $table->text('contacts');
             $table->integer('user_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('facility_id')->references('id')->on('facilities');
         });
 
 		Schema::create('specimens', function(Blueprint $table)
@@ -278,6 +286,7 @@ class CreatekBLIStables extends Migration {
 		Schema::dropIfExists('tests');
 		Schema::dropIfExists('specimens');
         Schema::dropIfExists('referrals');
+        Schema::dropIfExists('facilities');
 		Schema::dropIfExists('rejection_reasons');
 		Schema::dropIfExists('visits');
 		Schema::dropIfExists('test_statuses');

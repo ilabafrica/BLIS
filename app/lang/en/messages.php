@@ -47,7 +47,7 @@ return array(
     'users' => 'Users',
     'username' => 'Username',
     'view' => 'View',
-    'facility' => 'Facility',
+    'facility' => 'Facility|Facilities',
     'person' => 'Person',
     'contacts' => 'Contacts',
     'refer' => 'Refer',
@@ -369,12 +369,19 @@ return array(
     'time-in-weeks' =>  'Time(weeks)',
     'time-in-days'  =>  'Time(Days)',
     'for-the-year'  =>  'For the Year',
+    'select-lab-section' => 'Select Lab Section',
+    'select-test-type'  =>  'Select Test Type',
 
 
     /** 
      *   Configurations
      */
     'lab-configuration' => 'Lab Configuration',
+    'list-facilities' => 'List of facilities',
+    'add-facility' => 'Add a facility',
+    'edit-facility' => 'Edit facility',
+    'successfully-updated-facility' => 'Facility was successfully updated!',
+    'successfully-deleted-facility' => 'Facility was successfully deleted!',
 
     /** 
      *   Dates

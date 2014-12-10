@@ -31,7 +31,7 @@
 						@endif
                     </div>
                     <div class="col-md-1">
-                        <a class="btn btn-sm btn-primary pull-right" href="{{URL::previous()}}"
+                        <a class="btn btn-sm btn-primary pull-right" href="#" onclick="window.history.back();return false;"
                             alt="{{trans('messages.back')}}" title="{{trans('messages.back')}}">
                             <span class="glyphicon glyphicon-backward"></span></a>
                     </div>
@@ -163,10 +163,10 @@
 									</div>
 									<div class="row">
 										<div class="col-md-4">
-											<p><strong>{{trans("messages.facility")}}</strong></p>
+											<p><strong>{{Lang::choice("messages.facility", 1)}}</strong></p>
 										</div>
 										<div class="col-md-8">
-											{{$test->specimen->referral->facility }}
+											{{$test->specimen->referral->facility->name }}
 										</div>
 									</div>
 									<div class="row">

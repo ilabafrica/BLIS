@@ -193,8 +193,9 @@ class TestController extends \BaseController {
 				}
 			}
 
-			return Redirect::route('test.index')->with('message', 'messages.success-creating-test')
-							->with('activeTest', $test->id);
+			$url = Session::get('SOURCE_URL');
+			
+			return Redirect::to($url)->with('message', 'messages.success-creating-test');
 		}
 	}
 
@@ -237,8 +238,9 @@ class TestController extends \BaseController {
 			$specimen->reject_explained_to = Input::get('reject_explained_to');
 			$specimen->save();
 			
-			return Redirect::route('test.index')->with('message', 'messages.success-rejecting-specimen')
-								->with('activeTest', $specimen->test->id);
+			$url = Session::get('SOURCE_URL');
+			
+			return Redirect::to($url)->with('message', 'messages.success-rejecting-specimen');
 		}
 	}
 
@@ -335,8 +337,9 @@ class TestController extends \BaseController {
 		}
 
 		// redirect
-		return Redirect::route('test.index')->with('message', trans('messages.success-saving-results'))
-							->with('activeTest', $testID);
+		$url = Session::get('SOURCE_URL');
+		
+		return Redirect::to($url)->with('message', trans('messages.success-saving-results'));
 	}
 
 	/**
@@ -389,8 +392,12 @@ class TestController extends \BaseController {
 	public function showRefer($specimenId)
 	{
 		$specimen = Specimen::find($specimenId);
+		$facilities = Facility::all();
 		//Referral facilities
-		return View::make('test.refer')->with('specimen', $specimen);
+		return View::make('test.refer')
+			->with('specimen', $specimen)
+			->with('facilities', $facilities);
+
 	}
 
 	/**
@@ -437,7 +444,8 @@ class TestController extends \BaseController {
 		$this->start();
 
 		//Return view
-		return Redirect::route('test.index')->with('message', trans('messages.specimen-successful-refer'))
-							->with('activeTest', $specimen->test->id);
+		$url = Session::get('SOURCE_URL');
+		
+		return Redirect::to($url)->with('message', trans('messages.specimen-successful-refer'));
 	}
 }

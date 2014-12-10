@@ -66,7 +66,7 @@
                         @endif
                     </div>
                     <div class="col-md-1">
-                        <a class="btn btn-sm btn-primary pull-right" href="{{URL::previous()}}"
+                        <a class="btn btn-sm btn-primary pull-right" href="#" onclick="window.history.back();return false;"
                             alt="{{trans('messages.back')}}" title="{{trans('messages.back')}}">
                             <span class="glyphicon glyphicon-backward"></span></a>
                     </div>
@@ -243,7 +243,10 @@
                 @endforeach
                 </tbody>
             </table>
-            {{$testSet->links()}}
+            
+            <?php echo $testSet->links();
+        Session::put('SOURCE_URL', URL::full()); ?>
+        
         </div>
     </div>
 
@@ -373,8 +376,8 @@
             {{trans('messages.enter-results')}}</a>
     </div> <!-- /. enter-result-buttons -->
 
-    <div class="hidden refer-button">
-        <a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->specimen_id.'/refer') }}">
+    <div class="hidden start-refer-button">
+        <a class="btn btn-sm btn-info refer-button" href="#">
             <span class="glyphicon glyphicon-edit"></span>
             {{trans('messages.refer-sample')}}
         </a>
