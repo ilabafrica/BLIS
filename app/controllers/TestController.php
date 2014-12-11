@@ -115,7 +115,7 @@ class TestController extends \BaseController {
 		$test->created_by = Auth::user()->id;
 		$test->save();
 
-		return Redirect::route('test.index')->with('activeTest', $id);
+		return Redirect::route('test.index')->with('activeTest', array($id));
 	}
 
 	/**
@@ -154,10 +154,12 @@ class TestController extends \BaseController {
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::route('test.create', array(Input::get('patient_id')))->withInput()->withErrors($validator);
+			return Redirect::route('test.create', 
+				array(Input::get('patient_id')))->withInput()->withErrors($validator);
 		} else {
 
 			$visitType = ['In-patient', 'Out-patient'];
+			$activeTest = array();
 
 			/*
 			* - Create a visit
@@ -190,12 +192,15 @@ class TestController extends \BaseController {
 					$test->created_by = Auth::user()->id;
 					$test->requested_by = Input::get('physician');
 					$test->save();
+
+					$activeTest[] = $test->id;
 				}
 			}
 
 			$url = Session::get('SOURCE_URL');
 			
-			return Redirect::to($url)->with('message', 'messages.success-creating-test');
+			return Redirect::to($url)->with('message', 'messages.success-creating-test')
+					->with('activeTest', $activeTest);
 		}
 	}
 
@@ -240,7 +245,8 @@ class TestController extends \BaseController {
 			
 			$url = Session::get('SOURCE_URL');
 			
-			return Redirect::to($url)->with('message', 'messages.success-rejecting-specimen');
+			return Redirect::to($url)->with('message', 'messages.success-rejecting-specimen')
+						->with('activeTest', array($specimen->test->id));
 		}
 	}
 
@@ -339,7 +345,8 @@ class TestController extends \BaseController {
 		// redirect
 		$url = Session::get('SOURCE_URL');
 		
-		return Redirect::to($url)->with('message', trans('messages.success-saving-results'));
+		return Redirect::to($url)->with('message', trans('messages.success-saving-results'))
+					->with('activeTest', array($test->id));
 	}
 
 	/**
@@ -410,7 +417,7 @@ class TestController extends \BaseController {
 		//Validate
 		$rules = array(
 			'referral-status' => 'required',
-			'facility' => 'required',
+			'facility_id' => 'required',
 			'person' => 'required',
 			'contacts' => 'required'
 			);
@@ -425,7 +432,7 @@ class TestController extends \BaseController {
 		//Insert into referral table
 		$referral = new Referral();
 		$referral->status = Input::get('referral-status');
-		$referral->facility = Input::get('facility');
+		$referral->facility_id = Input::get('facility_id');
 		$referral->person = Input::get('person');
 		$referral->contacts = Input::get('contacts');
 		$referral->user_id = Auth::user()->id;
@@ -446,6 +453,7 @@ class TestController extends \BaseController {
 		//Return view
 		$url = Session::get('SOURCE_URL');
 		
-		return Redirect::to($url)->with('message', trans('messages.specimen-successful-refer'));
+		return Redirect::to($url)->with('message', trans('messages.specimen-successful-refer'))
+					->with('activeTest', array($specimen->test->id));
 	}
 }

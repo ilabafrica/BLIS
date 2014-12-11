@@ -89,7 +89,7 @@
                 @foreach($testSet as $key => $test)
                     <tr 
                         @if(Session::has('activeTest'))
-                            {{(Session::get('activeTest') == $test->id)?"class='info'":""}}
+                            {{ in_array($test->id, Session::get('activeTest'))?"class='info'":""}}
                         @endif
                         >
                         <td>{{ $test->time_created }}</td>              <!--Date Ordered-->
