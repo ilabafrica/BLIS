@@ -71,6 +71,22 @@ class Specimen extends Eloquent
     {
         return $this->belongsTo('Referral');
     }
+    
+    /**
+	 * User (accepted) relationship
+	 */
+	public function acceptedBy()
+	{
+		return $this->belongsTo('User', 'accepted_by', 'id');
+	}
+
+	/**
+	 * User (rejected) relationship
+	 */
+	public function rejectedBy()
+	{
+		return $this->belongsTo('User', 'rejected_by', 'id');
+	}
 
     /**
 	 * Check if specimen is referred
@@ -89,6 +105,38 @@ class Specimen extends Eloquent
     }
 
     /**
+    * Check if specimen is NOT_COLLECTED
+    *
+    * @return boolean
+    */
+    public function isNotCollected()
+    {
+        if($this->specimen_status_id == Specimen::NOT_COLLECTED)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
+    /**
+    * Check if specimen is ACCEPTED
+    *
+    * @return boolean
+    */
+    public function isAccepted()
+    {
+        if($this->specimen_status_id == Specimen::ACCEPTED)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
+    /**
     * Check if specimen is rejected
     *
     * @return boolean
@@ -103,20 +151,4 @@ class Specimen extends Eloquent
             return false;
         }
     }
-    
-    /**
-	 * User (accepted) relationship
-	 */
-	public function acceptedBy()
-	{
-		return $this->belongsTo('User', 'accepted_by', 'id');
-	}
-
-	/**
-	 * User (rejected) relationship
-	 */
-	public function rejectedBy()
-	{
-		return $this->belongsTo('User', 'rejected_by', 'id');
-	}
 }

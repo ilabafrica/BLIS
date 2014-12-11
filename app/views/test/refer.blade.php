@@ -43,9 +43,9 @@
                 <br>
                 <div class="form-group">
                     {{ Form::label('refer', trans('messages.refer')) }}
-                    <div>{{ Form::radio('referal-status', '0', true) }}<span class='input-tag'>
+                    <div>{{ Form::radio('referral-status', '0', true) }}<span class='input-tag'>
                         {{trans('messages.in')}}</span></div>
-                    <div>{{ Form::radio('referal-status', '1', false) }}<span class='input-tag'>
+                    <div>{{ Form::radio('referral-status', '1', false) }}<span class='input-tag'>
                         {{trans('messages.out')}}</span></div>
                 </div>
                 <div class="form-group">

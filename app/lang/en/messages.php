@@ -143,7 +143,7 @@ return array(
     'success-rejecting-specimen' => 'The specimen was rejected!',
     'update' => 'Update',
     'refer-sample' => 'Refer sample',
-    'referrals' => 'Referals',
+    'referrals' => 'Referrals',
     'specimen-successful-refer' => 'The specimen was referred',
     'specimen-referred-label' => 'Specimen Referred',
     'person-involved' => 'Person involved',
@@ -312,6 +312,10 @@ return array(
     'no-users-found' => 'No Users found',
     'permission' => 'Permission',
     'permissions' => 'Permissions',
+    'success-updating-permission' => 'Roles/permissions successfully updated!',
+    'success-adding-role' => 'Roles successfully added!',
+    'success-deleting-role' => 'Roles successfully deleted!',
+    'success-updating-role' => 'Roles successfully updated!',
     'user-accounts' => 'User Accounts',
 
     /** 

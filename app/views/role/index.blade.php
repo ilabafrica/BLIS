@@ -16,7 +16,7 @@
         <div class="panel-btn">
             <a class="btn btn-sm btn-info" href="{{ URL::to("role/create") }}" >
                 <span class="glyphicon glyphicon-plus-sign"></span>
-                {{trans('messages.new-roles')}}
+                {{trans('messages.new-role')}}
             </a>
         </div>
     </div>

@@ -16,18 +16,19 @@ class TestControllerTest extends TestCase
 
 
    /**
-	  * @group testIndex
-	  * @param  
-	  * @return 
-	  */    
- 	  public function testifIndexWorks()
-  	{
+      * @group testIndex
+      * @param  
+      * @return 
+      */    
+    public function testifIndexWorks()
+    {
  
       echo "\n\nTEST CONTROLLER TEST\n\n";
-      $searchbyPending = array('search' => '', 'test_status' => '1', 'date_from' => '', 'date_to' => '');//Pending
-      $searchbyStarted = array('search' => '', 'test_status' => '2', 'date_from' => '', 'date_to' => '');//Started
-      $searchbyCompleted = array('search' => '', 'test_status' => '3', 'date_from' => '', 'date_to' => '');//Completed
-      $searchbyVerified = array('search' => '', 'test_status' => '4', 'date_from' => '', 'date_to' => '');//Verified
+      $searchbyPending = array('search' => '', 'test_status' => Test::PENDING, 'date_from' => '', 'date_to' => '');
+      $searchbyStarted = array('search' => '', 'test_status' => Test::STARTED, 'date_from' => '', 'date_to' => '');
+      $searchbyCompleted = array('search' => '', 'test_status' => Test::COMPLETED, 'date_from' => '', 'date_to' => '');
+      $searchbyVerified = array('search' => '', 'test_status' => Test::VERIFIED, 'date_from' => '', 'date_to' => '');
+
       //Non existent search string - return nothing
       $searchbyNonExistentString = array('search' => 'gaslfjkdre', 'test_status' => '', 'date_from' => '', 'date_to' => '');
       //Between dates - empty
@@ -56,7 +57,6 @@ class TestControllerTest extends TestCase
       $this->runIndex($searchbyTestType['search'], $searchbyTestType, 'testType', 'name');
       $this->runIndex($searchbySpecimenNumber['search'], $searchbySpecimenNumber, 'specimen_id');
       $this->runIndex($searchbyVisitNumber['search'], $searchbyVisitNumber, 'visit_id');
-      echo "Search Tested\n";
     }
 
     // Load the index page
@@ -112,6 +112,7 @@ class TestControllerTest extends TestCase
       $visitType = $crawler->filter('select')->attr('name');
       $this->assertEquals("visit_type", $visitType);
     }
+
     /*
     * - saveNewTest (1 for each type)
     *   + Get random patient
@@ -120,10 +121,10 @@ class TestControllerTest extends TestCase
     *   + Check TestController redirects to the correct view ('test.index')
     */
     public function testSaveNewTestSuccess(){
-      echo "\n\nTEST CONTROLLER TEST\n\n";
 
-          // Set SOURCE URL - the index page for roles
-        Session::put('SOURCE_URL', URL::route('test.index'));
+      // Set SOURCE URL - the index page for roles
+      Session::put('SOURCE_URL', URL::route('test.index'));
+
       $patient = Patient::first();
       $url = URL::route('test.create', array($patient->id));
 
@@ -144,6 +145,7 @@ class TestControllerTest extends TestCase
 
       $this->assertRedirectedToRoute('test.index');
     }
+
     /*
     * - saveNewTest (1 for each type) - Fails coz form values not set. Tests VALIDATION.
     *   + Get random patient
@@ -167,6 +169,7 @@ class TestControllerTest extends TestCase
 
       $this->assertRedirectedToRoute('test.create', array($patient->id));
     }
+
     /*
     * - index
     *   + Check that returned view has tests-log css class defined
@@ -181,6 +184,7 @@ class TestControllerTest extends TestCase
 
       $this->assertCount(1, $crawler->filter('div.panel.tests-log'));
     }
+
     /*
     * - reject - Attempt to launch rejection form for elligible specimen
     *   i.e. tests that are not NOT_RECEIVED or VERIFIED and whose Specimen is ACCEPTED
@@ -188,24 +192,23 @@ class TestControllerTest extends TestCase
     *   + Check that returned view contains: rejectionReason, reason_explained_to
     */
     public function testRejectView(){
-      $testIDs = Test::where('test_status_id','!=', Test::NOT_RECEIVED)
+        $testIDs = Test::where('test_status_id','!=', Test::NOT_RECEIVED)
                 ->where('test_status_id','!=', Test::VERIFIED)->lists('id');
-      if(count($testIDs) == 0){
-        $this->assertTrue(false);
-      }
+        if(count($testIDs) == 0)$this->assertTrue(false);
 
-      // Set the current user to admin
-      $this->be(User::first());
+        // Set the current user to admin
+        $this->be(User::first());
 
-      foreach ($testIDs as $id) {
-        $url = URL::route('test.reject', array(Test::find($id)->specimen_id));
-        $crawler = $this->client->request('GET', $url);
+        foreach ($testIDs as $id) {
+            $url = URL::route('test.reject', array(Test::find($id)->specimen_id));
+            $crawler = $this->client->request('GET', $url);
 
-        $this->assertCount(1, $crawler->filter('#reject_explained_to'));
+            $this->assertCount(1, $crawler->filter('#reject_explained_to'));
 
-        $this->flushSession();
-      }
+            $this->flushSession();
+        }
     }
+
     /*
     * - rejectAction - Check that each test that is not NOT_RECEIVED or VERIFIED,
     *   and whose Specimen is ACCEPTED, can have its Specimen REJECTED
@@ -214,38 +217,36 @@ class TestControllerTest extends TestCase
     */
     public function testRejectActionSuccess(){
     
+        $testIDs = Test::where('test_status_id','!=', Test::NOT_RECEIVED)
+            ->where('test_status_id','!=', Test::VERIFIED)->lists('id');
 
-      $testIDs = Test::where('test_status_id','!=', Test::NOT_RECEIVED)
-                ->where('test_status_id','!=', Test::VERIFIED)->lists('id');
-      if(count($testIDs) == 0){
-        $this->assertTrue(false);
-      }
+        if(count($testIDs) == 0) $this->assertTrue(false);
 
-      // Set the current user to admin
-      $this->be(User::first());
+        // Set the current user to admin
+        $this->be(User::first());
 
-      foreach ($testIDs as $id) {
-         echo "\n\nTEST CONTROLLER TEST\n\n";
+        foreach ($testIDs as $id) {
+            // Set SOURCE URL - the test.index page
+            Session::put('SOURCE_URL', URL::route('test.index'));
 
-          // Set SOURCE URL - the index page for roles
-        Session::put('SOURCE_URL', URL::route('test.index'));
-        $specimenID = Test::find($id)->specimen_id;
-        $url = URL::route('test.reject', array($specimenID));
-        $crawler = $this->client->request('GET', $url);
+            $specimenID = Test::find($id)->specimen_id;
+            $url = URL::route('test.reject', array($specimenID));
+            $crawler = $this->client->request('GET', $url);
 
-        // Get the form and set the form values
-        $form = $crawler->selectButton(trans('messages.reject'))->form();
-        $form['rejectionReason']->select('15');
-        $form['reject_explained_to'] = 'Tim Commerford';
+            // Get the form and set the form values
+            $form = $crawler->selectButton(trans('messages.reject'))->form();
+            $form['rejectionReason']->select('15');
+            $form['reject_explained_to'] = 'Tim Commerford';
 
-        // Submit the form
-        $crawler = $this->client->submit($form);
+            // Submit the form
+            $crawler = $this->client->submit($form);
 
-        $this->assertRedirectedToRoute('test.index');
+            $this->assertRedirectedToRoute('test.index');
 
-        $this->flushSession();
-      }
+            $this->flushSession();
+        }
     }
+
     /*
     * - rejectAction - Check that each test that is not NOT_RECEIVED or VERIFIED,
     *   and whose Specimen is ACCEPTED, can have its Specimen REJECTED
@@ -279,6 +280,7 @@ class TestControllerTest extends TestCase
         $this->flushSession();
       }
     }
+
     /*
     * - receive: For all tests whose test_status is NOT_RECEIVED, attempt to RECEIVE
     *   + Required input: id (test_id)
@@ -304,6 +306,7 @@ class TestControllerTest extends TestCase
         $this->flushSession();
       }
     }
+
     /*
     * - accept: For all tests whose specimen_status is NOT_COLLECTED, attempt to ACCEPT
     *   + Required input: id (specimen_id)
@@ -312,6 +315,7 @@ class TestControllerTest extends TestCase
     public function testAcceptSpecimen(){
       //TODO: Incorporate a JS supporting client like casperjs or selenium
     }
+
     /*
     * - changeSpecimenType
     *   + Required input: id (specimen_id)
@@ -320,6 +324,7 @@ class TestControllerTest extends TestCase
     public function testChangeSpecimenType(){
       //TODO: Incorporate a JS supporting client like casperjs or selenium
     }
+
     /*
     * - updateSpecimenType
     *   + Required input: id (specimen_id), new specimen_type_id
@@ -328,6 +333,7 @@ class TestControllerTest extends TestCase
     public function testUpdateSpecimenType(){
       //TODO: Incorporate a JS supporting client like casperjs or selenium
     }
+
     /*
     * - start
     *   + Required input: testid
@@ -336,6 +342,7 @@ class TestControllerTest extends TestCase
     public function testStart(){
       //TODO: Incorporate a JS supporting client like casperjs or selenium
     }
+
     /*
     * - enterResults
     *   + Required input: testid
@@ -360,6 +367,7 @@ class TestControllerTest extends TestCase
 
       $this->assertCount(1, $crawler->filter('textarea#interpretation'));
     }
+
     /*
     * - saveResults (1 for each test type)
     *   + Varying inputs: interpretation, test_id, m_[measure_id]
@@ -368,6 +376,7 @@ class TestControllerTest extends TestCase
     public function testSaveResults(){
       //TODO: 
     }
+
     /*
     * - edit
     *   + Required input: testid
@@ -392,6 +401,7 @@ class TestControllerTest extends TestCase
         }
       }
     }
+
     /*
     * - verify
     *   + Required input: testid
@@ -416,6 +426,7 @@ class TestControllerTest extends TestCase
         }
       }
     }
+
     /*
     * - viewDetails
     *   + Required input: testid
@@ -432,6 +443,7 @@ class TestControllerTest extends TestCase
 
       $this->assertCount(4, $crawler->filter('div.panel'));
     }
+
     /*
     *--------------------------------------------------------------------------------
     */
@@ -457,6 +469,7 @@ class TestControllerTest extends TestCase
         $this->assertTrue($test->getWaitTime() >= 0);
       }
     }
+    
     /*
     * getTurnaroundTime()
     * 1. Get all tests whose status is either COMPLETED or VERIFIED
