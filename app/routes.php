@@ -100,6 +100,13 @@ Route::group(array("before" => "auth"), function()
             "as"   => "testtype.delete",
             "uses" => "TestTypeController@delete"
         ));
+
+        Route::resource('specimenrejection', 'SpecimenRejectionController');
+
+        Route::any("/specimenrejection/{id}/delete", array(
+            "as"   => "specimenrejection.delete",
+            "uses" => "SpecimenRejectionController@delete"
+        ));
     });
 
     Route::group(array("before" => "checkPerms:manage_lab_configurations"), function()
@@ -121,6 +128,7 @@ Route::group(array("before" => "auth"), function()
             "uses" => "InstrumentController@importDriver"
         ));
     });
+
 
     Route::any("/test", array(
         "as"   => "test.index",
@@ -149,6 +157,18 @@ Route::group(array("before" => "auth"), function()
         "before" => "checkPerms:accept_test_specimen",
         "as"   => "test.acceptSpecimen",
         "uses" => "TestController@accept"
+    ));
+
+     Route::get("/test/{id}/refer", array(
+        "before" => "checkPerms:refer_specimens",
+        "as"   => "test.refer",
+        "uses" => "TestController@showRefer"
+    ));
+
+    Route::post("/test/referaction", array(
+        "before" => "checkPerms:refer_specimens",
+        "as"   => "test.referAction",
+        "uses" => "TestController@referAction"
     ));
 
     Route::get("/test/{id}/reject", array(
@@ -228,6 +248,45 @@ Route::group(array("before" => "auth"), function()
             "as"   => "role.delete",
             "uses" => "RoleController@delete"
         ));
+    });
+
+    // Check if able to manage lab configuration
+    Route::group(array("before" => "checkPerms:manage_lab_configurations"), function()
+    {
+        Route::resource("facility", "FacilityController");
+
+        Route::get("/facility/{id}/delete", array(
+            "as"   => "facility.delete",
+            "uses" => "FacilityController@delete"
+        ));
+    });
+    
+    //  Check if able to manage reports
+    Route::group(array("before" => "checkPerms:view_reports"), function()
+    {
+        Route::any("/patientreport", array(
+            "as"   => "reports.patient.index",
+            "uses" => "ReportController@loadPatients"
+        ));
+
+        Route::any("/patientreport/{id}", array(
+            "as" => "reports.patient.report", 
+            "uses" => "ReportController@viewPatientReport"
+            ));
+        Route::any("/dailylog", array(
+            "as"   => "reports.daily.log",
+            "uses" => "ReportController@dailyLog"
+        ));
+        Route::get('reports/dropdown', array(
+            "as"    =>  "reports.dropdown",
+            "uses"  =>  "ReportController@reportsDropdown"
+        ));
+
+        Route::any("/prevalence", array(
+            "as"   => "reports.aggregate.prevalence",
+            "uses" => "ReportController@prevalenceRates"
+        ));
+        
     });
 });
 

@@ -2,7 +2,7 @@
 
 class PatientModelTest extends TestCase {
     
-    function setup()
+    public function setup()
     {
         parent::setup();
         Artisan::call('migrate');

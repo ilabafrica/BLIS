@@ -192,6 +192,27 @@ class CreatekBLIStables extends Migration {
 			$table->string("reason", 100);
 		});
 
+        Schema::create('facilities', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->string('name', 500);
+            $table->timestamps();
+        });
+
+        Schema::create('referrals', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->integer('status')->unsigned();
+            $table->integer('facility_id')->unsigned();
+            $table->string('person', 500);
+            $table->text('contacts');
+            $table->integer('user_id')->unsigned();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('facility_id')->references('id')->on('facilities');
+        });
+
 		Schema::create('specimens', function(Blueprint $table)
 		{
 			$table->increments('id')->unsigned();
@@ -202,8 +223,7 @@ class CreatekBLIStables extends Migration {
             $table->integer('rejected_by')->unsigned()->default(0);
 			$table->integer('rejection_reason_id')->unsigned()->nullable();
             $table->string('reject_explained_to',100)->nullable();
-			$table->integer('referred_from')->unsigned()->default(0);
-			$table->integer('referred_to')->unsigned()->default(0);
+			$table->integer('referral_id')->unsigned()->nullable();
 			$table->timestamp('time_accepted')->nullable();
 			$table->timestamp('time_rejected')->nullable();
 			
@@ -211,6 +231,7 @@ class CreatekBLIStables extends Migration {
 			$table->foreign('specimen_status_id')->references('id')->on('specimen_statuses');
 			$table->foreign('rejection_reason_id')->references('id')->on('rejection_reasons');
 			$table->foreign('test_phase_id')->references('id')->on('test_phases');
+            $table->foreign('referral_id')->references('id')->on('referrals');
 		});
 
 		Schema::create('tests', function(Blueprint $table)
@@ -251,12 +272,6 @@ class CreatekBLIStables extends Migration {
 			$table->unique(array('test_id','measure_id'));
 		});
 
-        Schema::create('referrals', function(Blueprint $table)
-        {
-            $table->increments('id')->unsigned();
-            $table->string('referring_institution', 100);
-        });
-
         Schema::create('instruments', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
@@ -289,10 +304,11 @@ class CreatekBLIStables extends Migration {
 	{
         Schema::dropIfExists('instrument_testtypes');
         Schema::dropIfExists('instruments');
-        Schema::dropIfExists('referrals');
 		Schema::dropIfExists('test_results');
 		Schema::dropIfExists('tests');
 		Schema::dropIfExists('specimens');
+        Schema::dropIfExists('referrals');
+        Schema::dropIfExists('facilities');
 		Schema::dropIfExists('rejection_reasons');
 		Schema::dropIfExists('visits');
 		Schema::dropIfExists('test_statuses');

@@ -5,7 +5,7 @@
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
 		  <li>
-		  	<a href="{{ URL::route('testcategory.index') }}">{{Lang::choice('messages.test-category',1)}}</a>
+		  	<a href="{{ URL::route('testcategory.index') }}">{{trans('messages.test-category')}}</a>
 		  </li>
 		  <li class="active">{{trans('messages.create-test-category')}}</li>
 		</ol>
@@ -26,7 +26,7 @@
 			{{ Form::open(array('route' => 'testcategory.store', 'id' => 'form-create-testcategory')) }}
 
 				<div class="form-group">
-					{{ Form::label('name', Lang::choice('messages.name',1)) }}
+					{{ Form::label('name', trans('messages.name')) }}
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">

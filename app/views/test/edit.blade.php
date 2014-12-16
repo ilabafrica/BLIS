@@ -3,7 +3,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-		  <li><a href="{{ URL::route('test.index') }}">{{Lang::choice('messages.test',2)}}</a></li>
+		  <li><a href="{{ URL::route('test.index') }}">{{trans('messages.tests')}}</a></li>
 		  <li class="active">{{ trans('messages.edit') }}</li>
 		</ol>
 	</div>
@@ -27,7 +27,7 @@
                         @endif
 					</div>
 		            <div class="col-md-1">
-		                <a class="btn btn-sm btn-primary pull-right" href="{{URL::previous()}}"
+		                <a class="btn btn-sm btn-primary pull-right" href="#" onclick="window.history.back();return false;"
 		                    alt="{{trans('messages.back')}}" title="{{trans('messages.back')}}">
 		                    <span class="glyphicon glyphicon-backward"></span></a>
 		            </div>

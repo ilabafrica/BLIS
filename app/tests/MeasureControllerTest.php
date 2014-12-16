@@ -11,12 +11,12 @@ class MeasureControllerTest extends TestCase
 	 * @return void
 	 */
 	public function setup()
-    	{
-	    	parent::setUp();
-	    	Artisan::call('migrate');
-      		Artisan::call('db:seed');
-    		$this->setVariables();
-    	}
+	{
+		parent::setUp();
+		Artisan::call('migrate');
+		Artisan::call('db:seed');
+		$this->setVariables();
+	}
 	/**
 	 * Tests the store funtion in the MeasureController
 	 *

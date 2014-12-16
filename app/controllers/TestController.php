@@ -75,7 +75,7 @@ class TestController extends \BaseController {
 				});
 			}
 
-			$tests = $tests->orderBy('time_created', 'DESC')->paginate(Config::get('kblis.page-items'));
+			$tests = $tests->orderBy('time_created', 'DESC')->paginate(Config::get('kblis.page-items'))->appends(Input::except('page'));
 
 			if (count($tests) == 0) {
 			 	Session::flash('message', trans('messages.empty-search'));
@@ -373,4 +373,63 @@ class TestController extends \BaseController {
 		return View::make('test.viewDetails')->with('test', $test);
 	}
 
+	/**
+	 * Refer the test
+	 *
+	 * @param specimenId
+	 * @return View
+	 */
+	public function showRefer($specimenId)
+	{
+		$specimen = Specimen::find($specimenId);
+		$facilities = Facility::all();
+		//Referral facilities
+		return View::make('test.refer')
+			->with('specimen', $specimen)
+			->with('facilities', $facilities);
+
+	}
+
+	/**
+	 * Refer action
+	 *
+	 * @return View
+	 */
+	public function referAction()
+	{
+		//Validate
+		$rules = array(
+			'referal-status' => 'required',
+			'facility_id' => 'required',
+			'person' => 'required',
+			'contacts' => 'required'
+			);
+		$validator = Validator::make(Input::all(), $rules);
+		$specimenId = Input::get('specimen_id');
+
+		if ($validator->fails())
+		{
+			return Redirect::route('test.refer', array($specimenId))-> withInput()->withErrors($validator);
+		}
+
+		//Insert into referral table
+		$referral = new Referral();
+		$referral->status = Input::get('referal-status');
+		$referral->facility_id = Input::get('facility_id');
+		$referral->person = Input::get('person');
+		$referral->contacts = Input::get('contacts');
+		$referral->user_id = Auth::user()->id;
+
+		//Update specimen referral status
+		$specimen = Specimen::find($specimenId);
+
+		DB::transaction(function() use ($referral, $specimen) {
+			$referral->save();
+			$specimen->referral_id = $referral->id;
+			$specimen->save();
+		});
+
+		//Return view
+		return Redirect::route('test.index')->with('message', trans('messages.specimen-successful-refer'));
+	}
 }

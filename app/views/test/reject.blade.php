@@ -3,7 +3,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-		  <li><a href="{{ URL::route('test.index') }}">{{Lang::choice('messages.test',2)}}</a></li>
+		  <li><a href="{{ URL::route('test.index') }}">{{trans('messages.tests')}}</a></li>
 		  <li class="active">{{trans('messages.reject-title')}}</li>
 		</ol>
 	</div>
@@ -15,7 +15,7 @@
 						<span class="glyphicon glyphicon-filter"></span>{{trans('messages.reject-title')}}
                     </div>
                     <div class="col-md-1">
-                        <a class="btn btn-sm btn-primary pull-right" href="{{URL::previous()}}"
+                        <a class="btn btn-sm btn-primary pull-right" href="#" onclick="window.history.back();return false;"
                             alt="{{trans('messages.back')}}" title="{{trans('messages.back')}}">
                             <span class="glyphicon glyphicon-backward"></span></a>
                     </div>
@@ -33,7 +33,7 @@
 			{{ Form::hidden('specimen_id', $specimen->id) }}
 			<div class="panel-body">
 				<div class="display-details">
-				    <p><strong>{{Lang::choice('messages.test-type',1)}}</strong>
+				    <p><strong>{{trans('messages.test-type')}}</strong>
 				        {{$specimen->test->testType->name}}</p>
 				    <p><strong>{{trans('messages.specimen-type-title')}}</strong>
 				        {{$specimen->specimenType->name}}</p>

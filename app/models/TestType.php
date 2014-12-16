@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
-use Illuminate\Database\Eloquent\ModelNotFoundException;  
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TestType extends Eloquent
 {
@@ -41,7 +41,7 @@ class TestType extends Eloquent
 	 */
 	public function measures()
 	{
-	  return $this->belongsToMany('Measure', 'testtype_measures');	
+	  return $this->belongsToMany('Measure', 'testtype_measures');
 	}
 
 	/**
@@ -118,7 +118,7 @@ class TestType extends Eloquent
 	*
 	* @param $testname the name of the test
 	*/
-	public function getTestTypeIdByTestName($testName)
+	public static function getTestTypeIdByTestName($testName)
 	{
 		try 
 		{
@@ -130,5 +130,64 @@ class TestType extends Eloquent
 			//TODO: send email?
 			return null;
 		}
+	}
+	/**
+	* Return the rate of positive test results (Optionally given the year, month, date)
+	*
+	* @param $year, $month, $date
+	*/
+	public function getPrevalenceCount($year = 0, $month = 0, $date = 0)
+	{
+		$theDate = "";
+		if ($year > 0) {
+			$theDate .= $year;
+			if ($month > 0) {
+				$theDate .= "-".sprintf("%02d", $month);
+				if ($date > 0) {
+					$theDate .= "-".sprintf("%02d", $date);
+				}
+			}
+		}
+		$data =  Test::select(DB::raw(
+			'ROUND( SUM( IF( test_results.result =  \'Positive\', 1, 0 ) ) *100 / COUNT( tests.specimen_id ) , 2 ) AS rate'))
+				->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
+				->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
+				->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
+				->join('test_results', 'tests.id', '=', 'test_results.test_id')
+				->join('measure_types', 'measure_types.id', '=', 'measures.measure_type_id')
+				->where('measures.measure_range', 'LIKE', '%Positive/Negative%')
+				->where('test_types.id', '=', $this->id)
+				->where(function($query) use ($theDate){
+					if (strlen($theDate)>0) {
+						$query->where('time_created', 'LIKE', $theDate."%");
+					}
+					})
+				->whereIn('test_status_id', array(Test::COMPLETED, Test::VERIFIED))
+				->groupBy('test_types.id')
+				->get();
+		return $data;
+	}
+	/**
+	* Return the prevalence counts for all TestTypes for the given date range
+	*
+	* @param $from, $to
+	*/
+	public static function getPrevalenceCounts($from, $to){
+		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+		$data =  Test::select(DB::raw('test_types.id as id, test_types.name as test, count(tests.specimen_id) as total, 
+					SUM(IF(test_results.result=\'Positive\',1,0)) positive, SUM(IF(test_results.result=\'Negative\',1,0)) negative,
+					ROUND( SUM( IF( test_results.result =  \'Positive\', 1, 0 ) ) *100 / COUNT( tests.specimen_id ) , 2 ) AS rate'
+					))
+					->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
+					->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
+					->join('measures', 'measures.id', '=', 'testtype_measures.measure_id')
+					->join('test_results', 'tests.id', '=', 'test_results.test_id')
+					->join('measure_types', 'measure_types.id', '=', 'measures.measure_type_id')
+					->where('measures.measure_range', 'LIKE', '%Positive/Negative%')
+					->whereBetween('time_created', array($from, $toPlusOne))
+					->whereIn('test_status_id', array(Test::COMPLETED, Test::VERIFIED))
+					->groupBy('test_types.id')
+					->get();
+		return $data;
 	}
 }

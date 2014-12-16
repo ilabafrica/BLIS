@@ -30,6 +30,8 @@ class Patient extends Eloquent
 
 	/**
 	 * Patient Age 
+	 *
+	 * @return String x years y months
 	 */
 	public function getAge()
 	{
@@ -41,19 +43,33 @@ class Patient extends Eloquent
 	}
 
 	/**
-	* Function to return patients gender
-	*	TODO : add parameter to return full gender `Male` or short form `M`
-	* 	     : Translations
+	* Get patient's gender
+	*
+	* @param optional boolean $shortForm - return abbreviation (M/F). Default true
+	* @return String gender 
 	*/
-	public function getGender()
+	public function getGender($shortForm=true)
 	{
 		if ($this->gender == Patient::MALE)
 		{
-			return "M";
+			return $shortForm?"M":trans("messages.male");
 		}
 		else if ($this->gender == Patient::FEMALE)
 		{
-			return "F";
+			return $shortForm?"F":trans("messages.female");
 		}
+	}
+
+	/**
+	* Search for patients meeting given criteria
+	*
+	* @param String $searchText
+	* @return Collection 
+	*/
+	public static function search($searchText)
+	{
+		return Patient::where('patient_number', 'LIKE', '%'.$searchText.'%')
+						->orWhere('name', 'LIKE', '%'.$searchText.'%')
+						->orWhere('external_patient_number', 'LIKE', '%'.$searchText.'%');
 	}
 }

@@ -7,13 +7,19 @@
 		case 'patient': $active[1] = "active"; break;
 		case 'test': $active[2] = "active"; break;
 		case 'labconfig': 
-		case 'instrument': $active[3] = "active"; break;
+		case 'instrument':
+		case 'facility': 
+			$active[3] = "active"; break;
 		case 'testcategory': 
 		case 'testtype': 
 		case 'measure': 
 		case 'specimentype': 
+		case 'specimenrejection': 
 			$active[4] = "active"; break;
-		case 'report': $active[5] = "active"; break;
+		case 'patientreport': 
+		case 'dailylog': 
+		case 'prevalence':
+			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
 		case 'user': 
@@ -30,7 +36,7 @@
 		<li>
 			<div class="main-menu {{$active[1]}}">
 				<a href="{{ URL::route('patient.index')}}">
-					<span class="glyphicon glyphicon-download-alt"></span> {{Lang::choice('messages.patient', 2)}}</a>
+					<span class="glyphicon glyphicon-download-alt"></span> {{trans('messages.patients')}}</a>
 			</div>
 		</li>
 		<li>
@@ -57,11 +63,23 @@
 					<li>
 						<div>
 							<span class="glyphicon glyphicon-tag"></span>
-							{{Lang::choice('messages.report', 2)}}
+							{{trans('messages.reports')}}
+						</div>
+					</li>
+				</ul>
+				<ul class="sub-menu-items">
+					<li>
+						<div>
+							<a href="{{ URL::route("facility.index") }}">
+								<span class="glyphicon glyphicon-tag"></span>
+									{{Lang::choice('messages.facility',2)}}
+							</a>
 						</div>
 					</li>
 				</ul>
 			</div>
+			
+
 		</li>
 		@endif
 		@if(Entrust::can('manage_test_catalog'))
@@ -75,58 +93,66 @@
 					<li>
 						<div>
 							<a href="{{ URL::route("testcategory.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{Lang::choice('messages.test-category', 2)}}</a>
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.test-categories')}}</a>
 						</div>
 					</li>
 					<li>
 						<div>
 							<a href="{{ URL::route("specimentype.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{Lang::choice('messages.specimen-type', 2)}}</a>
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.specimen-types')}}</a>
 						</div>
 					</li>
 					<li>
 						<div>
+							<a href="{{ URL::route("specimenrejection.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.specimen-rejection')}}</a>
+						</div>
+					</li>					
+					<li>
+						<div>
 							<a href="{{ URL::route("testtype.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{Lang::choice('messages.test-type', 2)}}</a>
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.test-types')}}</a>
 						</div>
 					</li>
 					<li>
 						<div>
 							<a href="{{ URL::route("measure.index")}}" >
-								<span class="glyphicon glyphicon-tag"></span> {{Lang::choice('messages.measure', 2)}}</a>
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.measures')}}</a>
 						</div>
 					</li>
 				</ul>
 			</div>
 		</li>
 		@endif
+		@if(Entrust::can('view_reports'))
 		<li>
 			<div class="main-menu {{$active[5]}}">
-				<a href="javascript:void(0);">
-					<span class="glyphicon glyphicon-stats"></span> {{Lang::choice('messages.report', 2)}}</a>
+				<a href="{{ URL::route('reports.patient.index')}}">
+					<span class="glyphicon glyphicon-stats"></span> {{trans('messages.reports')}}</a>
 			</div>
 			<div class="sub-menu {{$active[5]}}">
 				<div class="sub-menu-title">{{trans('messages.daily-reports')}}</div>
 				<ul class="sub-menu-items">
 					<li>
 						<div>
-							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.patient-report')}}
+							<a href="{{ URL::route('reports.patient.index')}}">
+								<span class="glyphicon glyphicon-tag"></span>
+								{{trans('messages.patient-report')}}</a>
 						</div>
 					</li>
 					<li>
-						<div>
+						<div><a href="{{ URL::route('reports.daily.log')}}">
 							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.daily-log')}}
+							{{trans('messages.daily-log')}}</a>
 						</div>
 					</li>
 				</ul>
 				<div class="sub-menu-title">{{trans('messages.aggregate-reports')}}</div>
 				<ul class="sub-menu-items">
 					<li>
-						<div>
+						<div><a href="{{ URL::route('reports.aggregate.prevalence')}}">
 							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.prevalence-rates')}}
+							{{trans('messages.prevalence-rates')}}</a>
 						</div>
 					</li>
 					<li>
@@ -150,6 +176,7 @@
 				</ul>
 			</div>
 		</li>
+		@endif
 		<li>
 			<div class="main-menu {{$active[6]}}">
 				<a href="{{ (Entrust::can('manage_users')) ? URL::route('user.index') : URL::to('user/'.Auth::user()->id.'/edit') }}">
@@ -167,13 +194,13 @@
 					<li>
 						<div>
 							<a href="{{ URL::route("permission.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{Lang::choice('messages.permission', 2)}}</a>
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.permissions')}}</a>
 						</div>
 					</li>
 					<li>
 						<div>
 							<a href="{{ URL::route("role.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{Lang::choice('messages.role', 2)}}</a>
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.roles')}}</a>
 						</div>
 					</li>
 					<li>

@@ -5,9 +5,9 @@
 
 return array(
 
-    /* 
-    |   Generic names
-    */
+    /** 
+     *   Generic names
+     */
 
     'actions' => 'Actions',
     'back' => 'Previous Page',
@@ -21,6 +21,7 @@ return array(
     'edit' => 'Edit',
     'email' => 'Email',
     'female' => 'Female',
+    'for' => 'for',
     'email-address' => 'Email Address',
     'gender' => 'Gender',
     'field-required' => 'This field is required',
@@ -30,30 +31,39 @@ return array(
     'login' => 'Login',
     'male' => 'Male',
     'logout' => 'Logout',
-    'name' => 'Name|Names',
+    'name' => 'Name',
+    'names' => 'Names',
     'next' => 'Next',
-    'password' => 'Password|Passwords',
+    'password' => 'Password',
+    'passwords' => 'Passwords',
     'photo' => 'Photo',
-    'role' => 'Role|Roles',
-    'roles' => '',
+    'role' => 'Role',
+    'roles' => 'Roles',
     'save' => 'Save',
     'type' => 'Type',
     'unit' => 'Unit',
     'update' => 'Update',
-    'user' => 'User|Users',
+    'user' => 'User',
+    'users' => 'Users',
     'username' => 'Username',
     'view' => 'View',
+    'facility' => 'Facility|Facilities',
+    'person' => 'Person',
+    'contacts' => 'Contacts',
+    'refer' => 'Refer',
+    'in' => 'In',
+    'out' => 'Out',
 
-    /* 
-    |   Generic phrases
-    */
+    /** 
+     *   Generic phrases
+     */
     'confirm-delete-title' => 'Confirm Delete',
     'confirm-delete-message' => 'Do you wish to delete this item?',
     'confirm-delete-irreversible' => 'This action is irreversible.',
 
-    /* 
-    |   User
-    */
+    /** 
+     *   User
+     */
     'create-user' => 'Create User',
     'change-password' => 'Change Password',
     'current-password' => 'Current Password',
@@ -74,9 +84,9 @@ return array(
     'user-details' => 'User Details',
     'user-profile-edit-success' => 'The user details were successfully updated!',
 
-    /* 
-    |   Patient
-    */
+    /** 
+     *  Patient
+     */
 
     'age' => 'Age',
     'create-patient' => 'Create Patient',
@@ -89,7 +99,8 @@ return array(
     'external-patient-number' => 'External Patient Number',
     'list-patients' => 'List Patients',
     'new-patient' => 'New Patient',
-    'patient' => 'Patient|Patients',
+    'patient' => 'Patient',
+    'patients' => 'Patients',
     'patient-details' => 'Patient Details',
     'patient-id' => 'ID',
     'patient-search-button' => 'Go!',
@@ -114,6 +125,7 @@ return array(
     'reject-title' => 'Reject Specimen',
     'rejection-reason' => 'Reason',
     'rejection-reason-title' => 'Rejection Reason',
+    'specimen' => 'Specimen',
     'specimen-accepted' => 'Accepted',
     'specimen-accepted-label' => 'Specimen Accepted',
     'specimen-details' => 'Specimen Details',
@@ -124,12 +136,19 @@ return array(
     'specimen-rejected' => 'Rejected',
     'specimen-rejected-label' => 'Specimen Rejected',
     'specimen-status' => 'Status',
-    'specimen-type' => 'Type|Specimen Types',
+    'specimen-type' => 'Type',
+    'specimen-types' => 'Specimen Types',
     'specimen-type-details' => 'Specimen Type Details',
     'specimen-type-title' => 'Specimen Type',
     'success-rejecting-specimen' => 'The specimen was rejected!',
     'update' => 'Update',
-    
+    'refer-sample' => 'Refer sample',
+    'referrals' => 'Referals',
+    'specimen-successful-refer' => 'The specimen was referred',
+    'specimen-referred-label' => 'Specimen Referred',
+    'person-involved' => 'Person involved',
+    'referred-by' => 'Referred by',
+
     /** 
      *   Test Catalog
      */
@@ -144,7 +163,8 @@ return array(
     'failure-test-measure-in-use' => 'This Measure is in use',
     'freetext-measure-config-input-message' => 'A text box will appear for results entry',
     'list-measures' => 'List Measures',
-    'measure' => 'Measure|Measures',
+    'measure' => 'Measure',
+    'measures' => 'Measures',
     'measure-age-range' => 'Age Range',
     'measure-details' => 'Measure Details',
     'measure-range' => 'Measure Range',
@@ -166,24 +186,30 @@ return array(
     'success-deleting-specimen-type' => 'Successfully deleted the Specimen Type!',
     'success-updating-specimen-type' => 'The specimen type details were successfully updated!',
 
+    /*Specimen Rejection*/
+    
+    'add-rejection-reason' => 'Add New Rejection Reason',
+    'edit-rejection-reason' => ' Edit Rejection Reason',
+    'failure-specimen-rejection-reason-in-use' => 'This Rejection Reason is in Use',
+    'specimen-rejection' => 'Specimen Rejection',
+    'success-creating-rejection-reason' => 'Rejection Reason Successfully Created',
+    'success-deleting-rejection-reason' => 'Rejection Reason Successfully Deleted',
+    'success-updating-rejection-reason' => 'Rejection Reason Successfully Updated',
 
+    /*Test Categories*/
 
-    /* 
-    |   Test Categories
-    */
     'create-test-category' => 'Create Lab Section',
     'edit-test-category' => 'Edit Lab Section',
     'failure-test-category-in-use' => 'This category is a group of Test Types in use',
     'success-creating-test-category' => 'Successfully created Lab Section.',
     'success-deleting-test-category' => 'Successfully deleted the Lab Section.',
     'success-updating-test-category' => 'The lab section was successfully updated!',
-    'test-category' => 'Lab Section|Lab Sections',
+    'test-category' => 'Lab Section',
+    'test-categories' => 'Lab Sections',
     'test-category-details' => 'Lab Section Details',
     'list-test-categories' => 'List Lab Sections',
 
-    /* 
-    |   Test Types
-    */
+    /* Test Types*/
 
     'compatible-specimen' => 'Compatible Specimen',
     'create-test-type' => 'Create Test Type',
@@ -198,12 +224,13 @@ return array(
     'success-deleting-test-type' => 'The Test Type was successfully deleted.',
     'success-updating-test-type' => 'The Test Type details were successfully updated.',
     'target-turnaround-time' => 'Target Turnaround Time',
-    'test-type' => 'Test Type|Test Types',
+    'test-type' => 'Test Type',
+    'test-types' => 'Test Types',
     'test-type-details' => 'Test Type Details',
 
-    /* 
-    |   Tests
-    */
+    /**
+     *  Tests
+     */
 
     'all' => 'All',
     'create-new-test' => 'Create New Test',
@@ -231,7 +258,8 @@ return array(
     'start-test-title' => 'Start Test',
     'started' => 'Test Started',
     'success-creating-test' => 'Successfully created test!',
-    'test' => 'Test|Tests',
+    'test' => 'Test',
+    'tests' => 'Tests',
     'test-catalog' => 'Test Catalog',
     'test-details' => 'Test Details',
     'test-phase' => 'Test Phase',
@@ -251,9 +279,9 @@ return array(
     'visit-number' => 'Lab No.',
     'visit-type' => 'Visit Type',
 
-    /* 
-    |   Tests search panel
-    */
+    /** 
+     *   Tests search panel
+     */
     'empty-search' => 'Your search did not match any test record!',
     'from' => 'From',
     'search' => 'Search',
@@ -261,9 +289,9 @@ return array(
     'to' => 'To',
 
 
-    /* 
-    |   Tests Results
-    */
+    /**
+     *   Tests Results
+     */
     'edit-test-results' => 'Edit Test Results',
     'enter-results' => 'Enter Results',
     'enter-results-title' => 'Enter Test Results',
@@ -272,9 +300,9 @@ return array(
     'success-saving-results' => 'The results successfully saved!',
     'test-results' => 'Results',
 
-    /* 
-    |   Access Controls
-    */
+    /** 
+     *   Access Controls
+     */
 
     'access-controls' => 'Access Controls',
     'assign-roles' => 'Assign Roles',
@@ -284,26 +312,74 @@ return array(
     'no-permissions-found' => 'No permissions found',
     'no-roles-found' => 'No roles found',
     'no-users-found' => 'No Users found',
-    'permission' => 'Permission|Permissions',
+    'permission' => 'Permission',
+    'permissions' => 'Permissions',
     'user-accounts' => 'User Accounts',
 
-    /* 
-    |   Reports
-    */
+    /** 
+     *   Reports
+     */
     'aggregate-reports' => 'Aggregate Reports',
+    'collected-by'  =>  'Collected By',
     'counts' => 'Counts',
     'daily-log' => 'Daily Log',
     'daily-reports' => 'Daily Reports',
+    'date-checked'  =>  'Date Checked',
+    'date-tested' => 'Date Tested',
+    'date-verified' => 'Date Verified',
+    'export-to-pdf' => 'Export to PDF',
+    'export-to-word' => 'Export to Word',
+    'hospital-number'   =>  'Hospital number',
+    'include-pending-tests' => 'Include Pending Tests',
+    'include-range-visualization' => 'Include Range Visualization',
     'infection-report' => 'Infection Report',
+    'no-records-found' => 'No records found.',
     'patient-report' => 'Patient Report',
     'prevalence-rates' => 'Prevalence Rates',
+    'report' => 'Report',
+    'reports' => 'Reports',
+    'print' => 'Print',
+    'rejected-by'   =>  'Rejected by',
     'report' => 'Report|Reports',
+    'requesting-facility-department' => 'Requesting Facility/Department',
+    'results-entry-date' => 'Entry Date',
+    'test-results-values' => 'Test:Result',
+    'view-report' => 'View Report',
+    'test-records'  =>  'Test Records',
+    'patient-records' =>    'Patient Records',
+    'rejected-specimen' =>  'Rejected Specimen Records',
+    'show-hide' =>  'Show/Hide Summary',
+    'total-visits'  =>  'Total Visits',
+    'summary'   =>  'Summary',
+    'daily-visits' =>  'Daily visits',
+    'pending-only'  =>  'Pending Tests Only',
+    'all-tests' =>  'All Tests',
+    'date-rejected' =>  'Date Rejected',
+    'complete-tests'    =>  'Complete Tests',
+    'total-specimen'    =>  'Total Specimen',
+    'positive'  =>  'Positive',
+    'negative'  =>  'Negative',
+    'prevalence-rates-label'    =>  'Cummulative Percentage (%)',
+    'no-match'  =>  'Your filter did not match any records.',
+    'check-date-range'  =>  'Please check your dates range and try again!',
+    'time-in-years' =>  'Time(yrs)',
+    'time-in-months'    =>  'Time(months)',
+    'time-in-weeks' =>  'Time(weeks)',
+    'time-in-days'  =>  'Time(Days)',
+    'for-the-year'  =>  'For the Year',
+    'select-lab-section' => 'Select Lab Section',
+    'select-test-type'  =>  'Select Test Type',
 
 
-    /* 
-    |   Configurations
-    */
+    /** 
+     *   Configurations
+     */
     'lab-configuration' => 'Lab Configuration',
+    'list-facilities' => 'List of facilities',
+    'add-facility' => 'Add a facility',
+    'edit-facility' => 'Edit facility',
+    'successfully-updated-facility' => 'Facility was successfully updated!',
+    'successfully-deleted-facility' => 'Facility was successfully deleted!',
 
     /*
     *   Instrumentation
@@ -334,9 +410,9 @@ return array(
     'supported-test-types' => 'Supported Tests',
     'unwriteable-destination-folder' => 'Unable to write to the plugins folder',
 
-    /* 
-    |   Dates
-    */
+    /** 
+     *   Dates
+     */
     'year' => 'Year|Years',
     'week' => 'Week|Weeks',
     'day' => 'Day|Days',
