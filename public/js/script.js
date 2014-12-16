@@ -61,7 +61,10 @@ $(function(){
 		$(".measurevalue" ).append(inputHtml);
 		$('.measurevalue').children().removeClass('hidden');
 	});
-	/*  load measure range input UI for the selected measure type */
+
+	/*  
+	*  load measure range input UI for the selected measure type 
+	*/
 	$( '.meauretype-input-trigger' ).change(function() {
 		var inputClass = ['.numericInputLoader', '.alphanumericInputLoader', '.autocompleteInputLoader', '.freetextInputLoader']; 
 		var id = $(this).val() - 1;
@@ -70,8 +73,6 @@ $(function(){
 		$('.measurevalue').append(inputHtml);
 		$('.measurevalue').children().removeClass('hidden');
 	});
-
-
 
 
 	/** GLOBAL DELETE	
@@ -97,6 +98,21 @@ $(function(){
 
 	$("body").on("click", ".numeric-range-measure .close", function(){
 		$(this).parent().remove();
+	});
+
+	/** 
+	 * Fetch Test results
+	 */
+
+	$('.fetch-test-data').click(function(){
+		var testTypeID = $(this).data('test-type-id');
+		var url = $(this).data('url');
+		$.post(url, { test_type_id: testTypeID}).done(function(data){
+			$.each($.parseJSON(data), function (index, obj) {
+				console.log(index + " " + obj);
+				$('#'+index).val(obj);
+			});
+		});
 	});
 
 	/** 
@@ -128,7 +144,11 @@ $(function(){
 		});
 	});
 
-	/* Prevent patient search modal form submit (default action) when the ENTER key is pressed*/
+
+	/* 
+	* Prevent patient search modal form submit (default action) when the ENTER key is pressed
+	*/
+
 	$('#new-test-modal .search-text').keypress(function( event ) {
 		if ( event.which == 13 ) {
 			event.preventDefault();
@@ -156,6 +176,7 @@ $(function(){
 	 *  - Changes the UI to show the right status and buttons
 	 */
 	$('.tests-log').on( "click", ".accept-specimen", function(e) {
+
 		var testID = $(this).data('test-id');
 		var specID = $(this).data('specimen-id');
 		var url = $(this).data('url');

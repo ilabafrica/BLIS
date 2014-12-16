@@ -236,6 +236,8 @@ return array(
     'create-new-test' => 'Create New Test',
     'completed' => 'Test Completed',
     'date-ordered' => 'Date Ordered',
+    'fetch-test-data' => 'Fetch',
+    'fetch-test-data-title' => 'Fetch Test data from associated equipment.',
     'first-select-patient' => 'First select a patient below',
     'in-patient' => 'In Patient',
     'interpretation' => 'Interpretation',
@@ -382,6 +384,35 @@ return array(
     'edit-facility' => 'Edit facility',
     'successfully-updated-facility' => 'Facility was successfully updated!',
     'successfully-deleted-facility' => 'Facility was successfully deleted!',
+
+    /*
+    *   Instrumentation
+    */
+    'add-instrument' => 'Add Equipment',
+    'driver-file' => 'Select File',
+    'edit-instrument' => 'Edit Equipment',
+    'compatible-test-types' => 'Can perform:',
+    'failure-creating-instrument' => 'The equipment could not be added!',
+    'failure-updating-instrument' => 'The equipment could not be updated!',
+    'host' => 'Hostname',
+    'host-name' => 'Hostname',
+    'import-instrument-driver-title' => 'Add New Equipment Drivers',
+    'import-trusted-sources-only' => 'WARNING: Do not install plugins from untrusted sources!',
+    'instrument' => 'Equipment|Equipment',
+    'instrument-details' => 'Equipment Details',
+    'interfacing-class' => 'Equipment Interfacing Class for ',
+    'invalid-driver-file' => 'Invalid plugin file!',
+    'ip' => 'IP Address',
+    'list-instruments' => 'List Equipment',
+    'new-instrument' => 'New Equipment',
+    'new-instrument-driver' => 'New Driver',
+    'select-test-types' => 'Select Test Types',
+    'success-creating-instrument' => 'The equipment was added successfully!',
+    'success-deleting-instrument' => 'The equipment was successfully deleted!',
+    'success-importing-driver' => 'The equipment driver was successfully imported!',
+    'success-updating-instrument' => 'The equipment details were successfully updated!',
+    'supported-test-types' => 'Supported Tests',
+    'unwriteable-destination-folder' => 'Unable to write to the plugins folder',
 
     /** 
      *   Dates

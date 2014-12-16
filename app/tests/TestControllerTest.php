@@ -57,6 +57,7 @@ class TestControllerTest extends TestCase
       $this->runIndex($searchbyTestType['search'], $searchbyTestType, 'testType', 'name');
       $this->runIndex($searchbySpecimenNumber['search'], $searchbySpecimenNumber, 'specimen_id');
       $this->runIndex($searchbyVisitNumber['search'], $searchbyVisitNumber, 'visit_id');
+
     }
 
     // Load the index page

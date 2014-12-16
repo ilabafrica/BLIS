@@ -32,8 +32,7 @@ class CreatekBLIStables extends Migration {
         {
             $table->string('email')->index();
             $table->string('token')->index();
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
+            $table->timestamps();
         });
 
         Schema::create('patients', function(Blueprint $table)
@@ -93,8 +92,7 @@ class CreatekBLIStables extends Migration {
 
             $table->foreign('measure_type_id')->references('id')->on('measure_types');
 
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
+            $table->timestamps();
             $table->softDeletes();
         });
 
@@ -183,8 +181,8 @@ class CreatekBLIStables extends Migration {
 			$table->integer('patient_id')->unsigned();
             $table->string('visit_type', 12)->default('Out-patient'); //'OUT-PATIENT' | 'IN-PATIENT'
             $table->integer('visit_number')->unsigned()->nullable(); //External
-			$table->timestamp('created_at');
-			$table->timestamp('updated_at');
+
+			$table->timestamps();
 			$table->foreign('patient_id')->references('id')->on('patients');
 		});
 		
@@ -273,6 +271,28 @@ class CreatekBLIStables extends Migration {
 			$table->foreign('measure_id')->references('id')->on('measures');
 			$table->unique(array('test_id','measure_id'));
 		});
+
+        Schema::create('instruments', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->string('name', 100);
+            $table->string('ip', 15);
+            $table->string('hostname', 100)->nullable();
+            $table->string('description', 100)->nullable();
+            $table->string('driver_name', 100)->nullable();
+            $table->nullableTimestamps();
+        });
+
+        Schema::create('instrument_testtypes', function(Blueprint $table)
+        {
+            $table->integer('instrument_id')->unsigned();
+            $table->integer('test_type_id')->unsigned();
+
+            $table->foreign('instrument_id')->references('id')->on('instruments');
+            $table->foreign('test_type_id')->references('id')->on('test_types');
+            $table->unique(array('instrument_id','test_type_id'));
+        });
+
 	}
 
 	/**
@@ -282,6 +302,8 @@ class CreatekBLIStables extends Migration {
 	 */
 	public function down()
 	{
+        Schema::dropIfExists('instrument_testtypes');
+        Schema::dropIfExists('instruments');
 		Schema::dropIfExists('test_results');
 		Schema::dropIfExists('tests');
 		Schema::dropIfExists('specimens');

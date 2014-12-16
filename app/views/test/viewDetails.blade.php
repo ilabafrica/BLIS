@@ -13,6 +13,7 @@
                 <div class="row less-gutter">
                     <div class="col-md-11">
 						<span class="glyphicon glyphicon-cog"></span>{{trans('messages.test-details')}}
+
 						@if($test->isCompleted() && $test->specimen->isAccepted())
 						<div class="panel-btn">
 							@if(Auth::user()->can('edit_test_results'))
@@ -205,19 +206,20 @@
 								<div class="container-fluid">
 								@foreach($test->testResults as $result)
 									<div class="row">
-										<div class="col-md-3">
+										<div class="col-md-5">
 											<p><strong>{{Measure::find($result->measure_id)->name}}</strong></p>
 										</div>
-										<div class="col-md-9">
+										<div class="col-md-7">
 											{{$result->result}}
+											{{Measure::find($result->measure_id)->unit}}
 										</div>
 									</div>
 								@endforeach
 									<div class="row">
-										<div class="col-md-3">
+										<div class="col-md-2">
 											<p><strong>{{trans('messages.test-remarks')}}</strong></p>
 										</div>
-										<div class="col-md-9">
+										<div class="col-md-10">
 											{{$test->interpretation}}
 										</div>
 									</div>

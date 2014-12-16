@@ -109,6 +109,25 @@ Route::group(array("before" => "auth"), function()
         ));
     });
 
+    Route::group(array("before" => "checkPerms:manage_lab_configurations"), function()
+    {
+        Route::resource('instrument', 'InstrumentController');
+
+        Route::get("/instrument/{id}/delete", array(
+            "as"   => "instrument.delete",
+            "uses" => "InstrumentController@delete"
+        ));
+
+        Route::any("/instrument/getresult", array(
+            "as"   => "instrument.getResult",
+            "uses" => "InstrumentController@getTestResult"
+        ));
+
+        Route::any("/instrument/importdriver", array(
+            "as"   => "instrument.importDriver",
+            "uses" => "InstrumentController@importDriver"
+        ));
+    });
 
 
     Route::any("/test", array(
