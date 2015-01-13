@@ -15,7 +15,6 @@
 		case 'measure': 
 		case 'specimentype': 
 		case 'specimenrejection': 
-		case 'datatable':
 			$active[4] = "active"; break;
 		case 'patientreport': 
 		case 'dailylog': 
@@ -119,12 +118,6 @@
 						<div>
 							<a href="{{ URL::route("measure.index")}}" >
 								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.measures')}}</a>
-						</div>
-					</li>
-					<li>
-						<div>
-							<a href="{{ URL::route("trial.datatables")}}" >
-								<span class="glyphicon glyphicon-tag"></span> Datatables</a>
 						</div>
 					</li>
 				</ul>
