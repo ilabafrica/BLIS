@@ -197,4 +197,18 @@ class TestTypeController extends \BaseController {
 		return Redirect::route('testtype.index')
 			->with('message', trans('messages.success-deleting-test-type'));
 	}
+	public function dt(){
+		return View::make('testtype.datatables');
+	}
+	/**
+	 * Retrieve testtype data for datatables.
+	 *
+	 */
+	public function apiDatatable(){
+		return Datatable::collection(TestType::all())
+        ->showColumns('id','name')
+        ->searchColumns('name')
+        ->orderColumns('id','name')
+        ->make();
+	}
 }

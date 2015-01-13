@@ -1,4 +1,7 @@
 @extends("layout")
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+<script type="text/javascript" src="assets/js/jquery.js"></script>
+<script type="text/javascript" src="assets/js/jquery.dataTables.min.js"></script>
 @section("content")
 <div>
 	<ol class="breadcrumb">
