@@ -1,6 +1,6 @@
 <?php
 
-class KBLISSeeder extends DatabaseSeeder
+class TestDataSeeder extends DatabaseSeeder
 {
     public function run()
     {
