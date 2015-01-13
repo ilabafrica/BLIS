@@ -93,4 +93,16 @@ class SpecimenTypeControllerTest extends TestCase
 		$specimenTypesDeleted = SpecimenType::withTrashed()->find($specimenTypestored[0]['id']);
 		$this->assertNotNull($specimenTypesDeleted->deleted_at);
 	}
+	//	Test the countPerStatus method in Specimen Type
+    public function specimenCountPerStatus()
+    {
+        Input::replace($this->specimenData);
+    	$specimenType = new SpecimenTypeController;
+        $specimenType->store();
+		$specimenTypeStored = SpecimenType::orderBy('id','desc')->take(1)->get()->toArray();
+        $specimenTypeSaved = SpecimenType::find($specimenTypeStored[0]['id']);
+        $count = $specimenTypeSaved->countPerStatus([Specimen::ACCEPTED, Specimen::REJECTED, Specimen::NOT_COLLECTED]);
+
+        $this->assertEquals( $specimenTypeSaved->specimen->count(), $count);
+    }
 }
