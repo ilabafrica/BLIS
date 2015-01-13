@@ -1371,11 +1371,6 @@ class TestDataSeeder extends DatabaseSeeder
         $values["specimen_type_id"] = $specimenTypeID;
         $values["specimen_status_id"] = $specimenStatus;
 
-
-        if($testStatus == Test::STARTED)$values["test_phase_id"] = TestPhase::ANALYTICAL;
-        elseif($testStatus < Test::STARTED)$values["test_phase_id"] = TestPhase::PRE_ANALYTICAL;
-        else $values["test_phase_id"] = TestPhase::POST_ANALYTICAL;
-
         if($specimenStatus == Specimen::ACCEPTED){
             $values["accepted_by"] = $acceptor;
             $values["time_accepted"] = date('Y-m-d H:i:s');
