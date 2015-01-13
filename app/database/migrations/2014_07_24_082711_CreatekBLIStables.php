@@ -86,7 +86,7 @@ class CreatekBLIStables extends Migration {
             $table->increments('id')->unsigned();
             $table->integer('measure_type_id')->unsigned();
             $table->string('name', 100);
-            $table->string('measure_range', 60)->nullable();
+            $table->string('measure_range', 200)->nullable();
             $table->string('unit', 30);
             $table->string('description', 150)->nullable();
 
@@ -218,7 +218,6 @@ class CreatekBLIStables extends Migration {
 			$table->increments('id')->unsigned();
 			$table->integer('specimen_type_id')->unsigned();
 			$table->integer('specimen_status_id')->unsigned()->default(Specimen::NOT_COLLECTED);
-            $table->integer('test_phase_id')->unsigned()->default(1); //Pre-Analytical
             $table->integer('accepted_by')->unsigned()->default(0);
             $table->integer('rejected_by')->unsigned()->default(0);
 			$table->integer('rejection_reason_id')->unsigned()->nullable();
@@ -230,7 +229,6 @@ class CreatekBLIStables extends Migration {
 			$table->foreign('specimen_type_id')->references('id')->on('specimen_types');
 			$table->foreign('specimen_status_id')->references('id')->on('specimen_statuses');
 			$table->foreign('rejection_reason_id')->references('id')->on('rejection_reasons');
-			$table->foreign('test_phase_id')->references('id')->on('test_phases');
             $table->foreign('referral_id')->references('id')->on('referrals');
 		});
 
@@ -264,7 +262,7 @@ class CreatekBLIStables extends Migration {
 			$table->bigIncrements('id');
 			$table->integer('test_id')->unsigned();
 			$table->integer('measure_id')->unsigned();
-			$table->string('result',100)->nullable();
+			$table->string('result',1000)->nullable();
 			$table->timestamp('time_entered')->default(DB::raw('CURRENT_TIMESTAMP'));
 			
 			$table->foreign('test_id')->references('id')->on('tests');
