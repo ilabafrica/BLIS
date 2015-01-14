@@ -213,43 +213,26 @@ class TestType extends Eloquent
 	* @param $testStatusID, $from, $to
 	*/
 	public function groupedTestCount($gender=null, $ageRange=null, $from=null, $to=null){
-			$tests = $this->tests->filter(function($test){
-				if (in_array($test->test_status_id, [Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED])){
-					return true;
-				}
-				return false;
-			});
+			$tests = Test::where('test_type_id', $this->id)
+						 ->whereIn('test_status_id', [Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED]);
 			if($to && $from){
-				$tests = $tests->filter(function($test) use($to, $from){
-					$timeCreated = strtotime($test->time_created);
-					if(strtotime($from) < $timeCreated && strtotime($to) >= $timeCreated)
-						return true;
-					else return false;
-				});
+				$tests = $tests->whereBetween('time_created', [$from, $to]);
 			}
 			if($gender){
-				$tests = $tests->filter(function($test) use ($gender){
-
-				if (in_array($test->visit->patient->gender, $gender)){
-					return true;
-				}
-				else return false;
-				});
+				$tests = $tests->join('visits', 'tests.visit_id', '=', 'visits.id')
+							   ->join('patients', 'visits.patient_id', '=', 'patients.id')
+							   ->whereIn('gender', $gender);
 			}
 			if($ageRange){
 				$ageRange = explode('-', $ageRange);
 				$ageStart = $ageRange[0];
 				$ageEnd = $ageRange[1];
-				$tests = $tests->filter(function($test) use ($ageStart, $ageEnd){
-					$dateOfBirth = new DateTime($test->visit->patient->dob);
-					$now = new DateTime('now');
-					$interval = $dateOfBirth->diff($now);
 
-				if ($interval->y >= $ageStart && $interval->y < $ageEnd){
-					return true;
-					}
-					else return false;
-				});
+				$now = new DateTime('now');
+				$finishDate = $now->sub(new DateInterval('P'.$ageStart.'Y'))->format('Y-m-d');
+				$startDate = $now->sub(new DateInterval('P'.$ageEnd.'Y'))->format('Y-m-d');
+
+				$tests = $tests->whereBetween('dob', [$startDate, $finishDate]);
 			}
 
 		return $tests->count();

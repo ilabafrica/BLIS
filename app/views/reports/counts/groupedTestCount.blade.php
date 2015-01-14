@@ -127,7 +127,7 @@
 			  	</tr>
 			  	@empty
 			  	<tr>
-			  		<td>{{ trans('messages.no-records-found') }}</td>
+			  		<td colspan="5">{{ trans('messages.no-records-found') }}</td>
 			  	</tr>
 			  	@endforelse
 		  		
@@ -137,7 +137,7 @@
 		  <table class="table table-striped table-bordered">
 		  	<tbody>
 		  		<tr>
-		  			<td>{{ trans('messages.no-records-found') }}</td>
+		  			<td colspan="5">{{ trans('messages.no-records-found') }}</td>
 		  		</tr>
 		  	</tbody>
 		  </table>
