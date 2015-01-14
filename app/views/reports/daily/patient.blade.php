@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-	  <li class="active"><a href="{{ URL::route('reports.patient.index') }}">{{ trans('messages.reports') }}</a></li>
+	  <li class="active"><a href="{{ URL::route('reports.patient.index') }}">{{ Lang::choice('messages.report', 2) }}</a></li>
 	  <li class="active">{{ trans('messages.daily-log') }}</li>
 	</ol>
 </div>
@@ -130,7 +130,7 @@
 						<th>{{trans('messages.gender')}}</th>
 						<th>{{trans('messages.specimen-number-title')}}</th>
 						<th>{{trans('messages.specimen-type-title')}}</th>
-						<th>{{trans('messages.tests')}}</th>
+						<th>{{ Lang::choice('messages.test', 2) }}</th>
 					</tr>
 					@forelse($visits as $visit)
 					<tr>

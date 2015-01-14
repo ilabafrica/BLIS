@@ -53,7 +53,7 @@
 			<th>{{trans('messages.gender')}}</th>
 			<th>{{trans('messages.specimen-number-title')}}</th>
 			<th>{{trans('messages.specimen-type-title')}}</th>
-			<th>{{trans('messages.tests')}}</th>
+			<th>{{ Lang::choice('messages.test', 2) }}</th>
 			@forelse($visits as $visit)
 			<tr>
 				<td>{{ $visit->patient->id }}</td>
