@@ -198,21 +198,10 @@ class TestType extends Eloquent
 	public function countPerStatus($testStatusID, $from = null, $to = null)
 	{
 
-		$tests = $this->tests->filter(function($test) use ($testStatusID){
-
-				if (in_array($test->test_status_id, $testStatusID)){
-					return true;
-				}
-				return false;
-			});
+		$tests = Test::where('test_type_id', $this->id)->whereIn('test_status_id', $testStatusID);
 
 		if($to && $from){
-			$tests = $tests->filter(function($test) use($to, $from){
-				$timeCreated = strtotime($test->time_created);
-				if(strtotime($from) < $timeCreated && strtotime($to) >= $timeCreated)
-					return true;
-				else return false;
-			});
+			$tests = $tests->whereBetween('time_created', [$from, $to]);
 		}
 
 		return $tests->count();
