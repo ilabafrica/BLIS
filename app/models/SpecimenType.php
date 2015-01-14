@@ -41,24 +41,12 @@ class SpecimenType extends Eloquent
 	public function countPerStatus($specimenStatusID, $from = null, $to = null)
 	{
 
-		$specimens = $this->specimen->filter(function($specimen) use ($specimenStatusID){
-
-				if (in_array($specimen->specimen_status_id, $specimenStatusID)){
-					return true;
-				}
-				return false;
-			});
-
+		$specimens = Specimen::where('specimen_type_id', $this->id)->whereIn('specimen_status_id', $specimenStatusID);
 		if($to && $from){
-			$specimens = $specimens->filter(function($specimen) use($to, $from, $specimenStatusID){
-				if(in_array($specimenStatusID, [Specimen::REJECTED]))
-					$timeCreated = strtotime($specimen->time_rejected);
-				else
-					$timeCreated = strtotime($specimen->time_accepted);
-				if(strtotime($from) < $timeCreated && strtotime($to) >= $timeCreated)
-					return true;
-				else return false;
-			});
+			if(in_array($specimenStatusID, [Specimen::REJECTED]))
+				$specimens = $specimens->whereBetween('time_rejected', [$from, $to]);
+			else
+				$specimens = $specimens->whereBetween('time_accepted', [$from, $to]);
 		}
 
 		return $specimens->count();
