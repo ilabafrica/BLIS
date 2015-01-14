@@ -544,7 +544,7 @@ class ReportController extends \BaseController {
 			}
 			$specimenTypes = SpecimenType::all();
 			foreach ($specimenTypes as $specimenType) {
-				$countAll = $specimenType->groupedSpecimenCount(null, null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$countAll = $specimenType->groupedSpecimenCount([Patient::MALE, Patient::FEMALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
 				$countMale = $specimenType->groupedSpecimenCount([Patient::MALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
 				$countFemale = $specimenType->groupedSpecimenCount([Patient::FEMALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
 				$perSpecimenType[$specimenType->id] = ['countAll'=>$countAll, 'countMale'=>$countMale, 'countFemale'=>$countFemale];
