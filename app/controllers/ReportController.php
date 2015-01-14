@@ -111,24 +111,24 @@ class ReportController extends \BaseController {
 		$from = Input::get('start');
 		$to = Input::get('end');
 		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
-		$all = Input::get('all');
-		$pending = Input::get('pending');
+		$pendingOrAll = Input::get('pending_or_all');
+		//	Check radiobutton for pending/all tests is checked and assign the 'true' value
+		if (Input::get('tests') === '1') {
+		    $pending='true';
+		}
 		$date = date('Y-m-d');
 		if(!$to){
 			$to=$date;
 		}
 		$records = Input::get('records');
 		$testCategory = Input::get('section_id');
-		$testType = '';
-		if(Input::get('test_type')){
-			$testType = Input::get('test_type');
-		}
-		else if(Input::get('test_type_id')){
-			$testType = Input::get('test_type_id');
-		}
+		$testType = Input::get('test_type');
 		$date = date('Y-m-d');
 		$labSections = TestCategory::lists('name', 'id');
-		$testTypes = TestType::all();
+		if($testCategory)
+			$testTypes = TestCategory::find($testCategory)->testTypes->lists('name', 'id');
+		else
+			$testTypes = array(""=>"");
 		
 		if($records=='patients'){
 			if($from||$to){
@@ -238,10 +238,10 @@ class ReportController extends \BaseController {
 				$tests = $tests->where('test_type_id', '=', $testType);
 			}
 			/*Filter by all tests*/
-			if($pending){
+			if($pendingOrAll=='pending'){
 				$tests = $tests->whereIn('test_status_id', [Test::PENDING, Test::STARTED]);
 			}
-			else if($all){
+			else if($pendingOrAll=='all'){
 				$tests = $tests->whereIn('test_status_id', 
 					[Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED]);
 			}
@@ -289,8 +289,7 @@ class ReportController extends \BaseController {
 							->with('tests', $tests)
 							->with('testCategory', $testCategory)
 							->with('testType', $testType)
-							->with('pending', $pending)
-							->with('all', $all)
+							->with('pendingOrAll', $pendingOrAll)
 							->withInput(Input::all());
 			}
 		}
@@ -469,5 +468,116 @@ class ReportController extends \BaseController {
 		    }
 		}';
 	return $options;
+	}
+	//	Begin count reports functions
+	/**
+	 * Display a test((un)grouped) and specimen((un)grouped) counts.
+	 *
+	 */
+	public function countReports(){
+		$date = date('Y-m-d');
+		$from = Input::get('start');
+		if(!$from) $from = date('Y-m-01');
+		$to = Input::get('end');
+		if(!$to) $to = $date;
+		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+		$counts = Input::get('counts');
+		//	Begin grouped test counts
+		if($counts==trans('messages.grouped-test-counts'))
+		{
+			$testCategories = TestCategory::all();
+			$testTypes = TestType::all();
+			$ageRanges = array('0-5', '5-15', '15-120');	//	Age ranges - will definitely change in configurations
+			$gender = array(Patient::MALE, Patient::FEMALE); 	//	Array for gender - male/female
+
+			$perAgeRange = array();	// array for counts data for each test type and age range
+			$perTestType = array();	//	array for counts data per testype
+			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+				Session::flash('message', trans('messages.check-date-range'));
+			}
+			foreach ($testTypes as $testType) {
+				$countAll = $testType->groupedTestCount(null, null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$countMale = $testType->groupedTestCount([Patient::MALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$countFemale = $testType->groupedTestCount([Patient::FEMALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$perTestType[$testType->id] = ['countAll'=>$countAll, 'countMale'=>$countMale, 'countFemale'=>$countFemale];
+				foreach ($ageRanges as $ageRange) {
+					$maleCount = $testType->groupedTestCount([Patient::MALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
+					$femaleCount = $testType->groupedTestCount([Patient::FEMALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
+					$perAgeRange[$testType->id][$ageRange] = ['male'=>$maleCount, 'female'=>$femaleCount];
+				}
+			}
+			return View::make('reports.counts.groupedTestCount')
+						->with('testCategories', $testCategories)
+						->with('ageRanges', $ageRanges)
+						->with('gender', $gender)
+						->with('perTestType', $perTestType)
+						->with('perAgeRange', $perAgeRange)
+						->withInput(Input::all());
+		}
+		else if($counts==trans('messages.ungrouped-specimen-counts')){
+			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+				Session::flash('message', trans('messages.check-date-range'));
+			}
+
+			$ungroupedSpecimen = array();
+			foreach (SpecimenType::all() as $specimenType) {
+				$rejected = $specimenType->countPerStatus([Specimen::REJECTED], $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$accepted = $specimenType->countPerStatus([Specimen::ACCEPTED], $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$total = $rejected+$accepted;
+				$ungroupedSpecimen[$specimenType->id] = ["total"=>$total, "rejected"=>$rejected, "accepted"=>$accepted];
+			}
+
+			// $data = $data->groupBy('test_type_id')->paginate(Config::get('kblis.page-items'));
+			return View::make('reports.counts.ungroupedSpecimenCount')
+							->with('ungroupedSpecimen', $ungroupedSpecimen)
+							->withInput(Input::all());
+
+		}
+		else if($counts==trans('messages.grouped-specimen-counts')){
+			$ageRanges = array('0-5', '5-15', '15-120');	//	Age ranges - will definitely change in configurations
+			$gender = array(Patient::MALE, Patient::FEMALE); 	//	Array for gender - male/female
+
+			$perAgeRange = array();	// array for counts data for each test type and age range
+			$perSpecimenType = array();	//	array for counts data per testype
+			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+				Session::flash('message', trans('messages.check-date-range'));
+			}
+			$specimenTypes = SpecimenType::all();
+			foreach ($specimenTypes as $specimenType) {
+				$countAll = $specimenType->groupedSpecimenCount(null, null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$countMale = $specimenType->groupedSpecimenCount([Patient::MALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$countFemale = $specimenType->groupedSpecimenCount([Patient::FEMALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$perSpecimenType[$specimenType->id] = ['countAll'=>$countAll, 'countMale'=>$countMale, 'countFemale'=>$countFemale];
+				foreach ($ageRanges as $ageRange) {
+					$maleCount = $specimenType->groupedSpecimenCount([Patient::MALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
+					$femaleCount = $specimenType->groupedSpecimenCount([Patient::FEMALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
+					$perAgeRange[$specimenType->id][$ageRange] = ['male'=>$maleCount, 'female'=>$femaleCount];
+				}
+			}
+			return View::make('reports.counts.groupedSpecimenCount')
+						->with('specimenTypes', $specimenTypes)
+						->with('ageRanges', $ageRanges)
+						->with('gender', $gender)
+						->with('perSpecimenType', $perSpecimenType)
+						->with('perAgeRange', $perAgeRange)
+						->withInput(Input::all());
+		}
+		else{
+			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+				Session::flash('message', trans('messages.check-date-range'));
+			}
+
+			$ungroupedTests = array();
+			foreach (TestType::all() as $testType) {
+				$pending = $testType->countPerStatus([Test::PENDING, Test::STARTED], $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$complete = $testType->countPerStatus([Test::COMPLETED, Test::VERIFIED], $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$ungroupedTests[$testType->id] = ["complete"=>$complete, "pending"=>$pending];
+			}
+
+			// $data = $data->groupBy('test_type_id')->paginate(Config::get('kblis.page-items'));
+			return View::make('reports.counts.ungroupedTestCount')
+							->with('ungroupedTests', $ungroupedTests)
+							->withInput(Input::all());
+		}
 	}
 }

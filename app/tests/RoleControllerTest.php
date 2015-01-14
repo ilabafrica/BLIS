@@ -15,6 +15,7 @@ class RoleControllerTest extends TestCase
         parent::setUp();
         Artisan::call('migrate');
         Artisan::call('db:seed');
+        Session::start();
         $this->setVariables();
     }
 
@@ -22,6 +23,10 @@ class RoleControllerTest extends TestCase
     {
         echo "\n\nROLE CONTROLLER TEST\n\n";
 
+        // Set SOURCE URL - the index page for roles
+        Session::put('SOURCE_URL', URL::route('role.assign'));
+
+        // Invoke controller function
         $this->action('POST', 'RoleController@saveUserRoleAssignment', $this->userRolesMapping);
 
         $user1 = User::find(1);
@@ -59,6 +64,9 @@ class RoleControllerTest extends TestCase
 
     public function testUpdate()
     {
+        // Set SOURCE URL - the index page for roles
+        Session::put('SOURCE_URL', URL::route('role.index'));
+
         $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateWorks);
         $role1 = Role::find(1);
         $this->assertEquals($this->systemRoleUpdateWorks['name'], $role1->name);
@@ -80,6 +88,9 @@ class RoleControllerTest extends TestCase
 
     public function testDelete()
     {
+        // Set SOURCE URL - the index page for roles
+        Session::put('SOURCE_URL', URL::route('role.index'));
+        
         $this->action('GET', 'RoleController@delete', array("id"=>2));
         $role2 = Role::find(2);
         $this->assertNull($role2);

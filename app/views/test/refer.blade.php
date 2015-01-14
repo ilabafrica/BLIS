@@ -12,10 +12,10 @@
             <div class="container-fluid">
                 <div class="row less-gutter">
                     <div class="col-md-11">
-                        <span class="glyphicon glyphicon-filter"></span>{{trans('messages.referrals')}}
+                        <span class="glyphicon glyphicon-filter"></span> {{trans('messages.referrals')}}
                     </div>
                     <div class="col-md-1">
-                        <a class="btn btn-sm btn-primary pull-right" href="{{URL::previous()}}"
+                        <a class="btn btn-sm btn-primary pull-right" href="#" onclick="window.history.back();return false;"
                             alt="{{trans('messages.back')}}" title="{{trans('messages.back')}}">
                             <span class="glyphicon glyphicon-backward"></span></a>
                     </div>
@@ -43,15 +43,15 @@
                 <br>
                 <div class="form-group">
                     {{ Form::label('refer', trans('messages.refer')) }}
-                    <div>{{ Form::radio('referal-status', '0', true) }}<span class='input-tag'>
+                    <div>{{ Form::radio('referral-status', '0', true) }}<span class='input-tag'>
                         {{trans('messages.in')}}</span></div>
-                    <div>{{ Form::radio('referal-status', '1', false) }}<span class='input-tag'>
+                    <div>{{ Form::radio('referral-status', '1', false) }}<span class='input-tag'>
                         {{trans('messages.out')}}</span></div>
                 </div>
                 <div class="form-group">
-                    {{ Form::label('facility', trans("messages.facility")) }}
-                    {{Form::text('facility', Input::old('facility'),
-                        array('class' => 'form-control'))}}
+                    {{ Form::label('facility', Lang::choice("messages.facility",2)) }}
+                    {{ Form::select('facility_id', $facilities->lists('name', 'id'), Input::old('facility_id'),
+                        array('class' => 'form-control')) }}
                 </div>
                 <div class="form-group">
                     {{ Form::label('person', trans("messages.person")) }}

@@ -39,8 +39,9 @@ class TestCategoryController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
-		$validator = Validator::make(Input::all(), TestCategory::$rules);
+		//Validation
+		$rules = array('name' => 'required|unique:test_categories,name');
+		$validator = Validator::make(Input::all(), $rules);
 	
 		//process
 		if($validator->fails()){
@@ -52,8 +53,10 @@ class TestCategoryController extends \BaseController {
 			$testcategory->description = Input::get('description');
 			try{
 				$testcategory->save();
-				return Redirect::route('testcategory.index')
-					->with('message', trans('messages.success-creating-test-category'));
+				$url = Session::get('SOURCE_URL');
+            
+            	return Redirect::to($url)
+					->with('message', trans('messages.success-creating-test-category')) ->with('activetestcategory', $testcategory ->id);
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -97,7 +100,7 @@ class TestCategoryController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		//Validate
 		$rules = array('name' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -112,8 +115,10 @@ class TestCategoryController extends \BaseController {
 			$testcategory->save();
 
 			// redirect
-			return Redirect::route('testcategory.index')
-				->with('message', trans('messages.success-updating-test-category'));
+			$url = Session::get('SOURCE_URL');
+            
+            return Redirect::to($url)
+				->with('message', trans('messages.success-updating-test-category')) ->with('activetestcategory', $testcategory ->id);
 		}
 	}
 
@@ -145,11 +150,15 @@ class TestCategoryController extends \BaseController {
 			$testcategory->delete();
 		} else {
 		    // The test category is in use
-		    return Redirect::route('testcategory.index')
+		    $url = Session::get('SOURCE_URL');
+            
+            return Redirect::to($url)
 		    	->with('message', trans('messages.failure-test-category-in-use'));
 		}
 		// redirect
-		return Redirect::route('testcategory.index')
+			$url = Session::get('SOURCE_URL');
+            
+            return Redirect::to($url)
 			->with('message', trans('messages.success-deleting-test-category'));
 	}
 }

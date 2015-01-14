@@ -13,8 +13,8 @@
                 <div class="row less-gutter">
                     <div class="col-md-11">
 						<span class="glyphicon glyphicon-cog"></span>{{trans('messages.test-details')}}
-						@if($test->test_status_id != Test::VERIFIED &&
-							$test->specimen->specimen_status_id == Specimen::ACCEPTED)
+
+						@if($test->isCompleted() && $test->specimen->isAccepted())
 						<div class="panel-btn">
 							@if(Auth::user()->can('edit_test_results'))
 								<a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->id.'/edit') }}">
@@ -22,8 +22,7 @@
 									{{trans('messages.edit-test-results')}}
 								</a>
 							@endif
-							@if($test->test_status_id != Test::VERIFIED && 
-								Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
+							@if(Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
 							<a class="btn btn-sm btn-success" href="{{ URL::route('test.verify', array($test->id)) }}">
 								<span class="glyphicon glyphicon-thumbs-up"></span>
 								{{trans('messages.verify')}}
@@ -33,7 +32,7 @@
 						@endif
                     </div>
                     <div class="col-md-1">
-                        <a class="btn btn-sm btn-primary pull-right" href="{{URL::previous()}}"
+                        <a class="btn btn-sm btn-primary pull-right" href="#" onclick="window.history.back();return false;"
                             alt="{{trans('messages.back')}}" title="{{trans('messages.back')}}">
                             <span class="glyphicon glyphicon-backward"></span></a>
                     </div>
@@ -59,12 +58,11 @@
 								{{$test->createdBy->name or trans('messages.unknown') }}</p>
 							<p class="view"><strong>{{trans('messages.tested-by')}}</strong>
 								{{$test->testedBy->name or trans('messages.unknown')}}</p>
-							@if($test->test_status_id == Test::VERIFIED)
+							@if($test->isVerified())
 							<p class="view"><strong>{{trans('messages.verified-by')}}</strong>
 								{{$test->verifiedBy->name or trans('messages.verification-pending')}}</p>
 							@endif
-							@if($test->specimen->specimen_status_id != Specimen::REJECTED && 
-								($test->test_status_id == Test::COMPLETED || $test->test_status_id == Test::VERIFIED))
+							@if((!$test->specimen->isRejected()) && ($test->isCompleted() || $test->isVerified()))
 							<!-- Not Rejected and (Verified or Completed)-->
 							<p class="view-striped"><strong>{{trans('messages.turnaround-time')}}</strong>
 								{{$test->getFormattedTurnaroundTime()}}</p>
@@ -166,10 +164,10 @@
 									</div>
 									<div class="row">
 										<div class="col-md-4">
-											<p><strong>{{trans("messages.facility")}}</strong></p>
+											<p><strong>{{Lang::choice("messages.facility", 1)}}</strong></p>
 										</div>
 										<div class="col-md-8">
-											{{$test->specimen->referral->facility }}
+											{{$test->specimen->referral->facility->name }}
 										</div>
 									</div>
 									<div class="row">
@@ -208,19 +206,20 @@
 								<div class="container-fluid">
 								@foreach($test->testResults as $result)
 									<div class="row">
-										<div class="col-md-3">
+										<div class="col-md-5">
 											<p><strong>{{Measure::find($result->measure_id)->name}}</strong></p>
 										</div>
-										<div class="col-md-9">
+										<div class="col-md-7">
 											{{$result->result}}
+											{{Measure::find($result->measure_id)->unit}}
 										</div>
 									</div>
 								@endforeach
 									<div class="row">
-										<div class="col-md-3">
+										<div class="col-md-2">
 											<p><strong>{{trans('messages.test-remarks')}}</strong></p>
 										</div>
-										<div class="col-md-9">
+										<div class="col-md-10">
 											{{$test->interpretation}}
 										</div>
 									</div>

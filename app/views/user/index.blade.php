@@ -34,7 +34,11 @@
 			</thead>
 			<tbody>
 			@foreach($users as $user)
-				<tr>
+				<tr @if(Session::has('activeuser'))
+                            {{(Session::get('activeuser') == $user->id)?"class='info'":""}}
+                        @endif
+                        >
+
 					<td>{{ $user->username }}</td>
 					<td>{{ $user->name }}</td>
 					<td>{{ $user->email }}</td>
@@ -67,7 +71,8 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $users->links(); ?>
+		<?php echo $users->links(); 
+		Session::put('SOURCE_URL', URL::full());?>
 	</div>
 </div>
 @stop

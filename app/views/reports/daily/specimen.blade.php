@@ -7,63 +7,97 @@
 	  <li class="active">{{ trans('messages.daily-log') }}</li>
 	</ol>
 </div>
+<div class='container-fluid'>
 {{ Form::open(array('route' => array('reports.daily.log'), 'class' => 'form-inline', 'role' => 'form')) }}
-<div class="table-responsive">
-  	<table class="table report-filter">
-    <thead>
-	    <tr>
-	        <td>{{ Form::label('start', trans("messages.from")) }}</td>
-	        <td>
-	            {{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
-	                array('class' => 'form-control standard-datepicker')) }}
-	        </td>
-	        <td>{{ Form::label('end', trans("messages.to")) }}</td>
-	         <td>
-	            {{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
-	                array('class' => 'form-control standard-datepicker')) }}
-	         </td>
-	        <td>{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
-	                    array('class' => 'btn btn-info', 'id' => 'filter', 'type' => 'submit')) }}</td>
-	    </tr>
-	    <tr>
-	        <td colspan="2"><label class="radio-inline">
-				  {{ Form::radio('records', 'tests', false, array('data-toggle' => 'radio', 'id' => 'tests')) }}
-				   {{trans('messages.test-records')}}
-				</label></td>
-	        <td><label class="radio-inline">
-				  {{ Form::radio('records', 'patients', false, array('data-toggle' => 'radio', 'id' => 'patients')) }} 
-				  {{ trans('messages.patient-records') }}
-				</label></td>
-	        <td><label class="radio-inline">
-				  {{ Form::radio('records', 'rejections', true, array('data-toggle' => 'radio', 'id' => 'rejections')) }} 
-				  {{ trans('messages.rejected-specimen') }}
-				</label></td>
-			<td>{{ Form::submit(trans('messages.export-to-word'), 
-				array('class' => 'btn btn-success', 'id'=>'word', 'name'=>'word')) }}</td>
-	    </tr>
-	    <tr id="sections">
-	        <td>{{ Form::label('section_id', Lang::choice('messages.test-category', 2)) }}</td>
-	        <td>{{ Form::select('section_id', array(''=>'Select Lab Section')+$labSections, 
-	        		Request::old('testCategory') ? Request::old('testCategory') : $testCategory, 
-						array('class' => 'form-control', 'id' => 'section_id')) }}</td>
-			<td></td>
-	        <td>{{ Form::label('description', Lang::choice('messages.test-type', 2)) }}</td>
-	        <td>{{ Form::select('test_type', array('' => 'Select Test Type'), 
-	        		Request::old('testType') ? Request::old('testType') : $testType, 
-						array('class' => 'form-control', 'id' => 'test_type')) }}</td>
-	    </tr>
-	</thead>
-	<tbody>
-		{{ Form::hidden('test_type_id', Request::old('testType') ? Request::old('testType') : $testType,
-			array('id' => 'test_type')) }}
-	</tbody>
-	</table>
-</div>
+	<div class="row">
+		<div class="col-sm-5">
+	    	<div class="row">
+				<div class="col-sm-2">
+					{{ Form::label('start', trans("messages.from")) }}
+				</div>
+				<div class="col-sm-3">
+					{{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
+				        array('class' => 'form-control standard-datepicker')) }}
+			    </div>
+	    	</div>
+	    </div>
+	    <div class="col-sm-5">
+	    	<div class="row">
+				<div class="col-sm-2">
+			    	{{ Form::label('end', trans("messages.to")) }}
+			    </div>
+				<div class="col-sm-3">
+				    {{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
+				        array('class' => 'form-control standard-datepicker')) }}
+		        </div>
+	    	</div>
+	    </div>
+	    <div class="col-sm-2">
+		    {{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
+		        array('class' => 'btn btn-info', 'id' => 'filter', 'type' => 'submit')) }}
+	    </div>
+	</div>
+    <div class='row spacer'>
+    	<div class="col-sm-12">
+	    	<div class="row">
+				<div class="col-sm-3">
+					<label class="radio-inline">
+					    {{ Form::radio('records', 'tests', false, array('data-toggle' => 'radio', 'id' => 'tests')) }}
+						   {{trans('messages.test-records')}}
+				   	</label>
+				</div>
+				<div class="col-sm-3">
+					<label class="radio-inline">
+						{{ Form::radio('records', 'patients', false, array('data-toggle' => 'radio', 'id' => 'patients')) }} 
+						  	{{trans('messages.patient-records')}}
+				  	</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="radio-inline">
+						{{ Form::radio('records', 'rejections', true, array('data-toggle' => 'radio', 'id' => 'rejections')) }} 
+						  	{{trans('messages.rejected-specimen')}}
+				  	</label>
+				</div>
+				<div class="col-sm-2">
+				  	{{Form::submit(trans('messages.export-to-word'), 
+						array('class' => 'btn btn-success', 'id'=>'word', 'name'=>'word'))}}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class='row spacer'>
+	  	<div class="col-sm-6">
+	    	<div class="row">
+				<div class="col-sm-3">
+					{{ Form::label('section_id', Lang::choice('messages.test-category', 2)) }}
+				</div>
+			  	<div class="col-sm-3">
+					{{ Form::select('section_id', array(''=>trans('messages.select-lab-section'))+$labSections, 
+						Request::old('testCategory') ? Request::old('testCategory') : $testCategory, 
+							array('class' => 'form-control', 'id' => 'section_id')) }}
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6">
+	    	<div class="row">
+				<div class="col-sm-3">
+					{{ Form::label('description', Lang::choice('messages.test-type', 2)) }}
+				</div>
+				<div class="col-sm-3">
+					{{ Form::select('test_type', array('' => trans('messages.select-test-type'))+$testTypes, 
+						Request::old('testType') ? Request::old('testType') : $testType, 
+							array('class' => 'form-control', 'id' => 'test_type')) }}
+				</div>
+			</div>
+		</div>
+	</div>
 {{ Form::close() }}
+</div>
+<br />
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
-		{{ trans('messages.daily-log') }}
+		{{ trans('messages.daily-log') }} - {{ trans('messages.rejected-specimen') }}
 	</div>
 	<div class="panel-body">
 		<!-- if there are search errors, they will show here -->

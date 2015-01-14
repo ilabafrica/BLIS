@@ -390,7 +390,7 @@ label, input {
 }
     .measurevalue div input{
         width: 60px;
-        border-radius: 2;
+        border-radius: 2px;
     }
     .measurevalue div span{
         float: left;
@@ -433,3 +433,4 @@ label, input {
 .report-filter .btn{
     min-width: 125px;
 }
+.spacer {  margin-top: 20px; }

@@ -16,7 +16,7 @@
         <div class="panel-btn">
             <a class="btn btn-sm btn-info" href="{{ URL::to("role/create") }}" >
                 <span class="glyphicon glyphicon-plus-sign"></span>
-                {{ Lang::choice('messages.new-role', 2) }}
+                {{trans('messages.new-role')}}
             </a>
         </div>
     </div>
@@ -31,7 +31,9 @@
             </thead>
             <tbody>
             @forelse($roles as $role)
-                <tr>
+                <tr @if(Session::has('activerole'))
+                            {{(Session::get('activerole') == $role->id)?"class='info'":""}}
+                        @endif>
                     <td>{{ $role->name }}</td>
                     <td>{{ $role->description }}</td>
                     <td>
@@ -53,7 +55,8 @@
             @endforelse
             </tbody>
         </table>
-        <?php echo $roles->links(); ?>
+        <?php echo $roles->links(); 
+        Session::put('SOURCE_URL', URL::full());?>
     </div>
 </div>
 @stop

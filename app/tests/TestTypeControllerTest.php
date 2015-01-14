@@ -149,5 +149,17 @@ class TestTypeControllerTest extends TestCase
 
         $this->assertEquals( $testTypestored[0]['id'], $testTypeID);
     }
+    //	Test the countPerStatus method
+    public function testCountPerStatus()
+    {
+        Input::replace($this->testTypeData);
+    	$testType = new TestTypeController;
+    	$testType->store();
+		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
+        $testTypeSaved = TestType::find($testTypestored[0]['id']);
+        $count = $testTypeSaved->countPerStatus([Test::NOT_RECEIVED, Test::STARTED, Test::PENDING, Test::COMPLETED, Test::VERIFIED]);
+
+        $this->assertEquals( $testTypeSaved->tests->count(), $count);
+    }
 
 }

@@ -4,52 +4,74 @@
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
 	  <li class="active"><a href="{{ URL::route('reports.patient.index') }}">{{ Lang::choice('messages.report', 2) }}</a></li>
-	  <li class="active">{{ trans('messages.daily-log') }} - {{trans('messages.patient-records')}}</li>
+	  <li class="active">{{ trans('messages.daily-log') }}</li>
 	</ol>
 </div>
+<div class='container-fluid'>
 {{ Form::open(array('route' => array('reports.daily.log'), 'class' => 'form-inline', 'role' => 'form')) }}
-	<div class="table-responsive">
-		<table class="table report-filter">
-	    <thead>
-		    <tr>
-		        <td>{{ Form::label('start', trans("messages.from")) }}</td>
-		        <td>
-		            {{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
-		                array('class' => 'form-control standard-datepicker')) }}
-		        </td>
-		        <td>{{ Form::label('end', trans("messages.to")) }}</td>
-		        <td>
-		            {{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
-		                array('class' => 'form-control standard-datepicker')) }}
-		        </td>
-		        <td>{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
-		                array('class' => 'btn btn-primary','id' => 'filter', 'type' => 'submit')) }}</td>
-		    </tr>
-		    <tr>
-		        <td><label class="radio-inline">
-					  {{ Form::radio('records', 'tests', false, 
-					  	array('data-toggle' => 'radio', 'id' => 'tests')) }} {{trans('messages.test-records')}}
-					</label></td>
-		        <td><label class="radio-inline">
-					  {{ Form::radio('records', 'patients', true, 
-					  	array('data-toggle' => 'radio', 'id' => 'patients')) }} {{trans('messages.patient-records')}}
-					</label></td>
-		        <td><label class="radio-inline">
-					  {{ Form::radio('records', 'rejections', false, 
-					  	array('data-toggle' => 'radio', 'id' => 'specimens')) }} {{trans('messages.rejected-specimen')}}
-					</label></td>
-				<td>{{ Form::button("<span class='glyphicon glyphicon-eye-open'></span> ".trans('messages.show-hide'), 
-		                array('class' => 'btn btn-default', 'id' => 'reveal')) }}</td>
-		        <td>{{Form::submit(trans('messages.export-to-word'), 
-		        		array('class' => 'btn btn-success', 'id'=>'word', 'name'=>'word'))}}</td>
-		    </tr>
-		</thead>
-		<tbody>
-		</tbody>
-		</table>
+<div class="row">
+	<div class="col-sm-5">
+    	<div class="row">
+			<div class="col-sm-2">
+				{{ Form::label('start', trans("messages.from")) }}
+			</div>
+			<div class="col-sm-3">
+				{{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
+			        array('class' => 'form-control standard-datepicker')) }}
+    		</div>
+    	</div>
+    </div>
+    <div class="col-sm-5">
+    	<div class="row">
+			<div class="col-sm-2">
+				{{ Form::label('end', trans("messages.to")) }}
+			</div>
+			<div class="col-sm-3">
+			    {{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
+			    	array('class' => 'form-control standard-datepicker')) }}
+		    </div>
+    	</div>
+    </div>
+    <div class="col-sm-2">
+	    {{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
+			                array('class' => 'btn btn-info','id' => 'filter', 'type' => 'submit')) }}
+    </div>
+</div>
+<div class='row spacer'>
+    <div class="col-sm-12">
+    	<div class="row">
+			<div class="col-sm-2">
+			   	<label class="radio-inline">
+				  {{ Form::radio('records', 'tests', false, 
+				  	array('data-toggle' => 'radio', 'id' => 'tests')) }} {{trans('messages.test-records')}}
+				</label>
+			</div>
+			<div class="col-sm-2">
+				<label class="radio-inline">
+				  {{ Form::radio('records', 'patients', true, 
+				  	array('data-toggle' => 'radio', 'id' => 'patients')) }} {{trans('messages.patient-records')}}
+				</label>
+			</div>
+			<div class="col-sm-3">
+				<label class="radio-inline">
+				  {{ Form::radio('records', 'rejections', false, 
+				  	array('data-toggle' => 'radio', 'id' => 'specimens')) }} {{trans('messages.rejected-specimen')}}
+				</label>
+			</div>
+			<div class="col-sm-3">
+				{{ Form::button("<span class='glyphicon glyphicon-eye-open'></span> ".trans('messages.show-hide'), 
+			        array('class' => 'btn btn-default', 'id' => 'reveal')) }}
+		    </div>
+			<div class="col-sm-2">
+			   	{{Form::submit(trans('messages.export-to-word'), 
+					array('class' => 'btn btn-success', 'id'=>'word', 'name'=>'word'))}}
+			</div>
+		</div>
 	</div>
+</div>
 {{ Form::close() }}
-
+</div>
+<br />
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>

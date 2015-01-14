@@ -5,7 +5,7 @@ class KBLISSeeder extends DatabaseSeeder
     public function run()
     {
         /* Users table */
-        $users_array = array(
+        $usersData = array(
             array(
                 "username" => "administrator", "password" => Hash::make("password"), "email" => "admin@kblis.org",
                 "name" => "kBLIS Administrator", "designation" => "Programmer"
@@ -24,7 +24,7 @@ class KBLISSeeder extends DatabaseSeeder
             ),
         );
 
-        foreach ($users_array as $user)
+        foreach ($usersData as $user)
         {
             $users[] = User::create($user);
         }
@@ -32,7 +32,7 @@ class KBLISSeeder extends DatabaseSeeder
         
 
         /* Specimen Types table */
-        $spec_types_array = array(
+        $specTypesData = array(
             array("name" => "Ascitic Tap"),
             array("name" => "Aspirate"),
             array("name" => "CSF"),
@@ -58,9 +58,9 @@ class KBLISSeeder extends DatabaseSeeder
             array("name" => "Whole Blood"),
         );
 
-        foreach ($spec_types_array as $specimen_type)
+        foreach ($specTypesData as $specimenType)
         {
-            $spec_types[] = SpecimenType::create($specimen_type);
+            $specTypes[] = SpecimenType::create($specimenType);
         }
         $this->command->info('specimen_types seeded');
         
@@ -70,16 +70,16 @@ class KBLISSeeder extends DatabaseSeeder
         
         
         /* Measure Types */
-        $measure_types = array(
+        $measureTypes = array(
             array("id" => "1", "name" => "Numeric Range"),
             array("id" => "2", "name" => "Alphanumeric Values"),
             array("id" => "3", "name" => "Autocomplete"),
             array("id" => "4", "name" => "Free Text")
         );
 
-        foreach ($measure_types as $measure_type)
+        foreach ($measureTypes as $measureType)
         {
-            MeasureType::create($measure_type);
+            MeasureType::create($measureType);
         }
         $this->command->info('measure_types seeded');
                 
@@ -125,76 +125,113 @@ class KBLISSeeder extends DatabaseSeeder
                 "name" => "Blood Grouping", 
                 "measure_range" => "O-/O+/A-/A+/B-/B+/AB-/AB+", 
                 "unit" => ""));
-        $measureHB = Measure::create(array("measure_type_id" => "1", "name" => "HB", "measure_range" => "", "unit" => "g/dL"));
-        $measureUrinalysis1 = Measure::create(array("measure_type_id" => "4", "name" => "Urine microscopy", "measure_range" => "", "unit" => ""));
-        $measureUrinalysis2 = Measure::create(array("measure_type_id" => "4", "name" => "Pus cells", "measure_range" => "", "unit" => ""));
-        $measureUrinalysis3 = Measure::create(array("measure_type_id" => "4", "name" => "S. haematobium", "measure_range" => "", "unit" => ""));
-        $measureUrinalysis4 = Measure::create(array("measure_type_id" => "4", "name" => "T. vaginalis", "measure_range" => "", "unit" => ""));
-        $measureUrinalysis5 = Measure::create(array("measure_type_id" => "4", "name" => "Yeast cells", "measure_range" => "", "unit" => ""));
-        $measureUrinalysis6 = Measure::create(array("measure_type_id" => "4", "name" => "Red blood cells", "measure_range" => "", "unit" => ""));
-        $measureUrinalysis7 = Measure::create(array("measure_type_id" => "4", "name" => "Bacteria", "measure_range" => "", "unit" => ""));
-        $measureUrinalysis8 = Measure::create(array("measure_type_id" => "4", "name" => "Spermatozoa", "measure_range" => "", "unit" => ""));
-        $measureUrinalysis9 = Measure::create(array("measure_type_id" => "4", "name" => "Epithelial cells", "measure_range" => "", "unit" => ""));
-        $measureUrinalysis10 = Measure::create(array("measure_type_id" => "4", "name" => "ph", "measure_range" => "", "unit" => ""));
-        $measureUrinalysis11 = Measure::create(array("measure_type_id" => "4", "name" => "Urine chemistry", "measure_range" => "", "unit" => ""));
-        $measureUrinalysis12 = Measure::create(array("measure_type_id" => "4", "name" => "Glucose", "measure_range" => "", "unit" => ""));
-        $measureUrinalysis13 = Measure::create(array("measure_type_id" => "4", "name" => "Ketones", "measure_range" => "", "unit" => ""));
-        $measureUrinalysis14 = Measure::create(array("measure_type_id" => "4", "name" => "Proteins", "measure_range" => "", "unit" => ""));
-        $measureUrinalysis15 = Measure::create(array("measure_type_id" => "4", "name" => "Blood", "measure_range" => "", "unit" => ""));
-        $measureUrinalysis16 = Measure::create(array("measure_type_id" => "4", "name" => "Bilirubin", "measure_range" => "", "unit" => ""));
-        $measureUrinalysis17 = Measure::create(array("measure_type_id" => "4", "name" => "Urobilinogen Phenlpyruvic acid", "measure_range" => "", "unit" => ""));
-        $measureUrinalysis18 = Measure::create(array("measure_type_id" => "4", "name" => "pH", "measure_range" => "", "unit" => ""));
+        $measureHB = Measure::create(array("measure_type_id" => MeasureType::NUMERIC_RANGE, "name" => "HB", "measure_range" => "",
+            "unit" => "g/dL"));
+
+        $measuresUrinalysisData = array(
+            array("measure_type_id" => "4", "name" => "Urine microscopy", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Pus cells", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "S. haematobium", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "T. vaginalis", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Yeast cells", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Red blood cells", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Bacteria", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Spermatozoa", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Epithelial cells", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "ph", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Urine chemistry", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Glucose", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Ketones", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Proteins", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Blood", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Bilirubin", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Urobilinogen Phenlpyruvic acid", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "pH", "measure_range" => "", "unit" => "")
+            );
+
+        foreach ($measuresUrinalysisData as $measureU) {
+            $measuresUrinalysis[] = Measure::create($measureU);
+        }
+
+        $measuresWBCData = array(
+            array("measure_type_id" => MeasureType::NUMERIC_RANGE, "name" => "WBC", "measure_range" => "",
+                "unit" => "x10³/µL"),
+            array("measure_type_id" => MeasureType::NUMERIC_RANGE, "name" => "Lym", "measure_range" => "","unit" => "L"),
+            array("measure_type_id" => MeasureType::NUMERIC_RANGE, "name" => "Mon", "measure_range" => "", "unit" => "*"),
+            array("measure_type_id" => MeasureType::NUMERIC_RANGE, "name" => "Neu", "measure_range" => "", "unit" => "*"),
+            array("measure_type_id" => MeasureType::NUMERIC_RANGE, "name" => "Eos", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => MeasureType::NUMERIC_RANGE, "name" => "Baso", "measure_range" => "", "unit" => ""),
+            );
+
+        foreach ($measuresWBCData as $value) {
+            $measuresWBC[] = Measure::create($value);
+        }
+
+        $measureRangesWBC = array(
+            array("measure_id" => $measuresWBC[0]->id, "age_min" => 0, "age_max" => 100, "gender" => MeasureRange::BOTH,
+                "range_lower" => 4, "range_upper" => 11),
+            array("measure_id" => $measuresWBC[1]->id, "age_min" => 0, "age_max" => 100, "gender" => MeasureRange::BOTH,
+                "range_lower" => 1.5, "range_upper" => 4),
+            array("measure_id" => $measuresWBC[2]->id, "age_min" => 0, "age_max" => 100, "gender" => MeasureRange::BOTH,
+                "range_lower" => 0.1, "range_upper" => 9),
+            array("measure_id" => $measuresWBC[3]->id, "age_min" => 0, "age_max" => 100, "gender" => MeasureRange::BOTH,
+                "range_lower" => 2.5, "range_upper" => 7),
+            array("measure_id" => $measuresWBC[4]->id, "age_min" => 0, "age_max" => 100, "gender" => MeasureRange::BOTH,
+                "range_lower" => 0, "range_upper" => 6),
+            array("measure_id" => $measuresWBC[5]->id, "age_min" => 0, "age_max" => 100, "gender" => MeasureRange::BOTH,
+                "range_lower" => 0, "range_upper" => 2),
+            );
+
+        foreach ($measureRangesWBC as $value) {
+            MeasureRange::create($value);
+        }
 
         $this->command->info('measures seeded');
         
         /* Test Types table */
-        $test_types = TestType::create(array("name" => "BS for mps", "test_category_id" => $test_categories->id));
-        $test_type_gxm = TestType::create(array("name" => "GXM", "test_category_id" => $test_categories->id));
-        $test_type_hb = TestType::create(array("name" => "HB", "test_category_id" => $test_categories->id));
-        $test_type_urinalysis = TestType::create(array("name" => "Urinalysis", "test_category_id" => $test_categories->id));
+        $testTypeBS = TestType::create(array("name" => "BS for mps", "test_category_id" => $test_categories->id));
+        $testTypeGXM = TestType::create(array("name" => "GXM", "test_category_id" => $test_categories->id));
+        $testTypeHB = TestType::create(array("name" => "HB", "test_category_id" => $test_categories->id));
+        $testTypeUrinalysis = TestType::create(array("name" => "Urinalysis", "test_category_id" => $test_categories->id));
+        $testTypeWBC = TestType::create(array("name" => "WBC", "test_category_id" => $test_categories->id));
+
         $this->command->info('test_types seeded');
 
         /* TestType Measure table */
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_types->id, "measure_id" => $measureBSforMPS->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_gxm->id, "measure_id" => $measureGXM->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_gxm->id, "measure_id" => $measureBG->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_hb->id, "measure_id" => $measureHB->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis1->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis2->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis3->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis4->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis5->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis6->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis7->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis8->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis9->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis10->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis11->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis12->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis13->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis14->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis15->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis16->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis17->id));
-        $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_type_urinalysis->id, "measure_id" => $measureUrinalysis18->id));
+        TestTypeMeasure::create(array("test_type_id" => $testTypeBS->id, "measure_id" => $measureBSforMPS->id));
+        TestTypeMeasure::create(array("test_type_id" => $testTypeGXM->id, "measure_id" => $measureGXM->id));
+        TestTypeMeasure::create(array("test_type_id" => $testTypeGXM->id, "measure_id" => $measureBG->id));
+        TestTypeMeasure::create(array("test_type_id" => $testTypeHB->id, "measure_id" => $measureHB->id));
+
+        foreach ($measuresUrinalysis as $value) {
+            TestTypeMeasure::create(array("test_type_id" => $testTypeUrinalysis->id, "measure_id" => $value->id));
+        }
+
+        foreach ($measuresWBC as $value) {
+            TestTypeMeasure::create(array("test_type_id" => $testTypeWBC->id, "measure_id" => $value->id));
+        }
+
+        $this->command->info('testtype_measures seeded');
 
         /* testtype_specimentypes table */
-        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
-            array($test_types->id, $spec_types[count($spec_types)-1]->id));
-        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
-            array($test_type_gxm->id, $spec_types[count($spec_types)-1]->id));
-        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
-            array($test_type_hb->id, $spec_types[count($spec_types)-1]->id));
-        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
-            array($test_type_hb->id, $spec_types[6]->id));
-        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
-            array($test_type_hb->id, $spec_types[7]->id));
-        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
-            array($test_type_hb->id, $spec_types[12]->id));
-        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
-            array($test_type_urinalysis->id, $spec_types[19]->id));
-        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
-            array($test_type_urinalysis->id, $spec_types[20]->id));
+        DB::table('testtype_specimentypes')->insert(
+            array("test_type_id" => $testTypeBS->id, "specimen_type_id" => $specTypes[count($specTypes)-1]->id));
+        DB::table('testtype_specimentypes')->insert(
+            array("test_type_id" => $testTypeGXM->id, "specimen_type_id" => $specTypes[count($specTypes)-1]->id));
+        DB::table('testtype_specimentypes')->insert(
+            array("test_type_id" => $testTypeHB->id, "specimen_type_id" => $specTypes[count($specTypes)-1]->id));
+        DB::table('testtype_specimentypes')->insert(
+            array("test_type_id" => $testTypeHB->id, "specimen_type_id" => $specTypes[6]->id));
+        DB::table('testtype_specimentypes')->insert(
+            array("test_type_id" => $testTypeHB->id, "specimen_type_id" => $specTypes[7]->id));
+        DB::table('testtype_specimentypes')->insert(
+            array("test_type_id" => $testTypeHB->id, "specimen_type_id" => $specTypes[12]->id));
+        DB::table('testtype_specimentypes')->insert(
+            array("test_type_id" => $testTypeUrinalysis->id, "specimen_type_id" => $specTypes[19]->id));
+        DB::table('testtype_specimentypes')->insert(
+            array("test_type_id" => $testTypeUrinalysis->id, "specimen_type_id" => $specTypes[20]->id));
+        DB::table('testtype_specimentypes')->insert(
+            array("test_type_id" => $testTypeWBC->id, "specimen_type_id" => $specTypes[count($specTypes)-1]->id));
 
         $this->command->info('testtype_specimentypes seeded');
 
@@ -308,7 +345,7 @@ class KBLISSeeder extends DatabaseSeeder
         Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
-                "test_type_id" => $test_types->id,//BS for MPS
+                "test_type_id" => $testTypeBS->id,//BS for MPS
                 "specimen_id" => $this->createSpecimen(
                         Test::NOT_RECEIVED, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
@@ -322,7 +359,7 @@ class KBLISSeeder extends DatabaseSeeder
         Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
-                "test_type_id" => $test_type_hb->id,
+                "test_type_id" => $testTypeHB->id,
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
@@ -336,7 +373,7 @@ class KBLISSeeder extends DatabaseSeeder
         Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
-                "test_type_id" => $test_type_gxm->id,
+                "test_type_id" => $testTypeGXM->id,
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
@@ -350,7 +387,7 @@ class KBLISSeeder extends DatabaseSeeder
         Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
-                "test_type_id" => $test_types->id,//BS for MPS
+                "test_type_id" => $testTypeBS->id,//BS for MPS
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::ACCEPTED,
                         SpecimenType::all()->last()->id,
@@ -364,7 +401,7 @@ class KBLISSeeder extends DatabaseSeeder
         $test_gxm_accepted_completed = Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
-                "test_type_id" => $test_type_gxm->id,
+                "test_type_id" => $testTypeGXM->id,
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
@@ -382,7 +419,7 @@ class KBLISSeeder extends DatabaseSeeder
         $test_hb_accepted_completed = Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
-                "test_type_id" => $test_type_hb->id,
+                "test_type_id" => $testTypeHB->id,
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
@@ -400,7 +437,7 @@ class KBLISSeeder extends DatabaseSeeder
         $tests_accepted_started = Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
-                "test_type_id" => $test_type_gxm->id,
+                "test_type_id" => $testTypeGXM->id,
                 "specimen_id" => $this->createSpecimen(
                     Test::STARTED, Specimen::ACCEPTED, SpecimenType::all()->last()->id, 
                     $users[rand(0, count($users)-1)]->id),
@@ -414,7 +451,7 @@ class KBLISSeeder extends DatabaseSeeder
         $tests_accepted_completed = Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
-                "test_type_id" => $test_types->id,//BS for MPS
+                "test_type_id" => $testTypeBS->id,//BS for MPS
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
@@ -432,7 +469,7 @@ class KBLISSeeder extends DatabaseSeeder
         $tests_accepted_verified = Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
-                "test_type_id" => $test_types->id,//BS for MPS
+                "test_type_id" => $testTypeBS->id,//BS for MPS
                 "specimen_id" => $this->createSpecimen(
                         Test::VERIFIED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
@@ -452,7 +489,7 @@ class KBLISSeeder extends DatabaseSeeder
         $tests_rejected_pending = Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
-                "test_type_id" => $test_types->id,//BS for MPS
+                "test_type_id" => $testTypeBS->id,//BS for MPS
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::REJECTED, 
                         SpecimenType::all()->last()->id, 
@@ -465,11 +502,26 @@ class KBLISSeeder extends DatabaseSeeder
                 "time_started" => $now->format('Y-m-d H:i:s'),
             )
         );        
+
+        //  WBC Started
+        Test::create(
+            array(
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
+                "test_type_id" => $testTypeWBC->id,
+                "specimen_id" => $this->createSpecimen(
+                        Test::STARTED, Specimen::ACCEPTED,
+                        SpecimenType::all()->last()->id,
+                        $users[rand(0, count($users)-1)]->id),
+                "test_status_id" => Test::PENDING,
+                "requested_by" => "Fred Astaire",
+                "created_by" => $users[rand(0, count($users)-1)]->id,
+            )
+        );        
         
         $tests_rejected_started = Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
-                "test_type_id" => $test_types->id,//BS for MPS
+                "test_type_id" => $testTypeBS->id,//BS for MPS
                 "specimen_id" => $this->createSpecimen(
                         Test::STARTED, Specimen::REJECTED, 
                         SpecimenType::all()->last()->id, 
@@ -486,7 +538,7 @@ class KBLISSeeder extends DatabaseSeeder
         $tests_rejected_completed = Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
-                "test_type_id" => $test_types->id,//BS for MPS
+                "test_type_id" => $testTypeBS->id,//BS for MPS
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::REJECTED, 
                         SpecimenType::all()->last()->id, 
@@ -503,10 +555,38 @@ class KBLISSeeder extends DatabaseSeeder
             )
         );
 
+        Test::create(
+            array(
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
+                "test_type_id" => $testTypeUrinalysis->id,
+                "specimen_id" => $this->createSpecimen(
+                        Test::PENDING, Specimen::NOT_COLLECTED,
+                        SpecimenType::all()->last()->id,
+                        $users[rand(0, count($users)-1)]->id),
+                "test_status_id" => Test::PENDING,
+                "requested_by" => "Dr. Abou Meyang",
+                "created_by" => $users[rand(0, count($users)-1)]->id,
+            )
+        );        
+        
+        Test::create(
+            array(
+                "visit_id" => $visits[rand(0,count($visits)-1)]->id,
+                "test_type_id" => $testTypeWBC->id,
+                "specimen_id" => $this->createSpecimen(
+                        Test::PENDING, Specimen::NOT_COLLECTED,
+                        SpecimenType::all()->last()->id,
+                        $users[rand(0, count($users)-1)]->id),
+                "test_status_id" => Test::PENDING,
+                "requested_by" => "Dr. Abou Meyang",
+                "created_by" => $users[rand(0, count($users)-1)]->id,
+            )
+        );        
+        
         $test_urinalysis_accepted_completed = Test::create(
             array(
                 "visit_id" => $visits[rand(0,count($visits)-1)]->id,
-                "test_type_id" => $test_type_urinalysis->id,
+                "test_type_id" => $testTypeUrinalysis->id,
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
@@ -555,105 +635,23 @@ class KBLISSeeder extends DatabaseSeeder
                 "test_id" => $tests_rejected_completed->id,
                 "measure_id" => $measureBSforMPS->id,//BS for MPS
                 "result" => "No mps seen",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis1->id,//BS for MPS
-                "result" => "50",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis2->id,//BS for MPS
-                "result" => "1050",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis3->id,//BS for MPS
-                "result" => "2050",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis4->id,//BS for MPS
-                "result" => "3050",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis5->id,//BS for MPS
-                "result" => "4050",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis6->id,//BS for MPS
-                "result" => "5050",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis7->id,//BS for MPS
-                "result" => "6050",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis8->id,//BS for MPS
-                "result" => "7050",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis9->id,//BS for MPS
-                "result" => "8050",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis10->id,//BS for MPS
-                "result" => "9050",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis11->id,//BS for MPS
-                "result" => "10050",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis12->id,//BS for MPS
-                "result" => "11050",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis13->id,//BS for MPS
-                "result" => "12050",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis14->id,//BS for MPS
-                "result" => "130.50",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis15->id,//BS for MPS
-                "result" => "14.50",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis16->id,//BS for MPS
-                "result" => "15050",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis17->id,//BS for MPS
-                "result" => "16050",
-            ),
-            array(
-                "test_id" => $test_urinalysis_accepted_completed->id,
-                "measure_id" => $measureUrinalysis18->id,//BS for MPS
-                "result" => "17050",
-            ),
+            ));
 
-        );
+        foreach ($measuresUrinalysis as $key => $measure) {
+            $testResults[] = array(
+                "test_id" => $test_urinalysis_accepted_completed->id,
+                "measure_id" => $measure->id,
+                "result" => $key."50",
+            );
+        }
+
         foreach ($testResults as $testResult)
         {
             TestResult::create($testResult);
         }
         $this->command->info('test results seeded');
 
+        
         /* Permissions table */
         $permissions = array(
             array("name" => "view_names", "display_name" => "Can view patient names"),
@@ -702,6 +700,21 @@ class KBLISSeeder extends DatabaseSeeder
         }
         //Assign role Administrator to user 1 administrator
         $user1->attachRole($role1);
+
+        /* Instruments table */
+        $instrumentsData = array(
+            "name" => "Celltac F Mek 8222",
+            "description" => "Automatic analyzer with 22 parameters and WBC 5 part diff Hematology Analyzer",
+            "driver_name" => "KBLIS\\Plugins\\CelltacFMachine",
+            "ip" => "192.168.1.12",
+            "hostname" => "HEMASERVER"
+        );
+        
+        $instrument = Instrument::create($instrumentsData);
+        $instrument->testTypes()->attach(array($testTypeWBC->id));
+
+        $this->command->info('Instruments table seeded');
+
 
         $labRequestUrinalysis[] = 
             json_decode('{"cost":null,"receiptNumber":null,"receiptType":null,"labNo":596699,"parentLabNo":0,"requestingClinician":"frankenstein Dr",
@@ -816,6 +829,7 @@ class KBLISSeeder extends DatabaseSeeder
         $lab_section_serology = TestCategory::create(array("name" => "SEROLOGY","description" => ""));
         $lab_section_trans = TestCategory::create(array("name" => "BLOOD TRANSFUSION","description" => ""));
         $this->command->info('Lab Sections seeded');
+
         /* Test Types for prevalence */
         $test_types_salmonella = TestType::create(array("name" => "Salmonella Antigen Test", "test_category_id" => $test_categories->id));
         $test_types_direct = TestType::create(array("name" => "Direct COOMBS Test", "test_category_id" => $lab_section_trans->id));
@@ -859,7 +873,7 @@ class KBLISSeeder extends DatabaseSeeder
         $measure_pregnancy = Measure::create(array("measure_type_id" => "2", "name" => "Pregnancy Test", "measure_range" => "Positive/Negative", "unit" => ""));
         $measure_brucella = Measure::create(array("measure_type_id" => "2", "name" => "Brucella", "measure_range" => "Positive/Negative", "unit" => ""));
         $measure_pylori = Measure::create(array("measure_type_id" => "2", "name" => "H. Pylori", "measure_range" => "Positive/Negative", "unit" => ""));
-        $this->command->info('Measures seeded');
+        $this->command->info('Measures seeded again');
 
         /* TestType Measure for prevalence */
         $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_types_salmonella->id, "measure_id" => $measure_salmonella->id));
@@ -871,7 +885,7 @@ class KBLISSeeder extends DatabaseSeeder
         $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_types_pregnancy->id, "measure_id" => $measure_pregnancy->id));
         $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_types_brucella->id, "measure_id" => $measure_brucella->id));
         $testtype_measure = TestTypeMeasure::create(array("test_type_id" => $test_types_pylori->id, "measure_id" => $measure_pylori->id));
-        $this->command->info('Test Type Measures seeded');
+        $this->command->info('Test Type Measures seeded again');
 
         /*  Tests for prevalence rates  */
         $tests_completed_one = Test::create(array(
@@ -1185,7 +1199,7 @@ class KBLISSeeder extends DatabaseSeeder
                 "time_verified" => "2014-10-02 19:53:48",
             )
         );
-        $this->command->info('Tests seeded');
+        $this->command->info('Tests seeded again');
         //  Test results for prevalence
         $results = array(
             array(
@@ -1293,8 +1307,59 @@ class KBLISSeeder extends DatabaseSeeder
         {
             TestResult::create($result);
         }
-        $this->command->info('Test results seeded');
+        $this->command->info('Test results seeded again');
         //  End prevalence rates seed
+
+        //Seed for facilities
+        $facilitiesSeed = array(
+            array('name' => "ST.DAMIANO MEDICAL CENTRE"),
+            array('name' => "AGA KHAN UNIVERSITY HOSPITAL"),
+            array('name' => "BUNGOMA DISTRICT HOSPITAL CCC"),
+            array('name' => "GK PRISON DISPENSARY, BUNGOMA SOUTH"),
+            array('name' => "KEMRI ALUPE"),
+            array('name' => "AMPATH"),
+            array('name' => "BULONDO DISPENSARY"),
+            array('name' => "BUMULA HEALTH CENTRE"),
+            array('name' => "CBM NALONDO MODEL"),
+            array('name' => "CHEBUKAKA MISSION HOSPITAL"),
+            array('name' => "CHEMWA BRIDGE DISPENSARY"),
+            array('name' => "CHEPTAIS SUBDISTRICT HOSPITAL"),
+            array('name' => "CHWELE SUB COUNTY HOSPITAL"),
+            array('name' => "EKITALE DISPENSARY"),
+            array('name' => "ELGON VIEW MEDICAL COTTAGE"),
+            array('name' => "KABUCHAI HEALTH CENTRE"),
+            array('name' => "KABULA DISPENSARY"),
+            array('name' => "KAPTANAI DISPENSARY"),
+            array('name' => "KEMRI NAIROBI"),
+            array('name' => "KHASOKO HC"),
+            array('name' => "KIBABII  HEALTH CENTRE"),
+            array('name' => "KIBUKE DISPENSARY"),
+            array('name' => "KIMAETI DISPENSARY"),
+            array('name' => "KIMILILI DISTRICT HOSPITAL"),
+            array('name' => "KITALE DISTRICT HOSPITAL"),
+            array('name' => "KOROSIANDET DISPENSARY"),
+            array('name' => "LUMBOKA MEDICAL SERVICES"),
+            array('name' => "LUUYA DISPENSARY"),
+            array('name' => "MACHWELE DISPENSARY"),
+            array('name' => "MALAKISI HEALTH CENTRE"),
+            array('name' => "MAYANJA DISPENSARY"),
+            array('name' => "MECHIMERU DISPENSARY"),
+            array('name' => "MILUKI DISPENSARY"),
+            array('name' => "MUMBULE DISPENSARY"),
+            array('name' => "NALONDO MODEL HEALTH CENTRE"),
+            array('name' => "NASIANDA DISPENSARY"),
+            array('name' => "NGALASIA DISPENSARY"),
+            array('name' => "NZOIA MEDICAL CENTRE"),
+            array('name' => "NZOIA SUGAR  DISPENSARY"),
+            array('name' => "SIBOTI MODEL HEALTH CENTRE"),
+            array('name' => "SIRISIA SUBDISTRICT HOSPITAL"),
+            array('name' => "TAMLEGA DISPENSARY")
+        );
+
+        foreach ($facilitiesSeed as $facility) {
+            Facility::create($facility);
+        }
+        $this->command->info('Facilities table seeded');
     }
 
     public function createSpecimen(

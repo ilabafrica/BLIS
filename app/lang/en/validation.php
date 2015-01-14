@@ -107,16 +107,17 @@ return array(
 	*/
 
 	'attributes' => array(
+		'current_password' => 'Current Password',
 		'email' => 'Email Address',
 		'full_name' => 'Full Name',
-		'password' => 'Password',
-		'username' => 'Username',
-		'current_password' => 'Current Password',
+		'import_file' => 'Select File',
 		'name' => 'Name',
-		'specimentypes' => 'Specimen Types',
-		'testtypes' => 'Tests',
+		'password' => 'Password',
 		'physician' => 'Requesting Physician',
+		'testtypes' => 'Tests',
 		'reject_explained_to' => 'Person Talked To',
+		'specimentypes' => 'Specimen Types',
+		'username' => 'Username',
 		),
 
 );
