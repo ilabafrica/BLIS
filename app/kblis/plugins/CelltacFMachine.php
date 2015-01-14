@@ -3,6 +3,42 @@ namespace KBLIS\Plugins;
  
 class CelltacFMachine extends \KBLIS\Instrumentation\AbstractInstrumentor
 {   
+
+	protected $RESULTS_KEYS = array(
+		        'WBC',
+		        'UNIT-NE',
+		        'UNIT-LY',
+		        'UNIT-MO',
+		        'UNIT-EO',
+		        'UNIT-BA',
+		        'Neu#',
+		        'Lym#',
+		        'Mon#',
+		        'Eos#',
+		        'Baso#',
+		        'RBC',
+		        'HB',
+		        'HCT',
+		        'MCV',
+		        'MCH',
+		        'MCHC',
+		        'RDW',
+		        'PLATELET COUNT',
+		        'PCT',
+		        'MPV',
+		        'PDW'
+		        );
+
+	protected $DATETIME_KEYS = array(
+		        'YEAR-CT',
+		        'MONTH-CT',
+		        'DATE-CT',
+		        'HH-CT',
+		        'MM-CT',
+		        'SS-CT'
+		        );
+
+
 	/**
 	* Returns information about an instrument 
 	*
@@ -32,78 +68,111 @@ class CelltacFMachine extends \KBLIS\Instrumentation\AbstractInstrumentor
 
 		/*-------------
 		* Sample file output
-		*--------------
-		339869         
-		 6.2  
-		17.8L 
-		74.2* 
-		 7.2* 
-		 0.7  
-		 0.1  
-		 1.1L 
-		 4.7* 
-		 0.4* 
-		 0.0  
-		 0.0  
-		4.26  
-		10.5L 
-		35.5L 
-		83.3  
-		24.6L 
-		29.6L 
-		13.0  
-		  35L 
-		0.02L 
-		 7.0  
-		21.3H 
-		*/
+		*339869 6.2  17.8L 74.2*  7.2*  0.7   0.1   1.1L  4.7*  0.4*  0.0   0.0  4.26  10.5L 35.5L 83.3  24.6L 29.6L 13.0    35L 0.02L  7.0  21.3H */
 
 		/*------------------
 		* 22 Test Parameters
 		*-------------------
 		* WBC, LY%, MO%, NE%, EO%, BA%, LY, MO, NE, EO, BA, RBC, HGB, HCT, MCV, MCH, MCHC, RDW, PLT, PCT, MPV, PDW
 		*/
-		switch ($testTypeID) {
-			case 1:
-		    	$result = array(
-		    		"SAMPLE_ID" => "339869",
-		    		"WBC" => "6.2",
-		    		"Lym" => "17.8",
-		    		"Mon" => "74.2",
-		    		"Neu" => "7.2",
-		    		"Eos" => "0.7",
-		    		"Baso" => "0.1"
-			    	);
-				break;
-			default:
-		    	$result = array(
-		    		"SAMPLE_ID" => "339869",
-		    		"WBC" => "6.2",
-		    		"Lym" => "17.8",
-		    		"Mon" => "74.2",
-		    		"Neu" => "7.2",
-		    		"Eos" => "0.7",
-		    		"Baso" => "0.1",
-		    		"LY" => "1.1",
-			    	"MO" => "4.7",
-			    	"NE" => "0.4",
-			    	"EO" => "0.0",
-			    	"BA" => "0.0",
-			    	"RBC" => "4.26",
-			    	"HGB" => "10.5",
-			    	"HCT" => "35.5",
-			    	"MCV" => "83.3",
-			    	"MCH" => "24.6",
-			    	"MCHC" => "29.6",
-			    	"RDW" => "13.0",
-			    	"PLT" => "35",
-			    	"PCT" => "0.02",
-			    	"MPV" => "7.0",
-			    	"PDW" => "21.3"
-			    	);
-				break;
+
+		#
+		#   Get results output, sanitize the output,
+		#   insert results into an array for handling in front end
+		#
+
+		$DUMP_URL = "http://"+$this->ip+"/celltac/celltac.txt";
+
+		$RESULTS_STRING = file_get_contents($DUMP_URL);
+			if ($RESULTS_STRING === FALSE){
+			print "Something went wrong with getting the File";
+		};
+
+		if (strlen($RESULTS_STRING) < 50) {
+			print "Results file is empty, please press print on celltac machine";
+			return;
 		}
 
-        return $result;
+		$arr = preg_split("/\r\n|\n|\r/",$RESULTS_STRING);
+		$COMPLETE_RESULT_ARRAY = array();
+		$RUBBISH = array('\u0003', '\u0002');
+
+		foreach ($arr as $key) {
+			$res_string = trim($key);
+			$res_string = str_replace('+', '', $res_string);
+			if($res_string != ''){
+				$res_string = json_encode($res_string);
+				$res_string = str_replace($RUBBISH, '', $res_string);
+				$res_string = str_replace('"', '', $res_string);
+				$COMPLETE_RESULT_ARRAY[] = $res_string;
+			}
+		}
+
+			//If Results string is reasonably long enough match results
+			if(count($COMPLETE_RESULT_ARRAY > 90)){
+				return $this->match_results($COMPLETE_RESULT_ARRAY);
+			}
+
+		    else{
+				print "Something went wrong, results string too short.";
+				return;
+		    }
+	}
+
+    public function match_results($COMPLETE_RESULT_ARRAY){
+        //Count 98
+        //TODO check array length if too small then invalid
+        //Validate also using PatientID
+
+        $this_year = date('Y');
+
+        //Search for occurences of MEK-8222 string
+        $ARR_COUNT = $this->count_needles_in_haystack('MEK-8222', $COMPLETE_RESULT_ARRAY);
+        if ($ARR_COUNT != 2){
+            //We DO NOT have a valid results with two parts, Results and static values
+            print "Something went wrong : Too many results in celltac log file";
+            return;
+        }
+
+        //Find where date starts and begin recording results from here
+        $keyofyear = array_search(''.$this_year.'', $COMPLETE_RESULT_ARRAY);
+        $DATETIME_VALUES = array_slice($COMPLETE_RESULT_ARRAY, $keyofyear , 6);
+        $DATETIME_ARRAY = array_combine($this->DATETIME_KEYS, $DATETIME_VALUES);
+
+        //TODO Validate $datetime_array
+        //Search using using key of current patient in Results entry page
+        $idKey = $keyofyear + 6;
+        $patientID =  $COMPLETE_RESULT_ARRAY[$idKey];
+
+		//Assuming they have not put patientID in celltac we start reading results immediately
+		$resultsKey = $idKey;
+
+		//sometimes they dont input patient ID thus we have to check to see if its there if not start results
+		if (strpos($patientID, ".") == false) {
+			//There could also be Age / comments inputs Between patient ID and Results
+			$resultsKey = $idKey+1;
+		}
+
+        //TODO Check if Patient ID from results matches with current patient
+        //After $idKey next 22 values are results
+        $RESULTS_VALUES = array_slice($COMPLETE_RESULT_ARRAY, $resultsKey , 22);
+
+        //TODO Need to check if RESULTS Array is valid
+        //Map values to their corresponding keys i.e WBC, LY, MO
+        $RESULTS = array_combine($this->RESULTS_KEYS, $RESULTS_VALUES);
+         if (!$RESULTS) {
+          //Something wrong
+          print "Something went wrong : Keys not equal";
+         }
+         return $RESULTS;
+         //print json_encode($RESULTS);
+         //We have the results now we have to emtyy the text file in prep
+         //For next printed data
+    }
+
+    public function count_needles_in_haystack($needle, $HayStack){
+        //Count number of times needle occurs in array haystack
+        $counts = array_count_values($HayStack);
+        return $counts[$needle];
     }
 }
