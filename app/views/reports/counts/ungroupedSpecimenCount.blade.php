@@ -94,7 +94,7 @@
 		  <table class="table table-striped table-bordered">
 		    <tbody>
 			    <tr>
-			    	<th>{{trans('messages.specimen-type')}}</th>
+			    	<th>{{Lang::choice('messages.specimen-type',2)}}</th>
 			    	<th>{{trans('messages.specimen-accepted')}}</th>
 			    	<th>{{trans('messages.specimen-rejected')}}</th>
 			    	<th>{{trans('messages.total-specimen')}}</th>
