@@ -75,7 +75,7 @@ class TestController extends \BaseController {
 				});
 			}
 
-			$tests = $tests->orderBy('time_created', 'DESC')->paginate(Config::get('kblis.page-items'));
+			$tests = $tests->orderBy('time_created', 'DESC');
 
 			if (count($tests) == 0) {
 			 	Session::flash('message', trans('messages.empty-search'));
@@ -84,14 +84,18 @@ class TestController extends \BaseController {
 		else
 		{
 		// List all the active tests
-			$tests = Test::orderBy('time_created', 'desc')->paginate(Config::get('kblis.page-items'));
+			$tests = Test::orderBy('time_created', 'DESC');
 		}
 
 		// Create Test Statuses array. Include a first entry for ALL
 		$statuses = array('all')+TestStatus::all()->lists('name','id');
+
 		foreach ($statuses as $key => $value) {
 			$statuses[$key] = trans("messages.$value");
 		}
+
+		// Pagination
+		$tests = $tests->paginate(Config::get('kblis.page-items'));
 
 		// Load the view and pass it the tests
 		return View::make('test.index')->with('testSet', $tests)->with('testStatus', $statuses)->withInput(Input::all());
@@ -111,7 +115,7 @@ class TestController extends \BaseController {
 		$test->created_by = Auth::user()->id;
 		$test->save();
 
-		return Redirect::route('test.index');
+		return Redirect::route('test.index')->with('activeTest', array($id));
 	}
 
 	/**
@@ -150,12 +154,12 @@ class TestController extends \BaseController {
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::route('test.create', array(Input::get('patient_id')))
-				->withInput()
-				->withErrors($validator);
+			return Redirect::route('test.create', 
+				array(Input::get('patient_id')))->withInput()->withErrors($validator);
 		} else {
 
 			$visitType = ['In-patient', 'Out-patient'];
+			$activeTest = array();
 
 			/*
 			* - Create a visit
@@ -188,10 +192,15 @@ class TestController extends \BaseController {
 					$test->created_by = Auth::user()->id;
 					$test->requested_by = Input::get('physician');
 					$test->save();
+
+					$activeTest[] = $test->id;
 				}
 			}
 
-			return Redirect::route('test.index')->with('message', 'messages.success-creating-test');
+			$url = Session::get('SOURCE_URL');
+			
+			return Redirect::to($url)->with('message', 'messages.success-creating-test')
+					->with('activeTest', $activeTest);
 		}
 	}
 
@@ -236,8 +245,10 @@ class TestController extends \BaseController {
 			$specimen->reject_explained_to = Input::get('reject_explained_to');
 			$specimen->save();
 			
-			return Redirect::route('test.index')
-				->with('message', 'messages.success-rejecting-specimen');
+			$url = Session::get('SOURCE_URL');
+			
+			return Redirect::to($url)->with('message', 'messages.success-rejecting-specimen')
+						->with('activeTest', array($specimen->test->id));
 		}
 	}
 
@@ -355,7 +366,10 @@ class TestController extends \BaseController {
 		}
 
 		// redirect
-		return Redirect::route('test.index')->with('message', trans('messages.success-saving-results'));
+		$url = Session::get('SOURCE_URL');
+		
+		return Redirect::to($url)->with('message', trans('messages.success-saving-results'))
+					->with('activeTest', array($test->id));
 	}
 
 	/**
@@ -399,4 +413,70 @@ class TestController extends \BaseController {
 		return View::make('test.viewDetails')->with('test', $test);
 	}
 
+	/**
+	 * Refer the test
+	 *
+	 * @param specimenId
+	 * @return View
+	 */
+	public function showRefer($specimenId)
+	{
+		$specimen = Specimen::find($specimenId);
+		$facilities = Facility::all();
+		//Referral facilities
+		return View::make('test.refer')
+			->with('specimen', $specimen)
+			->with('facilities', $facilities);
+
+	}
+
+	/**
+	 * Refer action
+	 *
+	 * @return View
+	 */
+	public function referAction()
+	{
+		//Validate
+		$rules = array(
+			'referral-status' => 'required',
+			'facility_id' => 'required',
+			'person' => 'required',
+			'contacts' => 'required'
+			);
+		$validator = Validator::make(Input::all(), $rules);
+		$specimenId = Input::get('specimen_id');
+
+		if ($validator->fails())
+		{
+			return Redirect::route('test.refer', array($specimenId))-> withInput()->withErrors($validator);
+		}
+
+		//Insert into referral table
+		$referral = new Referral();
+		$referral->status = Input::get('referral-status');
+		$referral->facility_id = Input::get('facility_id');
+		$referral->person = Input::get('person');
+		$referral->contacts = Input::get('contacts');
+		$referral->user_id = Auth::user()->id;
+
+		//Update specimen referral status
+		$specimen = Specimen::find($specimenId);
+
+		DB::transaction(function() use ($referral, $specimen) {
+			$referral->save();
+			$specimen->referral_id = $referral->id;
+			$specimen->save();
+		});
+
+		//Start test
+		Input::merge(array('id' => $specimen->test->id)); //Add the testID to the Input
+		$this->start();
+
+		//Return view
+		$url = Session::get('SOURCE_URL');
+		
+		return Redirect::to($url)->with('message', trans('messages.specimen-successful-refer'))
+					->with('activeTest', array($specimen->test->id));
+	}
 }

@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-	  <li class="active">{{Lang::choice('messages.test-category',1)}}</li>
+	  <li class="active">{{ Lang::choice('messages.test-category',1) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -12,7 +12,7 @@
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-adjust"></span>
-		{{ trans('messages.list-test-categories') }}
+		{{ Lang::choice('messages.test-category',1) }}
 		<div class="panel-btn">
 			<a class="btn btn-sm btn-info" href="{{ URL::to("testcategory/create") }}" >
 				<span class="glyphicon glyphicon-plus-sign"></span>
@@ -24,13 +24,17 @@
 		<table class="table table-striped table-hover table-condensed">
 			<thead>
 				<tr>
-					<th>{{ trans('messages.name') }}</th>
+					<th>{{ Lang::choice('messages.name',1) }}</th>
 					<th>{{ trans('messages.description') }}</th>
 				</tr>
 			</thead>
 			<tbody>
 			@foreach($testcategory as $key => $value)
-				<tr>
+				<tr @if(Session::has('activetestcategory'))
+                            {{(Session::get('activetestcategory') == $value->id)?"class='info'":""}}
+                        @endif
+                        >
+
 					<td>{{ $value->name }}</td>
 					<td>{{ $value->description }}</td>
 					
@@ -60,7 +64,8 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $testcategory->links(); ?>
+		<?php echo $testcategory->links(); 
+		Session::put('SOURCE_URL', URL::full());?>
 	</div>
 </div>
 @stop

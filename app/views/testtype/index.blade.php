@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li class="active">{{Lang::choice('messages.test-type',1)}}</li>
+	  <li class="active">{{ Lang::choice('messages.test-type',1) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -24,7 +24,7 @@
 		<table class="table table-striped table-hover table-condensed">
 			<thead>
 				<tr>
-					<th>{{Lang::choice('messages.name',1)}}</th>
+					<th>{{ Lang::choice('messages.name',1) }}</th>
 					<th>{{trans('messages.description')}}</th>
 					<th>{{trans('messages.target-turnaround-time')}}</th>
 					<th>{{trans('messages.prevalence-threshold')}}</th>
@@ -32,7 +32,10 @@
 			</thead>
 			<tbody>
 			@foreach($testtypes as $key => $value)
-				<tr>
+				<tr @if(Session::has('activetesttype'))
+                            {{(Session::get('activetesttype') == $value->id)?"class='info'":""}}
+                        @endif
+                        >
 					<td>{{ $value->name }}</td>
 					<td>{{ $value->description }}</td>
 					<td>{{ $value->targetTAT }}</td>
@@ -64,7 +67,8 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $testtypes->links(); ?>
+		<?php echo $testtypes->links(); 
+		Session::put('SOURCE_URL', URL::full());?>
 	</div>
 </div>
 @stop

@@ -4,7 +4,7 @@
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
 	  <li>
-	  	<a href="{{ URL::route('specimentype.index') }}">{{Lang::choice('messages.specimen-type',2)}}</a>
+	  	<a href="{{ URL::route('specimentype.index') }}">{{ Lang::choice('messages.specimen-type',2) }}</a>
 	  </li>
 	  <li class="active">{{trans('messages.create-specimen-type')}}</li>
 	</ol>

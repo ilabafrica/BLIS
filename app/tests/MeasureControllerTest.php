@@ -11,12 +11,12 @@ class MeasureControllerTest extends TestCase
 	 * @return void
 	 */
 	public function setup()
-    	{
-	    	parent::setUp();
-	    	Artisan::call('migrate');
-      		Artisan::call('db:seed');
-    		$this->setVariables();
-    	}
+	{
+		parent::setUp();
+		Artisan::call('migrate');
+		Artisan::call('db:seed');
+		$this->setVariables();
+	}
 	/**
 	 * Tests the store funtion in the MeasureController
 	 *
@@ -89,18 +89,23 @@ class MeasureControllerTest extends TestCase
 		$this->runStore($this->inputFreetext);
 
 		$measurestored = Measure::orderBy('id','desc')->take(4)->get()->toArray();
+		$measureUricAcid = Measure::where('name', 'LIKE', '%uric%')->first();
+
 		// Update the Measure Types
 		// The second argument is the test type ID
-		$this->runUpdate($this->inputNumericUpdate, $measurestored[3]['id']);
+		$this->runUpdate($this->inputNumericUpdate, $measureUricAcid->id);
 		$this->runUpdate($this->inputAlphanumericUpdate, $measurestored[2]['id']);
 		$this->runUpdate($this->inputAutocompleteUpdate, $measurestored[1]['id']);
 		$this->runUpdate($this->inputFreetextUpdate, $measurestored[0]['id']);
 		
 		$measureupdated = Measure::orderBy('id','desc')->take(4)->get()->toArray();
-		$this->assertEquals($measureupdated[3]['name'] , $this->inputNumericUpdate['name']);
-		$this->assertEquals($measureupdated[3]['measure_type_id'] ,$this->inputNumericUpdate['measure_type_id']);
-		$this->assertEquals($measureupdated[3]['unit'] ,$this->inputNumericUpdate['unit']);
-		$this->assertEquals($measureupdated[3]['description'] ,$this->inputNumericUpdate['description']);
+		$measureNewUricAcid = Measure::find($measureUricAcid->id);
+
+		// Check that the measure values for the uric acid measure were updated
+		$this->assertEquals($measureNewUricAcid->name , $this->inputNumericUpdate['name']);
+		$this->assertEquals($measureNewUricAcid->measure_type_id ,$this->inputNumericUpdate['measure_type_id']);
+		$this->assertEquals($measureNewUricAcid->unit ,$this->inputNumericUpdate['unit']);
+		$this->assertEquals($measureNewUricAcid->description ,$this->inputNumericUpdate['description']);
 		
 		$this->assertEquals($measureupdated[2]['name'] , $this->inputAlphanumericUpdate['name']);
 		$this->assertEquals($measureupdated[2]['measure_type_id'] , $this->inputAlphanumericUpdate['measure_type_id']);

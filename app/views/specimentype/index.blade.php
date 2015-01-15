@@ -1,9 +1,11 @@
+
 @extends("layout")
 @section("content")
 <div>
+
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li class="active">{{Lang::choice('messages.specimen-type',2)}}</li>
+	  <li class="active">{{ Lang::choice('messages.specimen-type',2) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -24,13 +26,17 @@
 		<table class="table table-striped table-hover table-condensed">
 			<thead>
 				<tr>
-					<th>{{Lang::choice('messages.home',2)}}</th>
+					<th>{{ Lang::choice('messages.name',2) }}</th>
 					<th>{{trans('messages.description')}}</th>
 				</tr>
 			</thead>
 			<tbody>
 			@foreach($specimentypes as $key => $value)
-				<tr>
+				<tr @if(Session::has('activespecimentype'))
+                            {{(Session::get('activespecimentype') == $value->id)?"class='info'":""}}
+                        @endif
+                        >
+
 					<td>{{ $value->name }}</td>
 					<td>{{ $value->description }}</td>
 
@@ -45,7 +51,9 @@
 					<!-- edit this specimentype (uses the edit method found at GET /specimentype/{id}/edit -->
 						<a class="btn btn-sm btn-info" href="{{ URL::to("specimentype/" . $value->id . "/edit") }}" >
 							<span class="glyphicon glyphicon-edit"></span>
+
 							{{trans('messages.edit')}}
+
 						</a>
 					<!-- delete this specimentype (uses delete method found at GET /specimentype/{id}/delete -->
 						<button class="btn btn-sm btn-danger delete-item-link" 
@@ -60,7 +68,9 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $specimentypes->links(); ?>
+		<?php echo $specimentypes->links();
+		Session::put('SOURCE_URL', URL::full()); ?>
+		
 	</div>
 </div>
 @stop

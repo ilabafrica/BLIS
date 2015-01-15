@@ -66,7 +66,9 @@ class PatientController extends \BaseController {
 
 			try{
 				$patient->save();
-				return Redirect::to('patient')->with('message', 'Successfully created patient!');
+			$url = Session::get('SOURCE_URL');
+			return Redirect::to($url)
+			->with('message', 'Successfully created patient!');
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -140,7 +142,10 @@ class PatientController extends \BaseController {
 			$patient->save();
 
 			// redirect
-			return Redirect::to('patient')->with('message', 'The patient details were successfully updated!');
+			$url = Session::get('SOURCE_URL');
+			return Redirect::to($url)
+			->with('message', 'The patient details were successfully updated!') ->with('activepatient',$patient ->id);
+
 		}
 	}
 
@@ -169,7 +174,9 @@ class PatientController extends \BaseController {
 		$patient->delete();
 
 		// redirect
-		return Redirect::to('patient')->with('message', 'The patient was successfully deleted!');
+			$url = Session::get('SOURCE_URL');
+			return Redirect::to($url)
+			->with('message', 'The patient was successfully deleted!');
 	}
 
 	/**
@@ -179,12 +186,7 @@ class PatientController extends \BaseController {
 	 */
 	public function search()
 	{
-        return Patient::select('id', 'patient_number','name')
-                ->where(function($query){
-                    $txt = Input::get('text');
-                    $query->where("name", "LIKE", "%".$txt."%")
-                        ->orWhere("patient_number", "LIKE", "%".$txt."%");
-                })->take(Config::get('kblis.limit-items'))->get()->toJson();
+        return Patient::search(Input::get('text'))->take(Config::get('kblis.limit-items'))->get()->toJson();
 	}
 
 }

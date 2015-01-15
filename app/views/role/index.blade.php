@@ -3,7 +3,7 @@
 <div>
     <ol class="breadcrumb">
       <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-      <li class="active">{{Lang::choice('messages.role',2)}}</li>
+      <li class="active">{{ Lang::choice('messages.role', 2) }}</li>
     </ol>
 </div>
 @if (Session::has('message'))
@@ -12,11 +12,11 @@
 <div class="panel panel-primary">
     <div class="panel-heading ">
         <span class="glyphicon glyphicon-user"></span>
-        {{Lang::choice('messages.role', 2)}}
+        {{ Lang::choice('messages.role', 2) }}
         <div class="panel-btn">
             <a class="btn btn-sm btn-info" href="{{ URL::to("role/create") }}" >
                 <span class="glyphicon glyphicon-plus-sign"></span>
-                {{Lang::choice('messages.new-role', 2)}}
+                {{trans('messages.new-role')}}
             </a>
         </div>
     </div>
@@ -24,14 +24,16 @@
         <table class="table table-striped table-hover table-condensed">
             <thead>
                 <tr>
-                    <th>{{Lang::choice('messages.name', 1)}}</th>
+                    <th>{{ Lang::choice('messages.name', 1 ) }}</th>
                     <th>{{trans('messages.description')}}</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
             @forelse($roles as $role)
-                <tr>
+                <tr @if(Session::has('activerole'))
+                            {{(Session::get('activerole') == $role->id)?"class='info'":""}}
+                        @endif>
                     <td>{{ $role->name }}</td>
                     <td>{{ $role->description }}</td>
                     <td>
@@ -53,7 +55,8 @@
             @endforelse
             </tbody>
         </table>
-        <?php echo $roles->links(); ?>
+        <?php echo $roles->links(); 
+        Session::put('SOURCE_URL', URL::full());?>
     </div>
 </div>
 @stop

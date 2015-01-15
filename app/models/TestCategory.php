@@ -19,8 +19,10 @@ class TestCategory extends Eloquent
 	protected $table = 'test_categories';
 
 	/**
-	 * Validation rules for test categories
+	 * Test types relationship
 	 *
 	 */
-	public static $rules = array('name' => 'required|unique:test_categories,name');
+	public function testTypes(){
+         return $this->hasMany('TestType', 'test_category_id');
+      }
 }

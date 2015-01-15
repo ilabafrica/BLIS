@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li class="active">{{Lang::choice('messages.patient',2)}}</li>
+	  <li class="active">{{ Lang::choice('messages.patient',2) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -34,7 +34,10 @@
 			</thead>
 			<tbody>
 			@foreach($patients as $key => $value)
-				<tr>
+				<tr  @if(Session::has('activepatient'))
+                            {{(Session::get('activepatient') == $value->id)?"class='info'":""}}
+                        @endif
+                        >
 					<td>{{ $value->patient_number }}</td>
 					<td>{{ $value->name }}</td>
 					<td>{{ $value->email }}</td>
@@ -67,7 +70,8 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $patients->links(); ?>
+		<?php echo $patients->links(); 
+		Session::put('SOURCE_URL', URL::full());?>
 	</div>
 </div>
 @stop

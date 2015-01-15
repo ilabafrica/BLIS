@@ -8,7 +8,7 @@
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
 		  <li>
-		  	<a href="{{ URL::route('testcategory.index') }}">{{Lang::choice('messages.test-category',1)}}</a>
+		  	<a href="{{ URL::route('testcategory.index') }}">{{ Lang::choice('messages.test-category',1) }}</a>
 		  </li>
 		  <li class="active">{{ trans('messages.edit-test-category') }}</li>
 		</ol>

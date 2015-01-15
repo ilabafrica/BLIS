@@ -3,7 +3,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-		  <li><a href="{{ URL::route('test.index') }}">{{Lang::choice('messages.test',2)}}</a></li>
+		  <li><a href="{{ URL::route('test.index') }}">{{ Lang::choice('messages.test',2) }}</a></li>
 		  <li class="active">{{ trans('messages.edit') }}</li>
 		</ol>
 	</div>
@@ -13,9 +13,21 @@
 	            <div class="row less-gutter">
 		            <div class="col-md-11">
 						<span class="glyphicon glyphicon-filter"></span>{{ trans('messages.edit') }}
+                        @if($test->testType->instruments->count() > 0)
+                        <div class="panel-btn">
+                            <a class="btn btn-sm btn-info fetch-test-data" href="javascript:void(0)"
+                                title="{{trans('messages.fetch-test-data-title')}}"
+                                data-test-type-id="{{$test->testType->id}}"
+                                data-url="{{URL::route('instrument.getResult')}}"
+                                data-instrument-count="{{$test->testType->instruments->count()}}">
+                                <span class="glyphicon glyphicon-plus-sign"></span>
+                                {{trans('messages.fetch-test-data')}}
+                            </a>
+                        </div>
+                        @endif
 					</div>
 		            <div class="col-md-1">
-		                <a class="btn btn-sm btn-primary pull-right" href="{{URL::previous()}}"
+		                <a class="btn btn-sm btn-primary pull-right" href="#" onclick="window.history.back();return false;"
 		                    alt="{{trans('messages.back')}}" title="{{trans('messages.back')}}">
 		                    <span class="glyphicon glyphicon-backward"></span></a>
 		            </div>
@@ -29,17 +41,18 @@
 					{{ HTML::ul($errors->all()) }}
 				</div>
 			@endif
-            {{ Form::open(array('url' => 'test/'.$test->id.'/saveresults',
-                'method' => 'POST', 'id' => 'form-enter-results')) }}
-                @foreach($test->testType->measures as $measure)
-                    <div class="form-group">
-                        <?php
-                        $ans = "";
-                        foreach ($test->testResults as $res) {
-                            if($res->measure_id == $measure->id)$ans = $res->result;
-                        }
-                    	$fieldName = "m_".$measure->id;
-                        ?>
+			{{ Form::open(array('route' => array('test.saveResults', $test->id), 'method' => 'POST')) }}
+				@foreach($test->testType->measures as $measure)
+					<div class="form-group">
+						<?php
+						$ans = "";
+						foreach ($test->testResults as $res) {
+							if($res->measure_id == $measure->id)$ans = $res->result;
+						}
+						 ?>
+					<?php
+					$fieldName = "m_".$measure->id;
+					?>
 						@if ( $measure->isNumeric() ) 
 	                        {{ Form::label($fieldName , $measure->name) }}
 	                        {{ Form::text($fieldName, $ans, array(

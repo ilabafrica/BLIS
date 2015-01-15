@@ -85,6 +85,85 @@ class Test extends Eloquent
 	}
 
 	/**
+	 * Check to see if test is external or internal
+	 *
+	 * @return boolean
+	 */
+	public function isExternal()
+	{
+		if($this->external_id == null){
+			return false;
+		}
+		else 
+			return true;
+	}
+
+	/**
+	 * Helper function: check if the Test status is NOT_RECEIVED
+	 *
+	 * @return boolean
+	 */
+	public function isNotReceived()
+	{
+		if($this->test_status_id == Test::NOT_RECEIVED)
+			return true;
+		else 
+			return false;
+	}
+
+	/**
+	 * Helper function: check if the Test status is PENDING
+	 *
+	 * @return boolean
+	 */
+	public function isPending()
+	{
+		if($this->test_status_id == Test::PENDING)
+			return true;
+		else 
+			return false;
+	}
+
+	/**
+	 * Helper function: check if the Test status is STARTED
+	 *
+	 * @return boolean
+	 */
+	public function isStarted()
+	{
+		if($this->test_status_id == Test::STARTED)
+			return true;
+		else 
+			return false;
+	}
+
+	/**
+	 * Helper function: check if the Test status is COMPLETED
+	 *
+	 * @return boolean
+	 */
+	public function isCompleted()
+	{
+		if($this->test_status_id == Test::COMPLETED)
+			return true;
+		else 
+			return false;
+	}
+
+	/**
+	 * Helper function: check if the Test status is VERIFIED
+	 *
+	 * @return boolean
+	 */
+	public function isVerified()
+	{
+		if($this->test_status_id == Test::VERIFIED)
+			return true;
+		else 
+			return false;
+	}
+
+	/**
 	 * Wait Time: Time difference from test reception to start
 	 */
 	public function getWaitTime()
@@ -132,5 +211,28 @@ class Test extends Eloquent
 
 		return $ftat;
 	}
+
+/**
+ * Get results by page
+ *
+ * @param int $page
+ * @param int $limit
+ * @return StdClass
+ */
+public function getByPage($page = 1, $limit = 10)
+{
+  $results = StdClass;
+  $results->page = $page;
+  $results->limit = $limit;
+  $results->totalItems = 0;
+  $results->items = array();
+ 
+  $users = $this->model->skip($limit * ($page - 1))->take($limit)->get();
+ 
+  $results->totalItems = $this->model->count();
+  $results->items = $users->all();
+ 
+  return $results;
+}
 
 }
