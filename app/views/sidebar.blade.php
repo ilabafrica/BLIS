@@ -121,12 +121,6 @@
 								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.measures')}}</a>
 						</div>
 					</li>
-					<li>
-						<div>
-							<a href="{{ URL::route("trial.datatables")}}" >
-								<span class="glyphicon glyphicon-tag"></span> Datatables</a>
-						</div>
-					</li>
 				</ul>
 			</div>
 		</li>

@@ -206,9 +206,28 @@ class TestTypeController extends \BaseController {
 	 */
 	public function apiDatatable(){
 		return Datatable::collection(TestType::all())
-        ->showColumns('id','name')
+        ->showColumns('name', 'description','targetTAT','prevalence_threshold')
+        /*->addColumn('Decription', function($testType){
+        	return $testtype->test_categories()->first()->name;
+        })*/
+        ->addColumn('View', function ($testType) {
+                return '<a class="btn btn-sm btn-success" href="testtype/'.$testType->id.'" >
+							<span class="glyphicon glyphicon-eye-open"></span>
+							View
+						</a>';})
+        ->addColumn('Edit', function($testType) {
+                return '<a class="btn btn-sm btn-info" href="testtype/'.$testType->id.'/edit" >
+							<span class="glyphicon glyphicon-edit"></span>
+							Edit</a>';})
+        ->addColumn('Delete', function($testType) {
+                return '<button class="btn btn-sm btn-danger delete-item-link"
+							data-toggle="modal" data-target=".confirm-delete-modal"	
+							data-id="testtype/'.$testType->id.'/delete">
+							<span class="glyphicon glyphicon-trash"></span>
+							Delete
+						</button>';})
         ->searchColumns('name')
-        ->orderColumns('id','name')
+        ->orderColumns('name')
         ->make();
 	}
 }
