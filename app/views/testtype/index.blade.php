@@ -40,7 +40,7 @@
 
 						{{ Datatable::table()
 					    ->addColumn('Name','Description','Target Turnaround Time ', 'Prevalence Threshold', ' ',' ',' ')       // these are the column headings to be shown
-					    ->setUrl(route('trial.datatables'))   // this is the route where data will be retrieved
+					    ->setUrl(route('testtyp.datatables'))   // this is the route where data will be retrieved
 					    ->render() }}
 				</body>
 			</html>

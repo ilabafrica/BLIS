@@ -108,7 +108,7 @@ Route::group(array("before" => "auth"), function()
             "uses" => "SpecimenRejectionController@delete"
         ));
         Route::get('datatables', 'TestTypeController@dt');
-        Route::get('trial/datatables', array('as'=>'trial.datatables', 'uses'=>'TestTypeController@apiDatatable'));
+        Route::get('testtyp/datatables', array('as'=>'testtyp.datatables', 'uses'=>'TestTypeController@apiDatatable'));
     });
 
     Route::group(array("before" => "checkPerms:manage_lab_configurations"), function()
