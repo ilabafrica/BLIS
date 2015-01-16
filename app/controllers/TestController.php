@@ -324,8 +324,8 @@ class TestController extends \BaseController {
 	/**
 	 * Saves Test Results
 	 *
-	 * @param
-	 * @return
+	 * @param $testID to save
+	 * @return view
 	 */
 	public function saveResults($testID)
 	{
@@ -342,9 +342,11 @@ class TestController extends \BaseController {
 			$testResult->save();
 		}
 
+		//Fire of entry saved/edited event
+		Event::fire('test.saved', array($testID));
+
 		// redirect
 		$url = Session::get('SOURCE_URL');
-		
 		return Redirect::to($url)->with('message', trans('messages.success-saving-results'))
 					->with('activeTest', array($test->id));
 	}

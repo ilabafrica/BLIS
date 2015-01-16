@@ -301,6 +301,11 @@ Event::listen('illuminate.query', function($query)
         Log::info($query);
 });
 
+Event::listen('test.saved', function($testId)
+{
+    Interfacer::send($testId);
+});
+
 //TO DO: move events to app/events.php or somewhere else
 Event::listen('api.receivedLabRequest', function($labRequest)
 {
