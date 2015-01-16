@@ -52,7 +52,7 @@
 							<div class="form-group">
 								{{ Form::hidden('patient_id', $patient->id) }}
 								{{ Form::label('visit_type', trans("messages.visit-type")) }}
-								{{ Form::select('visit_type', [trans("messages.out-patient"),trans("messages.in-patient")], null,
+								{{ Form::select('visit_type', ["",trans("messages.out-patient"),trans("messages.in-patient")], null,
 									 array('class' => 'form-control')) }}
 							</div>
 							<div class="form-group">

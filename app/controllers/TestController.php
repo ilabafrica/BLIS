@@ -147,6 +147,7 @@ class TestController extends \BaseController {
 	{
 		//Create New Test
 		$rules = array(
+			'visit_type' => 'non_zero_key',
 			'physician' => 'required',
 			'testtypes' => 'required',
 		);
