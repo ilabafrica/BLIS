@@ -87,66 +87,101 @@ class TestDataSeeder extends DatabaseSeeder
         $measureBSforMPS = Measure::create(
             array("measure_type_id" => "2",
                 "name" => "BS for mps", 
-                "measure_range" => "No mps seen/+/++/+++/++++", 
                 "unit" => ""));
+        $measure1 = Measure::create(array("measure_type_id" => "2", "name" => "Grams stain", "unit" => ""));
+        $measure2 = Measure::create(array("measure_type_id" => "2", "name" => "SERUM AMYLASE", "unit" => ""));
+        $measure3 = Measure::create(array("measure_type_id" => "2", "name" => "calcium", "unit" => ""));
+        $measure4 = Measure::create(array("measure_type_id" => "2", "name" => "SGOT", "unit" => ""));
+        $measure5 = Measure::create(array("measure_type_id" => "2", "name" => "Indirect COOMBS test", "unit" => ""));
+        $measure6 = Measure::create(array("measure_type_id" => "2", "name" => "Direct COOMBS test", "unit" => ""));
+        $measure7 = Measure::create(array("measure_type_id" => "2", "name" => "Du test", "unit" => ""));
+        
+        MeasureRange::create(array("measure_id" => $measureBSforMPS->id, "alphanumeric" => "No mps seen", "interpretation" => "Negative"));
+        MeasureRange::create(array("measure_id" => $measureBSforMPS->id, "alphanumeric" => "+", "interpretation" => "Positive"));
+        MeasureRange::create(array("measure_id" => $measureBSforMPS->id, "alphanumeric" => "++", "interpretation" => "Positive"));
+        MeasureRange::create(array("measure_id" => $measureBSforMPS->id, "alphanumeric" => "+++", "interpretation" => "Positive"));
+        
+        MeasureRange::create(array("measure_id" => $measure1->id, "alphanumeric" => "Negative"));
+        MeasureRange::create(array("measure_id" => $measure1->id, "alphanumeric" => "Positive"));
+
+        MeasureRange::create(array("measure_id" => $measure2->id, "alphanumeric" => "Low"));
+        MeasureRange::create(array("measure_id" => $measure2->id, "alphanumeric" => "High"));
+        MeasureRange::create(array("measure_id" => $measure2->id, "alphanumeric" => "Normal"));
+
+        MeasureRange::create(array("measure_id" => $measure3->id, "alphanumeric" => "High"));
+        MeasureRange::create(array("measure_id" => $measure3->id, "alphanumeric" => "Low"));
+        MeasureRange::create(array("measure_id" => $measure3->id, "alphanumeric" => "Normal"));
+
+        MeasureRange::create(array("measure_id" => $measure4->id, "alphanumeric" => "High"));
+        MeasureRange::create(array("measure_id" => $measure4->id, "alphanumeric" => "Low"));
+        MeasureRange::create(array("measure_id" => $measure4->id, "alphanumeric" => "Normal"));
+        
+        MeasureRange::create(array("measure_id" => $measure5->id, "alphanumeric" => "Positive"));
+        MeasureRange::create(array("measure_id" => $measure5->id, "alphanumeric" => "Negative"));
+
+        MeasureRange::create(array("measure_id" => $measure6->id, "alphanumeric" => "Positive"));
+        MeasureRange::create(array("measure_id" => $measure6->id, "alphanumeric" => "Negative"));
+
+        MeasureRange::create(array("measure_id" => $measure7->id, "alphanumeric" => "Positive"));
+        MeasureRange::create(array("measure_id" => $measure7->id, "alphanumeric" => "Negative"));
         $measures = array(
-            array("measure_type_id" => "2", "name" => "Grams stain", "measure_range" => "Positive/Negative", "unit" => ""),
-            array("measure_type_id" => "2", "name" => "SERUM AMYLASE", "measure_range" => "Low/Normal/High", "unit" => ""),
-            array("measure_type_id" => "2", "name" => "calcium", "measure_range" => "Low/Normal/High", "unit" => ""),
-            array("measure_type_id" => "1", "name" => "URIC ACID", "measure_range" => "", "unit" => "mg/dl"),
-            array("measure_type_id" => "4", "name" => "CSF for biochemistry", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "PSA", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "1", "name" => "Total", "measure_range" => "", "unit" => "mg/dl"),
-            array("measure_type_id" => "1", "name" => "Alkaline Phosphate", "measure_range" => "", "unit" => "u/l"),
-            array("measure_type_id" => "2", "name" => "SGOT", "measure_range" => "Low/Normal/High", "unit" => ""),
-            array("measure_type_id" => "1", "name" => "Direct", "measure_range" => "", "unit" => "mg/dl"),
-            array("measure_type_id" => "1", "name" => "Total Proteins", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "LFTS", "measure_range" => "", "unit" => "NULL"),
-            array("measure_type_id" => "1", "name" => "Chloride", "measure_range" => "", "unit" => "mmol/l"),
-            array("measure_type_id" => "1", "name" => "Potassium", "measure_range" => "", "unit" => "mmol/l"),
-            array("measure_type_id" => "1", "name" => "Sodium", "measure_range" => "", "unit" => "mmol/l"),
-            array("measure_type_id" => "4", "name" => "Electrolytes", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "1", "name" => "Creatinine", "measure_range" => "", "unit" => "mg/dl"),
-            array("measure_type_id" => "1", "name" => "Urea", "measure_range" => "", "unit" => "mg/dl"),
-            array("measure_type_id" => "4", "name" => "RFTS", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "TFT", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "2", "name" => "Indirect COOMBS test", "measure_range" => "Positive/Negative", "unit" => ""),
-            array("measure_type_id" => "2", "name" => "Direct COOMBS test", "measure_range" => "Positive/Negative", "unit" => ""),
-            array("measure_type_id" => "2", "name" => "Du test", "measure_range" => "Positive/Negative", "unit" => "")
+            array("measure_type_id" => "1", "name" => "URIC ACID", "unit" => "mg/dl"),
+            array("measure_type_id" => "4", "name" => "CSF for biochemistry", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "PSA", "unit" => ""),
+            array("measure_type_id" => "1", "name" => "Total", "unit" => "mg/dl"),
+            array("measure_type_id" => "1", "name" => "Alkaline Phosphate", "unit" => "u/l"),
+            array("measure_type_id" => "1", "name" => "Direct", "unit" => "mg/dl"),
+            array("measure_type_id" => "1", "name" => "Total Proteins", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "LFTS", "unit" => "NULL"),
+            array("measure_type_id" => "1", "name" => "Chloride", "unit" => "mmol/l"),
+            array("measure_type_id" => "1", "name" => "Potassium", "unit" => "mmol/l"),
+            array("measure_type_id" => "1", "name" => "Sodium", "unit" => "mmol/l"),
+            array("measure_type_id" => "4", "name" => "Electrolytes", "unit" => ""),
+            array("measure_type_id" => "1", "name" => "Creatinine", "unit" => "mg/dl"),
+            array("measure_type_id" => "1", "name" => "Urea", "unit" => "mg/dl"),
+            array("measure_type_id" => "4", "name" => "RFTS", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "TFT", "unit" => ""),
         );
 
         foreach ($measures as $measure)
         {
             Measure::create($measure);
         }
-        $measureGXM = Measure::create(array("measure_type_id" => "4", "name" => "GXM", "measure_range" => "", "unit" => ""));
+        $measureGXM = Measure::create(array("measure_type_id" => "4", "name" => "GXM", "unit" => ""));
         $measureBG = Measure::create(
-            array("measure_type_id" => "2", 
+            array("measure_type_id" => "2",
                 "name" => "Blood Grouping", 
-                "measure_range" => "O-/O+/A-/A+/B-/B+/AB-/AB+", 
                 "unit" => ""));
-        $measureHB = Measure::create(array("measure_type_id" => MeasureType::NUMERIC_RANGE, "name" => "HB", "measure_range" => "",
+        MeasureRange::create(array("measure_id" => $measureBG->id, "alphanumeric" => "O-"));
+        MeasureRange::create(array("measure_id" => $measureBG->id, "alphanumeric" => "O+"));
+        MeasureRange::create(array("measure_id" => $measureBG->id, "alphanumeric" => "A-"));
+        MeasureRange::create(array("measure_id" => $measureBG->id, "alphanumeric" => "A+"));
+        MeasureRange::create(array("measure_id" => $measureBG->id, "alphanumeric" => "B-"));
+        MeasureRange::create(array("measure_id" => $measureBG->id, "alphanumeric" => "B+"));
+        MeasureRange::create(array("measure_id" => $measureBG->id, "alphanumeric" => "AB-"));
+        MeasureRange::create(array("measure_id" => $measureBG->id, "alphanumeric" => "AB+"));        
+        $measureHB = Measure::create(array("measure_type_id" => Measure::NUMERIC, "name" => "HB", 
             "unit" => "g/dL"));
 
         $measuresUrinalysisData = array(
-            array("measure_type_id" => "4", "name" => "Urine microscopy", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "Pus cells", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "S. haematobium", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "T. vaginalis", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "Yeast cells", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "Red blood cells", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "Bacteria", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "Spermatozoa", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "Epithelial cells", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "ph", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "Urine chemistry", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "Glucose", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "Ketones", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "Proteins", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "Blood", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "Bilirubin", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "Urobilinogen Phenlpyruvic acid", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => "4", "name" => "pH", "measure_range" => "", "unit" => "")
+            array("measure_type_id" => "4", "name" => "Urine microscopy", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Pus cells", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "S. haematobium", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "T. vaginalis", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Yeast cells", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Red blood cells", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Bacteria", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Spermatozoa", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Epithelial cells", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "ph", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Urine chemistry", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Glucose", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Ketones", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Proteins", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Blood", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Bilirubin", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "Urobilinogen Phenlpyruvic acid", "unit" => ""),
+            array("measure_type_id" => "4", "name" => "pH", "unit" => "")
             );
 
         foreach ($measuresUrinalysisData as $measureU) {
@@ -154,13 +189,13 @@ class TestDataSeeder extends DatabaseSeeder
         }
 
         $measuresWBCData = array(
-            array("measure_type_id" => MeasureType::NUMERIC_RANGE, "name" => "WBC", "measure_range" => "",
+            array("measure_type_id" => Measure::NUMERIC, "name" => "WBC", 
                 "unit" => "x10³/µL"),
-            array("measure_type_id" => MeasureType::NUMERIC_RANGE, "name" => "Lym", "measure_range" => "","unit" => "L"),
-            array("measure_type_id" => MeasureType::NUMERIC_RANGE, "name" => "Mon", "measure_range" => "", "unit" => "*"),
-            array("measure_type_id" => MeasureType::NUMERIC_RANGE, "name" => "Neu", "measure_range" => "", "unit" => "*"),
-            array("measure_type_id" => MeasureType::NUMERIC_RANGE, "name" => "Eos", "measure_range" => "", "unit" => ""),
-            array("measure_type_id" => MeasureType::NUMERIC_RANGE, "name" => "Baso", "measure_range" => "", "unit" => ""),
+            array("measure_type_id" => Measure::NUMERIC, "name" => "Lym", "unit" => "L"),
+            array("measure_type_id" => Measure::NUMERIC, "name" => "Mon", "unit" => "*"),
+            array("measure_type_id" => Measure::NUMERIC, "name" => "Neu", "unit" => "*"),
+            array("measure_type_id" => Measure::NUMERIC, "name" => "Eos", "unit" => ""),
+            array("measure_type_id" => Measure::NUMERIC, "name" => "Baso", "unit" => ""),
             );
 
         foreach ($measuresWBCData as $value) {
@@ -840,6 +875,7 @@ class TestDataSeeder extends DatabaseSeeder
         $test_types_pregnancy = TestType::create(array("name" => "Pregnancy Test", "test_category_id" => $lab_section_serology->id));
         $test_types_brucella = TestType::create(array("name" => "Brucella", "test_category_id" => $lab_section_serology->id));
         $test_types_pylori = TestType::create(array("name" => "H. Pylori", "test_category_id" => $lab_section_serology->id));
+
         $this->command->info('Test Types seeded');
 
         /* Test Types and specimen types relationship for prevalence */
@@ -864,15 +900,33 @@ class TestDataSeeder extends DatabaseSeeder
         $this->command->info('TestTypes/SpecimenTypes seeded');
         
         /*New measures for prevalence*/
-        $measure_salmonella = Measure::create(array("measure_type_id" => "2", "name" => "Salmonella Antigen Test", "measure_range" => "Positive/Negative", "unit" => ""));
-        $measure_direct = Measure::create(array("measure_type_id" => "2", "name" => "Direct COOMBS Test", "measure_range" => "Positive/Negative", "unit" => ""));
-        $measure_du = Measure::create(array("measure_type_id" => "2", "name" => "Du Test", "measure_range" => "Positive/Negative", "unit" => ""));
-        $measure_sickling = Measure::create(array("measure_type_id" => "2", "name" => "Sickling Test", "measure_range" => "Positive/Negative", "unit" => ""));
-        $measure_borrelia = Measure::create(array("measure_type_id" => "2", "name" => "Borrelia", "measure_range" => "Positive/Negative", "unit" => ""));
-        $measure_vdrl = Measure::create(array("measure_type_id" => "2", "name" => "VDRL", "measure_range" => "Positive/Negative", "unit" => ""));
-        $measure_pregnancy = Measure::create(array("measure_type_id" => "2", "name" => "Pregnancy Test", "measure_range" => "Positive/Negative", "unit" => ""));
-        $measure_brucella = Measure::create(array("measure_type_id" => "2", "name" => "Brucella", "measure_range" => "Positive/Negative", "unit" => ""));
-        $measure_pylori = Measure::create(array("measure_type_id" => "2", "name" => "H. Pylori", "measure_range" => "Positive/Negative", "unit" => ""));
+        $measure_salmonella = Measure::create(array("measure_type_id" => "2", "name" => "Salmonella Antigen Test", "unit" => ""));
+        $measure_direct = Measure::create(array("measure_type_id" => "2", "name" => "Direct COOMBS Test", "unit" => ""));
+        $measure_du = Measure::create(array("measure_type_id" => "2", "name" => "Du Test", "unit" => ""));
+        $measure_sickling = Measure::create(array("measure_type_id" => "2", "name" => "Sickling Test", "unit" => ""));
+        $measure_borrelia = Measure::create(array("measure_type_id" => "2", "name" => "Borrelia", "unit" => ""));
+        $measure_vdrl = Measure::create(array("measure_type_id" => "2", "name" => "VDRL", "unit" => ""));
+        $measure_pregnancy = Measure::create(array("measure_type_id" => "2", "name" => "Pregnancy Test", "unit" => ""));
+        $measure_brucella = Measure::create(array("measure_type_id" => "2", "name" => "Brucella", "unit" => ""));
+        $measure_pylori = Measure::create(array("measure_type_id" => "2", "name" => "H. Pylori", "unit" => ""));
+        MeasureRange::create(array("measure_id" => $measure_salmonella->id, "alphanumeric" => "Positive"));
+        MeasureRange::create(array("measure_id" => $measure_salmonella->id, "alphanumeric" => "Negative"));
+        MeasureRange::create(array("measure_id" => $measure_direct->id, "alphanumeric" => "Positive"));
+        MeasureRange::create(array("measure_id" => $measure_direct->id, "alphanumeric" => "Negative"));
+        MeasureRange::create(array("measure_id" => $measure_du->id, "alphanumeric" => "Positive"));
+        MeasureRange::create(array("measure_id" => $measure_du->id, "alphanumeric" => "Negative"));
+        MeasureRange::create(array("measure_id" => $measure_sickling->id, "alphanumeric" => "Positive"));
+        MeasureRange::create(array("measure_id" => $measure_sickling->id, "alphanumeric" => "Negative"));
+        MeasureRange::create(array("measure_id" => $measure_borrelia->id, "alphanumeric" => "Positive"));
+        MeasureRange::create(array("measure_id" => $measure_borrelia->id, "alphanumeric" => "Negative"));
+        MeasureRange::create(array("measure_id" => $measure_vdrl->id, "alphanumeric" => "Positive"));
+        MeasureRange::create(array("measure_id" => $measure_vdrl->id, "alphanumeric" => "Negative"));
+        MeasureRange::create(array("measure_id" => $measure_pregnancy->id, "alphanumeric" => "Positive"));
+        MeasureRange::create(array("measure_id" => $measure_pregnancy->id, "alphanumeric" => "Negative"));
+        MeasureRange::create(array("measure_id" => $measure_brucella->id, "alphanumeric" => "Positive"));
+        MeasureRange::create(array("measure_id" => $measure_brucella->id, "alphanumeric" => "Negative"));
+        MeasureRange::create(array("measure_id" => $measure_pylori->id, "alphanumeric" => "Positive"));
+        MeasureRange::create(array("measure_id" => $measure_pylori->id, "alphanumeric" => "Negative"));
         $this->command->info('Measures seeded again');
 
         /* TestType Measure for prevalence */
