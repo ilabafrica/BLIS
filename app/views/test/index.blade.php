@@ -78,8 +78,8 @@
                 <thead>
                     <tr>
                         <th>{{trans('messages.date-ordered')}}</th>
-                        <th>{{trans('messages.patient-name')}}</th>
                         <th>{{trans('messages.patient-number')}}</th>
+                        <th>{{trans('messages.patient-name')}}</th>
                         <th>{{ Lang::choice('messages.test',1) }}</th>
                         <th>{{trans('messages.visit-type')}}</th>
                         <th>{{trans('Visit Number')}}</th>
@@ -94,8 +94,8 @@
                         @endif
                         >
                         <td>{{ $test->time_created }}</td>              <!--Date Ordered-->
-                        <td>{{ $test->visit->patient->name }}</td>      <!--Patient Name -->
                         <td>{{ $test->visit->patient->patient_number }}</td>      <!--Patient Number -->
+                        <td>{{ $test->visit->patient->name }}</td>      <!--Patient Name -->
                         <td>{{ $test->testType->name }}</td>            <!--Test-->
                         <td>{{ $test->visit->visit_type }}</td>         <!--Visit Type -->
                         <td>{{ $test->visit->visit_number }}</td>     <!--Visit Number -->
