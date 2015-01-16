@@ -79,9 +79,10 @@
                     <tr>
                         <th>{{trans('messages.date-ordered')}}</th>
                         <th>{{trans('messages.patient-name')}}</th>
+                        <th>{{trans('messages.patient-number')}}</th>
                         <th>{{ Lang::choice('messages.test',1) }}</th>
                         <th>{{trans('messages.visit-type')}}</th>
-                        <th>{{trans('messages.test-phase')}}</th>
+                        <th>{{trans('Visit Number')}}</th>
                         <th>{{trans('messages.test-status')}}</th>
                     </tr>
                 </thead>
@@ -94,9 +95,10 @@
                         >
                         <td>{{ $test->time_created }}</td>              <!--Date Ordered-->
                         <td>{{ $test->visit->patient->name }}</td>      <!--Patient Name -->
+                        <td>{{ $test->visit->patient->patient_number }}</td>      <!--Patient Number -->
                         <td>{{ $test->testType->name }}</td>            <!--Test-->
                         <td>{{ $test->visit->visit_type }}</td>         <!--Visit Type -->
-                        <td>{{ $test->testStatus->testPhase->name }}</td><!--Test Phase -->
+                        <td>{{ $test->visit->visit_number }}</td>     <!--Visit Number -->
                         <td id="test-status-{{$test->id}}" class='test-status'>
                             <!-- Test Statuses -->
                             <div class="container-fluid">
