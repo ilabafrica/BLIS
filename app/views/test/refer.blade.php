@@ -49,8 +49,8 @@
                         {{trans('messages.out')}}</span></div>
                 </div>
                 <div class="form-group">
-                    {{ Form::label('facility', Lang::choice("messages.facility",2)) }}
-                    {{ Form::select('facility_id', $facilities->lists('name', 'id'), Input::old('facility_id'),
+                    {{ Form::label('facility', Lang::choice("messages.facility",1)) }}
+                    {{ Form::select('facility_id', $facilities, Input::old('facility_id'),
                         array('class' => 'form-control')) }}
                 </div>
                 <div class="form-group">

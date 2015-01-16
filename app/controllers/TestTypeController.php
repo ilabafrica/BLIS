@@ -31,7 +31,8 @@ class TestTypeController extends \BaseController {
 	{
 		$measures = Measure::orderBy('name')->get();
 		$specimentypes = SpecimenType::orderBy('name')->get();
-		$testcategory = TestCategory::all();
+		$testcategory = TestCategory::all()->lists('name', 'id');
+		$testcategory = array_merge(array(0 => ''), $testcategory);
 		//Create TestType
 		return View::make('testtype.create')
 					->with('testcategory', $testcategory)
@@ -49,7 +50,7 @@ class TestTypeController extends \BaseController {
 		//
 		$rules = array(
 			'name' => 'required|unique:test_types,name',
-			'test_category_id' => 'required',
+			'test_category_id' => 'non_zero_key',
 			'specimentypes' => 'required',
 			'measures' => 'required',
 		);
@@ -108,7 +109,8 @@ class TestTypeController extends \BaseController {
 		$testtype = TestType::find($id);
 		$measures = Measure::orderBy('name')->get();
 		$specimentypes = SpecimenType::orderBy('name')->get();
-		$testcategory = TestCategory::all();
+		$testcategory = TestCategory::all()->lists('name', 'id');
+		$testcategory = array_merge(array(0 => ''), $testcategory);
 
 		//Open the Edit View and pass to it the $testtype
 		return View::make('testtype.edit')
@@ -129,7 +131,7 @@ class TestTypeController extends \BaseController {
 		//
 		$rules = array(
 			'name' => 'required',
-			'test_category_id' => 'required',
+			'test_category_id' => 'non_zero_key',
 			'specimentypes' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);

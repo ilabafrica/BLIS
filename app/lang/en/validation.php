@@ -53,6 +53,7 @@ return array(
 		"array"   => "The :attribute must have at least :min items.",
 	),
 	"not_in"               => "The selected :attribute is invalid.",
+	"non_zero_key"         => "The ':attribute' field is required.",
 	"numeric"              => "The :attribute must be a number.",
 	"regex"                => "The :attribute format is invalid.",
 	"required"             => "The ':attribute' field is required.",
@@ -108,16 +109,22 @@ return array(
 
 	'attributes' => array(
 		'current_password' => 'Current Password',
+		'contacts' => 'Contacts',
 		'email' => 'Email Address',
 		'full_name' => 'Full Name',
+		'facility_id' => 'Facility',
 		'import_file' => 'Select File',
 		'name' => 'Name',
 		'password' => 'Password',
+		'person' => 'Person',
 		'physician' => 'Requesting Physician',
+		'test_category_id' => 'Lab Section',
 		'testtypes' => 'Tests',
 		'reject_explained_to' => 'Person Talked To',
+		'rejectionReason' => 'Reason',
 		'specimentypes' => 'Specimen Types',
 		'username' => 'Username',
+		'visit_type' => 'Visit Type',
 		),
 
 );

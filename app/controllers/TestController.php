@@ -214,7 +214,8 @@ class TestController extends \BaseController {
 	public function reject($specimenID)
 	{
 		$specimen = Specimen::find($specimenID);
-		$rejectionReason = RejectionReason::all();
+		$rejectionReason = RejectionReason::all()->lists('reason', 'id');
+		$rejectionReason = array_merge(array(0 => ''), $rejectionReason);
 		return View::make('test.reject')->with('specimen', $specimen)
 						->with('rejectionReason', $rejectionReason);
 	}
@@ -229,7 +230,7 @@ class TestController extends \BaseController {
 	{
 		//Reject justifying why.
 		$rules = array(
-			'rejectionReason' => 'required',
+			'rejectionReason' => 'non_zero_key',
 			'reject_explained_to' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
@@ -400,7 +401,8 @@ class TestController extends \BaseController {
 	public function showRefer($specimenId)
 	{
 		$specimen = Specimen::find($specimenId);
-		$facilities = Facility::all();
+		$facilities = Facility::all()->lists('name', 'id');
+		$facilities = array_merge(array(0 => ''), $facilities);
 		//Referral facilities
 		return View::make('test.refer')
 			->with('specimen', $specimen)
@@ -418,7 +420,7 @@ class TestController extends \BaseController {
 		//Validate
 		$rules = array(
 			'referral-status' => 'required',
-			'facility_id' => 'required',
+			'facility_id' => 'non_zero_key',
 			'person' => 'required',
 			'contacts' => 'required'
 			);

@@ -24,7 +24,7 @@
 			{{ Form::open(array('route' => 'facility.store', 'id' => 'form-add-facility')) }}
 
 				<div class="form-group">
-					{{ Form::label('name', trans('messages.name')) }}
+					{{ Form::label('name', Lang::choice('messages.name',2)) }}
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group actions-row">
