@@ -107,6 +107,8 @@ Route::group(array("before" => "auth"), function()
             "as"   => "specimenrejection.delete",
             "uses" => "SpecimenRejectionController@delete"
         ));
+        Route::get('datatables', 'TestTypeController@dt');
+        Route::get('testtyp/datatables', array('as'=>'testtyp.datatables', 'uses'=>'TestTypeController@apiDatatable'));
     });
 
     Route::group(array("before" => "checkPerms:manage_lab_configurations"), function()
@@ -285,11 +287,6 @@ Route::group(array("before" => "auth"), function()
         Route::any("/prevalence", array(
             "as"   => "reports.aggregate.prevalence",
             "uses" => "ReportController@prevalenceRates"
-        ));
-
-        Route::any("/counts", array(
-            "as"   => "reports.aggregate.counts",
-            "uses" => "ReportController@countReports"
         ));
         
     });

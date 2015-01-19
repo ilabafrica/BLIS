@@ -105,9 +105,9 @@
 					<th colspan="6">{{trans('messages.specimen')}}</th>
 				</tr>
 				<tr>
-					<th>{{ Lang::choice('messages.specimen-type', 1)}}</th>
-					<th>{{ Lang::choice('messages.test', 2)}}</th>
-					<th>{{ Lang::choice('messages.test-category', 2)}}</th>
+					<th>{{ trans('messages.specimen-type')}}</th>
+					<th>{{ trans('messages.tests')}}</th>
+					<th>{{ trans('messages.test-category')}}</th>
 					<th>{{ trans('messages.specimen-status')}}</th>
 					<th>{{ trans('messages.collected-by')."/".trans('messages.rejected-by')}}</th>
 					<th>{{ trans('messages.date-checked')}}</th>
@@ -145,7 +145,7 @@
 					<th colspan="8">{{trans('messages.test-results')}}</th>
 				</tr>
 				<tr>
-					<th>{{Lang::choice('messages.test-type', 1)}}</th>
+					<th>{{trans('messages.test-type')}}</th>
 					<th>{{trans('messages.test-results-values')}}</th>
 					<th>{{trans('messages.test-remarks')}}</th>
 					<th>{{trans('messages.tested-by')}}</th>
