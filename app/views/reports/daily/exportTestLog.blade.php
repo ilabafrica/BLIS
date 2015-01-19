@@ -40,7 +40,7 @@
 			<th>{{trans('messages.specimen-number-title')}}</th>
 			<th>{{trans('messages.specimen')}}</th>
 			<th>{{trans('messages.lab-receipt-date')}}</th>
-			<th>{{ Lang::choice('messages.test', 2) }}</th>
+			<th>{{trans('messages.tests')}}</th>
 			<th>{{trans('messages.tested-by')}}</th>
 			<th>{{trans('messages.test-results')}}</th>
 			<th>{{trans('messages.test-remarks')}}</th>

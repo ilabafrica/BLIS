@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li><a href="{{ URL::route('testtype.index') }}">{{ Lang::choice('messages.test-type',1) }}</a></li>
+	  <li><a href="{{ URL::route('testtype.index') }}">{{trans('messages.test-type')}}</a></li>
 	  <li class="active">{{trans('messages.create-test-type')}}</li>
 	</ol>
 </div>
@@ -23,7 +23,7 @@
 		@endif
 
 			<div class="form-group">
-				{{ Form::label('name', Lang::choice('messages.name',1)) }}
+				{{ Form::label('name', trans('messages.name')) }}
 				{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
@@ -32,7 +32,7 @@
 					array('class' => 'form-control', 'rows' => '2')) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('test_category_id', Lang::choice('messages.test-category',1)) }}
+				{{ Form::label('test_category_id', trans('messages.test-category')) }}
 				{{ Form::select('test_category_id', $testcategory->lists('name', 'id'), Input::old('test_category_id'),
 					array('class' => 'form-control')) }}
 			</div>

@@ -3,7 +3,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-		  <li><a href="{{ URL::route('specimentype.index') }}">{{ Lang::choice('messages.specimen-type',2) }}</a></li>
+		  <li><a href="{{ URL::route('specimentype.index') }}">{{trans('messages.specimen-types')}}</a></li>
 		  <li class="active">{{trans('messages.specimen-type-details')}}</li>
 		</ol>
 	</div>
@@ -20,7 +20,7 @@
 		</div>
 		<div class="panel-body">
 			<div class="display-details">
-				<h3 class="view"><strong>{{ Lang::choice('messages.name',1) }}</strong>{{ $specimentype->name }} </h3>
+				<h3 class="view"><strong>{{trans('messages.name')}}</strong>{{ $specimentype->name }} </h3>
 				<p class="view-striped"><strong>{{trans('messages.description')}}</strong>
 					{{ $specimentype->description }}</p>
 				<p class="view"><strong>{{trans('messages.date-created')}}</strong>{{ $specimentype->created_at }}</p>

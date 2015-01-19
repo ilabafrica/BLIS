@@ -15,11 +15,11 @@
 		case 'measure': 
 		case 'specimentype': 
 		case 'specimenrejection': 
+		case 'datatable':
 			$active[4] = "active"; break;
 		case 'patientreport': 
 		case 'dailylog': 
 		case 'prevalence':
-		case 'counts':
 			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
@@ -37,7 +37,7 @@
 		<li>
 			<div class="main-menu {{$active[1]}}">
 				<a href="{{ URL::route('patient.index')}}">
-					<span class="glyphicon glyphicon-download-alt"></span> {{ Lang::choice('messages.patient', 2)}}</a>
+					<span class="glyphicon glyphicon-download-alt"></span> {{trans('messages.patients')}}</a>
 			</div>
 		</li>
 		<li>
@@ -64,7 +64,7 @@
 					<li>
 						<div>
 							<span class="glyphicon glyphicon-tag"></span>
-							{{ Lang::choice('messages.report', 2)}}
+							{{trans('messages.reports')}}
 						</div>
 					</li>
 				</ul>
@@ -94,13 +94,13 @@
 					<li>
 						<div>
 							<a href="{{ URL::route("testcategory.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.test-category', 2)}}</a>
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.test-categories')}}</a>
 						</div>
 					</li>
 					<li>
 						<div>
 							<a href="{{ URL::route("specimentype.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.specimen-type', 2)}}</a>
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.specimen-types')}}</a>
 						</div>
 					</li>
 					<li>
@@ -112,13 +112,13 @@
 					<li>
 						<div>
 							<a href="{{ URL::route("testtype.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.test-type', 2)}}</a>
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.test-types')}}</a>
 						</div>
 					</li>
 					<li>
 						<div>
 							<a href="{{ URL::route("measure.index")}}" >
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.measure', 2)}}</a>
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.measures')}}</a>
 						</div>
 					</li>
 				</ul>
@@ -129,7 +129,7 @@
 		<li>
 			<div class="main-menu {{$active[5]}}">
 				<a href="{{ URL::route('reports.patient.index')}}">
-					<span class="glyphicon glyphicon-stats"></span> {{ Lang::choice('messages.report', 2)}}</a>
+					<span class="glyphicon glyphicon-stats"></span> {{trans('messages.reports')}}</a>
 			</div>
 			<div class="sub-menu {{$active[5]}}">
 				<div class="sub-menu-title">{{trans('messages.daily-reports')}}</div>
@@ -157,9 +157,9 @@
 						</div>
 					</li>
 					<li>
-						<div><a href="{{ URL::route('reports.aggregate.counts')}}">
+						<div>
 							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.counts')}}</a>
+							{{trans('messages.counts')}}
 						</div>
 					</li>
 					<li>
@@ -195,13 +195,13 @@
 					<li>
 						<div>
 							<a href="{{ URL::route("permission.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.permission', 2)}}</a>
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.permissions')}}</a>
 						</div>
 					</li>
 					<li>
 						<div>
 							<a href="{{ URL::route("role.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.role', 2)}}</a>
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.roles')}}</a>
 						</div>
 					</li>
 					<li>

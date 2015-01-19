@@ -40,7 +40,7 @@
                         <div class="input-group">
                             <span class="input-group-addon glyphicon glyphicon-lock"></span>
                             {{ Form::password("password", array(
-                                "placeholder" => Lang::choice('messages.password',1),
+                                "placeholder" => trans('messages.password'),
                                 "class" => "form-control"
                             )) }}
                         </div>

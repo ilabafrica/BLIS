@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-	  <li class="active"><a href="{{ URL::route('reports.patient.index') }}">{{ Lang::choice('messages.report', 2) }}</a></li>
+	  <li class="active"><a href="{{ URL::route('reports.patient.index') }}">{{ trans('messages.reports') }}</a></li>
 	  <li class="active">{{ trans('messages.daily-log') }}</li>
 	</ol>
 </div>
@@ -69,7 +69,7 @@
 	  	<div class="col-sm-6">
 	    	<div class="row">
 				<div class="col-sm-3">
-					{{ Form::label('section_id', Lang::choice('messages.test-category', 2)) }}
+					{{ Form::label('section_id', trans("messages.test-category")) }}
 				</div>
 			  	<div class="col-sm-3">
 					{{ Form::select('section_id', array(''=>trans('messages.select-lab-section'))+$labSections, 
@@ -81,7 +81,7 @@
 		<div class="col-sm-6">
 	    	<div class="row">
 				<div class="col-sm-3">
-					{{ Form::label('description', Lang::choice('messages.test-type', 2)) }}
+					{{ Form::label('description', trans("messages.test-type")) }}
 				</div>
 				<div class="col-sm-3">
 					{{ Form::select('test_type', array('' => trans('messages.select-test-type'))+$testTypes, 
@@ -128,14 +128,14 @@
 			<table class="table table-bordered">
 				<tbody>
 					<tr>
-						<th>{{ trans('messages.specimen-number-title') }}</th>
-						<th>{{ trans('messages.specimen') }}</th>
-						<th>{{ trans('messages.lab-receipt-date') }}</th>
-						<th>{{ Lang::choice('messages.test', 2) }}</th>
-						<th>{{ trans('messages.test-category') }}</th>
-						<th>{{ trans('messages.rejection-reason-title') }}</th>
-						<th>{{ trans('messages.reject-explained-to') }}</th>
-						<th>{{ trans('messages.date-rejected') }}</th>
+						<th>{{trans('messages.specimen-number-title')}}</th>
+						<th>{{trans('messages.specimen')}}</th>
+						<th>{{trans('messages.lab-receipt-date')}}</th>
+						<th>{{trans('messages.tests')}}</th>
+						<th>{{trans('messages.test-category')}}</th>
+						<th>{{trans('messages.rejection-reason-title')}}</th>
+						<th>{{trans('messages.reject-explained-to')}}</th>
+						<th>{{trans('messages.date-rejected')}}</th>
 					</tr>
 					@forelse($specimens as $specimen)
 					<tr>
@@ -149,7 +149,7 @@
 						<td>{{ $specimen->time_rejected }}</td>
 					</tr>
 					@empty
-					<tr><td colspan="8">{{ trans('messages.no-records-found') }}</td></tr>
+					<tr><td colspan="8">{{trans('messages.no-records-found')}}</td></tr>
 					@endforelse
 				</tbody>
 			</table>

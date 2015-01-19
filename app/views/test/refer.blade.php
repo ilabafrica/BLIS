@@ -3,7 +3,7 @@
     <div>
         <ol class="breadcrumb">
           <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-          <li><a href="{{ URL::route('test.index') }}">{{ Lang::choice('messages.test', 2) }}</a></li>
+          <li><a href="{{ URL::route('test.index') }}">{{trans('messages.tests')}}</a></li>
           <li class="active">{{trans('messages.referrals')}}</li>
         </ol>
     </div>
@@ -36,7 +36,7 @@
                     <p><strong>{{trans('messages.specimen-type-title')}}</strong>
                         {{$specimen->specimenType->name}}</p>
                     <p>
-                    <p><strong>{{ Lang::choice('messages.test-type',1) }}</strong>
+                    <p><strong>{{trans('messages.test-type')}}</strong>
                         {{$specimen->test->testType->name}}</p>
                     </p>
                 </div>
