@@ -137,6 +137,7 @@ class TestControllerTest extends TestCase
       // Get the form and set the form values
       $form = $crawler->selectButton(trans('messages.save-test'))->form();
       $form['physician'] = 'Dr. Jack Aroe';
+      $form['visit_type'] = '1';
       foreach ($form['testtypes'] as $testType) {
         $testType->tick();
       }
