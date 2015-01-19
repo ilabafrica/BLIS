@@ -50,7 +50,7 @@
                 </div>
                 <div class="form-group">
                     {{ Form::label('facility', Lang::choice("messages.facility",1)) }}
-                    {{ Form::select('facility_id', $facilities, Input::old('facility_id'),
+                    {{ Form::select('facility_id', array(0 => '')+$facilities->lists('name', 'id'), Input::old('facility_id'),
                         array('class' => 'form-control')) }}
                 </div>
                 <div class="form-group">

@@ -44,7 +44,7 @@
 				</div>
 				<div class="form-group">
 					{{ Form::label('rejectionReason', trans('messages.rejection-reason')) }}
-					{{ Form::select('rejectionReason', $rejectionReason,
+					{{ Form::select('rejectionReason', array(0 => '')+$rejectionReason->lists('reason', 'id'),
 						Input::old('rejectionReason'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">
