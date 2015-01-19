@@ -200,14 +200,9 @@ class SanitasInterfacer implements InterfacerInterface{
             {
                 //Specimen
                 $specimen = new Specimen();
-                
-                Log::info("Test type ID". $testTypeId);
-                Log::info("Specimen Types". TestType::find($testTypeId)->specimenTypes);
-
                 $specimen->specimen_type_id = TestType::find($testTypeId)->specimenTypes->lists('id')[0];
 
                 // We'll save the Specimen in a transaction a little bit below
-
                 $test = new Test();
                 $test->test_type_id = $testTypeId;
                 $test->test_status_id = Test::NOT_RECEIVED;
