@@ -47,7 +47,7 @@
 							<h3 class="view"><strong>{{ Lang::choice('messages.test-type',1) }}</strong>
 								{{ $test->testType->name or trans('messages.unknown') }}</h3>
 							<p class="view"><strong>{{trans('messages.visit-number')}}</strong>
-								{{$test->visit->id or trans('messages.unknown') }}</p>
+								{{$test->visit->visit_number or trans('messages.unknown') }}</p>
 							<p class="view"><strong>{{trans('messages.lab-receipt-date')}}</strong>
 								{{$test->time_created}}</p>
 							<p class="view"><strong>{{trans('messages.test-status')}}</strong>

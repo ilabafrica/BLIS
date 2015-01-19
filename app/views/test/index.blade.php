@@ -77,9 +77,10 @@
             <table class="table table-striped table-hover table-condensed">
                 <thead>
                     <tr>
+                        <th>{{trans('messages.specimen-id')}}</th>
                         <th>{{trans('messages.date-ordered')}}</th>
                         <th>{{trans('messages.patient-number')}}</th>
-                        <th>{{trans('Visit Number')}}</th>
+                        <th>{{trans('messages.visit-number')}}</th>
                         <th>{{trans('messages.patient-name')}}</th>
                         <th>{{ Lang::choice('messages.test',1) }}</th>
                         <th>{{trans('messages.visit-type')}}</th>
@@ -93,6 +94,7 @@
                             {{ in_array($test->id, Session::get('activeTest'))?"class='info'":""}}
                         @endif
                         >
+                        <td>{{ substr($test->testType->testCategory->name,0,3).'-'.$test->specimen_id }}</td>      <!--Patient Number -->
                         <td>{{ date('d-m-Y H:i', strtotime($test->time_created));}}</td>        <!--Date Ordered-->
                         <td>{{ $test->visit->patient->patient_number }}</td>      <!--Patient Number -->
                         <td>{{ $test->visit->visit_number }}</td>     <!--Visit Number -->

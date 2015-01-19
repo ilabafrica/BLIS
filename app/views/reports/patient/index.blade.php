@@ -31,7 +31,7 @@
 			<thead>
 				<tr>
 					<th>{{trans('messages.patient-number')}}</th>
-					<th>{{trans('messages.visit-number')}}</th>
+					<th>{{trans('messages.patient-lab-number')}}</th>
 					<th>{{trans('messages.gender')}}</th>
 					<th>{{trans('messages.date-of-birth')}}</th>
 					<th>{{trans('messages.actions')}}</th>
@@ -41,7 +41,7 @@
 			@forelse($patients as $key => $value)
 				<tr>
 					<td>{{ $value->patient_number }}</td>
-					<td>{{ $value->external_patient_number }}</td>
+					<td>{{ $value->id }}</td>
 					<td>{{ ($value->gender==Patient::MALE?trans('messages.male'):trans('messages.female')) }}</td>
 					<td>{{ $value->dob }}</td>
 

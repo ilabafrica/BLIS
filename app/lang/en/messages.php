@@ -125,6 +125,7 @@ return array(
     'specimen-accepted' => 'Accepted',
     'specimen-accepted-label' => 'Specimen Accepted',
     'specimen-details' => 'Specimen Details',
+    'specimen-id' => 'Specimen ID',
     'specimen-number' => 'ID',
     'specimen-number-title' => 'Specimen ID',
     'specimen-not-collected' => 'Not Collected',
@@ -270,7 +271,8 @@ return array(
     'verify-title' => 'Verify Test Results',
     'view-details' => 'View',
     'view-details-title' => 'View Test Details',
-    'visit-number' => 'Lab No.',
+    'visit-number' => 'Visit Number',
+    'patient-lab-number' => 'Lab No.',
     'visit-type' => 'Visit Type',
 
     /** 
