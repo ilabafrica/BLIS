@@ -389,6 +389,9 @@ class TestController extends \BaseController {
 		$test->verified_by = Auth::user()->id;
 		$test->save();
 
+		//Fire of entry verified event
+		Event::fire('test.verified', array($testID));
+
 		return View::make('test.viewDetails')->with('test', $test);
 	}
 

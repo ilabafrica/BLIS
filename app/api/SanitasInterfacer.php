@@ -64,28 +64,27 @@ class SanitasInterfacer implements InterfacerInterface{
         $labNo = $externRequest->lists('labNo')[0];
         $externlabRequestTree = $externalDump->getLabRequestAndMeasures($labNo);
 
-        $resultForMainTest = "";
+        $interpretation = "";
         //IF the test has no children prepend the status to the result
         if ($externlabRequestTree->isEmpty()) {
             if($test->test_status_id == Test::COMPLETED){
-                $resultForMainTest = "Done: ".$test->interpretation;
+                $interpretation = "Done: ".$test->interpretation;
             }
             elseif ($test->test_status_id == Test::VERIFIED) {
-                $resultForMainTest = "Tested and verified: ".$test->interpretation;
+                $interpretation = "Tested and verified: ".$test->interpretation;
             }
         }
         //IF the test has children, prepend the status to the interpretation
         else {
-            
             if($test->test_status_id == Test::COMPLETED){
-                $resultForMainTest = "Done ".$test->interpretation;
+                $interpretation = "Done ".$test->interpretation;
             }
             elseif ($test->test_status_id == Test::VERIFIED) {
-                $resultForMainTest = "Tested and verified ".$test->interpretation;
+                $interpretation = "Tested and verified ".$test->interpretation;
             }
         }
         $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
-            $labNo, $test->tested_by, $resultForMainTest, $test->verified_by, $test->test_status_id);
+            $labNo, $test->tested_by, $testResults->first()->result, $test->verified_by, $interpretation);
         $this->sendRequest($httpCurl, $jsonResponseString, $labNo);
 
         //loop through labRequests and foreach of them get the result and put in an array
@@ -102,7 +101,7 @@ class SanitasInterfacer implements InterfacerInterface{
                 $matchingResult = $testResults->get($rKey);
 
                 $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
-                            $externlabRequest->labNo, $test->tested_by, $matchingResult->result, $test->tested_by, $test->test_status_id);
+                            $externlabRequest->labNo, $test->tested_by, $matchingResult->result, $test->tested_by, "");
                 $this->sendRequest($httpCurl, $jsonResponseString, $externlabRequest->labNo);
             }
         }
