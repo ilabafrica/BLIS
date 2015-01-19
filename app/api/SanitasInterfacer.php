@@ -11,6 +11,7 @@ class SanitasInterfacer implements InterfacerInterface{
     }
 
     /**
+    * Process Sends results back to the originating system
     *   Send is the main entry point into the interfacer
     *   We process and send the current testID and also try and resend tests that have failed to send.
     */
@@ -18,23 +19,22 @@ class SanitasInterfacer implements InterfacerInterface{
     {
         //Sending current test
 
-        $this->process($testId);
+        $this->createJsonString($testId);
         //Sending all pending requests also
-        $pendingRequests = ExternalDump::where('result_returned', 2);
-
+        $pendingRequests = ExternalDump::where('result_returned', 2)->get();
         foreach ($pendingRequests as $pendingRequest) {
-            $this->process($pendingRequest->test_id);
+            $this->createJsonString($pendingRequest->test_id);
         }
     }
 
 
     /**
-    * Process Sends results back to the originating system
+    * Retrieves the results and creates a JSON string
     *
     * @param testId the id of the test to send
-    * @param status either in testing stage or verification stage or edit
+    * @param 
     */
-    public function process($testId)
+    public function createJsonString($testId)
     {
         //if($comments==null or $comments==''){$comments = 'No Comments';
 
@@ -68,10 +68,10 @@ class SanitasInterfacer implements InterfacerInterface{
         //IF the test has no children prepend the status to the result
         if ($externlabRequestTree->isEmpty()) {
             if($test->test_status_id == Test::COMPLETED){
-                $resultForMainTest = "Done: ".$testResults->first()->result;;
+                $resultForMainTest = "Done: ".$test->interpretation;
             }
             elseif ($test->test_status_id == Test::VERIFIED) {
-                $resultForMainTest = "Tested and verified: ".$testResults->first()->result;;
+                $resultForMainTest = "Tested and verified: ".$test->interpretation;
             }
         }
         //IF the test has children, prepend the status to the interpretation
@@ -85,7 +85,7 @@ class SanitasInterfacer implements InterfacerInterface{
             }
         }
         $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
-            $labNo, $test->tested_by, $resultForMainTest, $test->tested_by, $test->test_status_id);
+            $labNo, $test->tested_by, $resultForMainTest, $test->verified_by, $test->test_status_id);
         $this->sendRequest($httpCurl, $jsonResponseString, $labNo);
 
         //loop through labRequests and foreach of them get the result and put in an array
@@ -115,8 +115,9 @@ class SanitasInterfacer implements InterfacerInterface{
 
     private function sendRequest($httpCurl, $jsonResponse, $labNo)
     {
+        $jsonResponse = "labResult=".$jsonResponse;
         //Foreach result in the array of results send to sanitas-url in config
-        curl_setopt($httpCurl, CURLOPT_POSTFIELDS, "labResult=".$jsonResponse);
+        curl_setopt($httpCurl, CURLOPT_POSTFIELDS, $jsonResponse);
 
         $response = curl_exec($httpCurl);
 
@@ -135,9 +136,98 @@ class SanitasInterfacer implements InterfacerInterface{
             $updatedExternalRequest = ExternalDump::where('labNo', '=', $labNo)->first();
             $updatedExternalRequest->result_returned = 2;
             $updatedExternalRequest->save();
-
             Log::error("HTTP Error: SanitasInterfacer failed to send $jsonResponse : Error message "+ curl_error($httpCurl));
         }
+    }
+
+     /**
+     * Function for processing the requests we receive from the external system
+     * and putting the data into our system.
+     *
+     * @var array lab_requests
+     */
+    public function process($labRequest)
+    {
+        //First: Check if patient exists, if true dont save again
+        $patient = Patient::where('patient_number', '=', $labRequest['patient']['id'])->first();
+        
+        if (empty($patient))
+        {
+            $patient = new Patient();
+            $patient->patient_number = $labRequest['patient']['id'];
+            $patient->name = $labRequest['patient']['fullName'];
+            $gender = array('Male' => Patient::MALE, 'Female' => Patient::FEMALE); 
+            $patient->gender = $gender[$labRequest['patient']['gender']];
+            $patient->dob = $labRequest['patient']['dateOfBirth'];
+            $patient->address = $labRequest['address']['address'];
+            $patient->phone_number = $labRequest['address']['phoneNumber'];
+            $patient->save();
+        }
+
+        //We check if the test exists in our system if not we just save the request in stagingTable
+        if($labRequest['parentLabNo'] == '0')
+        {
+            $testTypeId = TestType::getTestTypeIdByTestName($labRequest['investigation']);
+        }
+        else {
+            $testTypeId = null;
+        }
+        if(is_null($testTypeId) && $labRequest['parentLabNo'] == '0')
+        {
+            $this->saveToExternalDump($labRequest, ExternalDump::TEST_NOT_FOUND);
+            return;
+        }
+        //Check if visit exists, if true dont save again
+        $visit = Visit::where('visit_number', '=', $labRequest['patientVisitNumber'])->first();
+        if (empty($visit))
+        {
+            $visit = new Visit();
+            $visit->patient_id = $patient->id;
+            $visitType = array('ip' => 'In-patient', 'op' => 'Out-patient');//Should be a constant
+            $visit->visit_type = $visitType[$labRequest['orderStage']];
+            $visit->visit_number = $labRequest['patientVisitNumber'];
+
+            // We'll save Visit in a transaction a little bit below
+        }
+
+        $test = null;
+        //Check if parentLabNO is 0 thus its the main test and not a measure
+        if($labRequest['parentLabNo'] == '0')
+        {
+            //Check via the labno, if this is a duplicate request and we already saved the test 
+            $test = Test::where('external_id', '=', $labRequest['labNo'])->first();
+            if (empty($test))
+            {
+                //Specimen
+                $specimen = new Specimen();
+                
+                Log::info("Test type ID". $testTypeId);
+                Log::info("Specimen Types". TestType::find($testTypeId)->specimenTypes);
+
+                $specimen->specimen_type_id = TestType::find($testTypeId)->specimenTypes->lists('id')[0];
+
+                // We'll save the Specimen in a transaction a little bit below
+
+                $test = new Test();
+                $test->test_type_id = $testTypeId;
+                $test->test_status_id = Test::NOT_RECEIVED;
+                $test->created_by = User::EXTERNAL_SYSTEM_USER; //Created by external system 0
+                $test->requested_by = $labRequest['requestingClinician'];
+                $test->external_id = $labRequest['labNo'];
+
+                DB::transaction(function() use ($visit, $specimen, $test) {
+                    $visit->save();
+                    $specimen->save();
+                    $test->visit_id = $visit->id;
+                    $test->specimen_id = $specimen->id;
+                    $test->save();
+                });
+
+                $this->saveToExternalDump($labRequest, $test->id);
+                return;
+            }
+        }
+        $this->saveToExternalDump($labRequest, null);
     }
 
     /**
