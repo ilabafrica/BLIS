@@ -25,7 +25,6 @@
 				<thead>
 					<tr>
 						<th>{{ Lang::choice('messages.name',1) }}</th>
-						<th>{{ trans('messages.measure-range') }}</th>
 						<th>{{ trans('messages.unit') }}</th>
 						<th>{{ trans('messages.description') }}</th>
 					</tr>
@@ -34,7 +33,6 @@
 				@foreach($measures as $key => $value)
 					<tr>
 						<td>{{ $value->name }}</td>
-						<td>{{ $value->measure_range }}</td>
 						<td>{{ $value->unit }}</td>
 						<td>{{ $value->description }}</td>
 						<td>

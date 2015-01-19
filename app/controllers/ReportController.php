@@ -309,19 +309,23 @@ class ReportController extends \BaseController {
 		$to = Input::get('end');
 		$today = date('Y-m-d');
 		$year = date('Y');
+		$testTypeID = Input::get('test_type');
+
 		//	Apply filters if any
 		if(Input::has('filter')){
-			if(!$to){
-				$to=$today;
-			}
+
+			if(!$to) $to=$today;
+
 			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($today)||strtotime($to)>strtotime($today)){
 				Session::flash('message', trans('messages.check-date-range'));
 			}
+
 			$months = json_decode(self::getMonths($from, $to));
-			$data = TestType::getPrevalenceCounts($from, $to);
-			$chart = self::getPrevalenceRatesChart();
+			$data = TestType::getPrevalenceCounts($from, $to, $testTypeID);
+			$chart = self::getPrevalenceRatesChart($testTypeID);
 		}
-		else{
+		else
+		{
 			// Get all tests for the current year
 			$test = Test::where('time_created', 'LIKE', date('Y').'%');
 			$periodStart = $test->min('time_created'); //Get the minimum date
@@ -329,6 +333,7 @@ class ReportController extends \BaseController {
 			$data = TestType::getPrevalenceCounts($periodStart, $periodEnd);
 			$chart = self::getPrevalenceRatesChart();
 		}
+
 		return View::make('reports.prevalence.index')
 						->with('data', $data)
 						->with('chart', $chart)
@@ -372,21 +377,17 @@ class ReportController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public static function getPrevalenceRatesChart(){
+	public static function getPrevalenceRatesChart($testTypeID = 0){
 		$from = Input::get('start');
 		$to = Input::get('end');
 		$months = json_decode(self::getMonths($from, $to));
 		$testTypes = new Illuminate\Database\Eloquent\Collection();
 
-		$measures = Measure::where('measure_range', 'LIKE', '%Positive/Negative%')->get();
-
-		foreach ($measures as $measure) {
-			$objArray = $measure->testTypes()->first();
-			if(!empty($objArray)){
-				foreach ($measure->testTypes()->get() as $tType) {
-					$testTypes->add($tType);
-				}
-			}
+		if($testTypeID == 0){
+			
+			$testTypes = TestType::supportPrevalenceCounts();
+		}else{
+			$testTypes->add(TestType::find($testTypeID));
 		}
 
 		$options = '{
@@ -413,6 +414,7 @@ class ReportController extends \BaseController {
 		    },
 		    "series": [';
 		    	$counts = count($testTypes);
+
 			    	foreach ($testTypes as $testType) {
 		        		$options.= '{
 		        			"name": "'.$testType->name.'","data": [';

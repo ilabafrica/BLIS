@@ -8,36 +8,58 @@
 	</ol>
 </div>
 {{ Form::open(array('route' => array('reports.aggregate.prevalence'), 'id' => 'prevalence_rates', 'method' => 'post')) }}
-<div class="table-responsive">
-  	<table class="table report-filter">
-	    <thead>
-		    <tr>
-		        <td>{{ Form::label('start', trans("messages.from")) }}</td>
-		        <td>
-                    {{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
-                        array('class' => 'form-control standard-datepicker')) }}
-		        </td>
-		        <td>{{ Form::label('to', trans("messages.to")) }}</td>
-		        <td>
-                    {{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
-                        array('class' => 'form-control standard-datepicker')) }}
-		        </td>
-		        <td>{{ Form::button("<span class='glyphicon glyphicon-eye-open'></span> ".trans('messages.show-hide'), 
-					        array('class' => 'btn btn-info', 'id' => 'reveal')) }}</td>
-		        <td>{{Form::submit(trans('messages.view'), 
-		        	array('class' => 'btn btn-primary', 'id'=>'filter', 'name'=>'filter'))}}</td>
-		    </tr>
-		</thead>
-		<tbody>
-		
-		</tbody>
-  	</table>
+<div class="container-fluid">
+  	<div class="row report-filter">
+        <div class="col-md-3">
+	        <div class="col-md-2">
+	        	{{ Form::label('start', trans("messages.from")) }}
+	        </div>
+	        <div class="col-md-10">
+	            {{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
+	                array('class' => 'form-control standard-datepicker')) }}
+	        </div>
+        </div>
+        <div class="col-md-3">
+	        <div class="col-md-2">
+	        	{{ Form::label('to', trans("messages.to")) }}
+	        </div>
+	        <div class="col-md-10">
+	            {{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
+	                array('class' => 'form-control standard-datepicker')) }}
+	        </div>
+        </div>
+        <div class="col-md-4">
+	        <div class="col-md-3">
+	        	{{ Form::label('test_type', Lang::choice('messages.test-type',1)) }}
+	        </div>
+	        <div class="col-md-9">
+	            {{ Form::select('test_type', array(0 => '-- All Tests --')+TestType::supportPrevalenceCounts()->lists('name','id'),
+	            	isset($input['test_type'])?$input['test_type']:0, array('class' => 'form-control')) }}
+	        </div>
+        </div>
+        <div class="col-md-2">
+        	{{Form::submit(trans('messages.view'), 
+	        	array('class' => 'btn btn-info', 'id'=>'filter', 'name'=>'filter'))}}
+        </div>
+  	</div>
 </div>
 {{ Form::close() }}
+<br />
 <div class="panel panel-primary">
 	<div class="panel-heading ">
-		<span class="glyphicon glyphicon-user"></span>
-		{{ trans('messages.prevalence-rates') }}
+		<div class="container-fluid">
+			<div class="row less-gutter">
+				<div class="col-md-8">
+					<span class="glyphicon glyphicon-user"></span>
+					{{ trans('messages.prevalence-rates') }}
+				</div>
+				<div class="col-md-4">
+					<a class="btn btn-info pull-right" id="reveal" href="#" onclick="return false;"
+                            alt="{{trans('messages.show-hide')}}" title="{{trans('messages.show-hide')}}">
+                            <span class="glyphicon glyphicon-eye-open"></span> {{trans('messages.show-hide')}}</a>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="panel-body">
 	<!-- if there are filter errors, they will show here -->
@@ -50,7 +72,7 @@
 			  <table class="table table-bordered" id="rates">
 				  <tbody>
 					   <tr>
-					    	<th>{{trans('messages.test-type')}}</th>
+					    	<th>{{Lang::choice('messages.test-type',1)}}</th>
 					    	<th>{{trans('messages.total-specimen')}}</th>
 					    	<th>{{trans('messages.positive')}}</th>
 					    	<th>{{trans('messages.negative')}}</th>
