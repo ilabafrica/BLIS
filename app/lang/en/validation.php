@@ -53,6 +53,7 @@ return array(
 		"array"   => "The :attribute must have at least :min items.",
 	),
 	"not_in"               => "The selected :attribute is invalid.",
+	"non_zero_key"         => "The ':attribute' field is required.",
 	"numeric"              => "The :attribute must be a number.",
 	"regex"                => "The :attribute format is invalid.",
 	"required"             => "The ':attribute' field is required.",
@@ -93,9 +94,6 @@ return array(
 		'measures' => array(
 			'required' => "At least one of the ':attribute' should be selected.",
 		),
-		'measure_type_id' => array(
-			'measure_type_selected' => "Please Select a 'Measure Type'",
-		),
 	),
 
 	/*
@@ -114,6 +112,7 @@ return array(
 		'email' => 'Email Address',
 		'full_name' => 'Full Name',
 		'import_file' => 'Select File',
+		'measure_type_id' => 'Measure Type',
 		'name' => 'Name',
 		'password' => 'Password',
 		'physician' => 'Requesting Physician',

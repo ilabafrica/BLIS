@@ -47,7 +47,7 @@ class MeasureController extends \BaseController {
         //
         $rules = array();
         $rules['name'] = 'required|unique:measures,name';
-        $rules['measure_type_id'] = 'measure_type_selected';
+        $rules['measure_type_id'] = 'required|non_zero_key';
         
         switch (Input::get('measure_type_id')) {
             case Measure::NUMERIC:

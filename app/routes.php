@@ -314,11 +314,7 @@ Event::listen('api.receivedLabRequest', function($labRequest)
 });
 
 //Ensure form value is not zero
-Validator::extend('measure_type_selected', function($attribute, $value, $parameters)
+Validator::extend('non_zero_key', function($attribute, $value, $parameters)
 {
-    if($value!=0)
-    {
-        return true;
-    }
-    return false;
+   return ($value!=0) ? true : false;
 });
