@@ -174,6 +174,7 @@ return array(
     'success-deleting-measure' => 'Successfully deleted the Measure!',
     'success-updating-measure' => 'The measure details were successfully updated!',
     'update-measure' => 'Update Measure',
+    'value' => 'Value',
 
     /*Specimen Type*/
 

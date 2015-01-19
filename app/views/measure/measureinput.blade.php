@@ -16,7 +16,7 @@
     </div><!-- numericHeader -->
     <div class="hidden alphanumericHeaderLoader">
         <div class="col-md-12">
-            <span class="col-md-5 interpretation-title">{{trans('messages.range')}}</span>
+            <span class="col-md-5 interpretation-title">{{trans('messages.value')}}</span>
             <span class="col-md-5 interpretation-title">{{trans('messages.interpretation')}}</span>
         </div>
     </div><!-- alphanumericHeader -->
