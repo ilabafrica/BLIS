@@ -67,6 +67,7 @@
 						@elseif ( $measure->isAlphanumeric() || $measure->isAutocomplete() ) 
 	                        <?php
 	                        $measure_values = array();
+                            $measure_values[] = '';
 	                        foreach ($measure->measureRanges as $range) {
 	                            $measure_values[$range->alphanumeric] = $range->alphanumeric;
 	                        }
