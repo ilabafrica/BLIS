@@ -291,6 +291,16 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.aggregate.counts",
             "uses" => "ReportController@countReports"
         ));
+
+        Route::any("/infection", array(
+            "as"   => "reports.aggregate.infection",
+            "uses" => "ReportController@infectionReport"
+        ));
+
+        Route::any("/numeric", array(
+            "as"   => "reports.aggregate.numeric",
+            "uses" => "ReportController@numericInfection"
+        ));
         
     });
 });
