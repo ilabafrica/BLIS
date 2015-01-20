@@ -22,8 +22,10 @@ class SanitasInterfacer implements InterfacerInterface{
         $this->createJsonString($testId);
         //Sending all pending requests also
         $pendingRequests = ExternalDump::where('result_returned', 2)->get();
-        foreach ($pendingRequests as $pendingRequest) {
-            $this->createJsonString($pendingRequest->test_id);
+        if(!$pendingRequests->isEmpty()){
+            foreach ($pendingRequests as $pendingRequest) {
+                $this->createJsonString($pendingRequest->test_id);
+            }
         }
     }
 
