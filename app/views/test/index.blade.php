@@ -93,10 +93,10 @@
                             {{ in_array($test->id, Session::get('activeTest'))?"class='info'":""}}
                         @endif
                         >
-                        <td>{{ $test->time_created }}</td>              <!--Date Ordered-->
+                        <td>{{ date('d-m-Y H:i', strtotime($test->time_created));}}</td>        <!--Date Ordered-->
                         <td>{{ $test->visit->patient->patient_number }}</td>      <!--Patient Number -->
                         <td>{{ $test->visit->visit_number }}</td>     <!--Visit Number -->
-                        <td>{{ $test->visit->patient->name.' ('.($test->visit->patient->gender==0?trans('M'):trans('F')).','.date_diff(date_create($test->visit->patient->dob), date_create('now'))->y. ')'}}</td>      <!--Patient Name -->
+                        <td>{{ $test->visit->patient->name.' ('.($test->visit->patient->getGender('gender')).','.date_diff(date_create($test->visit->patient->dob), date_create('now'))->y. ')'}}</td>      <!--Patient Name -->
                         <td>{{ $test->testType->name }}</td>            <!--Test-->
                         <td>{{ $test->visit->visit_type }}</td>         <!--Visit Type -->
                         <td id="test-status-{{$test->id}}" class='test-status'>
