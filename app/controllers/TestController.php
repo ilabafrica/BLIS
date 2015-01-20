@@ -147,6 +147,7 @@ class TestController extends \BaseController {
 	{
 		//Create New Test
 		$rules = array(
+			'visit_type' => 'required|non_zero_key',
 			'physician' => 'required',
 			'testtypes' => 'required',
 		);
@@ -228,7 +229,7 @@ class TestController extends \BaseController {
 	{
 		//Reject justifying why.
 		$rules = array(
-			'rejectionReason' => 'required',
+			'rejectionReason' => 'required|non_zero_key',
 			'reject_explained_to' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
@@ -445,7 +446,7 @@ class TestController extends \BaseController {
 		//Validate
 		$rules = array(
 			'referral-status' => 'required',
-			'facility_id' => 'required',
+			'facility_id' => 'required|non_zero_key',
 			'person' => 'required',
 			'contacts' => 'required'
 			);

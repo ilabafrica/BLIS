@@ -109,15 +109,20 @@ return array(
 
 	'attributes' => array(
 		'current_password' => 'Current Password',
+		'contacts' => 'Contacts',
 		'email' => 'Email Address',
 		'full_name' => 'Full Name',
+		'facility_id' => 'Facility',
 		'import_file' => 'Select File',
 		'measure_type_id' => 'Measure Type',
 		'name' => 'Name',
 		'password' => 'Password',
+		'person' => 'Person',
 		'physician' => 'Requesting Physician',
+		'test_category_id' => 'Lab Section',
 		'testtypes' => 'Tests',
 		'reject_explained_to' => 'Person Talked To',
+		'rejectionReason' => 'Reason',
 		'specimentypes' => 'Specimen Types',
 		'testtypes' => 'Tests',
 		'username' => 'Username',
@@ -127,6 +132,7 @@ return array(
 		'agemax' => ['0' => 'Maximum Age Range'],
 		'gender' => ['0' => 'Gender'],
 		'val' => ['0' => 'Measure Range'],
+		'visit_type' => 'Visit Type',
 		),
 
 );
