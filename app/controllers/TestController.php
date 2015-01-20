@@ -348,8 +348,8 @@ class TestController extends \BaseController {
 	/**
 	 * Saves Test Results
 	 *
-	 * @param
-	 * @return
+	 * @param $testID to save
+	 * @return view
 	 */
 	public function saveResults($testID)
 	{
@@ -366,9 +366,11 @@ class TestController extends \BaseController {
 			$testResult->save();
 		}
 
+		//Fire of entry saved/edited event
+		Event::fire('test.saved', array($testID));
+
 		// redirect
 		$url = Session::get('SOURCE_URL');
-		
 		return Redirect::to($url)->with('message', trans('messages.success-saving-results'))
 					->with('activeTest', array($test->id));
 	}
@@ -410,6 +412,9 @@ class TestController extends \BaseController {
 		$test->time_verified = date('Y-m-d H:i:s');
 		$test->verified_by = Auth::user()->id;
 		$test->save();
+
+		//Fire of entry verified event
+		Event::fire('test.verified', array($testID));
 
 		return View::make('test.viewDetails')->with('test', $test);
 	}

@@ -101,3 +101,9 @@ Route::filter('checkPerms', function($route, $request, $perms)
        return Redirect::to('home');
     }
 });
+
+//Ensure form value is not zero
+Validator::extend('non_zero_key', function($attribute, $value, $parameters)
+{
+   return ($value!=0) ? true : false;
+});

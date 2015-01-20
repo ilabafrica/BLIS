@@ -12,11 +12,31 @@ class SanitasInterfacer implements InterfacerInterface{
 
     /**
     * Process Sends results back to the originating system
-    *
-    * @param testId the id of the test to send
-    * @param status either in testing stage or verification stage or edit
+    *   Send is the main entry point into the interfacer
+    *   We process and send the current testID and also try and resend tests that have failed to send.
     */
     public function send($testId)
+    {
+        //Sending current test
+
+        $this->createJsonString($testId);
+        //Sending all pending requests also
+        $pendingRequests = ExternalDump::where('result_returned', 2)->get();
+        if(!$pendingRequests->isEmpty()){
+            foreach ($pendingRequests as $pendingRequest) {
+                $this->createJsonString($pendingRequest->test_id);
+            }
+        }
+    }
+
+
+    /**
+    * Retrieves the results and creates a JSON string
+    *
+    * @param testId the id of the test to send
+    * @param 
+    */
+    public function createJsonString($testId)
     {
         //if($comments==null or $comments==''){$comments = 'No Comments';
 
@@ -24,6 +44,11 @@ class SanitasInterfacer implements InterfacerInterface{
         $httpCurl = curl_init(Config::get('kblis.sanitas-url'));
         curl_setopt($httpCurl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($httpCurl, CURLOPT_POST, true);
+
+        //If testID is null we cannot handle this test as we cannot know the results
+        if($testId == null){
+            return null;
+        }
 
         //Get the test and results 
         $test = Test::find($testId);
@@ -37,37 +62,40 @@ class SanitasInterfacer implements InterfacerInterface{
         //Get external requests and all its children
         $externalDump = new ExternalDump();
         $externRequest = ExternalDump::where('test_id', '=', $testId)->get();
+
+        if(empty($externRequest->first())){
+            //Not a request we can send back
+            return null;
+        }
+
         $labNo = $externRequest->lists('labNo')[0];
         $externlabRequestTree = $externalDump->getLabRequestAndMeasures($labNo);
 
-        $resultForMainTest = "";
+        $interpretation = "";
         //IF the test has no children prepend the status to the result
-
-        if (is_null($externlabRequestTree)) {
+        if ($externlabRequestTree->isEmpty()) {
             if($test->test_status_id == Test::COMPLETED){
-                $resultForMainTest = "Done: ".$testResults->first()->result;;
+                $interpretation = "Done: ".$test->interpretation;
             }
             elseif ($test->test_status_id == Test::VERIFIED) {
-                $resultForMainTest = "Tested and verified: ".$testResults->first()->result;;
+                $interpretation = "Tested and verified: ".$test->interpretation;
             }
         }
         //IF the test has children, prepend the status to the interpretation
         else {
-            
             if($test->test_status_id == Test::COMPLETED){
-                $resultForMainTest = "Done ".$test->interpretation;
+                $interpretation = "Done ".$test->interpretation;
             }
             elseif ($test->test_status_id == Test::VERIFIED) {
-                $resultForMainTest = "Tested and verified ".$test->interpretation;
+                $interpretation = "Tested and verified ".$test->interpretation;
             }
         }
         $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
-            $labNo, $test->tested_by, $resultForMainTest, $test->tested_by, $test->test_status_id);
+            $labNo, $test->tested_by, $testResults->first()->result, $test->verified_by, $interpretation);
         $this->sendRequest($httpCurl, $jsonResponseString, $labNo);
 
         //loop through labRequests and foreach of them get the result and put in an array
         foreach ($externlabRequestTree as $key => $externlabRequest){ 
-
             $mKey = array_search($externlabRequest->investigation, $testMeasures->lists('name'));
             
             if($mKey === false){
@@ -80,17 +108,22 @@ class SanitasInterfacer implements InterfacerInterface{
                 $matchingResult = $testResults->get($rKey);
 
                 $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
-                            $externlabRequest->labNo, $test->tested_by, $matchingResult->result, $test->tested_by, $test->test_status_id);
+                            $externlabRequest->labNo, $test->tested_by, $matchingResult->result, $test->tested_by, "");
                 $this->sendRequest($httpCurl, $jsonResponseString, $externlabRequest->labNo);
             }
         }
         curl_close($httpCurl);
     }
 
+    /**
+    *   Function to send Json request using Curl
+    **/
+
     private function sendRequest($httpCurl, $jsonResponse, $labNo)
     {
+        $jsonResponse = "labResult=".$jsonResponse;
         //Foreach result in the array of results send to sanitas-url in config
-        curl_setopt($httpCurl, CURLOPT_POSTFIELDS, "labResult=".$jsonResponse);
+        curl_setopt($httpCurl, CURLOPT_POSTFIELDS, $jsonResponse);
 
         $response = curl_exec($httpCurl);
 
@@ -98,17 +131,22 @@ class SanitasInterfacer implements InterfacerInterface{
         //TODO: Replace true with actual expected response this is just for testing
         if($response == true)
         {
+            //Set status in external lab-request to `sent`
             $updatedExternalRequest = ExternalDump::where('labNo', '=', $labNo)->first();
             $updatedExternalRequest->result_returned = 1;
             $updatedExternalRequest->save();
         }
         else if($response == false)
         {
+            //Set status in external lab-request to `sent`
+            $updatedExternalRequest = ExternalDump::where('labNo', '=', $labNo)->first();
+            $updatedExternalRequest->result_returned = 2;
+            $updatedExternalRequest->save();
             Log::error("HTTP Error: SanitasInterfacer failed to send $jsonResponse : Error message "+ curl_error($httpCurl));
         }
     }
 
-    /**
+     /**
      * Function for processing the requests we receive from the external system
      * and putting the data into our system.
      *
@@ -140,7 +178,6 @@ class SanitasInterfacer implements InterfacerInterface{
         else {
             $testTypeId = null;
         }
-
         if(is_null($testTypeId) && $labRequest['parentLabNo'] == '0')
         {
             $this->saveToExternalDump($labRequest, ExternalDump::TEST_NOT_FOUND);
@@ -172,7 +209,6 @@ class SanitasInterfacer implements InterfacerInterface{
                 $specimen->specimen_type_id = TestType::find($testTypeId)->specimenTypes->lists('id')[0];
 
                 // We'll save the Specimen in a transaction a little bit below
-
                 $test = new Test();
                 $test->test_type_id = $testTypeId;
                 $test->test_status_id = Test::NOT_RECEIVED;
