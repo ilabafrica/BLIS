@@ -135,6 +135,11 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@index"
     ));
 
+    Route::post("/test/resultinterpretation", array(
+    "as"   => "test.resultinterpretation",
+    "uses" => "TestController@getResultInterpretation"
+    ));
+
      Route::any("/test/{id}/receive", array(
         "before" => "checkPerms:receive_external_test",
         "as"   => "test.receive",

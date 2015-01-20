@@ -95,7 +95,7 @@
 		  <table class="table table-striped table-bordered">
 		  	<tbody>
 		  		<tr>
-		  			<th rowspan="2">{{trans('messages.test-type')}}</th>
+		  			<th rowspan="2">{{Lang::choice('messages.test-type',2)}}</th>
 		  			<th rowspan="2">{{trans('messages.gender')}}</th>
 		  			<th colspan="{{ count($ageRanges) }}">{{trans('messages.age-ranges')}}</th>
 		  			<th rowspan="2">{{trans('messages.mf-total')}}</th>

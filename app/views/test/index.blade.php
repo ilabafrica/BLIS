@@ -78,10 +78,11 @@
                 <thead>
                     <tr>
                         <th>{{trans('messages.date-ordered')}}</th>
+                        <th>{{trans('messages.patient-number')}}</th>
+                        <th>{{trans('Visit Number')}}</th>
                         <th>{{trans('messages.patient-name')}}</th>
                         <th>{{ Lang::choice('messages.test',1) }}</th>
                         <th>{{trans('messages.visit-type')}}</th>
-                        <th>{{trans('messages.test-phase')}}</th>
                         <th>{{trans('messages.test-status')}}</th>
                     </tr>
                 </thead>
@@ -92,11 +93,12 @@
                             {{ in_array($test->id, Session::get('activeTest'))?"class='info'":""}}
                         @endif
                         >
-                        <td>{{ $test->time_created }}</td>              <!--Date Ordered-->
-                        <td>{{ $test->visit->patient->name }}</td>      <!--Patient Name -->
+                        <td>{{ date('d-m-Y H:i', strtotime($test->time_created));}}</td>        <!--Date Ordered-->
+                        <td>{{ $test->visit->patient->patient_number }}</td>      <!--Patient Number -->
+                        <td>{{ $test->visit->visit_number }}</td>     <!--Visit Number -->
+                        <td>{{ $test->visit->patient->name.' ('.($test->visit->patient->getGender('gender')).','.date_diff(date_create($test->visit->patient->dob), date_create('now'))->y. ')'}}</td>      <!--Patient Name -->
                         <td>{{ $test->testType->name }}</td>            <!--Test-->
                         <td>{{ $test->visit->visit_type }}</td>         <!--Visit Type -->
-                        <td>{{ $test->testStatus->testPhase->name }}</td><!--Test Phase -->
                         <td id="test-status-{{$test->id}}" class='test-status'>
                             <!-- Test Statuses -->
                             <div class="container-fluid">

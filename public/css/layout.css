@@ -368,37 +368,11 @@ label, input {
 /**
  *MEASURE VIEW
  */
-.alphanumericInput{
-    float: left;
+.measurevalue .measure-input div
+{
+    border-bottom: 1px solid #D1D1D1;
+    padding:5px 0px;
 }
-.alphanumericSlash{
-    font-size:30px;
-}
-.form-group .form-control.input-small{
-    width: 120px;
-}
-.measurevalue div {
-    overflow: hidden;
-    margin-right: 2px;
-}
-.measurevalue .numeric-range-measure {
-    border: 1px solid #D1D1D1;
-    border-radius: 3px;
-    float: left;
-    padding:5px 10px;
-    width: 300px;
-}
-    .measurevalue div input{
-        width: 60px;
-        border-radius: 2px;
-    }
-    .measurevalue div span{
-        float: left;
-        line-height: 40px;
-    }
-    .measurevalue div span.range-title{
-        min-width: 120px;
-    }
 
 /*
 * REJECT Specimen shading - Used on test-index view

@@ -55,24 +55,27 @@ $(function(){
 	 *  - Add another measure button 
 	 */
 	$('.add-another-range').click(function(){
-		var inputClass = ['.numericInputLoader', '.alphanumericInputLoader', '.autocompleteInputLoader', '.freetextInputLoader']; 
+		var inputClass = [
+			'.numericInputLoader',
+			'.alphanumericInputLoader',
+			'.alphanumericInputLoader',
+			'.freetextInputLoader'
+		]; 
 		var id = $("#measuretype").val() - 1;
 		var inputHtml = $(inputClass[id]).html();
 		$(".measurevalue" ).append(inputHtml);
-		$('.measurevalue').children().removeClass('hidden');
 	});
 
-	/*  
-	*  load measure range input UI for the selected measure type 
-	*/
-	$( '.meauretype-input-trigger' ).change(function() {
-		var inputClass = ['.numericInputLoader', '.alphanumericInputLoader', '.autocompleteInputLoader', '.freetextInputLoader']; 
-		var id = $(this).val() - 1;
-		var inputHtml = $(inputClass[id]).html();
-		$('.measurevalue').empty();
-		$('.measurevalue').append(inputHtml);
-		$('.measurevalue').children().removeClass('hidden');
-	});
+	/*  load measure range input UI for the selected measure type */
+	$( '.measuretype-input-trigger' ).change( loadRangeFields );
+
+	/*  re-load measure range input UI for the selected measure type on error */
+	if ($('.measurevalue').is(':empty')){
+		var measure_type = $( '.measuretype-input-trigger' ).val();
+		if ( measure_type > 0 ) {
+			loadRangeFields();
+		}
+	}
 
 
 	/** GLOBAL DELETE	
@@ -94,10 +97,10 @@ $(function(){
 		$(this).siblings('input').trigger('click');
 	});
 
-	// Delete numeric range
+	// Delete measure range
 
-	$("body").on("click", ".numeric-range-measure .close", function(){
-		$(this).parent().remove();
+	$("body").on("click", ".measure-input .close", function(){
+		$(this).parent().parent().remove();
 	});
 
 	/** 
@@ -208,6 +211,26 @@ $(function(){
 		$(this).remove();
 	});
 
+	/**
+	 * Updates the test  result via ajax call
+	 */
+	$(".result-interpretation-trigger").focusout(function() {
+		var interpretation = "";
+		var url = $(this).data('url');
+		var measureid = $(this).data('measureid');
+		var age = $(this).data('age');
+		var gender = $(this).data('gender');
+		var measurevalue = $(this).val();
+		$.post(url, { 
+				measureid: measureid,
+				age: age,
+				measurevalue: measurevalue,
+				gender: gender
+			}).done( function( interpretation ){
+			$( ".result-interpretation" ).val( interpretation );
+		});
+	});
+
 	/** Start Test button.
 	 *  - Updates the Test status via an AJAX call
 	 *  - Changes the UI to show the right status and buttons
@@ -294,6 +317,37 @@ $(function(){
 			$('#new-test-modal .modal-footer .next').prop('disabled', false);
 		});
 	});
+
+	/**
+	 *	Measure Functions
+	 */
+	function loadRangeFields () {
+		var headerClass = [
+			'.numericHeaderLoader',
+			'.alphanumericHeaderLoader',
+			'.alphanumericHeaderLoader',
+			'.freetextHeaderLoader'
+		]; 
+		var inputClass = [
+			'.numericInputLoader',
+			'.alphanumericInputLoader',
+			'.alphanumericInputLoader',
+			'.freetextInputLoader'
+		]; 
+		var id = $('.measuretype-input-trigger').val() - 1;
+		var headerHtml = $(headerClass[id]).html();
+		var inputHtml = $(inputClass[id]).html();
+		if (id == 0) {
+			$('.measurevalue').removeClass('col-md-6');
+			$('.measurevalue').addClass('col-md-12');
+		} else{
+			$('.measurevalue').removeClass('col-md-12');
+			$('.measurevalue').addClass('col-md-6');
+		}
+		$('.measurevalue').empty();
+		$('.measurevalue').append(headerHtml);
+		$('.measurevalue').append(inputHtml);
+	}
 
 	function UIComponents(){
 		/* Datepicker */

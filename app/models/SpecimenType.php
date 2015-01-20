@@ -41,24 +41,12 @@ class SpecimenType extends Eloquent
 	public function countPerStatus($specimenStatusID, $from = null, $to = null)
 	{
 
-		$specimens = $this->specimen->filter(function($specimen) use ($specimenStatusID){
-
-				if (in_array($specimen->specimen_status_id, $specimenStatusID)){
-					return true;
-				}
-				return false;
-			});
-
+		$specimens = Specimen::where('specimen_type_id', $this->id)->whereIn('specimen_status_id', $specimenStatusID);
 		if($to && $from){
-			$specimens = $specimens->filter(function($specimen) use($to, $from, $specimenStatusID){
-				if(in_array($specimenStatusID, [Specimen::REJECTED]))
-					$timeCreated = strtotime($specimen->time_rejected);
-				else
-					$timeCreated = strtotime($specimen->time_accepted);
-				if(strtotime($from) < $timeCreated && strtotime($to) >= $timeCreated)
-					return true;
-				else return false;
-			});
+			if(in_array($specimenStatusID, [Specimen::REJECTED]))
+				$specimens = $specimens->whereBetween('time_rejected', [$from, $to]);
+			else
+				$specimens = $specimens->whereBetween('time_accepted', [$from, $to]);
 		}
 
 		return $specimens->count();
@@ -70,43 +58,26 @@ class SpecimenType extends Eloquent
 	* @param $gender, $ageRange, $from, $to
 	*/
 	public function groupedSpecimenCount($gender=null, $ageRange=null, $from=null, $to=null){
-			$specimens = $this->specimen->filter(function($specimen){
-				if (in_array($specimen->specimen_status_id, [Specimen::ACCEPTED])){
-					return true;
-				}
-				return false;
-			});
+			$specimens = Specimen::where('specimen_type_id', $this->id)->whereIn('specimen_status_id', [Specimen::ACCEPTED]);
 			if($to && $from){
-				$specimens = $specimens->filter(function($specimen) use($to, $from){
-					$timeCreated = strtotime($specimen->time_accepted);
-					if(strtotime($from) < $timeCreated && strtotime($to) >= $timeCreated)
-						return true;
-					else return false;
-				});
+				$specimens = $specimens->whereBetween('time_accepted', [$from, $to]);
 			}
 			if($gender){
-				$specimens = $specimens->filter(function($specimen) use ($gender){
-
-				if (in_array($specimen->test->visit->patient->gender, $gender)){
-					return true;
-				}
-				else return false;
-				});
+				$specimens = $specimens->join('tests', 'specimens.id', '=', 'tests.specimen_id')
+									   ->join('visits', 'tests.visit_id', '=', 'visits.id')
+									   ->join('patients', 'visits.patient_id', '=', 'patients.id')
+									   ->whereIn('gender', $gender);
 			}
 			if($ageRange){
 				$ageRange = explode('-', $ageRange);
 				$ageStart = $ageRange[0];
 				$ageEnd = $ageRange[1];
-				$specimens = $specimens->filter(function($specimen) use ($ageStart, $ageEnd){
-					$dateOfBirth = new DateTime($specimen->test->visit->patient->dob);
-					$now = new DateTime('now');
-					$interval = $dateOfBirth->diff($now);
+				
+				$now = new DateTime('now');
+				$finishDate = $now->sub(new DateInterval('P'.$ageStart.'Y'))->format('Y-m-d');
+				$startDate = $now->sub(new DateInterval('P'.$ageEnd.'Y'))->format('Y-m-d');
 
-				if ($interval->y >= $ageStart && $interval->y < $ageEnd){
-					return true;
-					}
-					else return false;
-				});
+				$specimens = $specimens->whereBetween('dob', [$startDate, $finishDate]);
 			}
 
 		return $specimens->count();

@@ -81,7 +81,7 @@ class CelltacFMachine extends \KBLIS\Instrumentation\AbstractInstrumentor
 		#   insert results into an array for handling in front end
 		#
 
-		$DUMP_URL = "http://"+$this->ip+"/celltac/celltac.txt";
+		$DUMP_URL = "http://".$this->ip."/celltac/celltac.txt";
 
 		$RESULTS_STRING = file_get_contents($DUMP_URL);
 			if ($RESULTS_STRING === FALSE){
@@ -152,7 +152,6 @@ class CelltacFMachine extends \KBLIS\Instrumentation\AbstractInstrumentor
 			//There could also be Age / comments inputs Between patient ID and Results
 			$resultsKey = $idKey+1;
 		}
-
         //TODO Check if Patient ID from results matches with current patient
         //After $idKey next 22 values are results
         $RESULTS_VALUES = array_slice($COMPLETE_RESULT_ARRAY, $resultsKey , 22);

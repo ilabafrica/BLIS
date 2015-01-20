@@ -94,7 +94,7 @@
 		  <table class="table table-striped table-bordered">
 		    <tbody>
 			    <tr>
-			    	<th>{{trans('messages.test-type')}}</th>
+			    	<th>{{Lang::choice('messages.test-type',2)}}</th>
 			    	<th>{{trans('messages.complete-tests')}}</th>
 			    	<th>{{trans('messages.pending-tests')}}</th>
 			    </tr>
