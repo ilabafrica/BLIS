@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li class="active">{{ Lang::choice('messages.test-type',1) }}</li>
+	  <li class="active">{{trans('messages.test-type')}}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -21,54 +21,27 @@
 		</div>
 	</div>
 	<div class="panel-body">
-		<table class="table table-striped table-hover table-condensed">
-			<thead>
-				<tr>
-					<th>{{ Lang::choice('messages.name',1) }}</th>
-					<th>{{trans('messages.description')}}</th>
-					<th>{{trans('messages.target-turnaround-time')}}</th>
-					<th>{{trans('messages.prevalence-threshold')}}</th>
-				</tr>
-			</thead>
-			<tbody>
-			@foreach($testtypes as $key => $value)
-				<tr @if(Session::has('activetesttype'))
-                            {{(Session::get('activetesttype') == $value->id)?"class='info'":""}}
-                        @endif
-                        >
-					<td>{{ $value->name }}</td>
-					<td>{{ $value->description }}</td>
-					<td>{{ $value->targetTAT }}</td>
-					<td>{{ $value->prevalence_threshold }}</td>
+	
+		<div>
+			<div>
+					<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
+					<script type="text/javascript" src="js/jquery.js"></script>
+					<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
 
-					<td>
+					<body>
 
-						<!-- show the testtype (uses the show method found at GET /testtype/{id} -->
-						<a class="btn btn-sm btn-success" href="{{ URL::to("testtype/" . $value->id) }}">
-							<span class="glyphicon glyphicon-eye-open"></span>
-							{{trans('messages.view')}}
-						</a>
-
-						<!-- edit this testtype (uses the edit method found at GET /testtype/{id}/edit -->
-						<a class="btn btn-sm btn-info" href="{{ URL::to("testtype/" . $value->id . "/edit") }}" >
-							<span class="glyphicon glyphicon-edit"></span>
-							{{trans('messages.edit')}}
-						</a>
-						<!-- delete this testtype (uses the delete method found at GET /testtype/{id}/delete -->
-						<button class="btn btn-sm btn-danger delete-item-link"
-							data-toggle="modal" data-target=".confirm-delete-modal"	
-							data-id='{{ URL::to("testtype/" . $value->id . "/delete") }}'>
-							<span class="glyphicon glyphicon-trash"></span>
-							{{trans('messages.delete')}}
-						</button>
-
-					</td>
-				</tr>
-			@endforeach
-			</tbody>
-		</table>
-		<?php echo $testtypes->links(); 
-		Session::put('SOURCE_URL', URL::full());?>
+						{{ Datatable::table()
+					    ->addColumn('Name','Description','Target Turnaround Time ', 'Prevalence Threshold', 'Actions')       // these are the column headings to be shown
+					    ->setUrl(route('testtyp.datatables'))   // this is the route where data will be retrieved
+					    ->render() }}
+				
+		</div>
+	
+		<?php //echo $testtypes->links(); 
+		//Session::put('SOURCE_URL', URL::full());?>
 	</div>
+
+
 </div>
+
 @stop
