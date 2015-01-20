@@ -48,7 +48,7 @@
 							@if ($measure->measure_type_id == 1)
 								@foreach($measure->measureRanges as $key=>$value)
 								<div class="numeric-range-measure">
-									<button class="close" aria-hidden="true" type="button" title="{{trans(messages.delete)}}">×</button>
+									<button class="close" aria-hidden="true" type="button" title="{{trans('messages.delete')}}">×</button>
 									<input value="{{{$value->id}}}" name="measurerangeid[]" type="hidden">
 									<div>
 										<span class="range-title">{{trans('messages.measure-age-range')}}:</span>
@@ -60,7 +60,7 @@
 											title="{{trans('messages.upper-age-limit')}}">
 									</div>
 									<div>
-										<span class="range-title">trans('messages.gender'))</span>
+										<span class="range-title">{{trans('messages.gender')}}</span>
 										<?php $selection = array("","","");?>
 										<?php $selection[$value->gender] = "selected='selected'"; ?>
 										<select name="gender[]">
@@ -70,7 +70,7 @@
 										</select>
 									</div>
 									<div>
-										<span class="range-title">trans('messages.measure-range'))</span>
+										<span class="range-title">{{trans('messages.measure-range')}}</span>
 										<input name="rangemin[]" type="text" value="{{{$value->range_lower}}}" 
 											title="{{trans('messages.lower-range')}}">
 										<span>:</span>

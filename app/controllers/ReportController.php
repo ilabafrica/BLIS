@@ -580,6 +580,7 @@ class ReportController extends \BaseController {
 							->withInput(Input::all());
 		}
 	}
+
 	//	Begin infection reports functions
 	/**
 	 * Display a table containing all infection statistics.
@@ -588,106 +589,25 @@ class ReportController extends \BaseController {
 	public function infectionReport(){
 	 	$ageRanges = array('0-5', '5-15', '15-120');	//	Age ranges - will definitely change in configurations
 		$gender = array(Patient::MALE, Patient::FEMALE); 	//	Array for gender - male/female
-		$perAgeRange = array();	// array for counts data for each test type and age range
 		$ranges = array('Low', 'Normal', 'High');
-		$tests = array();
-		foreach (TestType::all() as $testType) {
-			if($testType->hasAlphaNuMeasure()>0){
-				array_push($tests, $testType);
-			}
-		}
+
 		//	Fetch form filters
 		$date = date('Y-m-d');
 		$from = Input::get('start');
 		if(!$from) $from = date('Y-m-01');
+
 		$to = Input::get('end');
 		if(!$to) $to = $date;
+		
 		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
 
-		foreach ($tests as $testType) {
-			$totalCount[$testType->id] = $testType->tests()
-												  ->whereIn('test_status_id', [Test::COMPLETED, Test::VERIFIED])
-												  ->whereBetween('time_created', [$from, $toPlusOne->format('Y-m-d H:i:s')])
-												  ->count();
-			foreach ($testType->measures as $measure) {
-				$measureCount[$testType->id][$measure->id] = $measure->getAlphaInfection($testType->id, null, null, null, $from, $toPlusOne->format('Y-m-d H:i:s'));
-				Log::info('prrr.txt');
-				foreach ($measure->measureRanges as $key) {
-				// $key = $measure->measureRanges()->first();
-					foreach(explode("/", $key->alphanumeric) as $measureRange){
-						$rangeCount[$testType->id][$measure->id][$measureRange] = $measure->getAlphaInfection($testType->id, $measureRange, [Patient::MALE, Patient::FEMALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
-						foreach ($ageRanges as $ageRange) {
-							$maleCount = $measure->getAlphaInfection($testType->id, $measureRange, [Patient::MALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
-							$femaleCount = $measure->getAlphaInfection($testType->id, $measureRange, [Patient::FEMALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
-							$perAgeRange[$testType->id][$measure->id][$measureRange][$ageRange] = ['male'=>$maleCount, 'female'=>$femaleCount];
-						}
-					}
-				}
-			}
-		}
+		$infectionData = Test::getInfectionData($from, $to);	// array for counts data for each test type and age range
 		
 		return View::make('reports.infection.index')
-					->with('tests', $tests)
 					->with('gender', $gender)
 					->with('ageRanges', $ageRanges)
-					->with('totalCount', $totalCount)
-					->with('rangeCount', $rangeCount)
-					->with('perAgeRange', $perAgeRange)
 					->with('ranges', $ranges)
-					->withInput(Input::all());
-	}
-
-	public function numericInfection(){
-		//	Fetch form filters
-		$date = date('Y-m-d');
-		$from = Input::get('start');
-		if(!$from) $from = date('Y-m-01');
-		$to = Input::get('end');
-		if(!$to) $to = $date;
-		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
-
-		$ageRanges = array('0-5', '5-15', '15-120');	//	Age ranges - will definitely change in configurations
-		$gender = array(Patient::MALE, Patient::FEMALE); 	//	Array for gender - male/female
-		$perAgeRange = array();	// array for counts data for each test type and age range
-		$ranges = array(MeasureRange::LOW, MeasureRange::NORMAL, MeasureRange::HIGH);
-		$perMeasureRange = array();
-
-		$tests = array();
-		foreach (TestType::all() as $testType) {
-			if($testType->hasNumeric()>0){
-				array_push($tests, $testType);
-			}
-		}
-
-		//	Get measure range - lower and upper values
-		foreach ($tests as $testType) {
-			$totalCount[$testType->id] = $testType->tests()
-												  ->whereIn('test_status_id', [Test::COMPLETED, Test::VERIFIED])
-												  ->count();
-			foreach ($testType->measures as $key) {
-				$rangeLower[$testType->id][$key->id]['male'] = $key->measureRanges()->whereIn('gender', [Patient::MALE])->get(array('range_lower'));
-				$rangeLower[$testType->id][$key->id]['female'] = $key->measureRanges()->whereIn('gender', [Patient::FEMALE])->get(array('range_lower'));
-				$rangeUpper[$testType->id][$key->id]['male'] = $key->measureRanges()->whereIn('gender', [Patient::MALE])->get(array('range_upper'));
-				$rangeUpper[$testType->id][$key->id]['female'] = $key->measureRanges()->whereIn('gender', [Patient::FEMALE])->get(array('range_upper'));
-				foreach ($ranges as $rangeValue) {
-					$countMale = $key->getNumericInfection($testType->id, $rangeValue, $rangeLower[$testType->id][$key->id]['male'], $rangeUpper[$testType->id][$key->id]['male'], [Patient::MALE], null, null, null);
-					$countFemale = $key->getNumericInfection($testType->id, $rangeValue, $rangeLower[$testType->id][$key->id]['female'], $rangeUpper[$testType->id][$key->id]['female'], [Patient::FEMALE], null, null, null);
-					$perMeasureRange[$testType->id][$key->id][$rangeValue] = ['male'=>$countMale, 'female'=>$countFemale];
-					/*foreach ($ageRanges as $ageRange) {
-						$countMaleAge = $key->getNumericInfection($testType->id, $rangeValue, $rangeLower[$testType->id][$key->id]['male'], $rangeUpper[$testType->id][$key->id]['male'], [Patient::MALE], null, null, null);
-						$countFemaleAge = $key->getNumericInfection($testType->id, $rangeValue, $rangeLower[$testType->id][$key->id]['female'], $rangeUpper[$testType->id][$key->id]['female'], [Patient::FEMALE], null, null, null);
-						$perAgeRange[$testType->id][$key->id][$rangeValue][$ageRange] = ['male'=>$countMaleAge, 'female'=>$countFemaleAge];
-					}*/
-				}
-			}
-		}
-		return View::make('reports.infection.numeric')
-					->with('tests', $tests)
-					->with('ranges', $ranges)
-					->with('gender', $gender)
-					->with('ageRanges', $ageRanges)
-					->with('totalCount', $totalCount)
-					->with('perMeasureRange', $perMeasureRange)
+					->with('infectionData', $infectionData)
 					->withInput(Input::all());
 	}
 }
