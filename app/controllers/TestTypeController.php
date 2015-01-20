@@ -32,10 +32,13 @@ class TestTypeController extends \BaseController {
 		$measures = Measure::orderBy('name')->get();
 		$specimentypes = SpecimenType::orderBy('name')->get();
 		$testcategory = TestCategory::all();
+        $measuretype = MeasureType::all()->sortBy('id');
+
 		//Create TestType
 		return View::make('testtype.create')
 					->with('testcategory', $testcategory)
 					->with('measures', $measures)
+       				->with('measuretype', $measuretype)
 					->with('specimentypes', $specimentypes);
 	}
 
@@ -107,6 +110,7 @@ class TestTypeController extends \BaseController {
 		//Get the testtype
 		$testtype = TestType::find($id);
 		$measures = Measure::orderBy('name')->get();
+        $measuretype = MeasureType::all()->sortBy('id');
 		$specimentypes = SpecimenType::orderBy('name')->get();
 		$testcategory = TestCategory::all();
 
@@ -115,8 +119,10 @@ class TestTypeController extends \BaseController {
 					->with('testtype', $testtype)
 					->with('testcategory', $testcategory)
 					->with('measures', $measures)
+       				->with('measuretype', $measuretype)
 					->with('specimentypes', $specimentypes);
 	}
+
 
 	/**
 	 * Update the specified resource in storage.

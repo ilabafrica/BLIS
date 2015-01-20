@@ -64,6 +64,7 @@
 				{{ Form::label('measures', trans('messages.select-measures')) }}
 				<div class="form-pane panel panel-default">
 					<div class="panel-body">
+						@include("measure.create")
 						<div class="container-fluid">
 							<?php 
 								$cnt = 0;
@@ -109,4 +110,5 @@
 		</div>
 	{{ Form::close() }}
 </div>
+@include("measure.measureinput")
 @stop

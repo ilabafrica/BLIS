@@ -72,6 +72,7 @@
 							$zebra = "";
 						?>
 					@foreach($measures as $key=>$value)
+					@include("measure.edit")
 						{{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
 						<?php
 							$cnt++;
@@ -111,4 +112,5 @@
 		</div>
 	{{ Form::close() }}
 </div>
+@include("measure.measureinput")
 @stop

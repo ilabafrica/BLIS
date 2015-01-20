@@ -10,34 +10,6 @@ use Illuminate\Database\QueryException;
 class MeasureController extends \BaseController {
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        // List all the active measures
-        $measures = Measure::paginate(Config::get('kblis.page-items'));
-
-        // Load the view and pass the measures
-        return View::make('measure.index')->with('measures', $measures);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        $measuretype = MeasureType::all()->sortBy('id')->lists('name','id');
-        $measuretype = array_merge(array(0 => trans('messages.select-measure-type')), $measuretype);
-
-        //Create measure
-        return View::make('measure.create')->with('measuretype', $measuretype);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @return Response
@@ -127,39 +99,6 @@ class MeasureController extends \BaseController {
             return Redirect::route('measure.index')
                 ->with('message', trans('messages.success-creating-measure'));
         }
-    }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //Show a measure
-        $measure = Measure::find($id);
-
-        //Show the view and pass the $measure to it
-        return View::make('measure.show')->with('measure', $measure);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //Get the measure
-        $measure = Measure::find($id);
-
-        $measuretype = MeasureType::all()->sortBy('id')->lists('name','id');
-
-        //Open the Edit View and pass to it the $measure
-        return View::make('measure.edit')
-                        ->with('measure', $measure)
-                        ->with('measuretype', $measuretype);
     }
 
     /**
