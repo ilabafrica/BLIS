@@ -45,6 +45,11 @@ class SanitasInterfacer implements InterfacerInterface{
         curl_setopt($httpCurl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($httpCurl, CURLOPT_POST, true);
 
+        //If testID is null we cannot handle this test as we cannot know the results
+        if($testId == null){
+            return null;
+        }
+
         //Get the test and results 
         $test = Test::find($testId);
         $testResults = $test->testResults;
