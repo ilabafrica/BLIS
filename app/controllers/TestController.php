@@ -147,6 +147,7 @@ class TestController extends \BaseController {
 	{
 		//Create New Test
 		$rules = array(
+			'visit_type' => 'required|non_zero_key',
 			'physician' => 'required',
 			'testtypes' => 'required',
 		);
@@ -228,13 +229,15 @@ class TestController extends \BaseController {
 	{
 		//Reject justifying why.
 		$rules = array(
-			'rejectionReason' => 'required',
+			'rejectionReason' => 'required|non_zero_key',
 			'reject_explained_to' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
-			return Redirect::route('test.reject', array(Input::get('specimen_id')))->withInput()->withErrors($validator);
+			return Redirect::route('test.reject', array(Input::get('specimen_id')))
+				->withInput()
+				->withErrors($validator);
 		} else {
 			$specimen = Specimen::find(Input::get('specimen_id'));
 			$specimen->rejection_reason_id = Input::get('rejectionReason');
@@ -319,6 +322,27 @@ class TestController extends \BaseController {
 	{
 		$test = Test::find($testID);
 		return View::make('test.enterResults')->with('test', $test);
+	}
+
+	/**
+	 * Returns test result intepretation
+	 * @param
+	 * @return
+	 */
+	public function getResultInterpretation()
+	{
+		$result = array();
+		//save if it is available
+		
+		if (Input::get('age')) {
+			$result['birthdate'] = Input::get('age');
+			$result['gender'] = Input::get('gender');
+		}
+		$result['measureid'] = Input::get('measureid');
+		$result['measurevalue'] = Input::get('measurevalue');
+
+		$measure = new Measure;
+		return $measure->getResultInterpretation($result);
 	}
 
 	/**
@@ -417,7 +441,7 @@ class TestController extends \BaseController {
 		//Validate
 		$rules = array(
 			'referral-status' => 'required',
-			'facility_id' => 'required',
+			'facility_id' => 'required|non_zero_key',
 			'person' => 'required',
 			'contacts' => 'required'
 			);

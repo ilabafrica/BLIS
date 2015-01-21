@@ -42,13 +42,11 @@ class MeasureControllerTest extends TestCase
 		$this->assertEquals($measurestored[1]['name'] , $this->inputAutocomplete['name']);
 		$this->assertEquals($measurestored[1]['measure_type_id'] , $this->inputAutocomplete['measure_type_id']);
 		$this->assertEquals($measurestored[1]['description'] , $this->inputAutocomplete['description']);
-		$this->assertEquals($measurestored[1]['measure_range'] , join('/',$this->inputAutocomplete['val']));
 
 		//Alphanumeric
 		$this->assertEquals($measurestored[2]['name'] , $this->inputAlphanumeric['name']);
 		$this->assertEquals($measurestored[2]['measure_type_id'] , $this->inputAlphanumeric['measure_type_id']);
 		$this->assertEquals($measurestored[2]['description'] , $this->inputAlphanumeric['description']);
-		$this->assertEquals($measurestored[2]['measure_range'] , join('/',$this->inputAlphanumeric['val']));
 
 		//Numeric
 		$this->assertEquals($measurestored[3]['name'] , $this->inputNumeric['name']);
@@ -56,24 +54,25 @@ class MeasureControllerTest extends TestCase
 		$this->assertEquals($measurestored[3]['unit'] ,$this->inputNumeric['unit']);
 		$this->assertEquals($measurestored[3]['description'] ,$this->inputNumeric['description']);
 		
-		$measurerangestored = MeasureRange::orderBy('id','desc')->take(3)->get()->toArray();
-		$this->assertEquals($measurerangestored[2]['age_min'], $this->inputNumeric['agemin'][0]);
-		$this->assertEquals($measurerangestored[2]['age_max'], $this->inputNumeric['agemax'][0]);
-		$this->assertEquals($measurerangestored[2]['gender'], $this->inputNumeric['gender'][0]);
-		$this->assertEquals($measurerangestored[2]['range_lower'], $this->inputNumeric['rangemin'][0]);
-		$this->assertEquals($measurerangestored[2]['range_upper'], $this->inputNumeric['rangemax'][0]);
+		$measurerangestored = MeasureRange::orderBy('id','desc')->take(6)->get()->toArray();
 
-		$this->assertEquals($measurerangestored[1]['age_min'], $this->inputNumeric['agemin'][1]);
-		$this->assertEquals($measurerangestored[1]['age_max'], $this->inputNumeric['agemax'][1]);
-		$this->assertEquals($measurerangestored[1]['gender'], $this->inputNumeric['gender'][1]);
-		$this->assertEquals($measurerangestored[1]['range_lower'], $this->inputNumeric['rangemin'][1]);
-		$this->assertEquals($measurerangestored[1]['range_upper'], $this->inputNumeric['rangemax'][1]);
+		$this->assertEquals($measurerangestored[5]['age_min'], $this->inputNumeric['agemin'][0]);
+		$this->assertEquals($measurerangestored[5]['age_max'], $this->inputNumeric['agemax'][0]);
+		$this->assertEquals($measurerangestored[5]['gender'], $this->inputNumeric['gender'][0]);
+		$this->assertEquals($measurerangestored[5]['range_lower'], $this->inputNumeric['rangemin'][0]);
+		$this->assertEquals($measurerangestored[5]['range_upper'], $this->inputNumeric['rangemax'][0]);
 
-		$this->assertEquals($measurerangestored[0]['age_min'], $this->inputNumeric['agemin'][2]);
-		$this->assertEquals($measurerangestored[0]['age_max'], $this->inputNumeric['agemax'][2]);
-		$this->assertEquals($measurerangestored[0]['gender'], $this->inputNumeric['gender'][2]);
-		$this->assertEquals($measurerangestored[0]['range_lower'], $this->inputNumeric['rangemin'][2]);
-		$this->assertEquals($measurerangestored[0]['range_upper'], $this->inputNumeric['rangemax'][2]);
+		$this->assertEquals($measurerangestored[4]['age_min'], $this->inputNumeric['agemin'][1]);
+		$this->assertEquals($measurerangestored[4]['age_max'], $this->inputNumeric['agemax'][1]);
+		$this->assertEquals($measurerangestored[4]['gender'], $this->inputNumeric['gender'][1]);
+		$this->assertEquals($measurerangestored[4]['range_lower'], $this->inputNumeric['rangemin'][1]);
+		$this->assertEquals($measurerangestored[4]['range_upper'], $this->inputNumeric['rangemax'][1]);
+		
+		$this->assertEquals($measurerangestored[3]['alphanumeric'], $this->inputAlphanumeric['val'][0]);
+		$this->assertEquals($measurerangestored[2]['alphanumeric'], $this->inputAlphanumeric['val'][1]);
+
+		$this->assertEquals($measurerangestored[1]['alphanumeric'], $this->inputAutocomplete['val'][0]);
+		$this->assertEquals($measurerangestored[0]['alphanumeric'], $this->inputAutocomplete['val'][1]);
   	}
 
   	/**
@@ -111,37 +110,34 @@ class MeasureControllerTest extends TestCase
 		$this->assertEquals($measureupdated[2]['name'] , $this->inputAlphanumericUpdate['name']);
 		$this->assertEquals($measureupdated[2]['measure_type_id'] , $this->inputAlphanumericUpdate['measure_type_id']);
 		$this->assertEquals($measureupdated[2]['description'] , $this->inputAlphanumericUpdate['description']);
-		$this->assertEquals($measureupdated[2]['measure_range'] , join('/',$this->inputAlphanumericUpdate['val']));
 		
 		$this->assertEquals($measureupdated[1]['name'] , $this->inputAutocompleteUpdate['name']);
 		$this->assertEquals($measureupdated[1]['measure_type_id'] , $this->inputAutocompleteUpdate['measure_type_id']);
 		$this->assertEquals($measureupdated[1]['description'] , $this->inputAutocompleteUpdate['description']);
-		$this->assertEquals($measureupdated[1]['measure_range'] , join('/',$this->inputAutocompleteUpdate['val']));
 		
 		$this->assertEquals($measureupdated[0]['name'] , $this->inputFreetextUpdate['name']);
 		$this->assertEquals($measureupdated[0]['measure_type_id'] , $this->inputFreetextUpdate['measure_type_id']);
 		$this->assertEquals($measureupdated[0]['description'] , $this->inputFreetextUpdate['description']);
 
-		// Check that the new NUMERIC RANGES updated for the uric acid measure have the correct values.
-		$measurerangeupdated = $measureNewUricAcid->measureRanges()->get()->sortByDesc('id')->take(3)->toArray();
+		$measurerangeupdated = MeasureRange::orderBy('id','desc')->take(6)->get()->toArray();
 
-		$this->assertEquals($measurerangeupdated[2]['age_min'], $this->inputNumericUpdate['agemin'][0]);
-		$this->assertEquals($measurerangeupdated[2]['age_max'], $this->inputNumericUpdate['agemax'][0]);
-		$this->assertEquals($measurerangeupdated[2]['gender'], $this->inputNumericUpdate['gender'][0]);
-		$this->assertEquals($measurerangeupdated[2]['range_lower'], $this->inputNumericUpdate['rangemin'][0]);
-		$this->assertEquals($measurerangeupdated[2]['range_upper'], $this->inputNumericUpdate['rangemax'][0]);
+		$this->assertEquals($measurerangeupdated[5]['age_min'], $this->inputNumericUpdate['agemin'][0]);
+		$this->assertEquals($measurerangeupdated[5]['age_max'], $this->inputNumericUpdate['agemax'][0]);
+		$this->assertEquals($measurerangeupdated[5]['gender'], $this->inputNumericUpdate['gender'][0]);
+		$this->assertEquals($measurerangeupdated[5]['range_lower'], $this->inputNumericUpdate['rangemin'][0]);
+		$this->assertEquals($measurerangeupdated[5]['range_upper'], $this->inputNumericUpdate['rangemax'][0]);
 
-		$this->assertEquals($measurerangeupdated[1]['age_min'], $this->inputNumericUpdate['agemin'][1]);
-		$this->assertEquals($measurerangeupdated[1]['age_max'], $this->inputNumericUpdate['agemax'][1]);
-		$this->assertEquals($measurerangeupdated[1]['gender'], $this->inputNumericUpdate['gender'][1]);
-		$this->assertEquals($measurerangeupdated[1]['range_lower'], $this->inputNumericUpdate['rangemin'][1]);
-		$this->assertEquals($measurerangeupdated[1]['range_upper'], $this->inputNumericUpdate['rangemax'][1]);
+		$this->assertEquals($measurerangeupdated[4]['age_min'], $this->inputNumericUpdate['agemin'][1]);
+		$this->assertEquals($measurerangeupdated[4]['age_max'], $this->inputNumericUpdate['agemax'][1]);
+		$this->assertEquals($measurerangeupdated[4]['gender'], $this->inputNumericUpdate['gender'][1]);
+		$this->assertEquals($measurerangeupdated[4]['range_lower'], $this->inputNumericUpdate['rangemin'][1]);
+		$this->assertEquals($measurerangeupdated[4]['range_upper'], $this->inputNumericUpdate['rangemax'][1]);
+		
+		$this->assertEquals($measurerangeupdated[3]['alphanumeric'], $this->inputAlphanumericUpdate['val'][0]);
+		$this->assertEquals($measurerangeupdated[2]['alphanumeric'], $this->inputAlphanumericUpdate['val'][1]);
 
-		$this->assertEquals($measurerangeupdated[0]['age_min'], $this->inputNumericUpdate['agemin'][2]);
-		$this->assertEquals($measurerangeupdated[0]['age_max'], $this->inputNumericUpdate['agemax'][2]);
-		$this->assertEquals($measurerangeupdated[0]['gender'], $this->inputNumericUpdate['gender'][2]);
-		$this->assertEquals($measurerangeupdated[0]['range_lower'], $this->inputNumericUpdate['rangemin'][2]);
-		$this->assertEquals($measurerangeupdated[0]['range_upper'], $this->inputNumericUpdate['rangemax'][2]);
+		$this->assertEquals($measurerangeupdated[1]['alphanumeric'], $this->inputAutocompleteUpdate['val'][0]);
+		$this->assertEquals($measurerangeupdated[0]['alphanumeric'], $this->inputAutocompleteUpdate['val'][1]);
 	}
 	
 	/**
@@ -196,11 +192,12 @@ class MeasureControllerTest extends TestCase
 			'measure_type_id' => '1',
 			'unit' => 'mg/dl',
 			'description' => 'Description',
-			'agemin' =>['1', '2', '3'], 
-			'agemax' => ['4', '5', '6'], 
-			'gender' => ['1', '1', '1'],
-			'rangemin' => ['12', '32', '45'],
-			'rangemax' => ['32', '34', '45'],
+			'agemin' =>['1', '2'], 
+			'agemax' => ['4', '5'], 
+			'gender' => ['1', '1'],
+			'rangemin' => ['12', '32'],
+			'rangemax' => ['32', '34'],
+			'interpretation' => ['inter1', 'inta1'],
 		);
 
 		$this->inputAlphanumeric = array(
@@ -208,7 +205,8 @@ class MeasureControllerTest extends TestCase
 			'measure_type_id' => '2',
 			'unit' => 'Unit',
 			'description' => 'Description',
-			'val' => ['O-','O+','A-','A+','B-','B+','AB-','AB+']
+			'val' => ['O-','O+'],
+			'interpretation' => ['inter1', 'inta1'],
 		);
 
 		$this->inputAutocomplete = array(
@@ -216,7 +214,8 @@ class MeasureControllerTest extends TestCase
 			'measure_type_id' => '3',
 			'unit' => 'Unit',
 			'description' => 'Description',
-			'val' => ['One','Two','Three','Four']
+			'val' => ['One','Two'],
+			'interpretation' => ['inter1', 'inta1'],
 		);
 
 		$this->inputFreetext = array(
@@ -232,12 +231,12 @@ class MeasureControllerTest extends TestCase
 			'measure_type_id' => '1',
 			'unit' => 'nUnit',
 			'description' => 'nDescription',
-			'agemin' =>['11', '21', '31'], 
-			'agemax' => ['41', '51', '61'], 
-			'gender' => ['11', '11', '11'],
-			'rangemin' => ['22', '42', '55'],
-			'rangemax' => ['42', '44', '55'],
-			'measurerangeid' => ['1','2','3'] //Id's of the measurerange for controller to update
+			'agemin' =>['11', '21'], 
+			'agemax' => ['41', '51'], 
+			'gender' => ['11', '11'],
+			'rangemin' => ['22', '42'],
+			'rangemax' => ['42', '44'],
+			'interpretation' => ['inter2', 'inta2'],
 		);
 
 		$this->inputAlphanumericUpdate = array(
@@ -245,7 +244,8 @@ class MeasureControllerTest extends TestCase
 			'measure_type_id' => '2',
 			'unit' => 'aUnit',
 			'description' => 'aDescription',
-			'val' => ['A','B','C','D','E','F','G','H']
+			'val' => ['A','B'],
+			'interpretation' => ['inter2', 'inta2'],
 		);
 
 		$this->inputAutocompleteUpdate = array(
@@ -253,7 +253,8 @@ class MeasureControllerTest extends TestCase
 			'measure_type_id' => '3',
 			'unit' => 'aUnit',
 			'description' => 'aDescription',
-			'val' => ['aOne','aTwo','aThree','aFour']
+			'val' => ['aOne','aTwo'],
+			'interpretation' => ['inter2', 'inta2'],
 		);
 
 		$this->inputFreetextUpdate = array(
@@ -262,5 +263,5 @@ class MeasureControllerTest extends TestCase
 			'unit' => 'fUnit',
 			'description' => 'fDescription'
 		);
-    	}
+    }
 }

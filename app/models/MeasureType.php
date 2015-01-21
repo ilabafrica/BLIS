@@ -11,11 +11,11 @@ class MeasureType extends Eloquent
 	protected $table = 'measure_types';
 
 	/**
-	 * Class constants 
-	 *
+	 * Measure relationship
 	 */
-	const NUMERIC_RANGE = 1;
-	const ALPHANUMERIC = 2;
-	const AUTOCOMPLETE = 3;
-	const FREE_TEXT = 4;
+    public function measures()
+    {
+        return $this->hasMany('Measure');
+    }
+
 }

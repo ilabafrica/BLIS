@@ -49,7 +49,7 @@ class TestTypeController extends \BaseController {
 		//
 		$rules = array(
 			'name' => 'required|unique:test_types,name',
-			'test_category_id' => 'required',
+			'test_category_id' => 'required|non_zero_key',
 			'specimentypes' => 'required',
 			'measures' => 'required',
 		);
@@ -129,7 +129,7 @@ class TestTypeController extends \BaseController {
 		//
 		$rules = array(
 			'name' => 'required',
-			'test_category_id' => 'required',
+			'test_category_id' => 'required|non_zero_key',
 			'specimentypes' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);

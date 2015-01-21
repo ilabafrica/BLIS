@@ -135,6 +135,11 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@index"
     ));
 
+    Route::post("/test/resultinterpretation", array(
+    "as"   => "test.resultinterpretation",
+    "uses" => "TestController@getResultInterpretation"
+    ));
+
      Route::any("/test/{id}/receive", array(
         "before" => "checkPerms:receive_external_test",
         "as"   => "test.receive",
@@ -313,3 +318,8 @@ Event::listen('api.receivedLabRequest', function($labRequest)
     Interfacer::retrieve($labRequest);
 });
 
+//Ensure form value is not zero
+Validator::extend('non_zero_key', function($attribute, $value, $parameters)
+{
+   return ($value!=0) ? true : false;
+});
