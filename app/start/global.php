@@ -91,6 +91,10 @@ App::bind('Interfacer', 'SanitasInterfacer');
 
 require app_path().'/filters.php';
 
+//File to store events
+
+require app_path().'/events.php';
+
 /*
 *	Trap all errors and display the custom errors page instead of unsavoury error stack trace.
 */

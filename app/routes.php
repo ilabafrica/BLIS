@@ -304,22 +304,3 @@ Route::group(array("before" => "auth"), function()
         
     });
 });
-
-// Display all SQL executed in Eloquent
-Event::listen('illuminate.query', function($query)
-{
-        Log::info($query);
-});
-
-//TO DO: move events to app/events.php or somewhere else
-Event::listen('api.receivedLabRequest', function($labRequest)
-{
-    //We instruct the interfacer to handle the request
-    Interfacer::retrieve($labRequest);
-});
-
-//Ensure form value is not zero
-Validator::extend('non_zero_key', function($attribute, $value, $parameters)
-{
-   return ($value!=0) ? true : false;
-});
