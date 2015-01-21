@@ -103,4 +103,34 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return User::find(1);
 	}
 
+	/**
+	 * Get the summary user statistics
+	 *
+	 * @return db resultset
+	 */
+	public static function getSummaryUserStatistics()
+	{
+		/*
+		* - created_by field in patients table is needed
+		*/
+		$data = DB::select("SELECT u.name, u.username, u.designation, 
+					count(DISTINCT IF(u.id=t.created_by,t.id,NULL)) AS created, 
+					count(DISTINCT IF(u.id=t.tested_by,t.id,NULL)) AS tested, 
+					count(DISTINCT IF(u.id=t.verified_by,t.id,NULL)) AS verified, 
+					count(DISTINCT IF(u.id=s.accepted_by,t.id,NULL)) AS specimen_registered, 
+					count(DISTINCT IF(u.id=s.rejected_by,t.id,NULL)) AS specimen_rejected 
+				FROM tests AS t 
+					LEFT JOIN specimens AS s ON t.specimen_id = s.id 
+					LEFT JOIN visits AS v ON t.visit_id = v.id 
+					INNER JOIN patients AS p ON v.patient_id = p.id 
+					LEFT JOIN users AS u 
+						ON t.created_by = u.id OR t.tested_by = u.id 
+							OR t.verified_by = u.id OR s.accepted_by = u.id 
+							OR s.rejected_by = u.id GROUP BY u.id"
+				);
+
+		return $data;
+	}
+
+
 }
