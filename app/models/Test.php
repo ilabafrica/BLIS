@@ -263,17 +263,17 @@ class Test extends Eloquent
 				    	IF((tr.result = mr.alphanumeric AND p.gender=s.id 
 				    		AND floor(datediff(t.time_created,p.dob)/365.25)>=15),1,null)) AS RC_A_15
 				FROM test_types tt
-					LEFT JOIN tests AS t ON t.test_type_id = tt.id
-				    INNER JOIN iblis.visits v ON t.visit_id = v.id
-				    INNER JOIN patients p ON v.patient_id = p.id
-					INNER JOIN (SELECT 0 AS id, 'Male' AS gender UNION SELECT 1, 'Female') AS s ON p.gender = s.id
 				    INNER JOIN testtype_measures tm ON tt.id = tm.test_type_id
-				    INNER JOIN measure_ranges mr ON tm.measure_id = mr.measure_id
 				    INNER JOIN measures m ON tm.measure_id = m.id
+					CROSS JOIN (SELECT 0 AS id, 'Male' AS gender UNION SELECT 1, 'Female') AS s
+				    INNER JOIN measure_ranges mr ON tm.measure_id = mr.measure_id
+					LEFT JOIN tests AS t ON t.test_type_id = tt.id
+				    INNER JOIN visits v ON t.visit_id = v.id
+				    INNER JOIN patients p ON v.patient_id = p.id
 				    INNER JOIN test_results tr ON t.id = tr.test_id AND m.id = tr.measure_id
 				WHERE (t.test_status_id=4 OR t.test_status_id=5) AND m.measure_type_id = 2
 					AND t.time_created BETWEEN ? AND ?
-				GROUP BY tt.id, m.id, mr.alphanumeric, p.gender) AS alpha
+				GROUP BY tt.id, m.id, mr.alphanumeric, s.id) AS alpha
 				UNION
 				(
 				SELECT
@@ -338,19 +338,19 @@ class Test extends Eloquent
 							AND floor(datediff(t.time_created,p.dob)/365.25) < mmr.age_max 
 							AND (p.gender = mmr.gender OR mmr.gender = 2)),t.id,NULL)))) RC_A_15
 				FROM test_types tt
-					LEFT JOIN tests AS t ON t.test_type_id = tt.id
-					INNER JOIN iblis.visits v ON t.visit_id = v.id
-					INNER JOIN patients p ON v.patient_id = p.id
-					INNER JOIN (SELECT 0 AS id, 'Male' AS gender UNION SELECT 1, 'Female') AS s ON p.gender = s.id
 					INNER JOIN testtype_measures tm ON tt.id = tm.test_type_id
+					CROSS JOIN (SELECT 0 AS id, 'Male' AS gender UNION SELECT 1, 'Female') AS s
 					INNER JOIN (
 						SELECT m.name, m.measure_type_id, mr.*, i.* 
 						FROM measures m INNER JOIN measure_ranges mr ON m.id = mr.measure_id 
 						CROSS JOIN (SELECT 'High' AS result_alias UNION SELECT 'Normal' UNION SELECT 'Low') AS i 
 						WHERE m.measure_type_id = 1) mmr ON tm.measure_id = mmr.measure_id
+					LEFT JOIN tests AS t ON t.test_type_id = tt.id
+					INNER JOIN visits v ON t.visit_id = v.id
+					INNER JOIN patients p ON v.patient_id = p.id
 					INNER JOIN test_results tr ON t.id = tr.test_id AND tm.measure_id = tr.measure_id
 				WHERE mmr.measure_type_id = 1 AND t.time_created BETWEEN ? AND ?
-				GROUP BY tt.id, tm.measure_id, mmr.result_alias, p.gender) 
+				GROUP BY tt.id, tm.measure_id, mmr.result_alias, s.id) 
 			ORDER BY test_name, measure_name, result, gender",
 			array($startTime, $endTime, $startTime, $endTime)
 			);

@@ -181,9 +181,9 @@
 						</tr>
 					@endforelse
 					<?php
-						$testRow = str_replace("NEW_TEST", $testCount, $testRow);
-						$testRow = str_replace("NEW_MEASURE", $measureCount, $testRow);
-						$testRow = str_replace("NEW_RESULT", $resultCount, $testRow);
+						$testRow = str_replace("NEW_TEST", $testCount+1, $testRow);
+						$testRow = str_replace("NEW_MEASURE", $measureCount+1, $testRow);
+						$testRow = str_replace("NEW_RESULT", $resultCount+1, $testRow);
 						$testRow = str_replace("RESULT_TOTAL", $resultTotal, $testRow);
 						$testRow = str_replace("TEST_TOTAL", $resultTotal, $testRow);
 					?>
