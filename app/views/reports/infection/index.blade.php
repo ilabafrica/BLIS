@@ -7,10 +7,10 @@
 	  <li class="active">{{ trans('messages.infection-report') }}</li>
 	</ol>
 </div>
-<div class='container-fluid'>
 {{ Form::open(array('route' => array('reports.aggregate.infection'), 'class' => 'form-inline', 'role' => 'form')) }}
-<div class="row">
-		<div class="col-sm-4 col-md-4">
+<div class='container-fluid'>
+	<div class="row">
+		<div class="col-sm-3 col-md-3">
 	    	<div class="row">
 				<div class="col-sm-2 col-md-2">
 					{{ Form::label('start', trans("messages.from")) }}
@@ -21,7 +21,7 @@
 			    </div>
 	    	</div>
 	    </div>
-	    <div class="col-sm-4 col-md-4">
+	    <div class="col-sm-3 col-md-3">
 	    	<div class="row">
 				<div class="col-sm-2 col-md-2">
 			    	{{ Form::label('end', trans("messages.to")) }}
@@ -32,13 +32,22 @@
 		        </div>
 	    	</div>
 	    </div>
-	    <div class="col-sm-4 col-md-4">
+        <div class="col-md-4">
+	        <div class="col-md-4">
+	        	{{ Form::label('test_type', Lang::choice('messages.test-category',1)) }}
+	        </div>
+	        <div class="col-md-8">
+	            {{ Form::select('test_category', array(0 => '-- All --')+TestCategory::all()->sortBy('name')->lists('name','id'),
+	            	isset($input['test_category'])?$input['test_category']:0, array('class' => 'form-control')) }}
+	        </div>
+        </div>
+	    <div class="col-sm-2 col-md-2">
 		    {{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
 		        array('class' => 'btn btn-info', 'id' => 'filter', 'type' => 'submit')) }}
 	    </div>
 	</div>
-{{ Form::close() }}
 </div>
+{{ Form::close() }}
 <br />
 <div class="panel panel-primary">
 	<div class="panel-heading ">
@@ -185,7 +194,7 @@
 						$testRow = str_replace("NEW_MEASURE", $measureCount+1, $testRow);
 						$testRow = str_replace("NEW_RESULT", $resultCount+1, $testRow);
 						$testRow = str_replace("RESULT_TOTAL", $resultTotal, $testRow);
-						$testRow = str_replace("TEST_TOTAL", $resultTotal, $testRow);
+						$testRow = str_replace("TEST_TOTAL", $testTotal, $testRow);
 					?>
 					{{$testRow}}
 				</tbody>

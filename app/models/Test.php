@@ -243,9 +243,13 @@ class Test extends Eloquent
 	 * @param string $endTime
 	 * @return Array[][]
 	 */
-	public static function getInfectionData($startTime, $endTime){
+	public static function getInfectionData($startTime, $endTime, $testCategory=0){
+
 		$lowAgeBound = 5;
 		$midAgeBound = 14;
+
+		$testCategoryWhereClause = "";
+		if($testCategory!=0) $testCategoryWhereClause = " AND tt.test_category_id = $testCategory";
 
 		$data = DB::select(
 			"SELECT * FROM (
@@ -274,7 +278,7 @@ class Test extends Eloquent
 				    INNER JOIN patients p ON v.patient_id = p.id
 				    INNER JOIN test_results tr ON t.id = tr.test_id AND m.id = tr.measure_id
 				WHERE (t.test_status_id=4 OR t.test_status_id=5) AND m.measure_type_id = 2
-					AND t.time_created BETWEEN ? AND ?
+					AND t.time_created BETWEEN ? AND ? $testCategoryWhereClause
 				GROUP BY tt.id, m.id, mr.alphanumeric, s.id) AS alpha
 				UNION
 				(
@@ -352,7 +356,7 @@ class Test extends Eloquent
 					INNER JOIN patients p ON v.patient_id = p.id
 					INNER JOIN test_results tr ON t.id = tr.test_id AND tm.measure_id = tr.measure_id
 				WHERE (t.test_status_id=4 OR t.test_status_id=5) AND mmr.measure_type_id = 1 
-					AND t.time_created BETWEEN ? AND ?
+					AND t.time_created BETWEEN ? AND ? $testCategoryWhereClause
 				GROUP BY tt.id, tm.measure_id, mmr.result_alias, s.id) 
 			ORDER BY test_name, measure_name, result, gender",
 			array($startTime, $endTime, $startTime, $endTime)
