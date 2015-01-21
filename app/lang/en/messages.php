@@ -329,7 +329,6 @@ return array(
     'hospital-number'   =>  'Hospital number',
     'include-pending-tests' => 'Include Pending Tests',
     'include-range-visualization' => 'Include Range Visualization',
-    'infection-report' => 'Infection Report',
     'no-records-found' => 'No records found.',
     'patient-report' => 'Patient Report',
     'prevalence-rates' => 'Prevalence Rates',
@@ -369,8 +368,12 @@ return array(
     'grouped-test-counts' =>  'Test Counts (Grouped)',
     'ungrouped-specimen-counts' =>  'Specimen Counts (Ungrouped)',
     'grouped-specimen-counts' =>  'Specimen Counts (Grouped)',
+
+    /* Infection Report*/
     'age-ranges'    =>  'Age Ranges',
+    'infection-report' => 'Infection Report',
     'mf-total'  =>  'M/F Total',
+    'total'   =>  'Total|Totals',
     'total-tests'   =>  'Total Tests',
 
 

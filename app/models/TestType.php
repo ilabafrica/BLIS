@@ -310,4 +310,21 @@ class TestType extends Eloquent
 
 		return $tests->count();
 	}
+	/**
+	* Check if a certain test type has measures that are either numeric or alphanumeric
+	*
+	*/
+	public function hasAlphaNuMeasure(){
+		$boolean = TestTypeMeasure::where('test_type_id', $this->id)
+						->join('measures', 'testtype_measures.measure_id', '=', 'measures.id')
+						->where('measure_type_id', Measure::ALPHANUMERIC);
+		return $boolean->count();
+	}
+
+	public function hasNumeric(){
+		$boolean = TestTypeMeasure::where('test_type_id', $this->id)
+						->join('measures', 'testtype_measures.measure_id', '=', 'measures.id')
+						->where('measure_type_id', Measure::NUMERIC);
+		return $boolean->count();
+	}
 }

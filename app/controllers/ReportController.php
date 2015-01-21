@@ -582,4 +582,39 @@ class ReportController extends \BaseController {
 							->withInput(Input::all());
 		}
 	}
+
+	//	Begin infection reports functions
+	/**
+	 * Display a table containing all infection statistics.
+	 *
+	 */
+	public function infectionReport(){
+
+	 	$ageRanges = array('0-5'=>'Under 5 years', 
+	 					'5-14'=>'5 years and over but under 14 years', 
+	 					'14-120'=>'14 years and above');	//	Age ranges - will definitely change in configurations
+		$gender = array(Patient::MALE, Patient::FEMALE); 	//	Array for gender - male/female
+		$ranges = array('Low', 'Normal', 'High');
+
+		//	Fetch form filters
+		$date = date('Y-m-d');
+		$from = Input::get('start');
+		if(!$from) $from = date('Y-m-01');
+
+		$to = Input::get('end');
+		if(!$to) $to = $date;
+		
+		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+
+		$testCategory = Input::get('test_category');
+
+		$infectionData = Test::getInfectionData($from, $to, $testCategory);	// array for counts data for each test type and age range
+		
+		return View::make('reports.infection.index')
+					->with('gender', $gender)
+					->with('ageRanges', $ageRanges)
+					->with('ranges', $ranges)
+					->with('infectionData', $infectionData)
+					->withInput(Input::all());
+	}
 }
