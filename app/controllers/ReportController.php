@@ -617,4 +617,27 @@ class ReportController extends \BaseController {
 					->with('infectionData', $infectionData)
 					->withInput(Input::all());
 	}
+
+	/**
+	 * Displays summary statistics on users application usage.
+	 *
+	 */
+	public function userStatistics(){
+
+		//	Fetch form filters
+		$date = date('Y-m-d');
+		$from = Input::get('start');
+		if(!$from) $from = date('Y-m-01');
+
+		$to = Input::get('end');
+		if(!$to) $to = $date;
+		
+		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+
+		$reportTypes = array('Summary', 'Patient Registry', 'Specimen Registry', 'Tests Registry', 'Results Entry');
+		
+		return View::make('reports.userstatistics.index')
+					->with('reportTypes', $reportTypes)
+					->withInput(Input::all());
+	}
 }

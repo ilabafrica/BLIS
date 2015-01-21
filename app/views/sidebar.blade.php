@@ -21,6 +21,7 @@
 		case 'prevalence':
 		case 'counts':
 		case 'infection':
+		case 'userstatistics':
 			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
@@ -173,6 +174,12 @@
 						<div><a href="{{ URL::route('reports.aggregate.infection')}}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{trans('messages.infection-report')}}</a>
+						</div>
+					</li>
+					<li>
+						<div><a href="{{ URL::route('reports.aggregate.userStatistics')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.user-statistics-report')}}</a>
 						</div>
 					</li>
 				</ul>

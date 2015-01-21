@@ -302,5 +302,10 @@ Route::group(array("before" => "auth"), function()
             "uses" => "ReportController@infectionReport"
         ));
         
+        Route::any("/userstatistics", array(
+            "as"   => "reports.aggregate.userStatistics",
+            "uses" => "ReportController@userStatistics"
+        ));
+        
     });
 });

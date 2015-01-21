@@ -376,6 +376,9 @@ return array(
     'total'   =>  'Total|Totals',
     'total-tests'   =>  'Total Tests',
 
+    /* Usage Statistics Reports*/ 
+    'user-statistics-report' => 'User Statistics Report',
+    'report-type' => 'Report Type|Report Types',
 
     /** 
      *   Configurations
