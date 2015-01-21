@@ -296,6 +296,11 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.aggregate.counts",
             "uses" => "ReportController@countReports"
         ));
+
+        Route::any("/tat", array(
+            "as"   => "reports.aggregate.tat",
+            "uses" => "ReportController@turnaroundTime"
+        ));
         
     });
 });

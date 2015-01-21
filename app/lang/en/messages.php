@@ -372,6 +372,14 @@ return array(
     'age-ranges'    =>  'Age Ranges',
     'mf-total'  =>  'M/F Total',
     'total-tests'   =>  'Total Tests',
+    'select-interval'   =>  'Select Interval',
+    'interval'  =>  'Interval',
+    'expected-tat'  =>  'Expected TAT',
+    'actual-tat'    =>  'Actual TAT',
+    'waiting-time'  =>  'Waiting Time',
+    'monthly'   =>  'Monthly',
+    'weekly'    =>  'Weekly',
+    'daily' =>  'Daily',
 
 
     /** 

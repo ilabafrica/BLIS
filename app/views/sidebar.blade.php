@@ -20,6 +20,7 @@
 		case 'dailylog': 
 		case 'prevalence':
 		case 'counts':
+		case 'tat':
 			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
@@ -163,9 +164,9 @@
 						</div>
 					</li>
 					<li>
-						<div>
+						<div><a href="{{ URL::route('reports.aggregate.tat')}}">
 							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.turnaround-time')}}
+							{{trans('messages.turnaround-time')}}</a>
 						</div>
 					</li>
 					<li>
