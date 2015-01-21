@@ -90,8 +90,39 @@ class SanitasInterfacer implements InterfacerInterface{
                 $interpretation = "Tested and verified ".$test->interpretation;
             }
         }
+
+        //TestedBy
+        $tested_by = ExternalUser::where('internal_user_id', '=', $test->tested_by)->get()->first();
+
+        if($tested_by == null){
+            $tested_by = "59";
+        }
+        else if ($tested_by->external_user_id == null){
+            $tested_by = "59";
+        }
+        else{
+             $tested_by = $tested_by->external_user_id;
+        }
+
+        if($test->verified_by == 0 || $test->verified_by == null){
+            $verified_by = "";
+        }
+        else {
+            $verified_by = ExternalUser::where('internal_user_id', '=', $test->verified_by)->get()->first();
+
+            if($verified_by == null){
+                $verified_by = "59";
+            }
+            else if ($verified_by->external_user_id == null){
+                $verified_by = "59";
+            }
+            else {
+                $verified_by = $verified_by->external_user_id;
+            }
+        }
+
         $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
-            $labNo, $test->tested_by, $testResults->first()->result, $test->verified_by, $interpretation);
+            $labNo, $tested_by, $testResults->first()->result, $verified_by, $interpretation);
         $this->sendRequest($httpCurl, $jsonResponseString, $labNo);
 
         //loop through labRequests and foreach of them get the result and put in an array
@@ -108,7 +139,7 @@ class SanitasInterfacer implements InterfacerInterface{
                 $matchingResult = $testResults->get($rKey);
 
                 $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
-                            $externlabRequest->labNo, $test->tested_by, $matchingResult->result, $test->tested_by, "");
+                            $externlabRequest->labNo, $tested_by, $matchingResult->result, $verified_by, "");
                 $this->sendRequest($httpCurl, $jsonResponseString, $externlabRequest->labNo);
             }
         }
