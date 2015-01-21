@@ -149,6 +149,7 @@ return array(
      */
     /*Measure*/
     'add-new-measure-range' => 'Add New Range',
+    'add-new-measure' => 'Add Another Measure',
     'agemax' => 'Age Max',
     'agemin' => 'Age Min',
     'create-measure' => 'Create Measure',

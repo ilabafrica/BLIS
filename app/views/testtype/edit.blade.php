@@ -64,30 +64,13 @@
 				</div>
 			</div>
 			<div class="form-group">
-				{{ Form::label('measures', trans('messages.select-measures')) }}
+				{{ Form::label('measures', Lang::choice('messages.measure',2)) }}
 				<div class="form-pane panel panel-default">
 					<div class="container-fluid">
-						<?php 
-							$cnt = 0;
-							$zebra = "";
-						?>
-					@foreach($measures as $key=>$value)
-					@include("measure.edit")
-						{{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
-						<?php
-							$cnt++;
-							$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
-						?>
-						<div class="col-md-3 ">
-							<label  class="checkbox">
-								<input type="checkbox" name="measures[]" value="{{ $value->id}}" 
-									{{ in_array($value->id, $testtype->measures->lists('id'))?"checked":"" }} />
-									{{$value->name }}
-							</label>
-						</div>
-						{{ ($cnt%4==0)?"</div>":"" }}
-					@endforeach
+						@include("measure.edit")
 					</div>
+			        <a class="btn btn-default add-another-measure" href="javascript:void(0);">
+			         <span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.add-new-measure')}}</a>
 				</div>
 			</div>
 			<div class="form-group">

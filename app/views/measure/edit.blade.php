@@ -1,35 +1,45 @@
 @section("edit")
-<?php
-$measure = Measure::find($value->id);
-?>
+@foreach($testtype->measures as $key=>$measure)
 	{{ Form::model($measure, array('route' => array('measure.update', $measure->id), 'method' => 'PUT',
 		'id' => 'form-edit-measure')) }}
-
+<div class="row">
+	<div class="col-md-6">
 		<div class="form-group">
 			{{ Form::label('name', Lang::choice('messages.name',1)) }}
 			{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 		</div>
+	</div>
+	<div class="col-md-6">
 		<div class="form-group">
 			{{ Form::label('measure_type_id', Lang::choice('messages.specimen-type',1)) }}
 			{{ Form::select('measure_type_id', array(0 => '')+$measuretype->lists('name', 'id'),
-			Input::old('measure_type_id'), array('class' => 'form-control measuretype-input-trigger',
-			'id' => 'measuretype')) 
+			Input::old('measure_type_id'), array('class' => 'form-control measuretype-input-trigger '.$measure->id,
+			'data-measure-id' => $measure->id)) 
 			}}
 		</div>
+	</div>
+	<div class="col-md-6">
 		<div class="form-group">
 			{{ Form::label('unit', trans('messages.unit')) }}
 			{{ Form::text('unit', Input::old('unit'), array('class' => 'form-control')) }}
 		</div>
+	</div>
+	<div class="col-md-6">
 		<div class="form-group">
 			{{ Form::label('description', trans('messages.description')) }}
 			{{ Form::textarea('description', Input::old('description'), array('class' => 'form-control',
 				'rows'=>'2')) }}
 		</div>
+	</div>
+	<div class="col-md-12">
 		<div class="form-group">
 			<label for="measurerange">{{trans('messages.measure-range-values')}}</label>
 			<div class="form-pane panel panel-default">
 				<div class="panel-body">
-					<div class="{{($measure->measure_type_id == 1) ? 'col-md-12' : 'col-md-6' }} measurevalue">
+				<div>
+					<div 
+					class="{{($measure->measure_type_id == 1) ? 'col-md-12' : 'col-md-6' }} 
+					measurevalue {{$measure->id}}">
 					
 					@if ($measure->measure_type_id == 1)
 						<div class="col-md-12">
@@ -41,7 +51,8 @@ $measure = Measure::find($value->id);
 			                	<span class="col-md-12 range-title">{{trans('messages.measure-range')}}</span>
 			                </div>
 			                <div class="col-md-2">
-			                	<span class="col-md-12 interpretation-title">{{trans('messages.interpretation')}}</span>
+			                	<span class="col-md-12 interpretation-title">{{trans('messages.interpretation')}}
+			                	</span>
 			                </div>
 						</div>     
 						@foreach($measure->measureRanges as $key=>$value)
@@ -62,10 +73,12 @@ $measure = Measure::find($value->id);
 				                </select>
 				            </div>
 				            <div class="col-md-3">
-				                <input class="col-md-4" name="rangemin[]" type="text" value="{{ $value->range_lower }}" 
+				                <input class="col-md-4" name="rangemin[]" type="text"
+				                	value="{{ $value->range_lower }}" 
 				                    title="{{trans('messages.lower-range')}}">
 				                <span class="col-md-2">:</span>
-				                <input class="col-md-4" name="rangemax[]" type="text" value="{{ $value->range_upper }}"
+				                <input class="col-md-4" name="rangemax[]" type="text"
+				                	value="{{ $value->range_upper }}"
 				                    title="{{trans('messages.upper-range')}}">
 				            </div>
 				            <div class="col-md-2">
@@ -98,17 +111,19 @@ $measure = Measure::find($value->id);
 				            </div>
 				        </div>  
 						@endforeach
-
 					@endif
-					</div>
+				</div>
+				<div class="col-md-12 actions-row">
+					<a class="btn btn-default add-another-range" href="javascript:void(0);" 
+						data-measure-id="{{$measure->id}}">
+					<span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.add-new-measure-range')}}</a>
+				</div>
+				</div>
 				</div>
 			</div>
 		</div>
-		<div class="form-group actions-row">
-			<a class="btn btn-default add-another-range" href="javascript:void(0);">
-				<span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.add-new-measure-range')}}</a>
-			{{ Form::button('<span class="glyphicon glyphicon-save"></span>'.trans('messages.update-measure'), 
-				array('class' => 'btn btn-default', 'onclick' => 'submit()')) }}
-		</div>
+	</div>
+</div>
 	{{ Form::close() }}
+@endforeach
 @show

@@ -52,8 +52,15 @@ $(function(){
 
 	/** 
 	 *	MEASURES 
-	 *  - Add another measure button 
 	 */
+
+	 /* Add another measure */
+	$('.add-another-measure').click(function(){
+		var inputHtml = $('.whattoload').html();
+		$('.wheretoloaditmen').append(inputHtml);
+	});
+
+	 /* Add another measure range value */
 	$('.add-another-range').click(function(){
 		var inputClass = [
 			'.numericInputLoader',
@@ -61,9 +68,10 @@ $(function(){
 			'.alphanumericInputLoader',
 			'.freetextInputLoader'
 		]; 
-		var id = $("#measuretype").val() - 1;
+		var measureID = $(this).data('measure-id');
+		var id = $('.measuretype-input-trigger.'+measureID).val() - 1;
 		var inputHtml = $(inputClass[id]).html();
-		$(".measurevalue" ).append(inputHtml);
+		$(".measurevalue."+measureID).append(inputHtml);
 	});
 
 	/*  load measure range input UI for the selected measure type */
@@ -334,19 +342,20 @@ $(function(){
 			'.alphanumericInputLoader',
 			'.freetextInputLoader'
 		]; 
-		var id = $('.measuretype-input-trigger').val() - 1;
+		var measureID = $(this).data('measure-id');
+		id = $('.measuretype-input-trigger.'+measureID).val() - 1;
 		var headerHtml = $(headerClass[id]).html();
 		var inputHtml = $(inputClass[id]).html();
 		if (id == 0) {
-			$('.measurevalue').removeClass('col-md-6');
-			$('.measurevalue').addClass('col-md-12');
+			$('.measurevalue.'+measureID).removeClass('col-md-6');
+			$('.measurevalue.'+measureID).addClass('col-md-12');
 		} else{
-			$('.measurevalue').removeClass('col-md-12');
-			$('.measurevalue').addClass('col-md-6');
+			$('.measurevalue.'+measureID).removeClass('col-md-12');
+			$('.measurevalue.'+measureID).addClass('col-md-6');
 		}
-		$('.measurevalue').empty();
-		$('.measurevalue').append(headerHtml);
-		$('.measurevalue').append(inputHtml);
+		$('.measurevalue.'+measureID).empty();
+		$('.measurevalue.'+measureID).append(headerHtml);
+		$('.measurevalue.'+measureID).append(inputHtml);
 	}
 
 	function UIComponents(){

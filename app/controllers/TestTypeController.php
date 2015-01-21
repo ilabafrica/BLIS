@@ -109,7 +109,7 @@ class TestTypeController extends \BaseController {
 	{
 		//Get the testtype
 		$testtype = TestType::find($id);
-		$measures = Measure::orderBy('name')->get();
+		$measures = Measure::all();
         $measuretype = MeasureType::all()->sortBy('id');
 		$specimentypes = SpecimenType::orderBy('name')->get();
 		$testcategory = TestCategory::all();

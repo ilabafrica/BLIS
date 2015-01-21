@@ -61,28 +61,10 @@
 				</div>
 			</div>
 			<div class="form-group">
-				{{ Form::label('measures', trans('messages.select-measures')) }}
+				{{ Form::label('measures', Lang::choice('messages.measure',2)) }}
 				<div class="form-pane panel panel-default">
 					<div class="panel-body">
-						@include("measure.create")
 						<div class="container-fluid">
-							<?php 
-								$cnt = 0;
-								$zebra = "";
-							?>
-						@foreach($measures as $key=>$value)
-							{{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
-							<?php
-								$cnt++;
-								$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
-							?>
-							<div class="col-md-3">
-								<label  class="checkbox">
-									<input type="checkbox" name="measures[]" value="{{ $value->id}}" />{{$value->name}}
-								</label>
-							</div>
-							{{ ($cnt%4==0)?"</div>":"" }}
-						@endforeach
 						</div>
 					</div>
 				</div>

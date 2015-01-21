@@ -115,12 +115,6 @@
 								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.test-type', 2)}}</a>
 						</div>
 					</li>
-					<li>
-						<div>
-							<a href="{{ URL::route("measure.index")}}" >
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.measure', 2)}}</a>
-						</div>
-					</li>
 				</ul>
 			</div>
 		</li>
