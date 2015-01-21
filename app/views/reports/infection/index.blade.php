@@ -74,9 +74,9 @@
 						<th rowspan="2">{{ trans('messages.total-tests') }}</th>
 					</tr>
 					<tr>
-					@foreach($ageRanges as $ageRange)
-						<th>{{ $ageRange }}</th>
-				    @endforeach
+						@foreach($ageRanges as $ageRange => $description)
+							<th title='{{$description}}'>{{ $ageRange }}</th>
+					    @endforeach
 					</tr>
 					<?php 
 						$testRow = "";

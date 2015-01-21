@@ -587,7 +587,7 @@ class ReportController extends \BaseController {
 	 *
 	 */
 	public function infectionReport(){
-	 	$ageRanges = array('0-5', '5-15', '15-120');	//	Age ranges - will definitely change in configurations
+	 	$ageRanges = array('0-5'=>'Under 5 years', '5-14'=>'5 years and over but under 14 years', '14-120'=>'14 years and above');	//	Age ranges - will definitely change in configurations
 		$gender = array(Patient::MALE, Patient::FEMALE); 	//	Array for gender - male/female
 		$ranges = array('Low', 'Normal', 'High');
 
