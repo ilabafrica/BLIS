@@ -246,7 +246,7 @@ class Test extends Eloquent
 	public static function getInfectionData($startTime, $endTime){
 		$lowAgeBound = 5;
 		$midAgeBound = 14;
-		
+
 		$data = DB::select(
 			"SELECT * FROM (
 				SELECT
@@ -254,16 +254,16 @@ class Test extends Eloquent
 				    m.name AS measure_name,
 				    mr.alphanumeric AS result,
 					s.gender,
-				    count(
+				    count(DISTINCT
 				    	IF((tr.result = mr.alphanumeric AND p.gender=s.id
-				    		AND floor(datediff(t.time_created,p.dob)/365.25)<$lowAgeBound),1,null)) AS RC_U_5,
-				    count(
+				    		AND floor(datediff(t.time_created,p.dob)/365.25)<$lowAgeBound),t.id,NULL)) AS RC_U_5,
+				    count(DISTINCT
 				    	IF((tr.result = mr.alphanumeric AND p.gender=s.id 
 				    		AND floor(datediff(t.time_created,p.dob)/365.25)>=$lowAgeBound 
-				    		AND floor(datediff(t.time_created,p.dob)/365.25)<$midAgeBound),1,null)) AS RC_5_15,
-				    count(
+				    		AND floor(datediff(t.time_created,p.dob)/365.25)<$midAgeBound),t.id,NULL)) AS RC_5_15,
+				    count(DISTINCT
 				    	IF((tr.result = mr.alphanumeric AND p.gender=s.id 
-				    		AND floor(datediff(t.time_created,p.dob)/365.25)>=$midAgeBound),1,null)) AS RC_A_15
+				    		AND floor(datediff(t.time_created,p.dob)/365.25)>=$midAgeBound),t.id,NULL)) AS RC_A_15
 				FROM test_types tt
 				    INNER JOIN testtype_measures tm ON tt.id = tm.test_type_id
 				    INNER JOIN measures m ON tm.measure_id = m.id
@@ -351,7 +351,8 @@ class Test extends Eloquent
 					INNER JOIN visits v ON t.visit_id = v.id
 					INNER JOIN patients p ON v.patient_id = p.id
 					INNER JOIN test_results tr ON t.id = tr.test_id AND tm.measure_id = tr.measure_id
-				WHERE mmr.measure_type_id = 1 AND t.time_created BETWEEN ? AND ?
+				WHERE (t.test_status_id=4 OR t.test_status_id=5) AND mmr.measure_type_id = 1 
+					AND t.time_created BETWEEN ? AND ?
 				GROUP BY tt.id, tm.measure_id, mmr.result_alias, s.id) 
 			ORDER BY test_name, measure_name, result, gender",
 			array($startTime, $endTime, $startTime, $endTime)
