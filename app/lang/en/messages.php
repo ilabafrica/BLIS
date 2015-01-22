@@ -270,7 +270,7 @@ return array(
     'verify-title' => 'Verify Test Results',
     'view-details' => 'View',
     'view-details-title' => 'View Test Details',
-    'visit-number' => 'Lab No.',
+    'visit-number' => 'Visit Number.',
     'visit-type' => 'Visit Type',
 
     /** 

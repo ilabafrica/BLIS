@@ -45,7 +45,9 @@ class CreatekBLIStables extends Migration {
             $table->string('email', 100)->nullable();
             $table->string('address', 150)->nullable();
             $table->string('phone_number')->nullable();
-            $table->string('external_patient_number')->nullable();
+            $table->string('external_patient_number', 20)->nullable();
+
+            $table->index('external_patient_number');
 
             $table->softDeletes();
             $table->timestamps();
