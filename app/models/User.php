@@ -110,9 +110,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public static function getSummaryUserStatistics($from, $to, $userID=0)
 	{
-		/*
-		* - 'created_by' field in patients table is needed
-		*/
+
 		$params = array($from, $to, $from, $to, $from, $to, $from, $to, $from, $to);
 		$whereClause = "";
 
@@ -139,5 +137,68 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $data;
 	}
 
+	/**
+	 * Get the patients registered by a user
+	 *
+	 * @return db resultset
+	 */
+	public static function getPatientsRegistered($from, $to, $userID=0)
+	{
+
+		$patients = Patient::select(['id'])->whereBetween('created_at', [$from, $to]);
+		
+		if($userID > 0)
+			$patients = $patients->where('created_by', '=', $userID);
+
+		return $patients->get();
+	}
+
+	/**
+	 * Get the specimen registered by a user
+	 *
+	 * @return db resultset
+	 */
+	public static function getSpecimensRegistered($from, $to, $userID=0)
+	{
+
+		$specimens = Specimen::select(['id'])->whereBetween('time_accepted', [$from, $to]);
+		
+		if($userID > 0)
+			$specimens = $specimens->where('accepted_by', '=', $userID);
+
+		return $specimens->get();
+	}
+
+	/**
+	 * Get the tests registered by a user
+	 *
+	 * @return db resultset
+	 */
+	public static function getTestsRegistered($from, $to, $userID=0)
+	{
+
+		$tests = Test::select(['id'])->whereBetween('time_completed', [$from, $to]);
+		
+		if($userID > 0)
+			$tests = $tests->where('created_by', '=', $userID);
+
+		return $tests->get();
+	}
+
+	/**
+	 * Get the tests performed by a user
+	 *
+	 * @return db resultset
+	 */
+	public static function getTestsPerformed($from, $to, $userID=0)
+	{
+
+		$tests = Test::select(['id'])->whereBetween('time_completed', [$from, $to]);
+		
+		if($userID > 0)
+			$tests = $tests->where('tested_by', '=', $userID);
+
+		return $tests->get();
+	}
 
 }
