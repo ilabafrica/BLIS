@@ -56,7 +56,7 @@ class UserController extends Controller {
     public function index()
     {
         // List all the active users
-            $users = User::paginate(Config::get('kblis.page-items'));
+            $users = User::orderBy('name', 'ASC')->get();
 
         // Load the view and pass the users
         return View::make('user.index')->with('users', $users);

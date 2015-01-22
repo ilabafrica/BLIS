@@ -21,7 +21,7 @@
 		</div>
 	</div>
 	<div class="panel-body">
-		<table class="table table-striped table-hover table-condensed">
+		<table class="table table-striped table-hover table-condensed" id="user-index">
 			<thead>
 				<tr>
 					<th>{{ trans('messages.username') }}</th>
@@ -71,8 +71,7 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $users->links(); 
-		Session::put('SOURCE_URL', URL::full());?>
+		{{ Session::put('SOURCE_URL', URL::full()) }}
 	</div>
 </div>
 @stop

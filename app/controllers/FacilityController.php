@@ -10,7 +10,7 @@ class FacilityController extends \BaseController {
 	public function index()
 	{
 		//List all facilities
-		$facilities = Facility::paginate(Config::get('kblis.page-items'));
+		$facilities = Facility::orderBy('name', 'asc')->get();
 		//Load the view and pass the facilities
 		return View::make('facility.index')->with('facilities',$facilities);
 	}

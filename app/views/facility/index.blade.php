@@ -21,10 +21,11 @@
 		</div>
 	</div>
 	<div class="panel-body">
-		<table class="table table-striped table-hover table-condensed">
+		<table class="table table-striped table-hover table-condensed" id="facilities-index">
 			<thead>
 				<tr>
-					<th>{{ trans('messages.name') }}</th>
+					<th>{{ Lang::choice('messages.name', 1) }}</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -52,8 +53,7 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $facilities->links();
-		Session::put('SOURCE_URL', URL::full()); ?>
+		{{ Session::put('SOURCE_URL', URL::full()) }}
 	</div>
 </div>
 @stop

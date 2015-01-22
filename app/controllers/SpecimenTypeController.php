@@ -16,7 +16,7 @@ class SpecimenTypeController extends \BaseController {
 	public function index()
 	{
 		// List all the active specimentypes
-			$specimentypes = SpecimenType::paginate(Config::get('kblis.page-items'));
+			$specimentypes = SpecimenType::orderBy('name', 'ASC')->get();
 
 		// Load the view and pass the specimentypes
 		return View::make('specimentype.index')->with('specimentypes', $specimentypes);

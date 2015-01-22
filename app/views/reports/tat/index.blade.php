@@ -105,11 +105,6 @@
 {{ HTML::script('highcharts/highcharts.js') }}
 {{ HTML::script('highcharts/exporting.js') }}
 <!-- End HighCharts scripts -->
-<script type="text/javascript">
-	$(document).ready(function(){
-		reportScripts();
-	});
-</script>
 <?php
 	$stat_list = array();
 		$show_in_hours = true;
