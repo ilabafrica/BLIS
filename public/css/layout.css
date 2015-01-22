@@ -16,7 +16,7 @@ body {
 
  /*  General and Miscellaneous Tag Styles */
 label, input {
-    float: left;
+    float: right;
 }
 
 .smaller-text {
