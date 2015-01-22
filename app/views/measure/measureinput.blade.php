@@ -1,5 +1,61 @@
 @section("measureinput")
 <!-- OTHER UI COMPONENTS -->
+    <div class="hidden measureGenericLoader">
+        <div class="row new-measure-section">
+            <div class="col-md-11 measure">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {{ Form::label('name', Lang::choice('messages.name',1)) }}
+                        {{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {{ Form::label('measure_type_id', trans('messages.measure-type')) }}
+                        {{ Form::select('measure_type_id', array(0 => '')+$measuretype->lists('name', 'id'),
+                        Input::old('measure_type_id'), array('class' => 'form-control measuretype-input-trigger',
+                        'data-measure-id'=>'0', 'data-new-measure-id' => '')) 
+                        }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {{ Form::label('unit', trans('messages.unit')) }}
+                        {{ Form::text('unit', Input::old('unit'), array('class' => 'form-control')) }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {{ Form::label('description', trans('messages.description')) }}
+                        {{ Form::textarea('description', Input::old('description'), array('class' => 'form-control',
+                            'rows'=>'2')) }}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="measurerange">{{trans('messages.measure-range-values')}}</label>
+                        <div class="form-pane panel panel-default">
+                            <div class="panel-body">
+                            <div>
+                                <div class="measurevalue"></div>
+                                <div class="col-md-12 actions-row">
+                                    <a class="btn btn-default add-another-range" href="javascript:void(0);" 
+                                        data-measure-id="0"
+                                        data-new-measure-id="">
+                                    <span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.add-new-measure-range')}}</a>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <button class="col-md-12 close" aria-hidden="true" type="button" 
+                    title="{{trans('messages.delete')}}">×</button>
+            </div>
+        </div>    
+    </div><!-- measureGeneric -->
     <div class="hidden numericHeaderLoader">
         <div class="col-md-12">
             <div class="col-md-4">

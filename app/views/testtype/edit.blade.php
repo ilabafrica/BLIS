@@ -66,10 +66,10 @@
 			<div class="form-group">
 				{{ Form::label('measures', Lang::choice('messages.measure',2)) }}
 				<div class="form-pane panel panel-default">
-					<div class="container-fluid">
+					<div class="container-fluid measure-container">
 						@include("measure.edit")
 					</div>
-			        <a class="btn btn-default add-another-measure" href="javascript:void(0);">
+			        <a class="btn btn-default add-another-measure" href="javascript:void(0);" data-new-measure="1">
 			         <span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.add-new-measure')}}</a>
 				</div>
 			</div>

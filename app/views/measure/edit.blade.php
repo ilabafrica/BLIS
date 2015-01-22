@@ -2,29 +2,30 @@
 @foreach($testtype->measures as $key=>$measure)
 	{{ Form::model($measure, array('route' => array('measure.update', $measure->id), 'method' => 'PUT',
 		'id' => 'form-edit-measure')) }}
-<div class="row">
-	<div class="col-md-6">
+<div class="row measure-section">
+<div class="col-md-11 measure">
+	<div class="col-md-3">
 		<div class="form-group">
 			{{ Form::label('name', Lang::choice('messages.name',1)) }}
 			{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 		</div>
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-3">
 		<div class="form-group">
-			{{ Form::label('measure_type_id', Lang::choice('messages.specimen-type',1)) }}
+			{{ Form::label('measure_type_id', trans('messages.measure-type')) }}
 			{{ Form::select('measure_type_id', array(0 => '')+$measuretype->lists('name', 'id'),
 			Input::old('measure_type_id'), array('class' => 'form-control measuretype-input-trigger '.$measure->id,
 			'data-measure-id' => $measure->id)) 
 			}}
 		</div>
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-3">
 		<div class="form-group">
 			{{ Form::label('unit', trans('messages.unit')) }}
 			{{ Form::text('unit', Input::old('unit'), array('class' => 'form-control')) }}
 		</div>
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-3">
 		<div class="form-group">
 			{{ Form::label('description', trans('messages.description')) }}
 			{{ Form::textarea('description', Input::old('description'), array('class' => 'form-control',
@@ -38,8 +39,7 @@
 				<div class="panel-body">
 				<div>
 					<div 
-					class="{{($measure->measure_type_id == 1) ? 'col-md-12' : 'col-md-6' }} 
-					measurevalue {{$measure->id}}">
+					class="{{($measure->measure_type_id == 1) ? 'col-md-12' : 'col-md-6' }} measurevalue {{$measure->id}}">
 					
 					@if ($measure->measure_type_id == 1)
 						<div class="col-md-12">
@@ -123,6 +123,11 @@
 			</div>
 		</div>
 	</div>
+</div>
+<div class="col-md-1">
+	<button class="col-md-12 close" aria-hidden="true" type="button" 
+        title="{{trans('messages.delete')}}">×</button>
+</div>
 </div>
 	{{ Form::close() }}
 @endforeach
