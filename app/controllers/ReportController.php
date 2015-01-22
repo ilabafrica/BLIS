@@ -635,9 +635,12 @@ class ReportController extends \BaseController {
 		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
 
 		$reportTypes = array('Summary', 'Patient Registry', 'Specimen Registry', 'Tests Registry', 'Results Entry');
+
+		$reportData = User::getSummaryUserStatistics($from, $to, Input::get('user'));
 		
 		return View::make('reports.userstatistics.index')
 					->with('reportTypes', $reportTypes)
+					->with('reportData', $reportData)
 					->withInput(Input::all());
 	}
 }

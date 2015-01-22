@@ -83,16 +83,36 @@
 		@endif	
 
 		<div class="table-responsive">
+			<h4>User Summary Report for the period {{$input['start']}} to {{$input['end']}}</h4>
 			<table class="table table-bordered">
 				<thead>
 					<tr>
 						<th></th>
+						<th>{{Lang::choice('messages.name',1)}}</th>
+						<th>{{Lang::choice('messages.received-tests',1)}}</th>
+						<th>{{Lang::choice('messages.accepted-specimen',1)}}</th>
+						<th>{{Lang::choice('messages.rejected-specimen',1)}}</th>
+						<th>{{Lang::choice('messages.performed-tests',1)}}</th>
+						<th>{{Lang::choice('messages.verified-tests',1)}}</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td></td>
-					</tr>
+					<?php $i = 1;?>
+					@forelse($reportData as $row)
+						<tr>
+							<td>{{$i++}}</td>
+							<td>{{$row->name}}</td>
+							<td>{{$row->created}}</td>
+							<td>{{$row->specimen_registered}}</td>
+							<td>{{$row->specimen_rejected}}</td>
+							<td>{{$row->tested}}</td>
+							<td>{{$row->verified}}</td>
+						</tr>
+					@empty
+						<tr>
+							<td>{{Lang::choice('messages.no-data-found',1)}}</td>
+						</tr>
+					@endforelse
 				</tbody>
 			</table>
 		</div><!--/.table-responsive -->

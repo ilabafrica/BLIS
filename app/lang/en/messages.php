@@ -377,8 +377,13 @@ return array(
     'total-tests'   =>  'Total Tests',
 
     /* Usage Statistics Reports*/ 
-    'user-statistics-report' => 'User Statistics Report',
+    'accepted-specimen' => 'Specimen Collected',
+    'rejected-specimen' => 'Specimen Rejected',
+    'performed-tests' => 'Tests Performed',
+    'received-tests' => 'Tests Received',
     'report-type' => 'Report Type|Report Types',
+    'user-statistics-report' => 'User Statistics Report',
+    'verified-tests' => 'Tests Verified',
 
     /** 
      *   Configurations
