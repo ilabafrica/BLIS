@@ -34,13 +34,13 @@ class Patient extends Eloquent
 	 *
 	 * @return String x years y months
 	 */
-	public function getAge()
+	public function getAge($shortForm=false)
 	{
 		$dateOfBirth = new DateTime($this->dob);
 		$now = new DateTime('now');
 		$interval = $dateOfBirth->diff($now);
 
-		return $interval->y ." years " . $interval->m ." months";
+		return $shortForm ? $interval->y : $interval->y." years " . $interval->m ." months";
 	}
 
 	/**

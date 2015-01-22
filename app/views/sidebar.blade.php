@@ -21,6 +21,7 @@
 		case 'prevalence':
 		case 'counts':
 		case 'tat':
+		case 'infection':
 			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
@@ -170,9 +171,9 @@
 						</div>
 					</li>
 					<li>
-						<div>
+						<div><a href="{{ URL::route('reports.aggregate.infection')}}">
 							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.infection-report')}}
+							{{trans('messages.infection-report')}}</a>
 						</div>
 					</li>
 				</ul>

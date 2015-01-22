@@ -50,7 +50,6 @@ class Measure extends Eloquent
 	{
 	  return $this->belongsToMany('TestType', 'testtype_measures');
 	}
-
 	public function getResultInterpretation($result)
 	{
 		$measure = Measure::find($result['measureid']);
@@ -133,7 +132,7 @@ class Measure extends Eloquent
 		if($this->measureType->id == Measure::FREETEXT){
 			return true;
 		}
-		else 
+		else
 			return false;
 	}
 }

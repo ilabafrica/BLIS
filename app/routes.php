@@ -301,6 +301,11 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.aggregate.tat",
             "uses" => "ReportController@turnaroundTime"
         ));
+
+        Route::any("/infection", array(
+            "as"   => "reports.aggregate.infection",
+            "uses" => "ReportController@infectionReport"
+        ));
         
     });
 });
