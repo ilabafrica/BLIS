@@ -18,7 +18,7 @@ class ReportController extends \BaseController {
 		}
 
 		// Load the view and pass the patients
-		return View::make('reports.patient.index')->with('patients', $patients);
+		return View::make('reports.patient.index')->with('patients', $patients)->withInput(Input::all());
 	}
 
 	/**

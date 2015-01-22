@@ -16,26 +16,26 @@
                 {{ Form::open(array('route' => array('test.index'), 'class'=>'form-inline')) }}
                     <div class="form-group">
                         {{ Form::label('search', trans('messages.search'), array('class' => 'sr-only')) }}
-                        {{ Form::text('search', isset($input['search'])?$input['search']:'', 
+                        {{ Form::text('search', Input::get('search'),
                             array('class' => 'form-control')) }}
                     </div>
                     <div class="form-group">
                         {{ Form::label('test_status', trans('messages.test-status'), array('class' => 'sr-only')) }}
-                        {{ Form::select('test_status', $testStatus, 
-                            isset($input['test_status'])?$input['test_status']:'', array('class' => 'form-control')) }}
+                        {{ Form::select('test_status', $testStatus,
+                            Input::get('test_status'), array('class' => 'form-control')) }}
                     </div>
 
                     {{trans('messages.from')}} 
                     <div class="form-group">
                         {{ Form::label('date_from', trans('messages.from'), array('class' => 'sr-only')) }}
-                        {{ Form::text('date_from', isset($input['date_from'])?$input['date_from']:'', 
+                        {{ Form::text('date_from', Input::get('date_from'), 
                             array('class' => 'form-control standard-datepicker')) }}
                     </div>
 
                     {{trans('messages.to')}} 
                     <div class="form-group">
                         {{ Form::label('date_to', trans('messages.to'), array('class' => 'sr-only')) }}
-                        {{ Form::text('date_to', isset($input['date_to'])?$input['date_to']:'', 
+                        {{ Form::text('date_to', Input::get('date_to'), 
                             array('class' => 'form-control standard-datepicker')) }}
                     </div>
 
@@ -79,7 +79,7 @@
                     <tr>
                         <th>{{trans('messages.date-ordered')}}</th>
                         <th>{{trans('messages.patient-number')}}</th>
-                        <th>{{trans('Visit Number')}}</th>
+                        <th>{{trans('messages.visit-number')}}</th>
                         <th>{{trans('messages.patient-name')}}</th>
                         <th>{{ Lang::choice('messages.test',1) }}</th>
                         <th>{{trans('messages.visit-type')}}</th>
@@ -94,9 +94,9 @@
                         @endif
                         >
                         <td>{{ date('d-m-Y H:i', strtotime($test->time_created));}}</td>        <!--Date Ordered-->
-                        <td>{{ $test->visit->patient->patient_number }}</td>      <!--Patient Number -->
-                        <td>{{ $test->visit->visit_number }}</td>     <!--Visit Number -->
-                        <td>{{ $test->visit->patient->name.' ('.($test->visit->patient->getGender('gender')).','.date_diff(date_create($test->visit->patient->dob), date_create('now'))->y. ')'}}</td>      <!--Patient Name -->
+                        <td>{{ $test->visit->patient->external_patient_number or $test->visit->patient->patient_number }}</td>      <!--Patient Number -->
+                        <td>{{ $test->visit->visit_number or $test->visit->id }}</td>     <!--Visit Number -->
+                        <td>{{ $test->visit->patient->name.' ('.($test->visit->patient->getGender('gender')).', '.$test->visit->patient->getAge(true).')'}}</td>      <!--Patient Name -->
                         <td>{{ $test->testType->name }}</td>            <!--Test-->
                         <td>{{ $test->visit->visit_type }}</td>         <!--Visit Type -->
                         <td id="test-status-{{$test->id}}" class='test-status'>

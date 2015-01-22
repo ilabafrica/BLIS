@@ -33,7 +33,10 @@ class TestController extends \BaseController {
 					{
 						if(is_numeric($searchString))
 						{
-							$q->where('patient_number', 'like', '%' . $searchString . '%');
+							$q->where(function($q) use ($searchString){
+								$q->where('external_patient_number', '=', $searchString )
+								  ->orWhere('patient_number', '=', $searchString );
+							});
 						}
 						else
 						{
@@ -47,11 +50,14 @@ class TestController extends \BaseController {
 				})
 				->orWhereHas('specimen', function($q) use ($searchString)
 				{
-				    $q->where('id', 'like', '%' . $searchString . '%');//Search by specimen number
+				    $q->where('id', '=', $searchString );//Search by specimen number
 				})
 				->orWhereHas('visit',  function($q) use ($searchString)
 				{
-					$q->where('id', 'like', '%' . $searchString . '%');//Search by visit number
+					$q->where(function($q) use ($searchString){
+						$q->where('visit_number', '=', $searchString )//Search by visit number
+						->orWhere('id', '=', $searchString);
+					});
 				});
 			});
 
