@@ -198,6 +198,7 @@ class SanitasInterfacer implements InterfacerInterface{
             $patient->dob = $labRequest['patient']['dateOfBirth'];
             $patient->address = $labRequest['address']['address'];
             $patient->phone_number = $labRequest['address']['phoneNumber'];
+            $patient->created_by = User::EXTERNAL_SYSTEM_USER;
             $patient->save();
         }
 

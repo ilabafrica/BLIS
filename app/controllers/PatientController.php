@@ -63,6 +63,7 @@ class PatientController extends \BaseController {
 			$patient->email = Input::get('email');
 			$patient->address = Input::get('address');
 			$patient->phone_number = Input::get('phone_number');
+			$patient->created_by = Auth::id();
 
 			try{
 				$patient->save();
@@ -139,6 +140,7 @@ class PatientController extends \BaseController {
 			$patient->email = Input::get('email');
 			$patient->address = Input::get('address');
 			$patient->phone_number = Input::get('phone_number');
+			$patient->created_by = Auth::id();
 			$patient->save();
 
 			// redirect
