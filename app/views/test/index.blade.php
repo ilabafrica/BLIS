@@ -102,11 +102,18 @@
                         <td id="test-status-{{$test->id}}" class='test-status'>
                             <!-- Test Statuses -->
                             <div class="container-fluid">
+                            
                                 <div class="row">
+
                                     <div class="col-md-12">
                                         @if($test->isNotReceived())
+                                            @if($test->isPaid())
+                                                <span class='label label-default'>
+                                                    {{trans('messages.not-paid')}}</span>
+                                            @else
                                             <span class='label label-default'>
                                                 {{trans('messages.not-received')}}</span>
+                                            @endif
                                         @elseif($test->isPending())
                                             <span class='label label-info'>
                                                 {{trans('messages.pending')}}</span>
@@ -120,13 +127,17 @@
                                             <span class='label label-success'>
                                                 {{trans('messages.verified')}}</span>
                                         @endif
-                                    </div></div>
+                                    </div>
+    
+                                    </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <!-- Specimen statuses -->
                                         @if($test->specimen->isNotCollected())
+                                         @if(!($test->isPaid()))
                                             <span class='label label-default'>
                                                 {{trans('messages.specimen-not-collected-label')}}</span>
+                                            @endif
                                         @elseif($test->specimen->isReferred())
                                             <span class='label label-primary'>
                                                 {{trans('messages.specimen-referred-label') }}
@@ -156,7 +167,9 @@
                             </a>
                             
                         @if ($test->isNotReceived()) 
-                            @if(Auth::user()->can('receive_external_test'))
+                        @if(Auth::user()->can('receive_external_test'))
+                            @if(!($test->isPaid()))
+                             
                             <a class="btn btn-sm btn-default receive-test"
                                 href="{{URL::route('test.receive', array($test->id))}}"
                                 title="{{trans('messages.receive-test-title')}}">
@@ -164,6 +177,7 @@
                                 {{trans('messages.receive-test')}}
                             </a>
                             @endif
+                        @endif
                         @elseif ($test->specimen->isNotCollected())
                             @if(Auth::user()->can('accept_test_specimen'))
                                 <a class="btn btn-sm btn-info accept-specimen" href="javascript:void(0)"

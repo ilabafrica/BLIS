@@ -107,7 +107,7 @@ return array(
     /** 
      *   Specimen
      */
-
+    'not-paid' => 'Not Paid',
     'accept-specimen' => 'Accept',
     'accept-specimen-title' => 'Accept Specimen',
     'change-specimen' => 'Change',

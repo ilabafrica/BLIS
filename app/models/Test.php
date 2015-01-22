@@ -59,8 +59,8 @@ class Test extends Eloquent
 	{
 		return $this->belongsTo('User', 'created_by', 'id');
 	}
-
-	/**
+    /**
+	
 	 * User (tested) relationship
 	 */
 	public function testedBy()
@@ -189,6 +189,24 @@ class Test extends Eloquent
 		return $turnaroundTime;
 	}
 
+	/**
+	 * Showing payment status
+	 */
+	public function isPaid()
+	{
+		if( $this->visit->patient->getAge() >= 6
+		    //&& $test->external_dump['orderStage'] == "op" 
+			//&& $test->external_dump['receiptNumber'] == "" 
+			//&& $test->external_dump['receiptType'] == ""  
+		    )
+		{
+			return false;
+		} 
+		else {
+			return true;	
+		} 
+	    
+	}
 	/**
 	 * Turnaround Time as a formated string (Years Weeks Days Hours Minutes Seconds)
 	 */
