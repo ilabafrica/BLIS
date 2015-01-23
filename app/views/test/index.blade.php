@@ -11,40 +11,45 @@
     @endif
 
     <div class='container-fluid'>
-        <div class='row'>
-            <div class='col-md-12'>
-                {{ Form::open(array('route' => array('test.index'), 'class'=>'form-inline')) }}
-                    <div class="form-group">
-                        {{ Form::label('search', trans('messages.search'), array('class' => 'sr-only')) }}
-                        {{ Form::text('search', Input::get('search'),
-                            array('class' => 'form-control')) }}
+        {{ Form::open(array('route' => array('test.index'), 'class'=>'form-inline')) }}
+            <div class='row'>
+                <div class='col-md-3'>
+                    <div class='col-md-2'>
+                        {{ Form::label('date_from', trans('messages.from')) }}
                     </div>
-                    <div class="form-group">
-                        {{ Form::label('test_status', trans('messages.test-status'), array('class' => 'sr-only')) }}
-                        {{ Form::select('test_status', $testStatus,
-                            Input::get('test_status'), array('class' => 'form-control')) }}
-                    </div>
-
-                    {{trans('messages.from')}} 
-                    <div class="form-group">
-                        {{ Form::label('date_from', trans('messages.from'), array('class' => 'sr-only')) }}
+                    <div class='col-md-10'>
                         {{ Form::text('date_from', Input::get('date_from'), 
                             array('class' => 'form-control standard-datepicker')) }}
                     </div>
-
-                    {{trans('messages.to')}} 
-                    <div class="form-group">
-                        {{ Form::label('date_to', trans('messages.to'), array('class' => 'sr-only')) }}
+                </div>
+                <div class='col-md-3'>
+                    <div class='col-md-2'>
+                        {{ Form::label('date_to', trans('messages.to')) }}
+                    </div>
+                    <div class='col-md-10'>
                         {{ Form::text('date_to', Input::get('date_to'), 
                             array('class' => 'form-control standard-datepicker')) }}
                     </div>
-
-                    <div class="form-group">
-                        {{ Form::submit(trans('messages.search'), array('class'=>'btn btn-primary')) }}
+                </div>
+                <div class='col-md-3'>
+                    <div class='col-md-5'>
+                        {{ Form::label('test_status', trans('messages.test-status')) }}
                     </div>
-                {{ Form::close() }}
+                    <div class='col-md-7'>
+                        {{ Form::select('test_status', $testStatus,
+                            Input::get('test_status'), array('class' => 'form-control')) }}
+                    </div>
+                </div>
+                <div class='col-md-2'>
+                        {{ Form::label('search', trans('messages.search'), array('class' => 'sr-only')) }}
+                        {{ Form::text('search', Input::get('search'),
+                            array('class' => 'form-control', 'placeholder' => 'Search')) }}
+                </div>
+                <div class='col-md-1'>
+                        {{ Form::submit(trans('messages.search'), array('class'=>'btn btn-primary')) }}
+                </div>
             </div>
-        </div>
+        {{ Form::close() }}
     </div>
 
     <br>
