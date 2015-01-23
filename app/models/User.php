@@ -112,27 +112,35 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 
 		$params = array($from, $to, $from, $to, $from, $to, $from, $to, $from, $to);
-		$whereClause = "";
 
-		if($userID > 0)
-			$whereClause = "WHERE u.id = $userID";
+		$users = array();
+		$data = array();
 
-		$data = DB::select("SELECT u.name, u.designation, 
-					count(DISTINCT IF(u.id=t.created_by AND (t.time_created BETWEEN ? AND ?),t.id,NULL)) AS created, 
-					count(DISTINCT IF(u.id=t.tested_by AND (t.time_completed BETWEEN ? AND ?),t.id,NULL)) AS tested, 
-					count(DISTINCT IF(u.id=t.verified_by AND (t.time_verified BETWEEN ? AND ?),t.id,NULL)) AS verified, 
-					count(DISTINCT IF(u.id=s.accepted_by AND (s.time_accepted BETWEEN ? AND ?),t.id,NULL)) AS specimen_registered, 
-					count(DISTINCT IF(u.id=s.rejected_by AND (s.time_rejected BETWEEN ? AND ?),t.id,NULL)) AS specimen_rejected 
-				FROM tests AS t 
-					LEFT JOIN specimens AS s ON t.specimen_id = s.id 
-					LEFT JOIN visits AS v ON t.visit_id = v.id 
-					INNER JOIN patients AS p ON v.patient_id = p.id 
-					CROSS JOIN users AS u 
-					$whereClause
-					GROUP BY u.id
-					ORDER BY u.name",
-					$params
-				);
+		if ($userID == 0) {
+			$users = User::lists('id');
+		} else {
+			$users[] = $userID;
+		}
+		
+		foreach ($users as $user) {
+			$userData = DB::select("SELECT u.name, u.designation, 
+						count(DISTINCT IF(u.id=t.created_by AND (t.time_created BETWEEN ? AND ?),t.id,NULL)) AS created, 
+						count(DISTINCT IF(u.id=t.tested_by AND (t.time_completed BETWEEN ? AND ?),t.id,NULL)) AS tested, 
+						count(DISTINCT IF(u.id=t.verified_by AND (t.time_verified BETWEEN ? AND ?),t.id,NULL)) AS verified, 
+						count(DISTINCT IF(u.id=s.accepted_by AND (s.time_accepted BETWEEN ? AND ?),t.id,NULL)) AS specimen_registered, 
+						count(DISTINCT IF(u.id=s.rejected_by AND (s.time_rejected BETWEEN ? AND ?),t.id,NULL)) AS specimen_rejected 
+					FROM tests AS t 
+						LEFT JOIN specimens AS s ON t.specimen_id = s.id 
+						LEFT JOIN visits AS v ON t.visit_id = v.id 
+						INNER JOIN patients AS p ON v.patient_id = p.id 
+						CROSS JOIN users AS u 
+						WHERE u.id = $user
+						GROUP BY u.id
+						ORDER BY u.name",
+						$params
+					);
+			$data = array_merge($data, $userData);
+		}
 
 		return $data;
 	}

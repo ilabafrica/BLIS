@@ -86,7 +86,7 @@
 
 			<div><strong>{{$reportTitle}}</strong></div><br />
 
-			<table class="table table-bordered">
+			<table class="table table-bordered" id='user-statistics-report-table'>
 				@if($selectedReport==0) <!-- Summary Report-->
 					<thead>
 						<tr>
