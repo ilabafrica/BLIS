@@ -1,13 +1,4 @@
-// Hello.
-//
-// This is JSHint, a tool that helps to detect errors and potential
-// problems in your JavaScript code.
-//
-// To start, simply enter some JavaScript anywhere on this page. Your
-// report will appear on the right side.
-//
-// Additionally, you can toggle specific options in the Configure
-// menu.
+//Custom javascript function
 
 $(function(){
 	/**	HEADER
@@ -410,6 +401,11 @@ $(function(){
 	    }
 	}
 
-	/*	Functions to be used in reports blades	*/
-	function reportScripts(){
-	}
+	$(document).ready( function () {
+		$('#testcategory-index').DataTable();
+		$('#specimen-type-index').DataTable();
+		$('#specimen-rejection-index').DataTable();
+		$('#testtype-index').DataTable();
+		$('#user-index').DataTable();
+		$('#facilities-index').DataTable();
+	});

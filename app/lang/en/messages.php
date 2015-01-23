@@ -100,7 +100,7 @@ return array(
     'patient-details' => 'Patient Details',
     'patient-id' => 'Patient ID',
     'patient-search-button' => 'Go!',
-    'patient-number' => 'Patient Number',
+    'patient-number' => 'Patient No.',
     'phone-number' => 'Phone Number',
     'physical-address' => 'Physical Address',
     
@@ -270,7 +270,7 @@ return array(
     'verify-title' => 'Verify Test Results',
     'view-details' => 'View',
     'view-details-title' => 'View Test Details',
-    'visit-number' => 'Visit Number.',
+    'visit-number' => 'Visit No.',
     'visit-type' => 'Visit Type',
 
     /** 

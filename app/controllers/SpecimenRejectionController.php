@@ -15,7 +15,7 @@ class SpecimenRejectionController extends \BaseController {
     public function index()
     {
         // List all the active rejection reasons
-        $rejection = RejectionReason::paginate(Config::get('kblis.page-items'));
+        $rejection = RejectionReason::orderBy('reason', 'ASC')->get();
 
         // Load the view and pass the reasons
         return View::make('specimenrejection.index')->with('rejection', $rejection);

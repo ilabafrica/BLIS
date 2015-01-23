@@ -21,10 +21,11 @@
 		</div>
 	</div>
 	<div class="panel-body">
-		<table class="table table-striped table-hover table-condensed">
+		<table class="table table-striped table-hover table-condensed" id="specimen-rejection-index">
 			<thead>
 				<tr>
 					<th>{{trans('messages.rejection-reason')}}</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -56,8 +57,7 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $rejection->links(); 
-		Session::put('SOURCE_URL', URL::full());?>
+		{{ Session::put('SOURCE_URL', URL::full()) }}
 	</div>
 </div>
-@stop	
+@stop
