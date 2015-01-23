@@ -38,6 +38,7 @@ return array(
     'photo' => 'Photo',
     'role' => 'Role|Roles',
     'save' => 'Save',
+    'save-all' => 'Save All',
     'type' => 'Type',
     'unit' => 'Unit',
     'update' => 'Update',

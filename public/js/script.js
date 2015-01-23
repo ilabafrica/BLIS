@@ -8,6 +8,7 @@
 //
 // Additionally, you can toggle specific options in the Configure
 // menu.
+var state = false;
 
 $(function(){
 	/**	HEADER
@@ -62,6 +63,7 @@ $(function(){
 		$('.measure-container').append(inputHtml);
 		$('.new-measure-section').find('.measuretype-input-trigger').addClass('new-measure-'+newMeasureNo);
 		$('.new-measure-section').find('.measuretype-input-trigger').attr('data-new-measure-id',  newMeasureNo);
+		$('.new-measure-section').find('.add-another-range').attr('data-new-measure-id',  newMeasureNo);
 		$('.new-measure-section').find('.add-another-range').addClass('new-measure-'+newMeasureNo);
 		$('.new-measure-section').find('.measurevalue').addClass('new-measure-'+newMeasureNo);
 		$('.new-measure-section').addClass('measure-section').removeClass('new-measure-section');
@@ -70,7 +72,6 @@ $(function(){
 	});
 
 	 /* Add another measure range value */
-	// $('.add-another-range').click(function(){
 	$('.measure-container').on('click', '.add-another-range', function(){
 		var inputClass = [
 			'.numericInputLoader',
@@ -84,7 +85,6 @@ $(function(){
 		} else {
 			var measureID = $(this).data('measure-id');
 		}
-alert(measureID);
 		var id = $('.measuretype-input-trigger.'+measureID).val() - 1;
 		var inputHtml = $(inputClass[id]).html();
 		$(".measurevalue."+measureID).append(inputHtml);
@@ -100,7 +100,6 @@ alert(measureID);
 			loadRangeFields();
 		}
 	}
-
 
 	/** GLOBAL DELETE	
 	 *	Alert on irreversible delete

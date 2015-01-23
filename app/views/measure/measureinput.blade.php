@@ -3,6 +3,7 @@
     <div class="hidden measureGenericLoader">
         <div class="row new-measure-section">
             <div class="col-md-11 measure">
+                {{ Form::open(array('url' => 'measure', 'route' => 'measure.store','id' => 'form-create-measure')) }}
                 <div class="col-md-3">
                     <div class="form-group">
                         {{ Form::label('name', Lang::choice('messages.name',1)) }}
@@ -49,6 +50,7 @@
                         </div>
                     </div>
                 </div>
+            {{ Form::close() }}
             </div>
             <div class="col-md-1">
                 <button class="col-md-12 close" aria-hidden="true" type="button" 

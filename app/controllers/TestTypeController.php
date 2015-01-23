@@ -57,6 +57,7 @@ class TestTypeController extends \BaseController {
 			'measures' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
+			//array to be split here and sent to appropriate place! man! with ids and all possibilities
 
 		// process the login
 		if ($validator->fails()) {
@@ -133,6 +134,7 @@ class TestTypeController extends \BaseController {
 	public function update($id)
 	{
 		//
+		Log::info(Input::all());
 		$rules = array(
 			'name' => 'required',
 			'test_category_id' => 'required|non_zero_key',
@@ -155,7 +157,7 @@ class TestTypeController extends \BaseController {
 			try{
 				$testtype->save();
 				$testtype->setSpecimenTypes(Input::get('specimentypes'));
-				$testtype->setMeasures(Input::get('measures'));
+				// $testtype->setMeasures(Input::get('measures'));
 			}catch(QueryException $e){
 				Log::error($e);
 			}
