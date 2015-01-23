@@ -384,6 +384,23 @@ return array(
     'weekly'    =>  'Weekly',
     'daily' =>  'Daily',
 
+    /* Usage Statistics Reports*/ 
+    'accepted-specimen' => 'Specimen Collected',
+    'no-data-found' => 'No data available!',
+    'performed-tests' => 'Tests Performed',
+    'received-tests' => 'Tests Received',
+    'registration-date' => 'Registration Date',
+    'rejected-specimen' => 'Specimen Rejected',
+    'report-type' => 'Report Type|Report Types',
+    'specimen-id' => 'Specimen ID',
+    'test-id' => 'Test ID',
+    'user-statistics-report' => 'User Statistics Report',
+    'user-statistics-patients-register-report-title' => 'Patients Register (Period: [FROM] - [TO] [USER])',
+    'user-statistics-specimens-register-report-title' => 'Specimen Register (Period: [FROM] - [TO] [USER])',
+    'user-statistics-summary-report-title' => 'User Summary Report (Period: [FROM] - [TO] [USER])',
+    'user-statistics-tests-performed-report-title' => 'Tests Performed (Period: [FROM] - [TO] [USER])',
+    'user-statistics-tests-register-report-title' => 'Tests Registered (Period: [FROM] - [TO] [USER])',
+    'verified-tests' => 'Tests Verified',
 
     /** 
      *   Configurations

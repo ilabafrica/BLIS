@@ -408,4 +408,5 @@ $(function(){
 		$('#testtype-index').DataTable();
 		$('#user-index').DataTable();
 		$('#facilities-index').DataTable();
+		$('#user-statistics-report-table').DataTable();
 	});

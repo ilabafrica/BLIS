@@ -39,6 +39,7 @@ class Externaldumptable extends Migration {
 			$table->string('receiptType')->nullable();
 			$table->string('waiver_no')->nullable();
 			$table->string('system_id')->nullable();
+
 			$table->timestamps();
 		});
 

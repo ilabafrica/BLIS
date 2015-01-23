@@ -101,7 +101,7 @@
                         <td>{{ date('d-m-Y H:i', strtotime($test->time_created));}}</td>        <!--Date Ordered-->
                         <td>{{ $test->visit->patient->external_patient_number or $test->visit->patient->patient_number }}</td>      <!--Patient Number -->
                         <td>{{ $test->visit->visit_number or $test->visit->id }}</td>     <!--Visit Number -->
-                        <td>{{ $test->visit->patient->name.' ('.($test->visit->patient->getGender('gender')).', '.$test->visit->patient->getAge(true).')'}}</td>      <!--Patient Name -->
+                        <td>{{ $test->visit->patient->name.' ('.($test->visit->patient->getGender('gender')).','.$test->visit->patient->getAge('Y'). ')'}}</td> <!--Patient Name -->
                         <td>{{ $test->testType->name }}</td>            <!--Test-->
                         <td>{{ $test->visit->visit_type }}</td>         <!--Visit Type -->
                         <td id="test-status-{{$test->id}}" class='test-status'>
