@@ -13,13 +13,33 @@ class PatientController extends \BaseController {
 	 *
 	 * @return Response
 	 */
+	/*public function search() {
+    $q = Input::get('search');
+        $patients = iblis::where('name', 'LIKE', '%'. $q .'%')
+        ->orWhere('patient_number', 'LIKE', '%'. $q .'%')
+        ->get();
+    return View::make('patient.index')->with('iblis', $patients);
+	}*/
 	public function index()
-	{
+		{
+		// Doing search for patients	
+	    $q = Input::get('search');
+
+	    $searchTerms = explode(' ', $q);
+
+	    $query = DB::table('patients');
+
+	    foreach($searchTerms as $name)
+	    {
+	        $query->where('name', 'LIKE', '%'. $name .'%');
+	    }
+
+	    $patients = $query->get();
 		// List all the active patients
-			$patients = Patient::paginate(Config::get('kblis.page-items'));
+		$patients = Patient::paginate(Config::get('kblis.page-items'));
 
 		// Load the view and pass the patients
-		return View::make('patient.index')->with('patients', $patients);
+		return View::make('patient.index')->with('patients', $patients)->withInput(Input::get('search'));
 	}
 
 	/**
