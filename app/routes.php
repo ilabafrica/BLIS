@@ -25,6 +25,11 @@ Route::group(array("before" => "guest"), function()
         "uses" => "InterfacerController@receiveLabRequest"
     ));
 
+    Route::get('/api/import', array(
+        "as" => "api.receiver",
+        "uses" => "ImportController@start"
+    ));
+
 	Route::any('/', array(
 	    "as" => "user.login",
 	    "uses" => "UserController@loginAction"

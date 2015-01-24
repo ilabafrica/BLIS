@@ -28,10 +28,9 @@ class ExternalDumpTest extends TestCase
 
         $externalDump = new ExternalDump();
         $externalDumpTree = $externalDump->getLabRequestAndMeasures($this->labRequestUrinalysis[0]['labNo']);
-
         $this->assertEquals(count($externalDumpTree), $requestCount-1); //The number of requests for urinalysis
-        $this->assertEquals($externalDumpTree->first()->labNo, $this->labRequestUrinalysis[1]['labNo']);
-        $this->assertEquals($externalDumpTree->last()->labNo, $this->labRequestUrinalysis[$requestCount-1]['labNo']);
+        $this->assertEquals($externalDumpTree->first()->lab_no, $this->labRequestUrinalysis[1]['labNo']);
+        $this->assertEquals($externalDumpTree->last()->lab_no, $this->labRequestUrinalysis[$requestCount-1]['labNo']);
     }
 
     //BS for MPS

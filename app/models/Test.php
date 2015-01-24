@@ -59,8 +59,8 @@ class Test extends Eloquent
 	{
 		return $this->belongsTo('User', 'created_by', 'id');
 	}
-    /**
 	
+	/**
 	 * User (tested) relationship
 	 */
 	public function testedBy()
@@ -190,22 +190,23 @@ class Test extends Eloquent
 	}
 
 	/**
-	 * Showing payment status
+	 * Check if patient has paid or not
 	 */
 	public function isPaid()
 	{
-		if( $this->visit->patient->getAge() >= 6
-		    //&& $test->external_dump['orderStage'] == "op" 
-			//&& $test->external_dump['receiptNumber'] == "" 
-			//&& $test->external_dump['receiptType'] == ""  
-		    )
-		{
+		$externalDump = ExternalDump::where('lab_no', '=', $this->external_id)->get()->first();
+
+		//Not from the external system
+		if(is_null($externalDump)) {
+			return true;
+		}
+		elseif( $this->visit->patient->getAge() >= 6
+			&& $externalDump->order_stage == "op" 
+			&& $externalDump->receipt_number == "" 
+			&& $externalDump->receipt_type == ""  )
 			return false;
-		} 
-		else {
-			return true;	
-		} 
-	    
+		else 
+			return true;
 	}
 	/**
 	 * Turnaround Time as a formated string (Years Weeks Days Hours Minutes Seconds)
@@ -230,27 +231,27 @@ class Test extends Eloquent
 		return $ftat;
 	}
 
-/**
- * Get results by page
- *
- * @param int $page
- * @param int $limit
- * @return StdClass
- */
-public function getByPage($page = 1, $limit = 10)
-{
-  $results = StdClass;
-  $results->page = $page;
-  $results->limit = $limit;
-  $results->totalItems = 0;
-  $results->items = array();
- 
-  $users = $this->model->skip($limit * ($page - 1))->take($limit)->get();
- 
-  $results->totalItems = $this->model->count();
-  $results->items = $users->all();
- 
-  return $results;
-}
+	/**
+	 * Get results by page
+	 *
+	 * @param int $page
+	 * @param int $limit
+	 * @return StdClass
+	 */
+	public function getByPage($page = 1, $limit = 10)
+	{
+			$results = StdClass;
+			$results->page = $page;
+			$results->limit = $limit;
+			$results->totalItems = 0;
+			$results->items = array();
+			
+			$users = $this->model->skip($limit * ($page - 1))->take($limit)->get();
+			
+			$results->totalItems = $this->model->count();
+			$results->items = $users->all();
+			
+			return $results;
+	}
 
 }
