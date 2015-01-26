@@ -414,3 +414,10 @@ label, input {
     min-width: 125px;
 }
 .spacer {  margin-top: 20px; }
+
+/*Bordered-table - evade bootstrap's break on use or col & row spans*/
+table.table.report-table-border,
+table.table.report-table-border > thead > tr > th,
+table.table.report-table-border > tbody > tr > td{
+    border: 1px solid #DDDDDD;
+}

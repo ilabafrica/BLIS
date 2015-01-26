@@ -8,25 +8,25 @@
 	</ol>
 </div>
 {{ Form::open(array('route' => array('reports.aggregate.infection'), 'class' => 'form-inline', 'role' => 'form')) }}
-<div class='container-fluid'>
+<!-- <div class='container-fluid'> -->
 	<div class="row">
-		<div class="col-sm-3 col-md-3">
+		<div class="col-md-3">
 	    	<div class="row">
-				<div class="col-sm-2 col-md-2">
+				<div class="col-md-2">
 					{{ Form::label('start', trans("messages.from")) }}
 				</div>
-				<div class="col-sm-10 col-md-10">
+				<div class="col-md-10">
 					{{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
 				        array('class' => 'form-control standard-datepicker')) }}
 			    </div>
 	    	</div>
 	    </div>
-	    <div class="col-sm-3 col-md-3">
+	    <div class="col-md-3">
 	    	<div class="row">
-				<div class="col-sm-2 col-md-2">
+				<div class="col-md-2">
 			    	{{ Form::label('end', trans("messages.to")) }}
 			    </div>
-				<div class="col-sm-2 col-md-10">
+				<div class="col-md-10">
 				    {{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
 				        array('class' => 'form-control standard-datepicker')) }}
 		        </div>
@@ -41,12 +41,12 @@
 	            	isset($input['test_category'])?$input['test_category']:0, array('class' => 'form-control')) }}
 	        </div>
         </div>
-	    <div class="col-sm-2 col-md-2">
+	    <div class="col-md-2">
 		    {{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
 		        array('class' => 'btn btn-info', 'id' => 'filter', 'type' => 'submit')) }}
 	    </div>
 	</div>
-</div>
+<!-- </div> -->
 {{ Form::close() }}
 <br />
 <div class="panel panel-primary">
@@ -70,8 +70,8 @@
 		</p>
 	</strong>
 		<div class="table-responsive">
-			<table class="table table-bordered">
-				<tbody>
+			<table class="table table-condensed report-table-border">
+				<thead>
 					<tr>
 						<th rowspan="2">{{ Lang::choice('messages.test',1) }}</th>
 						<th rowspan="2">{{ Lang::choice('messages.measure',1) }}</th>
@@ -87,6 +87,8 @@
 							<th title='{{$description}}'>{{ $ageRange }}</th>
 					    @endforeach
 					</tr>
+				</thead>
+				<tbody>
 					<?php 
 						$testRow = "";
 
