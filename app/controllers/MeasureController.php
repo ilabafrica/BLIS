@@ -108,7 +108,38 @@ class MeasureController extends \BaseController {
      * @return Response
      */
     public function update($id)
+
     {
+  'name' => 'BS for mps',
+  'description' => '',
+  'test_category_id' => '1',
+  'specimentypes' => array ( 0 => '23', ),
+  'measures' => array (
+    'name' => array (1 => 'BS for mps',),
+    'measure_type_id' => array (1 => '2',),
+    'unit' => array (1 => '',),
+    'description' => array (1 => '',),
+    'val' => array (1 => array (0 => 'No mps seen',1 => '+',2 => '++',3 => '+++',),),
+    'interpretation' => array (1 => array (0 => 'Negative',1 => 'Positive',2 => 'Positive',3 => 'Positive',),),
+    'measurerangeid' => array (1 => array (0 => '1',1 => '2',2 => '3',3 => '4',),),
+  ),
+  'new-measures' => array (
+    'name' => array (0 => 'se',),
+    'measure_type_id' => array (0 => '1',),
+    'unit' => array (0 => 'er',),
+    'description' => array (0 => 'ed',),
+    'agemin' => array (0 => array (0 => '1',),),
+    'agemax' => array (0 => array (0 => '1',),),
+    'gender' => array (0 => array (0 => '0',),),
+    'rangemin' => array (0 => array (0 => '1',),),
+    'rangemax' => array (0 => array (0 => '1',),),
+    'interpretation' => array (0 => array (0 => 'fsigu',),),
+    'measurerangeid' => array (0 => array (0 => '',),),
+  ),
+  'targetTAT' => '21',
+  'prevalence_threshold' => '12',
+)
+
         //
         $rules = array('name' => 'required');
         $validator = Validator::make(Input::all(), $rules);

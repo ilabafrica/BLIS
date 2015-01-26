@@ -5,30 +5,35 @@
             <div class="col-md-11 measure">
                 <div class="col-md-3">
                     <div class="form-group">
-                        {{ Form::label('name', Lang::choice('messages.name',1)) }}
-                        {{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
+                        {{ Form::label('new-measures[name][]', Lang::choice('messages.name',1)) }}
+                       <input class="form-control" name="new-measures[name][]" type="text">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        {{ Form::label('measure_type_id', trans('messages.measure-type')) }}
-                        {{ Form::select('measure_type_id', array(0 => '')+$measuretype->lists('name', 'id'),
-                        Input::old('measure_type_id'), array('class' => 'form-control measuretype-input-trigger',
-                        'data-measure-id'=>'0', 'data-new-measure-id' => '')) 
-                        }}
+                        {{ Form::label('new-measures[measure_type_id][]', trans('messages.measure-type')) }}
+                            <select class="form-control measuretype-input-trigger" 
+                                data-measure-id="0" 
+                                data-new-measure-id="" 
+                                name="new-measures[measure_type_id][]" 
+                                id="measure_type_id">
+                                <option value="0"></option>
+                                @foreach ($measuretype as $type)
+                                    <option value="{{$type->id}}">{{$type->name}}</option>
+                                @endforeach
+                            </select>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        {{ Form::label('unit', trans('messages.unit')) }}
-                        {{ Form::text('unit', Input::old('unit'), array('class' => 'form-control')) }}
+                        {{ Form::label('new-measures[unit][]', trans('messages.unit')) }}
+                        <input class="form-control" name="new-measures[unit][]" type="text">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        {{ Form::label('description', trans('messages.description')) }}
-                        {{ Form::textarea('description', Input::old('description'), array('class' => 'form-control',
-                            'rows'=>'2')) }}
+                        {{ Form::label('new-measures[description][]', trans('messages.description')) }}
+                        <textarea class="form-control" rows="2" name="new-measures[description][]"></textarea>
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -79,37 +84,37 @@
     <div class="hidden numericInputLoader">
         <div class="col-md-12 measure-input">
             <div class="col-md-4">
-                <input class="col-md-2" name="agemin[]" type="text" title="{{trans('messages.lower-age-limit')}}">
+                <input class="col-md-2" name="new-measures[agemin][][]" type="text" title="{{trans('messages.lower-age-limit')}}">
                 <span class="col-md-1">:</span>
-                <input class="col-md-2" name="agemax[]" type="text" title="{{trans('messages.upper-age-limit')}}">
+                <input class="col-md-2" name="new-measures[agemax][][]" type="text" title="{{trans('messages.upper-age-limit')}}">
                 <span class="col-md-1"></span>
-                <select class="col-md-4" name="gender[]">
+                <select class="col-md-4" name="new-measures[gender][][]">
                     <option value="0">{{trans('messages.male')}}</option>
                     <option value="1">{{trans('messages.female')}}</option>
                     <option value="2">{{trans('messages.both')}}</option>
                 </select>
             </div>
             <div class="col-md-3">
-                <input class="col-md-4" name="rangemin[]" type="text" title="{{trans('messages.lower-range')}}">
+                <input class="col-md-4" name="new-measures[rangemin][][]" type="text" title="{{trans('messages.lower-range')}}">
                 <span class="col-md-2">:</span>
-                <input class="col-md-4" name="rangemax[]" type="text" title="{{trans('messages.upper-range')}}">
+                <input class="col-md-4" name="new-measures[rangemax][][]" type="text" title="{{trans('messages.upper-range')}}">
             </div>
             <div class="col-md-2">
-                <input class="col-md-10" name="interpretation[]" type="text">
+                <input class="col-md-10" name="new-measures[interpretation][][]" type="text">
                 <button class="col-md-2 close" aria-hidden="true" type="button" title="{{trans('messages.delete')}}">×</button>
-                <input name="measurerangeid[]" type="hidden">
+                <input name="new-measures[measurerangeid][][]" type="hidden">
             </div>
         </div>
     </div><!-- numericInput -->
     <div class="hidden alphanumericInputLoader">
         <div class="col-md-12 measure-input">
             <div class="col-md-5">
-                <input class="col-md-10 interpretation" name="val[]" type="text">
+                <input class="col-md-10 interpretation" name="new-measures[val][][]" type="text">
             </div>
             <div class="col-md-5">
-                <input class="col-md-10 interpretation" name="interpretation[]" type="text">
+                <input class="col-md-10 interpretation" name="new-measures[interpretation][][]" type="text">
                 <button class="col-md-2 close" aria-hidden="true" type="button" title="{{trans('messages.delete')}}">×</button>
-                <input name="measurerangeid[]" type="hidden">
+                <input name="new-measures[measurerangeid][][]" type="hidden">
             </div>
         </div>
     </div><!-- alphanumericInput -->

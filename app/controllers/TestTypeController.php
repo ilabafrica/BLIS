@@ -157,6 +157,11 @@ class TestTypeController extends \BaseController {
 			try{
 				$testtype->save();
 				$testtype->setSpecimenTypes(Input::get('specimentypes'));
+				// =====================================================save the measures
+				$measures = MeasureController::edit(Input::get('measure'));
+				// if any
+				$measures = MeasureController::store(Input::get('new-measure'));
+				// =====================================================forwar the neccesary to the next line
 				// $testtype->setMeasures(Input::get('measures'));
 			}catch(QueryException $e){
 				Log::error($e);
