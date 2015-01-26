@@ -68,7 +68,7 @@ class SanitasInterfacer implements InterfacerInterface{
             return null;
         }
 
-        $labNo = $externRequest->lists('labNo')[0];
+        $labNo = $externRequest->lists('lab_no')[0];
         $externlabRequestTree = $externalDump->getLabRequestAndMeasures($labNo);
 
         $interpretation = "";
@@ -139,8 +139,8 @@ class SanitasInterfacer implements InterfacerInterface{
                 $matchingResult = $testResults->get($rKey);
 
                 $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
-                            $externlabRequest->labNo, $tested_by, $matchingResult->result, $verified_by, "");
-                $this->sendRequest($httpCurl, $jsonResponseString, $externlabRequest->labNo);
+                            $externlabRequest->lab_no, $tested_by, $matchingResult->result, $verified_by, "");
+                $this->sendRequest($httpCurl, $jsonResponseString, $externlabRequest->lab_no);
             }
         }
         curl_close($httpCurl);
@@ -165,7 +165,7 @@ class SanitasInterfacer implements InterfacerInterface{
 
             //Set status in external lab-request to `sent`
             $updatedExternalRequest = ExternalDump::where('lab_no', '=', $labNo)->first();
-            
+
             $updatedExternalRequest->result_returned = 1;
             $updatedExternalRequest->save();
         }
