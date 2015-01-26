@@ -1,17 +1,38 @@
 <div class="display-details">
     {{ Form::hidden('specimen_id', $test->specimen_id) }}
-    <h3><strong>{{ Lang::choice('messages.test-type',1) }}</strong>
-        {{$test->testType->name}}</h3>
-    <p class="view">
-        <strong>{{trans('messages.specimen-number')}}</strong>
-        {{$test->specimen_id}}
-    </p>
-    <p class="view-striped">
-        <strong>{{trans('messages.specimen-status')}}</strong>
-        {{trans('messages.'.$test->specimen->specimenStatus->name)}}
-    </p>
-    <p class="view-striped">
-        <strong>{{ Lang::choice('messages.specimen-type',2) }}</strong>
-        {{ Form::select('specimen_type', $test->testType->specimenTypes->lists('name','id'),
-            array($test->specimen->specimen_type_id), array('class' => 'form-control')) }}</p>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <strong>{{ Lang::choice('messages.test-type',1) }}</strong>
+            </div>
+            <div class="col-md-8">
+                {{$test->testType->name}}
+            </div>
+        </div><br />
+        <div class="row">
+            <div class="col-md-4">
+                <strong>{{trans('messages.specimen-number')}}</strong>
+            </div>
+            <div class="col-md-8">
+                {{$test->specimen_id}}
+            </div>
+        </div><br />
+        <div class="row">
+            <div class="col-md-4">
+                <strong>{{trans('messages.specimen-status')}}</strong>
+            </div>
+            <div class="col-md-8">
+                {{trans('messages.'.$test->specimen->specimenStatus->name)}}
+            </div>
+        </div><br />
+        <div class="row">
+            <div class="col-md-4">
+                <strong>{{ Lang::choice('messages.specimen-type',2) }}</strong>
+            </div>
+            <div class="col-md-8">
+                {{ Form::select('specimen_type', $test->testType->specimenTypes->lists('name','id'),
+                    array($test->specimen->specimen_type_id), array('class' => 'form-control')) }}</p>
+            </div>
+        </div>
+    </div>
 </div>

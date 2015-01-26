@@ -39,7 +39,19 @@ class Externaldumptable extends Migration {
 			$table->string('receipt_type')->nullable();
 			$table->string('waiver_no')->nullable();
 			$table->string('system_id')->nullable();
+
 			$table->timestamps();
+		});
+
+		//Holds the external user ID's of the users in our system who are also in the external system
+		Schema::create('external_users', function(Blueprint $table)
+		{
+			$table->increments('id');
+			$table->integer('internal_user_id')->unique()->unsigned();
+			$table->integer('external_user_id')->nullable();
+			$table->timestamps();
+
+			$table->foreign('internal_user_id')->references('id')->on('users');
 		});
 	}
 
@@ -51,6 +63,7 @@ class Externaldumptable extends Migration {
 	public function down()
 	{
 		Schema::drop('external_dump');
+		Schema::drop('external_users');
 	}
 
 }

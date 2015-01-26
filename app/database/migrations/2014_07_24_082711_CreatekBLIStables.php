@@ -45,7 +45,11 @@ class CreatekBLIStables extends Migration {
             $table->string('email', 100)->nullable();
             $table->string('address', 150)->nullable();
             $table->string('phone_number')->nullable();
-            $table->string('external_patient_number')->nullable();
+            $table->string('external_patient_number', 20)->nullable();
+            $table->integer('created_by')->unsigned()->default(0);
+
+            $table->index('external_patient_number');
+            $table->index('created_by');
 
             $table->softDeletes();
             $table->timestamps();
@@ -56,7 +60,7 @@ class CreatekBLIStables extends Migration {
             $table->increments('id')->unsigned();
             $table->string('name', 45);
             $table->string('description', 100)->nullable();
-            
+
             $table->softDeletes();
             $table->timestamps();
         });
@@ -66,7 +70,7 @@ class CreatekBLIStables extends Migration {
             $table->increments('id')->unsigned();
             $table->string('name',100)->unique();
             $table->string('description',100)->nullable();
-            
+
             $table->softDeletes();
             $table->timestamps();
         });
@@ -74,8 +78,9 @@ class CreatekBLIStables extends Migration {
         Schema::create('measure_types', function(Blueprint $table)
         {
             $table->integer('id')->unsigned();
-            $table->primary('id');
             $table->string('name',100)->unique();
+
+            $table->primary('id');
 
             $table->softDeletes();
             $table->timestamps();
@@ -106,6 +111,8 @@ class CreatekBLIStables extends Migration {
             $table->decimal('range_upper', 7, 3)->nullable();
             $table->string('alphanumeric', 200)->nullable();
             $table->string('interpretation', 100)->nullable();
+
+            $table->index('alphanumeric');
 
             $table->softDeletes();
             $table->foreign('measure_id')->references('id')->on('measures');
@@ -154,8 +161,8 @@ class CreatekBLIStables extends Migration {
         {
             $table->integer('id')->unsigned();
             $table->string('name',45);
-            $table->primary('id');
-            
+
+            $table->primary('id');            
         });
 
         Schema::create('test_statuses', function(Blueprint $table)
@@ -183,9 +190,11 @@ class CreatekBLIStables extends Migration {
             $table->string('visit_type', 12)->default('Out-patient'); //'OUT-PATIENT' | 'IN-PATIENT'
             $table->integer('visit_number')->unsigned()->nullable(); //External
 
-			$table->timestamps();
+            $table->index('visit_number');
 			$table->foreign('patient_id')->references('id')->on('patients');
-		});
+
+            $table->timestamps();
+        });
 		
 		Schema::create('rejection_reasons', function(Blueprint $table)
 		{
@@ -197,6 +206,7 @@ class CreatekBLIStables extends Migration {
         {
             $table->increments('id')->unsigned();
             $table->string('name', 500);
+
             $table->timestamps();
         });
 
@@ -208,10 +218,11 @@ class CreatekBLIStables extends Migration {
             $table->string('person', 500);
             $table->text('contacts');
             $table->integer('user_id')->unsigned();
-            $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('facility_id')->references('id')->on('facilities');
+
+            $table->timestamps();
         });
 
 		Schema::create('specimens', function(Blueprint $table)
@@ -227,6 +238,8 @@ class CreatekBLIStables extends Migration {
 			$table->timestamp('time_accepted')->nullable();
 			$table->timestamp('time_rejected')->nullable();
 			
+            $table->index('accepted_by');
+            $table->index('rejected_by');
 			$table->foreign('specimen_type_id')->references('id')->on('specimen_types');
 			$table->foreign('specimen_status_id')->references('id')->on('specimen_statuses');
 			$table->foreign('rejection_reason_id')->references('id')->on('rejection_reasons');
@@ -252,6 +265,9 @@ class CreatekBLIStables extends Migration {
 			$table->timestamp('time_sent')->nullable();
             $table->integer('external_id')->nullable();//Unique ID for external records
 			
+            $table->index('created_by');
+            $table->index('tested_by');
+            $table->index('verified_by');
 			$table->foreign('visit_id')->references('id')->on('visits');
 			$table->foreign('test_type_id')->references('id')->on('test_types');
 			$table->foreign('specimen_id')->references('id')->on('specimens');
@@ -266,8 +282,8 @@ class CreatekBLIStables extends Migration {
 			$table->string('result',1000)->nullable();
 			$table->timestamp('time_entered')->default(DB::raw('CURRENT_TIMESTAMP'));
 			
-			$table->foreign('test_id')->references('id')->on('tests');
-			$table->foreign('measure_id')->references('id')->on('measures');
+            $table->foreign('test_id')->references('id')->on('tests');
+            $table->foreign('measure_id')->references('id')->on('measures');
 			$table->unique(array('test_id','measure_id'));
 		});
 
@@ -279,6 +295,7 @@ class CreatekBLIStables extends Migration {
             $table->string('hostname', 100)->nullable();
             $table->string('description', 100)->nullable();
             $table->string('driver_name', 100)->nullable();
+
             $table->nullableTimestamps();
         });
 

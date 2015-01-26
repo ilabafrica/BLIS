@@ -18,7 +18,7 @@ class ReportController extends \BaseController {
 		}
 
 		// Load the view and pass the patients
-		return View::make('reports.patient.index')->with('patients', $patients);
+		return View::make('reports.patient.index')->with('patients', $patients)->withInput(Input::all());
 	}
 
 	/**
@@ -581,5 +581,386 @@ class ReportController extends \BaseController {
 							->with('ungroupedTests', $ungroupedTests)
 							->withInput(Input::all());
 		}
+	}
+
+	/*
+	*	Begin turnaround time functions - functions related to the turnaround time report
+	*	Most have been borrowed from the original BLIS by C4G
+	*/
+	/*
+	* 	getPercentile() returns the percentile value from the given list
+	*/
+	public static function getPercentile($list, $ile_value)
+	{
+		$num_values = count($list);
+		sort($list);
+		$mark = ceil(round($ile_value/100, 2) * $num_values);
+		return $list[$mark-1];
+	}
+	/*
+	* 	week_to_date() returns timestamp for the first day of the week (Monday)
+	*	@var $week_num and $year
+	*/
+	public static function week_to_date($week_num, $year)
+	{
+		# Returns timestamp for the first day of the week (Monday)
+		$week = $week_num;
+		$Jan1 = mktime (0, 0, 0, 1, 1, $year); //Midnight
+		$iYearFirstWeekNum = (int) strftime("%W", $Jan1);
+		if ($iYearFirstWeekNum == 1)
+		{
+			$week = $week - 1;
+		}
+		$weekdayJan1 = date ('w', $Jan1);
+		$FirstMonday = strtotime(((4-$weekdayJan1)%7-3) . ' days', $Jan1);
+		$CurrentMondayTS = strtotime(($week) . ' weeks', $FirstMonday);
+		return ($CurrentMondayTS);
+	}
+	/*
+	* 	rawTaT() returns list of timestamps for tests that were registered and handled between date_from and date_to
+	*	optional @var $from, $to, $labSection, $testType
+	*/
+	public static function rawTaT($from, $to, $labSection, $testType){
+		$rawTat = DB::table('tests')->select(DB::raw('UNIX_TIMESTAMP(time_created) as timeCreated, UNIX_TIMESTAMP(time_started) as timeStarted, UNIX_TIMESTAMP(time_completed) as timeCompleted, targetTAT'))
+						->join('test_types', 'test_types.id', '=', 'tests.test_type_id')
+						->whereIn('test_status_id', [Test::COMPLETED, Test::VERIFIED]);
+						if($from && $to){
+							$rawTat = $rawTat->whereBetween('time_created', [$from, $to]);
+						}
+						else{
+							$rawTat = $rawTat->where('time_created', 'LIKE', '%'.date("Y").'%');
+						}
+						if($labSection){
+							$rawTat = $rawTat->where('test_category_id', $labSection);
+						}
+						if($testType){
+							$rawTat = $rawTat->where('test_type_id', $testType);
+						}
+		return $rawTat->get();
+	}
+	/*
+	* 	getTatStats() calculates Weekly progression of TAT values for a given test type and time period
+	*	optional @var $from, $to, $labSection, $testType, $interval
+	*/
+	public static function getTatStats($from, $to, $labSection, $testType, $interval){
+		# Calculates Weekly progression of TAT values for a given test type and time period
+
+		$resultset = self::rawTaT($from, $to, $labSection, $testType);
+		# {resultentry_ts, specimen_id, date_collected_ts, ...}
+
+		$progression_val = array();
+		$progression_count = array();
+		$percentile_tofind = 90;
+		$percentile_count = array();
+		$goal_val = array();
+		# Return {month=>[avg tat, percentile tat, goal tat, [overdue specimen_ids], [pending specimen_ids]]}
+
+		if($interval == 'M'){
+			foreach($resultset as $record)
+			{
+				$timeCreated = $record->timeCreated;
+				$timeCreated_parsed = date("Y-m-d", $timeCreated);
+				$timeCreated_parts = explode("-", $timeCreated_parsed);
+				$month_ts = mktime(0, 0, 0, $timeCreated_parts[1], 0, $timeCreated_parts[0]);
+				$month_ts_datetime = date("Y-m-d H:i:s", $month_ts);
+				$wait_diff = ($record->timeStarted - $record->timeCreated); //Waiting time
+				$date_diff = ($record->timeCompleted - $record->timeStarted); //Turnaround time
+
+				if(!isset($progression_val[$month_ts]))
+				{
+					$progression_val[$month_ts] = array();
+					$progression_val[$month_ts][0] = $date_diff;
+					$progression_val[$month_ts][1] = $wait_diff;
+					$progression_val[$month_ts][4] = array();
+					$progression_val[$month_ts][4][] = $record;
+
+					$percentile_count[$month_ts] = array();
+					$percentile_count[$month_ts][] = $date_diff;
+
+					$progression_count[$month_ts] = 1;
+
+					if(!$record->targetTAT==null)
+						$goal_tat[$month_ts] = $record->targetTAT; //Hours
+					else
+						$goal_tat[$month_ts] = 0.00; //Hours			
+				}
+				else
+				{
+					$progression_val[$month_ts][0] += $date_diff;
+					$progression_val[$month_ts][1] += $wait_diff;
+					$progression_val[$month_ts][4][] = $record;
+
+					$percentile_count[$month_ts][] = $date_diff;
+
+					$progression_count[$month_ts] += 1;
+				}
+			}
+
+			foreach($progression_val as $key=>$value)
+			{
+				# Find average TAT
+				$progression_val[$key][0] = $value[0]/$progression_count[$key];
+
+				# Determine percentile value
+				$progression_val[$key][3] = self::getPercentile($percentile_count[$key], $percentile_tofind);
+
+				# Convert from sec timestamp to Hours
+				$progression_val[$key][0] = ($value[0]/$progression_count[$key])/(60*60);//average TAT
+				$progression_val[$key][1] = ($value[1]/$progression_count[$key])/(60*60);//average WT
+				$progression_val[$key][3] = $progression_val[$key][3]/(60*60);// Percentile ???
+
+				$progression_val[$key][2] = $goal_tat[$key];
+
+			}
+		}
+		else if($interval == 'D'){
+			foreach($resultset as $record)
+			{
+				$date_collected = $record->timeCreated;
+				$day_ts = $date_collected; 
+				$wait_diff = ($record->timeStarted - $record->timeCreated); //Waiting time
+				$date_diff = ($record->timeCompleted - $record->timeStarted); //Turnaround time
+				if(!isset($progression_val[$day_ts]))
+				{
+					$progression_val[$day_ts] = array();
+					$progression_val[$day_ts][0] = $date_diff;
+					$progression_val[$day_ts][1] = $wait_diff;
+					$progression_val[$day_ts][4] = array();
+					$progression_val[$day_ts][4][] = $record;
+
+					$percentile_count[$day_ts] = array();
+					$percentile_count[$day_ts][] = $date_diff;
+
+					$progression_count[$day_ts] = 1;
+
+					$goal_tat[$day_ts] = $record->targetTAT; //Hours
+				}
+				else
+				{
+					$progression_val[$day_ts][0] += $date_diff;
+					$progression_val[$day_ts][1] += $wait_diff;
+					$progression_val[$day_ts][4][] = $record;
+
+					$percentile_count[$day_ts][] = $date_diff;
+
+					$progression_count[$day_ts] += 1;
+				}
+			}
+
+			foreach($progression_val as $key=>$value)
+			{
+				# Find average TAT
+				$progression_val[$key][0] = $value[0]/$progression_count[$key];
+
+				# Determine percentile value
+				$progression_val[$key][3] = self::getPercentile($percentile_count[$key], $percentile_tofind);
+
+				# Convert from sec timestamp to Hours
+				$progression_val[$key][0] = ($value[0]/$progression_count[$key])/(60*60);//average TAT
+				$progression_val[$key][1] = ($value[1]/$progression_count[$key])/(60*60);//average WT
+				$progression_val[$key][3] = $progression_val[$key][3]/(60*60);// Percentile ???
+
+				$progression_val[$key][2] = $goal_tat[$key];
+
+			}
+		}
+		else{
+			foreach($resultset as $record)
+			{
+				$date_collected = $record->timeCreated;
+				$week_collected = date("W", $date_collected);
+				$year_collected = date("Y", $date_collected);
+				$week_ts = self::week_to_date($week_collected, $year_collected);
+				$wait_diff = ($record->timeStarted - $record->timeCreated); //Waiting time
+				$date_diff = ($record->timeCompleted - $record->timeStarted); //Turnaround time
+
+				if(!isset($progression_val[$week_ts]))
+				{
+					$progression_val[$week_ts] = array();
+					$progression_val[$week_ts][0] = $date_diff;
+					$progression_val[$week_ts][1] = $wait_diff;
+					$progression_val[$week_ts][4] = array();
+					$progression_val[$week_ts][4][] = $record;
+
+					$percentile_count[$week_ts] = array();
+					$percentile_count[$week_ts][] = $date_diff;
+
+					$progression_count[$week_ts] = 1;
+
+					if(!$record->targetTAT==null)
+						$goal_tat[$week_ts] = $record->targetTAT; //Hours
+					else
+						$goal_tat[$week_ts] = 0.00; //Hours				
+				}
+				else
+				{
+					$progression_val[$week_ts][0] += $date_diff;
+					$progression_val[$week_ts][1] += $wait_diff;
+					$progression_val[$week_ts][4][] = $record;
+
+					$percentile_count[$week_ts][] = $date_diff;
+
+					$progression_count[$week_ts] += 1;
+				}
+			}
+
+			foreach($progression_val as $key=>$value)
+			{
+				# Find average TAT
+				$progression_val[$key][0] = $value[0]/$progression_count[$key];
+
+				# Determine percentile value
+				$progression_val[$key][3] = self::getPercentile($percentile_count[$key], $percentile_tofind);
+
+				# Convert from sec timestamp to Hours
+				$progression_val[$key][0] = ($value[0]/$progression_count[$key])/(60*60);//average TAT
+				$progression_val[$key][1] = ($value[1]/$progression_count[$key])/(60*60);//average WT
+				$progression_val[$key][3] = $progression_val[$key][3]/(60*60);// Percentile ???
+
+				$progression_val[$key][2] = $goal_tat[$key];
+
+			}
+		}
+		# Return {month=>[avg tat, percentile tat, goal tat, [overdue specimen_ids], [pending specimen_ids], avg wait time]}
+		return $progression_val;
+	}
+
+	/**
+	 * turnaroundTime() function returns the turnaround time blade with necessary contents
+	 *
+	 * @return Response
+	 */
+	public function turnaroundTime()
+	{
+		$today = date('Y-m-d');
+		$from = Input::get('start');
+		$to = Input::get('end');
+		if(!$to){
+			$to=$today;
+		}
+		$testCategory = Input::get('section_id');
+		$testType = Input::get('test_type');
+		$labSections = TestCategory::lists('name', 'id');
+		$interval = Input::get('period');
+		$error = null;
+
+		if($testCategory)
+			$testTypes = TestCategory::find($testCategory)->testTypes->lists('name', 'id');
+		else
+			$testTypes = array(""=>"");
+
+		if($from||$to){
+			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($today)||strtotime($to)>strtotime($today)){
+					$error = trans('messages.check-date-range');
+			}
+			else
+			{
+				$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+				Session::flash('fine', '');
+			}
+		}
+		$resultset = self::getTatStats($from, $to, $testCategory, $testType, $interval);
+		return View::make('reports.tat.index')
+					->with('labSections', $labSections)
+					->with('testTypes', $testTypes)
+					->with('resultset', $resultset)
+					->with('testCategory', $testCategory)
+					->with('testType', $testType)
+					->with('interval', $interval)
+					->with('error', $error)
+					->withInput(Input::all());
+	}
+
+	//	Begin infection reports functions
+	/**
+	 * Display a table containing all infection statistics.
+	 *
+	 */
+	public function infectionReport(){
+
+	 	$ageRanges = array('0-5'=>'Under 5 years', 
+	 					'5-14'=>'5 years and over but under 14 years', 
+	 					'14-120'=>'14 years and above');	//	Age ranges - will definitely change in configurations
+		$gender = array(Patient::MALE, Patient::FEMALE); 	//	Array for gender - male/female
+		$ranges = array('Low', 'Normal', 'High');
+
+		//	Fetch form filters
+		$date = date('Y-m-d');
+		$from = Input::get('start');
+		if(!$from) $from = date('Y-m-01');
+
+		$to = Input::get('end');
+		if(!$to) $to = $date;
+		
+		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+
+		$testCategory = Input::get('test_category');
+
+		$infectionData = Test::getInfectionData($from, $to, $testCategory);	// array for counts data for each test type and age range
+		
+		return View::make('reports.infection.index')
+					->with('gender', $gender)
+					->with('ageRanges', $ageRanges)
+					->with('ranges', $ranges)
+					->with('infectionData', $infectionData)
+					->withInput(Input::all());
+	}
+
+	/**
+	 * Displays summary statistics on users application usage.
+	 *
+	 */
+	public function userStatistics(){
+
+		//	Fetch form filters
+		$date = date('Y-m-d');
+		$from = Input::get('start');
+		if(!$from) $from = date('Y-m-01');
+
+		$to = Input::get('end');
+		if(!$to) $to = $date;
+		
+		$selectedUser = Input::get('user');
+		if(!$selectedUser)$selectedUser = "";
+		else $selectedUser = " USER: ".User::find($selectedUser)->name;
+
+		$reportTypes = array('Summary', 'Patient Registry', 'Specimen Registry', 'Tests Registry', 'Tests Performed');
+
+		$selectedReport = Input::get('report_type');
+		if(!$selectedReport)$selectedReport = 0;
+
+		switch ($selectedReport) {
+			case '1':
+				$reportData = User::getPatientsRegistered($from, $to.' 23:59:59', Input::get('user'));
+				$reportTitle = Lang::choice('messages.user-statistics-patients-register-report-title',1);
+				break;
+			case '2':
+				$reportData = User::getSpecimensRegistered($from, $to.' 23:59:59', Input::get('user'));
+				$reportTitle = Lang::choice('messages.user-statistics-specimens-register-report-title',1);
+				break;
+			case '3':
+				$reportData = User::getTestsRegistered($from, $to.' 23:59:59', Input::get('user'));
+				$reportTitle = Lang::choice('messages.user-statistics-tests-register-report-title',1);
+				break;
+			case '4':
+				$reportData = User::getTestsPerformed($from, $to.' 23:59:59', Input::get('user'));
+				$reportTitle = Lang::choice('messages.user-statistics-tests-performed-report-title',1);
+				break;
+			default:
+				$reportData = User::getSummaryUserStatistics($from, $to.' 23:59:59', Input::get('user'));
+				$reportTitle = Lang::choice('messages.user-statistics-summary-report-title',1);
+				break;
+		}
+
+		$reportTitle = str_replace("[FROM]", $from, $reportTitle);
+		$reportTitle = str_replace("[TO]", $to, $reportTitle);
+		$reportTitle = str_replace("[USER]", $selectedUser, $reportTitle);
+		
+		return View::make('reports.userstatistics.index')
+					->with('reportTypes', $reportTypes)
+					->with('reportData', $reportData)
+					->with('reportTitle', $reportTitle)
+					->with('selectedReport', $selectedReport)
+					->withInput(Input::all());
 	}
 }

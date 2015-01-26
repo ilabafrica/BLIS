@@ -21,13 +21,14 @@
 		</div>
 	</div>
 	<div class="panel-body">
-		<table class="table table-striped table-hover table-condensed">
+		<table class="table table-striped table-hover table-condensed" id="testtype-index">
 			<thead>
 				<tr>
 					<th>{{ Lang::choice('messages.name',1) }}</th>
 					<th>{{trans('messages.description')}}</th>
 					<th>{{trans('messages.target-turnaround-time')}}</th>
 					<th>{{trans('messages.prevalence-threshold')}}</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -40,9 +41,7 @@
 					<td>{{ $value->description }}</td>
 					<td>{{ $value->targetTAT }}</td>
 					<td>{{ $value->prevalence_threshold }}</td>
-
 					<td>
-
 						<!-- show the testtype (uses the show method found at GET /testtype/{id} -->
 						<a class="btn btn-sm btn-success" href="{{ URL::to("testtype/" . $value->id) }}">
 							<span class="glyphicon glyphicon-eye-open"></span>
@@ -67,8 +66,7 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $testtypes->links(); 
-		Session::put('SOURCE_URL', URL::full());?>
+		{{ Session::put('SOURCE_URL', URL::full()) }}
 	</div>
 </div>
 @stop
