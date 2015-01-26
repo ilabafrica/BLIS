@@ -831,26 +831,26 @@ class TestDataSeeder extends DatabaseSeeder
          for ($i=0; $i < count($labRequestUrinalysis); $i++) { 
 
             $dumper = new ExternalDump();
-            $dumper->labNo = $labRequestUrinalysis[$i]['labNo'];
-            $dumper->parentLabNo = $labRequestUrinalysis[$i]['parentLabNo'];
+            $dumper->lab_no = $labRequestUrinalysis[$i]['labNo'];
+            $dumper->parent_lab_no = $labRequestUrinalysis[$i]['parentLabNo'];
             $dumper->test_id = ($i == 0) ? $test_urinalysis_accepted_completed->id : null;
-            $dumper->requestingClinician = $labRequestUrinalysis[$i]['requestingClinician'];
+            $dumper->requesting_clinician = $labRequestUrinalysis[$i]['requestingClinician'];
             $dumper->investigation = $labRequestUrinalysis[$i]['investigation'];
             $dumper->provisional_diagnosis = '';
-            $dumper->requestDate = $labRequestUrinalysis[$i]['requestDate'];
-            $dumper->orderStage = $labRequestUrinalysis[$i]['orderStage'];
-            $dumper->patientVisitNumber = $labRequestUrinalysis[$i]['patientVisitNumber'];
+            $dumper->request_date = $labRequestUrinalysis[$i]['requestDate'];
+            $dumper->order_stage = $labRequestUrinalysis[$i]['orderStage'];
+            $dumper->patient_visit_number = $labRequestUrinalysis[$i]['patientVisitNumber'];
             $dumper->patient_id = $labRequestUrinalysis[$i]['patient']['id'];
-            $dumper->fullName = $labRequestUrinalysis[$i]['patient']["fullName"];
-            $dumper->dateOfBirth = $labRequestUrinalysis[$i]['patient']["dateOfBirth"];
+            $dumper->full_name = $labRequestUrinalysis[$i]['patient']["fullName"];
+            $dumper->dob = $labRequestUrinalysis[$i]['patient']["dateOfBirth"];
             $dumper->gender = $labRequestUrinalysis[$i]['patient']['gender'];
             $dumper->address = $labRequestUrinalysis[$i]['address']["address"];
-            $dumper->postalCode = '';
-            $dumper->phoneNumber = $labRequestUrinalysis[$i]['address']["phoneNumber"];
+            $dumper->postal_code = '';
+            $dumper->phone_number = $labRequestUrinalysis[$i]['address']["phoneNumber"];
             $dumper->city = $labRequestUrinalysis[$i]['address']["city"];
             $dumper->cost = $labRequestUrinalysis[$i]['cost'];
-            $dumper->receiptNumber = $labRequestUrinalysis[$i]['receiptNumber'];
-            $dumper->receiptType = $labRequestUrinalysis[$i]['receiptType'];
+            $dumper->receipt_number = $labRequestUrinalysis[$i]['receiptNumber'];
+            $dumper->receipt_type = $labRequestUrinalysis[$i]['receiptType'];
             $dumper->waiver_no = '';
             $dumper->system_id = "sanitas";
             $dumper->save();

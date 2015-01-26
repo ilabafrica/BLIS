@@ -63,12 +63,12 @@ class SanitasInterfacer implements InterfacerInterface{
         $externalDump = new ExternalDump();
         $externRequest = ExternalDump::where('test_id', '=', $testId)->get();
 
-        if(empty($externRequest->first())){
+        if(!$externRequest->first()){
             //Not a request we can send back
             return null;
         }
 
-        $labNo = $externRequest->lists('labNo')[0];
+        $labNo = $externRequest->lists('lab_no')[0];
         $externlabRequestTree = $externalDump->getLabRequestAndMeasures($labNo);
 
         $interpretation = "";
@@ -139,8 +139,8 @@ class SanitasInterfacer implements InterfacerInterface{
                 $matchingResult = $testResults->get($rKey);
 
                 $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
-                            $externlabRequest->labNo, $tested_by, $matchingResult->result, $verified_by, "");
-                $this->sendRequest($httpCurl, $jsonResponseString, $externlabRequest->labNo);
+                            $externlabRequest->lab_no, $tested_by, $matchingResult->result, $verified_by, "");
+                $this->sendRequest($httpCurl, $jsonResponseString, $externlabRequest->lab_no);
             }
         }
         curl_close($httpCurl);
@@ -162,15 +162,17 @@ class SanitasInterfacer implements InterfacerInterface{
         //TODO: Replace true with actual expected response this is just for testing
         if($response == true)
         {
+
             //Set status in external lab-request to `sent`
-            $updatedExternalRequest = ExternalDump::where('labNo', '=', $labNo)->first();
+            $updatedExternalRequest = ExternalDump::where('lab_no', '=', $labNo)->first();
+
             $updatedExternalRequest->result_returned = 1;
             $updatedExternalRequest->save();
         }
         else if($response == false)
         {
             //Set status in external lab-request to `sent`
-            $updatedExternalRequest = ExternalDump::where('labNo', '=', $labNo)->first();
+            $updatedExternalRequest = ExternalDump::where('lab_no', '=', $labNo)->first();
             $updatedExternalRequest->result_returned = 2;
             $updatedExternalRequest->save();
             Log::error("HTTP Error: SanitasInterfacer failed to send $jsonResponse : Error message "+ curl_error($httpCurl));
@@ -273,27 +275,27 @@ class SanitasInterfacer implements InterfacerInterface{
     public function saveToExternalDump($labRequest, $testId)
     {
         //Dumping all the received requests to stagingTable
-        $dumper = ExternalDump::firstOrNew(array('labNo' => $labRequest['labNo']));
-        $dumper->labNo = $labRequest['labNo'];
-        $dumper->parentLabNo = $labRequest['parentLabNo'];
+        $dumper = ExternalDump::firstOrNew(array('lab_no' => $labRequest['labNo']));
+        $dumper->lab_no = $labRequest['labNo'];
+        $dumper->parent_lab_no = $labRequest['parentLabNo'];
         $dumper->test_id = $testId;
-        $dumper->requestingClinician = $labRequest['requestingClinician'];
+        $dumper->requesting_clinician = $labRequest['requestingClinician'];
         $dumper->investigation = $labRequest['investigation'];
         $dumper->provisional_diagnosis = '';
-        $dumper->requestDate = $labRequest['requestDate'];
-        $dumper->orderStage = $labRequest['orderStage'];
-        $dumper->patientVisitNumber = $labRequest['patientVisitNumber'];
+        $dumper->request_date = $labRequest['requestDate'];
+        $dumper->order_stage = $labRequest['orderStage'];
+        $dumper->patient_visit_number = $labRequest['patientVisitNumber'];
         $dumper->patient_id = $labRequest['patient']['id'];
-        $dumper->fullName = $labRequest['patient']["fullName"];
-        $dumper->dateOfBirth = $labRequest['patient']["dateOfBirth"];
+        $dumper->full_name = $labRequest['patient']["fullName"];
+        $dumper->dob = $labRequest['patient']["dateOfBirth"];
         $dumper->gender = $labRequest['patient']['gender'];
         $dumper->address = $labRequest['address']["address"];
-        $dumper->postalCode = '';
-        $dumper->phoneNumber = $labRequest['address']["phoneNumber"];
+        $dumper->postal_code = '';
+        $dumper->phone_number = $labRequest['address']["phoneNumber"];
         $dumper->city = $labRequest['address']["city"];
         $dumper->cost = $labRequest['cost'];
-        $dumper->receiptNumber = $labRequest['receiptNumber'];
-        $dumper->receiptType = $labRequest['receiptType'];
+        $dumper->receipt_number = $labRequest['receiptNumber'];
+        $dumper->receipt_type = $labRequest['receiptType'];
         $dumper->waiver_no = '';
         $dumper->system_id = "sanitas";
         $dumper->save();
