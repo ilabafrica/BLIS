@@ -23,7 +23,7 @@ class SanitasInterfacerTest extends TestCase
                 array(), array(), array('application/json'));
 
         // Was the data stored in the external dump?
-        $externalDump = ExternalDump::where('lab_no', '=', $this->labRequestJsonSimpleTest['labNo'])->get();
+        $externalDump = ExternalDump::where('lab_no', '=', $this->labRequestJsonSimpleTest->labNo)->get();
         $this->assertTrue(count($externalDump) > 0);
 
         // Was a new patient created?
@@ -51,7 +51,7 @@ class SanitasInterfacerTest extends TestCase
                 array(), array(), array('application/json'));
 
         // Was the data stored in the external dump?
-        $externalDump = ExternalDump::where('lab_no', '=', $this->labRequestJsonSimpleTestNotFoundInSanitas['labNo'])->get();
+        $externalDump = ExternalDump::where('lab_no', '=', $this->labRequestJsonSimpleTestNotFoundInSanitas->labNo)->get();
         $this->assertTrue(count($externalDump) > 0);
 
         // Was a new patient created?
@@ -69,15 +69,15 @@ class SanitasInterfacerTest extends TestCase
     {
         //Sending requests for urinalysis
         for ($i=0; $i < count($this->labRequestUrinalysis); $i++) { 
-            Interfacer::retrieve($this->labRequestUrinalysis[$i]);
+            Interfacer::retrieve($this->labRequestUrinalysis{$i});
         }
         Interfacer::retrieve($this->labRequestJsonSimpleTest); //bs for mps
 
         // Check that all the 'urinalysis' data was stored
         // Was the data stored in the external dump?
         for ($i=0; $i < count($this->labRequestUrinalysis); $i++) { 
-            $externalDump[] = ExternalDump::where('lab_no', '=', $this->labRequestUrinalysis[$i]['labNo'])->get();
-            $this->assertTrue(count($externalDump[$i]) > 0);
+            $externalDump[] = ExternalDump::where('lab_no', '=', $this->labRequestUrinalysis{$i}->labNo)->get();
+            $this->assertTrue(count($externalDump{$i}) > 0);
         }
 
         // Was a new patient created?
@@ -98,7 +98,7 @@ class SanitasInterfacerTest extends TestCase
 
         // Check that the 'bs for mps' data was stored
         // Was the data stored in the external dump?
-        $externalDumpBS = ExternalDump::where('lab_no', '=', $this->labRequestJsonSimpleTest['labNo'])->get();
+        $externalDumpBS = ExternalDump::where('lab_no', '=', $this->labRequestJsonSimpleTest->labNo)->get();
         $this->assertTrue(count($externalDump) > 0);
 
         // Was a new patient created?
@@ -124,7 +124,7 @@ class SanitasInterfacerTest extends TestCase
         Interfacer::retrieve($this->labRequestJsonSimpleTest);
 
         // Was the data stored in the external dump?
-        $externalDump = ExternalDump::where('lab_no', '=', $this->labRequestJsonSimpleTest['labNo'])->get();
+        $externalDump = ExternalDump::where('lab_no', '=', $this->labRequestJsonSimpleTest->labNo)->get();
         $this->assertTrue(count($externalDump) > 0);
 
         // Was a new patient created?
@@ -148,9 +148,9 @@ class SanitasInterfacerTest extends TestCase
 
         // Was the data stored in the external dump?
         // There should only be one record. The second only updates the first
-        $externalDumpPayment = ExternalDump::where('lab_no', '=', $this->labRequestJsonSimpleTest['labNo'])->get();
+        $externalDumpPayment = ExternalDump::where('lab_no', '=', $this->labRequestJsonSimpleTest->labNo)->get();
         $this->assertTrue(count($externalDumpPayment) == 1);
-        $this->assertEquals($this->labRequestJsonSimpleTestPayMentRequest['receiptNumber'],
+        $this->assertEquals($this->labRequestJsonSimpleTestPayMentRequest->receiptNumber,
             $externalDumpPayment->first()->receipt_number);
     }
 
