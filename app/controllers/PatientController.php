@@ -13,18 +13,11 @@ class PatientController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	/*public function search() {
-    $q = Input::get('search');
-        $patients = iblis::where('name', 'LIKE', '%'. $q .'%')
-        ->orWhere('patient_number', 'LIKE', '%'. $q .'%')
-        ->get();
-    return View::make('patient.index')->with('iblis', $patients);
-	}*/
 	public function index()
 		{
 		$search = Input::get('search');
 
-		$patients = Patient::search($search)->paginate(Config::get('kblis.page-items'));
+		$patients = Patient::search($search)->paginate(Config::get('kblis.page-items'))->appends(Input::except('_token'));
 
 		if (count($patients) == 0) {
 		 	Session::flash('message', trans('messages.no-match'));
@@ -33,6 +26,7 @@ class PatientController extends \BaseController {
 		// Load the view and pass the patients
 		return View::make('patient.index')->with('patients', $patients)->withInput(Input::all());
 	}
+
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -60,10 +54,9 @@ class PatientController extends \BaseController {
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
-		// process the login
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator)
-				->withInput(Input::except('password'));
+
+			return Redirect::back()->withErrors($validator)->withInput(Input::all());
 		} else {
 			// store
 			$patient = new Patient;
