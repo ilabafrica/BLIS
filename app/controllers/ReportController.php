@@ -275,10 +275,8 @@ class ReportController extends \BaseController {
 								->with('tests', $tests)
 								->with('testCategory', $testCategory)
 								->with('testType', $testType)
-								->with('pending', $pending)
-								->with('all', $all)
-								->with('from', $from)
-								->with('to',$to);
+								->with('pendingOrAll', $pendingOrAll)
+								->withInput(Input::all());
 		    	return Response::make($content,200, $headers);
 			}
 			else

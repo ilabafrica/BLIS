@@ -14,23 +14,29 @@
 	<strong>
 		<p>
 			{{trans('messages.test-records')}} 
-			@if($pending)
+
+			@if(isset($input['pending']))
 				{{' - '.trans('messages.pending-only')}}
-			@elseif($all)
+			@elseif(isset($input['all']))
 				{{' - '.trans('messages.all-tests')}}
 			@else
 				{{' - '.trans('messages.complete-tests')}}
 			@endif
+
 			@if($testCategory)
 				{{' - '.TestCategory::find($testCategory)->name}}
 			@endif
+
 			@if($testType)
 				{{' ('.TestType::find($testType)->name.') '}}
 			@endif
+
+			<?php $from = isset($input['start'])?$input['start']:date('d-m-Y');?>
+			<?php $to = isset($input['end'])?$input['end']:date('d-m-Y');?>
 			@if($from!=$to)
-				{{'From '.$from.' To '.$to}}
+				{{trans('messages.from').' '.$from.' '.trans('messages.to').' '.$to}}
 			@else
-				{{'For '.date('d-m-Y')}}
+				{{trans('messages.for').' '.date('d-m-Y')}}
 			@endif
 		</p>
 	</strong>
