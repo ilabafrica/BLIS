@@ -30,7 +30,8 @@ class PatientController extends \BaseController {
 	public function create()
 	{
 		//Create Patient
-		return View::make('patient.create');
+		$lastInsertId = DB::table('patients')->max('id')+1;
+		return View::make('patient.create')->with('lastInsertId', $lastInsertId);
 	}
 
 	/**
