@@ -33,8 +33,8 @@
 
 			<?php $from = isset($input['start'])?$input['start']:date('d-m-Y');?>
 			<?php $to = isset($input['end'])?$input['end']:date('d-m-Y');?>
-			@if($from!=$to)
-				{{trans('messages.from').' '.$from.' '.trans('messages.to').' '.$to}}
+			@if($from)
+				{{trans('messages.for').' '.$from}}
 			@else
 				{{trans('messages.for').' '.date('d-m-Y')}}
 			@endif

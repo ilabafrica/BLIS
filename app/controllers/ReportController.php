@@ -110,7 +110,7 @@ class ReportController extends \BaseController {
 	{
 		$from = Input::get('start');
 		$to = Input::get('end');
-		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+		$toPlusOne = date_add(new DateTime($from), date_interval_create_from_date_string('1 day'));
 		$pendingOrAll = Input::get('pending_or_all');
 		//	Check radiobutton for pending/all tests is checked and assign the 'true' value
 		if (Input::get('tests') === '1') {
@@ -131,8 +131,8 @@ class ReportController extends \BaseController {
 			$testTypes = array(""=>"");
 		
 		if($records=='patients'){
-			if($from||$to){
-				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+			if($from){
+				if(strtotime($from)>strtotime($date)){
 						Session::flash('error', trans('messages.check-date-range'));
 				}
 				else{
@@ -155,8 +155,7 @@ class ReportController extends \BaseController {
 				);
 				$content = View::make('reports.daily.exportPatientLog')
 								->with('visits', $visits)
-								->with('from', $from)
-								->with('to', $to);
+								->withInput(Input::all());
 		    	return Response::make($content,200, $headers);
 			}
 			else{
@@ -182,8 +181,8 @@ class ReportController extends \BaseController {
 			}
 
 			/*Filter by date*/
-			if($from||$to){
-				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+			if($from){
+				if(strtotime($from)>strtotime($date)){
 						Session::flash('message', trans('messages.check-date-range'));
 				}
 				else
@@ -208,8 +207,7 @@ class ReportController extends \BaseController {
 								->with('specimens', $specimens)
 								->with('testCategory', $testCategory)
 								->with('testType', $testType)
-								->with('to', $to)
-								->with('from', $from);
+								->withInput(Input::all());
 		    	return Response::make($content,200, $headers);
 			}
 			else
@@ -250,8 +248,8 @@ class ReportController extends \BaseController {
 			}
 			/*Get collection of tests*/
 			/*Filter by date*/
-			if($from||$to){
-				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+			if($from){
+				if(strtotime($from)>strtotime($date)){
 						Session::flash('message', trans('messages.check-date-range'));
 				}
 				else
