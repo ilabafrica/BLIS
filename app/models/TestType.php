@@ -187,9 +187,9 @@ class TestType extends Eloquent
 		}
 		// TODO: Should be changed to a more flexible format i.e. that supports localization
 		$data =  Test::select(DB::raw(
-			"ROUND(COUNT(IF((test_results.result='Positive' OR ".
+			"ROUND(COUNT(DISTINCT IF((test_results.result='Positive' OR ".
 				"(measure_ranges.alphanumeric=test_results.result AND measure_ranges.interpretation = 'Positive')),".
-				" tests.specimen_id,NULL))*100/COUNT(tests.specimen_id), 2 ) AS rate"))
+				" tests.id,NULL))*100/COUNT(DISTINCT tests.id), 2 ) AS rate"))
 				->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
 				->join('testtype_measures', 'test_types.id', '=', 'testtype_measures.test_type_id')
 				->join('measure_ranges', 'testtype_measures.measure_id', '=', 'measure_ranges.measure_id')
