@@ -14,7 +14,7 @@ class UserController extends Controller {
         if (Input::server("REQUEST_METHOD") == "POST") 
         {
             $validator = Validator::make(Input::all(), array(
-                "username" => "required|min:6",
+                "username" => "required|min:4",
                 "password" => "required|min:6"
             ));
 
