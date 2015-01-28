@@ -99,7 +99,7 @@
                         @endif
                         >
                         <td>{{ date('d-m-Y H:i', strtotime($test->time_created));}}</td>        <!--Date Ordered-->
-                        <td>{{ $test->visit->patient->patient_number }}</td>      <!--Patient Number -->
+                        <td>{{ $test->visit->patient->external_patient_number }}</td>      <!--Patient Number -->
                         <td>{{ $test->visit->visit_number }}</td>     <!--Visit Number -->
                         <td>{{ $test->visit->patient->name.' ('.($test->visit->patient->getGender(true)).','.$test->visit->patient->getAge('Y'). ')'}}</td>      <!--Patient Name -->
                         <td>{{ $test->testType->name }}</td>            <!--Test-->
