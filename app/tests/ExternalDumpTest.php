@@ -36,11 +36,12 @@ class ExternalDumpTest extends TestCase
     //BS for MPS
     public function testGetSimpleTestRequestTree()
     {
-        $this->call('POST', 'api/receiver', $this->labRequestJsonSimpleTest, 
-                array(), array(), array('application/json'));
+        $this->call('POST', 'api/receiver', array(), 
+                array(), array(), $this->labRequestJsonSimpleTest);
 
         $externalDump = new ExternalDump();
-        $externalDumpTree = $externalDump->getLabRequestAndMeasures($this->labRequestJsonSimpleTest->labNo);
+        $labR = json_decode($this->labRequestJsonSimpleTest);
+        $externalDumpTree = $externalDump->getLabRequestAndMeasures($labR->labNo);
 
         $this->assertEquals(count($externalDumpTree), 0); //1 request
     }
