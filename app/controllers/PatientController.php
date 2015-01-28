@@ -14,12 +14,17 @@ class PatientController extends \BaseController {
 	 * @return Response
 	 */
 	public function index()
-	{
-		// List all the active patients
-			$patients = Patient::paginate(Config::get('kblis.page-items'));
+		{
+		$search = Input::get('search');
+
+		$patients = Patient::search($search)->paginate(Config::get('kblis.page-items'))->appends(Input::except('_token'));
+
+		if (count($patients) == 0) {
+		 	Session::flash('message', trans('messages.no-match'));
+		}
 
 		// Load the view and pass the patients
-		return View::make('patient.index')->with('patients', $patients);
+		return View::make('patient.index')->with('patients', $patients)->withInput(Input::all());
 	}
 
 	/**
@@ -50,10 +55,9 @@ class PatientController extends \BaseController {
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
-		// process the login
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator)
-				->withInput(Input::except('password'));
+
+			return Redirect::back()->withErrors($validator)->withInput(Input::all());
 		} else {
 			// store
 			$patient = new Patient;
