@@ -165,7 +165,7 @@ class CelltacFMachine extends \KBLIS\Instrumentation\AbstractInstrumentor
 		}
 
 		//Deleting the results dump file
-		$EMPTY_FILE_URL = "http://".$this->ip."/celltac/emptyfile.php";
+		$EMPTY_FILE_URL = "http://".$this->ip."/celtac/emptyfile.php";
 		$DELETED_STATUS = file_get_contents($EMPTY_FILE_URL);
 
 		return $RESULTS;
