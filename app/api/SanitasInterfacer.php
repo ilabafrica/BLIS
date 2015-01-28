@@ -192,6 +192,7 @@ class SanitasInterfacer implements InterfacerInterface{
         {
             $patient = new Patient();
             $patient->external_patient_number = $labRequest->patient->id;
+            $patient->patient_number = DB::table('patients')->max('id') + 1;
             $patient->name = $labRequest->patient->fullName;
             $gender = array('Male' => Patient::MALE, 'Female' => Patient::FEMALE); 
             
