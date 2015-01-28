@@ -23,7 +23,8 @@
 
 				<div class="form-group">
 					{{ Form::label('patient_number', trans('messages.patient-number')) }}
-					{{ Form::text('patient_number', Input::old('patient_number'), array('class' => 'form-control')) }}
+					{{ Form::text('patient_number', Input::old('patient_number'), 
+						array('class' => 'form-control', 'readonly')) }}
 				</div>
 				<div class="form-group">
 					{{ Form::label('name', Lang::choice('messages.name',1)) }}

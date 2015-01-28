@@ -26,7 +26,7 @@
 				<div class="form-group">
 					{{ Form::label('patient_number', trans('messages.patient-number')) }}
 					{{ Form::text('patient_number', $lastInsertId,
-						array('class' => 'form-control', 'disabled')) }}
+						array('class' => 'form-control', 'readonly')) }}
 				</div>
 				<div class="form-group">
 					{{ Form::label('name', trans('messages.names')) }}
