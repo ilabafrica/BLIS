@@ -6,8 +6,8 @@
         <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/ui-lightness/jquery-ui-min.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/bootstrap.min.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/bootstrap-theme.min.css') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/layout.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/dataTables.bootstrap.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/layout.css') }}" />
         <script type="text/javascript" src="{{ URL::asset('js/jquery.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('js/jquery-ui-min.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
