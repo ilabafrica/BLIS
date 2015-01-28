@@ -12,26 +12,33 @@
 			    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
 			    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
 			    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+			    <li data-target="#carousel-example-generic" data-slide-to="3"></li>
 			  </ol>
 
 			  <!-- Wrapper for slides -->
 			  <div class="carousel-inner">
 			    <div class="item active">
-			      <img class="img-responsive" src="{{ URL::asset('i/carousel-1.jpg') }}" alt="...">
+			      <img class="img-responsive" src="{{ URL::asset('i/two.JPG') }}" alt="...">
 			      <div class="carousel-caption">
-			        <em>Jacquemontia pentanthos</em> on <em>Bougainvillea spectabilis</em> hedges
+			        Specimen ready for testing
 			      </div>
 			    </div>
 			    <div class="item">
-			      <img class="img-responsive" src="{{ URL::asset('i/carousel-2.jpg') }}" alt="...">
+			      <img class="img-responsive" src="{{ URL::asset('i/three.JPG') }}" alt="...">
 			      <div class="carousel-caption">
-			        <em>Leucanthemum maximum</em>
+			        Full Haemogram machine - CELLTAC F
 			      </div>
 			    </div>
 			    <div class="item">
-			      <img class="img-responsive" src="{{ URL::asset('i/carousel-3.jpg') }}" alt="...">
+			      <img class="img-responsive" src="{{ URL::asset('i/five.JPG') }}" alt="...">
 			      <div class="carousel-caption">
-			        Ipsum solum de collem
+			        Specimen in preparation for testing
+			      </div>
+			    </div>
+			    <div class="item">
+			      <img class="img-responsive" src="{{ URL::asset('i/six.JPG') }}" alt="...">
+			      <div class="carousel-caption">
+			        Humalyzer 200 machine for laboratory tests
 			      </div>
 			    </div>
 			  </div>
