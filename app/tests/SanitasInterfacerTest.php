@@ -27,7 +27,7 @@ class SanitasInterfacerTest extends TestCase
         $this->assertTrue(count($externalDump) > 0);
 
         // Was a new patient created?
-        $patient = Patient::where('patient_number', '=', $externalDump->first()->patient_id)->get();
+        $patient = Patient::where('external_patient_number', '=', $externalDump->first()->patient_id)->get();
         $this->assertTrue(count($patient) > 0);
 
         // Is there a Visit for this new patient?
@@ -55,7 +55,7 @@ class SanitasInterfacerTest extends TestCase
         $this->assertTrue(count($externalDump) > 0);
 
         // Was a new patient created?
-        $patient = Patient::where('patient_number', '=', $externalDump->first()->patient_id)->get();
+        $patient = Patient::where('external_patient_number', '=', $externalDump->first()->patient_id)->get();
         $this->assertTrue(count($patient) > 0);
 
         // Is there a Visit for this new patient?
@@ -81,7 +81,7 @@ class SanitasInterfacerTest extends TestCase
         }
 
         // Was a new patient created?
-        $patient = Patient::where('patient_number', '=', $externalDump[0]->first()->patient_id)->get();
+        $patient = Patient::where('external_patient_number', '=', $externalDump[0]->first()->patient_id)->get();
         $this->assertTrue(count($patient) > 0);
 
         // Is there a Visit for this new patient?
@@ -102,7 +102,7 @@ class SanitasInterfacerTest extends TestCase
         $this->assertTrue(count($externalDump) > 0);
 
         // Was a new patient created?
-        $patient = Patient::where('patient_number', '=', $externalDumpBS->first()->patient_id)->get();
+        $patient = Patient::where('external_patient_number', '=', $externalDumpBS->first()->patient_id)->get();
         $this->assertTrue(count($patient) > 0);
 
         // Is there a Visit for this new patient?
@@ -128,7 +128,7 @@ class SanitasInterfacerTest extends TestCase
         $this->assertTrue(count($externalDump) > 0);
 
         // Was a new patient created?
-        $patient = Patient::where('patient_number', '=', $externalDump->first()->patient_id)->get();
+        $patient = Patient::where('external_patient_number', '=', $externalDump->first()->patient_id)->get();
         $this->assertTrue(count($patient) > 0);
 
         // Is there a Visit for this new patient?
