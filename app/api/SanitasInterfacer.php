@@ -160,14 +160,14 @@ class SanitasInterfacer implements InterfacerInterface{
 
         //"Test updated" is the actual response 
         //TODO: Replace true with actual expected response this is just for testing
-        if($response == true)
+        if($response == "Test updated")
         {
             //Set status in external lab-request to `sent`
             $updatedExternalRequest = ExternalDump::where('lab_no', '=', $labNo)->first();
             $updatedExternalRequest->result_returned = 1;
             $updatedExternalRequest->save();
         }
-        else if($response == false)
+        else
         {
             //Set status in external lab-request to `sent`
             $updatedExternalRequest = ExternalDump::where('lab_no', '=', $labNo)->first();
