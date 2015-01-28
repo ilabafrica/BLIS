@@ -368,6 +368,7 @@ return array(
     'grouped-test-counts' =>  'Test Counts (Grouped)',
     'ungrouped-specimen-counts' =>  'Specimen Counts (Ungrouped)',
     'grouped-specimen-counts' =>  'Specimen Counts (Grouped)',
+    'select-date'   =>  'Select Date',
 
     /* Infection Report*/
     'age-ranges'    =>  'Age Ranges',
