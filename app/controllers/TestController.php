@@ -101,7 +101,7 @@ class TestController extends \BaseController {
 		}
 
 		// Pagination
-		$tests = $tests->paginate(Config::get('kblis.page-items'));
+		$tests = $tests->paginate(Config::get('kblis.page-items'))->appends(Input::except('_token'));
 
 		// Load the view and pass it the tests
 		return View::make('test.index')->with('testSet', $tests)->with('testStatus', $statuses)->withInput(Input::all());

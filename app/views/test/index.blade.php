@@ -11,7 +11,7 @@
     @endif
 
     <div class='container-fluid'>
-        {{ Form::open(array('route' => array('test.index'), 'class'=>'form-inline')) }}
+        {{ Form::open(array('route' => array('test.index'))) }}
             <div class='row'>
                 <div class='col-md-3'>
                     <div class='col-md-2'>
