@@ -6,28 +6,22 @@
 	  <li class="active">{{ Lang::choice('messages.patient',2) }}</li>
 	</ol>
 </div>
+{{ Form::open(array('route' => array('patient.index'), 'class'=>'form-inline', 'role'=>'form', 'method'=>'POST')) }}
+		<div class="form-group">
+
+		    {{ Form::label('search', "search", array('class' => 'sr-only')) }}
+            {{ Form::text('search', Input::get('search'), array('class' => 'form-control test-search')) }}
+		</div>
+		<div class="form-group">
+			{{ Form::button("<span class='glyphicon glyphicon-search'></span> ".trans('messages.search'), 
+		        array('class' => 'btn btn-primary', 'patient_number' => 'filter', 'type' => 'submit')) }}
+		</div>
+	{{ Form::close() }}
+	<br>
 @if (Session::has('message'))
 	<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
 @endif
-<div class='container-fluid'>
-        <div class='row'>
-            <div class='col-md-12'>
-             {{ Form::open(array('route' =>  array('patient.index'), 'class'=>'form-inline')) }}
-                       <div class="form-group">
-                        {{ Form::label('search', trans('messages.search'), array('class' => 'sr-only')) }}
-                        {{ Form::text('search', Input::get('search'),
-                            array('class' => 'form-control')) }}
-                        </div>
 
-                        <div class="form-group">
-                        {{ Form::submit(trans('messages.search'), array('class'=>'btn btn-primary')) }}
-                        </div>
-             {{ Form::close() }}
-
-            </div>
-        </div>
- </div>
-<br>
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>

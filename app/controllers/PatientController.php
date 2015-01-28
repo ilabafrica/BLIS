@@ -22,26 +22,17 @@ class PatientController extends \BaseController {
 	}*/
 	public function index()
 		{
-		// Doing search for patients	
-	    $q = Input::get('search');
+		$search = Input::get('search');
 
-	    $searchTerms = explode(' ', $q);
+		$patients = Patient::search($search)->paginate(Config::get('kblis.page-items'));
 
-	    $query = DB::table('patients');
-
-	    foreach($searchTerms as $name)
-	    {
-	        $query->where('name', 'LIKE', '%'. $name .'%');
-	    }
-
-	    $patients = $query->get();
-		// List all the active patients
-		$patients = Patient::paginate(Config::get('kblis.page-items'));
+		if (count($patients) == 0) {
+		 	Session::flash('message', trans('messages.no-match'));
+		}
 
 		// Load the view and pass the patients
-		return View::make('patient.index')->with('patients', $patients)->withInput(Input::get('search'));
+		return View::make('patient.index')->with('patients', $patients)->withInput(Input::all());
 	}
-
 	/**
 	 * Show the form for creating a new resource.
 	 *
