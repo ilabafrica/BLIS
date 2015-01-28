@@ -71,13 +71,10 @@ class TestController extends \BaseController {
 			}
 
 			if ($dateFrom||$dateTo) {
-				$tests = $tests->where(function($q) use ($dateFrom, $dateTo)
+				$toPlusOne = date_add(new DateTime($dateTo), date_interval_create_from_date_string('1 day'));
+				$tests = $tests->where(function($q) use ($dateFrom, $toPlusOne)
 				{
-					$q->whereHas('specimen', function($q) use ($dateFrom, $dateTo)//Filter by date created
-					{
-						$q = $q->where('time_created', '>=', $dateFrom);
-						(empty($dateTo)) ? $q : $q->where('time_created', '<=', $dateTo);
-					});
+					$q->whereBetween('time_created', [$dateFrom, $toPlusOne]);
 				});
 			}
 
