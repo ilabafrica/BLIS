@@ -13,7 +13,7 @@
 	<div class="col-sm-6">
     	<div class="row">
 			<div class="col-sm-3">
-			    {{ Form::label('start', "Select Date") }}
+			    {{ Form::label('start', trans('messages.select-date')) }}
 			</div>
 			<div class="col-sm-3">
 			    {{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
