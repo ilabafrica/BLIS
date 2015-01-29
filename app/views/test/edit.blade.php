@@ -25,6 +25,22 @@
                             </a>
                         </div>
                         @endif
+                        @if($test->isCompleted() && $test->specimen->isAccepted())
+						<div class="panel-btn">
+							@if(Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
+							<a class="btn btn-sm btn-success" href="{{ URL::route('test.verify', array($test->id)) }}">
+								<span class="glyphicon glyphicon-thumbs-up"></span>
+								{{trans('messages.verify')}}
+							</a>
+							@endif
+							@if(Auth::user()->can('view_reports'))
+								<a class="btn btn-sm btn-default" href="{{ URL::to('patientreport/'.$test->visit->patient->id) }}">
+									<span class="glyphicon glyphicon-eye-open"></span>
+									{{trans('messages.view-report')}}
+								</a>
+							@endif
+						</div>
+						@endif
 					</div>
 		            <div class="col-md-1">
 		                <a class="btn btn-sm btn-primary pull-right" href="#" onclick="window.history.back();return false;"

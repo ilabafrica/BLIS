@@ -211,6 +211,7 @@ class TestController extends \BaseController {
 			$specimen = Specimen::find(Input::get('specimen_id'));
 			$specimen->rejection_reason_id = Input::get('rejectionReason');
 			$specimen->specimen_status_id = Specimen::REJECTED;
+			$specimen->rejected_by = Auth::user()->id;
 			$specimen->time_rejected = date('Y-m-d H:i:s');
 			$specimen->reject_explained_to = Input::get('reject_explained_to');
 			$specimen->save();
@@ -232,6 +233,7 @@ class TestController extends \BaseController {
 	{
 		$specimen = Specimen::find(Input::get('id'));
 		$specimen->specimen_status_id = Specimen::ACCEPTED;
+		$specimen->accepted_by = Auth::user()->id;
 		$specimen->time_accepted = date('Y-m-d H:i:s');
 		$specimen->save();
 

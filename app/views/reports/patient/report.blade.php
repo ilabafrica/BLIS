@@ -58,10 +58,10 @@
 		{{ trans('messages.patient-report') }}
 	</div>
 	<div class="panel-body">
-		@if(Session::has('error'))
+		@if($error!='')
 		<!-- if there are search errors, they will show here -->
-			<div class="alert alert-danger">{{ trans(Session::get('error')) }}</div>
-		@endif
+			<div class="alert alert-info">{{ $error }}</div>
+		@else
 
 		<div id="report_content">
 		@include("reportHeader")
@@ -167,10 +167,7 @@
 								@endforeach</td>
 							<td>{{ $test->interpretation == '' ? 'N/A' : $test->interpretation }}</td>
 							<td>{{ $test->testedBy->name or trans('messages.pending')}}</td>
-							<td>
-								@foreach($test->testResults as $result)
-									<p>{{$result->time_entered}}</p>
-								@endforeach</td>
+							<td>{{ $test->testResults->last()->time_entered }}</td>
 							<td>{{ $test->time_completed }}</td>
 							<td>{{ $test->verifiedBy->name or trans('messages.verification-pending')}}</td>
 							<td>{{ $test->time_verified }}</td>
@@ -182,6 +179,7 @@
 				@endforelse
 			</tbody>
 		</table></div>
+		@endif
 		</div>
 	</div>
 
