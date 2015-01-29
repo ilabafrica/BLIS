@@ -105,6 +105,17 @@ class Specimen extends Eloquent
     }
 
     /**
+    * Function to get formatted specimenID's e.g PAR-3333
+    *
+    * @return string
+    */
+    public function getSpecimenId()
+    {
+    	$testCategoryName = $this->test->testType->testCategory->name;
+    	return substr($testCategoryName, 0 , 3).'-'.$this->id;
+    }
+
+    /**
     * Check if specimen is NOT_COLLECTED
     *
     * @return boolean

@@ -105,8 +105,7 @@
                         <td>{{ $test->visit->visit_number }}</td> <!--Visit Number -->
                         <td>{{ $test->visit->patient->name.' ('.($test->visit->patient->getGender(true)).',
                             '.$test->visit->patient->getAge('Y'). ')'}}</td> <!--Patient Name -->
-                        <td>{{ substr($test->testType->testCategory->name,0,3).
-                            '-'.$test->specimen_id }}</td> <!--Specimen ID -->
+                        <td>{{ $test->specimen->getSpecimenId() }}</td> <!--Specimen ID -->
                         <td>{{ $test->testType->name }}</td> <!--Test-->
                         <td>{{ $test->visit->visit_type }}</td> <!--Visit Type -->
                         <td id="test-status-{{$test->id}}" class='test-status'>

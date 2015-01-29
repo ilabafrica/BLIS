@@ -119,7 +119,7 @@
 											<p><strong>{{trans('messages.specimen-number')}}</strong></p>
 										</div>
 										<div class="col-md-8">
-											{{$test->specimen->id or trans('messages.pending') }}
+											{{$test->specimen->getSpecimenId() }}
 										</div>
 									</div>
 									<div class="row">
