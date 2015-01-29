@@ -324,6 +324,7 @@ class TestController extends \BaseController {
 	public function enterResults($testID)
 	{
 		$test = Test::find($testID);
+
 		return View::make('test.enterResults')->with('test', $test);
 	}
 
@@ -374,8 +375,11 @@ class TestController extends \BaseController {
 
 		// redirect
 		$url = Session::get('SOURCE_URL');
+		$input = Session::get('TESTS_FILTER_INPUT');
+
 		return Redirect::to($url)->with('message', trans('messages.success-saving-results'))
-					->with('activeTest', array($test->id));
+					->with('activeTest', array($test->id))
+					->withInput($input);
 	}
 
 	/**
