@@ -85,10 +85,12 @@
                         <th>{{trans('messages.date-ordered')}}</th>
                         <th>{{trans('messages.patient-number')}}</th>
                         <th>{{trans('messages.visit-number')}}</th>
-                        <th>{{trans('messages.patient-name')}}</th>
+                        <th class="col-md-2">{{trans('messages.patient-name')}}</th>
+                        <th class="col-md-1">{{trans('messages.specimen-id')}}</th>
                         <th>{{ Lang::choice('messages.test',1) }}</th>
                         <th>{{trans('messages.visit-type')}}</th>
                         <th>{{trans('messages.test-status')}}</th>
+                        <th class="col-md-3">{{trans('messages.test-status')}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -98,12 +100,14 @@
                             {{ in_array($test->id, Session::get('activeTest'))?"class='info'":""}}
                         @endif
                         >
-                        <td>{{ date('d-m-Y H:i', strtotime($test->time_created));}}</td>        <!--Date Ordered-->
-                        <td>{{ $test->visit->patient->external_patient_number }}</td>      <!--Patient Number -->
-                        <td>{{ $test->visit->visit_number }}</td>     <!--Visit Number -->
-                        <td>{{ $test->visit->patient->name.' ('.($test->visit->patient->getGender(true)).','.$test->visit->patient->getAge('Y'). ')'}}</td>      <!--Patient Name -->
-                        <td>{{ $test->testType->name }}</td>            <!--Test-->
-                        <td>{{ $test->visit->visit_type }}</td>         <!--Visit Type -->
+                        <td>{{ date('d-m-Y H:i', strtotime($test->time_created));}}</td>  <!--Date Ordered-->
+                        <td>{{ $test->visit->patient->external_patient_number }}</td> <!--Patient Number -->
+                        <td>{{ $test->visit->visit_number }}</td> <!--Visit Number -->
+                        <td>{{ $test->visit->patient->name.' ('.($test->visit->patient->getGender(true)).',
+                            '.$test->visit->patient->getAge('Y'). ')'}}</td> <!--Patient Name -->
+                        <td>{{ $test->specimen->getSpecimenId() }}</td> <!--Specimen ID -->
+                        <td>{{ $test->testType->name }}</td> <!--Test-->
+                        <td>{{ $test->visit->visit_type }}</td> <!--Visit Type -->
                         <td id="test-status-{{$test->id}}" class='test-status'>
                             <!-- Test Statuses -->
                             <div class="container-fluid">

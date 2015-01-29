@@ -279,7 +279,9 @@ class SanitasInterfacer implements InterfacerInterface{
         $dumper = ExternalDump::firstOrNew(array('lab_no' => $labRequest->labNo));
         $dumper->lab_no = $labRequest->labNo;
         $dumper->parent_lab_no = $labRequest->parentLabNo;
-        $dumper->test_id = $testId;
+        if($dumper->test_id == null){
+            $dumper->test_id = $testId;
+        }
         $dumper->requesting_clinician = $labRequest->requestingClinician;
         $dumper->investigation = $labRequest->investigation;
         $dumper->provisional_diagnosis = '';
