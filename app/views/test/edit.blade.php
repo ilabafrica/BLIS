@@ -63,7 +63,12 @@
 	                            'data-measureid' => $measure->id
 	                            ))
 	                        }}
-	                        <span class='units'>{{$measure->unit}}</span>
+	                        <span class='units'>
+                                @foreach($measure->measureRanges as $range)
+                                    ({{$range->range_lower}} - {{$range->range_upper}})
+                                @endforeach
+                                {{$measure->unit}}
+                            </span>
 						@elseif ( $measure->isAlphanumeric() || $measure->isAutocomplete() ) 
 	                        <?php
 	                        $measure_values = array();
