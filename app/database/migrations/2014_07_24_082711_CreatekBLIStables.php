@@ -107,8 +107,8 @@ class CreatekBLIStables extends Migration {
             $table->integer('age_min')->unsigned()->nullable();
             $table->integer('age_max')->unsigned()->nullable();
             $table->tinyInteger('gender')->unsigned()->nullable();
-            $table->decimal('range_lower', 7, 3)->nullable();
-            $table->decimal('range_upper', 7, 3)->nullable();
+            $table->float('range_lower', 8, 0)->nullable();
+            $table->float('range_upper', 8, 0)->nullable();
             $table->string('alphanumeric', 200)->nullable();
             $table->string('interpretation', 100)->nullable();
 
