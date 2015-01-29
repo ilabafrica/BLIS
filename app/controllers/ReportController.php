@@ -11,7 +11,7 @@ class ReportController extends \BaseController {
 	{
 		$search = Input::get('search');
 
-		$patients = Patient::search($search)->paginate(Config::get('kblis.page-items'));
+		$patients = Patient::search($search)->orderBy('id','DESC')->paginate(Config::get('kblis.page-items'));
 
 		if (count($patients) == 0) {
 		 	Session::flash('message', trans('messages.no-match'));
