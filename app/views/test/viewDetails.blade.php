@@ -28,6 +28,12 @@
 								{{trans('messages.verify')}}
 							</a>
 							@endif
+							@if(Auth::user()->can('view_reports'))
+								<a class="btn btn-sm btn-default" href="{{ URL::to('patientreport/'.$test->visit->patient->id) }}">
+									<span class="glyphicon glyphicon-eye-open"></span>
+									{{trans('messages.view-report')}}
+								</a>
+							@endif
 						</div>
 						@endif
                     </div>
