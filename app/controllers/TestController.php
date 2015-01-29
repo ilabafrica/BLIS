@@ -82,7 +82,7 @@ class TestController extends \BaseController {
 		$input = Session::get('TESTS_FILTER_INPUT');
 		Session::put('fromRedirect', 'true');
 
-		return Redirect::route('TestController@index')
+		return Redirect::action('TestController@index')
 				->with('activeTest', array($id))
 				->withInput($input);
 	}
