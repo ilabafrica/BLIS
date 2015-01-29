@@ -31,6 +31,7 @@ class ReportController extends \BaseController {
 		$to = Input::get('end');
 		$pending = Input::get('pending');
 		$date = date('Y-m-d');
+		$error = '';
 		//	Check checkbox if checked and assign the 'checked' value
 		if (Input::get('tests') === '1') {
 		    $pending='checked';
@@ -51,17 +52,17 @@ class ReportController extends \BaseController {
 			if(!$to) $to = $date;
 
 			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-					Session::flash('error', trans('messages.check-date-range'));
+					$error = trans('messages.check-date-range');
 			}
 			else
 			{
-				$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+				$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'))->format('Y-m-d H:i:s');
 				$tests=$tests->whereBetween('time_created', array($from, $toPlusOne));
 			}
 		}
 		else
 		{
-			$tests = $tests->where('tests.time_created', 'LIKE', '%'.date('Y-m-d').'%');
+			$tests = $tests->where('tests.time_created', 'LIKE', date('Y-m-d').'%');
 		}
 		//	Get tests collection
 		$tests = $tests->get(array('tests.*'));
@@ -86,7 +87,8 @@ class ReportController extends \BaseController {
 						->with('patient', $patient)
 						->with('tests', $tests)
 						->with('pending', $pending)
-						->withInput(Input::all());
+						->withInput(Input::all())
+						->with('error', $error);
 		}
 	}
 	//	End patient report functions
