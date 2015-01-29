@@ -43,7 +43,6 @@ class KBLISSeeder extends DatabaseSeeder
         }
         $this->command->info('Roles table seeded');
 
-        $user1 = User::find(1);
         $role1 = Role::find(1);
         $permissions = Permission::all();
 
@@ -51,8 +50,47 @@ class KBLISSeeder extends DatabaseSeeder
         foreach ($permissions as $permission) {
             $role1->attachPermission($permission);
         }
-        //Assign role Administrator to user 1 administrator
-        $user1->attachRole($role1);
+        //Assign role Administrator to administrators
+        User::find(1)->attachRole($role1);
+        User::find(8)->attachRole($role1);
+        User::find(10)->attachRole($role1);
+
+
+        $role2 = Role::find(2);//Technologist
+
+        //Assign technologist's permissions to role technologist
+        $role2->attachPermission(Permission::find(1));
+        $role2->attachPermission(Permission::find(2));
+        $role2->attachPermission(Permission::find(3));
+        $role2->attachPermission(Permission::find(4));
+        $role2->attachPermission(Permission::find(5));
+        $role2->attachPermission(Permission::find(6));
+        $role2->attachPermission(Permission::find(7));
+        $role2->attachPermission(Permission::find(8));
+        $role2->attachPermission(Permission::find(9));
+        $role2->attachPermission(Permission::find(10));
+        $role2->attachPermission(Permission::find(11));
+        $role2->attachPermission(Permission::find(12));
+        $role2->attachPermission(Permission::find(13));
+        $role2->attachPermission(Permission::find(17));
+
+        //Assign role Technologist to the other users
+        User::find(2)->attachRole($role2);
+        User::find(5)->attachRole($role2);
+        User::find(12)->attachRole($role2);
+        User::find(18)->attachRole($role2);
+        User::find(23)->attachRole($role2);
+        User::find(24)->attachRole($role2);
+        User::find(26)->attachRole($role2);
+        User::find(29)->attachRole($role2);
+        User::find(43)->attachRole($role2);
+        User::find(76)->attachRole($role2);
+        User::find(136)->attachRole($role2);
+        User::find(159)->attachRole($role2);
+        User::find(161)->attachRole($role2);
+        User::find(162)->attachRole($role2);
+        User::find(163)->attachRole($role2);
+        User::find(164)->attachRole($role2);
 
         /* Instruments table */
         $instrumentsData = array(
@@ -62,6 +100,9 @@ class KBLISSeeder extends DatabaseSeeder
             "ip" => "192.168.1.12",
             "hostname" => "HEMASERVER"
         );
+
+        $instrument = Instrument::create($instrumentsData);
+        $instrument->testTypes()->attach(array(176));
 
         $this->command->info('Instruments table seeded');
     }

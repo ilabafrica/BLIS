@@ -13,11 +13,13 @@
 <div id="content">
 	<strong>
 		<p>
-			{{trans('messages.daily-visits')}} @if($from!=$to)
-				{{'From '.$from.' To '.$to}}
-			@else
-				{{'For '.date('d-m-Y')}}
-			@endif
+			<?php $from = isset($input['start'])?$input['start']:date('Y-m-d'); ?>
+			<?php $to = isset($input['end'])?$input['end']:date('Y-m-d'); ?>
+				{{trans('messages.daily-visits')}} @if($from)
+					{{trans('messages.for').' '.$from}}
+				@else
+					{{trans('messages.for').' '.date('d-m-Y')}}
+				@endif
 		</p>
 	</strong>
 	<br>

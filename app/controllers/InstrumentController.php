@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\QueryException;
-// use KBLIS\Instrumentation\;
 
 /**
  *Contains functions for managing instruments

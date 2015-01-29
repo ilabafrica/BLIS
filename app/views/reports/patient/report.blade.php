@@ -81,19 +81,23 @@
 			<tbody>
 				<tr>
 					<th>{{ trans('messages.patient-name')}}</th>
-					<td>{{ $patient->name }}</td>
+					@if(Entrust::can('view_names'))
+						<td>{{ $patient->name }}</td>
+					@else
+						<td>N/A</td>
+					@endif
 					<th>{{ trans('messages.gender')}}</th>
 					<td>{{ $patient->getGender(false) }}</td>
 				</tr>
 				<tr>
-					<th>{{ trans("messages.patient-number")}}</th>
+					<th>{{ trans('messages.patient-id')}}</th>
 					<td>{{ $patient->patient_number}}</td>
 					<th>{{ trans('messages.age')}}</th>
 					<td>{{ $patient->getAge()}}</td>
 				</tr>
 				<tr>
 					<th>{{ trans('messages.patient-lab-number')}}</th>
-					<td>{{ $patient->id }}</td>
+					<td>{{ $patient->external_patient_number }}</td>
 					<th>{{ trans('messages.requesting-facility-department')}}</th>
 					<td>{{ Config::get('kblis.organization') }}</td>
 				</tr>
@@ -161,7 +165,7 @@
 								@foreach($test->testResults as $result)
 									<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
 								@endforeach</td>
-							<td>{{ $test->interpretation }}</td>
+							<td>{{ $test->interpretation == '' ? 'N/A' : $test->interpretation }}</td>
 							<td>{{ $test->testedBy->name or trans('messages.pending')}}</td>
 							<td>
 								@foreach($test->testResults as $result)

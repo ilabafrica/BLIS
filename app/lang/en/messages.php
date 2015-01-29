@@ -98,16 +98,16 @@ return array(
     'new-patient' => 'New Patient',
     'patient' => 'Patient|Patients',
     'patient-details' => 'Patient Details',
-    'patient-id' => 'ID',
+    'patient-id' => 'Patient ID',
     'patient-search-button' => 'Go!',
-    'patient-number' => 'Patient Number',
+    'patient-number' => 'Patient No.',
     'phone-number' => 'Phone Number',
     'physical-address' => 'Physical Address',
     
     /** 
      *   Specimen
      */
-
+    'not-paid' => 'Not Paid',
     'accept-specimen' => 'Accept',
     'accept-specimen-title' => 'Accept Specimen',
     'change-specimen' => 'Change',
@@ -242,7 +242,7 @@ return array(
     'new-test' => 'New Test',
     'not-received' => 'Test Not Received',
     'out-patient' => 'Out Patient',
-    'patient-name' => 'Patient',
+    'patient-name' => 'Patient name',
     'pending' => 'Test Pending',
     'physician' => 'Requesting Physician',
     'receive-test' => 'Receive',
@@ -271,8 +271,8 @@ return array(
     'verify-title' => 'Verify Test Results',
     'view-details' => 'View',
     'view-details-title' => 'View Test Details',
-    'visit-number' => 'Visit Number',
     'patient-lab-number' => 'Lab No.',
+    'visit-number' => 'Visit No.',
     'visit-type' => 'Visit Type',
 
     /** 
@@ -331,7 +331,6 @@ return array(
     'hospital-number'   =>  'Hospital number',
     'include-pending-tests' => 'Include Pending Tests',
     'include-range-visualization' => 'Include Range Visualization',
-    'infection-report' => 'Infection Report',
     'no-records-found' => 'No records found.',
     'patient-report' => 'Patient Report',
     'prevalence-rates' => 'Prevalence Rates',
@@ -339,7 +338,7 @@ return array(
     'print' => 'Print',
     'rejected-by'   =>  'Rejected by',
     'requesting-facility-department' => 'Requesting Facility/Department',
-    'results-entry-date' => 'Entry Date',
+    'results-entry-date' => 'Results Entry Date',
     'test-results-values' => 'Test:Result',
     'view-report' => 'View Report',
     'test-records'  =>  'Test Records',
@@ -371,10 +370,40 @@ return array(
     'grouped-test-counts' =>  'Test Counts (Grouped)',
     'ungrouped-specimen-counts' =>  'Specimen Counts (Ungrouped)',
     'grouped-specimen-counts' =>  'Specimen Counts (Grouped)',
-    'age-ranges'    =>  'Age Ranges',
-    'mf-total'  =>  'M/F Total',
-    'total-tests'   =>  'Total Tests',
+    'select-date'   =>  'Select Date',
 
+    /* Infection Report*/
+    'age-ranges'    =>  'Age Ranges',
+    'infection-report' => 'Infection Report',
+    'mf-total'  =>  'M/F Total',
+    'total'   =>  'Total|Totals',
+    'total-tests'   =>  'Total Tests',
+    'select-interval'   =>  'Select Interval',
+    'interval'  =>  'Interval',
+    'expected-tat'  =>  'Expected TAT',
+    'actual-tat'    =>  'Actual TAT',
+    'waiting-time'  =>  'Waiting Time',
+    'monthly'   =>  'Monthly',
+    'weekly'    =>  'Weekly',
+    'daily' =>  'Daily',
+
+    /* Usage Statistics Reports*/ 
+    'accepted-specimen' => 'Specimen Collected',
+    'no-data-found' => 'No data available!',
+    'performed-tests' => 'Tests Performed',
+    'received-tests' => 'Tests Received',
+    'registration-date' => 'Registration Date',
+    'rejected-specimen' => 'Specimen Rejected',
+    'report-type' => 'Report Type|Report Types',
+    'specimen-id' => 'Specimen ID',
+    'test-id' => 'Test ID',
+    'user-statistics-report' => 'User Statistics Report',
+    'user-statistics-patients-register-report-title' => 'Patients Register (Period: [FROM] - [TO] [USER])',
+    'user-statistics-specimens-register-report-title' => 'Specimen Register (Period: [FROM] - [TO] [USER])',
+    'user-statistics-summary-report-title' => 'User Summary Report (Period: [FROM] - [TO] [USER])',
+    'user-statistics-tests-performed-report-title' => 'Tests Performed (Period: [FROM] - [TO] [USER])',
+    'user-statistics-tests-register-report-title' => 'Tests Registered (Period: [FROM] - [TO] [USER])',
+    'verified-tests' => 'Tests Verified',
 
     /** 
      *   Configurations

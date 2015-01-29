@@ -32,15 +32,31 @@ class Patient extends Eloquent
 	/**
 	 * Patient Age 
 	 *
+	 * @param optional String - format [Y|YY|YYMM]
+	 * @param optional Timestamp - age as at this date
 	 * @return String x years y months
 	 */
-	public function getAge()
+	public function getAge($format = "YYMM", $at = NULL)
 	{
-		$dateOfBirth = new DateTime($this->dob);
-		$now = new DateTime('now');
-		$interval = $dateOfBirth->diff($now);
+		if(!$at)$at = new DateTime('now');
 
-		return $interval->y ." years " . $interval->m ." months";
+		$dateOfBirth = new DateTime($this->dob);
+		$interval = $dateOfBirth->diff($at);
+
+		$age = "";
+
+		switch ($format) {
+			case 'Y':
+				$age = $interval->y;break;
+			case 'YY':
+				$age = $interval->y ." years ";break;
+			default:
+				$age = ($interval->y > 0)?$interval->y ." years ":"";
+				$age .= ($interval->m > 0)?$interval->m ." months":"";
+				break;
+		}
+
+		return $age;
 	}
 
 	/**
@@ -69,8 +85,8 @@ class Patient extends Eloquent
 	*/
 	public static function search($searchText)
 	{
-		return Patient::where('patient_number', 'LIKE', '%'.$searchText.'%')
+		return Patient::where('patient_number', '=', $searchText)
 						->orWhere('name', 'LIKE', '%'.$searchText.'%')
-						->orWhere('external_patient_number', 'LIKE', '%'.$searchText.'%');
+						->orWhere('external_patient_number', '=', $searchText);
 	}
 }

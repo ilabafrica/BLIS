@@ -33,7 +33,10 @@ class TestController extends \BaseController {
 					{
 						if(is_numeric($searchString))
 						{
-							$q->where('patient_number', 'like', '%' . $searchString . '%');
+							$q->where(function($q) use ($searchString){
+								$q->where('external_patient_number', '=', $searchString )
+								  ->orWhere('patient_number', '=', $searchString );
+							});
 						}
 						else
 						{
@@ -47,11 +50,14 @@ class TestController extends \BaseController {
 				})
 				->orWhereHas('specimen', function($q) use ($searchString)
 				{
-				    $q->where('id', 'like', '%' . $searchString . '%');//Search by specimen number
+				    $q->where('id', '=', $searchString );//Search by specimen number
 				})
 				->orWhereHas('visit',  function($q) use ($searchString)
 				{
-					$q->where('id', 'like', '%' . $searchString . '%');//Search by visit number
+					$q->where(function($q) use ($searchString){
+						$q->where('visit_number', '=', $searchString )//Search by visit number
+						->orWhere('id', '=', $searchString);
+					});
 				});
 			});
 
@@ -65,13 +71,10 @@ class TestController extends \BaseController {
 			}
 
 			if ($dateFrom||$dateTo) {
-				$tests = $tests->where(function($q) use ($dateFrom, $dateTo)
+				$toPlusOne = date_add(new DateTime($dateTo), date_interval_create_from_date_string('1 day'));
+				$tests = $tests->where(function($q) use ($dateFrom, $toPlusOne)
 				{
-					$q->whereHas('specimen', function($q) use ($dateFrom, $dateTo)//Filter by date created
-					{
-						$q = $q->where('time_created', '>=', $dateFrom);
-						(empty($dateTo)) ? $q : $q->where('time_created', '<=', $dateTo);
-					});
+					$q->whereBetween('time_created', [$dateFrom, $toPlusOne]);
 				});
 			}
 
@@ -95,7 +98,7 @@ class TestController extends \BaseController {
 		}
 
 		// Pagination
-		$tests = $tests->paginate(Config::get('kblis.page-items'));
+		$tests = $tests->paginate(Config::get('kblis.page-items'))->appends(Input::except('_token'));
 
 		// Load the view and pass it the tests
 		return View::make('test.index')->with('testSet', $tests)->with('testStatus', $statuses)->withInput(Input::all());
@@ -348,8 +351,8 @@ class TestController extends \BaseController {
 	/**
 	 * Saves Test Results
 	 *
-	 * @param
-	 * @return
+	 * @param $testID to save
+	 * @return view
 	 */
 	public function saveResults($testID)
 	{
@@ -366,9 +369,11 @@ class TestController extends \BaseController {
 			$testResult->save();
 		}
 
+		//Fire of entry saved/edited event
+		Event::fire('test.saved', array($testID));
+
 		// redirect
 		$url = Session::get('SOURCE_URL');
-		
 		return Redirect::to($url)->with('message', trans('messages.success-saving-results'))
 					->with('activeTest', array($test->id));
 	}
@@ -410,6 +415,9 @@ class TestController extends \BaseController {
 		$test->time_verified = date('Y-m-d H:i:s');
 		$test->verified_by = Auth::user()->id;
 		$test->save();
+
+		//Fire of entry verified event
+		Event::fire('test.verified', array($testID));
 
 		return View::make('test.viewDetails')->with('test', $test);
 	}

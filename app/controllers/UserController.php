@@ -14,7 +14,7 @@ class UserController extends Controller {
         if (Input::server("REQUEST_METHOD") == "POST") 
         {
             $validator = Validator::make(Input::all(), array(
-                "username" => "required|min:6",
+                "username" => "required|min:4",
                 "password" => "required|min:6"
             ));
 
@@ -56,7 +56,7 @@ class UserController extends Controller {
     public function index()
     {
         // List all the active users
-            $users = User::paginate(Config::get('kblis.page-items'));
+            $users = User::orderBy('name', 'ASC')->get();
 
         // Load the view and pass the users
         return View::make('user.index')->with('users', $users);

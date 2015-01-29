@@ -11,40 +11,45 @@
     @endif
 
     <div class='container-fluid'>
-        <div class='row'>
-            <div class='col-md-12'>
-                {{ Form::open(array('route' => array('test.index'), 'class'=>'form-inline')) }}
-                    <div class="form-group">
+        {{ Form::open(array('route' => array('test.index'))) }}
+            <div class='row'>
+                <div class='col-md-3'>
+                    <div class='col-md-2'>
+                        {{ Form::label('date_from', trans('messages.from')) }}
+                    </div>
+                    <div class='col-md-10'>
+                        {{ Form::text('date_from', Input::get('date_from'), 
+                            array('class' => 'form-control standard-datepicker')) }}
+                    </div>
+                </div>
+                <div class='col-md-3'>
+                    <div class='col-md-2'>
+                        {{ Form::label('date_to', trans('messages.to')) }}
+                    </div>
+                    <div class='col-md-10'>
+                        {{ Form::text('date_to', Input::get('date_to'), 
+                            array('class' => 'form-control standard-datepicker')) }}
+                    </div>
+                </div>
+                <div class='col-md-3'>
+                    <div class='col-md-5'>
+                        {{ Form::label('test_status', trans('messages.test-status')) }}
+                    </div>
+                    <div class='col-md-7'>
+                        {{ Form::select('test_status', $testStatus,
+                            Input::get('test_status'), array('class' => 'form-control')) }}
+                    </div>
+                </div>
+                <div class='col-md-2'>
                         {{ Form::label('search', trans('messages.search'), array('class' => 'sr-only')) }}
-                        {{ Form::text('search', isset($input['search'])?$input['search']:'', 
-                            array('class' => 'form-control')) }}
-                    </div>
-                    <div class="form-group">
-                        {{ Form::label('test_status', trans('messages.test-status'), array('class' => 'sr-only')) }}
-                        {{ Form::select('test_status', $testStatus, 
-                            isset($input['test_status'])?$input['test_status']:'', array('class' => 'form-control')) }}
-                    </div>
-
-                    {{trans('messages.from')}} 
-                    <div class="form-group">
-                        {{ Form::label('date_from', trans('messages.from'), array('class' => 'sr-only')) }}
-                        {{ Form::text('date_from', isset($input['date_from'])?$input['date_from']:'', 
-                            array('class' => 'form-control standard-datepicker')) }}
-                    </div>
-
-                    {{trans('messages.to')}} 
-                    <div class="form-group">
-                        {{ Form::label('date_to', trans('messages.to'), array('class' => 'sr-only')) }}
-                        {{ Form::text('date_to', isset($input['date_to'])?$input['date_to']:'', 
-                            array('class' => 'form-control standard-datepicker')) }}
-                    </div>
-
-                    <div class="form-group">
+                        {{ Form::text('search', Input::get('search'),
+                            array('class' => 'form-control', 'placeholder' => 'Search')) }}
+                </div>
+                <div class='col-md-1'>
                         {{ Form::submit(trans('messages.search'), array('class'=>'btn btn-primary')) }}
-                    </div>
-                {{ Form::close() }}
+                </div>
             </div>
-        </div>
+        {{ Form::close() }}
     </div>
 
     <br>
@@ -98,22 +103,27 @@
                         <td>{{ substr($test->testType->testCategory->name,0,3).
                             '-'.$test->specimen_id }}</td> <!--Patient Number -->
                         <td>{{ date('d-m-Y H:i', strtotime($test->time_created));}}</td>  <!--Date Ordered-->
-                        <td>{{ $test->visit->patient->patient_number }}</td> <!--Patient Number -->
+                        <td>{{ $test->visit->patient->external_patient_number }}</td>      <!--Patient Number -->
                         <td>{{ $test->visit->visit_number }}</td> <!--Visit Number -->
-                        <td>{{ 
-                            $test->visit->patient->name.' ('.($test->visit->patient->getGender('gender')).',
-                            '.date_diff(date_create($test->visit->patient->dob), date_create('now'))->y. ')'
-                            }}</td> <!--Patient Name -->
+                        <td>{{ $test->visit->patient->name.' ('.($test->visit->patient->getGender(true)).',
+                            '.$test->visit->patient->getAge('Y'). ')'}}</td>      <!--Patient Name -->
                         <td>{{ $test->testType->name }}</td> <!--Test-->
                         <td>{{ $test->visit->visit_type }}</td> <!--Visit Type -->
                         <td id="test-status-{{$test->id}}" class='test-status'>
                             <!-- Test Statuses -->
                             <div class="container-fluid">
+                            
                                 <div class="row">
+
                                     <div class="col-md-12">
                                         @if($test->isNotReceived())
+                                            @if(!$test->isPaid())
+                                                <span class='label label-default'>
+                                                    {{trans('messages.not-paid')}}</span>
+                                            @else
                                             <span class='label label-default'>
                                                 {{trans('messages.not-received')}}</span>
+                                            @endif
                                         @elseif($test->isPending())
                                             <span class='label label-info'>
                                                 {{trans('messages.pending')}}</span>
@@ -127,13 +137,17 @@
                                             <span class='label label-success'>
                                                 {{trans('messages.verified')}}</span>
                                         @endif
-                                    </div></div>
+                                    </div>
+    
+                                    </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <!-- Specimen statuses -->
                                         @if($test->specimen->isNotCollected())
+                                         @if(($test->isPaid()))
                                             <span class='label label-default'>
                                                 {{trans('messages.specimen-not-collected-label')}}</span>
+                                            @endif
                                         @elseif($test->specimen->isReferred())
                                             <span class='label label-primary'>
                                                 {{trans('messages.specimen-referred-label') }}
@@ -163,13 +177,13 @@
                             </a>
                             
                         @if ($test->isNotReceived()) 
-                            @if(Auth::user()->can('receive_external_test'))
-                            <a class="btn btn-sm btn-default receive-test"
-                                href="{{URL::route('test.receive', array($test->id))}}"
-                                title="{{trans('messages.receive-test-title')}}">
-                                <span class="glyphicon glyphicon-thumbs-up"></span>
-                                {{trans('messages.receive-test')}}
-                            </a>
+                            @if(Auth::user()->can('receive_external_test') && $test->isPaid())
+                                <a class="btn btn-sm btn-default receive-test"
+                                    href="{{URL::route('test.receive', array($test->id))}}"
+                                    title="{{trans('messages.receive-test-title')}}">
+                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                    {{trans('messages.receive-test')}}
+                                </a>
                             @endif
                         @elseif ($test->specimen->isNotCollected())
                             @if(Auth::user()->can('accept_test_specimen'))
@@ -253,8 +267,8 @@
                 </tbody>
             </table>
             
-            <?php echo $testSet->links();
-        Session::put('SOURCE_URL', URL::full()); ?>
+            {{ $testSet->links() }}
+        {{ Session::put('SOURCE_URL', URL::full()) }}
         
         </div>
     </div>

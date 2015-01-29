@@ -2,6 +2,10 @@
 
 class MeasureRange extends Eloquent
 {
+	//	Constants for numeric ranges i.e. Low, Normal, High
+	const LOW = 0;
+	const NORMAL = 1;
+	const HIGH = 2;
 	use SoftDeletingTrait;
 	protected $dates = ['deleted_at'];
     	

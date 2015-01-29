@@ -14,12 +14,17 @@ class PatientController extends \BaseController {
 	 * @return Response
 	 */
 	public function index()
-	{
-		// List all the active patients
-			$patients = Patient::paginate(Config::get('kblis.page-items'));
+		{
+		$search = Input::get('search');
+
+		$patients = Patient::search($search)->paginate(Config::get('kblis.page-items'))->appends(Input::except('_token'));
+
+		if (count($patients) == 0) {
+		 	Session::flash('message', trans('messages.no-match'));
+		}
 
 		// Load the view and pass the patients
-		return View::make('patient.index')->with('patients', $patients);
+		return View::make('patient.index')->with('patients', $patients)->withInput(Input::all());
 	}
 
 	/**
@@ -30,7 +35,8 @@ class PatientController extends \BaseController {
 	public function create()
 	{
 		//Create Patient
-		return View::make('patient.create');
+		$lastInsertId = DB::table('patients')->max('id')+1;
+		return View::make('patient.create')->with('lastInsertId', $lastInsertId);
 	}
 
 	/**
@@ -49,10 +55,9 @@ class PatientController extends \BaseController {
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
-		// process the login
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator)
-				->withInput(Input::except('password'));
+
+			return Redirect::back()->withErrors($validator)->withInput(Input::all());
 		} else {
 			// store
 			$patient = new Patient;
@@ -63,6 +68,7 @@ class PatientController extends \BaseController {
 			$patient->email = Input::get('email');
 			$patient->address = Input::get('address');
 			$patient->phone_number = Input::get('phone_number');
+			$patient->created_by = Auth::user()->id;
 
 			try{
 				$patient->save();
@@ -139,6 +145,7 @@ class PatientController extends \BaseController {
 			$patient->email = Input::get('email');
 			$patient->address = Input::get('address');
 			$patient->phone_number = Input::get('phone_number');
+			$patient->created_by = Auth::user()->id;
 			$patient->save();
 
 			// redirect

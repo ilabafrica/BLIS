@@ -20,10 +20,12 @@
 			@if($testType)
 				{{' ('.TestType::find($testType)->name.') '}}
 			@endif
-			@if($from!=$to)
-				{{'From '.$from.' To '.$to}}
+			<?php $from = isset($input['start'])?$input['start']:date('Y-m-d'); ?>
+			<?php $to = isset($input['end'])?$input['end']:date('Y-m-d'); ?>
+			@if($from)
+				{{trans('messages.for').' '.$from}}
 			@else
-				{{'For '.date('d-m-Y')}}
+				{{trans('messages.for').' '.date('d-m-Y')}}
 			@endif
 		</p>
 	</strong>
