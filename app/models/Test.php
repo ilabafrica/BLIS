@@ -383,4 +383,80 @@ class Test extends Eloquent
 
 		return $data;
 	}
+
+	/**
+	* Search for tests meeting the given criteria
+	*
+	* @param String $searchString
+	* @param String $testStatusId
+	* @param String $dateFrom
+	* @param String $dateTo
+	* @return Collection 
+	*/
+	public static function search($searchString = '', $testStatusId = 0, $dateFrom = NULL, $dateTo = NULL)
+	{
+
+		$tests = Test::with('visit', 'visit.patient', 'testType', 'specimen', 'testStatus', 'testStatus.testPhase')
+			->where(function($q) use ($searchString){
+
+			$q->whereHas('visit', function($q) use ($searchString)
+			{
+				$q->whereHas('patient', function($q)  use ($searchString)
+				{
+					if(is_numeric($searchString))
+					{
+						$q->where(function($q) use ($searchString){
+							$q->where('external_patient_number', '=', $searchString )
+							  ->orWhere('patient_number', '=', $searchString );
+						});
+					}
+					else
+					{
+						$q->where('name', 'like', '%' . $searchString . '%');
+					}
+				});
+			})
+			->orWhereHas('testType', function($q) use ($searchString)
+			{
+			    $q->where('name', 'like', '%' . $searchString . '%');//Search by test type
+			})
+			->orWhereHas('specimen', function($q) use ($searchString)
+			{
+			    $q->where('id', '=', $searchString );//Search by specimen number
+			})
+			->orWhereHas('visit',  function($q) use ($searchString)
+			{
+				$q->where(function($q) use ($searchString){
+					$q->where('visit_number', '=', $searchString )//Search by visit number
+					->orWhere('id', '=', $searchString);
+				});
+			});
+		});
+
+		if ($testStatusId > 0) {
+			$tests = $tests->where(function($q) use ($testStatusId)
+			{
+				$q->whereHas('testStatus', function($q) use ($testStatusId){
+				    $q->where('id','=', $testStatusId);//Filter by test status
+				});
+			});
+		}
+
+		if ($dateFrom||$dateTo) {
+			$tests = $tests->where(function($q) use ($dateFrom, $dateTo)
+			{
+				if($dateFrom)$q->where('time_created', '>=', $dateFrom);
+
+				if($dateTo){
+					$dateTo = $dateTo . ' 23:59:59';
+					$q->where('time_created', '<=', $dateTo);
+				}
+			});
+		}
+
+		$tests = $tests->orderBy('time_created', 'DESC');
+
+		return $tests;
+	}
 }
+
