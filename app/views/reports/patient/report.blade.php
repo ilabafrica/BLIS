@@ -58,10 +58,10 @@
 		{{ trans('messages.patient-report') }}
 	</div>
 	<div class="panel-body">
-		@if(Session::has('error'))
+		@if($error!='')
 		<!-- if there are search errors, they will show here -->
-			<div class="alert alert-danger">{{ trans(Session::get('error')) }}</div>
-		@endif
+			<div class="alert alert-info">{{ $error }}</div>
+		@else
 
 		<div id="report_content">
 		@include("reportHeader")
@@ -179,6 +179,7 @@
 				@endforelse
 			</tbody>
 		</table></div>
+		@endif
 		</div>
 	</div>
 

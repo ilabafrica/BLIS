@@ -31,6 +31,7 @@ class ReportController extends \BaseController {
 		$to = Input::get('end');
 		$pending = Input::get('pending');
 		$date = date('Y-m-d');
+		$error = '';
 		//	Check checkbox if checked and assign the 'checked' value
 		if (Input::get('tests') === '1') {
 		    $pending='checked';
@@ -51,12 +52,12 @@ class ReportController extends \BaseController {
 			if(!$to) $to = $date;
 
 			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-					Session::flash('error', trans('messages.check-date-range'));
+					$error = trans('messages.check-date-range');
 			}
 			else
 			{
 				$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
-				$tests=$tests->whereBetween('time_created', array($from, $toPlusOne));
+				$tests=$tests->whereBetween('time_created', array($from, $toPlusOne->format('Y-m-d H:i:s')));
 			}
 		}
 		else
@@ -86,6 +87,7 @@ class ReportController extends \BaseController {
 						->with('patient', $patient)
 						->with('tests', $tests)
 						->with('pending', $pending)
+						->with('error', $error)
 						->withInput(Input::all());
 		}
 	}
