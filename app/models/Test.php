@@ -200,7 +200,7 @@ class Test extends Eloquent
 		if(is_null($externalDump)) {
 			return true;
 		}
-		elseif( $this->visit->patient->getAge() >= 6
+		elseif( $this->visit->patient->getAge('Y') >= 6
 			&& $externalDump->order_stage == "op" 
 			&& $externalDump->receipt_number == "" 
 			&& $externalDump->receipt_type == ""  )
