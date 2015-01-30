@@ -125,12 +125,14 @@ class CelltacFMachine extends \KBLIS\Instrumentation\AbstractInstrumentor
         //Validate also using PatientID
 
         $this_year = date('Y');
+        $EMPTY_FILE_URL = "http://".$this->ip."/celtac/emptyfile.php";
 
         //Search for occurences of MEK-8222 string
         $ARR_COUNT = $this->count_needles_in_haystack('MEK-8222', $COMPLETE_RESULT_ARRAY);
         if ($ARR_COUNT != 2){
             //We DO NOT have a valid results with two parts, Results and static values
             print "Something went wrong : Too many results in celltac log file";
+            file_get_contents($EMPTY_FILE_URL);
             return;
         }
 
@@ -165,7 +167,6 @@ class CelltacFMachine extends \KBLIS\Instrumentation\AbstractInstrumentor
 		}
 
 		//Deleting the results dump file
-		$EMPTY_FILE_URL = "http://".$this->ip."/celtac/emptyfile.php";
 		$DELETED_STATUS = file_get_contents($EMPTY_FILE_URL);
 
 		return $RESULTS;
