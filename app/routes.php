@@ -71,6 +71,11 @@ Route::group(array("before" => "auth"), function()
         "uses" => "PatientController@search"
     ));
 
+    Route::any("/instrument/getresult", array(
+        "as"   => "instrument.getResult",
+        "uses" => "InstrumentController@getTestResult"
+    ));
+
     Route::group(array("before" => "checkPerms:manage_test_catalog"), function()
     {
         Route::resource('specimentype', 'SpecimenTypeController');
@@ -116,11 +121,6 @@ Route::group(array("before" => "auth"), function()
         Route::get("/instrument/{id}/delete", array(
             "as"   => "instrument.delete",
             "uses" => "InstrumentController@delete"
-        ));
-
-        Route::any("/instrument/getresult", array(
-            "as"   => "instrument.getResult",
-            "uses" => "InstrumentController@getTestResult"
         ));
 
         Route::any("/instrument/importdriver", array(
