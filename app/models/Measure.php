@@ -135,4 +135,30 @@ class Measure extends Eloquent
 		else
 			return false;
 	}
+
+	/**
+	 *  Get measure range with given patient patient details
+	 *
+	 * @return boolean
+	 */
+	public static function getRange($patientId, $measureId)
+	{
+		$patient = Patient::find($patientId);
+		try {
+			$birthDate = new DateTime($patient->dob);
+			$now = new DateTime();
+			$interval = $birthDate->diff($now);
+			$seconds = ($interval->days * 24 * 3600) + ($interval->h * 3600) + ($interval->i * 60) + ($interval->s);
+			$age = $seconds/(365*24*60*60);
+
+			$measurerange = MeasureRange::where('measure_id', '=', $measureId);
+			$measurerange = $measurerange->where('gender', '=', $patient->gender)
+				->where('age_min', '<=', $age)
+				->where('age_max', '>=', $age);
+			$measurerange = $measurerange->first();
+		} catch (Exception $e) {
+			$measurerange = null;
+		}
+		return $measurerange;
+	}
 }
