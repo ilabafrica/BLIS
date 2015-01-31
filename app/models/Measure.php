@@ -144,21 +144,25 @@ class Measure extends Eloquent
 	public static function getRange($patientId, $measureId)
 	{
 		$patient = Patient::find($patientId);
-		try {
-			$birthDate = new DateTime($patient->dob);
-			$now = new DateTime();
-			$interval = $birthDate->diff($now);
-			$seconds = ($interval->days * 24 * 3600) + ($interval->h * 3600) + ($interval->i * 60) + ($interval->s);
-			$age = $seconds/(365*24*60*60);
+		
+		$age = $patient->getAge('Y');
 
-			$measurerange = MeasureRange::where('measure_id', '=', $measureId);
-			$measurerange = $measurerange->where('gender', '=', $patient->gender)
-				->where('age_min', '<=', $age)
-				->where('age_max', '>=', $age);
-			$measurerange = $measurerange->first();
-		} catch (Exception $e) {
-			$measurerange = null;
+		$measureRange = MeasureRange::where('measure_id', '=', $measureId)
+									->where('age_min', '<=',  $age)
+									->where('age_max', '>=', $age);
+
+		if(count($measureRange->get()) >= 1){
+			if(count($measureRange->get()) == 1){
+				$lowerUpper = $measureRange->first();
+			}
+			else if(count($measureRange->get()) > 1){
+				$measureRange = $measureRange->where('gender', '=', $patient->gender);
+				if(count($measureRange->get()) == 1){
+					$lowerUpper = $measureRange->first();
+				}
+			}
+			return $lowerUpper->range_lower." - ".$lowerUpper->range_upper;
 		}
-		return $measurerange;
+		return null;
 	}
 }
