@@ -65,7 +65,7 @@
                             }}
                             <span class='units'>
 
-                                ({{Measure::getRange($test->visit->patient->id, $measure->id)}})
+                                {{Measure::getRange($test->visit->patient, $measure->id)}}
                                 {{$measure->unit}}
                             </span>
                         @elseif ( $measure->isAlphanumeric() || $measure->isAutocomplete() ) 

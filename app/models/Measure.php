@@ -141,16 +141,12 @@ class Measure extends Eloquent
 	 *
 	 * @return boolean
 	 */
-	public static function getRange($patientId, $measureId)
+	public static function getRange($patient, $measureId)
 	{
-		$patient = Patient::find($patientId);
-		
 		$age = $patient->getAge('Y');
-
 		$measureRange = MeasureRange::where('measure_id', '=', $measureId)
 									->where('age_min', '<=',  $age)
 									->where('age_max', '>=', $age);
-
 		if(count($measureRange->get()) >= 1){
 			if(count($measureRange->get()) == 1){
 				$lowerUpper = $measureRange->first();
@@ -160,8 +156,11 @@ class Measure extends Eloquent
 				if(count($measureRange->get()) == 1){
 					$lowerUpper = $measureRange->first();
 				}
+				else {
+					return null;
+				}
 			}
-			return $lowerUpper->range_lower." - ".$lowerUpper->range_upper;
+			return "(".$lowerUpper->range_lower." - ".$lowerUpper->range_upper.")";
 		}
 		return null;
 	}

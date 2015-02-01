@@ -213,13 +213,13 @@
 								@foreach($test->testResults as $result)
 									<div class="row">
 										<div class="col-md-4">
-											<p><strong>{{Measure::find($result->measure_id)->name}}</strong></p>
+											<p><strong>{{ Measure::find($result->measure_id)->name }}</strong></p>
 										</div>
 										<div class="col-md-3">
 											{{$result->result}}	
 										</div>
 										<div class="col-md-5">
-	        								({{ Measure::getRange($test->visit->patient->id, $result->measure_id) }})
+	        								{{ Measure::getRange($test->visit->patient, $result->measure_id) }}
 											{{ Measure::find($result->measure_id)->unit }}
 										</div>
 									</div>
