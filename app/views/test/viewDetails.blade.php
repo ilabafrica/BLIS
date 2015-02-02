@@ -29,7 +29,7 @@
 							</a>
 							@endif
 							@if(Auth::user()->can('view_reports'))
-								<a class="btn btn-sm btn-default" href="{{ URL::to('patientreport/'.$test->visit->patient->id) }}">
+								<a class="btn btn-sm btn-default" href="{{ URL::to('patientreport/'.$test->visit->patient->id.'/'.$test->visit->id) }}">
 									<span class="glyphicon glyphicon-eye-open"></span>
 									{{trans('messages.view-report')}}
 								</a>
