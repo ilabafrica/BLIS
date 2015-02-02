@@ -203,8 +203,10 @@ $(function(){
 	});
 
 	/**
+	 * Automatic Results Interpretation
 	 * Updates the test  result via ajax call
 	 */
+	 /*UNSTABLE!---TO BE RE-THOUGHT
 	$(".result-interpretation-trigger").focusout(function() {
 		var interpretation = "";
 		var url = $(this).data('url');
@@ -221,6 +223,7 @@ $(function(){
 			$( ".result-interpretation" ).val( interpretation );
 		});
 	});
+	*/
 
 	/** Start Test button.
 	 *  - Updates the Test status via an AJAX call
