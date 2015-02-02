@@ -902,7 +902,7 @@ class ReportController extends \BaseController {
 
 		$testCategory = Input::get('test_category');
 
-		$infectionData = Test::getInfectionData($from, $to, $testCategory);	// array for counts data for each test type and age range
+		$infectionData = Test::getInfectionData($from, $toPlusOne, $testCategory);	// array for counts data for each test type and age range
 		
 		return View::make('reports.infection.index')
 					->with('gender', $gender)
