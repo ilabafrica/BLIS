@@ -26,7 +26,7 @@ class ReportController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function viewPatientReport($id){
+	public function viewPatientReport($id, $visit = null){
 		$from = Input::get('start');
 		$to = Input::get('end');
 		$pending = Input::get('pending');
@@ -37,8 +37,13 @@ class ReportController extends \BaseController {
 		    $pending='checked';
 		}
 		//	Query to get tests of a particular patient
-		$tests = Test::join('visits', 'visits.id', '=', 'tests.visit_id')
-					->where('patient_id', '=', $id);
+		if($visit && $id){
+			$tests = Test::where('visit_id', '=', $visit);
+		}
+		else{
+			$tests = Test::join('visits', 'visits.id', '=', 'tests.visit_id')
+							->where('patient_id', '=', $id);
+		}
 		//	Begin filters - include/exclude pending tests
 		if($pending){
 			$tests=$tests->where('tests.test_status_id', '!=', Test::NOT_RECEIVED);
@@ -60,10 +65,6 @@ class ReportController extends \BaseController {
 				$tests=$tests->whereBetween('time_created', array($from, $toPlusOne->format('Y-m-d H:i:s')));
 			}
 		}
-		else
-		{
-			$tests = $tests->where('tests.time_created', 'LIKE', '%'.date('Y-m-d').'%');
-		}
 		//	Get tests collection
 		$tests = $tests->get(array('tests.*'));
 		//	Get patient details
@@ -79,7 +80,8 @@ class ReportController extends \BaseController {
 							->with('patient', $patient)
 							->with('tests', $tests)
 							->with('from', $from)
-							->with('to', $to);
+							->with('to', $to)
+							->with('visit', $visit);
 	    	return Response::make($content,200, $headers);
 		}
 		else{
@@ -88,6 +90,7 @@ class ReportController extends \BaseController {
 						->with('tests', $tests)
 						->with('pending', $pending)
 						->with('error', $error)
+						->with('visit', $visit)
 						->withInput(Input::all());
 		}
 	}
