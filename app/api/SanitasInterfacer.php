@@ -121,6 +121,12 @@ class SanitasInterfacer implements InterfacerInterface{
             }
         }
 
+        //TODO - relate measure to test-result
+        $range = Measure::getRange($test->visit->patient, $testResults->first()->measure_id);
+        $unit = Measure::find($testResults->first()->measure_id)->unit;
+
+        $result = $testResults->first()->result ." ". $range ." ".$unit;
+
         $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
             $labNo, $tested_by, $testResults->first()->result, $verified_by, $interpretation);
         $this->sendRequest($httpCurl, urlencode($jsonResponseString), $labNo);
@@ -138,8 +144,13 @@ class SanitasInterfacer implements InterfacerInterface{
                 $rKey = array_search($measureId, $testResults->lists('measure_id'));
                 $matchingResult = $testResults->get($rKey);
 
+                $range = Measure::getRange($test->visit->patient, $measureId);
+                $unit = Measure::find($measureId)->unit;
+
+                $result = $matchingResult->result." ". $range ." ".$unit;
+
                 $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
-                            $externlabRequest->lab_no, $tested_by, $matchingResult->result, $verified_by, "");
+                            $externlabRequest->lab_no, $tested_by, $result, $verified_by, "");
                 $this->sendRequest($httpCurl, urlencode($jsonResponseString), $externlabRequest->lab_no);
             }
         }

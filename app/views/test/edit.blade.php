@@ -79,10 +79,8 @@
 	                            'data-measureid' => $measure->id
 	                            ))
 	                        }}
-	                        <span class='units'>
-                                @foreach($measure->measureRanges as $range)
-                                    ({{$range->range_lower}} - {{$range->range_upper}})
-                                @endforeach
+                            <span class='units'>
+                                {{Measure::getRange($test->visit->patient, $measure->id)}}
                                 {{$measure->unit}}
                             </span>
 						@elseif ( $measure->isAlphanumeric() || $measure->isAutocomplete() ) 
