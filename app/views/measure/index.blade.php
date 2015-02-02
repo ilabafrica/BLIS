@@ -21,12 +21,13 @@
 			</div>
 		</div>
 		<div class="panel-body">
-			<table class="table table-striped table-hover table-condensed">
+			<table class="table table-striped table-hover table-condensed" id="measures-index">
 				<thead>
 					<tr>
 						<th>{{ Lang::choice('messages.name',1) }}</th>
 						<th>{{ trans('messages.unit') }}</th>
 						<th>{{ trans('messages.description') }}</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
