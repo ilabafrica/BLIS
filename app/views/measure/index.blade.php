@@ -60,7 +60,6 @@
 				@endforeach
 				</tbody>
 			</table>
-			<?php echo $measures->links(); ?>
 		</div>
 	</div>
 @stop
