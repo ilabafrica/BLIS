@@ -2,11 +2,6 @@
 <head>
 {{ HTML::style('css/bootstrap.min.css') }}
 {{ HTML::style('css/bootstrap-theme.min.css') }}
-<style type="text/css">
-	#content table, #content th, #content td {
-   border: 1px solid black;
-}
-</style>
 </head>
 <body>
 @include("reportHeader")
@@ -15,8 +10,8 @@
 		<p>
 			<?php $from = isset($input['start'])?$input['start']:date('Y-m-d'); ?>
 			<?php $to = isset($input['end'])?$input['end']:date('Y-m-d'); ?>
-				{{trans('messages.daily-visits')}} @if($from)
-					{{trans('messages.for').' '.$from}}
+				{{trans('messages.daily-visits')}} @if($from!=$to)
+					{{trans('messages.from').' '.$from.' '.trans('messages.to').' '.$to}}
 				@else
 					{{trans('messages.for').' '.date('d-m-Y')}}
 				@endif

@@ -2,22 +2,17 @@
 <head>
 {{ HTML::style('css/bootstrap.min.css') }}
 {{ HTML::style('css/bootstrap-theme.min.css') }}
-<style type="text/css">
-	#content table, #content th, #content td {
-   border: 1px solid black;
-}
-</style>
 </head>
 <body>
 @include("reportHeader")
-<div id="content">
+<div id="content" class="Section2">
 	<strong>
 		<p>
 			{{trans('messages.test-records')}} 
 
-			@if(isset($input['pending']))
+			@if($pendingOrAll == 'pending')
 				{{' - '.trans('messages.pending-only')}}
-			@elseif(isset($input['all']))
+			@elseif($pendingOrAll == 'all')
 				{{' - '.trans('messages.all-tests')}}
 			@else
 				{{' - '.trans('messages.complete-tests')}}
@@ -31,10 +26,10 @@
 				{{' ('.TestType::find($testType)->name.') '}}
 			@endif
 
-			<?php $from = isset($input['start'])?$input['start']:date('d-m-Y');?>
+			<?php $from = isset($input['start'])?$input['start']:date('01-m-Y');?>
 			<?php $to = isset($input['end'])?$input['end']:date('d-m-Y');?>
-			@if($from)
-				{{trans('messages.for').' '.$from}}
+			@if($from!=$to)
+				{{trans('messages.from').' '.$from.' '.trans('messages.to').' '.$to}}
 			@else
 				{{trans('messages.for').' '.date('d-m-Y')}}
 			@endif
@@ -43,6 +38,9 @@
 	<br>
 	<table class="table table-bordered">
 		<tbody>
+			<th>{{ trans('messages.patient-id') }}</th>
+			<th>{{ trans('messages.visit-number') }}</th>
+			<th>{{ trans('messages.patient-name') }}</th>
 			<th>{{trans('messages.specimen-number-title')}}</th>
 			<th>{{trans('messages.specimen')}}</th>
 			<th>{{trans('messages.lab-receipt-date')}}</th>
@@ -54,6 +52,9 @@
 			<th>{{trans('messages.verified-by')}}</th>
 			@forelse($tests as $key => $test)
 			<tr>
+				<td>{{ $test->visit->patient->id }}</td>
+				<td>{{ isset($test->visit->visit_number)?$test->visit->visit_number:$test->visit->id }}</td>
+				<td>{{ $test->visit->patient->name }}</td>
 				<td>{{ $test->specimen->id }}</td>
 				<td>{{ $test->specimen->specimentype->name }}</td>
 				<td>{{ $test->specimen->time_accepted }}</td>
