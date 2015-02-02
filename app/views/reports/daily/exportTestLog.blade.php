@@ -15,9 +15,9 @@
 		<p>
 			{{trans('messages.test-records')}} 
 
-			@if($input['pending_or_all'] == 'pending')
+			@if($pendingOrAll == 'pending')
 				{{' - '.trans('messages.pending-only')}}
-			@elseif($input['pending_or_all'] == 'all')
+			@elseif($pendingOrAll == 'all')
 				{{' - '.trans('messages.all-tests')}}
 			@else
 				{{' - '.trans('messages.complete-tests')}}

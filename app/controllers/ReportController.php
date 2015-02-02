@@ -132,8 +132,8 @@ class ReportController extends \BaseController {
 			$testTypes = array(""=>"");
 		
 		if($records=='patients'){
-			if($from){
-				if(strtotime($from)>strtotime($date)){
+			if($from||$to){
+				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
 						Session::flash('error', trans('messages.check-date-range'));
 				}
 				else{

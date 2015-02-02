@@ -16,7 +16,7 @@
 				    {{ Form::label('start', trans('messages.from')) }}
 				</div>
 				<div class="col-sm-2">
-				    {{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-01'), 
+				    {{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
 			                array('class' => 'form-control standard-datepicker')) }}
 		        </div>
 			</div>
@@ -129,9 +129,9 @@
 				<p>
 					{{trans('messages.test-records')}} 
 
-					@if($input['pending_or_all'] == 'pending')
+					@if($pendingOrAll == 'pending')
 						{{' - '.trans('messages.pending-only')}}
-					@elseif($input['pending_or_all'] == 'all')
+					@elseif($pendingOrAll == 'all')
 						{{' - '.trans('messages.all-tests')}}
 					@else
 						{{' - '.trans('messages.complete-tests')}}
@@ -145,7 +145,7 @@
 						{{' ('.TestType::find($testType)->name.') '}}
 					@endif
 
-					<?php $from = isset($input['start'])?$input['start']:date('01-m-Y');?>
+					<?php $from = isset($input['start'])?$input['start']:date('d-m-Y');?>
 					<?php $to = isset($input['end'])?$input['end']:date('d-m-Y');?>
 					@if($from!=$to)
 						{{trans('messages.from').' '.$from.' '.trans('messages.to').' '.$to}}
