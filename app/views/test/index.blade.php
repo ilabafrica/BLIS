@@ -101,8 +101,14 @@
                         @endif
                         >
                         <td>{{ date('d-m-Y H:i', strtotime($test->time_created));}}</td>  <!--Date Ordered-->
-                        <td>{{ $test->visit->patient->external_patient_number }}</td> <!--Patient Number -->
-                        <td>{{ $test->visit->visit_number }}</td> <!--Visit Number -->
+                        <td>{{ empty($test->visit->patient->external_patient_number)?
+                                $test->visit->patient->patient_number:
+                                $test->visit->patient->external_patient_number
+                            }}</td> <!--Patient Number -->
+                        <td>{{ empty($test->visit->visit_number)?
+                                $test->visit->id:
+                                $test->visit->visit_number
+                            }}</td> <!--Visit Number -->
                         <td>{{ $test->visit->patient->name.' ('.($test->visit->patient->getGender(true)).',
                             '.$test->visit->patient->getAge('Y'). ')'}}</td> <!--Patient Name -->
                         <td>{{ $test->specimen->getSpecimenId() }}</td> <!--Specimen ID -->
