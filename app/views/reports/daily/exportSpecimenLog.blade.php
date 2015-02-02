@@ -22,8 +22,8 @@
 			@endif
 			<?php $from = isset($input['start'])?$input['start']:date('Y-m-d'); ?>
 			<?php $to = isset($input['end'])?$input['end']:date('Y-m-d'); ?>
-			@if($from)
-				{{trans('messages.for').' '.$from}}
+			@if($from!=$to)
+				{{trans('messages.from').' '.$from.' '.trans('messages.to').' '.$to}}
 			@else
 				{{trans('messages.for').' '.date('d-m-Y')}}
 			@endif
@@ -36,7 +36,7 @@
 			<th>{{trans('messages.specimen')}}</th>
 			<th>{{trans('messages.lab-receipt-date')}}</th>
 			<th>{{ Lang::choice('messages.test', 2) }}</th>
-			<th>{{trans('messages.test-category')}}</th>
+			<th>{{Lang::choice('messages.test-category', 1)}}</th>
 			<th>{{trans('messages.rejection-reason-title')}}</th>
 			<th>{{trans('messages.reject-explained-to')}}</th>
 			<th>{{trans('messages.date-rejected')}}</th>

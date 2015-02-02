@@ -182,8 +182,8 @@ class ReportController extends \BaseController {
 			}
 
 			/*Filter by date*/
-			if($from){
-				if(strtotime($from)>strtotime($date)){
+			if($from||$to){
+				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
 						Session::flash('message', trans('messages.check-date-range'));
 				}
 				else
