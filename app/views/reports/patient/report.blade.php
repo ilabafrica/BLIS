@@ -156,7 +156,11 @@
 							<td>{{ $test->testType->name }}</td>
 							<td>
 								@foreach($test->testResults as $result)
-									<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
+									<p>
+										{{ Measure::find($result->measure_id)->name }}: {{ $result->result }}
+										{{ Measure::getRange($test->visit->patient, $result->measure_id) }}
+										{{ Measure::find($result->measure_id)->unit }}
+									</p>
 								@endforeach</td>
 							<td>{{ $test->interpretation == '' ? 'N/A' : $test->interpretation }}</td>
 							<td>{{ $test->testedBy->name or trans('messages.pending')}}</td>
