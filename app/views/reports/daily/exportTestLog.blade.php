@@ -15,9 +15,9 @@
 		<p>
 			{{trans('messages.test-records')}} 
 
-			@if(isset($input['pending']))
+			@if($input['pending_or_all'] == 'pending')
 				{{' - '.trans('messages.pending-only')}}
-			@elseif(isset($input['all']))
+			@elseif($input['pending_or_all'] == 'all')
 				{{' - '.trans('messages.all-tests')}}
 			@else
 				{{' - '.trans('messages.complete-tests')}}
@@ -31,10 +31,10 @@
 				{{' ('.TestType::find($testType)->name.') '}}
 			@endif
 
-			<?php $from = isset($input['start'])?$input['start']:date('d-m-Y');?>
+			<?php $from = isset($input['start'])?$input['start']:date('01-m-Y');?>
 			<?php $to = isset($input['end'])?$input['end']:date('d-m-Y');?>
-			@if($from)
-				{{trans('messages.for').' '.$from}}
+			@if($from!=$to)
+				{{trans('messages.from').' '.$from.' '.trans('messages.to').' '.$to}}
 			@else
 				{{trans('messages.for').' '.date('d-m-Y')}}
 			@endif

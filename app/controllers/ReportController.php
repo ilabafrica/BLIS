@@ -125,7 +125,6 @@ class ReportController extends \BaseController {
 		$records = Input::get('records');
 		$testCategory = Input::get('section_id');
 		$testType = Input::get('test_type');
-		$date = date('Y-m-d');
 		$labSections = TestCategory::lists('name', 'id');
 		if($testCategory)
 			$testTypes = TestCategory::find($testCategory)->testTypes->lists('name', 'id');
@@ -250,8 +249,8 @@ class ReportController extends \BaseController {
 			}
 			/*Get collection of tests*/
 			/*Filter by date*/
-			if($from){
-				if(strtotime($from)>strtotime($date)){
+			if($from||$to){
+				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
 						Session::flash('message', trans('messages.check-date-range'));
 				}
 				else
