@@ -15,11 +15,8 @@
 			@include("reportHeader")
 			<strong>
 				<p>
-					{{ trans('messages.patient-report') }} @if($from!=$to)
-						{{ 'From '.$from.' To '.$to }}
-					@else
-						{{ 'For '.date('d-m-Y') }}
-					@endif
+					{{trans('messages.patient-report').' - '.date('d-m-Y')}}
+
 				</p>
 			</strong>
 			<div id="content">
@@ -52,9 +49,9 @@
 					<th colspan="6">{{ trans('messages.specimen') }}</th>
 				</tr>
 				<tr>
-					<th>{{ trans('messages.specimen-type')}}</th>
-					<th>{{ Lang::choice('messages.test', 2)  }}</th>
-					<th>{{ trans('messages.test-category')}}</th>
+					<th>{{ Lang::choice('messages.specimen-type', 1)}}</th>
+					<th>{{ Lang::choice('messages.test', 2)}}</th>
+					<th>{{ Lang::choice('messages.test-category', 2)}}</th>
 					<th>{{ trans('messages.specimen-status')}}</th>
 					<th>{{ trans('messages.collected-by')."/".trans('messages.rejected-by')}}</th>
 					<th>{{ trans('messages.date-checked')}}</th>
@@ -93,7 +90,7 @@
 					<th colspan="8">{{trans('messages.test-results')}}</th>
 				</tr>
 				<tr>
-					<th>{{trans('messages.test-type')}}</th>
+					<th>{{Lang::choice('messages.test-type', 1)}}</th>
 					<th>{{trans('messages.test-results-values')}}</th>
 					<th>{{trans('messages.test-remarks')}}</th>
 					<th>{{trans('messages.tested-by')}}</th>
@@ -105,9 +102,15 @@
 				@forelse($tests as $test)
 					<tr>
 						<td>{{ $test->testType->name }}</td>
-						<td>@foreach($test->testResults as $result)
-								<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
-							@endforeach</td>
+						<td>
+							@foreach($test->testResults as $result)
+							<p>
+								{{ Measure::find($result->measure_id)->name }}: {{ $result->result }}
+								{{ Measure::getRange($test->visit->patient, $result->measure_id) }}
+								{{ Measure::find($result->measure_id)->unit }}
+							</p>
+							@endforeach
+						</td>
 						<td>{{ $test->interpretation }}</td>
 						<td>{{ $test->testedBy->name or trans('messages.pending')}}</td>
 						<td>{{ $test->testResults->last()->time_entered }}</td>
@@ -124,6 +127,27 @@
 		</table>
 		</div>
 		</div>
+		<br />
+		<table class="table table-bordered"  width="100%">
+			<tbody>
+				<tr>
+					<td>{{ trans('messages.signature-holder') }}</td>
+					<td>{{ trans('messages.signature-holder') }}</td>
+				</tr>
+				<tr>
+					<td><strong>{{ trans('messages.checked-by').": " }}</strong></td>
+					<td><strong>{{ trans('messages.verified-by').": " }}</strong></td>
+				</tr>
+				<tr>
+					<td><strong>{{ trans('messages.designation').": " }}</strong></td>
+					<td><strong>{{ trans('messages.designation').": " }}</strong></td>
+				</tr>
+				<tr>
+					<td><strong>{{ trans('messages.patient-report-no') }}</strong></td>
+					<td><strong>{{ trans('messages.patient-report-version') }}</strong></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </div>
 </body>

@@ -371,6 +371,10 @@ return array(
     'ungrouped-specimen-counts' =>  'Specimen Counts (Ungrouped)',
     'grouped-specimen-counts' =>  'Specimen Counts (Grouped)',
     'select-date'   =>  'Select Date',
+    'checked-by'    =>  'Checked by',
+    'patient-report-no' =>  'Form No. BDHL-QUA-017F3',
+    'patient-report-version'    =>  'Version 1',
+    'signature-holder'  =>  '............................................',
 
     /* Infection Report*/
     'age-ranges'    =>  'Age Ranges',
