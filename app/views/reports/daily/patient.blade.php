@@ -83,9 +83,9 @@
 	</div>
 	<div class="panel-body">
 		<!-- if there are search errors, they will show here -->
-		@if (Session::has('message'))
-			<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
-		@endif
+		@if ($error!='')
+			<div class="alert alert-info">{{ $error }}</div>
+		@else
 	 	<div id="patient_records_div">
 	  
 			@include("reportHeader")
@@ -164,6 +164,7 @@
 				</tbody>
 			</table>
 	  	</div> <!-- /#patient_records_div -->
+	  	@endif
 	</div> <!-- /.panel-body -->
 </div> <!-- /.panel -->
 

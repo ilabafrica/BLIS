@@ -112,8 +112,8 @@ class ReportController extends \BaseController {
 	{
 		$from = Input::get('start');
 		$to = Input::get('end');
-		$toPlusOne = date_add(new DateTime($from), date_interval_create_from_date_string('1 day'));
 		$pendingOrAll = Input::get('pending_or_all');
+		$error = '';
 		//	Check radiobutton for pending/all tests is checked and assign the 'true' value
 		if (Input::get('tests') === '1') {
 		    $pending='true';
@@ -122,6 +122,7 @@ class ReportController extends \BaseController {
 		if(!$to){
 			$to=$date;
 		}
+		$toPlusOne = date_add(new DateTime($from), date_interval_create_from_date_string('1 day'));
 		$records = Input::get('records');
 		$testCategory = Input::get('section_id');
 		$testType = Input::get('test_type');
@@ -134,7 +135,7 @@ class ReportController extends \BaseController {
 		if($records=='patients'){
 			if($from||$to){
 				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-						Session::flash('error', trans('messages.check-date-range'));
+						$error = trans('messages.check-date-range');
 				}
 				else{
 					$visits = Visit::whereBetween('created_at', array($from, $toPlusOne))->get();
@@ -162,6 +163,7 @@ class ReportController extends \BaseController {
 			else{
 				return View::make('reports.daily.patient')
 								->with('visits', $visits)
+								->with('error', $error)
 								->withInput(Input::all());
 			}
 		}
@@ -184,7 +186,7 @@ class ReportController extends \BaseController {
 			/*Filter by date*/
 			if($from||$to){
 				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-						Session::flash('message', trans('messages.check-date-range'));
+						$error = trans('messages.check-date-range');
 				}
 				else
 				{
@@ -219,6 +221,7 @@ class ReportController extends \BaseController {
 							->with('specimens', $specimens)
 							->with('testCategory', $testCategory)
 							->with('testType', $testType)
+							->with('error', $error)
 							->withInput(Input::all());
 			}
 		}
@@ -251,7 +254,7 @@ class ReportController extends \BaseController {
 			/*Filter by date*/
 			if($from||$to){
 				if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-						Session::flash('message', trans('messages.check-date-range'));
+						$error = trans('messages.check-date-range');
 				}
 				else
 				{
@@ -287,6 +290,7 @@ class ReportController extends \BaseController {
 							->with('testCategory', $testCategory)
 							->with('testType', $testType)
 							->with('pendingOrAll', $pendingOrAll)
+							->with('error', $error)
 							->withInput(Input::all());
 			}
 		}
