@@ -154,6 +154,9 @@
 			<table class="table table-bordered">
 				<tbody>
 					<tr>
+						<th>{{ trans('messages.patient-id') }}</th>
+						<th>{{ trans('messages.visit-number') }}</th>
+						<th>{{ trans('messages.patient-name') }}</th>
 						<th>{{ trans('messages.specimen-number-title') }}</th>
 						<th>{{ trans('messages.specimen') }}</th>
 						<th>{{ trans('messages.lab-receipt-date') }}</th>
@@ -166,6 +169,9 @@
 					</tr>
 					@forelse($tests as $key => $test)
 					<tr>
+						<td>{{ $test->visit->patient->id }}</td>
+						<td>{{ isset($test->visit->visit_number)?$test->visit->visit_number:$test->visit->id }}</td>
+						<td>{{ $test->visit->patient->name }}</td>
 						<td>{{ $test->specimen->id }}</td>
 						<td>{{ $test->specimen->specimentype->name }}</td>
 						<td>{{ $test->specimen->time_accepted }}</td>
@@ -181,7 +187,7 @@
 						<td>{{ $test->verifiedBy->name or trans('messages.verification-pending') }}</td>
 					</tr>
 					@empty
-					<tr><td colspan="9">{{trans('messages.no-records-found')}}</td></tr>
+					<tr><td colspan="12">{{trans('messages.no-records-found')}}</td></tr>
 					@endforelse
 				</tbody>
 			</table>

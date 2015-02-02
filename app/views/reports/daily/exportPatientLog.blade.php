@@ -2,11 +2,6 @@
 <head>
 {{ HTML::style('css/bootstrap.min.css') }}
 {{ HTML::style('css/bootstrap-theme.min.css') }}
-<style type="text/css">
-	#content table, #content th, #content td {
-   border: 1px solid black;
-}
-</style>
 </head>
 <body>
 @include("reportHeader")

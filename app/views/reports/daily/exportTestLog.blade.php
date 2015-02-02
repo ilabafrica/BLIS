@@ -2,15 +2,10 @@
 <head>
 {{ HTML::style('css/bootstrap.min.css') }}
 {{ HTML::style('css/bootstrap-theme.min.css') }}
-<style type="text/css">
-	#content table, #content th, #content td {
-   border: 1px solid black;
-}
-</style>
 </head>
 <body>
 @include("reportHeader")
-<div id="content">
+<div id="content" class="Section2">
 	<strong>
 		<p>
 			{{trans('messages.test-records')}} 
@@ -43,6 +38,9 @@
 	<br>
 	<table class="table table-bordered">
 		<tbody>
+			<th>{{ trans('messages.patient-id') }}</th>
+			<th>{{ trans('messages.visit-number') }}</th>
+			<th>{{ trans('messages.patient-name') }}</th>
 			<th>{{trans('messages.specimen-number-title')}}</th>
 			<th>{{trans('messages.specimen')}}</th>
 			<th>{{trans('messages.lab-receipt-date')}}</th>
@@ -54,6 +52,9 @@
 			<th>{{trans('messages.verified-by')}}</th>
 			@forelse($tests as $key => $test)
 			<tr>
+				<td>{{ $test->visit->patient->id }}</td>
+				<td>{{ isset($test->visit->visit_number)?$test->visit->visit_number:$test->visit->id }}</td>
+				<td>{{ $test->visit->patient->name }}</td>
 				<td>{{ $test->specimen->id }}</td>
 				<td>{{ $test->specimen->specimentype->name }}</td>
 				<td>{{ $test->specimen->time_accepted }}</td>
