@@ -250,6 +250,7 @@ class ReportController extends \BaseController {
 				$tests = $tests->whereIn('test_status_id', 
 					[Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED]);
 			}
+			//For Complete tests and the default.
 			else{
 				$tests = $tests->whereIn('test_status_id', [Test::COMPLETED, Test::VERIFIED]);
 			}
@@ -290,6 +291,7 @@ class ReportController extends \BaseController {
 							->with('labSections', $labSections)
 							->with('testTypes', $testTypes)
 							->with('tests', $tests)
+							->with('counts', $tests->count())
 							->with('testCategory', $testCategory)
 							->with('testType', $testType)
 							->with('pendingOrAll', $pendingOrAll)

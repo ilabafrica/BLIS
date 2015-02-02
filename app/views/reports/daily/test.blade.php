@@ -60,16 +60,22 @@
 						  'id' => 'patients')) }} {{trans('messages.patient-records')}}
 					</label>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 				    <label class="radio-inline">
 						{{ Form::radio('records', 'rejections', false, array('data-toggle' => 'radio',
 						  'id' => 'specimens')) }} {{trans('messages.rejected-specimen')}}
 					</label>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<label class="radio-inline">
 			    		{{ Form::radio('pending_or_all', 'pending', ($pendingOrAll=='pending')?true:false, array('data-toggle' => 'radio',
-					  	  'id' => 'pending')) }} {{trans('messages.pending-only')}}
+						'id' => 'pending')) }} {{trans('messages.pending-tests')}}
+					</label>
+				</div>
+				<div class="col-sm-2">
+					<label class="radio-inline">
+						{{ Form::radio('pending_or_all', 'complete', ($pendingOrAll=='complete')?true:false, array('data-toggle' => 'radio',
+						'id' => 'pending')) }} {{trans('messages.complete-tests')}}
 					</label>
 				</div>
 				<div class="col-sm-2">
@@ -141,7 +147,7 @@
 					@if($testType)
 						{{' ('.TestType::find($testType)->name.') '}}
 					@endif
-
+					{{ Lang::choice('messages.total',1).' '.$counts .'<br>'}}
 					<?php $from = isset($input['start'])?$input['start']:date('d-m-Y');?>
 					<?php $to = isset($input['end'])?$input['end']:date('d-m-Y');?>
 					@if($from!=$to)
@@ -172,7 +178,7 @@
 						<td>{{ $test->visit->patient->id }}</td>
 						<td>{{ isset($test->visit->visit_number)?$test->visit->visit_number:$test->visit->id }}</td>
 						<td>{{ $test->visit->patient->name }}</td>
-						<td>{{ $test->specimen->id }}</td>
+						<td>{{ $test->specimen->getSpecimenId() }}</td>
 						<td>{{ $test->specimen->specimentype->name }}</td>
 						<td>{{ $test->specimen->time_accepted }}</td>
 						<td>{{ $test->testType->name }}</td>
