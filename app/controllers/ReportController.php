@@ -125,7 +125,7 @@ class ReportController extends \BaseController {
 		if(!$to){
 			$to=$date;
 		}
-		$toPlusOne = date_add(new DateTime($from), date_interval_create_from_date_string('1 day'));
+		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
 		$records = Input::get('records');
 		$testCategory = Input::get('section_id');
 		$testType = Input::get('test_type');
