@@ -44,7 +44,7 @@ class ExternalDump extends Eloquent {
     private function getLabRequestChildrenRecursive($labNo, $externalLabRequestTree)
     {
         $extLabRequests = ExternalDump::where('parent_lab_no', '=', $labNo)->get();
-        if( ! is_null($extLabRequests))
+        if( count($extLabRequests) > 1)
         {
             foreach ($extLabRequests as $extLabRequest)
             {
@@ -52,6 +52,7 @@ class ExternalDump extends Eloquent {
                 $this->getLabRequestChildrenRecursive($extLabRequest->lab_no, $externalLabRequestTree);
             }
         }
+
         return $externalLabRequestTree;
     }
 
