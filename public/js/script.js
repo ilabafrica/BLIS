@@ -88,6 +88,9 @@ $(function(){
 		var id = $('.measuretype-input-trigger.'+measureID).val() - 1;
 		var inputHtml = $(inputClass[id]).html();
 		$(".measurevalue."+measureID).append(inputHtml);
+		if ($(this).data('measure-id') != 0) {
+			editMeasureRangeAttributes(id,measureID);
+		}
 	});
 
 	/*  load measure range input UI for the selected measure type */
@@ -383,6 +386,22 @@ $(function(){
 		$('.measurevalue.'+measureID).empty();
 		$('.measurevalue.'+measureID).append(headerHtml);
 		$('.measurevalue.'+measureID).append(inputHtml);
+	}
+
+	function editMeasureRangeAttributes (id,measureID) {
+		if (id == 0) {
+			$('.measurevalue.'+measureID+' input.agemin').attr('name', 'measures['+measureID+'][agemin][]');
+			$('.measurevalue.'+measureID+' input.agemax').attr('name', 'measures['+measureID+'][agemax][]');
+			$('.measurevalue.'+measureID+' select.gender').attr('name', 'measures['+measureID+'][gender][]');
+			$('.measurevalue.'+measureID+' input.rangemin').attr('name', 'measures['+measureID+'][rangemin][]');
+			$('.measurevalue.'+measureID+' input.rangemax').attr('name', 'measures['+measureID+'][rangemax][]');
+			$('.measurevalue.'+measureID+' input.interpretation').attr('name', 'measures['+measureID+'][interpretation][]');
+			$('.measurevalue.'+measureID+' input.measurerangeid').attr('name', 'measures['+measureID+'][measurerangeid][]');
+		} else{
+			$('.measurevalue.'+measureID+' input.val').attr('name', 'measures['+measureID+'][val][]');
+			$('.measurevalue.'+measureID+' input.interpretation').attr('name', 'measures['+measureID+'][interpretation][]');
+			$('.measurevalue.'+measureID+' input.measurerangeid').attr('name', 'measures['+measureID+'][measurerangeid][]');
+		}
 	}
 
 	function UIComponents(){

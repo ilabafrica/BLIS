@@ -107,74 +107,33 @@ class MeasureController extends \BaseController {
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update($measure)
 
     {
-  'name' => 'BS for mps',
-  'description' => '',
-  'test_category_id' => '1',
-  'specimentypes' => array ( 0 => '23', ),
-  'measures' => array (
-    'name' => array (1 => 'BS for mps',),
-    'measure_type_id' => array (1 => '2',),
-    'unit' => array (1 => '',),
-    'description' => array (1 => '',),
-    'val' => array (1 => array (0 => 'No mps seen',1 => '+',2 => '++',3 => '+++',),),
-    'interpretation' => array (1 => array (0 => 'Negative',1 => 'Positive',2 => 'Positive',3 => 'Positive',),),
-    'measurerangeid' => array (1 => array (0 => '1',1 => '2',2 => '3',3 => '4',),),
-  ),
-  'new-measures' => array (
-    'name' => array (0 => 'se',),
-    'measure_type_id' => array (0 => '1',),
-    'unit' => array (0 => 'er',),
-    'description' => array (0 => 'ed',),
-    'agemin' => array (0 => array (0 => '1',),),
-    'agemax' => array (0 => array (0 => '1',),),
-    'gender' => array (0 => array (0 => '0',),),
-    'rangemin' => array (0 => array (0 => '1',),),
-    'rangemax' => array (0 => array (0 => '1',),),
-    'interpretation' => array (0 => array (0 => 'fsigu',),),
-    'measurerangeid' => array (0 => array (0 => '',),),
-  ),
-  'targetTAT' => '21',
-  'prevalence_threshold' => '12',
-)
-
-        //
-        $rules = array('name' => 'required');
-        $validator = Validator::make(Input::all(), $rules);
-
-        // process the login
-        if ($validator->fails()) {
-            return Redirect::back()
-                ->withErrors($validator)
-                ->withInput(Input::except('password'));
-        } else {
-            // Update
-            $measureTypeId = Input::get('measure_type_id');
+        foreach ($measure as $id => $data) {
+            $measureTypeId = $data['measure_type_id'];
             $measure = Measure::find($id);
-            $measure->name = Input::get('name');
+            $measure->name = $data['name'];
             $measure->measure_type_id = $measureTypeId;
-            $measure->unit = Input::get('unit');
-            $measure->description = Input::get('description');
+            $measure->unit = $data['unit'];
+            $measure->description = $data['description'];
             $measure->save();
             if ($measureTypeId != Measure::FREETEXT) {
-               
                 if ($measureTypeId == Measure::NUMERIC){
-                    $val['agemin'] = Input::get('agemin');
-                    $val['agemax'] = Input::get('agemax');
-                    $val['gender'] = Input::get('gender');
-                    $val['rangemin'] = Input::get('rangemin');
-                    $val['rangemax'] = Input::get('rangemax');
+                    $val['agemin'] = $data['agemin'];
+                    $val['agemax'] = $data['agemax'];
+                    $val['gender'] = $data['gender'];
+                    $val['rangemin'] = $data['rangemin'];
+                    $val['rangemax'] = $data['rangemax'];
                 }else{
-                    $val['val'] = Input::get('val');
+                    $val['val'] = $data['val'];
                 }
-                $val['measurerangeid'] = Input::get('measurerangeid');
-                $val['interpretation'] = Input::get('interpretation');
+                $val['measurerangeid'] = $data['measurerangeid'];
+                $val['interpretation'] = $data['interpretation'];
 
                 $allRangeIDs = array();
 
-                for ($i=0; $i < count((Input::get('agemin')) ? $val['agemin'] : $val['val']); $i++) {
+                for ($i=0; $i < count((isset($data['agemin'])) ? $val['agemin'] : $val['val']); $i++) {
                     if ($val['measurerangeid'][$i]==0) {
                         $measurerange = new MeasureRange;
                     }else{

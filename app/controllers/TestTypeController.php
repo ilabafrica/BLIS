@@ -133,8 +133,6 @@ class TestTypeController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
-		Log::info(Input::all());
 		$rules = array(
 			'name' => 'required',
 			'test_category_id' => 'required|non_zero_key',
@@ -155,14 +153,17 @@ class TestTypeController extends \BaseController {
 			$testtype->prevalence_threshold = Input::get('prevalence_threshold');
 
 			try{
-				$testtype->save();
-				$testtype->setSpecimenTypes(Input::get('specimentypes'));
-				// =====================================================save the measures
-				$measures = MeasureController::edit(Input::get('measure'));
-				// if any
-				$measures = MeasureController::store(Input::get('new-measure'));
-				// =====================================================forwar the neccesary to the next line
-				// $testtype->setMeasures(Input::get('measures'));
+				// $testtype->save();
+				if (Input::get('new-measures')) {
+					$measures = New MeasureController;
+					$measures->store(Input::get('new-measures'));
+					//---return something for the next guys, array ? what ever is required
+				}else{
+					$testtype->setSpecimenTypes(Input::get('specimentypes'));
+					$measures = New MeasureController;
+					$measures->update(Input::get('measures'));
+				}
+				// $testtype->setMeasures(Input::get('measures'));//????
 			}catch(QueryException $e){
 				Log::error($e);
 			}
