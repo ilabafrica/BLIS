@@ -388,6 +388,13 @@ $(function(){
 		$('.measurevalue.'+measureID).append(inputHtml);
 	}
 
+	function addNewMeasureAttributes (measureID) {
+		$('.measurevalue.'+measureID+' input.name').attr('name', 'measures['+measureID+'][name]');
+		$('.measurevalue.'+measureID+' select.measure_type_id').attr('name', 'measures['+measureID+'][measure_type_id]');
+		$('.measurevalue.'+measureID+' input.unit').attr('name', 'measures['+measureID+'][unit]');
+		$('.measurevalue.'+measureID+' textarea.description').attr('name', 'measures['+measureID+'][description]');
+	}
+
 	function editMeasureRangeAttributes (id,measureID) {
 		if (id == 0) {
 			$('.measurevalue.'+measureID+' input.agemin').attr('name', 'measures['+measureID+'][agemin][]');

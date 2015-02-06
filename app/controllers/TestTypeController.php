@@ -153,13 +153,13 @@ class TestTypeController extends \BaseController {
 			$testtype->prevalence_threshold = Input::get('prevalence_threshold');
 
 			try{
-				// $testtype->save();
+				$testtype->save();
+				$testtype->setSpecimenTypes(Input::get('specimentypes'));
 				if (Input::get('new-measures')) {
 					$measures = New MeasureController;
 					$measures->store(Input::get('new-measures'));
 					//---return something for the next guys, array ? what ever is required
 				}else{
-					$testtype->setSpecimenTypes(Input::get('specimentypes'));
 					$measures = New MeasureController;
 					$measures->update(Input::get('measures'));
 				}

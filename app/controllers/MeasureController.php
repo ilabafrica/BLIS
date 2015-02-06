@@ -14,48 +14,16 @@ class MeasureController extends \BaseController {
      *
      * @return Response
      */
-    public function store()
+    public function store($measure)
     {
-        //
-        $rules = array();
-        $rules['name'] = 'required|unique:measures,name';
-        $rules['measure_type_id'] = 'required|non_zero_key';
-        
-        switch (Input::get('measure_type_id')) {
-            case Measure::NUMERIC:
-                $rules['rangemin.0'] = 'required';
-                $rules['rangemax.0'] = 'required';
-                $rules['agemin.0'] = 'required';
-                $rules['agemax.0'] = 'required';
-                $rules['gender.0'] = 'required';
-                break;
-            
-            case Measure::ALPHANUMERIC:
-                $rules['val.0'] = 'required';
-                break;
-            
-            case Measure::AUTOCOMPLETE:
-                $rules['val.0'] = 'required';
-                break;
-            
-            default:
-                break;
-        }
-
-        $validator = Validator::make(Input::all(), $rules);
-
-        // process the login
-        if ($validator->fails()) {
-            return Redirect::route("measure.create")
-                ->withInput(Input::all())
-                ->withErrors($validator);
-        } else {
-            // store
-            $measure = new Measure;
-            $measure->name = Input::get('name');
-            $measure->measure_type_id = Input::get('measure_type_id');
-            $measure->unit = Input::get('unit');
-            $measure->description = Input::get('description');
+        Log::info($measure);
+          /* 
+        foreach ($measure as $id => $data) {
+           $measure = new Measure;
+            $measure->name = $data['name'];
+            $measure->measure_type_id = $data['measure_type_id'];
+            $measure->unit = $data['unit'];
+            $measure->description = $data['description'];
 
             try{
                 $measure->save();
@@ -64,12 +32,12 @@ class MeasureController extends \BaseController {
             }
             
             if ($measure->isNumeric()) {
-                $val['agemin'] = Input::get('agemin');
-                $val['agemax'] = Input::get('agemax');
-                $val['gender'] = Input::get('gender');
-                $val['rangemin'] = Input::get('rangemin');
-                $val['rangemax'] = Input::get('rangemax');
-                $val['interpretation'] = Input::get('interpretation');
+                $val['agemin'] = $data['agemin'];
+                $val['agemax'] = $data['agemax'];
+                $val['gender'] = $data['gender'];
+                $val['rangemin'] = $data['rangemin'];
+                $val['rangemax'] = $data['rangemax'];
+                $val['interpretation'] = $data['interpretation'];
 
                 // Add ranges for this measure
                 for ($i=0; $i < count($val['agemin']); $i++) { 
@@ -86,8 +54,8 @@ class MeasureController extends \BaseController {
                 return Redirect::route('measure.index')
                     ->with('message', trans('messages.success-creating-measure'));
             }else if( $measure->isAlphanumeric() || $measure->isAutocomplete() ) {
-                $val['val'] = Input::get('val');
-                $val['interpretation'] = Input::get('interpretation');
+                $val['val'] = $data['val'];
+                $val['interpretation'] = $data['interpretation'];
                 for ($i=0; $i < count($val['val']); $i++) { 
                     $measurerange = new MeasureRange;
                     $measurerange->measure_id = $measure->id;
@@ -98,7 +66,7 @@ class MeasureController extends \BaseController {
             }
             return Redirect::route('measure.index')
                 ->with('message', trans('messages.success-creating-measure'));
-        }
+        }*/
     }
 
     /**

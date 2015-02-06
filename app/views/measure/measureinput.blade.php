@@ -6,13 +6,13 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         {{ Form::label('new-measures[][name]', Lang::choice('messages.name',1)) }}
-                       <input class="form-control" name="new-measures[][name]" type="text">
+                       <input class="form-control name" name="new-measures[][name]" type="text">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         {{ Form::label('new-measures[][measure_type_id]', trans('messages.measure-type')) }}
-                            <select class="form-control measuretype-input-trigger" 
+                            <select class="form-control measuretype-input-trigger measure_type_id" 
                                 data-measure-id="0" 
                                 data-new-measure-id="" 
                                 name="new-measures[][measure_type_id]" 
@@ -27,13 +27,13 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         {{ Form::label('new-measures[][unit]', trans('messages.unit')) }}
-                        <input class="form-control" name="new-measures[][unit]" type="text">
+                        <input class="form-control unit" name="new-measures[][unit]" type="text">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         {{ Form::label('new-measures[][description]', trans('messages.description')) }}
-                        <textarea class="form-control" rows="2" name="new-measures[][description]"></textarea>
+                        <textarea class="form-control description" rows="2" name="new-measures[][description]"></textarea>
                     </div>
                 </div>
                 <div class="col-md-12">
