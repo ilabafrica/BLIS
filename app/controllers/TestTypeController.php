@@ -155,15 +155,26 @@ class TestTypeController extends \BaseController {
 			try{
 				$testtype->save();
 				$testtype->setSpecimenTypes(Input::get('specimentypes'));
-				if (Input::get('new-measures')) {
-					$measures = New MeasureController;
-					$measures->store(Input::get('new-measures'));
-					//---return something for the next guys, array ? what ever is required
-				}else{
-					$measures = New MeasureController;
-					$measures->update(Input::get('measures'));
-				}
-				// $testtype->setMeasures(Input::get('measures'));//????
+				$measureIds = array();
+					if (Input::get('new-measures')) {
+						$inputNewMeasures = Input::get('new-measures');
+
+						Log::info($inputNewMeasures);
+						
+						$measures = New MeasureController;
+						$measureIds = $measures->store($inputNewMeasures);
+					}
+
+					if (Input::get('measures')) {
+						$inputMeasures = Input::get('measures');
+						foreach($inputMeasures as $key => $value)
+						{
+						  $measureIds[] = $key;
+						}
+						$measures = New MeasureController;
+						$measures->update($inputMeasures);
+					}
+					$testtype->setMeasures($measureIds);
 			}catch(QueryException $e){
 				Log::error($e);
 			}

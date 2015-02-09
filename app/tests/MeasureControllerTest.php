@@ -167,9 +167,8 @@ class MeasureControllerTest extends TestCase
   	 */
 	public function runStore($input)
 	{
-		Input::replace($input);
 	    $measure = new MeasureController;
-	    $measure->store();
+	    $measure->store($input);
 	}
 
   	/**
@@ -177,91 +176,97 @@ class MeasureControllerTest extends TestCase
   	 * @param  array $input Measure details, int $id ID of the Mesure stored (array for numeric Measure)
 	 * @return void
   	 */
-	public function runUpdate($input, $id)
+	public function runUpdate($input)
 	{
-		Input::replace($input);
 	    $measure = new MeasureController;
-	    $measure->update($id);
+	    $measure->update($input);
 	}
 
 	public function setVariables(){
-
-    		// Initial sample storage data
+    	// Initial sample storage data
 		$this->inputNumeric = array(
-			'name' => 'UricAcid',
-			'measure_type_id' => '1',
-			'unit' => 'mg/dl',
-			'description' => 'Description',
-			'agemin' =>['1', '2'], 
-			'agemax' => ['4', '5'], 
-			'gender' => ['1', '1'],
-			'rangemin' => ['12', '32'],
-			'rangemax' => ['32', '34'],
-			'interpretation' => ['inter1', 'inta1'],
+				'name' => 'UricAcid',
+				'measure_type_id' => '1',
+				'unit' => 'mg/dl',
+				'description' => 'Description',
+				'agemin' =>['1', '2'], 
+				'agemax' => ['4', '5'], 
+				'gender' => ['1', '1'],
+				'rangemin' => ['12', '32'],
+				'rangemax' => ['32', '34'],
+				'interpretation' => ['inter1', 'inta1'],
 		);
 
 		$this->inputAlphanumeric = array(
-			'name' => 'BloodGrouping',
-			'measure_type_id' => '2',
-			'unit' => 'Unit',
-			'description' => 'Description',
-			'val' => ['O-','O+'],
-			'interpretation' => ['inter1', 'inta1'],
+				'name' => 'BloodGrouping',
+				'measure_type_id' => '2',
+				'unit' => 'Unit',
+				'description' => 'Description',
+				'val' => ['O-','O+'],
+				'interpretation' => ['inter1', 'inta1'],
 		);
 
 		$this->inputAutocomplete = array(
-			'name' => 'Autocomplete',
-			'measure_type_id' => '3',
-			'unit' => 'Unit',
-			'description' => 'Description',
-			'val' => ['One','Two'],
-			'interpretation' => ['inter1', 'inta1'],
+				'name' => 'Autocomplete',
+				'measure_type_id' => '3',
+				'unit' => 'Unit',
+				'description' => 'Description',
+				'val' => ['One','Two'],
+				'interpretation' => ['inter1', 'inta1'],
 		);
 
 		$this->inputFreetext = array(
-			'name' => 'CSFforBiochemistry',
-			'measure_type_id' => '4',
-			'unit' => 'Unit',
-			'description' => 'Description'
+				'name' => 'CSFforBiochemistry',
+				'measure_type_id' => '4',
+				'unit' => 'Unit',
+				'description' => 'Description'
 		);
 
 		// Editing sample data
 		$this->inputNumericUpdate = array(
-			'name' => 'Numeric',
-			'measure_type_id' => '1',
-			'unit' => 'nUnit',
-			'description' => 'nDescription',
-			'agemin' =>['11', '21'], 
-			'agemax' => ['41', '51'], 
-			'gender' => ['11', '11'],
-			'rangemin' => ['22', '42'],
-			'rangemax' => ['42', '44'],
-			'interpretation' => ['inter2', 'inta2'],
+			array(
+				'name' => 'Numeric',
+				'measure_type_id' => '1',
+				'unit' => 'nUnit',
+				'description' => 'nDescription',
+				'agemin' =>['11', '21'], 
+				'agemax' => ['41', '51'], 
+				'gender' => ['11', '11'],
+				'rangemin' => ['22', '42'],
+				'rangemax' => ['42', '44'],
+				'interpretation' => ['inter2', 'inta2'],
+			)
 		);
 
 		$this->inputAlphanumericUpdate = array(
-			'name' => 'AlphaNumeric',
-			'measure_type_id' => '2',
-			'unit' => 'aUnit',
-			'description' => 'aDescription',
-			'val' => ['A','B'],
-			'interpretation' => ['inter2', 'inta2'],
+			array(
+				'name' => 'AlphaNumeric',
+				'measure_type_id' => '2',
+				'unit' => 'aUnit',
+				'description' => 'aDescription',
+				'val' => ['A','B'],
+				'interpretation' => ['inter2', 'inta2'],
+			)
 		);
 
 		$this->inputAutocompleteUpdate = array(
-			'name' => 'AutoComplete',
-			'measure_type_id' => '3',
-			'unit' => 'aUnit',
-			'description' => 'aDescription',
-			'val' => ['aOne','aTwo'],
-			'interpretation' => ['inter2', 'inta2'],
+			array(
+				'name' => 'AutoComplete',
+				'measure_type_id' => '3',
+				'unit' => 'aUnit',
+				'description' => 'aDescription',
+				'val' => ['aOne','aTwo'],
+				'interpretation' => ['inter2', 'inta2'],
+			)
 		);
 
 		$this->inputFreetextUpdate = array(
-			'name' => 'FreeText',
-			'measure_type_id' => '4',
-			'unit' => 'fUnit',
-			'description' => 'fDescription'
+			array(
+				'name' => 'FreeText',
+				'measure_type_id' => '4',
+				'unit' => 'fUnit',
+				'description' => 'fDescription'
+			)
 		);
     }
 }

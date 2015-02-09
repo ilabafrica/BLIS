@@ -24,10 +24,11 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$env = $app->detectEnvironment(function ()
-{
-	return 'developement';
-});
+$env = $app->detectEnvironment(array(
+
+	'local' => array('stallion'),
+
+));
 
 /*
 |--------------------------------------------------------------------------

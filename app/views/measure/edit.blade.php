@@ -2,9 +2,9 @@
 @foreach($testtype->measures as $measure)
 <div class="row measure-section">
 <div class="col-md-11 measure">
-	<div class="col-md-3">
-		<div class="form-group">
-			{{ Form::label('measures[name]['.$measure->id.']', Lang::choice('messages.name',1)) }}
+    <div class="col-md-3">
+        <div class="form-group">
+            {{ Form::label('measures[name]['.$measure->id.']', Lang::choice('messages.name',1)) }}
            <input class="form-control" name="measures[{{$measure->id}}][name]" value="{{$measure->name}}" type="text">
         </div>
     </div>
@@ -27,14 +27,14 @@
         <div class="form-group">
             {{ Form::label('measures[unit]['.$measure->id.']', trans('messages.unit')) }}
             <input class="form-control" name="measures[{{$measure->id}}][unit]" value="{{$measure->unit}}" type="text">
-		</div>
-	</div>
-	<div class="col-md-3">
-		<div class="form-group">
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
             {{ Form::label('measures[description]['.$measure->id.']', trans('messages.description')) }}
             <textarea class="form-control" value="{{$measure->description}}" rows="2" name="measures[{{$measure->id}}][description]"></textarea>
-		</div>
-	</div>
+        </div>
+    </div>
     <div class="col-md-12">
         <div class="form-group">
             <label for="measurerange">{{trans('messages.measure-range-values')}}</label>

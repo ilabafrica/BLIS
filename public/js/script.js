@@ -61,13 +61,14 @@ $(function(){
 		var inputHtml = $('.measureGenericLoader').html();
 		//Count new measures on the new measure button
 		$('.measure-container').append(inputHtml);
-		$('.new-measure-section').find('.measuretype-input-trigger').addClass('new-measure-'+newMeasureNo);
-		$('.new-measure-section').find('.measuretype-input-trigger').attr('data-new-measure-id',  newMeasureNo);
-		$('.new-measure-section').find('.add-another-range').attr('data-new-measure-id',  newMeasureNo);
-		$('.new-measure-section').find('.add-another-range').addClass('new-measure-'+newMeasureNo);
-		$('.new-measure-section').find('.measurevalue').addClass('new-measure-'+newMeasureNo);
-		$('.new-measure-section').addClass('measure-section').removeClass('new-measure-section');
+		$('.measure-container .new-measure-section').find('.measuretype-input-trigger').addClass('new-measure-'+newMeasureNo);
+		$('.measure-container .new-measure-section').find('.measuretype-input-trigger').attr('data-new-measure-id',  newMeasureNo);
+		$('.measure-container .new-measure-section').find('.add-another-range').attr('data-new-measure-id',  newMeasureNo);
+		$('.measure-container .new-measure-section').find('.add-another-range').addClass('new-measure-'+newMeasureNo);
+		$('.measure-container .new-measure-section').find('.measurevalue').addClass('new-measure-'+newMeasureNo);
+		$('.measure-container .new-measure-section').addClass('measure-section new-'+newMeasureNo).removeClass('new-measure-section');
 		$(this).data('new-measure',  newMeasureNo+1).attr('data-new-measure',  newMeasureNo+1);
+		addNewMeasureAttributes(newMeasureNo);
 		delete newMeasureNo;
 	});
 
@@ -81,15 +82,18 @@ $(function(){
 		]; 
 
 		if ($(this).data('measure-id') === 0) {
-			var measureID = 'new-measure-'+$(this).data('new-measure-id');
+			var newMeasureId = $(this).data('new-measure-id');
+			var measureID = 'new-measure-'+newMeasureId;
 		} else {
 			var measureID = $(this).data('measure-id');
 		}
-		var id = $('.measuretype-input-trigger.'+measureID).val() - 1;
-		var inputHtml = $(inputClass[id]).html();
+		var measureTypeId = $('.measuretype-input-trigger.'+measureID).val() - 1;
+		var inputHtml = $(inputClass[measureTypeId]).html();
 		$(".measurevalue."+measureID).append(inputHtml);
 		if ($(this).data('measure-id') != 0) {
-			editMeasureRangeAttributes(id,measureID);
+			editMeasureRangeAttributes(measureTypeId,measureID);
+		}else{
+			addMeasureRangeAttributes(measureTypeId, newMeasureId);
 		}
 	});
 
@@ -368,15 +372,16 @@ $(function(){
 		];
 
 		if ($(this).data('measure-id') === 0) {
-			var measureID = 'new-measure-'+$(this).data('new-measure-id');
+			var newMeasureId = $(this).data('new-measure-id');
+			var measureID = 'new-measure-'+newMeasureId;
 		} else {
 			var measureID = $(this).data('measure-id');
 		}
 
-			id = $('.measuretype-input-trigger.'+measureID).val() - 1;
-			var headerHtml = $(headerClass[id]).html();
-			var inputHtml = $(inputClass[id]).html();
-		if (id == 0) {
+			measureTypeId = $('.measuretype-input-trigger.'+measureID).val() - 1;
+			var headerHtml = $(headerClass[measureTypeId]).html();
+			var inputHtml = $(inputClass[measureTypeId]).html();
+		if (measureTypeId == 0) {
 			$('.measurevalue.'+measureID).removeClass('col-md-6');
 			$('.measurevalue.'+measureID).addClass('col-md-12');
 		} else{
@@ -386,17 +391,38 @@ $(function(){
 		$('.measurevalue.'+measureID).empty();
 		$('.measurevalue.'+measureID).append(headerHtml);
 		$('.measurevalue.'+measureID).append(inputHtml);
+		if ($(this).data('measure-id') != 0) {
+			editMeasureRangeAttributes(measureTypeId,measureID);
+		}else{
+			addMeasureRangeAttributes(measureTypeId, newMeasureId);
+		}
 	}
 
 	function addNewMeasureAttributes (measureID) {
-		$('.measurevalue.'+measureID+' input.name').attr('name', 'measures['+measureID+'][name]');
-		$('.measurevalue.'+measureID+' select.measure_type_id').attr('name', 'measures['+measureID+'][measure_type_id]');
-		$('.measurevalue.'+measureID+' input.unit').attr('name', 'measures['+measureID+'][unit]');
-		$('.measurevalue.'+measureID+' textarea.description').attr('name', 'measures['+measureID+'][description]');
+		$('.measure-section.new-'+measureID+' input.name').attr('name', 'new-measures['+measureID+'][name]');
+		$('.measure-section.new-'+measureID+' select.measure_type_id').attr('name', 'new-measures['+measureID+'][measure_type_id]');
+		$('.measure-section.new-'+measureID+' input.unit').attr('name', 'new-measures['+measureID+'][unit]');
+		$('.measure-section.new-'+measureID+' textarea.description').attr('name', 'new-measures['+measureID+'][description]');
 	}
 
-	function editMeasureRangeAttributes (id,measureID) {
-		if (id == 0) {
+	function addMeasureRangeAttributes (measureTypeId,measureID) {
+		if (measureTypeId == 0) {
+			$('.measurevalue.new-measure-'+measureID+' input.agemin').attr('name', 'new-measures['+measureID+'][agemin][]');
+			$('.measurevalue.new-measure-'+measureID+' input.agemax').attr('name', 'new-measures['+measureID+'][agemax][]');
+			$('.measurevalue.new-measure-'+measureID+' select.gender').attr('name', 'new-measures['+measureID+'][gender][]');
+			$('.measurevalue.new-measure-'+measureID+' input.rangemin').attr('name', 'new-measures['+measureID+'][rangemin][]');
+			$('.measurevalue.new-measure-'+measureID+' input.rangemax').attr('name', 'new-measures['+measureID+'][rangemax][]');
+			$('.measurevalue.new-measure-'+measureID+' input.interpretation').attr('name', 'new-measures['+measureID+'][interpretation][]');
+			$('.measurevalue.new-measure-'+measureID+' input.measurerangeid').attr('name', 'new-measures['+measureID+'][measurerangeid][]');
+		} else{
+			$('.measurevalue.new-measure-'+measureID+' input.val').attr('name', 'new-measures['+measureID+'][val][]');
+			$('.measurevalue.new-measure-'+measureID+' input.interpretation').attr('name', 'new-measures['+measureID+'][interpretation][]');
+			$('.measurevalue.new-measure-'+measureID+' input.measurerangeid').attr('name', 'new-measures['+measureID+'][measurerangeid][]');
+		}
+	}
+
+	function editMeasureRangeAttributes (measureTypeId,measureID) {
+		if (measureTypeId == 0) {
 			$('.measurevalue.'+measureID+' input.agemin').attr('name', 'measures['+measureID+'][agemin][]');
 			$('.measurevalue.'+measureID+' input.agemax').attr('name', 'measures['+measureID+'][agemax][]');
 			$('.measurevalue.'+measureID+' select.gender').attr('name', 'measures['+measureID+'][gender][]');

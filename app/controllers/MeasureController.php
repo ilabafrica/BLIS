@@ -16,9 +16,8 @@ class MeasureController extends \BaseController {
      */
     public function store($measure)
     {
-        Log::info($measure);
-          /* 
-        foreach ($measure as $id => $data) {
+        $measureIds = array();
+        foreach ($measure as $data) {
            $measure = new Measure;
             $measure->name = $data['name'];
             $measure->measure_type_id = $data['measure_type_id'];
@@ -27,6 +26,7 @@ class MeasureController extends \BaseController {
 
             try{
                 $measure->save();
+                $measureIds[] = $measure->id;
             }catch(QueryException $e){
                 Log::error($e);
             }
@@ -51,8 +51,6 @@ class MeasureController extends \BaseController {
                     $measurerange->interpretation = $val['interpretation'][$i];
                     $measurerange->save();
                  }
-                return Redirect::route('measure.index')
-                    ->with('message', trans('messages.success-creating-measure'));
             }else if( $measure->isAlphanumeric() || $measure->isAutocomplete() ) {
                 $val['val'] = $data['val'];
                 $val['interpretation'] = $data['interpretation'];
@@ -64,9 +62,8 @@ class MeasureController extends \BaseController {
                     $measurerange->save();
                 }
             }
-            return Redirect::route('measure.index')
-                ->with('message', trans('messages.success-creating-measure'));
-        }*/
+        }
+        return $measureIds;
     }
 
     /**
@@ -139,9 +136,6 @@ class MeasureController extends \BaseController {
                 // Since this id has no ranges, delete any references to this id in the measure_range table
                 MeasureRange::where('measure_id', '=', $measure->id)->delete();
             }
-            // redirect
-            return Redirect::route('measure.index')
-                    ->with('message', trans('messages.success-updating-measure'));
         }
     }
 
