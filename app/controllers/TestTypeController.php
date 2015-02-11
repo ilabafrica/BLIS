@@ -54,7 +54,7 @@ class TestTypeController extends \BaseController {
 			'name' => 'required|unique:test_types,name',
 			'test_category_id' => 'required|non_zero_key',
 			'specimentypes' => 'required',
-			'measures' => 'required',
+			'new-measures' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
 			//array to be split here and sent to appropriate place! man! with ids and all possibilities
@@ -72,8 +72,12 @@ class TestTypeController extends \BaseController {
 			$testtype->prevalence_threshold = Input::get('prevalence_threshold');
 			try{
 				$testtype->save();
-
-				$testtype->setMeasures(Input::get('measures'));
+				$measureIds = array();
+				$inputNewMeasures = Input::get('new-measures');
+				
+				$measures = New MeasureController;
+				$measureIds = $measures->store($inputNewMeasures);
+				$testtype->setMeasures($measureIds);
 				$testtype->setSpecimenTypes(Input::get('specimentypes'));
 
 				return Redirect::route('testtype.index')
@@ -159,8 +163,6 @@ class TestTypeController extends \BaseController {
 					if (Input::get('new-measures')) {
 						$inputNewMeasures = Input::get('new-measures');
 
-						Log::info($inputNewMeasures);
-						
 						$measures = New MeasureController;
 						$measureIds = $measures->store($inputNewMeasures);
 					}

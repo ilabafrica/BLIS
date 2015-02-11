@@ -18,7 +18,7 @@ class MeasureController extends \BaseController {
     {
         $measureIds = array();
         foreach ($measure as $data) {
-           $measure = new Measure;
+            $measure = new Measure;
             $measure->name = $data['name'];
             $measure->measure_type_id = $data['measure_type_id'];
             $measure->unit = $data['unit'];
