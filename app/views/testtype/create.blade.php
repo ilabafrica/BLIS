@@ -63,10 +63,10 @@
 			<div class="form-group">
 				{{ Form::label('measures', Lang::choice('messages.measure',2)) }}
 				<div class="form-pane panel panel-default">
-					<div class="panel-body">
-						<div class="container-fluid">
-						</div>
+					<div class="container-fluid measure-container">
 					</div>
+		        	<a class="btn btn-default add-another-measure" href="javascript:void(0);" data-new-measure="1">
+		         		<span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.add-new-measure')}}</a>
 				</div>
 			</div>
 			<div class="form-group">
@@ -83,10 +83,10 @@
 			<div class="form-group actions-row">
 				{{ Form::button(
 					'<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'),
-					[
-						'class' => 'btn btn-primary', 
-						'onclick' => 'submit()'
-					] 
+					['class' => 'btn btn-primary', 'onclick' => 'submit()']
+				) }}
+				{{ Form::button(trans('messages.cancel'), 
+					['class' => 'btn btn-default', 'onclick' => 'javascript:history.go(-1)']
 				) }}
 			</div>
 		</div>

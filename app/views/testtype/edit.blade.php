@@ -70,7 +70,7 @@
 						@include("measure.edit")
 					</div>
 			        <a class="btn btn-default add-another-measure" href="javascript:void(0);" data-new-measure="1">
-			         <span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.add-new-measure')}}</a>
+			        	<span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.add-new-measure')}}</a>
 				</div>
 			</div>
 			<div class="form-group">
@@ -85,7 +85,8 @@
 		</div>
 		<div class="panel-footer">
 			<div class="form-group actions-row">
-				{{ Form::button('<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'), 
+				{{ Form::button(
+					'<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'), 
 					['class' => 'btn btn-primary', 'onclick' => 'submit()']
 				) }}
 				{{ Form::button(trans('messages.cancel'), 
