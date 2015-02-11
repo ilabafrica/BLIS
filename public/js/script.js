@@ -405,76 +405,51 @@ $(function(){
 	}
 
 	$(document).ready( function () {
-		$('#testcategory-index').DataTable({
+		var blade = '';
+		var page = window.location.href;
+		if(page.indexOf("/testcategory") >= 0){
+			blade = '#testcategory-index';
+		}
+		else if(page.indexOf("/specimentype") >= 0){
+			blade = '#specimen-type-index';
+			
+		}
+		else if(page.indexOf("/specimenrejection") >= 0){
+			blade = '#specimen-rejection-index';
+			
+		}
+		else if(page.indexOf("/testtype") >= 0){
+			blade = '#testtype-index';
+			
+		}
+		else if(page.indexOf("/user") >= 0){
+			blade = '#user-index';
+			
+		}
+		else if(page.indexOf("/facility") >= 0){
+			blade = '#facilities-index';
+			
+		}
+		else if(page.indexOf("/userstatistics") >= 0){
+			blade = '#user-statistics-report-table';
+			
+		}
+		else if(page.indexOf("/measure") >= 0){
+			blade = '#measures-index';
+			
+		}
+
+		$(blade).DataTable({
         	"bStateSave": true,
         	"fnStateSave": function (oSettings, oData) {
-            	localStorage.setItem('#testcategory-index', JSON.stringify(oData));
+            	localStorage.setItem(blade, JSON.stringify(oData));
         	},
         	"fnStateLoad": function (oSettings) {
-            	return JSON.parse(localStorage.getItem('#testcategory-index'));
+            	return JSON.parse(localStorage.getItem(blade));
         	}
    		});
-		$('#specimen-type-index').DataTable({
-        	"bStateSave": true,
-        	"fnStateSave": function (oSettings, oData) {
-            	localStorage.setItem('#specimen-type-index', JSON.stringify(oData));
-        	},
-        	"fnStateLoad": function (oSettings) {
-            	return JSON.parse(localStorage.getItem('#specimen-type-index'));
-        	}
-   		});
-		$('#specimen-rejection-index').DataTable({
-        	"bStateSave": true,
-        	"fnStateSave": function (oSettings, oData) {
-            	localStorage.setItem('#specimen-rejection-index', JSON.stringify(oData));
-        	},
-        	"fnStateLoad": function (oSettings) {
-            	return JSON.parse(localStorage.getItem('#specimen-rejection-index'));
-        	}
-   		});
-		$('#testtype-index').DataTable({
-        	"bStateSave": true,
-        	"fnStateSave": function (oSettings, oData) {
-            	localStorage.setItem('#testtype-index', JSON.stringify(oData));
-        	},
-        	"fnStateLoad": function (oSettings) {
-            	return JSON.parse(localStorage.getItem('#testtype-index'));
-        	}
-   		});
-		$('#user-index').DataTable({
-        	"bStateSave": true,
-        	"fnStateSave": function (oSettings, oData) {
-            	localStorage.setItem('#user-index', JSON.stringify(oData));
-        	},
-        	"fnStateLoad": function (oSettings) {
-            	return JSON.parse(localStorage.getItem('#user-index'));
-        	}
-   		});
-		$('#facilities-index').DataTable({
-        	"bStateSave": true,
-        	"fnStateSave": function (oSettings, oData) {
-            	localStorage.setItem('#facilities-index', JSON.stringify(oData));
-        	},
-        	"fnStateLoad": function (oSettings) {
-            	return JSON.parse(localStorage.getItem('#facilities-index'));
-        	}
-   		});
-		$('#user-statistics-report-table').DataTable({
-        	"bStateSave": true,
-        	"fnStateSave": function (oSettings, oData) {
-            	localStorage.setItem('#user-statistics-report-table', JSON.stringify(oData));
-        	},
-        	"fnStateLoad": function (oSettings) {
-            	return JSON.parse(localStorage.getItem('#user-statistics-report-table'));
-        	}
-   		});
-		$('#measures-index').DataTable({
-        	"bStateSave": true,
-        	"fnStateSave": function (oSettings, oData) {
-            	localStorage.setItem('#measures-index', JSON.stringify(oData));
-        	},
-        	"fnStateLoad": function (oSettings) {
-            	return JSON.parse(localStorage.getItem('#measures-index'));
-        	}
-   		});
+
+
+
+		
 	});
