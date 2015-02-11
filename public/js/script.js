@@ -405,51 +405,13 @@ $(function(){
 	}
 
 	$(document).ready( function () {
-		var blade = '';
-		var page = window.location.href;
-		if(page.indexOf("/testcategory") >= 0){
-			blade = '#testcategory-index';
-		}
-		else if(page.indexOf("/specimentype") >= 0){
-			blade = '#specimen-type-index';
-			
-		}
-		else if(page.indexOf("/specimenrejection") >= 0){
-			blade = '#specimen-rejection-index';
-			
-		}
-		else if(page.indexOf("/testtype") >= 0){
-			blade = '#testtype-index';
-			
-		}
-		else if(page.indexOf("/user") >= 0){
-			blade = '#user-index';
-			
-		}
-		else if(page.indexOf("/facility") >= 0){
-			blade = '#facilities-index';
-			
-		}
-		else if(page.indexOf("/userstatistics") >= 0){
-			blade = '#user-statistics-report-table';
-			
-		}
-		else if(page.indexOf("/measure") >= 0){
-			blade = '#measures-index';
-			
-		}
-
-		$(blade).DataTable({
-        	"bStateSave": true,
-        	"fnStateSave": function (oSettings, oData) {
-            	localStorage.setItem(blade, JSON.stringify(oData));
+		$('.search-table').DataTable({
+        	'bStateSave': true,
+        	'fnStateSave': function (oSettings, oData) {
+            	localStorage.setItem('.search-table', JSON.stringify(oData));
         	},
-        	"fnStateLoad": function (oSettings) {
-            	return JSON.parse(localStorage.getItem(blade));
+        	'fnStateLoad': function (oSettings) {
+            	return JSON.parse(localStorage.getItem('.search-table'));
         	}
    		});
-
-
-
-		
 	});
