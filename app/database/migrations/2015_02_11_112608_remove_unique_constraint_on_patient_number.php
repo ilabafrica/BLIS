@@ -14,7 +14,7 @@ class RemoveUniqueConstraintOnPatientNumber extends Migration {
 	{
 		Schema::table('patients', function(Blueprint $table)
 		{
-			//
+			$table->dropUnique('patients_patient_number_unique');
 		});
 	}
 
