@@ -30,6 +30,16 @@
 							@endif
 						</div>
 						@endif
+						@if($test->isCompleted() || $test->isVerified())
+						<div class="panel-btn">
+							@if(Auth::user()->can('view_reports'))
+								<a class="btn btn-sm btn-default" href="{{ URL::to('patientreport/'.$test->visit->patient->id.'/'.$test->visit->id) }}">
+									<span class="glyphicon glyphicon-eye-open"></span>
+									{{trans('messages.view-report')}}
+								</a>
+							@endif
+						</div>
+						@endif
                     </div>
                     <div class="col-md-1">
                         <a class="btn btn-sm btn-primary pull-right" href="#" onclick="window.history.back();return false;"
@@ -47,13 +57,19 @@
 							<h3 class="view"><strong>{{ Lang::choice('messages.test-type',1) }}</strong>
 								{{ $test->testType->name or trans('messages.unknown') }}</h3>
 							<p class="view"><strong>{{trans('messages.visit-number')}}</strong>
-								{{$test->visit->id or trans('messages.unknown') }}</p>
+								{{$test->visit->visit_number or trans('messages.unknown') }}</p>
 							<p class="view"><strong>{{trans('messages.lab-receipt-date')}}</strong>
 								{{$test->time_created}}</p>
 							<p class="view"><strong>{{trans('messages.test-status')}}</strong>
 								{{trans('messages.'.$test->testStatus->name)}}</p>
 							<p class="view-striped"><strong>{{trans('messages.physician')}}</strong>
 								{{$test->requested_by or trans('messages.unknown') }}</p>
+							<p class="view-striped"><strong>{{trans('messages.request-origin')}}</strong>
+								@if($test->specimen->isReferred() && $test->specimen->referral->status == Referral::REFERRED_IN)
+									{{ trans("messages.in") }}
+								@else
+									{{ $test->visit->visit_type }}
+								@endif</p>
 							<p class="view-striped"><strong>{{trans('messages.registered-by')}}</strong>
 								{{$test->createdBy->name or trans('messages.unknown') }}</p>
 							<p class="view"><strong>{{trans('messages.tested-by')}}</strong>
@@ -80,7 +96,7 @@
 										<div class="col-md-3">
 											<p><strong>{{trans("messages.patient-number")}}</strong></p></div>
 										<div class="col-md-9">
-											{{$test->visit->patient->patient_number}}</div></div>
+											{{$test->visit->patient->external_patient_number}}</div></div>
 									<div class="row">
 										<div class="col-md-3">
 											<p><strong>{{ Lang::choice('messages.name',1) }}</strong></p></div>
@@ -119,7 +135,7 @@
 											<p><strong>{{trans('messages.specimen-number')}}</strong></p>
 										</div>
 										<div class="col-md-8">
-											{{$test->specimen->id or trans('messages.pending') }}
+											{{$test->specimen->getSpecimenId() }}
 										</div>
 									</div>
 									<div class="row">
@@ -206,12 +222,15 @@
 								<div class="container-fluid">
 								@foreach($test->testResults as $result)
 									<div class="row">
-										<div class="col-md-5">
-											<p><strong>{{Measure::find($result->measure_id)->name}}</strong></p>
+										<div class="col-md-4">
+											<p><strong>{{ Measure::find($result->measure_id)->name }}</strong></p>
 										</div>
-										<div class="col-md-7">
-											{{$result->result}}
-											{{Measure::find($result->measure_id)->unit}}
+										<div class="col-md-3">
+											{{$result->result}}	
+										</div>
+										<div class="col-md-5">
+	        								{{ Measure::getRange($test->visit->patient, $result->measure_id) }}
+											{{ Measure::find($result->measure_id)->unit }}
 										</div>
 									</div>
 								@endforeach

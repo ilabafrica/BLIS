@@ -20,7 +20,7 @@
 				<div class="row">
 					<div class="col-sm-2">
 						{{ Form::label('start', trans("messages.from")) }}</div><div class="col-sm-1">
-			        	{{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
+			        	{{ Form::text('start', isset($input['start'])?$input['start']:null, 
 			                array('class' => 'form-control standard-datepicker')) }}
 			        </div>
 		        </div>
@@ -31,7 +31,7 @@
 				        {{ Form::label('end', trans("messages.to")) }}
 				    </div>
 				    <div class="col-sm-1">
-		                {{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
+		                {{ Form::text('end', isset($input['end'])?$input['end']:null, 
 		                    array('class' => 'form-control standard-datepicker')) }}
 		            </div>
 	            </div>
@@ -58,42 +58,39 @@
 		{{ trans('messages.patient-report') }}
 	</div>
 	<div class="panel-body">
-		@if(Session::has('error'))
+		@if($error!='')
 		<!-- if there are search errors, they will show here -->
-			<div class="alert alert-danger">{{ trans(Session::get('error')) }}</div>
-		@endif
+			<div class="alert alert-info">{{ $error }}</div>
+		@else
 
 		<div id="report_content">
 		@include("reportHeader")
 		<strong>
 			<p>
-				{{trans('messages.patient-report')}}
-				<?php $from = isset($input['start'])?$input['start']:date('Y-m-d'); ?>
-				<?php $to = isset($input['end'])?$input['end']:date('Y-m-d'); ?>
-				@if($from!=$to)
-					{{trans('messages.from').' '.$from.' '.trans('messages.to').' '.$to}}
-				@else
-					{{trans('messages.for').' '.date('d-m-Y')}}
-				@endif
+				{{trans('messages.patient-report').' - '.date('d-m-Y')}}
 			</p>
 		</strong>
 		<table class="table table-bordered">
 			<tbody>
 				<tr>
 					<th>{{ trans('messages.patient-name')}}</th>
-					<td>{{ $patient->name }}</td>
+					@if(Entrust::can('view_names'))
+						<td>{{ $patient->name }}</td>
+					@else
+						<td>N/A</td>
+					@endif
 					<th>{{ trans('messages.gender')}}</th>
 					<td>{{ $patient->getGender(false) }}</td>
 				</tr>
 				<tr>
-					<th>{{ trans("messages.patient-number")}}</th>
+					<th>{{ trans('messages.patient-id')}}</th>
 					<td>{{ $patient->patient_number}}</td>
 					<th>{{ trans('messages.age')}}</th>
 					<td>{{ $patient->getAge()}}</td>
 				</tr>
 				<tr>
-					<th>{{ trans('messages.visit-number')}}</th>
-					<td>{{ $patient->id }}</td>
+					<th>{{ trans('messages.patient-lab-number')}}</th>
+					<td>{{ $patient->external_patient_number }}</td>
 					<th>{{ trans('messages.requesting-facility-department')}}</th>
 					<td>{{ Config::get('kblis.organization') }}</td>
 				</tr>
@@ -159,14 +156,15 @@
 							<td>{{ $test->testType->name }}</td>
 							<td>
 								@foreach($test->testResults as $result)
-									<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
+									<p>
+										{{ Measure::find($result->measure_id)->name }}: {{ $result->result }}
+										{{ Measure::getRange($test->visit->patient, $result->measure_id) }}
+										{{ Measure::find($result->measure_id)->unit }}
+									</p>
 								@endforeach</td>
-							<td>{{ $test->interpretation }}</td>
+							<td>{{ $test->interpretation == '' ? 'N/A' : $test->interpretation }}</td>
 							<td>{{ $test->testedBy->name or trans('messages.pending')}}</td>
-							<td>
-								@foreach($test->testResults as $result)
-									<p>{{$result->time_entered}}</p>
-								@endforeach</td>
+							<td>{{ $test->testResults->last()->time_entered }}</td>
 							<td>{{ $test->time_completed }}</td>
 							<td>{{ $test->verifiedBy->name or trans('messages.verification-pending')}}</td>
 							<td>{{ $test->time_verified }}</td>
@@ -178,6 +176,7 @@
 				@endforelse
 			</tbody>
 		</table></div>
+		@endif
 		</div>
 	</div>
 

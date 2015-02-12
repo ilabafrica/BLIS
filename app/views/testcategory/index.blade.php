@@ -21,11 +21,12 @@
 		</div>
 	</div>
 	<div class="panel-body">
-		<table class="table table-striped table-hover table-condensed">
+		<table class="table table-striped table-hover table-condensed" id="testcategory-index">
 			<thead>
 				<tr>
 					<th>{{ Lang::choice('messages.name',1) }}</th>
 					<th>{{ trans('messages.description') }}</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -47,7 +48,7 @@
 						</a>
 
 					<!-- edit this test category (uses edit method found at GET /testcategory/{id}/edit -->
-						<a class="btn btn-sm btn-info" href="{{ URL::to("testcategory/" . $value->id . "/edit") }}" >							
+						<a class="btn btn-sm btn-info" href="{{ URL::to("testcategory/" . $value->id . "/edit") }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							{{ trans('messages.edit') }}
 						</a>
@@ -64,8 +65,7 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $testcategory->links(); 
-		Session::put('SOURCE_URL', URL::full());?>
+		{{ Session::put('SOURCE_URL', URL::full()) }}
 	</div>
 </div>
 @stop

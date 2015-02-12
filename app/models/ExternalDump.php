@@ -28,7 +28,7 @@ class ExternalDump extends Eloquent {
     {
         try 
         {
-            $labRequestParent = ExternalDump::where('labNo', '=', $labNo)->firstOrFail();
+            $labRequestParent = ExternalDump::where('lab_no', '=', $labNo)->firstOrFail();
         } 
         catch (ModelNotFoundException $e) 
         {
@@ -43,15 +43,16 @@ class ExternalDump extends Eloquent {
 
     private function getLabRequestChildrenRecursive($labNo, $externalLabRequestTree)
     {
-        $extLabRequests = ExternalDump::where('parentLabNo', '=', $labNo)->get();
-        if( ! is_null($extLabRequests))
+        $extLabRequests = ExternalDump::where('parent_lab_no', '=', $labNo)->get();
+        if( count($extLabRequests) > 1)
         {
             foreach ($extLabRequests as $extLabRequest)
             {
                 $externalLabRequestTree->push($extLabRequest);
-                $this->getLabRequestChildrenRecursive($extLabRequest->labNo, $externalLabRequestTree);
+                $this->getLabRequestChildrenRecursive($extLabRequest->lab_no, $externalLabRequestTree);
             }
         }
+
         return $externalLabRequestTree;
     }
 

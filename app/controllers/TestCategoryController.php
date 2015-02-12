@@ -16,7 +16,7 @@ class TestCategoryController extends \BaseController {
 	public function index()
 	{
 		//List all test categories
-		$testcategory = TestCategory::paginate(Config::get('kblis.page-items'));
+		$testcategory = TestCategory::orderBy('name', 'ASC')->get();
 		//Load the view and pass the test categories
 		return View::make('testcategory.index')->with('testcategory',$testcategory);
 	}

@@ -13,7 +13,7 @@
     	<div class="col-sm-4">
 	    	<div class="row">
 				<div class="col-sm-2">
-				    {{ Form::label('start', trans("messages.from")) }}
+				    {{ Form::label('start', trans('messages.from')) }}
 				</div>
 				<div class="col-sm-2">
 				    {{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
@@ -24,12 +24,12 @@
 		<div class="col-sm-4">
 	    	<div class="row">
 				<div class="col-sm-2">
-				  	{{ Form::label('end', trans("messages.to")) }}
-			  	</div>
-			  	<div class="col-sm-2">
-					{{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
-				                        array('class' => 'form-control standard-datepicker')) }}
+				    {{ Form::label('end', trans('messages.to')) }}
 				</div>
+				<div class="col-sm-2">
+				    {{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
+			                array('class' => 'form-control standard-datepicker')) }}
+		        </div>
 			</div>
 		</div>
 		<div class="col-sm-4">
@@ -60,16 +60,22 @@
 						  'id' => 'patients')) }} {{trans('messages.patient-records')}}
 					</label>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 				    <label class="radio-inline">
 						{{ Form::radio('records', 'rejections', false, array('data-toggle' => 'radio',
 						  'id' => 'specimens')) }} {{trans('messages.rejected-specimen')}}
 					</label>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<label class="radio-inline">
 			    		{{ Form::radio('pending_or_all', 'pending', ($pendingOrAll=='pending')?true:false, array('data-toggle' => 'radio',
-					  	  'id' => 'pending')) }} {{trans('messages.pending-only')}}
+						'id' => 'pending')) }} {{trans('messages.pending-tests')}}
+					</label>
+				</div>
+				<div class="col-sm-2">
+					<label class="radio-inline">
+						{{ Form::radio('pending_or_all', 'complete', ($pendingOrAll=='complete')?true:false, array('data-toggle' => 'radio',
+						'id' => 'pending')) }} {{trans('messages.complete-tests')}}
 					</label>
 				</div>
 				<div class="col-sm-2">
@@ -117,21 +123,18 @@
 
 	<div class="panel-body">
 	<!-- if there are search errors, they will show here -->
-		@if (Session::has('message'))
-			<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
-		@endif
-		@if (Session::has('error'))
-			<div class="alert alert-danger">{{ trans(Session::get('message')) }}</div>
-		@endif
+		@if ($error!='')
+			<div class="alert alert-info">{{ $error }}</div>
+		@else
 		<div id="test_records_div">
 			@include("reportHeader")
 			<strong>
 				<p>
 					{{trans('messages.test-records')}} 
 
-					@if(isset($input['pending']))
+					@if($pendingOrAll == 'pending')
 						{{' - '.trans('messages.pending-only')}}
-					@elseif(isset($input['all']))
+					@elseif($pendingOrAll == 'all')
 						{{' - '.trans('messages.all-tests')}}
 					@else
 						{{' - '.trans('messages.complete-tests')}}
@@ -144,7 +147,7 @@
 					@if($testType)
 						{{' ('.TestType::find($testType)->name.') '}}
 					@endif
-
+					{{ Lang::choice('messages.total',1).' '.$counts .'<br>'}}
 					<?php $from = isset($input['start'])?$input['start']:date('d-m-Y');?>
 					<?php $to = isset($input['end'])?$input['end']:date('d-m-Y');?>
 					@if($from!=$to)
@@ -157,6 +160,9 @@
 			<table class="table table-bordered">
 				<tbody>
 					<tr>
+						<th>{{ trans('messages.patient-id') }}</th>
+						<th>{{ trans('messages.visit-number') }}</th>
+						<th>{{ trans('messages.patient-name') }}</th>
 						<th>{{ trans('messages.specimen-number-title') }}</th>
 						<th>{{ trans('messages.specimen') }}</th>
 						<th>{{ trans('messages.lab-receipt-date') }}</th>
@@ -169,7 +175,10 @@
 					</tr>
 					@forelse($tests as $key => $test)
 					<tr>
-						<td>{{ $test->specimen->id }}</td>
+						<td>{{ $test->visit->patient->id }}</td>
+						<td>{{ isset($test->visit->visit_number)?$test->visit->visit_number:$test->visit->id }}</td>
+						<td>{{ $test->visit->patient->name }}</td>
+						<td>{{ $test->specimen->getSpecimenId() }}</td>
 						<td>{{ $test->specimen->specimentype->name }}</td>
 						<td>{{ $test->specimen->time_accepted }}</td>
 						<td>{{ $test->testType->name }}</td>
@@ -184,11 +193,12 @@
 						<td>{{ $test->verifiedBy->name or trans('messages.verification-pending') }}</td>
 					</tr>
 					@empty
-					<tr><td colspan="9">{{trans('messages.no-records-found')}}</td></tr>
+					<tr><td colspan="12">{{trans('messages.no-records-found')}}</td></tr>
 					@endforelse
 				</tbody>
 			</table>
 		</div>
+		@endif
 	</div>
 </div>
 

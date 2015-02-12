@@ -50,6 +50,9 @@ class PatientControllerTest extends TestCase
  	public function testStore() 
   	{
 		echo "\n\nPATIENT CONTROLLER TEST\n\n";
+
+		$this->be(User::first());
+
   		 // Store the Patient Types
 		$this->runStore($this->input);
 
@@ -72,6 +75,8 @@ class PatientControllerTest extends TestCase
      */
 	public function testUpdate()
 	{
+		$this->be(User::first());
+		
 		$this->runStore($this->input);
 		$patientSaved = Patient::orderBy('id','desc')->take(1)->get()->toArray();
 		// Update the Patient Types
@@ -98,6 +103,8 @@ class PatientControllerTest extends TestCase
      */
 	public function testDelete()
 	{
+		$this->be(User::first());
+		
 		$this->runStore($this->input);
 		$patientSaved = Patient::orderBy('id','desc')->take(1)->get()->toArray();
 

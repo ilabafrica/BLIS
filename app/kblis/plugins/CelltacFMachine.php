@@ -81,7 +81,7 @@ class CelltacFMachine extends \KBLIS\Instrumentation\AbstractInstrumentor
 		#   insert results into an array for handling in front end
 		#
 
-		$DUMP_URL = "http://".$this->ip."/celltac/celltac.txt";
+		$DUMP_URL = "http://".$this->ip."/celtac/celtac-results.txt";
 
 		$RESULTS_STRING = file_get_contents($DUMP_URL);
 			if ($RESULTS_STRING === FALSE){
@@ -125,12 +125,14 @@ class CelltacFMachine extends \KBLIS\Instrumentation\AbstractInstrumentor
         //Validate also using PatientID
 
         $this_year = date('Y');
+        $EMPTY_FILE_URL = "http://".$this->ip."/celtac/emptyfile.php";
 
         //Search for occurences of MEK-8222 string
         $ARR_COUNT = $this->count_needles_in_haystack('MEK-8222', $COMPLETE_RESULT_ARRAY);
         if ($ARR_COUNT != 2){
             //We DO NOT have a valid results with two parts, Results and static values
             print "Something went wrong : Too many results in celltac log file";
+            file_get_contents($EMPTY_FILE_URL);
             return;
         }
 
@@ -159,14 +161,15 @@ class CelltacFMachine extends \KBLIS\Instrumentation\AbstractInstrumentor
         //TODO Need to check if RESULTS Array is valid
         //Map values to their corresponding keys i.e WBC, LY, MO
         $RESULTS = array_combine($this->RESULTS_KEYS, $RESULTS_VALUES);
-         if (!$RESULTS) {
-          //Something wrong
-          print "Something went wrong : Keys not equal";
-         }
-         return $RESULTS;
-         //print json_encode($RESULTS);
-         //We have the results now we have to emtyy the text file in prep
-         //For next printed data
+		if (!$RESULTS) {
+		//Something wrong
+		print "Something went wrong : Keys not equal";
+		}
+
+		//Deleting the results dump file
+		$DELETED_STATUS = file_get_contents($EMPTY_FILE_URL);
+
+		return $RESULTS;
     }
 
     public function count_needles_in_haystack($needle, $HayStack){

@@ -16,66 +16,27 @@ class TestController extends \BaseController {
 	 */
 	public function index()
 	{
-		$testStatus = TestStatus::all();
-		$searchString = Input::get('search');
-		$testStatusId = Input::get('test_status');
-		$dateFrom = Input::get('date_from');
-		$dateTo = Input::get('date_to');
 
+		$fromRedirect = Session::pull('fromRedirect');
+
+		if($fromRedirect){
+
+			$input = Session::get('TESTS_FILTER_INPUT');
+			
+		}else{
+
+			$input = Input::except('_token');
+		}
+
+		$searchString = isset($input['search'])?$input['search']:'';
+		$testStatusId = isset($input['test_status'])?$input['test_status']:'';
+		$dateFrom = isset($input['date_from'])?$input['date_from']:'';
+		$dateTo = isset($input['date_to'])?$input['date_to']:'';
+
+		// Search Conditions
 		if($searchString||$testStatusId||$dateFrom||$dateTo){
 
-			$tests = Test::with('visit', 'visit.patient', 'testType', 'specimen', 'testStatus', 'testStatus.testPhase')
-				->where(function($q) use ($searchString){
-
-				$q->whereHas('visit', function($q) use ($searchString)
-				{
-					$q->whereHas('patient', function($q)  use ($searchString)
-					{
-						if(is_numeric($searchString))
-						{
-							$q->where('patient_number', 'like', '%' . $searchString . '%');
-						}
-						else
-						{
-							$q->where('name', 'like', '%' . $searchString . '%');
-						}
-					});
-				})
-				->orWhereHas('testType', function($q) use ($searchString)
-				{
-				    $q->where('name', 'like', '%' . $searchString . '%');//Search by test type
-				})
-				->orWhereHas('specimen', function($q) use ($searchString)
-				{
-				    $q->where('id', 'like', '%' . $searchString . '%');//Search by specimen number
-				})
-				->orWhereHas('visit',  function($q) use ($searchString)
-				{
-					$q->where('id', 'like', '%' . $searchString . '%');//Search by visit number
-				});
-			});
-
-			if ($testStatusId > 0) {
-				$tests = $tests->where(function($q) use ($testStatusId)
-				{
-					$q->whereHas('testStatus', function($q) use ($testStatusId){
-					    $q->where('id','=', $testStatusId);//Filter by test status
-					});
-				});
-			}
-
-			if ($dateFrom||$dateTo) {
-				$tests = $tests->where(function($q) use ($dateFrom, $dateTo)
-				{
-					$q->whereHas('specimen', function($q) use ($dateFrom, $dateTo)//Filter by date created
-					{
-						$q = $q->where('time_created', '>=', $dateFrom);
-						(empty($dateTo)) ? $q : $q->where('time_created', '<=', $dateTo);
-					});
-				});
-			}
-
-			$tests = $tests->orderBy('time_created', 'DESC');
+			$tests = Test::search($searchString, $testStatusId, $dateFrom, $dateTo);
 
 			if (count($tests) == 0) {
 			 	Session::flash('message', trans('messages.empty-search'));
@@ -95,10 +56,13 @@ class TestController extends \BaseController {
 		}
 
 		// Pagination
-		$tests = $tests->paginate(Config::get('kblis.page-items'));
+		$tests = $tests->paginate(Config::get('kblis.page-items'))->appends($input);
 
 		// Load the view and pass it the tests
-		return View::make('test.index')->with('testSet', $tests)->with('testStatus', $statuses)->withInput(Input::all());
+		return View::make('test.index')
+					->with('testSet', $tests)
+					->with('testStatus', $statuses)
+					->withInput($input);
 	}
 
 	/**
@@ -115,7 +79,12 @@ class TestController extends \BaseController {
 		$test->created_by = Auth::user()->id;
 		$test->save();
 
-		return Redirect::route('test.index')->with('activeTest', array($id));
+		$input = Session::get('TESTS_FILTER_INPUT');
+		Session::put('fromRedirect', 'true');
+
+		return Redirect::action('TestController@index')
+				->with('activeTest', array($id))
+				->withInput($input);
 	}
 
 	/**
@@ -129,7 +98,7 @@ class TestController extends \BaseController {
 			$patientID = Input::get('patient_id');
 		}
 
-		$testTypes = TestType::all();
+		$testTypes = TestType::orderBy('name', 'asc')->get();
 		$patient = Patient::find($patientID);
 
 		//Load Test Create View
@@ -242,6 +211,7 @@ class TestController extends \BaseController {
 			$specimen = Specimen::find(Input::get('specimen_id'));
 			$specimen->rejection_reason_id = Input::get('rejectionReason');
 			$specimen->specimen_status_id = Specimen::REJECTED;
+			$specimen->rejected_by = Auth::user()->id;
 			$specimen->time_rejected = date('Y-m-d H:i:s');
 			$specimen->reject_explained_to = Input::get('reject_explained_to');
 			$specimen->save();
@@ -263,6 +233,7 @@ class TestController extends \BaseController {
 	{
 		$specimen = Specimen::find(Input::get('id'));
 		$specimen->specimen_status_id = Specimen::ACCEPTED;
+		$specimen->accepted_by = Auth::user()->id;
 		$specimen->time_accepted = date('Y-m-d H:i:s');
 		$specimen->save();
 
@@ -321,6 +292,7 @@ class TestController extends \BaseController {
 	public function enterResults($testID)
 	{
 		$test = Test::find($testID);
+
 		return View::make('test.enterResults')->with('test', $test);
 	}
 
@@ -348,8 +320,8 @@ class TestController extends \BaseController {
 	/**
 	 * Saves Test Results
 	 *
-	 * @param
-	 * @return
+	 * @param $testID to save
+	 * @return view
 	 */
 	public function saveResults($testID)
 	{
@@ -366,11 +338,25 @@ class TestController extends \BaseController {
 			$testResult->save();
 		}
 
-		// redirect
+		//Fire of entry saved/edited event
+		Event::fire('test.saved', array($testID));
+
+		$input = Session::get('TESTS_FILTER_INPUT');
+		Session::put('fromRedirect', 'true');
+
+		// Get page
 		$url = Session::get('SOURCE_URL');
-		
-		return Redirect::to($url)->with('message', trans('messages.success-saving-results'))
-					->with('activeTest', array($test->id));
+		$urlParts = explode('&', $url);
+		if(isset($urlParts['page'])){
+			$pageParts = explode('=', $urlParts['page']);
+			$input['page'] = $pageParts[1];
+		}
+
+		// redirect
+		return Redirect::action('TestController@index')
+					->with('message', trans('messages.success-saving-results'))
+					->with('activeTest', array($test->id))
+					->withInput($input);
 	}
 
 	/**
@@ -410,6 +396,9 @@ class TestController extends \BaseController {
 		$test->time_verified = date('Y-m-d H:i:s');
 		$test->verified_by = Auth::user()->id;
 		$test->save();
+
+		//Fire of entry verified event
+		Event::fire('test.verified', array($testID));
 
 		return View::make('test.viewDetails')->with('test', $test);
 	}

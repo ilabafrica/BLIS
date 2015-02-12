@@ -1,9 +1,7 @@
 /**
- * iBlis js
- * @author  (c) @iLabAfrica - Strathmore University
+ * Custom javascript function
+ * @author  (c) @iLabAfrica
  */
-var state = false;
-
 $(function(){
 	/**	HEADER
 	 *   Username display
@@ -248,8 +246,10 @@ $(function(){
 	});
 
 	/**
+	 * Automatic Results Interpretation
 	 * Updates the test  result via ajax call
 	 */
+	 /*UNSTABLE!---TO BE RE-THOUGHT
 	$(".result-interpretation-trigger").focusout(function() {
 		var interpretation = "";
 		var url = $(this).data('url');
@@ -266,6 +266,7 @@ $(function(){
 			$( ".result-interpretation" ).val( interpretation );
 		});
 	});
+	*/
 
 	/** Start Test button.
 	 *  - Updates the Test status via an AJAX call
@@ -527,6 +528,13 @@ $(function(){
 	    }
 	}
 
-	/*	Functions to be used in reports blades	*/
-	function reportScripts(){
-	}
+	$(document).ready( function () {
+		$('#testcategory-index').DataTable();
+		$('#specimen-type-index').DataTable();
+		$('#specimen-rejection-index').DataTable();
+		$('#testtype-index').DataTable();
+		$('#user-index').DataTable();
+		$('#facilities-index').DataTable();
+		$('#user-statistics-report-table').DataTable();
+		$('#measures-index').DataTable();
+	});

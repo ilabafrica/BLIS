@@ -6,11 +6,13 @@ class InterfacerController extends \BaseController{
     {
         //authenticate() connection
 
-        $labRequest = Input::all();
+        $labRequest = Request::getContent();
+        $labRequest = str_replace(['labRequest', '='], ['', ''], $labRequest);
+
         //Validate::ifValid()
 
         //Fire event with the received data
-        Event::fire('api.receivedLabRequest', array($labRequest));
+        Event::fire('api.receivedLabRequest', json_decode($labRequest));
     }
 
 

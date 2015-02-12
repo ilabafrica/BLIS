@@ -2,11 +2,6 @@
 <head>
 {{ HTML::style('css/bootstrap.min.css') }}
 {{ HTML::style('css/bootstrap-theme.min.css') }}
-<style type="text/css">
-	#content table, #content th, #content td {
-   border: 1px solid black;
-}
-</style>
 </head>
 <body>
 @include("reportHeader")
@@ -20,10 +15,12 @@
 			@if($testType)
 				{{' ('.TestType::find($testType)->name.') '}}
 			@endif
+			<?php $from = isset($input['start'])?$input['start']:date('Y-m-d'); ?>
+			<?php $to = isset($input['end'])?$input['end']:date('Y-m-d'); ?>
 			@if($from!=$to)
-				{{'From '.$from.' To '.$to}}
+				{{trans('messages.from').' '.$from.' '.trans('messages.to').' '.$to}}
 			@else
-				{{'For '.date('d-m-Y')}}
+				{{trans('messages.for').' '.date('d-m-Y')}}
 			@endif
 		</p>
 	</strong>
@@ -34,7 +31,7 @@
 			<th>{{trans('messages.specimen')}}</th>
 			<th>{{trans('messages.lab-receipt-date')}}</th>
 			<th>{{ Lang::choice('messages.test', 2) }}</th>
-			<th>{{trans('messages.test-category')}}</th>
+			<th>{{Lang::choice('messages.test-category', 1)}}</th>
 			<th>{{trans('messages.rejection-reason-title')}}</th>
 			<th>{{trans('messages.reject-explained-to')}}</th>
 			<th>{{trans('messages.date-rejected')}}</th>

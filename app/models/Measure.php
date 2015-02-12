@@ -50,7 +50,6 @@ class Measure extends Eloquent
 	{
 	  return $this->belongsToMany('TestType', 'testtype_measures');
 	}
-
 	public function getResultInterpretation($result)
 	{
 		$measure = Measure::find($result['measureid']);
@@ -133,7 +132,36 @@ class Measure extends Eloquent
 		if($this->measureType->id == Measure::FREETEXT){
 			return true;
 		}
-		else 
+		else
 			return false;
+	}
+
+	/**
+	 *  Get measure range with given patient patient details
+	 *
+	 * @return boolean
+	 */
+	public static function getRange($patient, $measureId)
+	{
+		$age = $patient->getAge('Y');
+		$measureRange = MeasureRange::where('measure_id', '=', $measureId)
+									->where('age_min', '<=',  $age)
+									->where('age_max', '>=', $age);
+		if(count($measureRange->get()) >= 1){
+			if(count($measureRange->get()) == 1){
+				$lowerUpper = $measureRange->first();
+			}
+			else if(count($measureRange->get()) > 1){
+				$measureRange = $measureRange->where('gender', '=', $patient->gender);
+				if(count($measureRange->get()) == 1){
+					$lowerUpper = $measureRange->first();
+				}
+				else {
+					return null;
+				}
+			}
+			return "(".$lowerUpper->range_lower." - ".$lowerUpper->range_upper.")";
+		}
+		return null;
 	}
 }

@@ -71,6 +71,11 @@ Route::group(array("before" => "auth"), function()
         "uses" => "PatientController@search"
     ));
 
+    Route::any("/instrument/getresult", array(
+        "as"   => "instrument.getResult",
+        "uses" => "InstrumentController@getTestResult"
+    ));
+
     Route::group(array("before" => "checkPerms:manage_test_catalog"), function()
     {
         Route::resource('specimentype', 'SpecimenTypeController');
@@ -116,11 +121,6 @@ Route::group(array("before" => "auth"), function()
         Route::get("/instrument/{id}/delete", array(
             "as"   => "instrument.delete",
             "uses" => "InstrumentController@delete"
-        ));
-
-        Route::any("/instrument/getresult", array(
-            "as"   => "instrument.getResult",
-            "uses" => "InstrumentController@getTestResult"
         ));
 
         Route::any("/instrument/importdriver", array(
@@ -278,6 +278,12 @@ Route::group(array("before" => "auth"), function()
             "as" => "reports.patient.report", 
             "uses" => "ReportController@viewPatientReport"
             ));
+
+        Route::any("/patientreport/{id}/{visit}", array(
+            "as" => "reports.patient.report", 
+            "uses" => "ReportController@viewPatientReport"
+            ));
+
         Route::any("/dailylog", array(
             "as"   => "reports.daily.log",
             "uses" => "ReportController@dailyLog"
@@ -296,25 +302,21 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.aggregate.counts",
             "uses" => "ReportController@countReports"
         ));
+
+        Route::any("/tat", array(
+            "as"   => "reports.aggregate.tat",
+            "uses" => "ReportController@turnaroundTime"
+        ));
+
+        Route::any("/infection", array(
+            "as"   => "reports.aggregate.infection",
+            "uses" => "ReportController@infectionReport"
+        ));
+        
+        Route::any("/userstatistics", array(
+            "as"   => "reports.aggregate.userStatistics",
+            "uses" => "ReportController@userStatistics"
+        ));
         
     });
-});
-
-// Display all SQL executed in Eloquent
-Event::listen('illuminate.query', function($query)
-{
-        Log::info($query);
-});
-
-//TO DO: move events to app/events.php or somewhere else
-Event::listen('api.receivedLabRequest', function($labRequest)
-{
-    //We instruct the interfacer to handle the request
-    Interfacer::retrieve($labRequest);
-});
-
-//Ensure form value is not zero
-Validator::extend('non_zero_key', function($attribute, $value, $parameters)
-{
-   return ($value!=0) ? true : false;
 });

@@ -125,6 +125,10 @@ label, input {
             margin-left: 5px;
          }
 
+.form-inline label {
+    line-height: 34px;
+}
+
 /*
 *
 * LOGIN PAGE 
@@ -141,6 +145,7 @@ label, input {
     bottom: 0;
     top:0;
     position: absolute;
+    background-image: linear-gradient(to bottom, #444444 0px, #000000 100%);
 }
     .login-page .login-form {
         background: #FFFFFF;
@@ -252,6 +257,7 @@ label, input {
          position: fixed;
          padding: 0;
          min-height: 100%;
+         background-image: linear-gradient(to bottom, #3D3D3D 0px, #000000 100%);
     }
         .sidebar ul {
             list-style-type: none;
@@ -273,7 +279,7 @@ label, input {
                     cursor: pointer;
                 }
                 .sidebar .main-menu.active {
-                    background-color: #E02222;
+                    background-color: #C12E2A;
                     background-image: url("/i/white-triangle.png");
                     background-repeat: no-repeat;
                     background-position: right center;
@@ -412,3 +418,10 @@ label, input {
     min-width: 125px;
 }
 .spacer {  margin-top: 20px; }
+
+/*Bordered-table - evade bootstrap's break on use or col & row spans*/
+table.table.report-table-border,
+table.table.report-table-border > thead > tr > th,
+table.table.report-table-border > tbody > tr > td{
+    border: 1px solid #DDDDDD;
+}

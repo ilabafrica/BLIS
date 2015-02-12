@@ -8,8 +8,9 @@
 	</div>
 	{{ Form::open(array('route' => array('reports.patient.index'), 'class'=>'form-inline', 'role'=>'form', 'method'=>'POST')) }}
 		<div class="form-group">
+
 		    {{ Form::label('search', "search", array('class' => 'sr-only')) }}
-            {{ Form::text('search', (isset($search) ? $search : ''), array('class' => 'form-control test-search')) }}
+            {{ Form::text('search', Input::get('search'), array('class' => 'form-control test-search')) }}
 		</div>
 		<div class="form-group">
 			{{ Form::button("<span class='glyphicon glyphicon-search'></span> ".trans('messages.search'), 
@@ -30,24 +31,29 @@
 	    <table class="table table-striped table-hover table-condensed">
 			<thead>
 				<tr>
+					<th>{{ trans('messages.patient-id') }}</th>
 					<th>{{trans('messages.patient-number')}}</th>
-					<th>{{trans('messages.visit-number')}}</th>
+					@if(Entrust::can('view_names'))
+						<th>{{trans('messages.full-name')}}</th>
+					@endif
 					<th>{{trans('messages.gender')}}</th>
-					<th>{{trans('messages.date-of-birth')}}</th>
+					<th>{{trans('messages.age')}}</th>
 					<th>{{trans('messages.actions')}}</th>
 				</tr>
 			</thead>
 			<tbody>
-			@forelse($patients as $key => $value)
+			@forelse($patients as $key => $patient)
 				<tr>
-					<td>{{ $value->patient_number }}</td>
-					<td>{{ $value->external_patient_number }}</td>
-					<td>{{ ($value->gender==Patient::MALE?trans('messages.male'):trans('messages.female')) }}</td>
-					<td>{{ $value->dob }}</td>
-
+					<td>{{ $patient->patient_number }}</td>
+					<td>{{ $patient->external_patient_number }}</td>
+					@if(Entrust::can('view_names'))
+						<td>{{ $patient->name }}</td>
+					@endif
+					<td>{{ $patient->getGender() }}</td>
+					<td>{{ $patient->getAge() }}</td>
 					<td>
 					<!-- show the patient report(uses the show method found at GET /patient/{id} -->
-						<a class="btn btn-sm btn-info" href="{{ URL::to('patientreport/' . $value->id) }}" >
+						<a class="btn btn-sm btn-info" href="{{ URL::to('patientreport/' . $patient->id) }}" >
 							<span class="glyphicon glyphicon-eye-open"></span>
 							{{trans('messages.view-report')}}
 						</a>
