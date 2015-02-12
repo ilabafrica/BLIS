@@ -388,6 +388,11 @@ $(function(){
 			$('.measurevalue.'+measureID).removeClass('col-md-12');
 			$('.measurevalue.'+measureID).addClass('col-md-6');
 		}
+		if (measureTypeId == 3) {
+			$('.measurevalue.'+measureID).siblings('.actions-row').addClass('hidden')
+		}else{
+			$('.measurevalue.'+measureID).siblings('.actions-row').removeClass('hidden')
+		}
 		$('.measurevalue.'+measureID).empty();
 		$('.measurevalue.'+measureID).append(headerHtml);
 		$('.measurevalue.'+measureID).append(inputHtml);

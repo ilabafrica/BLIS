@@ -114,9 +114,13 @@
                             </div>
                         </div>  
                         @endforeach
+                    @else
+                        <div class="freetextInputLoader">
+                            <p class="freetextInput" >{{trans('messages.freetext-measure-config-input-message')}}</p>
+                        </div>
                     @endif
                 </div>
-                <div class="col-md-12 actions-row">
+                <div class="col-md-12 actions-row {{($measure->measure_type_id == 4)? 'hidden':''}}">
                     <a class="btn btn-default add-another-range" href="javascript:void(0);" 
                         data-measure-id="{{$measure->id}}">
                     <span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.add-new-measure-range')}}</a>
