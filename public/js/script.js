@@ -1,13 +1,7 @@
-// Hello.
-//
-// This is JSHint, a tool that helps to detect errors and potential
-// problems in your JavaScript code.
-//
-// To start, simply enter some JavaScript anywhere on this page. Your
-// report will appear on the right side.
-//
-// Additionally, you can toggle specific options in the Configure
-// menu.
+/**
+ * iBlis js
+ * @author  (c) @iLabAfrica - Strathmore University
+ */
 var state = false;
 
 $(function(){
@@ -61,12 +55,18 @@ $(function(){
 		var inputHtml = $('.measureGenericLoader').html();
 		//Count new measures on the new measure button
 		$('.measure-container').append(inputHtml);
-		$('.measure-container .new-measure-section').find('.measuretype-input-trigger').addClass('new-measure-'+newMeasureNo);
-		$('.measure-container .new-measure-section').find('.measuretype-input-trigger').attr('data-new-measure-id',  newMeasureNo);
-		$('.measure-container .new-measure-section').find('.add-another-range').attr('data-new-measure-id',  newMeasureNo);
-		$('.measure-container .new-measure-section').find('.add-another-range').addClass('new-measure-'+newMeasureNo);
-		$('.measure-container .new-measure-section').find('.measurevalue').addClass('new-measure-'+newMeasureNo);
-		$('.measure-container .new-measure-section').addClass('measure-section new-'+newMeasureNo).removeClass('new-measure-section');
+		$('.measure-container .new-measure-section').find(
+			'.measuretype-input-trigger').addClass('new-measure-'+newMeasureNo);
+		$('.measure-container .new-measure-section').find(
+			'.measuretype-input-trigger').attr('data-new-measure-id',  newMeasureNo);
+		$('.measure-container .new-measure-section').find(
+			'.add-another-range').attr('data-new-measure-id',  newMeasureNo);
+		$('.measure-container .new-measure-section').find(
+			'.add-another-range').addClass('new-measure-'+newMeasureNo);
+		$('.measure-container .new-measure-section').find(
+			'.measurevalue').addClass('new-measure-'+newMeasureNo);
+		$('.measure-container .new-measure-section').addClass(
+			'measure-section new-'+newMeasureNo).removeClass('new-measure-section');
 		$(this).data('new-measure',  newMeasureNo+1).attr('data-new-measure',  newMeasureNo+1);
 		addNewMeasureAttributes(newMeasureNo);
 		delete newMeasureNo;
@@ -399,41 +399,65 @@ $(function(){
 	}
 
 	function addNewMeasureAttributes (measureID) {
-		$('.measure-section.new-'+measureID+' input.name').attr('name', 'new-measures['+measureID+'][name]');
-		$('.measure-section.new-'+measureID+' select.measure_type_id').attr('name', 'new-measures['+measureID+'][measure_type_id]');
-		$('.measure-section.new-'+measureID+' input.unit').attr('name', 'new-measures['+measureID+'][unit]');
-		$('.measure-section.new-'+measureID+' textarea.description').attr('name', 'new-measures['+measureID+'][description]');
+		$('.measure-section.new-'+measureID+' input.name').attr(
+			'name', 'new-measures['+measureID+'][name]');
+		$('.measure-section.new-'+measureID+' select.measure_type_id').attr(
+			'name', 'new-measures['+measureID+'][measure_type_id]');
+		$('.measure-section.new-'+measureID+' input.unit').attr(
+			'name', 'new-measures['+measureID+'][unit]');
+		$('.measure-section.new-'+measureID+' textarea.description').attr(
+			'name', 'new-measures['+measureID+'][description]');
 	}
 
 	function addMeasureRangeAttributes (measureTypeId,measureID) {
 		if (measureTypeId == 0) {
-			$('.measurevalue.new-measure-'+measureID+' input.agemin').attr('name', 'new-measures['+measureID+'][agemin][]');
-			$('.measurevalue.new-measure-'+measureID+' input.agemax').attr('name', 'new-measures['+measureID+'][agemax][]');
-			$('.measurevalue.new-measure-'+measureID+' select.gender').attr('name', 'new-measures['+measureID+'][gender][]');
-			$('.measurevalue.new-measure-'+measureID+' input.rangemin').attr('name', 'new-measures['+measureID+'][rangemin][]');
-			$('.measurevalue.new-measure-'+measureID+' input.rangemax').attr('name', 'new-measures['+measureID+'][rangemax][]');
-			$('.measurevalue.new-measure-'+measureID+' input.interpretation').attr('name', 'new-measures['+measureID+'][interpretation][]');
-			$('.measurevalue.new-measure-'+measureID+' input.measurerangeid').attr('name', 'new-measures['+measureID+'][measurerangeid][]');
+			$('.measurevalue.new-measure-'+measureID+' input.agemin').attr(
+				'name', 'new-measures['+measureID+'][agemin][]');
+			$('.measurevalue.new-measure-'+measureID+' input.agemax').attr(
+				'name', 'new-measures['+measureID+'][agemax][]');
+			$('.measurevalue.new-measure-'+measureID+' select.gender').attr(
+				'name', 'new-measures['+measureID+'][gender][]');
+			$('.measurevalue.new-measure-'+measureID+' input.rangemin').attr(
+				'name', 'new-measures['+measureID+'][rangemin][]');
+			$('.measurevalue.new-measure-'+measureID+' input.rangemax').attr(
+				'name', 'new-measures['+measureID+'][rangemax][]');
+			$('.measurevalue.new-measure-'+measureID+' input.interpretation').attr(
+				'name', 'new-measures['+measureID+'][interpretation][]');
+			$('.measurevalue.new-measure-'+measureID+' input.measurerangeid').attr(
+				'name', 'new-measures['+measureID+'][measurerangeid][]');
 		} else{
-			$('.measurevalue.new-measure-'+measureID+' input.val').attr('name', 'new-measures['+measureID+'][val][]');
-			$('.measurevalue.new-measure-'+measureID+' input.interpretation').attr('name', 'new-measures['+measureID+'][interpretation][]');
-			$('.measurevalue.new-measure-'+measureID+' input.measurerangeid').attr('name', 'new-measures['+measureID+'][measurerangeid][]');
+			$('.measurevalue.new-measure-'+measureID+' input.val').attr(
+				'name', 'new-measures['+measureID+'][val][]');
+			$('.measurevalue.new-measure-'+measureID+' input.interpretation').attr(
+				'name', 'new-measures['+measureID+'][interpretation][]');
+			$('.measurevalue.new-measure-'+measureID+' input.measurerangeid').attr(
+				'name', 'new-measures['+measureID+'][measurerangeid][]');
 		}
 	}
 
 	function editMeasureRangeAttributes (measureTypeId,measureID) {
 		if (measureTypeId == 0) {
-			$('.measurevalue.'+measureID+' input.agemin').attr('name', 'measures['+measureID+'][agemin][]');
-			$('.measurevalue.'+measureID+' input.agemax').attr('name', 'measures['+measureID+'][agemax][]');
-			$('.measurevalue.'+measureID+' select.gender').attr('name', 'measures['+measureID+'][gender][]');
-			$('.measurevalue.'+measureID+' input.rangemin').attr('name', 'measures['+measureID+'][rangemin][]');
-			$('.measurevalue.'+measureID+' input.rangemax').attr('name', 'measures['+measureID+'][rangemax][]');
-			$('.measurevalue.'+measureID+' input.interpretation').attr('name', 'measures['+measureID+'][interpretation][]');
-			$('.measurevalue.'+measureID+' input.measurerangeid').attr('name', 'measures['+measureID+'][measurerangeid][]');
+			$('.measurevalue.'+measureID+' input.agemin').attr(
+				'name', 'measures['+measureID+'][agemin][]');
+			$('.measurevalue.'+measureID+' input.agemax').attr(
+				'name', 'measures['+measureID+'][agemax][]');
+			$('.measurevalue.'+measureID+' select.gender').attr(
+				'name', 'measures['+measureID+'][gender][]');
+			$('.measurevalue.'+measureID+' input.rangemin').attr(
+				'name', 'measures['+measureID+'][rangemin][]');
+			$('.measurevalue.'+measureID+' input.rangemax').attr(
+				'name', 'measures['+measureID+'][rangemax][]');
+			$('.measurevalue.'+measureID+' input.interpretation').attr(
+				'name', 'measures['+measureID+'][interpretation][]');
+			$('.measurevalue.'+measureID+' input.measurerangeid').attr(
+				'name', 'measures['+measureID+'][measurerangeid][]');
 		} else{
-			$('.measurevalue.'+measureID+' input.val').attr('name', 'measures['+measureID+'][val][]');
-			$('.measurevalue.'+measureID+' input.interpretation').attr('name', 'measures['+measureID+'][interpretation][]');
-			$('.measurevalue.'+measureID+' input.measurerangeid').attr('name', 'measures['+measureID+'][measurerangeid][]');
+			$('.measurevalue.'+measureID+' input.val').attr(
+				'name', 'measures['+measureID+'][val][]');
+			$('.measurevalue.'+measureID+' input.interpretation').attr(
+				'name', 'measures['+measureID+'][interpretation][]');
+			$('.measurevalue.'+measureID+' input.measurerangeid').attr(
+				'name', 'measures['+measureID+'][measurerangeid][]');
 		}
 	}
 
