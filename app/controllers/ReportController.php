@@ -969,4 +969,11 @@ class ReportController extends \BaseController {
 					->with('selectedReport', $selectedReport)
 					->withInput(Input::all());
 	}
+	/**
+	 * MOH 706
+	 *
+	 */
+	public function moh706(){
+		return View::make('reports.moh.index');
+	}
 }

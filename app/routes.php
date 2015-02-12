@@ -312,6 +312,11 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.aggregate.infection",
             "uses" => "ReportController@infectionReport"
         ));
+
+        Route::any("/moh706", array(
+            "as"   => "reports.aggregate.moh706",
+            "uses" => "ReportController@moh706"
+        ));
         
         Route::any("/userstatistics", array(
             "as"   => "reports.aggregate.userStatistics",
