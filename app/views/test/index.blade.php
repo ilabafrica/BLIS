@@ -46,7 +46,7 @@
                             array('class' => 'form-control', 'placeholder' => 'Search')) }}
                 </div>
                 <div class='col-md-1'>
-                        {{ Form::submit(trans('messages.search'), array('class'=>'btn btn-primary')) }}
+                        {{ Form::submit(trans('messages.search'), array('class'=>'btn btn-primary loader-gif')) }}
                 </div>
             </div>
         {{ Form::close() }}
@@ -275,7 +275,7 @@
             {{ $testSet->links() }}
         {{ Session::put('SOURCE_URL', URL::full()) }}
         {{ Session::put('TESTS_FILTER_INPUT', Input::except('_token')); }}
-        
+        @include("loader")
         </div>
     </div>
 

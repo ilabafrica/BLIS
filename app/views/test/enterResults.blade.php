@@ -100,7 +100,7 @@
                         <div class="form-group actions-row">
                             {{ Form::button('<span class="glyphicon glyphicon-save">
                                 </span> '.trans('messages.save-test-results'),
-                                array('class' => 'btn btn-default', 'onclick' => 'submit()')) }}
+                                array('class' => 'btn btn-default loader-gif', 'onclick' => 'submit()')) }}
                         </div>
                     {{ Form::close() }}
                     </div>
@@ -278,5 +278,6 @@
                     </div>
                 </div>
             </div>
+            @include("loader")
         </div>
 @stop
