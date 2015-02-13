@@ -1,5 +1,5 @@
 @section ("reportHeader")
-    <table width="100%">
+    <table width="100%" style="font-size:12px;">
         <thead>
             <tr>
                 <td>{{ HTML::image('i/org_logo_90x90.png', 'Kenya Court of Arms', array('width' => '90px')) }}</td>
