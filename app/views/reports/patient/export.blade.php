@@ -3,12 +3,8 @@
 {{ HTML::style('css/bootstrap.min.css') }}
 {{ HTML::style('css/bootstrap-theme.min.css') }}
 <style type="text/css">
-#content table, #content th, #content td {
+	#content table, #content th, #content td {
    border: 1px solid black;
-   font-size:12px;
-}
-#content p{
-	font-size:12px;
 }
 </style>
 </head>
@@ -17,13 +13,13 @@
     <div class="container-fluid">
         <div class="row">
 			@include("reportHeader")
-			<div id="content">
 			<strong>
 				<p>
 					{{trans('messages.patient-report').' - '.date('d-m-Y')}}
 
 				</p>
 			</strong>
+			<div id="content">
 			<table class="table table-bordered"  width="100%">
 			<tbody>
 				<tr align="left">
@@ -132,7 +128,7 @@
 		</div>
 		</div>
 		<br />
-		<table class="table table-bordered"  width="100%" style="font-size:12px;">
+		<table class="table table-bordered"  width="100%">
 			<tbody>
 				<tr>
 					<td>{{ trans('messages.signature-holder') }}</td>
