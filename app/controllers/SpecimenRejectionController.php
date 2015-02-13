@@ -113,7 +113,6 @@ class SpecimenRejectionController extends \BaseController {
         //Soft delete the rejection
         $rejection = RejectionReason::find($id);
         $inUseBySpecimen = $rejection->specimen->toArray();
-        // Log::info($inUseBySpecimen);
         try {
             // The rejection is not in use
             $rejection->delete();

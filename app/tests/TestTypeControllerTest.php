@@ -31,8 +31,15 @@ class TestTypeControllerTest extends TestCase
 			'targetTAT' => '25',
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'Whatisdis',
-			'measures' => ['1','2', '3','5'],
 			'specimentypes' =>  ['1'],
+			'new-measures' => [
+				'1' => [
+					'name' => 'CSFforBiochemistry',
+					'measure_type_id' => '4',
+					'unit' => 'Unit',
+					'description' => 'Description'
+				],
+			],
 		);
 
 		// Edition sample data
@@ -42,8 +49,15 @@ class TestTypeControllerTest extends TestCase
 			'targetTAT' => '20',
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
-			'measures' => ['1','2', '5','6'],
 			'specimentypes' =>  ['1'],
+			'new-measures' => [
+				'1' => [
+					'name' => 'FreeText',
+					'measure_type_id' => '4',
+					'unit' => 'fUnit',
+					'description' => 'fDescription'
+				],
+			],
 		);
     }
 	
@@ -61,7 +75,6 @@ class TestTypeControllerTest extends TestCase
     	$testType->store();
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
 
-    	//5 because we have seeded five entry already so the next insert gets id 5 
 		$testTypeSaved = TestType::find($testTypestored[0]['id']);
 
 		$this->assertEquals($testTypeSaved->name , $this->testTypeData['name']);
@@ -72,10 +85,7 @@ class TestTypeControllerTest extends TestCase
 
 		//Getting the Measure related to this test type
 		$testTypeMeasure = $testTypeSaved->measures->toArray();
-		$this->assertEquals($testTypeMeasure[0]['id'], $this->testTypeData['measures'][0]);
-		$this->assertEquals($testTypeMeasure[1]['id'], $this->testTypeData['measures'][1]);
-		$this->assertEquals($testTypeMeasure[2]['id'], $this->testTypeData['measures'][2]);
-		$this->assertEquals($testTypeMeasure[3]['id'], $this->testTypeData['measures'][3]);
+		$this->assertEquals($testTypeMeasure[0]['name'], $this->testTypeData['new-measures'][1]['name']);
 
 		//Getting the Specimen type related to this test type
 		$testTypeSpecimenType = $testTypeSaved->specimenTypes->toArray();
@@ -107,10 +117,7 @@ class TestTypeControllerTest extends TestCase
 		$this->assertEquals($testTypeSavedUpdated->test_category_id , $this->testTypeDataUpdate['test_category_id']);
 		
 		$testTypeMeasureUpdated = TestType::find($testTypestored[0]['id'])->measures->toArray();
-		$this->assertEquals($testTypeMeasureUpdated[0]['id'], $this->testTypeDataUpdate['measures'][0]);
-		$this->assertEquals($testTypeMeasureUpdated[1]['id'], $this->testTypeDataUpdate['measures'][1]);
-		$this->assertEquals($testTypeMeasureUpdated[2]['id'], $this->testTypeDataUpdate['measures'][2]);
-		$this->assertEquals($testTypeMeasureUpdated[3]['id'], $this->testTypeDataUpdate['measures'][3]);
+		$this->assertEquals($testTypeMeasureUpdated[0]['name'], $this->testTypeDataUpdate['new-measures'][1]['name']);
 
 		//Getting the Specimen type related to this test type
 		$testTypeSpecimenTypeUpdated = TestType::find($testTypestored[0]['id'])->specimenTypes->toArray();
