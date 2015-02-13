@@ -49,6 +49,7 @@
 			    </div>
 		    </div>
 	    </div>
+	    {{ Form::hidden('visit_id', $visit, array('id'=>'visit_id')) }}
 	{{ Form::close() }}
 </div>
 <br />
