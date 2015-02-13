@@ -292,7 +292,12 @@ class TestController extends \BaseController {
 	public function enterResults($testID)
 	{
 		$test = Test::find($testID);
-
+		if($test->testType->instruments->count() > 0){
+			//Delete the celtac dump file
+			//TO DO: Clean up and use configs
+			$EMPTY_FILE_URL = "http://192.168.1.88/celtac/emptyfile.php";
+			file_get_contents($EMPTY_FILE_URL);
+		}
 		return View::make('test.enterResults')->with('test', $test);
 	}
 
