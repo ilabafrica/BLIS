@@ -529,12 +529,13 @@ $(function(){
 	}
 
 	$(document).ready( function () {
-		$('#testcategory-index').DataTable();
-		$('#specimen-type-index').DataTable();
-		$('#specimen-rejection-index').DataTable();
-		$('#testtype-index').DataTable();
-		$('#user-index').DataTable();
-		$('#facilities-index').DataTable();
-		$('#user-statistics-report-table').DataTable();
-		$('#measures-index').DataTable();
+		$('.search-table').DataTable({
+        	'bStateSave': true,
+        	'fnStateSave': function (oSettings, oData) {
+            	localStorage.setItem('.search-table', JSON.stringify(oData));
+        	},
+        	'fnStateLoad': function (oSettings) {
+            	return JSON.parse(localStorage.getItem('.search-table'));
+        	}
+   		});
 	});
