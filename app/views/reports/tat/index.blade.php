@@ -99,6 +99,7 @@
 			@endif
 		</div>
 		@endif
+		@include("loader")
 	</div>
 </div>
 <!-- Begin HighCharts scripts -->

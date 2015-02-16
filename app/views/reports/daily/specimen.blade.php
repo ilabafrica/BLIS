@@ -159,6 +159,7 @@
 			</table>
 		</div> <!-- /#specimen_records_div -->
 		@endif
+		@include("loader")
 	</div> <!-- /.panel-body -->
 </div> <!-- /.panel -->
 @stop

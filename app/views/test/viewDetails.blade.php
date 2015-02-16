@@ -17,13 +17,13 @@
 						@if($test->isCompleted() && $test->specimen->isAccepted())
 						<div class="panel-btn">
 							@if(Auth::user()->can('edit_test_results'))
-								<a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->id.'/edit') }}">
+								<a class="btn btn-sm btn-info loader-gif" href="{{ URL::to('test/'.$test->id.'/edit') }}">
 									<span class="glyphicon glyphicon-edit"></span>
 									{{trans('messages.edit-test-results')}}
 								</a>
 							@endif
 							@if(Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
-							<a class="btn btn-sm btn-success" href="{{ URL::route('test.verify', array($test->id)) }}">
+							<a class="btn btn-sm btn-success loader-gif" href="{{ URL::route('test.verify', array($test->id)) }}">
 								<span class="glyphicon glyphicon-thumbs-up"></span>
 								{{trans('messages.verify')}}
 							</a>
@@ -248,6 +248,7 @@
 					</div>
 				</div>
 			</div> <!-- ./ container-fluid -->
+			@include("loader")
 		</div> <!-- ./ panel-body -->
 	</div> <!-- ./ panel -->
 @stop

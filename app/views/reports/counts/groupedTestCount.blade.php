@@ -142,6 +142,7 @@
 		  	</tbody>
 		  </table>
 		  @endforelse
+		  @include("loader")
 		</div>
 	</div>
 </div>
