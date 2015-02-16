@@ -173,7 +173,7 @@
                         </td>
                         <!-- ACTION BUTTONS -->
                         <td>
-                            <a class="btn btn-sm btn-success"
+                            <a class="btn btn-sm btn-success loader-gif"
                                 href="{{ URL::route('test.viewDetails', $test->id) }}"
                                 id="view-details-{{$test->id}}-link" 
                                 title="{{trans('messages.view-details-title')}}">
@@ -183,7 +183,7 @@
                             
                         @if ($test->isNotReceived()) 
                             @if(Auth::user()->can('receive_external_test') && $test->isPaid())
-                                <a class="btn btn-sm btn-default receive-test"
+                                <a class="btn btn-sm btn-default receive-test loader-gif"
                                     href="{{URL::route('test.receive', array($test->id))}}"
                                     title="{{trans('messages.receive-test-title')}}">
                                     <span class="glyphicon glyphicon-thumbs-up"></span>
@@ -216,7 +216,7 @@
                         @endif
                         @if ($test->specimen->isAccepted() && !($test->isVerified()))
                             @if(Auth::user()->can('reject_test_specimen') && !($test->specimen->isReferred()))
-                                <a class="btn btn-sm btn-danger" id="reject-{{$test->id}}-link"
+                                <a class="btn btn-sm btn-danger loader-gif" id="reject-{{$test->id}}-link"
                                     href="{{URL::route('test.reject', array($test->specimen_id))}}"
                                     title="{{trans('messages.reject-title')}}">
                                     <span class="glyphicon glyphicon-thumbs-down"></span>
@@ -233,14 +233,14 @@
                                     </a>
                                 @endif
                                 @if(Auth::user()->can('refer_specimens') && !($test->isExternal()) && !($test->specimen->isReferred()))
-                                    <a class="btn btn-sm btn-info" href="{{ URL::route('test.refer', array($test->specimen_id)) }}">
+                                    <a class="btn btn-sm btn-info loader-gif" href="{{ URL::route('test.refer', array($test->specimen_id)) }}">
                                         <span class="glyphicon glyphicon-edit"></span>
                                         {{trans('messages.refer-sample')}}
                                     </a>
                                 @endif
                             @elseif ($test->isStarted())
                                 @if(Auth::user()->can('enter_test_results'))
-                                    <a class="btn btn-sm btn-info" id="enter-results-{{$test->id}}-link"
+                                    <a class="btn btn-sm btn-info loader-gif" id="enter-results-{{$test->id}}-link"
                                         href="{{ URL::route('test.enterResults', array($test->id)) }}"
                                         title="{{trans('messages.enter-results-title')}}">
                                         <span class="glyphicon glyphicon-pencil"></span>
@@ -249,7 +249,7 @@
                                 @endif
                             @elseif ($test->isCompleted())
                                 @if(Auth::user()->can('edit_test_results'))
-                                    <a class="btn btn-sm btn-info" id="edit-{{$test->id}}-link"
+                                    <a class="btn btn-sm btn-info loader-gif" id="edit-{{$test->id}}-link"
                                         href="{{ URL::route('test.edit', array($test->id)) }}"
                                         title="{{trans('messages.edit-test-results')}}">
                                         <span class="glyphicon glyphicon-edit"></span>
@@ -257,7 +257,7 @@
                                     </a>
                                 @endif
                                 @if(Auth::user()->can('verify_test_results') && Auth::user()->id != $test->tested_by)
-                                    <a class="btn btn-sm btn-success" id="verify-{{$test->id}}-link"
+                                    <a class="btn btn-sm btn-success loader-gif" id="verify-{{$test->id}}-link"
                                         href="{{ URL::route('test.viewDetails', array($test->id)) }}"
                                         title="{{trans('messages.verify-title')}}">
                                         <span class="glyphicon glyphicon-thumbs-up"></span>

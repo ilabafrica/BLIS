@@ -33,19 +33,19 @@
 	<ul class="nav nav-sidebar">
 		<li>
 			<div class="main-menu {{$active[0]}}">
-				<a href="{{ URL::route('user.home')}}" title="{{trans('messages.home')}}">
+				<a href="{{ URL::route('user.home')}}" title="{{trans('messages.home')}}" class="loader-gif">
 					<span class="glyphicon glyphicon-home"></span> {{trans('messages.home')}}</a>
 			</div>
 		</li>
 		<li>
 			<div class="main-menu {{$active[1]}}">
-				<a href="{{ URL::route('patient.index')}}">
+				<a href="{{ URL::route('patient.index')}}" class="loader-gif">
 					<span class="glyphicon glyphicon-download-alt"></span> {{ Lang::choice('messages.patient', 2)}}</a>
 			</div>
 		</li>
 		<li>
 			<div class="main-menu {{$active[2]}}">
-				<a href="{{ URL::route('test.index')}}">
+				<a href="{{ URL::route('test.index')}}" class="loader-gif">
 					<span class="glyphicon glyphicon-filter"></span> {{Lang::choice('messages.test', 2)}}</a>
 			</div>
 		</li>
@@ -125,7 +125,7 @@
 		@if(Entrust::can('view_reports'))
 		<li>
 			<div class="main-menu {{$active[5]}}">
-				<a href="{{ URL::route('reports.patient.index')}}">
+				<a href="{{ URL::route('reports.patient.index')}}" class="loader-gif">
 					<span class="glyphicon glyphicon-stats"></span> {{ Lang::choice('messages.report', 2)}}</a>
 			</div>
 			<div class="sub-menu {{$active[5]}}">
@@ -133,13 +133,13 @@
 				<ul class="sub-menu-items">
 					<li>
 						<div>
-							<a href="{{ URL::route('reports.patient.index')}}">
+							<a href="{{ URL::route('reports.patient.index')}}" class="loader-gif">
 								<span class="glyphicon glyphicon-tag"></span>
 								{{trans('messages.patient-report')}}</a>
 						</div>
 					</li>
 					<li>
-						<div><a href="{{ URL::route('reports.daily.log')}}">
+						<div><a href="{{ URL::route('reports.daily.log')}}" class="loader-gif">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{trans('messages.daily-log')}}</a>
 						</div>
@@ -148,31 +148,31 @@
 				<div class="sub-menu-title">{{trans('messages.aggregate-reports')}}</div>
 				<ul class="sub-menu-items">
 					<li>
-						<div><a href="{{ URL::route('reports.aggregate.prevalence')}}">
+						<div><a href="{{ URL::route('reports.aggregate.prevalence')}}" class="loader-gif">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{trans('messages.prevalence-rates')}}</a>
 						</div>
 					</li>
 					<li>
-						<div><a href="{{ URL::route('reports.aggregate.counts')}}">
+						<div><a href="{{ URL::route('reports.aggregate.counts')}}" class="loader-gif">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{trans('messages.counts')}}</a>
 						</div>
 					</li>
 					<li>
-						<div><a href="{{ URL::route('reports.aggregate.tat')}}">
+						<div><a href="{{ URL::route('reports.aggregate.tat')}}" class="loader-gif">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{trans('messages.turnaround-time')}}</a>
 						</div>
 					</li>
 					<li>
-						<div><a href="{{ URL::route('reports.aggregate.infection')}}">
+						<div><a href="{{ URL::route('reports.aggregate.infection')}}" class="loader-gif">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{trans('messages.infection-report')}}</a>
 						</div>
 					</li>
 					<li>
-						<div><a href="{{ URL::route('reports.aggregate.userStatistics')}}">
+						<div><a href="{{ URL::route('reports.aggregate.userStatistics')}}" class="loader-gif">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{trans('messages.user-statistics-report')}}</a>
 						</div>

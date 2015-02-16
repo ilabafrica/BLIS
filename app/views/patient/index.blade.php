@@ -95,6 +95,7 @@
 		</table>
 		<?php echo $patients->links(); 
 		Session::put('SOURCE_URL', URL::full());?>
+		@include("loader")
 	</div>
 </div>
 @stop

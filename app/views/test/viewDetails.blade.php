@@ -17,7 +17,7 @@
 						@if($test->isCompleted() && $test->specimen->isAccepted())
 						<div class="panel-btn">
 							@if(Auth::user()->can('edit_test_results'))
-								<a class="btn btn-sm btn-info" href="{{ URL::to('test/'.$test->id.'/edit') }}">
+								<a class="btn btn-sm btn-info loader-gif" href="{{ URL::to('test/'.$test->id.'/edit') }}">
 									<span class="glyphicon glyphicon-edit"></span>
 									{{trans('messages.edit-test-results')}}
 								</a>

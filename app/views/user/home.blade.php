@@ -51,6 +51,7 @@
 			    <span class="glyphicon glyphicon-chevron-right"></span>
 			  </a>
 			</div>
+			@include("loader")
 		</div>
 	</div>
 @stop
