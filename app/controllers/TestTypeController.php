@@ -32,10 +32,13 @@ class TestTypeController extends \BaseController {
 		$measures = Measure::orderBy('name')->get();
 		$specimentypes = SpecimenType::orderBy('name')->get();
 		$testcategory = TestCategory::all();
+        $measuretype = MeasureType::all()->sortBy('id');
+
 		//Create TestType
 		return View::make('testtype.create')
 					->with('testcategory', $testcategory)
 					->with('measures', $measures)
+       				->with('measuretype', $measuretype)
 					->with('specimentypes', $specimentypes);
 	}
 
@@ -51,9 +54,10 @@ class TestTypeController extends \BaseController {
 			'name' => 'required|unique:test_types,name',
 			'test_category_id' => 'required|non_zero_key',
 			'specimentypes' => 'required',
-			'measures' => 'required',
+			'new-measures' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
+			//array to be split here and sent to appropriate place! man! with ids and all possibilities
 
 		// process the login
 		if ($validator->fails()) {
@@ -68,8 +72,12 @@ class TestTypeController extends \BaseController {
 			$testtype->prevalence_threshold = Input::get('prevalence_threshold');
 			try{
 				$testtype->save();
-
-				$testtype->setMeasures(Input::get('measures'));
+				$measureIds = array();
+				$inputNewMeasures = Input::get('new-measures');
+				
+				$measures = New MeasureController;
+				$measureIds = $measures->store($inputNewMeasures);
+				$testtype->setMeasures($measureIds);
 				$testtype->setSpecimenTypes(Input::get('specimentypes'));
 
 				return Redirect::route('testtype.index')
@@ -106,7 +114,8 @@ class TestTypeController extends \BaseController {
 	{
 		//Get the testtype
 		$testtype = TestType::find($id);
-		$measures = Measure::orderBy('name')->get();
+		$measures = Measure::all();
+        $measuretype = MeasureType::all()->sortBy('id');
 		$specimentypes = SpecimenType::orderBy('name')->get();
 		$testcategory = TestCategory::all();
 
@@ -115,8 +124,10 @@ class TestTypeController extends \BaseController {
 					->with('testtype', $testtype)
 					->with('testcategory', $testcategory)
 					->with('measures', $measures)
+       				->with('measuretype', $measuretype)
 					->with('specimentypes', $specimentypes);
 	}
+
 
 	/**
 	 * Update the specified resource in storage.
@@ -126,7 +137,6 @@ class TestTypeController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
 		$rules = array(
 			'name' => 'required',
 			'test_category_id' => 'required|non_zero_key',
@@ -149,7 +159,24 @@ class TestTypeController extends \BaseController {
 			try{
 				$testtype->save();
 				$testtype->setSpecimenTypes(Input::get('specimentypes'));
-				$testtype->setMeasures(Input::get('measures'));
+				$measureIds = array();
+					if (Input::get('new-measures')) {
+						$inputNewMeasures = Input::get('new-measures');
+
+						$measures = New MeasureController;
+						$measureIds = $measures->store($inputNewMeasures);
+					}
+
+					if (Input::get('measures')) {
+						$inputMeasures = Input::get('measures');
+						foreach($inputMeasures as $key => $value)
+						{
+						  $measureIds[] = $key;
+						}
+						$measures = New MeasureController;
+						$measures->update($inputMeasures);
+					}
+					$testtype->setMeasures($measureIds);
 			}catch(QueryException $e){
 				Log::error($e);
 			}

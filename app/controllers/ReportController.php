@@ -32,13 +32,14 @@ class ReportController extends \BaseController {
 		$pending = Input::get('pending');
 		$date = date('Y-m-d');
 		$error = '';
+		$visitId = Input::get('visit_id');
 		//	Check checkbox if checked and assign the 'checked' value
 		if (Input::get('tests') === '1') {
 		    $pending='checked';
 		}
 		//	Query to get tests of a particular patient
-		if($visit && $id){
-			$tests = Test::where('visit_id', '=', $visit);
+		if(($visit || $visitId) && $id){
+			$tests = Test::where('visit_id', '=', $visit?$visit:$visitId);
 		}
 		else{
 			$tests = Test::join('visits', 'visits.id', '=', 'tests.visit_id')

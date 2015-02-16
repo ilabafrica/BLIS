@@ -103,14 +103,16 @@ class TestType extends Eloquent
 					'test_type_id' => (int)$this->id,
 					'measure_id' => (int)$value
 					);
-				$testTypeID = (int)$this->id;
 			}
+			$testTypeID = (int)$this->id;
 		}
 		// Delete existing test_type measure mappings
 		DB::table('testtype_measures')->where('test_type_id', '=', $testTypeID)->delete();
 
-		// Add the new mapping
-		DB::table('testtype_measures')->insert($measuresAdded);
+		if (!empty($measures)) {
+			// Add the new mapping
+			DB::table('testtype_measures')->insert($measuresAdded);
+		}
 	}
 
 	/**

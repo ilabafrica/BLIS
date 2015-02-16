@@ -1,5 +1,7 @@
-//Custom javascript function
-
+/**
+ * Custom javascript function
+ * @author  (c) @iLabAfrica
+ */
 $(function(){
 	/**	HEADER
 	 *   Username display
@@ -43,22 +45,58 @@ $(function(){
 
 	/** 
 	 *	MEASURES 
-	 *  - Add another measure button 
 	 */
-	$('.add-another-range').click(function(){
+
+	 /* Add another measure */
+	$('.add-another-measure').click(function(){
+		newMeasureNo = $(this).data('new-measure');
+		var inputHtml = $('.measureGenericLoader').html();
+		//Count new measures on the new measure button
+		$('.measure-container').append(inputHtml);
+		$('.measure-container .new-measure-section').find(
+			'.measuretype-input-trigger').addClass('new-measure-'+newMeasureNo);
+		$('.measure-container .new-measure-section').find(
+			'.measuretype-input-trigger').attr('data-new-measure-id',  newMeasureNo);
+		$('.measure-container .new-measure-section').find(
+			'.add-another-range').attr('data-new-measure-id',  newMeasureNo);
+		$('.measure-container .new-measure-section').find(
+			'.add-another-range').addClass('new-measure-'+newMeasureNo);
+		$('.measure-container .new-measure-section').find(
+			'.measurevalue').addClass('new-measure-'+newMeasureNo);
+		$('.measure-container .new-measure-section').addClass(
+			'measure-section new-'+newMeasureNo).removeClass('new-measure-section');
+		$(this).data('new-measure',  newMeasureNo+1).attr('data-new-measure',  newMeasureNo+1);
+		addNewMeasureAttributes(newMeasureNo);
+		delete newMeasureNo;
+	});
+
+	 /* Add another measure range value */
+	$('.measure-container').on('click', '.add-another-range', function(){
 		var inputClass = [
 			'.numericInputLoader',
 			'.alphanumericInputLoader',
 			'.alphanumericInputLoader',
 			'.freetextInputLoader'
 		]; 
-		var id = $("#measuretype").val() - 1;
-		var inputHtml = $(inputClass[id]).html();
-		$(".measurevalue" ).append(inputHtml);
+
+		if ($(this).data('measure-id') === 0) {
+			var newMeasureId = $(this).data('new-measure-id');
+			var measureID = 'new-measure-'+newMeasureId;
+		} else {
+			var measureID = $(this).data('measure-id');
+		}
+		var measureTypeId = $('.measuretype-input-trigger.'+measureID).val() - 1;
+		var inputHtml = $(inputClass[measureTypeId]).html();
+		$(".measurevalue."+measureID).append(inputHtml);
+		if ($(this).data('measure-id') != 0) {
+			editMeasureRangeAttributes(measureTypeId,measureID);
+		}else{
+			addMeasureRangeAttributes(measureTypeId, newMeasureId);
+		}
 	});
 
 	/*  load measure range input UI for the selected measure type */
-	$( '.measuretype-input-trigger' ).change( loadRangeFields );
+	$( '.measure-container' ).on('change', '.measuretype-input-trigger', loadRangeFields);
 
 	/*  re-load measure range input UI for the selected measure type on error */
 	if ($('.measurevalue').is(':empty')){
@@ -67,7 +105,6 @@ $(function(){
 			loadRangeFields();
 		}
 	}
-
 
 	/** GLOBAL DELETE	
 	 *	Alert on irreversible delete
@@ -90,7 +127,13 @@ $(function(){
 
 	// Delete measure range
 
-	$("body").on("click", ".measure-input .close", function(){
+	$('body').on('click', '.measure-input .close', function(){
+		$(this).parent().parent().remove();
+	});
+
+	// Delete measure
+
+	$('.measure-container').on('click', '.close', function(){
 		$(this).parent().parent().remove();
 	});
 
@@ -327,20 +370,101 @@ $(function(){
 			'.alphanumericInputLoader',
 			'.alphanumericInputLoader',
 			'.freetextInputLoader'
-		]; 
-		var id = $('.measuretype-input-trigger').val() - 1;
-		var headerHtml = $(headerClass[id]).html();
-		var inputHtml = $(inputClass[id]).html();
-		if (id == 0) {
-			$('.measurevalue').removeClass('col-md-6');
-			$('.measurevalue').addClass('col-md-12');
-		} else{
-			$('.measurevalue').removeClass('col-md-12');
-			$('.measurevalue').addClass('col-md-6');
+		];
+
+		if ($(this).data('measure-id') === 0) {
+			var newMeasureId = $(this).data('new-measure-id');
+			var measureID = 'new-measure-'+newMeasureId;
+		} else {
+			var measureID = $(this).data('measure-id');
 		}
-		$('.measurevalue').empty();
-		$('.measurevalue').append(headerHtml);
-		$('.measurevalue').append(inputHtml);
+
+			measureTypeId = $('.measuretype-input-trigger.'+measureID).val() - 1;
+			var headerHtml = $(headerClass[measureTypeId]).html();
+			var inputHtml = $(inputClass[measureTypeId]).html();
+		if (measureTypeId == 0) {
+			$('.measurevalue.'+measureID).removeClass('col-md-6');
+			$('.measurevalue.'+measureID).addClass('col-md-12');
+		} else{
+			$('.measurevalue.'+measureID).removeClass('col-md-12');
+			$('.measurevalue.'+measureID).addClass('col-md-6');
+		}
+		if (measureTypeId == 3) {
+			$('.measurevalue.'+measureID).siblings('.actions-row').addClass('hidden')
+		}else{
+			$('.measurevalue.'+measureID).siblings('.actions-row').removeClass('hidden')
+		}
+		$('.measurevalue.'+measureID).empty();
+		$('.measurevalue.'+measureID).append(headerHtml);
+		$('.measurevalue.'+measureID).append(inputHtml);
+		if ($(this).data('measure-id') != 0) {
+			editMeasureRangeAttributes(measureTypeId,measureID);
+		}else{
+			addMeasureRangeAttributes(measureTypeId, newMeasureId);
+		}
+	}
+
+	function addNewMeasureAttributes (measureID) {
+		$('.measure-section.new-'+measureID+' input.name').attr(
+			'name', 'new-measures['+measureID+'][name]');
+		$('.measure-section.new-'+measureID+' select.measure_type_id').attr(
+			'name', 'new-measures['+measureID+'][measure_type_id]');
+		$('.measure-section.new-'+measureID+' input.unit').attr(
+			'name', 'new-measures['+measureID+'][unit]');
+		$('.measure-section.new-'+measureID+' textarea.description').attr(
+			'name', 'new-measures['+measureID+'][description]');
+	}
+
+	function addMeasureRangeAttributes (measureTypeId,measureID) {
+		if (measureTypeId == 0) {
+			$('.measurevalue.new-measure-'+measureID+' input.agemin').attr(
+				'name', 'new-measures['+measureID+'][agemin][]');
+			$('.measurevalue.new-measure-'+measureID+' input.agemax').attr(
+				'name', 'new-measures['+measureID+'][agemax][]');
+			$('.measurevalue.new-measure-'+measureID+' select.gender').attr(
+				'name', 'new-measures['+measureID+'][gender][]');
+			$('.measurevalue.new-measure-'+measureID+' input.rangemin').attr(
+				'name', 'new-measures['+measureID+'][rangemin][]');
+			$('.measurevalue.new-measure-'+measureID+' input.rangemax').attr(
+				'name', 'new-measures['+measureID+'][rangemax][]');
+			$('.measurevalue.new-measure-'+measureID+' input.interpretation').attr(
+				'name', 'new-measures['+measureID+'][interpretation][]');
+			$('.measurevalue.new-measure-'+measureID+' input.measurerangeid').attr(
+				'name', 'new-measures['+measureID+'][measurerangeid][]');
+		} else{
+			$('.measurevalue.new-measure-'+measureID+' input.val').attr(
+				'name', 'new-measures['+measureID+'][val][]');
+			$('.measurevalue.new-measure-'+measureID+' input.interpretation').attr(
+				'name', 'new-measures['+measureID+'][interpretation][]');
+			$('.measurevalue.new-measure-'+measureID+' input.measurerangeid').attr(
+				'name', 'new-measures['+measureID+'][measurerangeid][]');
+		}
+	}
+
+	function editMeasureRangeAttributes (measureTypeId,measureID) {
+		if (measureTypeId == 0) {
+			$('.measurevalue.'+measureID+' input.agemin').attr(
+				'name', 'measures['+measureID+'][agemin][]');
+			$('.measurevalue.'+measureID+' input.agemax').attr(
+				'name', 'measures['+measureID+'][agemax][]');
+			$('.measurevalue.'+measureID+' select.gender').attr(
+				'name', 'measures['+measureID+'][gender][]');
+			$('.measurevalue.'+measureID+' input.rangemin').attr(
+				'name', 'measures['+measureID+'][rangemin][]');
+			$('.measurevalue.'+measureID+' input.rangemax').attr(
+				'name', 'measures['+measureID+'][rangemax][]');
+			$('.measurevalue.'+measureID+' input.interpretation').attr(
+				'name', 'measures['+measureID+'][interpretation][]');
+			$('.measurevalue.'+measureID+' input.measurerangeid').attr(
+				'name', 'measures['+measureID+'][measurerangeid][]');
+		} else{
+			$('.measurevalue.'+measureID+' input.val').attr(
+				'name', 'measures['+measureID+'][val][]');
+			$('.measurevalue.'+measureID+' input.interpretation').attr(
+				'name', 'measures['+measureID+'][interpretation][]');
+			$('.measurevalue.'+measureID+' input.measurerangeid').attr(
+				'name', 'measures['+measureID+'][measurerangeid][]');
+		}
 	}
 
 	function UIComponents(){

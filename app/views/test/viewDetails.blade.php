@@ -28,6 +28,10 @@
 								{{trans('messages.verify')}}
 							</a>
 							@endif
+						</div>
+						@endif
+						@if($test->isCompleted() || $test->isVerified())
+						<div class="panel-btn">
 							@if(Auth::user()->can('view_reports'))
 								<a class="btn btn-sm btn-default" href="{{ URL::to('patientreport/'.$test->visit->patient->id.'/'.$test->visit->id) }}">
 									<span class="glyphicon glyphicon-eye-open"></span>
@@ -60,6 +64,12 @@
 								{{trans('messages.'.$test->testStatus->name)}}</p>
 							<p class="view-striped"><strong>{{trans('messages.physician')}}</strong>
 								{{$test->requested_by or trans('messages.unknown') }}</p>
+							<p class="view-striped"><strong>{{trans('messages.request-origin')}}</strong>
+								@if($test->specimen->isReferred() && $test->specimen->referral->status == Referral::REFERRED_IN)
+									{{ trans("messages.in") }}
+								@else
+									{{ $test->visit->visit_type }}
+								@endif</p>
 							<p class="view-striped"><strong>{{trans('messages.registered-by')}}</strong>
 								{{$test->createdBy->name or trans('messages.unknown') }}</p>
 							<p class="view"><strong>{{trans('messages.tested-by')}}</strong>

@@ -197,13 +197,13 @@ class SanitasInterfacer implements InterfacerInterface{
     public function process($labRequest)
     {
         //First: Check if patient exists, if true dont save again
-        $patient = Patient::where('external_patient_number', '=', $labRequest->patient->id)->first();
+        $patient = Patient::where('external_patient_number', '=', $labRequest->patient->id)->get();
         
-        if (empty($patient))
+        if (!$patient->first())
         {
             $patient = new Patient();
             $patient->external_patient_number = $labRequest->patient->id;
-            $patient->patient_number = DB::table('patients')->max('id') + 1;
+            $patient->patient_number = $labRequest->patient->id;
             $patient->name = $labRequest->patient->fullName;
             $gender = array('Male' => Patient::MALE, 'Female' => Patient::FEMALE); 
             
@@ -214,6 +214,9 @@ class SanitasInterfacer implements InterfacerInterface{
             $patient->phone_number = $labRequest->address->phoneNumber;
             $patient->created_by = User::EXTERNAL_SYSTEM_USER;
             $patient->save();
+        }
+        else{
+            $patient = $patient->first();
         }
 
         //We check if the test exists in our system if not we just save the request in stagingTable
@@ -230,8 +233,8 @@ class SanitasInterfacer implements InterfacerInterface{
             return;
         }
         //Check if visit exists, if true dont save again
-        $visit = Visit::where('visit_number', '=', $labRequest->patientVisitNumber)->first();
-        if (empty($visit))
+        $visit = Visit::where('visit_number', '=', $labRequest->patientVisitNumber)->get();
+        if (!$visit->first())
         {
             $visit = new Visit();
             $visit->patient_id = $patient->id;
@@ -241,14 +244,17 @@ class SanitasInterfacer implements InterfacerInterface{
 
             // We'll save Visit in a transaction a little bit below
         }
+        else{
+            $visit = $visit->first();
+        }
 
         $test = null;
         //Check if parentLabNO is 0 thus its the main test and not a measure
         if($labRequest->parentLabNo == '0')
         {
             //Check via the labno, if this is a duplicate request and we already saved the test 
-            $test = Test::where('external_id', '=', $labRequest->labNo)->first();
-            if (empty($test))
+            $test = Test::where('external_id', '=', $labRequest->labNo)->get();
+            if (!$test->first())
             {
                 //Specimen
                 $specimen = new Specimen();

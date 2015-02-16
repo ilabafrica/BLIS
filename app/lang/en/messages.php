@@ -38,6 +38,7 @@ return array(
     'photo' => 'Photo',
     'role' => 'Role|Roles',
     'save' => 'Save',
+    'save-all' => 'Save All',
     'type' => 'Type',
     'unit' => 'Unit',
     'update' => 'Update',
@@ -150,6 +151,7 @@ return array(
      */
     /*Measure*/
     'add-new-measure-range' => 'Add New Range',
+    'add-new-measure' => 'Add Another Measure',
     'agemax' => 'Age Max',
     'agemin' => 'Age Min',
     'create-measure' => 'Create Measure',
@@ -375,6 +377,7 @@ return array(
     'patient-report-no' =>  'Form No. BDHL-QUA-017F3',
     'patient-report-version'    =>  'Version 1',
     'signature-holder'  =>  '............................................',
+    'request-origin'    =>  'Request origin',
 
     /* Infection Report*/
     'age-ranges'    =>  'Age Ranges',
