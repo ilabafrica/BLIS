@@ -458,5 +458,22 @@ class Test extends Eloquent
 
 		return $tests;
 	}
+
+
+	/**
+	 * Get the Surveillance Data
+	 *
+	 * @return db resultset
+	 */
+	public static function getSurveillanceData($from, $to)
+	{
+		$data = array();
+
+// Bs fo mps, id = ?  - positive
+// salmonella , id = ? - salmonella seen
+// dysentry , id = ? - numbers isolated in stool for cs
+
+		return $data;
+	}
 }
 

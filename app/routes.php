@@ -298,6 +298,11 @@ Route::group(array("before" => "auth"), function()
             "uses" => "ReportController@prevalenceRates"
         ));
 
+        Route::any("/surveillance", array(
+            "as"   => "reports.aggregate.surveillance",
+            "uses" => "ReportController@surveillance"
+        ));
+
         Route::any("/counts", array(
             "as"   => "reports.aggregate.counts",
             "uses" => "ReportController@countReports"

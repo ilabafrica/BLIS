@@ -377,6 +377,7 @@ return array(
     'patient-report-no' =>  'Form No. BDHL-QUA-017F3',
     'patient-report-version'    =>  'Version 1',
     'signature-holder'  =>  '............................................',
+    'surveillance'    =>  'Surveillance',
     'request-origin'    =>  'Request origin',
 
     /* Infection Report*/

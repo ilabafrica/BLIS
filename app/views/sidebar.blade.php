@@ -19,6 +19,7 @@
 		case 'patientreport': 
 		case 'dailylog': 
 		case 'prevalence':
+		case 'surveillance':
 		case 'counts':
 		case 'tat':
 		case 'infection':
@@ -151,6 +152,12 @@
 						<div><a href="{{ URL::route('reports.aggregate.prevalence')}}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{trans('messages.prevalence-rates')}}</a>
+						</div>
+					</li>
+					<li>
+						<div><a href="{{ URL::route('reports.aggregate.surveillance')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.surveillance')}}</a>
 						</div>
 					</li>
 					<li>

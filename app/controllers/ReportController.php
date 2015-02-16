@@ -970,4 +970,24 @@ class ReportController extends \BaseController {
 					->with('selectedReport', $selectedReport)
 					->withInput(Input::all());
 	}
+
+
+	/**
+	 * Displays Surveillance
+	 *
+	 */
+	public function surveillance(){
+
+		//	Fetch form filters
+		$date = date('Y-m-d');
+		$from = Input::get('start');
+		if(!$from) $from = date('Y-m-01');
+
+		$to = Input::get('end');
+		if(!$to) $to = $date;
+				$reportData = User::getSurveillanceData($from, $to.' 23:59:59');
+		return View::make('reports.surveillance.index')
+					->with('reportData', $reportData)
+					->withInput(Input::all());
+	}
 }
