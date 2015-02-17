@@ -465,15 +465,19 @@ class Test extends Eloquent
 	 *
 	 * @return db resultset
 	 */
-	public static function getSurveillanceData($from, $to)
+	public static function getSurveillanceData()
 	{
-		$data = array();
-
-// Bs fo mps, id = ?  - positive
-// salmonella , id = ? - salmonella seen
-// dysentry , id = ? - numbers isolated in stool for cs
-
-		return $data;
+		$data = DB::select(
+			"SELECT 
+				COUNT(DISTINCT if(t.test_type_id=291,t.id,NULL)) as malaria_total,
+				COUNT(DISTINCT if((t.test_type_id=291 and tr.result='positive'),t.id,NULL)) as malaria_positive, 
+				COUNT(DISTINCT if(t.test_type_id=316,t.id,NULL)) as dysentry_total,
+				COUNT(DISTINCT if((t.test_type_id=316 and tr.result='positive'),t.id,NULL)) as dysentry_positive,
+				COUNT(DISTINCT if(t.test_type_id=288,t.id,NULL)) as typhoid_total,
+				COUNT(DISTINCT if((t.test_type_id=288 and tr.result='positive'),t.id,NULL)) as typhoid_positive
+			FROM tests t INNER JOIN test_results tr ON t.id=tr.test_id");
+		$data = json_decode(json_encode($data), true);
+		return $data[0];
 	}
 }
 
