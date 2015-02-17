@@ -985,7 +985,8 @@ class ReportController extends \BaseController {
 
 		$to = Input::get('end');
 		if(!$to) $to = $date;
-				$reportData = User::getSurveillanceData($from, $to.' 23:59:59');
+				// $reportData = Test::getSurveillanceData($from, $to.' 23:59:59');
+				$reportData = Test::getSurveillanceData();
 		return View::make('reports.surveillance.index')
 					->with('reportData', $reportData)
 					->withInput(Input::all());
