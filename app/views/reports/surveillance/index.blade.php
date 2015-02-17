@@ -16,7 +16,9 @@
 					{{ Form::label('start', trans("messages.from")) }}
 				</div>
 				<div class="col-sm-3">
-	    </div>
+					{{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
+				        array('class' => 'form-control standard-datepicker')) }}
+	   			</div>
 	    	</div>
 	    </div>
 	    <div class="col-sm-5">
@@ -25,7 +27,9 @@
 			    	{{ Form::label('end', trans("messages.to")) }}
 			    </div>
 				<div class="col-sm-3">
-				  </div>
+					{{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
+				        array('class' => 'form-control standard-datepicker')) }}
+				</div>
 	    	</div>
 	    </div>
 	    <div class="col-sm-2">
@@ -47,8 +51,13 @@
 	@endif	
 	<strong>
 		<p> {{ trans('messages.surveillance') }} - 
-			<?php //$from = isset($input['start'])?$input['start']:date('01-m-Y');?>
-			<?php //$to = isset($input['end'])?$input['end']:date('d-m-Y');?>
+			<?php $from = isset($input['start'])?$input['start']:date('01-m-Y');?>
+			<?php $to = isset($input['end'])?$input['end']:date('d-m-Y');?>
+			@if($from!=$to)
+				{{trans('messages.from').' '.$from.' '.trans('messages.to').' '.$to}}
+			@else
+				{{trans('messages.for').' '.date('d-m-Y')}}
+			@endif
 		</p>
 	</strong
 	<?php Log::info($reportData)?>
@@ -71,28 +80,28 @@
 		  		</tr>
 		  		<tr>
 		  				<td>{{ trans('messages.malaria') }}</td>
-		  				<td>{{ 'malaria_total' }}</td>
-		  				<td>{{ 'malaria_positive' }}</td>
-		  				<td>{{ 'malaria_total' }}</td>
-		  				<td>{{ 'malaria_positive' }}</td>
+		  				<td>{{ $reportData['malaria_less_total'] }}</td>
+		  				<td>{{ $reportData['malaria_less_positive'] }}</td>
+		  				<td>{{ $reportData['malaria_total'] }}</td>
+		  				<td>{{ $reportData['malaria_positive'] }}</td>
 		  				<td>{{ $reportData['malaria_total'] }}</td>
 		  				<td>{{ $reportData['malaria_positive'] }}</td>
 		  		</tr>
 		  		<tr>
 		  				<td>{{ trans('messages.dysentry') }}</td>
-		  				<td>{{ 'dysentry_total' }}</td>
-		  				<td>{{ 'dysentry_positive' }}</td>
-		  				<td>{{ 'dysentry_total' }}</td>
-		  				<td>{{ 'dysentry_positive' }}</td>
+		  				<td>{{ $reportData['dysentry_less_total'] }}</td>
+		  				<td>{{ $reportData['dysentry_less_positive'] }}</td>
+		  				<td>{{ $reportData['dysentry_total'] }}</td>
+		  				<td>{{ $reportData['dysentry_positive'] }}</td>
 		  				<td>{{ $reportData['dysentry_total'] }}</td>
 		  				<td>{{ $reportData['dysentry_positive'] }}</td>
 		  		</tr>
 		  		<tr>
 		  				<td>{{ trans('messages.typhoid') }}</td>
-		  				<td>{{ 'typhoid_total' }}</td>
-		  				<td>{{ 'typhoid_positive' }}</td>
-		  				<td>{{ 'typhoid_total' }}</td>
-		  				<td>{{ 'typhoid_positive' }}</td>
+		  				<td>{{ $reportData['typhoid_less_total'] }}</td>
+		  				<td>{{ $reportData['typhoid_less_positive'] }}</td>
+		  				<td>{{ $reportData['typhoid_total'] }}</td>
+		  				<td>{{ $reportData['typhoid_positive'] }}</td>
 		  				<td>{{ $reportData['typhoid_total'] }}</td>
 		  				<td>{{ $reportData['typhoid_positive'] }}</td>
 		  		</tr>

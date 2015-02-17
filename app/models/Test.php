@@ -467,9 +467,19 @@ class Test extends Eloquent
 	 */
 	public static function getSurveillanceData()
 	{
+		/*
+send in an array of ids, associte the name of disease
+table for disease, testtype - disease bs for mps, malaria
+table for positive automated binary saving of what is positive result
+report table, which tests really
+		*/
+		$bs = 291;
+		$dysentry = 316;
+		$typhoid = 288;
+
 		$data = DB::select(
 		"SELECT 
-		COUNT(DISTINCT if(t.test_type_id=291,t.id,NULL)) as malaria_total,
+		COUNT(DISTINCT if(t.test_type_id=$bs,t.id,NULL)) as malaria_total,
 		COUNT(DISTINCT if((t.test_type_id=291 and DATE_SUB(NOW(), INTERVAL 5 YEAR)>p.dob),t.id,NULL)) as malaria_less_total,
 		COUNT(DISTINCT if((t.test_type_id=291 and tr.result='positive'),t.id,NULL)) as malaria_positive, 
 		COUNT(DISTINCT if((t.test_type_id=291 and tr.result='positive' and DATE_SUB(NOW(), INTERVAL 5 YEAR)>p.dob),t.id,NULL)) as malaria_less_positive, 
