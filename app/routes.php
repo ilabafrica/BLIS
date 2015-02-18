@@ -319,4 +319,19 @@ Route::group(array("before" => "auth"), function()
         ));
         
     });
+
+    //  Check if able to manage reports
+    //Check for permisisons
+    Route::group(array("before" => "admin"), function()
+    {
+        Route::any("/qualitycontrol",array(
+            "as" => "qualitycontrol.index",
+            "uses" => "QualityController@index"
+        ));
+
+        Route::any("/qualitycontrol/lot",array(
+            "as" => "qualitycontrol.lot",
+            "uses" => "QualityController@lot"
+        ));
+    });
 });

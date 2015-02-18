@@ -461,4 +461,13 @@ return array(
     'minute' => 'Minute|Minutes',
     'second' => 'Second|Seconds',
 
+    /**
+    *
+    * Quality controls
+    */
+    'quality-control' => 'Quality Control',
+    'instrument' => 'Instrument|Instruments',
+    'lot' => 'Lot|Lots',
+    'control' => 'Control|Controls'
+
 );

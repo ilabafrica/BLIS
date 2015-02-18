@@ -1,6 +1,6 @@
 	@section("sidebar")
 <?php
-	$active = array("","","","","","","");
+	$active = array("","","","","","","","");
 	$key = explode("?",str_replace("/", "?", Request::path()));
 	switch ($key[0]) {
 		case 'home': $active[0] = "active"; break;
@@ -27,7 +27,11 @@
 		case 'permission': 
 		case 'assign':
 		case 'user': 
-		case 'role': $active[6] = "active"; break;
+		case 'role': 
+			$active[6] = "active"; break;
+		case 'controls':
+		case 'lots': $active[7] = "active"; break;
+
 	}
 ?>
 	<ul class="nav nav-sidebar">
@@ -62,12 +66,6 @@
 							<a href="{{ URL::route('instrument.index')}}">
 								<span class="glyphicon glyphicon-tag"></span>
 								{{Lang::choice('messages.instrument', 2)}}</a>
-						</div>
-					</li>
-					<li>
-						<div>
-							<span class="glyphicon glyphicon-tag"></span>
-							{{ Lang::choice('messages.report', 2)}}
 						</div>
 					</li>
 				</ul>
@@ -214,6 +212,28 @@
 						</div>
 					</li>
 					@endif
+				</ul>
+			</div>
+		</li>
+		<li>
+			<div class="main-menu {{$active[7]}}">
+				<a href="#" title="{{trans('messages.quality-control')}}">
+					<span class="glyphicon glyphicon-eye-open"></span> {{ trans('messages.quality-control')}}</a>
+			</div>
+			<div class="sub-menu {{$active[7]}}">
+				<ul class="sub-menu-items">
+						<li>
+							<div>
+								<a href="{{ URL::route('qualitycontrol.index') }}">
+									<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.control', 2)}}</a>
+							</div>
+						</li>
+						<li>
+							<div>
+								<a href="{{ URL::route('qualitycontrol.lot')}}">
+									<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.lot', 2)}}</a>
+							</div>
+						</li>
 				</ul>
 			</div>
 		</li>
