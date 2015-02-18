@@ -1,6 +1,6 @@
 	@section("sidebar")
 <?php
-	$active = array("","","","","","","");
+	$active = array("","","","","","","","");
 	$key = explode("?",str_replace("/", "?", Request::path()));
 	switch ($key[0]) {
 		case 'home': $active[0] = "active"; break;
@@ -8,8 +8,8 @@
 		case 'test': $active[2] = "active"; break;
 		case 'labconfig': 
 		case 'instrument':
-		case 'facility': 
-			$active[3] = "active"; break;
+		case 'facility': $active[3] = "active"; break;
+		
 		case 'testcategory': 
 		case 'testtype': 
 		case 'measure': 
@@ -28,6 +28,7 @@
 		case 'assign':
 		case 'user': 
 		case 'role': $active[6] = "active"; break;
+		case 'inventory': $active[7] = "active"; break;
 	}
 ?>
 	<ul class="nav nav-sidebar">
@@ -49,6 +50,7 @@
 					<span class="glyphicon glyphicon-filter"></span> {{Lang::choice('messages.test', 2)}}</a>
 			</div>
 		</li>
+
 		@if(Entrust::can('manage_lab_configurations'))
 		<li>
 			<div class="main-menu {{$active[3]}}">
@@ -223,5 +225,48 @@
 				</ul>
 			</div>
 		</li>
+				<li>
+			<div class="main-menu {{$active[7]}}">
+				<a href="{{ URL::route('inventory.labStockCard')}}">
+					<span class="glyphicon glyphicon-download-alt"></span> {{ Lang::choice('messages.inventory', 2)}}</a>
+			</div>
+
+
+
+	<div class="sub-menu {{$active[7]}}">
+				<ul class="sub-menu-items">
+					<li>
+						<div>
+							<a href="{{ URL::route("inventory.labStockCard")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.labStockCard', 2)}}</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route("inventory.labTopup")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.labTop-UpForm', 2)}}</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route("inventory.stockTakeCard")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.stockTakeCard')}}</a>
+						</div>
+					</li>					
+					
+				</ul>
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+		</li> 
 	</ul>
 @show

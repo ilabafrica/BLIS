@@ -265,7 +265,37 @@ Route::group(array("before" => "auth"), function()
             "uses" => "FacilityController@delete"
         ));
     });
-    
+    //inventory module
+        Route::any("/inventory", array(
+        "as"   => "inventory.labStockCard",
+        "uses" => "inventoryController@index"
+    ));
+        Route::post("/inventory/store", array(
+        "as"   => "inventory.store",
+        "uses" => "inventoryController@store"
+    ));
+        Route::any("/inventory/labStockCard", array(
+        "as"   => "inventory.labStockCard",
+        "uses" => "inventoryController@labStockCard"
+    ));
+         Route::any("/inventory/receipts", array(
+        "as"   => "inventory.receipts",
+        "uses" => "inventoryController@receipts"
+    ));
+        Route::any("/inventory/issues", array(
+        "as"   => "inventory.issues",
+        "uses" => "inventoryController@issues"
+    ));
+        Route::any("/inventory/labTopup", array(
+        "as"   => "inventory.labTopup",
+        "uses" => "inventoryController@labTopup"
+    ));
+         Route::any("/inventory/stockTakeCard", array(
+        "as"   => "inventory.stockTakeCard",
+        "uses" => "inventoryController@stockTakeCard"
+    ));
+         
+
     //  Check if able to manage reports
     Route::group(array("before" => "checkPerms:view_reports"), function()
     {

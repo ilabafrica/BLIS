@@ -309,6 +309,32 @@ class CreatekBLIStables extends Migration {
             $table->unique(array('instrument_id','test_type_id'));
         });
 
+
+        Schema::create('inventory_receipts', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->date('receipt_date');
+            $table->string('commodity', 100);
+            $table->string('received_from', 100);
+            $table->string('doc_no', 100);
+            $table->integer('qty')->unsigned();
+            $table->integer('batch_no')->unsigned();
+            $table->date('expiry_date');
+            $table->string('location', 100);
+            $table->string('receivers_name', 100);
+                    
+            $table->softDeletes();
+            $table->timestamps();
+        });
+        
+
+
+
+
+
+
+
+
 	}
 
 	/**
@@ -341,6 +367,10 @@ class CreatekBLIStables extends Migration {
         Schema::dropIfExists('patients');
         Schema::dropIfExists('tokens');
         Schema::dropIfExists('users');
+        Schema::dropIfExists('inventory_receipts');
 	}
+
+
+
 
 }
