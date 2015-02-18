@@ -18,8 +18,8 @@
                                 name="new-measures[][measure_type_id]" 
                                 id="measure_type_id">
                                 <option value="0"></option>
-                                @foreach ($measuretype as $type)
-                                    <option value="{{$type->id}}">{{$type->name}}</option>
+                                @foreach ($controls as $control)
+                                    <option value="{{$control->id}}">{{$control->name}}</option>
                                 @endforeach
                             </select>
                     </div>
@@ -63,17 +63,10 @@
     </div><!-- measureGeneric -->
     <div class="hidden numericHeaderLoader">
         <div class="col-md-12">
-            <div class="col-md-4">
-                <span class="col-md-6 range-title">{{trans('messages.measure-age-range')}}</span>
-                <span class="col-md-6 range-title">{{trans('messages.gender')}}</span>
-            </div>
             <div class="col-md-3">
                 <span class="col-md-12 range-title">{{trans('messages.measure-range')}}</span>
             </div>
-            <div class="col-md-2">
-                <span class="col-md-12 interpretation-title">{{trans('messages.interpretation')}}</span>
-            </div>
-        </div>     
+        </div>
     </div><!-- alphanumericHeader -->
     <div class="hidden alphanumericHeaderLoader">
         <div class="col-md-12">
@@ -83,17 +76,6 @@
     </div><!-- numericHeader -->
     <div class="hidden numericInputLoader">
         <div class="col-md-12 measure-input">
-            <div class="col-md-4">
-                <input class="col-md-2 agemin" name="new-measures[][agemin][]" type="text" title="{{trans('messages.lower-age-limit')}}">
-                <span class="col-md-1">:</span>
-                <input class="col-md-2 agemax" name="new-measures[][agemax][]" type="text" title="{{trans('messages.upper-age-limit')}}">
-                <span class="col-md-1"></span>
-                <select class="col-md-4 gender" name="new-measures[][gender][]">
-                    <option value="0">{{trans('messages.male')}}</option>
-                    <option value="1">{{trans('messages.female')}}</option>
-                    <option value="2">{{trans('messages.both')}}</option>
-                </select>
-            </div>
             <div class="col-md-3">
                 <input class="col-md-4 rangemin" name="new-measures[][rangemin][]" type="text" title="{{trans('messages.lower-range')}}">
                 <span class="col-md-2">:</span>

@@ -324,14 +324,7 @@ Route::group(array("before" => "auth"), function()
     //Check for permisisons
     Route::group(array("before" => "admin"), function()
     {
-        Route::any("/qualitycontrol",array(
-            "as" => "qualitycontrol.index",
-            "uses" => "QualityController@index"
-        ));
-
-        Route::any("/qualitycontrol/lot",array(
-            "as" => "qualitycontrol.lot",
-            "uses" => "QualityController@lot"
-        ));
+        Route::resource("lot", "LotController");
+        Route::resource("control", "ControlController");
     });
 });

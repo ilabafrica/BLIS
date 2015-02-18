@@ -224,13 +224,13 @@
 				<ul class="sub-menu-items">
 						<li>
 							<div>
-								<a href="{{ URL::route('qualitycontrol.index') }}">
+								<a href="{{ URL::route('control.index') }}">
 									<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.control', 2)}}</a>
 							</div>
 						</li>
 						<li>
 							<div>
-								<a href="{{ URL::route('qualitycontrol.lot')}}">
+								<a href="{{ URL::route('lot.index')}}">
 									<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.lot', 2)}}</a>
 							</div>
 						</li>

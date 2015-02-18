@@ -18,10 +18,11 @@ class QcTables extends Migration {
                 	$table->string('number', 100)->unique();
                 	$table->string('information', 400)->nullable();
 
-                	$table->timestamps();
+                	$table->softDeletes();
+                        $table->timestamps();
                 });
 
-                Schema::create('control_types', function(Blueprint $table)
+                Schema::create('controls', function(Blueprint $table)
                 {
                 	$table->increments('id')->unsigned();
                 	$table->string('name', 100)->unique();
@@ -38,10 +39,13 @@ class QcTables extends Migration {
                 	$table->string('name');
                 	$table->string('unit');
                         $table->string('expected_result');
-                	$table->integer('control_type_id')->unsigned();
+                	$table->integer('control_id')->unsigned();
+                        $table->integer('control_measure_type_id')->unsigned();
 
-                	$table->foreign('control_type_id')->references('id')->on('control_types');
+                        $table->foreign('control_measure_type_id')->foreign('id')->on('measure_types');
+                	$table->foreign('control_id')->references('id')->on('controls');
                 	$table->timestamps();
+                        $table->softDeletes();
                 });
 
                 Schema::create('control_measure_ranges', function(Blueprint $table){
@@ -55,16 +59,20 @@ class QcTables extends Migration {
                 	$table->foreign('control_measure_id')->references('id')->on('control_measures');
                 	$table->foreign('lot_id')->references('id')->on('lots');
                 	$table->timestamps();
+                        $table->softDeletes();
                 });
 
                 Schema::create('control_results', function(Blueprint $table){
                 	$table->increments('id');
                 	$table->string('results', '300');
-                	$table->integer('control_type_id')->unsigned();
+                	$table->integer('control_id')->unsigned();
                 	$table->integer('control_measure_id')->unsigned();
+                        $table->integer('entered_by')->unsigned();
                 	
-                	$table->foreign('control_type_id')->references('id')->on('control_types');
+                	$table->foreign('control_id')->references('id')->on('controls');
                 	$table->foreign('control_measure_id')->references('id')->on('control_measures');
+                        $table->foreign('entered_by')->references('id')->on('users');
+                        $table->timestamps();
                 });
 	}
 

@@ -106,6 +106,43 @@ $(function(){
 		}
 	}
 
+	/**
+	 *	Control_measure Functions
+	 */
+	 /* Add another measure */
+	$('.add-control-measure').click(function(){
+		newMeasureNo = $(this).data('new-measure');
+		var inputHtml = $('.measureGenericLoader').html();
+		//Count new measures on the new measure button
+		$('.measure-container').append(inputHtml);
+		$('.measure-container .new-measure-section').find(
+			'.measuretype-input-trigger').addClass('new-measure-'+newMeasureNo);
+		$('.measure-container .new-measure-section').find(
+			'.measuretype-input-trigger').attr('data-new-measure-id',  newMeasureNo);
+		$('.measure-container .new-measure-section').find(
+			'.add-another-range').attr('data-new-measure-id',  newMeasureNo);
+		$('.measure-container .new-measure-section').find(
+			'.add-another-range').addClass('new-measure-'+newMeasureNo);
+		$('.measure-container .new-measure-section').find(
+			'.measurevalue').addClass('new-measure-'+newMeasureNo);
+		$('.measure-container .new-measure-section').addClass(
+			'measure-section new-'+newMeasureNo).removeClass('new-measure-section');
+		$(this).data('new-measure',  newMeasureNo+1).attr('data-new-measure',  newMeasureNo+1);
+		addNewControlMeasureAttributes(newMeasureNo);
+		delete newMeasureNo;
+	});
+
+	function addNewControlMeasureAttributes (measureID) {
+		$('.measure-section.new-'+measureID+' input.name').attr(
+			'name', 'new-measures['+measureID+'][name]');
+		$('.measure-section.new-'+measureID+' select.measure_type_id').attr(
+			'name', 'new-measures['+measureID+'][measure_type_id]');
+		$('.measure-section.new-'+measureID+' input.expected').attr(
+			'name', 'new-measures['+measureID+'][expected]');
+		$('.measure-section.new-'+measureID+' input.unit').attr(
+			'name', 'new-measures['+measureID+'][unit]');
+	}
+
 	/** GLOBAL DELETE	
 	 *	Alert on irreversible delete
 	 */
@@ -528,6 +565,7 @@ $(function(){
 	    }
 	}
 
+	//DataTables search functionality
 	$(document).ready( function () {
 		$('.search-table').DataTable({
         	'bStateSave': true,
