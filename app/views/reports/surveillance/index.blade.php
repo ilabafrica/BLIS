@@ -49,6 +49,7 @@
 	@if (Session::has('message'))
 		<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
 	@endif	
+	@include("reportHeader")
 	<strong>
 		<p> {{ trans('messages.surveillance') }} - 
 			<?php $from = isset($input['start'])?$input['start']:date('01-m-Y');?>
@@ -60,7 +61,6 @@
 			@endif
 		</p>
 	</strong
-	<?php Log::info($reportData)?>
 		<div class="table-responsive">
 		  <table class="table table-striped table-bordered">
 		  	<thead>
@@ -78,33 +78,17 @@
 		  			<th>{{trans('messages.tested')}}</th>
 		  			<th>{{trans('messages.positive')}}</th>
 		  		</tr>
+		  		@foreach(ReportConfig::all() as $testType)
 		  		<tr>
-		  				<td>{{ trans('messages.malaria') }}</td>
-		  				<td>{{ $reportData['malaria_less_total'] }}</td>
-		  				<td>{{ $reportData['malaria_less_positive'] }}</td>
-		  				<td>{{ $reportData['malaria_total'] }}</td>
-		  				<td>{{ $reportData['malaria_positive'] }}</td>
-		  				<td>{{ $reportData['malaria_total'] }}</td>
-		  				<td>{{ $reportData['malaria_positive'] }}</td>
+	  				<td>{{ $testType->disease }}</td>
+	  				<td>{{ $reportData[$testType->test_type_id.'_less_five_total'] }}</td>
+	  				<td>{{ $reportData[$testType->test_type_id.'_less_five_positive'] }}</td>
+	  				<td>{{ $reportData[$testType->test_type_id.'_total'] - $reportData[$testType->test_type_id.'_less_five_total'] }}</td>
+	  				<td>{{ $reportData[$testType->test_type_id.'_positive'] - $reportData[$testType->test_type_id.'_less_five_positive'] }}</td>
+	  				<td>{{ $reportData[$testType->test_type_id.'_total'] }}</td>
+	  				<td>{{ $reportData[$testType->test_type_id.'_positive'] }}</td>
 		  		</tr>
-		  		<tr>
-		  				<td>{{ trans('messages.dysentry') }}</td>
-		  				<td>{{ $reportData['dysentry_less_total'] }}</td>
-		  				<td>{{ $reportData['dysentry_less_positive'] }}</td>
-		  				<td>{{ $reportData['dysentry_total'] }}</td>
-		  				<td>{{ $reportData['dysentry_positive'] }}</td>
-		  				<td>{{ $reportData['dysentry_total'] }}</td>
-		  				<td>{{ $reportData['dysentry_positive'] }}</td>
-		  		</tr>
-		  		<tr>
-		  				<td>{{ trans('messages.typhoid') }}</td>
-		  				<td>{{ $reportData['typhoid_less_total'] }}</td>
-		  				<td>{{ $reportData['typhoid_less_positive'] }}</td>
-		  				<td>{{ $reportData['typhoid_total'] }}</td>
-		  				<td>{{ $reportData['typhoid_positive'] }}</td>
-		  				<td>{{ $reportData['typhoid_total'] }}</td>
-		  				<td>{{ $reportData['typhoid_positive'] }}</td>
-		  		</tr>
+				@endforeach
 		  	</tbody>
 		  </table>
 		</div>

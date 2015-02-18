@@ -383,9 +383,6 @@ return array(
     'tested'    =>  'Tested',
     'less-five'    =>  '< 5 Years',
     'greater-five'    =>  '≥ 5 Years',
-    'malaria'    =>  'Malaria',
-    'dysentry'    =>  'Shigella Dysentry',
-    'typhoid'    =>  'Typhoid',
 
     /* Infection Report*/
     'age-ranges'    =>  'Age Ranges',

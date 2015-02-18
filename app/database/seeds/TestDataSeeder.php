@@ -66,6 +66,8 @@ class TestDataSeeder extends DatabaseSeeder
         
         /* Test Categories table - These map on to the lab sections */
         $test_categories = TestCategory::create(array("name" => "PARASITOLOGY","description" => ""));
+        $lab_section_microbiology = TestCategory::create(array("name" => "MICROBIOLOGY","description" => ""));
+
         $this->command->info('test_categories seeded');
         
         
@@ -225,6 +227,7 @@ class TestDataSeeder extends DatabaseSeeder
         
         /* Test Types table */
         $testTypeBS = TestType::create(array("name" => "BS for mps", "test_category_id" => $test_categories->id));
+        $testTypeStoolCS = TestType::create(array("name" => "Stool for C/S", "test_category_id" => $lab_section_microbiology->id));
         $testTypeGXM = TestType::create(array("name" => "GXM", "test_category_id" => $test_categories->id));
         $testTypeHB = TestType::create(array("name" => "HB", "test_category_id" => $test_categories->id));
         $testTypeUrinalysis = TestType::create(array("name" => "Urinalysis", "test_category_id" => $test_categories->id));
@@ -1414,6 +1417,26 @@ class TestDataSeeder extends DatabaseSeeder
             Facility::create($facility);
         }
         $this->command->info('Facilities table seeded');
+
+        $reportConfigs = array(
+            array(
+                "test_type_id" => $testTypeBS->id,
+                "disease" => "Malaria",
+                ),
+             array(
+                "test_type_id" => $test_types_salmonella->id,
+                "disease" => "Typhoid",
+                ),
+             array(
+                "test_type_id" => $testTypeStoolCS->id,
+                "disease" => "Shigella Dysentry",
+                ),
+        );
+
+        foreach ($reportConfigs as $reportConfig) {
+            ReportConfig::create($reportConfig);
+        }
+        $this->command->info("Report Config table seeded");
     }
 
     public function createSpecimen(

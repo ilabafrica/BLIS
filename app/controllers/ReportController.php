@@ -974,21 +974,31 @@ class ReportController extends \BaseController {
 
 	/**
 	 * Displays Surveillance
-	 *
+	 * @param string $from, string $to, array() $testTypeIds
 	 */
 	public function surveillance(){
-
+		/*surveillance diseases*/
 		//	Fetch form filters
 		$date = date('Y-m-d');
 		$from = Input::get('start');
 		if(!$from) $from = date('Y-m-01');
-
 		$to = Input::get('end');
 		if(!$to) $to = $date;
 				// $reportData = Test::getSurveillanceData($from, $to.' 23:59:59');
-				$reportData = Test::getSurveillanceData();
+				$reportData = Test::getSurveillanceData($from, $to.' 23:59:59');
 		return View::make('reports.surveillance.index')
 					->with('reportData', $reportData)
 					->withInput(Input::all());
+	}
+
+	/**
+	 * Manage Surveillance Configurations
+	 * @param
+	 */
+	public function surveillanceConfig(){
+		$from = Input::get('disease');
+		$diseaseTests = ReportConfig::all();
+		return View::make('reportconfig.edit')
+					->with('diseaseTests', $diseaseTests);
 	}
 }

@@ -465,38 +465,37 @@ class Test extends Eloquent
 	 *
 	 * @return db resultset
 	 */
-	public static function getSurveillanceData()
+	public static function getSurveillanceData($from, $to)
 	{
-		/*
-send in an array of ids, associte the name of disease
-table for disease, testtype - disease bs for mps, malaria
-table for positive automated binary saving of what is positive result
-report table, which tests really
-		*/
-		$bs = 291;
-		$dysentry = 316;
-		$typhoid = 288;
+		$testTypes = ReportConfig::all()->toArray();
 
-		$data = DB::select(
-		"SELECT 
-		COUNT(DISTINCT if(t.test_type_id=$bs,t.id,NULL)) as malaria_total,
-		COUNT(DISTINCT if((t.test_type_id=291 and DATE_SUB(NOW(), INTERVAL 5 YEAR)>p.dob),t.id,NULL)) as malaria_less_total,
-		COUNT(DISTINCT if((t.test_type_id=291 and tr.result='positive'),t.id,NULL)) as malaria_positive, 
-		COUNT(DISTINCT if((t.test_type_id=291 and tr.result='positive' and DATE_SUB(NOW(), INTERVAL 5 YEAR)>p.dob),t.id,NULL)) as malaria_less_positive, 
-	
-		COUNT(DISTINCT if(t.test_type_id=316,t.id,NULL)) as dysentry_total,
-		COUNT(DISTINCT if((t.test_type_id=316 and DATE_SUB(NOW(), INTERVAL 5 YEAR)>p.dob),t.id,NULL)) as dysentry_less_total,
-		COUNT(DISTINCT if((t.test_type_id=316 and tr.result='positive'),t.id,NULL)) as dysentry_positive,
-		COUNT(DISTINCT if((t.test_type_id=316 and tr.result='positive' and DATE_SUB(NOW(), INTERVAL 5 YEAR)>p.dob),t.id,NULL)) as dysentry_less_positive, 
-	
-		COUNT(DISTINCT if(t.test_type_id=288,t.id,NULL)) as typhoid_total,
-		COUNT(DISTINCT if((t.test_type_id=288 and DATE_SUB(NOW(), INTERVAL 5 YEAR)>p.dob),t.id,NULL)) as typhoid_less_total,
-		COUNT(DISTINCT if((t.test_type_id=288 and tr.result='positive'),t.id,NULL)) as typhoid_positive,
-		COUNT(DISTINCT if((t.test_type_id=288 and tr.result='positive' and DATE_SUB(NOW(), INTERVAL 5 YEAR)>p.dob),t.id,NULL)) as typhoid_less_positive
-	FROM tests t
-	INNER JOIN test_results tr ON t.id=tr.test_id
-	JOIN visits v ON v.id=t.visit_id
-	JOIN patients p ON v.patient_id=p.id");
+		$query = "SELECT ";
+		foreach ($testTypes as $testType) {
+			$query = $query."COUNT(DISTINCT if(t.test_type_id=".$testType['test_type_id'].",t.id,NULL)) as ".$testType['test_type_id']."_total,".
+				"COUNT(DISTINCT if((t.test_type_id=".$testType['test_type_id'].
+					" and DATE_SUB(NOW(), INTERVAL 5 YEAR)>p.dob),t.id,NULL)) as ".$testType['test_type_id']."_less_five_total, ".
+				"COUNT(DISTINCT if((t.test_type_id=".$testType['test_type_id'].
+					" and tr.result='positive'),t.id,NULL)) as ".$testType['test_type_id']."_positive, ".
+				"COUNT(DISTINCT if((t.test_type_id=".$testType['test_type_id'].
+					" and tr.result='positive' and DATE_SUB(NOW(), INTERVAL 5 YEAR)>p.dob),t.id,NULL)) as ".$testType['test_type_id'].
+						"_less_five_positive";
+		    if($testType == end($testTypes)) {
+		        $query = $query." ";
+		    }else{
+		        $query = $query.", ";
+		    }
+		}
+		$query = $query." FROM tests t ".
+			"INNER JOIN test_results tr ON t.id=tr.test_id ".
+			"JOIN visits v ON v.id=t.visit_id ".
+			"JOIN patients p ON v.patient_id=p.id ";
+			if ($from) {
+				$query = $query."WHERE (time_created BETWEEN '".$from."' AND '".$to."')";
+			}
+
+		$data = DB::select($query);
+
+		$data = DB::select($query);
 		$data = json_decode(json_encode($data), true);
 		return $data[0];
 	}

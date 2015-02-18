@@ -8,6 +8,7 @@
 		case 'test': $active[2] = "active"; break;
 		case 'labconfig': 
 		case 'instrument':
+		case 'reportconfig':
 		case 'facility': 
 			$active[3] = "active"; break;
 		case 'testcategory': 
@@ -66,9 +67,9 @@
 						</div>
 					</li>
 					<li>
-						<div>
+						<div><a href="{{ URL::route("reportconfig.surveillance") }}">
 							<span class="glyphicon glyphicon-tag"></span>
-							{{ Lang::choice('messages.report', 2)}}
+							{{ Lang::choice('messages.report', 2)}}</a>
 						</div>
 					</li>
 				</ul>
