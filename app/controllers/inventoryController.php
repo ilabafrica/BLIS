@@ -15,72 +15,87 @@ class inventoryController extends \BaseController {
 	 */
 	public function index()
 	{
-		// List all the active patients
-			$patients = Patient::paginate(Config::get('kblis.page-items'));
-
-		// Load the view and pass the patients
-		return View::make('inventory.labStockCard');
+		$commodities = Inventory::orderBy('commodity', 'ASC')->get();
+		return View::make('inventory.labStockCard')->with('commodities', $commodities);
 	}
 
 	public function labStockCard()
 	{
-		// List all the active patients
-			$patients = Patient::paginate(Config::get('kblis.page-items'));
+		
+		//$commodities = Inventory::find($id);
+		
 
-		// Load the view and pass the patients
+ 		
 		return View::make('inventory.labStockCard');
 	}
 	public function receipts()
 	{
-		// List all the active patients
-			$receipts = Patient::paginate(Config::get('kblis.page-items'));
-
-		// Load the view and pass the patients
 		return View::make('inventory.receipts');
 	}
+
+
 	public function issues()
 	{
-		// List all the active patients
-			$patients = Patient::paginate(Config::get('kblis.page-items'));
-
-		// Load the view and pass the patients
+		
 		return View::make('inventory.issues');
 	}
 
+
     public function labTopup()
 	{
-		// List all the active patients
-			$patients = Patient::paginate(Config::get('kblis.page-items'));
-
-		// Load the view and pass the patients
+		
 		return View::make('inventory.labTopup');
 	}
+
+
 	public function stockTakeCard()
 	{
-		// List all the active patients
-			$patients = Patient::paginate(Config::get('kblis.page-items'));
+		//$commodities = Inventory::orderBy('commodity', 'ASC')->get();
 
-		// Load the view and pass the patients
+		// Load the view and pass the commoditi
+		
 		return View::make('inventory.stockTakeCard');
 	}
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
 	
+	
+    public function store_issues(){
+	
+ 		  $rules = array(			
+			'commodity' => 'required',
+			'receivers-name' => 'required',
+			'qty-req' => 'required'
+		);
+		$validator = Validator::make(Input::all(), $rules);
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
+		
+		if ($validator->fails()) {
+			return Redirect::back()->withErrors($validator)
+				->withInput();
+		} else {
+			// store
+			$issues = new InventoryIssues;
+			$issues->commodity_id= Input::get('commodity');
+			$issues->qty_req = Input::get('qty-req');
+			$issues->destination = Input::get('destination');
+			$issues->receivers_name = Input::get('receivers-name');
+
+			try{
+				$issues->save();
+			$url = Session::get('SOURCE_URL');
+			return Redirect::to($url)
+			->with('message', 'Successfully issued the commodity');
+			}catch(QueryException $e){
+				Log::error($e);
+			}
+			
+		}
+	}
+	public function store_receipts()
 	{
-		Log::info("here");
+		//Log::info("here");
 			$rules = array(
 			
-			'commodity'       => 'required',
+			'commodity' => 'required',
 			'doc-no' => 'required',
 			'qty' => 'required'
 		);
@@ -89,10 +104,10 @@ class inventoryController extends \BaseController {
 		// process the login
 		if ($validator->fails()) {
 			return Redirect::back()->withErrors($validator)
-				->withInput(Input::except('password'));
+				->withInput();
 		} else {
 			// store
-			$receipts = new inventory;
+			$receipts = new Inventory;
 			$receipts->receipt_date = Input::get('lab-receipt-date');
 			$receipts->commodity = Input::get('commodity');
 			$receipts->received_from = Input::get('received-from');
@@ -105,16 +120,23 @@ class inventoryController extends \BaseController {
 
 			try{
 				$receipts->save();
-			$url = Session::get('SOURCE_URL');
-			return Redirect::to($url)
-			->with('message', 'Successfully added');
+			
+
+
+				return Redirect::route('inventory.labStockCard')
+					->with('message', 'Successfully added');
+
+
+
+
 			}catch(QueryException $e){
 				Log::error($e);
 			}
 			
-			// redirect
 		}
 	}
+		
+	
 
 	
 

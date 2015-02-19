@@ -327,6 +327,18 @@ class CreatekBLIStables extends Migration {
             $table->timestamps();
         });
         
+        Schema::create('inventory_issues', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->foreign('commodity_id')->references('id')->on('inventory_issues');
+            $table->integer('qty_req')->unsigned();
+            $table->string('destination', 100);
+            $table->string('receivers_name', 100);
+                             
+            $table->softDeletes();
+            $table->timestamps();
+        });
+        
 
 
 
@@ -368,6 +380,7 @@ class CreatekBLIStables extends Migration {
         Schema::dropIfExists('tokens');
         Schema::dropIfExists('users');
         Schema::dropIfExists('inventory_receipts');
+        Schema::dropIfExists('inventory_issues');
 	}
 
 

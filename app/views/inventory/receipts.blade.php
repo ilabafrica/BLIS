@@ -10,6 +10,11 @@
 @if (Session::has('message'))
 	<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
 @endif
+@if($errors->all())
+                <div class="alert alert-danger">
+                    {{ HTML::ul($errors->all()) }}
+                </div>
+@endif
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
@@ -18,7 +23,7 @@
 		
 	</div>
 	<div class="panel-body">
-		   {{ Form::open(array('url' => 'inventory/store', 'id' => 'form-receipts')) }}
+		   {{ Form::open(array('url' => 'inventory/store_receipts', 'id' => 'form-receipts')) }}
 
             <div class="form-group">
                 {{ Form::label('Receipt Date', Lang::choice('messages.lab-receipt-date',1)) }}
@@ -57,19 +62,12 @@
                 {{ Form::text('receivers-name', Input::old('receivers-name'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>            
 
-
-
-
-
             <div class="form-group actions-row">
                     {{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 
                         array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
             </div>
         {{ Form::close() }}
 
-
-
-		
 		<?php  
 		Session::put('SOURCE_URL', URL::full());?>
 	</div>

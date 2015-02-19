@@ -266,17 +266,20 @@ Route::group(array("before" => "auth"), function()
         ));
     });
     //inventory module
-        Route::any("/inventory", array(
-        "as"   => "inventory.labStockCard",
-        "uses" => "inventoryController@index"
+      
+        Route::post("/inventory/store_receipts", array(
+        "as"   => "inventory.store_receipts",
+        "uses" => "inventoryController@store_receipts"
     ));
-        Route::post("/inventory/store", array(
-        "as"   => "inventory.store",
-        "uses" => "inventoryController@store"
+
+        Route::post("/inventory/store_issues", array(
+        "as"   => "inventory.store_issues",
+        "uses" => "inventoryController@store_issues"
     ));
+        
         Route::any("/inventory/labStockCard", array(
         "as"   => "inventory.labStockCard",
-        "uses" => "inventoryController@labStockCard"
+        "uses" => "inventoryController@index"
     ));
          Route::any("/inventory/receipts", array(
         "as"   => "inventory.receipts",
