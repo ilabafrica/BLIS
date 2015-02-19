@@ -265,9 +265,7 @@ Route::group(array("before" => "auth"), function()
             "uses" => "FacilityController@delete"
         ));
 
-        Route::resource("reportconfig", "ReportController");
-
-        Route::get("/reportconfig", array(
+        Route::any("/reportconfig/surveillance", array(
             "as"   => "reportconfig.surveillance",
             "uses" => "ReportController@surveillanceConfig"
         ));

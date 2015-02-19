@@ -12,6 +12,8 @@ class ReportConfig extends Eloquent
 	 */
 	protected $table = 'report_configs';
 
+	public $timestamps = false;
+
 	/**
 	 * TestType relationship
 	 */

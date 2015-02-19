@@ -317,8 +317,6 @@ class CreatekBLIStables extends Migration {
 
             $table->foreign('test_type_id')->references('id')->on('test_types');
 
-            $table->softDeletes();
-            $table->timestamps();
         });
 	}
 

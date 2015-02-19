@@ -49,9 +49,14 @@ $(function(){
 
 	 /* Add another surveillance disease */
 	$('.add-another-disease').click(function(){
+		newSurveillanceNo = $(this).data('new-surveillance');
 		var inputHtml = $('.addSurveillanceLoader').html();
 		//Count new measures on the new measure button
 		$('.surveillance-input').append(inputHtml);
+		$('.surveillance-input .new').addClass('new-surveillance-'+newSurveillanceNo).removeClass('new');
+		$(this).data('new-surveillance',  newSurveillanceNo+1).attr('data-new-surveillance',  newSurveillanceNo+1);
+		addNewSurveillanceAttributes(newSurveillanceNo);
+		delete newSurveillanceNo;
 	});
 
 	/** 
@@ -365,6 +370,16 @@ $(function(){
 			$('#new-test-modal .modal-footer .next').prop('disabled', false);
 		});
 	});
+
+	/**
+	 *	Lab Configurattions Functions
+	 */
+	function addNewSurveillanceAttributes (newSurveillanceNo) {
+		$('.new-surveillance-'+newSurveillanceNo).find('select.test-type').attr(
+			'name', 'new-surveillance['+newSurveillanceNo+'][test-type]');
+		$('.new-surveillance-'+newSurveillanceNo).find('input.disease').attr(
+			'name', 'new-surveillance['+newSurveillanceNo+'][disease]');
+	}
 
 	/**
 	 *	Measure Functions

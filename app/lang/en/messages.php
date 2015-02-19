@@ -10,6 +10,7 @@ return array(
      */
 
     'actions' => 'Actions',
+    'add-another' => 'Add Another',
     'back' => 'Previous Page',
     'both' => 'Both',
     'cancel' => 'Cancel',
@@ -18,6 +19,7 @@ return array(
     'date-created' => 'Date Created',
     'delete' => 'Delete',
     'description' => 'Description',
+    'disease' => 'Disease',
     'edit' => 'Edit',
     'email' => 'Email',
     'female' => 'Female',

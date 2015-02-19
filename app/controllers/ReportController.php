@@ -997,11 +997,30 @@ class ReportController extends \BaseController {
 	 */
 	public function surveillanceConfig(){
 		
-		$disease = Input::get('disease');
-		$testType = Input::get('test-type');
+		if (Input::get('surveillance')) {
+			$diseases = Input::get('surveillance');
 
+			foreach ($diseases as $id => $disease) {
+				$surveillance = ReportConfig::find($id);
+				$surveillance->disease = $disease['disease'];
+				$surveillance->test_type_id = $disease['test-type'];
+				$surveillance->save();
+			}
+		}
+		
+		if (Input::get('new-surveillance')) {
+			$diseases = Input::get('new-surveillance');
+
+			foreach ($diseases as $id => $disease) {
+				$surveillance = new ReportConfig;
+				$surveillance->disease = $disease['disease'];
+				$surveillance->test_type_id = $disease['test-type'];
+				$surveillance->save();
+			}
+		}
 
 		$diseaseTests = ReportConfig::all();
+
 		return View::make('reportconfig.edit')
 					->with('diseaseTests', $diseaseTests);
 	}
