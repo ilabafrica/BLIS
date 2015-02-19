@@ -996,7 +996,11 @@ class ReportController extends \BaseController {
 	 * @param
 	 */
 	public function surveillanceConfig(){
-		$from = Input::get('disease');
+		
+		$disease = Input::get('disease');
+		$testType = Input::get('test-type');
+
+
 		$diseaseTests = ReportConfig::all();
 		return View::make('reportconfig.edit')
 					->with('diseaseTests', $diseaseTests);

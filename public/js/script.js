@@ -44,6 +44,17 @@ $(function(){
 	});
 
 	/** 
+	 *	LAB CONFIGURATION 
+	 */
+
+	 /* Add another surveillance disease */
+	$('.add-another-disease').click(function(){
+		var inputHtml = $('.addSurveillanceLoader').html();
+		//Count new measures on the new measure button
+		$('.surveillance-input').append(inputHtml);
+	});
+
+	/** 
 	 *	MEASURES 
 	 */
 
