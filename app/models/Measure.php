@@ -164,4 +164,63 @@ class Measure extends Eloquent
 		}
 		return null;
 	}
+	/**
+	 *  Get test result count for the given measure and parameters
+	 *
+	 * @return count
+	 */
+	public function totalTestResults($gender=null, $ageRange=null, $from=null, $to=null, $range=null){
+		$testResults = TestResult::where('test_results.measure_id', $this->id)
+						 ->join('tests', 'tests.id', '=', 'test_results.test_id')
+						 ->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
+						 ->join('testtype_measures', 'testtype_measures.test_type_id', '=', 'test_types.id')
+						 ->where('testtype_measures.measure_id', $this->id)
+						 ->whereIn('test_status_id', [Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED]);
+			if($to && $from){
+				$testResults = $testResults->whereBetween('time_created', [$from, $to]);
+			}
+			if($ageRange || $gender){
+				$testResults = $testResults->join('visits', 'tests.visit_id', '=', 'visits.id')
+							   ->join('patients', 'visits.patient_id', '=', 'patients.id');
+							   if($gender){
+							   		$testResults = $testResults->whereIn('gender', $gender);
+							   	}
+							   	if($ageRange){
+							   		$age = explode('-', $ageRange);
+									$ageStart = $age[0];
+									$ageEnd = $age[1];
+
+									$now = new DateTime('now');
+									$clonedDate = clone $now;
+									$finishDate = $clonedDate->sub(new DateInterval('P'.$ageStart.'Y'))->format('Y-m-d');
+									$clonedDate = clone $now;
+									$startDate = $clonedDate->sub(new DateInterval('P'.$ageEnd.'Y'))->format('Y-m-d');
+							   		$testResults = $testResults->whereBetween('dob', [$startDate, $finishDate]);
+							   	}
+			}
+			if($range){
+				$testResults = $testResults->where('result', 'LIKE', $range);
+			}
+
+		return $testResults->count();
+	}
+	/**
+	 *  Get test result count for the given measure and parameters for split test types
+	 *
+	 * @return count
+	 */
+	public function countSplit($from=null, $to=null, $testTypeId, $measure)
+	{
+		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+		return 0;
+	}
+	/**
+	 *  Get test result count for the given measure and parameters for alphanumeric - low, normal, high
+	 *
+	 * @return count
+	 */
+	public function alphaNumCount($from=null, $to=null, $testTypeId, $measure){
+
+	}
+	
 }

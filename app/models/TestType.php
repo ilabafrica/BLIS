@@ -291,21 +291,24 @@ class TestType extends Eloquent
 			if($to && $from){
 				$tests = $tests->whereBetween('time_created', [$from, $to]);
 			}
-			if($gender){
+			if($ageRange || $gender){
 				$tests = $tests->join('visits', 'tests.visit_id', '=', 'visits.id')
-							   ->join('patients', 'visits.patient_id', '=', 'patients.id')
-							   ->whereIn('gender', $gender);
-			}
-			if($ageRange){
-				$ageRange = explode('-', $ageRange);
-				$ageStart = $ageRange[0];
-				$ageEnd = $ageRange[1];
+							   ->join('patients', 'visits.patient_id', '=', 'patients.id');
+							   if($gender){
+							   		$tests = $tests->whereIn('gender', $gender);
+							   	}
+							   	if($ageRange){
+							   		$age = explode('-', $ageRange);
+									$ageStart = $age[0];
+									$ageEnd = $age[1];
 
-				$now = new DateTime('now');
-				$finishDate = $now->sub(new DateInterval('P'.$ageStart.'Y'))->format('Y-m-d');
-				$startDate = $now->sub(new DateInterval('P'.$ageEnd.'Y'))->format('Y-m-d');
-
-				$tests = $tests->whereBetween('dob', [$startDate, $finishDate]);
+									$now = new DateTime('now');
+									$clonedDate = clone $now;
+									$finishDate = $clonedDate->sub(new DateInterval('P'.$ageStart.'Y'))->format('Y-m-d');
+									$clonedDate = clone $now;
+									$startDate = $clonedDate->sub(new DateInterval('P'.$ageEnd.'Y'))->format('Y-m-d');
+							   		$tests = $tests->whereBetween('dob', [$startDate, $finishDate]);
+							   	}
 			}
 
 		return $tests->count();

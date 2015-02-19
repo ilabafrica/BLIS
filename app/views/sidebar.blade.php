@@ -179,7 +179,7 @@
 						</div>
 					</li>
 					<li>
-						<div><a href="{{ URL::route('reports.aggregate.moh706')}}">
+						<div><a href="{{ URL::route('reports.aggregate.moh706')}}" target="_blank">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{trans('messages.moh-706')}}</a>
 						</div>

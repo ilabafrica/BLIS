@@ -974,6 +974,471 @@ class ReportController extends \BaseController {
 	 *
 	 */
 	public function moh706(){
-		return View::make('reports.moh.index');
-	}
+		//	Variables definition
+		$date = date('Y-m-d');
+		$from = Input::get('start');
+		if(!$from) $from = date('Y-m-01');
+		$to = Input::get('end');
+		if(!$to) $to = $date;
+		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+		$ageRanges = array('0-5', '5-14', '14-120');
+		$sex = array(Patient::MALE, Patient::FEMALE);
+		$ranges = array('Low', 'Normal', 'High');
+		$specimen_types = array('Urine', 'Pus', 'HVS', 'Throat', 'Stool', 'Blood', 'CSF', 'Water', 'Food', 'Other fluids');
+		$isolates = array('Naisseria', 'Klebsiella', 'Staphylococci', 'Streptoccoci'. 'Proteus', 'Shigella', 'Salmonella', 'V. cholera', 
+						  'E. coli', 'C. neoformans', 'Cardinella vaginalis', 'Haemophilus', 'Bordotella pertusis', 'Pseudomonas', 
+						  'Coliforms', 'Faecal coliforms', 'Enterococcus faecalis', 'Total viable counts-22C', 'Total viable counts-37C', 
+						  'Clostridium', 'Others');
+
+		//	Get specimen_types for microbiology
+		$labSecId = TestCategory::getTestCatIdByName('microbiology');
+		$specTypeIds = DB::select(DB::raw("select distinct(specimen_types.id) as spec_id from testtype_specimentypes".
+										  " join test_types on test_types.id=testtype_specimentypes.test_type_id".
+										  " join specimen_types on testtype_specimentypes.specimen_type_id=specimen_types.id".
+										  "  where test_types.test_category_id=?"), array($labSecId));
+
+		//	Referred out specimen
+		$referredSpecimens = DB::select(DB::raw("select * from specimens".
+												" where referral_id is not null".
+												" and time_accepted between ? and ?;"), array($from, $toPlusOne));
+		$table = '<div class="col-sm-4">
+						<strong>HISTOLOGY AND CYTOLOGY REPORT</strong>
+						<table class="table table-condensed report-table-border">
+							<thead>
+								<tr>
+									<th rowspan="2"></th>
+									<th rowspan="2">Total</th>
+									<th rowspan="2">Normal</th>
+									<th rowspan="2">Infective</th>
+									<th colspan="2">Non-infective</th>
+									<th colspan="3">Positive findings</th>
+								</tr>
+								<tr>
+									<th>Benign</th>
+									<th>Malignant</th>
+									<th>&lt;5 yrs</th>
+									<th>5-14 yrs</th>
+									<th>&gt;14 yrs</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td colspan="9">SMEARS</td>
+								</tr>
+								<tr>
+									<td>Pap Smear</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+								</tr>
+								<tr>
+									<td>Tissue Impressions</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+								</tr>
+								<tr>
+									<td colspan="9">TISSUE ASPIRATES (FNA)</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+								</tr>
+								<tr>
+									<td colspan="9">FLUID CYTOLOGY</td>
+								</tr>
+								<tr>
+									<td>Ascitic fluid</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+								</tr>
+								<tr>
+									<td>CSF</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+								</tr>
+								<tr>
+									<td>Pleural fluid</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+								</tr>
+								<tr>
+									<td>Others</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td colspan="9">TISSUE HISTOLOGY</td>
+								</tr>
+								<tr>
+									<td>Cervix</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+								</tr>
+								<tr>
+									<td>Prostrate</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+								</tr>
+								<tr>
+									<td>Breast</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+								</tr>
+								<tr>
+									<td>Ovarian cyst</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+								</tr>
+								<tr>
+									<td>Fibroids</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+								</tr>
+								<tr>
+									<td>Lymph nodes</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+									<td>N/S</td>
+								</tr>
+								<tr>
+									<td>Others</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+						<strong>SEROLOGY REPORT</strong>
+						<table class="table table-condensed report-table-border">
+							<thead>
+								<tr>
+									<th rowspan="2">Serological test</th>
+									<th colspan="2">Total</th>
+									<th colspan="2">&lt;5 yrs</th>
+									<th colspan="2">5-14 yrs</th>
+									<th colspan="2">&gt;14 yrs</th>
+								</tr>
+								<tr>
+									<th>Tested</th>
+									<th>No. +ve</th>
+									<th>Tested</th>
+									<th>No. +ve</th>
+									<th>Tested</th>
+									<th>No. +ve</th>
+									<th>Tested</th>
+									<th>No. +ve</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Rapid Plasma Region</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>TPHA</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>ASO Test</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>HIV Test</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Widal Test</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Brucella Test</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Rheumatoid Factor Tests</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Cryptococcal Antigen</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Helicobacter pylori test</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Hepatitis A test</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Hepatitis B test</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Hepatitis C test</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Viral Load</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Formal Gel Test</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Other Tests</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+						<br />
+						<table class="table table-condensed report-table-border">
+							<thead>
+								<tr>
+									<th>Dried Blood Spots</th>
+									<th>Tested</th>
+									<th># +ve</th>
+									<th>Discrepant</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Early Infant Diagnosis of HIV</td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Quality Assurance</td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Discordant couples</td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Others</td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+						<p><strong>Specimen referral to higher levels</strong></p>
+						<table class="table table-condensed report-table-border">
+							<thead>
+								<tr>
+									<th>Specimen</th>
+									<th>No</th>
+									<th>Sent to</th>
+									<th>No. of Reports/results received</th>
+								</tr>
+							</thead>
+							<tbody>';
+						foreach ($referredSpecimens as $referredSpecimen) {
+							$table.='<tr>
+									<td>'.SpecimenType::find($referredSpecimen->specimen_type_id)->name.'</td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>';
+						}
+						$table.='</tbody>
+						</table>
+					</div>';
+
+		return View::make('reports.moh.index')->with('table', $table);
+	}	
 }
