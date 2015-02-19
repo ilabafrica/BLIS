@@ -40,15 +40,24 @@
 					
 				</tr>
 			</thead>
-
 			<tbody>
-			<tr>
-				</tr>				
+			@foreach($commodities as $key => $value)
+			<tr @if(Session::has('activecommodity'))
+                            {{(Session::get('activecommodity') == $value->id)?"class='info'":""}}
+                        @endif
+                        >
+				<tr>
+                 	<td>{{ $value->receipt_date}}</td>
+					<td>{{ $value->commodity }}</td>
+					<td>{{ $value->batch_no }}</td>
+					<td>{{ $value->expiry_date }}</td>
+					<td>{{ $value->qty }}</td>
+					<td>0</td>
+					<td>0</td>
+				</tr>
+				@endforeach
 			</tbody>
 			</table>
-
-
-
 
 		<?php  
 		Session::put('SOURCE_URL', URL::full());?>

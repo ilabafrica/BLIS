@@ -10,6 +10,11 @@
 @if (Session::has('message'))
 	<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
 @endif
+@if($errors->all())
+                <div class="alert alert-danger">
+                    {{ HTML::ul($errors->all()) }}
+                </div>
+            @endif
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
@@ -19,7 +24,7 @@
 	</div>
 	<div class="panel-body">
 		 
-            {{ Form::open(array('url' => 'role', 'id' => 'form-create-role')) }}
+           {{ Form::open(array('url' => 'inventory/store_issues', 'id' => 'form-issues')) }}
 
             <div class="form-group">
                 {{ Form::label('Commodity', trans('messages.commodity')) }}
