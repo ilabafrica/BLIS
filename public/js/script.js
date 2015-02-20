@@ -152,6 +152,12 @@ $(function(){
 	$('.measure-container').on('click', '.close', function(){
 		$(this).parent().parent().remove();
 	});
+	
+	// Delete Surveillance entry
+
+	$('.surveillance-input').on('click', '.close', function(){
+		$(this).parent().parent().parent().remove();
+	});
 
 	/** 
 	 * Fetch Test results

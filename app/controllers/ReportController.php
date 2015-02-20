@@ -997,10 +997,14 @@ class ReportController extends \BaseController {
 	 */
 	public function surveillanceConfig(){
 		
+        $allSurveillanceIds = array();
+		
+		//edit or leave surveillance entries as is
 		if (Input::get('surveillance')) {
 			$diseases = Input::get('surveillance');
 
 			foreach ($diseases as $id => $disease) {
+                $allSurveillanceIds[] = $id;
 				$surveillance = ReportConfig::find($id);
 				$surveillance->disease = $disease['disease'];
 				$surveillance->test_type_id = $disease['test-type'];
@@ -1008,6 +1012,7 @@ class ReportController extends \BaseController {
 			}
 		}
 		
+		//save new surveillance entries
 		if (Input::get('new-surveillance')) {
 			$diseases = Input::get('new-surveillance');
 
@@ -1016,12 +1021,37 @@ class ReportController extends \BaseController {
 				$surveillance->disease = $disease['disease'];
 				$surveillance->test_type_id = $disease['test-type'];
 				$surveillance->save();
+                $allSurveillanceIds[] = $surveillance->id;
 			}
 		}
 
+     	// Delete any pre-existing surveillance entries
+     	//that were not captured in any of the above save loops
+        $allSurveillances = ReportConfig::all(array('id'));
+
+        $deleteSurveillances = array();
+
+        //Identify survillance entries to be deleted by Ids
+        foreach ($allSurveillances as $key => $value) {
+            if (!in_array($value->id, $allSurveillanceIds)) {
+                $deleteSurveillances[] = $value->id;
+            }
+        }
+
+        //Delete Surveillance entry if any
+        if(count($deleteSurveillances)>0)ReportConfig::destroy($deleteSurveillances);
+
+        //Updates survillance data
 		$diseaseTests = ReportConfig::all();
 
 		return View::make('reportconfig.edit')
 					->with('diseaseTests', $diseaseTests);
 	}
 }
+
+
+
+
+
+
+             

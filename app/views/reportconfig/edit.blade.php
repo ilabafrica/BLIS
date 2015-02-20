@@ -42,6 +42,8 @@
 					<div class="col-sm-5 col-md-3">
 						<input class="form-control" name="surveillance[{{ $diseaseTest->id }}][disease]"
 							type="text" value="{{ $diseaseTest->disease }}">
+					    <button class="close" aria-hidden="true" type="button" 
+					        title="{{trans('messages.delete')}}">×</button>
 					</div>
 				</div>
             </div>
@@ -76,6 +78,8 @@
 			</div>
 			<div class="col-sm-5 col-md-3">
 				<input class="form-control disease" name="" type="text">
+			    <button class="close" aria-hidden="true" type="button" 
+			        title="{{trans('messages.delete')}}">×</button>
 			</div>
 		</div>
     </div>
