@@ -900,6 +900,8 @@ class TestDataSeeder extends DatabaseSeeder
             array($test_types_brucella->id, "13"));
         DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
             array($test_types_pylori->id, "13"));
+        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+            array($testTypeStoolCS->id, "16"));
         $this->command->info('TestTypes/SpecimenTypes seeded');
         
         /*New measures for prevalence*/
