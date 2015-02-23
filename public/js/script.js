@@ -539,3 +539,46 @@ $(function(){
         	}
    		});
 	});
+
+	function saveObservation(tid, username){
+		txtarea = "observation_"+tid;
+		observation = $("#"+txtarea).val();
+
+		$.ajax({
+			type: 'POST',
+			url:  'test/culture_worksheet',
+			data: {obs: observation, testId: tid, action: "add"},
+			success: function(){
+				drawCultureWorksheet(tid , username);
+			}
+		});
+	}
+	/**
+	 * Request a json string from the server containing contents of the culture_worksheet table for this test
+	 * and then draws a table based on this data.
+	 * @param  {int} tid      Test Id of the test
+	 * @param  {string} username Current user
+	 * @return {void}          No return
+	 */
+	function drawCultureWorksheet(tid, username){
+		$.getJSON('ajax/culture_worksheet.php', { testId: tid, action: "draw"}, 
+			function(data){
+				var tableBody ="";
+				$.each(data, function(index, elem){
+					tableBody += "<tr>"
+					+" <td>"+elem.time_stamp+" </td>"
+					+" <td>"+elem.userId+"</td>"
+					+" <td>"+elem.observation+"</td>"
+					+" <td> </td>"
+					+"</tr>";
+				});
+				tableBody += "<tr>"
+					+"<td>Just now</td>"
+					+"<td>"+username+"</td>"
+					+"<td><textarea id='txtObsv_"+tid+"' style='width:390px'></textarea></td>"
+					+"<td><a class='btn mini' href='javascript:void(0)' onclick='saveObservation("+tid+", &quot;"+username+"&quot;)'>Save</a></td>"
+					+"</tr>";
+				$("#tbbody_"+tid).html(tableBody);
+			}
+		);
+	}

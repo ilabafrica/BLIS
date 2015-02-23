@@ -33,13 +33,15 @@ class TestTypeController extends \BaseController {
 		$specimentypes = SpecimenType::orderBy('name')->get();
 		$testcategory = TestCategory::all();
         $measuretype = MeasureType::all()->sortBy('id');
+        $organisms = Organism::orderBy('name')->get();
 
 		//Create TestType
 		return View::make('testtype.create')
 					->with('testcategory', $testcategory)
 					->with('measures', $measures)
        				->with('measuretype', $measuretype)
-					->with('specimentypes', $specimentypes);
+					->with('specimentypes', $specimentypes)
+					->with('organisms', $organisms);
 	}
 
 	/**
@@ -79,6 +81,7 @@ class TestTypeController extends \BaseController {
 				$measureIds = $measures->store($inputNewMeasures);
 				$testtype->setMeasures($measureIds);
 				$testtype->setSpecimenTypes(Input::get('specimentypes'));
+				$testtype->setOrganisms(Input::get('organisms'));
 
 				return Redirect::route('testtype.index')
 					->with('message', trans('messages.success-creating-test-type'));
@@ -118,6 +121,7 @@ class TestTypeController extends \BaseController {
         $measuretype = MeasureType::all()->sortBy('id');
 		$specimentypes = SpecimenType::orderBy('name')->get();
 		$testcategory = TestCategory::all();
+		$organisms = Organism::orderBy('name')->get();
 
 		//Open the Edit View and pass to it the $testtype
 		return View::make('testtype.edit')
@@ -125,7 +129,8 @@ class TestTypeController extends \BaseController {
 					->with('testcategory', $testcategory)
 					->with('measures', $measures)
        				->with('measuretype', $measuretype)
-					->with('specimentypes', $specimentypes);
+					->with('specimentypes', $specimentypes)
+					->with('organisms', $organisms);
 	}
 
 
@@ -159,6 +164,7 @@ class TestTypeController extends \BaseController {
 			try{
 				$testtype->save();
 				$testtype->setSpecimenTypes(Input::get('specimentypes'));
+				$testtype->setOrganisms(Input::get('organisms'));
 				$measureIds = array();
 					if (Input::get('new-measures')) {
 						$inputNewMeasures = Input::get('new-measures');

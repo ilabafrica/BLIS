@@ -251,6 +251,15 @@ return array(
     'list-organisms' => 'List Organisms',
     'compatible-drugs' => 'Compatible Drugs',
     'no-compatible-drugs' => 'No compatible drugs found for this organism.',
+    /* Culture worksheet */
+    'culture-worksheet' =>  'CULTURE WORKSHEET',
+    'culture-work-up' =>  'CULTURE OBSERVATIONS AND WORK-UP',
+    'show-culture-worksheet'    =>  'Show Culture Worksheet?',
+    'select-organisms'  =>  'Select Organisms',
+    'date'  =>  'Date',
+    'tech-initials' =>  'Tech Initials',
+    'observations-and-work-up'  =>  'Observations and work-up',
+    'susceptibility-test-results'   =>  'SUSCEPTIBILITY TEST RESULTS',
 
     /**
      *  Tests

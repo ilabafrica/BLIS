@@ -112,6 +112,53 @@
 		                    {{ Form::textarea('interpretation', $test->interpretation, 
 		                        array('class' => 'form-control result-interpretation', 'rows' => '2')) }}
 		                </div>
+		                @if(count($test->testType->organisms)>0)
+                        <div class="panel panel-success">  <!-- Patient Details -->
+	                        <div class="panel-heading">
+	                            <h3 class="panel-title">{{trans("messages.culture-worksheet")}}</h3>
+	                        </div>
+	                        <div class="panel-body">
+                                <p><strong>{{trans("messages.culture-work-up")}}</strong></p>
+                                <table class="table table-bordered">
+									<tbody>
+										<tr>
+											<th width="15%">{{ trans('messages.date')}}</th>
+											<th width="10%">{{ trans('messages.tech-initials')}}</th>
+											<th>{{ trans('messages.observations-and-work-up')}}</th>
+											<th width="10%"></th>
+										</tr>
+										<tr>
+											<td>{{ Test::showTimeAgo(date('Y-m-d')) }}</td>
+											<td>{{ Auth::user()->name }}</td>
+											<td>{{ Form::textarea('observation', $test->interpretation, 
+					                        	array('class' => 'form-control result-interpretation', 'rows' => '2', 'id' => 'observation_'.$test->id)) }}
+					                        </td>
+											<td><a class="btn btn-xs btn-success" href="javascript:void(0)" onclick="saveObservation(<?php echo $test->id; ?>, <?php echo Auth::user()->id; ?>)">
+												<span class="glyphicon glyphicon-thumbs-up">{{ trans('messages.save') }}</span></a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<p><strong>{{trans("messages.susceptibility-test-results")}}</strong></p>
+                                <table class="table table-bordered">
+									<tbody>
+										<tr>
+											<th width="15%">{{ trans('messages.date')}}</th>
+											<th width="10%">{{ trans('messages.tech-initials')}}</th>
+											<th>{{ trans('messages.observations-and-work-up')}}</th>
+											<th width="10%"></th>
+										</tr>
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+	                        </div> <!-- ./ panel-body -->
+	                    </div> <!-- ./ panel -->
+                        @endif
 						<div class="form-group actions-row">
 							{{ Form::button('<span class="glyphicon glyphicon-save"></span> '.trans('messages.update-test-results'),
 								array('class' => 'btn btn-default', 'onclick' => 'submit()')) }}

@@ -249,6 +249,11 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@verify"
     ));
 
+    Route::any("/test/culture_worksheet", array(
+        "as"   => "test.culture",
+        "uses" => "TestController@culture"
+    ));
+
     Route::group(array("before" => "admin"), function()
     {
         Route::resource("permission", "PermissionController");
