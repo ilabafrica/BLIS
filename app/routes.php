@@ -119,6 +119,13 @@ Route::group(array("before" => "auth"), function()
             "as"   => "drug.delete",
             "uses" => "DrugController@delete"
         ));
+
+        Route::resource('organism', 'OrganismController');
+        
+        Route::get("/organism/{id}/delete", array(
+            "as"   => "organism.delete",
+            "uses" => "OrganismController@delete"
+        ));
     });
 
     Route::group(array("before" => "checkPerms:manage_lab_configurations"), function()

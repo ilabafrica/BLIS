@@ -16,6 +16,7 @@
 		case 'specimentype': 
 		case 'specimenrejection': 
 		case 'drug':
+		case 'organism':
 			$active[4] = "active"; break;
 		case 'patientreport': 
 		case 'dailylog': 
@@ -123,6 +124,12 @@
 						<div>
 							<a href="{{ URL::route("drug.index")}}">
 								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.drug', 2)}}</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route("organism.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.organism', 2)}}</a>
 						</div>
 					</li>
 				</ul>

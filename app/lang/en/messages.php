@@ -238,6 +238,20 @@ return array(
     'drug-details' => 'Drug Details',
     'list-drugs' => 'List Drugs',
 
+    /* Organisms */
+
+    'organism' => 'Organism|Organisms',
+    'create-organism' => 'Create Organism',
+    'edit-organism' => 'Edit Organism',
+    'failure-organism-in-use' => 'This Organism is in use',
+    'success-creating-organism' => 'Successfully created Organism.',
+    'success-deleting-organism' => 'Successfully deleted the Organism.',
+    'success-updating-organism' => 'The Organism was successfully updated!',
+    'organism-details' => 'Organism Details',
+    'list-organisms' => 'List Organisms',
+    'compatible-drugs' => 'Compatible Drugs',
+    'no-compatible-drugs' => 'No compatible drugs found for this organism.',
+
     /**
      *  Tests
      */
