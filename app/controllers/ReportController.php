@@ -1043,7 +1043,6 @@ class ReportController extends \BaseController {
 	        if(count($deleteSurveillances)>0)ReportConfig::destroy($deleteSurveillances);
         }
 
-
         //Updates survillance data
 		$diseaseTests = ReportConfig::all();
 
@@ -1051,10 +1050,3 @@ class ReportController extends \BaseController {
 					->with('diseaseTests', $diseaseTests);
 	}
 }
-
-
-
-
-
-
-             

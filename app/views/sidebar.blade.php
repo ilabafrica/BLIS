@@ -58,34 +58,24 @@
 					<span class="glyphicon glyphicon-wrench"></span> {{trans('messages.lab-configuration')}}</a>
 			</div>
 			<div class="sub-menu {{$active[3]}}">
+				<div class="sub-menu-title">
+					<a href="{{ URL::route('instrument.index')}}">
+						{{Lang::choice('messages.instrument', 2)}}</a>
+				</div>
+				<div class="sub-menu-title">{{ Lang::choice('messages.report', 2)}}</div>
 				<ul class="sub-menu-items">
-					<li>
-						<div>
-							<a href="{{ URL::route('instrument.index')}}">
-								<span class="glyphicon glyphicon-tag"></span>
-								{{Lang::choice('messages.instrument', 2)}}</a>
-						</div>
-					</li>
 					<li>
 						<div><a href="{{ URL::route("reportconfig.surveillance") }}">
 							<span class="glyphicon glyphicon-tag"></span>
-							{{ Lang::choice('messages.report', 2)}}</a>
+							{{ trans('messages.surveillance')}}</a>
 						</div>
 					</li>
 				</ul>
-				<ul class="sub-menu-items">
-					<li>
-						<div>
-							<a href="{{ URL::route("facility.index") }}">
-								<span class="glyphicon glyphicon-tag"></span>
-									{{Lang::choice('messages.facility',2)}}
-							</a>
-						</div>
-					</li>
-				</ul>
+				<div class="sub-menu-title">
+					<a href="{{ URL::route("facility.index") }}">
+						{{Lang::choice('messages.facility',2)}}</a>
+				</div>
 			</div>
-			
-
 		</li>
 		@endif
 		@if(Entrust::can('manage_test_catalog'))
