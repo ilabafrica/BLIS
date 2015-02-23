@@ -52,6 +52,7 @@
 		</div>
 		<div class="panel-footer">
 			<div class="form-group actions-row">
+				<input class="hidden" name="from-form" type="text" value="from-form">
 				{{ Form::button(
 					'<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'), 
 					['class' => 'btn btn-primary', 'onclick' => 'authenticate("#form-edit-surveillance")']

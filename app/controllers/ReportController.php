@@ -1025,21 +1025,24 @@ class ReportController extends \BaseController {
 			}
 		}
 
-     	// Delete any pre-existing surveillance entries
-     	//that were not captured in any of the above save loops
-        $allSurveillances = ReportConfig::all(array('id'));
+        //check if action is from a form submission
+        if (Input::get('from-form')) {
+	     	// Delete any pre-existing surveillance entries
+	     	//that were not captured in any of the above save loops
+	        $allSurveillances = ReportConfig::all(array('id'));
 
-        $deleteSurveillances = array();
+	        $deleteSurveillances = array();
 
-        //Identify survillance entries to be deleted by Ids
-        foreach ($allSurveillances as $key => $value) {
-            if (!in_array($value->id, $allSurveillanceIds)) {
-                $deleteSurveillances[] = $value->id;
-            }
+	        //Identify survillance entries to be deleted by Ids
+	        foreach ($allSurveillances as $key => $value) {
+	            if (!in_array($value->id, $allSurveillanceIds)) {
+	                $deleteSurveillances[] = $value->id;
+	            }
+	        }
+	        //Delete Surveillance entry if any
+	        if(count($deleteSurveillances)>0)ReportConfig::destroy($deleteSurveillances);
         }
 
-        //Delete Surveillance entry if any
-        if(count($deleteSurveillances)>0)ReportConfig::destroy($deleteSurveillances);
 
         //Updates survillance data
 		$diseaseTests = ReportConfig::all();
