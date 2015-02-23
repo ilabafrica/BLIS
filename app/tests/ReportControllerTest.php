@@ -45,7 +45,7 @@ class ReportControllerTest extends TestCase
 
 	public function setVariables(){
 		//There are three seed entries being used
-		//C:\xampp\htdocs\iBLIS\app\database\seeds\TestDataSeeder.php
+		//app/database/seeds/TestDataSeeder.php
 		$this->input = array(
 			//adding a new entry
 			'new-surveillance' => [
@@ -56,7 +56,8 @@ class ReportControllerTest extends TestCase
 			'surveillance' => [
 				'1' => ['test-type' => '1','disease' => 'Just Changed This!'],
 				'2' => ['test-type' => '7','disease' => 'Just Changed This as well!']
-			]
+			],
+			'from-form' => 'from-form'
 		);
     }
 }
