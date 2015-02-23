@@ -15,6 +15,7 @@
 		case 'measure': 
 		case 'specimentype': 
 		case 'specimenrejection': 
+		case 'drug':
 			$active[4] = "active"; break;
 		case 'patientreport': 
 		case 'dailylog': 
@@ -116,6 +117,12 @@
 						<div>
 							<a href="{{ URL::route("testtype.index")}}">
 								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.test-type', 2)}}</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route("drug.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.drug', 2)}}</a>
 						</div>
 					</li>
 				</ul>
