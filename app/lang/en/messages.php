@@ -226,6 +226,18 @@ return array(
     'test-type' => 'Test Type|Test Types',
     'test-type-details' => 'Test Type Details',
 
+    /* Drugs */
+
+    'drug' => 'Drug|Drugs',
+    'create-drug' => 'Create Drug',
+    'edit-drug' => 'Edit Drug',
+    'failure-drug-in-use' => 'This Drug is in use',
+    'success-creating-drug' => 'Successfully created Drug.',
+    'success-deleting-drug' => 'Successfully deleted the Drug.',
+    'success-updating-drug' => 'The Drug was successfully updated!',
+    'drug-details' => 'Drug Details',
+    'list-drugs' => 'List Drugs',
+
     /**
      *  Tests
      */
