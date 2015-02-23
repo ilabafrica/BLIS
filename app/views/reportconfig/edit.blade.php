@@ -13,19 +13,20 @@
 	</div>
 	{{ Form::open(array('route' => 'reportconfig.surveillance', 'id' => 'form-edit-surveillance')) }}
 		<div class="panel-body surveillance-input">
-			@if($errors->all())
-				<div class="alert alert-danger">
+			<div class="alert alert-danger error-div hidden">
+				<ul><li>Please enter all fields</li></ul>
+				@if($errors->all())
 					{{ HTML::ul($errors->all()) }}
+				@endif
+			</div>
+			<div class="row">
+				<div class="col-sm-5 col-md-3">
+	                <label>{{ Lang::choice('messages.test-type',1) }}</label>
 				</div>
-			@endif
-				<div class="row">
-					<div class="col-sm-5 col-md-3">
-		                <label>{{ Lang::choice('messages.test-type',1) }}</label>
-					</div>
-					<div class="col-sm-5 col-md-3">
-		                <label>{{ trans('messages.disease') }}</label>
-					</div>
+				<div class="col-sm-5 col-md-3">
+	                <label>{{ trans('messages.disease') }}</label>
 				</div>
+			</div>
 			@foreach($diseaseTests as $diseaseTest)
 			<div class="form-group">
 				<div class="row">
@@ -53,7 +54,7 @@
 			<div class="form-group actions-row">
 				{{ Form::button(
 					'<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'), 
-					['class' => 'btn btn-primary', 'onclick' => 'submit()']
+					['class' => 'btn btn-primary', 'onclick' => 'authenticate("#form-edit-surveillance")']
 				) }}
 				{{ Form::button(trans('messages.cancel'), 
 					['class' => 'btn btn-default', 'onclick' => 'javascript:history.go(-1)']

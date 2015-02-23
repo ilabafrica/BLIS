@@ -570,3 +570,18 @@ $(function(){
 		$('#user-statistics-report-table').DataTable();
 		$('#measures-index').DataTable();
 	});
+
+	//Make sure all input fields are entered before submission
+	function authenticate (form) {
+    	var empty = false;
+		$('form :input:not(button)').each(function() {
+
+            if ($(this).val() == '') {
+                empty = true;
+	            $('.error-div').removeClass('hidden');
+            }
+	        if (empty) return false;
+	    });
+        if (empty) return;
+	    $(form).submit();
+	}
