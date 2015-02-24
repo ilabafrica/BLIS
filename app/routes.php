@@ -325,6 +325,12 @@ Route::group(array("before" => "auth"), function()
     Route::group(array("before" => "admin"), function()
     {
         Route::resource("lot", "LotController");
+
+        Route::get('lot/{controlid}/editranges', array(
+            'as' => 'lot.editranges',
+            'uses' => 'LotController@editRanges'
+        ));
+
         Route::resource("control", "ControlController");
     });
 });

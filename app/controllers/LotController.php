@@ -23,7 +23,21 @@ class LotController extends \BaseController {
 	public function create()
 	{
 		$controls = Control::lists('name', 'id');
-		return View::make('lot.create')->with('controls', $controls);
+		$measureTypes = MeasureType::all();
+		return View::make('lot.create')->with('controls', $controls)->with('measureTypes', $measureTypes);
+	}
+
+	/**
+	 * Returns an lotRanges.blade view depending 
+	 * on the parametes received.
+	 *
+	 * @return View
+	 */
+	public function editRanges($controlId)
+	{
+		$controlMeasures = Control::find($controlId)->ControlMeasures;
+		$measureTypes = MeasureType::all();
+		return View::make('lot.lotRanges')->with('controlMeasures', $controlMeasures)->with('measureTypes', $measureTypes)->render();
 	}
 
 
@@ -35,25 +49,29 @@ class LotController extends \BaseController {
 	public function store()
 	{
 		//Validation
-		$rules = array('number' => 'required|unique:lot,number');
+		$rules = array('number' => 'required|unique:lots,number',
+					'control' => 'required|non_zero_key',
+					'measures' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
-
+		// dd(Input::all());
 		if ($validator->fails()) {
-			return Redirect::route('lot.index')->withErrors($validator)->withInput();
+			return Redirect::route('lot.create')->withErrors($validator)->withInput();
 		} else {
 			// Add
+			dd(Input::get('measures'));
 			$lot = new Lot;
 			$lot->number = Input::get('number');
 			$lot->description = Input::get('description');
-			// redirect
-			try{
-				$lot->save();
-				$url = Session::get('SOURCE_URL');
-				return Redirect::to($url)
-					->with('message', trans('messages.successfully-updated-lot'))->with('activelot', $lot ->id);
-			} catch(QueryException $e){
-				Log::error($e);
+			$lot->save();
+
+			if (Input::get('measures')) {
+					$inputMeasures = Input::get('measures');
+					$controlMeasure = New ControlMeasureController;
+					$controlMeasure->saveRanges($inputMeasures, $lot->id);
 			}
+			$url = Session::get('SOURCE_URL');
+			return Redirect::to($url)
+					->with('message', trans('messages.successfully-updated-lot'));
 		}
 	}
 

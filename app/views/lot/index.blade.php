@@ -25,12 +25,14 @@
 			<thead>
 				<tr>
 					<th>{{ Lang::choice('messages.name', 1) }}</th>
+					<th>{{ Lang::choice('messages.description', 1) }}</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 			@foreach($lots as $lot)
-					<td>{{ $lot->name }}</td>
+					<td>{{ $lot->number }}</td>
+					<th>{{ $lot->description }}</th>
 					<td>
 						<a class="btn btn-sm btn-info" href="{{ URL::to("lot/" . $lot->id . "/edit") }}" >
 							<span class="glyphicon glyphicon-edit"></span>

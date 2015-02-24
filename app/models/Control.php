@@ -8,4 +8,12 @@ class Control extends Eloquent {
      * @var string
      */
 	protected $table = "controls";
+
+	/**
+	 * ConrolMeasures relationship
+	 */
+	public function ControlMeasures()
+	{
+	  return $this->hasMany('ControlMeasure');
+	}
 }

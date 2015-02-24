@@ -105,7 +105,6 @@ $(function(){
 			loadRangeFields();
 		}
 	}
-
 	/**
 	 *	Control_measure Functions
 	 */
@@ -390,6 +389,21 @@ $(function(){
 			$('#new-test-modal #patient_id').val(theRadio.val());
 			$('#new-test-modal .modal-footer .next').prop('disabled', false);
 		});
+
+		$('.add-another-control-range').click(function(){
+			if ($(this).data('measure-id') === 0) {
+			var newMeasureId = $(this).data('new-measure-id');
+			var newMeasureNo = newMeasureId + 1;
+			var measureID = 'new-measure-'+newMeasureId;
+			} else {
+				var measureID = $(this).data('measure-id');
+			}
+			var inputHtml = $('.alphanumericInputLoader').html();
+			$('.control-measure-container').find('.add-another-control-range').attr('data-new-measure-id', newMeasureNo);
+			$('.measurevalue.new-measure-'+measureID+' input.val').attr('name', 'new-measures['+measureID+'][val]['+newMeasureNo+']');
+			$(".measurevalue").append(inputHtml);
+
+		});
 	});
 
 	/**
@@ -576,4 +590,13 @@ $(function(){
             	return JSON.parse(localStorage.getItem('.search-table'));
         	}
    		});
+		$( '#lot-create' ).on('change', '.control-edit', function(){
+			controlid = $('#control').val();
+			editControlRanges(controlid);
+		});
 	});
+
+	function editControlRanges(controlid) {
+		url = controlid + '/editranges';
+		$('#edit-control-ranges').load(url);
+	}

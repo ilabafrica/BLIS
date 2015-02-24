@@ -37,7 +37,7 @@ class ControlController extends \BaseController {
 	public function store()
 	{
 		//Validation
-		$rules = array('name' => 'required',
+		$rules = array('name' => 'required|unique:controls,name',
 		 			'instrument' => 'required|non_zero_key',
 		 			'new-measures' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
@@ -48,16 +48,17 @@ class ControlController extends \BaseController {
 			// Add
 			$control = new Control;
 			$control->name = Input::get('name');
-			$control->description = Input::get('name');
+			$control->description = Input::get('description');
+			$control->instrument_id = Input::get('instrument');
 			$control->save();
 
 			if (Input::get('new-measures')) {
 					$inputNewMeasures = Input::get('new-measures');
-					$controlMeasure = New ControlMeasure;
-					$controlMeasure->store($inputNewMeasures, $control->id);
+					$controlMeasure = New ControlMeasureController;
+					$controlMeasure->saveMeasures($inputNewMeasures, $control->id);
 			}
 			// redirect
-			return Redirect::to('control.index')
+			return Redirect::to('control')
 					->with('message', trans('messages.successfully-added-control'))
 					->with('activeControl', $control ->id);
 		}

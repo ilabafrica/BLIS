@@ -16,7 +16,7 @@ class QcTables extends Migration {
                 {
                 	$table->increments('id')->unsigned();
                 	$table->string('number', 100)->unique();
-                	$table->string('information', 400)->nullable();
+                	$table->string('description', 400)->nullable();
 
                 	$table->softDeletes();
                         $table->timestamps();
@@ -42,7 +42,7 @@ class QcTables extends Migration {
                 	$table->integer('control_id')->unsigned();
                         $table->integer('control_measure_type_id')->unsigned();
 
-                        $table->foreign('control_measure_type_id')->foreign('id')->on('measure_types');
+                        $table->foreign('control_measure_type_id')->references('id')->on('measure_types');
                 	$table->foreign('control_id')->references('id')->on('controls');
                 	$table->timestamps();
                         $table->softDeletes();
@@ -50,9 +50,9 @@ class QcTables extends Migration {
 
                 Schema::create('control_measure_ranges', function(Blueprint $table){
                 	$table->increments('id');
-                	$table->integer('upper_range');
-                	$table->integer('lower_range');
-                	$table->string('alphanumeric', '100');
+                	$table->integer('upper_range')->nullable();
+                	$table->integer('lower_range')->nullable();
+                	$table->string('alphanumeric', '100')->nullable();
                 	$table->integer('control_measure_id')->unsigned();
                 	$table->integer('lot_id')->unsigned();
 
@@ -84,10 +84,9 @@ class QcTables extends Migration {
 	public function down()
 	{
 		Schema::dropIfExists('control_results');
-		Schema::dropIfExists('ranges');
-		Schema::dropIfExists('lot_ranges');
+		Schema::dropIfExists('control_measure_ranges');
 		Schema::dropIfExists('control_measures');
-		Schema::dropIfExists('control_types');
+		Schema::dropIfExists('controls');
 		Schema::dropIfExists('lots');
 	}
 }

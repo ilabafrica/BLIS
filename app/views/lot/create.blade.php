@@ -12,8 +12,8 @@
 		<span class="glyphicon glyphicon-cog"></span>
 		{{trans('messages.add-lot')}}
 	</div>
-	{{ Form::open(array('route' => array('lot.index'), 'id' => 'form-add-instrument')) }}
-		<div class="panel-body">
+	{{ Form::open(array('route' => array('lot.index'), 'id' => 'form-add-lot')) }}
+		<div class="panel-body" id="lot-create">
 		<!-- if there are creation errors, they will show here -->
 			
 			@if($errors->all())
@@ -32,8 +32,10 @@
 			</div>
 			<div class="form-group">
 				{{ Form::label('control', trans('messages.control')) }}
-				{{ Form::select('control', $controls, Input::old('control'), 
-					array('class' => 'form-control')) }}
+				{{ Form::select('control', array('') + $controls, Input::old('control'), 
+					array('class' => 'form-control control-edit')) }}
+			</div>
+			<div class="form-group" id="edit-control-ranges">
 			</div>
 		</div>
 		<div class="panel-footer">
@@ -49,5 +51,4 @@
 		</div>
 	{{ Form::close() }}
 </div>
-@include("lot.lotRanges")
 @stop

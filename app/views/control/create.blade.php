@@ -12,7 +12,7 @@
 		<span class="glyphicon glyphicon-cog"></span>
 		{{trans('messages.add-control')}}
 	</div>
-	{{ Form::open(array('route' => array('control.index'), 'id' => 'form-add-instrument')) }}
+	{{ Form::open(array('route' => array('control.index'), 'id' => 'form-add-control')) }}
 		<div class="panel-body">
 		<!-- if there are creation errors, they will show here -->
 			
