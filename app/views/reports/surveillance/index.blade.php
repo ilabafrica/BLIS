@@ -16,7 +16,7 @@
 					{{ Form::label('start', trans("messages.from")) }}
 				</div>
 				<div class="col-sm-3">
-					{{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
+					{{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-01'), 
 				        array('class' => 'form-control standard-datepicker')) }}
 	   			</div>
 	    	</div>

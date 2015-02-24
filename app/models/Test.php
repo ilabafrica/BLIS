@@ -471,13 +471,34 @@ class Test extends Eloquent
 
 		$query = "SELECT ";
 		foreach ($testTypes as $testType) {
-			$query = $query."COUNT(DISTINCT if(t.test_type_id=".$testType['test_type_id'].",t.id,NULL)) as ".$testType['test_type_id']."_total,".
+			$query = $query.
+				"COUNT(DISTINCT if(t.test_type_id=".$testType['test_type_id'].",t.id,NULL)) as ".$testType['test_type_id']."_total,".
 				"COUNT(DISTINCT if((t.test_type_id=".$testType['test_type_id'].
 					" and DATE_SUB(NOW(), INTERVAL 5 YEAR)>p.dob),t.id,NULL)) as ".$testType['test_type_id']."_less_five_total, ".
 				"COUNT(DISTINCT if((t.test_type_id=".$testType['test_type_id'].
-					" and tr.result='positive'),t.id,NULL)) as ".$testType['test_type_id']."_positive, ".
+					" and (tr.result='+' or".
+					" tr.result='++' or".
+					" tr.result='+++' or".
+					" tr.result='++++' or".
+					" tr.result='Positive' or".
+					" tr.result='salmonella spp isolated' or".
+					" tr.result='shigella flexineri isolated' or".
+					" tr.result='shigella boydie isolated' or".
+					" tr.result='shigella sonnei isolated' or".
+					" tr.result='shygella dysentriae isolated')".
+						"),t.id,NULL)) as ".$testType['test_type_id']."_positive, ".
 				"COUNT(DISTINCT if((t.test_type_id=".$testType['test_type_id'].
-					" and tr.result='positive' and DATE_SUB(NOW(), INTERVAL 5 YEAR)>p.dob),t.id,NULL)) as ".$testType['test_type_id'].
+					" and (tr.result='+' or".
+					" tr.result='++' or".
+					" tr.result='+++' or".
+					" tr.result='++++' or".
+					" tr.result='Positive' or".
+					" tr.result='salmonella spp isolated' or".
+					" tr.result='shigella flexineri isolated' or".
+					" tr.result='shigella boydie isolated' or".
+					" tr.result='shigella sonnei isolated' or".
+					" tr.result='shygella dysentriae isolated')".
+						" and DATE_SUB(NOW(), INTERVAL 5 YEAR)>p.dob),t.id,NULL)) as ".$testType['test_type_id'].
 						"_less_five_positive";
 		    if($testType == end($testTypes)) {
 		        $query = $query." ";
@@ -492,8 +513,6 @@ class Test extends Eloquent
 			if ($from) {
 				$query = $query."WHERE (time_created BETWEEN '".$from."' AND '".$to."')";
 			}
-
-		$data = DB::select($query);
 
 		$data = DB::select($query);
 		$data = json_decode(json_encode($data), true);

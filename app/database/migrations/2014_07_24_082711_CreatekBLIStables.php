@@ -312,7 +312,7 @@ class CreatekBLIStables extends Migration {
         Schema::create('report_configs', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
-            $table->integer('test_type_id')->unsigned();
+            $table->integer('test_type_id')->unsigned()->unique();
             $table->string('disease', 60);
 
             $table->foreign('test_type_id')->references('id')->on('test_types');
