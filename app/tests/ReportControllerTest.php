@@ -49,7 +49,7 @@ class ReportControllerTest extends TestCase
 		$this->input = array(
 			//adding a new entry
 			'new-surveillance' => [
-				'1' => ['test-type' => '1','disease' => 'Some Thing New!']
+				'1' => ['test-type' => '4','disease' => 'Some Thing New!']
 			],
 			//editing and deleting entries
 			//by not puting the other one seed entry here, it should be deleted
