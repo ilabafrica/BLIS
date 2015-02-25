@@ -261,8 +261,8 @@
 								@endforeach
                               </div>
 	                        </div> <!-- ./ panel-body -->
-                        @endif
 	                    </div>
+                        @endif
 					</div>
 	                <div class="col-md-6">
 	                    <div class="panel panel-info">  <!-- Patient Details -->

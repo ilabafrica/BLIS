@@ -38,6 +38,7 @@ class CreateMicrobiologyTables extends Migration {
             $table->increments('id')->unsigned();
             $table->integer('organism_id')->unsigned();
             $table->integer('drug_id')->unsigned();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('organism_id')->references('id')->on('organisms');
@@ -50,6 +51,7 @@ class CreateMicrobiologyTables extends Migration {
             $table->increments('id')->unsigned();
             $table->integer('test_type_id')->unsigned();
             $table->integer('organism_id')->unsigned();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('test_type_id')->references('id')->on('test_types');
@@ -63,6 +65,7 @@ class CreateMicrobiologyTables extends Migration {
             $table->integer('user_id')->unsigned();
             $table->integer('test_id')->unsigned();
             $table->string('observation',300);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
@@ -78,6 +81,7 @@ class CreateMicrobiologyTables extends Migration {
             $table->integer('drug_id')->unsigned();
             $table->string('zone',5);
             $table->string('interpretation',2);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
