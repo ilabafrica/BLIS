@@ -33,6 +33,10 @@
                 {{ Form::label('Commodity', trans('messages.commodity')) }}
                 {{ Form::text('commodity', Input::old('commodity'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
+             <div class="form-group">
+                {{ Form::label('Unit of Issue', trans('messages.unit-of-issue')) }}
+                {{ Form::text('unit-of-issue', Input::old('unit-of-issue'), array('class' => 'form-control', 'rows' => '2')) }}
+            </div>
             <div class="form-group">
                 {{ Form::label('Received From', trans('messages.received-from')) }}
                 {{ Form::text('received-from', Input::old('received-from'),array('class' => 'form-control', 'rows' => '2')) }}

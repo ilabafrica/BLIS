@@ -265,39 +265,7 @@ Route::group(array("before" => "auth"), function()
             "uses" => "FacilityController@delete"
         ));
     });
-    //inventory module
-      
-        Route::post("/inventory/store_receipts", array(
-        "as"   => "inventory.store_receipts",
-        "uses" => "inventoryController@store_receipts"
-    ));
-
-        Route::post("/inventory/store_issues", array(
-        "as"   => "inventory.store_issues",
-        "uses" => "inventoryController@store_issues"
-    ));
-        
-        Route::any("/inventory/labStockCard", array(
-        "as"   => "inventory.labStockCard",
-        "uses" => "inventoryController@index"
-    ));
-         Route::any("/inventory/receipts", array(
-        "as"   => "inventory.receipts",
-        "uses" => "inventoryController@receipts"
-    ));
-        Route::any("/inventory/issues", array(
-        "as"   => "inventory.issues",
-        "uses" => "inventoryController@issues"
-    ));
-        Route::any("/inventory/labTopup", array(
-        "as"   => "inventory.labTopup",
-        "uses" => "inventoryController@labTopup"
-    ));
-         Route::any("/inventory/stockTakeCard", array(
-        "as"   => "inventory.stockTakeCard",
-        "uses" => "inventoryController@stockTakeCard"
-    ));
-         
+    
 
     //  Check if able to manage reports
     Route::group(array("before" => "checkPerms:view_reports"), function()
@@ -352,4 +320,109 @@ Route::group(array("before" => "auth"), function()
         ));
         
     });
+      //inventory module
+       //Route::resource('inventory', 'inventoryController');
+        Route::post("/inventory/store_receipts", array(
+        "as"   => "inventory.store_receipts",
+        "uses" => "inventoryController@store_receipts"
+    ));
+
+        Route::post("/inventory/store_issues", array(
+        "as"   => "inventory.store_issues",
+        "uses" => "inventoryController@store_issues"
+    ));
+        
+        Route::any("/inventory/labStockCard", array(
+        "as"   => "inventory.labStockCard",
+        "uses" => "inventoryController@index"
+    ));
+         Route::any("/inventory/receipts", array(
+        "as"   => "inventory.receipts",
+        "uses" => "inventoryController@receipts"
+    ));
+        Route::any("/inventory/issues", array(
+        "as"   => "inventory.issues",
+        "uses" => "inventoryController@issues"
+    ));
+        Route::any("/inventory/labTopup", array(
+        "as"   => "inventory.labTopup",
+        "uses" => "inventoryController@labTopup"
+    ));
+        Route::post("/inventory/store_FormLabTopup", array(
+        "as"   => "inventory.store_FormLabTopup",
+        "uses" => "inventoryController@store_FormLabTopup"
+    ));
+        Route::any("/inventory/formLabTopup", array(
+        "as"   => "inventory.formLabTopup",
+        "uses" => "inventoryController@formLabTopup"
+    ));
+        Route::any("/inventory/formStockTake", array(
+        "as"   => "inventory.formStockTake",
+        "uses" => "inventoryController@formStockTake
+        "
+    ));
+        Route::post("/inventory/store_FormStockTake", array(
+        "as"   => "inventory.store_FormStockTake",
+        "uses" => "inventoryController@store_FormStockTake"
+    ));
+         Route::any("/inventory/stockTakeCard", array(
+        "as"   => "inventory.stockTakeCard",
+        "uses" => "inventoryController@stockTakeCard"
+    ));
+        Route::get("/inventory/receiptsList", array(
+        "as"   => "inventory.receiptsList",
+        "uses" => "inventoryController@receiptsList"
+    ));
+     Route::any("/inventory/issuesList", array(
+        "as"   => "inventory.issuesList",
+        "uses" => "inventoryController@issuesList"
+    ));
+       // route to edit receipts
+        Route::get("/inventory/{id}/editReceipts", array(
+         "as"   => "inventory.editReceipts",
+        "uses" => "inventoryController@editReceipts"
+    )); 
+
+        Route::post("/inventory/{id}/updateReceipts", array(
+        "as"   => "inventory.updateReceipts",
+        "uses" => "inventoryController@updateReceipts"
+    ));
+
+        Route::get("/inventory/{id}/editIssues", array(
+         "as"   => "inventory.editIssues",
+        "uses" => "inventoryController@editIssues"
+    )); 
+        Route::get("/inventory/{id}/editLabTopUp", array(
+         "as"   => "inventory.editLabTopup",
+        "uses" => "inventoryController@editLabTopUp"
+    )); 
+        Route::post("/inventory/{id}/updateLabTopup", array(
+        "as"   => "inventory.updateLabTopup",
+        "uses" => "inventoryController@updateLabTopup"
+    ));
+        Route::post("/inventory/{id}/updateIssuedCommodities", array(
+        "as"   => "inventory.updateIssuedCommodities",
+        "uses" => "inventoryController@updateIssuedCommodities"
+    ));
+        Route::get("/inventory/{id}/deleteReceipts", array(
+            "as"   => "inventory.deleteReceipts",
+            "uses" => "inventoryController@deleteReceipts"
+        ));
+        
+        Route::get("/inventory/{id}/deleteLabTopupCommodity", array(
+            "as"   => "inventory.deleteLabTopupCommodity",
+            "uses" => "inventoryController@deleteLabTopupCommodity"
+        ));
+        Route::get("/inventory/{id}/deleteIssuedCommodity", array(
+            "as"   => "inventory.deleteIssuedCommodity",
+            "uses" => "inventoryController@deleteIssuedCommodity"
+        ));
+         Route::get('commodity/dropdown', array(
+            "as"    =>  "commodity.dropdown",
+            "uses"  =>  "inventoryController@commodityDropdown"
+        ));
+
+
+        
+    
 });

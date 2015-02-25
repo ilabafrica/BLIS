@@ -14,11 +14,11 @@
 		<span class="glyphicon glyphicon-user"></span>
 		{{trans('messages.inventory-list')}}
 		<div class="panel-btn">
-			<a class="btn btn-sm btn-info" href="{{ URL::route('inventory.receipts') }}">
+			<a class="btn btn-sm btn-info" href="{{ URL::route('inventory.receiptsList') }}">
 				<span class="glyphicon glyphicon-plus-sign"></span>
 				{{trans('messages.labStockCardReceipts')}}
 			</a>
-			<a class="btn btn-sm btn-info" href="{{ URL::route('inventory.issues') }}">
+			<a class="btn btn-sm btn-info" href="{{ URL::route('inventory.issuesList') }}">
 				<span class="glyphicon glyphicon-plus-sign"></span>
 				{{trans('messages.labStockCardIssues')}}
 			</a>
@@ -31,10 +31,11 @@
 				<tr>
 					<th>{{Lang::choice('messages.lab-receipt-date',1)}}</th>
 					<th>{{Lang::choice('messages.commodity',1)}}</th>
+					<th>{{Lang::choice('messages.unit-of-issue',1)}}</th>
 					<th>{{Lang::choice('messages.batch-no',1)}}</th>
 					<th>{{Lang::choice('messages.expiry-date',1)}}</th>
 					<th>{{Lang::choice('messages.qty',1)}}</th>
-					<th>{{Lang::choice('messages.qty-issued',1)}}</th>
+					<!--<th>{{Lang::choice('messages.qty-issued',1)}}</th> -->
 					<th>{{Lang::choice('messages.stock-bal',1)}}</th>
 
 					
@@ -49,10 +50,10 @@
 				<tr>
                  	<td>{{ $value->receipt_date}}</td>
 					<td>{{ $value->commodity }}</td>
+					<td>{{ $value->unit_of_issue}}</td>
 					<td>{{ $value->batch_no }}</td>
 					<td>{{ $value->expiry_date }}</td>
 					<td>{{ $value->qty }}</td>
-					<td>0</td>
 					<td>0</td>
 				</tr>
 				@endforeach

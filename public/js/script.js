@@ -273,6 +273,22 @@ $(function(){
 				});
 		});
 		/*End dynamic select list options*/
+				/*Dynamic loading of select list options*/
+		$('#commodity_id').change(function(){
+			$.get("/commodity/dropdown", 
+				{ option: $(this).val() }, 
+				function(data) {
+					var batch_no = $('#batch_no');
+					var expiry_date = $('#expiry_date');
+					var qty = $('#qty');
+					var unit_of_issue = $('#unit_of_issue');
+		            batch_no.val(data.batch_no);
+		            expiry_date.val(data.expiry_date);
+		            qty.val(data.qty);
+		            unit_of_issue.val(data.unit_of_issue);
+		        });
+		});
+		/*End dynamic select list options*/
 		
 		/*Toggle summary div for reports*/
 		$('#reveal').click(function(){

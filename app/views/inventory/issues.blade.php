@@ -27,21 +27,31 @@
            {{ Form::open(array('url' => 'inventory/store_issues', 'id' => 'form-issues')) }}
 
             <div class="form-group">
+                {{ Form::label('Issue Date', Lang::choice('messages.issue-date',1)) }}
+                {{ Form::text('issue-date', Input::old('issue-date'), array('class' => 'form-control standard-datepicker')) }}
+            </div>
+            <div class="form-group">
+                {{ Form::label('Doc No. ', trans('messages.doc-no')) }}
+                {{ Form::text('doc-no', Input::old('doc-no'),array('class' => 'form-control', 'rows' => '2')) }}
+            </div>
+           <div class="form-group">
                 {{ Form::label('Commodity', trans('messages.commodity')) }}
-                {{ Form::text('commodity', Input::old('commodity'), array('class' => 'form-control', 'rows' => '2')) }}
+                 {{ Form::select('commodity', array(0 => '-- Select Commodity--')+ $commodities,
+                    isset($input['commodity'])?$input['commodity']:0, array('class' => 'form-control', 'id' => 'commodity_id')) }}
+                    
             </div>
              <div class="form-group">
                 {{ Form::label('Batch No. ', trans('messages.batch-no')) }}
-                {{ Form::label('batch-no', Input::old('qty'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::text('batch_no', Input::old('batch_no'),array('class' => 'form-control', 'rows' => '2', 'id' => 'batch_no')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('Expiry Date', Lang::choice('messages.expiry-date',1)) }}
-                {{ Form::label('expiry-date', Input::old('expiry-date'), array('class' => 'form-control standard-datepicker')) }}
+                {{ Form::text('expiry_date', Input::old('expiry_date'), array('class' => 'form-control standard-datepicker', 'id' => 'expiry_date')) }}
             </div>
 
             <div class="form-group">
                 {{ Form::label('Quantity Available ', trans('messages.qty-avl')) }}
-                {{ Form::label('qty-avl', Input::old('qty-avl'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::text('qty_avl', Input::old('qty_avl'),array('class' => 'form-control', 'rows' => '2', 'id' => 'qty')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('Quantity', trans('messages.qty-req')) }}

@@ -10,4 +10,11 @@ class Inventory extends Eloquent
 
 
 
+public static function getCommodities()
+	{
+$commodities = DB::table('inventory_receipts')->select(DB::raw('id, commodity, batch_no, expiry_date, qty'))->lists('commodity', 'id');;
+
+return $commodities;
+
+	}
 }

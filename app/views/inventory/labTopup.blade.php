@@ -14,61 +14,73 @@
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
 		{{trans('messages.labTop-UpForm')}}
-		
+		<div class="panel-btn">
+            <a class="btn btn-sm btn-info" href="{{ URL::route('inventory.formLabTopup') }}">
+                <span class="glyphicon glyphicon-plus-sign"></span>
+                {{trans('messages.labTopUp')}}
+            </a>
+           
+        </div>
 	</div>
+    
 	<div class="panel-body">
-		  {{ Form::open(array('url' => 'role', 'id' => 'form-create-role')) }}
+		<table class="table table-striped table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>{{Lang::choice('messages.date',1)}}</th>
+                    <th>{{Lang::choice('messages.commodity',1)}}</th>
+                    <th>{{Lang::choice('messages.unit-of-issue',1)}}</th>
+                    <th>{{Lang::choice('messages.current-bal',1)}}</th>
+                    <th>{{Lang::choice('messages.tests-done',1)}}</th>
+                    <th>{{Lang::choice('messages.order-qty',1)}}</th>
+                    <th>{{Lang::choice('messages.issue-qty',1)}}</th>
+                    <th>{{Lang::choice('messages.issued-by',1)}}</th>
+                    <th>{{Lang::choice('messages.receivers-name',1)}}</th>
+                    <th>{{Lang::choice('messages.remarks',1)}}</th>
+                    <th>{{Lang::choice('messages.actions',1)}}</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+            @foreach($commodities as $key => $value)
+            <tr @if(Session::has('activecommodity'))
+                            {{(Session::get('activecommodity') == $value->id)?"class='info'":""}}
+                        @endif
+                        >
+                <tr>
+                    <td>{{ $value->date}}</td>
+                    <td>{{ $value->commodity }}</td>
+                    <td>{{ $value->unit_of_issue }}</td>
+                    <td>{{ $value->current_bal}}</td>
+                    <td>{{ $value->tests_done }}</td>
+                    <td>{{ $value->order_qty }}</td>
+                    <td>{{ $value->issue_qty}}</td>
+                    <td>{{ $value->issued_by }}</td>
+                    <td>{{ $value->receivers_name }}</td>
+                    <td>{{ $value->remarks }}</td>
+                    <td> 
+                        <!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
+                    <a class="btn btn-sm btn-info" href="{{ URL::route('inventory.editLabTopup', array($value->id)) }}" >
+                            <span class="glyphicon glyphicon-edit"></span>
+                            {{trans('messages.edit')}}
+                    </a>
+                        <!-- delete this commodity (uses the delete method found at GET /inventory/{id}/delete -->
+                    <button class="btn btn-sm btn-danger delete-item-link" 
+                            data-toggle="modal" data-target=".confirm-delete-modal" 
+                            data-id="{{ URL::route('inventory.deleteLabTopupCommodity', array($value->id)) }}">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            {{trans('messages.delete')}}
+                    </button>
 
-            <div class="form-group">
-                {{ Form::label('Date', Lang::choice('messages.date',1)) }}
-                {{ Form::text('date', Input::old('date'), array('class' => 'form-control standard-datepicker')) }}
-            </div>
-            <div class="form-group">
-                {{ Form::label('Commodity', trans('messages.commodity')) }}
-                {{ Form::text('commodity', Input::old('commodity'), array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
-            <div class="form-group">
-                {{ Form::label('unit-of-issue', trans('messages.unit-of-issue')) }}
-                {{ Form::text('unit-of-issue', Input::old('unit-of-issue'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
-            <div class="form-group">
-                {{ Form::label('current-bal', trans('messages.current-bal')) }}
-                {{ Form::text('current-bal', Input::old('current-bal'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
-            <div class="form-group">
-                {{ Form::label('tests-done', trans('messages.tests-done')) }}
-                {{ Form::text('tests-done', Input::old('tests-done'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
-            <div class="form-group">
-                {{ Form::label('order-qty ', trans('messages.order-qty')) }}
-                {{ Form::text('order-qty', Input::old('order-qty'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
-            <div class="form-group">
-                {{ Form::label('issue-qty', Lang::choice('messages.issue-qty',1)) }}
-                {{ Form::text('issue-qty', Input::old('issue-qty'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
-            <div class="form-group">
-                {{ Form::label('issued-by ', trans('messages.issued-by')) }}
-                {{ Form::label('logged in user', Input::old('issued-by'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
-            <div class="form-group">
-                {{ Form::label('Receivers Name ', trans('messages.receivers-name')) }}
-                {{ Form::text('receivers-name', Input::old('receivers-name'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>   
-            <div class="form-group">
-                {{ Form::label('remarks ', trans('messages.remarks')) }}
-                {{ Form::textarea('remarks', Input::old('remarks'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>           
 
 
-
-
-
-            <div class="form-group actions-row">
-                    {{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 
-                        array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+            </table>
             </div>
-        {{ Form::close() }}
+       
 
 
 
