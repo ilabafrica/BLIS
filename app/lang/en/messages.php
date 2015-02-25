@@ -144,7 +144,10 @@ return array(
     'specimen-successful-refer' => 'The specimen was referred',
     'specimen-referred-label' => 'Specimen Referred',
     'person-involved' => 'Person involved',
+    'intended-reciepient' => 'Intended Reciepient',
+    'originating-from' => 'Originating From',
     'referred-by' => 'Referred by',
+    'recieved-by' => 'Recieved by',
 
     /** 
      *   Test Catalog
