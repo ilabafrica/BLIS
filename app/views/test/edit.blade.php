@@ -177,6 +177,8 @@
 												$checked=false; 
 												$checker = '';
 												$susOrgIds = array();
+												$defaultZone='';
+												$defaultInterp='';
 											?>
 											@foreach($test->testType->organisms as $key=>$value)
 												@if(count($test->susceptibility)>0)
@@ -231,12 +233,18 @@
 										{{ Form::hidden('test[]', $test->id, array('id' => 'test[]', 'name' => 'test[]')) }}
 										{{ Form::hidden('drug[]', $drug->id, array('id' => 'drug[]', 'name' => 'drug[]')) }}
 										{{ Form::hidden('organism[]', $value->id, array('id' => 'organism[]', 'name' => 'organism[]')) }}
+										@if($sensitivity=Susceptibility::getDrugSusceptibility($test->id, $value->id, $drug->id))
+											<?php
+											$defaultZone = $sensitivity->zone;
+											$defaultInterp = $sensitivity->interpretation;
+											?>
+										@endif
 										<tr>
 											<td>{{ $drug->name }}</td>
 											<td>
-												{{ Form::selectRange('zone[]', 0, 50, '', ['class' => 'form-control', 'id' => 'zone[]', 'style'=>'width:auto']) }}
+												{{ Form::selectRange('zone[]', 0, 50, $defaultZone, ['class' => 'form-control', 'id' => 'zone[]', 'style'=>'width:auto']) }}
 											</td>
-											<td>{{ Form::select('interpretation[]', array('S' => 'S', 'I' => 'I', 'R' => 'R'),'', ['class' => 'form-control', 'id' => 'interpretation[]', 'style'=>'width:auto']) }}</td>
+											<td>{{ Form::select('interpretation[]', array('default'=>$defaultInterp, 'S' => 'S', 'I' => 'I', 'R' => 'R'),'', ['class' => 'form-control', 'id' => 'interpretation[]', 'style'=>'width:auto']) }}</td>
 										</tr>
 										@endforeach
 										<tr id="submit_drug_susceptibility_<?php echo $value->id; ?>">
