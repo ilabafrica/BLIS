@@ -84,9 +84,10 @@
 			</div>
 			<div class="form-group">
 				{{ Form::label('culture-worksheet', trans('messages.show-culture-worksheet')) }}
-				{{ Form::checkbox(trans('messages.show-culture-worksheet'), "1") }}
+				<?php if(count($testtype->organisms)>0){$checked=true;} else{$checked=false;} ?>
+				{{ Form::checkbox(trans('messages.show-culture-worksheet'), "1", $checked, array('onclick'=>'toggle(".organismsClass", this)')) }}
 			</div>
-			<div class="form-group">
+			<div class="form-group organismsClass" <?php if($checked==true){ ?>style="dispaly:block;"<?php }else{ ?>style="display:none;"<?php } ?>>
 				{{ Form::label('organisms', trans('messages.select-organisms')) }}
 				<div class="form-pane panel panel-default">
 					<div class="container-fluid">

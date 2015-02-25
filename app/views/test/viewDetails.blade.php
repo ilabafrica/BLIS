@@ -248,6 +248,77 @@
 					</div>
 				</div>
 			</div> <!-- ./ container-fluid -->
+			@if(count($test->testType->organisms)>0)
+            <div class="panel panel-success">  <!-- Patient Details -->
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{trans("messages.culture-worksheet")}}</h3>
+                </div>
+                <div class="panel-body">
+                    <p><strong>{{trans("messages.culture-work-up")}}</strong></p>
+                    <table class="table table-bordered">
+                        <thead>
+                            
+                        </thead>
+                        <tbody id="tbbody">
+                        	<tr>
+                                <th width="15%">{{ trans('messages.date')}}</th>
+                                <th width="10%">{{ trans('messages.tech-initials')}}</th>
+                                <th>{{ trans('messages.observations-and-work-up')}}</th>
+                            </tr>
+                            @if(($observations = $test->culture) != null)
+                                @foreach($observations as $observation)
+                                <tr>
+                                    <td>{{ $observation->created_at }}</td>
+                                    <td>{{ User::find($observation->user_id)->name }}</td>
+                                    <td>{{ $observation->observation }}</td>
+                                </tr>
+                                @endforeach
+                            @else
+                            	<tr>
+                            		<td colspan="3">{{ trans('messages.no-data-found') }}</td>
+                            	</tr>
+                            @endif
+                        </tbody>
+                    </table>
+                    <p><strong>{{trans("messages.susceptibility-test-results")}}</strong></p>
+                    <div class="row">
+                    	@if(count($test->susceptibility)>0)
+	                    	@foreach($test->testType->organisms as $organism)
+	                    	<div class="col-md-6">
+	                    		<table class="table table-bordered">
+			                        <tbody>
+			                        	<tr>
+			                                <th colspan="3">{{ $organism->name }}</th>
+			                            </tr>
+			                            <tr>
+			                                <th width="50%">{{ Lang::choice('messages.drug',1) }}</th>
+			                                <th>{{ trans('messages.zone-size')}}</th>
+			                                <th>{{ trans('messages.interp')}}</th>
+			                            </tr>
+			                            @foreach($organism->drugs as $drug)
+			                            	@if($drugSusceptibility = Susceptibility::getDrugSusceptibility($test->id, $organism->id, $drug->id))
+				                            <tr>
+				                                <td>{{ $drug->name }}</td>
+				                                <td>{{ $drugSusceptibility->zone!=null?$drugSusceptibility->zone:'' }}</td>
+				                                <td>{{ $drugSusceptibility->interpretation!=null?$drugSusceptibility->interpretation:'' }}</td>
+				                            </tr>
+				                            @else
+				                            <tr>
+				                            	<td>{{ $drug->name }}</td>
+				                            	<td></td>
+				                            	<td></td>
+				                            </tr>
+				                            @endif
+			                            @endforeach
+			                        </tbody>
+			                    </table>
+	                    	</div>
+	                    	@endforeach
+                    	@endif
+                    </div>
+                  </div>
+                </div> <!-- ./ panel-body -->
+            @endif
 		</div> <!-- ./ panel-body -->
 	</div> <!-- ./ panel -->
 @stop

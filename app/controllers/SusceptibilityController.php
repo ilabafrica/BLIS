@@ -39,15 +39,10 @@ class SusceptibilityController extends \BaseController {
 		$zone = Input::get('zone');
 		$interpretation = Input::get('interpretation');
 
-		/*Requested variables*/
-		//print_r(count(array_values ($test)));
 		for($i=0; $i<count($test); $i++){
-			$exists[$i] = Susceptibility::where('test_id', $test[$i])
-										->where('organism_id', $organism[$i])
-										->where('drug_id', $drug[$i])
-										->get();
-			if($exists[$i]){
-				$drugSusceptibility = Susceptibility::find($exists[$i]->id);
+			$sensitivity = Susceptibility::getDrugSusceptibility($test[$i], $organism[$i], $drug[$i]);
+			if(count($sensitivity)>0){
+				$drugSusceptibility = Susceptibility::find($sensitivity->id);
 				$drugSusceptibility->user_id = $user_id;
 				$drugSusceptibility->test_id = $test[$i];
 				$drugSusceptibility->organism_id = $organism[$i];
@@ -55,7 +50,6 @@ class SusceptibilityController extends \BaseController {
 				$drugSusceptibility->zone = $zone[$i];
 				$drugSusceptibility->interpretation = $interpretation[$i];
 				$drugSusceptibility->save();
-				return json_encode($drugSusceptibility);
 			}else{
 				$drugSusceptibility = new Susceptibility;
 				$drugSusceptibility->user_id = $user_id;
@@ -65,7 +59,6 @@ class SusceptibilityController extends \BaseController {
 				$drugSusceptibility->zone = $zone[$i];
 				$drugSusceptibility->interpretation = $interpretation[$i];
 				$drugSusceptibility->save();
-				return 0;
 			}
 			
 		}
@@ -83,7 +76,6 @@ class SusceptibilityController extends \BaseController {
 			return json_encode($susceptibility);
 		}
 	}
-
 
 	/**
 	 * Display the specified resource.

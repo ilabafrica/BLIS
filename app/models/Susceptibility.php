@@ -31,11 +31,15 @@ class Susceptibility extends Eloquent
     {
         return $this->hasOne('Test', 'test_id');
     }
-    /**
-	 * Organism_drug relationship
-	 */
-	/*public function organismDrug()
-    {
-        return $this->hasMany('Test');
-    }*/
+    /*
+    *	Function to return drug susceptibility given testId, organismId and drugId
+    *
+    */
+    public static function getDrugSusceptibility($test_id, $organism_id, $drug_id){
+    	$susceptibility = Susceptibility::where('test_id', $test_id)
+    									->where('organism_id', $organism_id)
+    									->where('drug_id', $drug_id)
+    									->first();
+    	return $susceptibility;
+    }
 }
