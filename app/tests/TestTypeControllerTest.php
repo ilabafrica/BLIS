@@ -32,6 +32,7 @@ class TestTypeControllerTest extends TestCase
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'Whatisdis',
 			'specimentypes' =>  ['1'],
+			'organisms' => ['1'],
 			'new-measures' => [
 				'1' => [
 					'name' => 'CSFforBiochemistry',
@@ -50,6 +51,7 @@ class TestTypeControllerTest extends TestCase
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'specimentypes' =>  ['1'],
+			'organisms' => ['1'],
 			'new-measures' => [
 				'1' => [
 					'name' => 'FreeText',
@@ -90,6 +92,10 @@ class TestTypeControllerTest extends TestCase
 		//Getting the Specimen type related to this test type
 		$testTypeSpecimenType = $testTypeSaved->specimenTypes->toArray();
 		$this->assertEquals($testTypeSpecimenType[0]['id'], $this->testTypeData['specimentypes'][0]);
+
+		//Getting the organisms related to this test type
+		$testTypeOrganism = $testTypeSaved->organisms->toArray();
+		$this->assertEquals($testTypeOrganism[0]['id'], $this->testTypeData['organisms'][0]);
   	}
 
   	/**
@@ -123,6 +129,10 @@ class TestTypeControllerTest extends TestCase
 		$testTypeSpecimenTypeUpdated = TestType::find($testTypestored[0]['id'])->specimenTypes->toArray();
 		
 		$this->assertEquals($testTypeSpecimenTypeUpdated[0]['id'], $this->testTypeDataUpdate['specimentypes'][0]);
+		//Getting the Organism related to this test type
+		$testTypeOrganismUpdated = TestType::find($testTypestored[0]['id'])->organisms->toArray();
+		
+		$this->assertEquals($testTypeOrganismUpdated[0]['id'], $this->testTypeDataUpdate['organisms'][0]);
 	}
 	
 	/**
