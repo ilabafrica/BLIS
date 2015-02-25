@@ -260,6 +260,9 @@ return array(
     'tech-initials' =>  'Tech Initials',
     'observations-and-work-up'  =>  'Observations and work-up',
     'susceptibility-test-results'   =>  'SUSCEPTIBILITY TEST RESULTS',
+    'select-isolates'   =>  'Select Isolated Organisms',
+    'zone-size' =>  'Zone size (mm)',
+    'interp'    =>  'Interpretation (S, I, R)',
 
     /**
      *  Tests

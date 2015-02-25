@@ -120,42 +120,108 @@
 	                        <div class="panel-body">
                                 <p><strong>{{trans("messages.culture-work-up")}}</strong></p>
                                 <table class="table table-bordered">
-									<tbody>
-										<tr>
+                                	<thead>
+                                		<tr>
 											<th width="15%">{{ trans('messages.date')}}</th>
 											<th width="10%">{{ trans('messages.tech-initials')}}</th>
 											<th>{{ trans('messages.observations-and-work-up')}}</th>
 											<th width="10%"></th>
 										</tr>
-										<tr>
-											<td>{{ Test::showTimeAgo(date('Y-m-d')) }}</td>
-											<td>{{ Auth::user()->name }}</td>
-											<td>{{ Form::textarea('observation', $test->interpretation, 
-					                        	array('class' => 'form-control result-interpretation', 'rows' => '2', 'id' => 'observation_'.$test->id)) }}
-					                        </td>
-											<td><a class="btn btn-xs btn-success" href="javascript:void(0)" onclick="saveObservation(<?php echo $test->id; ?>, <?php echo Auth::user()->id; ?>)">
-												<span class="glyphicon glyphicon-thumbs-up">{{ trans('messages.save') }}</span></a>
-											</td>
-										</tr>
+                                	</thead>
+									<tbody id="tbbody_<?php echo $test->id ?>">
+										@if(($observations = $test->culture) != null)
+											@foreach($observations as $observation)
+											<tr>
+												<td>{{ Culture::showTimeAgo($observation->created_at) }}</td>
+												<td>{{ User::find($observation->user_id)->name }}</td>
+												<td>{{ $observation->observation }}</td>
+												<td></td>
+											</tr>
+											@endforeach
+											<tr>
+												<td>{{ Culture::showTimeAgo(date('Y-m-d H:i:s')) }}</td>
+												<td>{{ Auth::user()->name }}</td>
+												<td>{{ Form::textarea('observation', $test->interpretation, 
+						                        	array('class' => 'form-control result-interpretation', 'rows' => '2', 'id' => 'observation_'.$test->id)) }}
+						                        </td>
+												<td><a class="btn btn-xs btn-success" href="javascript:void(0)" onclick="saveObservation(<?php echo $test->id; ?>, <?php echo Auth::user()->id; ?>, <?php echo "'".Auth::user()->name."'"; ?>)">
+													<span class="glyphicon glyphicon-thumbs-up">{{ trans('messages.save') }}</span></a>
+												</td>
+											</tr>
+										@else
+											<tr>
+												<td>{{ Culture::showTimeAgo(date('Y-m-d H:i:s')) }}</td>
+												<td>{{ Auth::user()->name }}</td>
+												<td>{{ Form::textarea('observation', $test->interpretation, 
+						                        	array('class' => 'form-control result-interpretation', 'rows' => '2', 'id' => 'observation_'.$test->id)) }}
+						                        </td>
+												<td><a class="btn btn-xs btn-success" href="javascript:void(0)" onclick="saveObservation(<?php echo $test->id; ?>, <?php echo Auth::user()->id; ?>, <?php echo "'".Auth::user()->name."'"; ?>)">
+													<span class="glyphicon glyphicon-thumbs-up">{{ trans('messages.save') }}</span></a>
+												</td>
+											</tr>
+										@endif
 									</tbody>
 								</table>
 								<p><strong>{{trans("messages.susceptibility-test-results")}}</strong></p>
-                                <table class="table table-bordered">
-									<tbody>
+								<div class="form-group">
+									{{ Form::label('organisms', trans('messages.select-isolates')) }}
+									<div class="form-pane panel panel-default">
+										<div class="container-fluid">
+											<?php 
+												$cnt = 0;
+												$zebra = "";
+											?>
+										@foreach($test->testType->organisms as $key=>$value)
+											{{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
+											<?php
+												$cnt++;
+												$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
+											?>
+											<div class="col-md-4">
+												<label  class="checkbox">
+													<input type="checkbox" name="organism[]" value="{{ $value->id}}" />{{$value->name}}
+												</label>
+											</div>
+											{{ ($cnt%4==0)?"</div>":"" }}
+										@endforeach
+										</div>
+
+									</div>
+								</div>
+								@foreach($test->testType->organisms as $key=>$value)
+								{{ Form::open(array('role' => 'form', 'id' => 'drugSusceptibilityForm_'.$value->id, 'name' => 'drugSusceptibilityForm_'.$value->id)) }}
+								<table class="table table-bordered">
+									<thead>
 										<tr>
-											<th width="15%">{{ trans('messages.date')}}</th>
-											<th width="10%">{{ trans('messages.tech-initials')}}</th>
-											<th>{{ trans('messages.observations-and-work-up')}}</th>
-											<th width="10%"></th>
+											<th colspan="3">{{ $value->name }}</th>
 										</tr>
 										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
+											<th width="50%">{{ Lang::choice('messages.drug',1) }}</th>
+											<th>{{ trans('messages.zone-size')}}</th>
+											<th>{{ trans('messages.interp')}}</th>
+										</tr>
+									</thead>
+									<tbody id="enteredResults_<?php echo $value->id; ?>">
+									<input name="try" id="try" value="TRY"> 
+										<tr id="submit_drug_susceptibility_<?php echo $value->id; ?>">
+											<td colspan="3" align="right">
+												<div class="col-sm-offset-2 col-sm-10">
+													<a class="btn btn-default" href="javascript:void(0)" onclick="saveDrugSusceptibility(<?php echo $test->id; ?>, <?php echo $value->id; ?>)">
+													<span class="glyphicon glyphicon-thumbs-up">{{ trans('messages.save') }}</span></a>
+													{{Form::submit('Save')}}
+											    </div>
+										    </td>
 										</tr>
 									</tbody>
 								</table>
+								<form id="wth" name="wth" role="form">
+									<input type="text" id="txt" name="txt" value="I don't know.">
+									<a class="btn btn-default" href="javascript:void(0)" onclick="saveDrgSusceptibility(<?php echo $test->id; ?>, <?php echo $value->id; ?>)">
+													<span class="glyphicon glyphicon-thumbs-up">{{ trans('messages.save') }}</span></a>
+								</form>
+								{{ Form::close() }}
+								@endforeach
+                              </div>
 	                        </div> <!-- ./ panel-body -->
 	                    </div> <!-- ./ panel -->
                         @endif

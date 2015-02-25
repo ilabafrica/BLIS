@@ -540,16 +540,16 @@ $(function(){
    		});
 	});
 
-	function saveObservation(tid, username){
+	function saveObservation(tid, user, username){
 		txtarea = "observation_"+tid;
 		observation = $("#"+txtarea).val();
 
 		$.ajax({
 			type: 'POST',
-			url:  'test/culture_worksheet',
-			data: {obs: observation, testId: tid, action: "add"},
+			url:  '/culture/storeObservation',
+			data: {obs: observation, testId: tid, userId: user, action: "add"},
 			success: function(){
-				drawCultureWorksheet(tid , username);
+				drawCultureWorksheet(tid , user, username);
 			}
 		});
 	}
@@ -560,25 +560,67 @@ $(function(){
 	 * @param  {string} username Current user
 	 * @return {void}          No return
 	 */
-	function drawCultureWorksheet(tid, username){
-		$.getJSON('ajax/culture_worksheet.php', { testId: tid, action: "draw"}, 
+	function drawCultureWorksheet(tid, user, username){
+		$.getJSON('/culture/storeObservation', { testId: tid, userId: user, action: "draw"}, 
 			function(data){
 				var tableBody ="";
 				$.each(data, function(index, elem){
 					tableBody += "<tr>"
-					+" <td>"+elem.time_stamp+" </td>"
-					+" <td>"+elem.userId+"</td>"
+					+" <td>"+elem.timeStamp+" </td>"
+					+" <td>"+elem.user+"</td>"
 					+" <td>"+elem.observation+"</td>"
 					+" <td> </td>"
 					+"</tr>";
 				});
 				tableBody += "<tr>"
-					+"<td>Just now</td>"
+					+"<td>0 seconds ago</td>"
 					+"<td>"+username+"</td>"
-					+"<td><textarea id='txtObsv_"+tid+"' style='width:390px'></textarea></td>"
-					+"<td><a class='btn mini' href='javascript:void(0)' onclick='saveObservation("+tid+", &quot;"+username+"&quot;)'>Save</a></td>"
+					+"<td><textarea id='observation_"+tid+"' class='form-control result-interpretation' rows='2'></textarea></td>"
+					+"<td><a class='btn btn-xs btn-success' href='javascript:void(0)' onclick='saveObservation("+tid+", &quot;"+user+", &quot;\"'"+username+"'\"&quot;)'><span class='glyphicon glyphicon-thumbs-up'>Save</span></a></td>"
 					+"</tr>";
 				$("#tbbody_"+tid).html(tableBody);
 			}
 		);
 	}
+
+	/*Begin save drug susceptibility*/	
+	function saveDrgSusceptibility(tid, oid){
+		var dataString = $("#wth").serialize();
+		alert('Nothing'+dataString);
+		return false;
+		$.ajax({
+			type: 'POST',
+			url:  '/susceptibility/saveSusceptibility',
+			data: dataString,
+			success: function(){
+				drawSusceptibility(tid, oid);
+			}
+		});
+	}
+	/*End save drug susceptibility*/
+	$('try').submit(function(e){
+		e.preventDefault();
+		alert($(this).serialize());
+		console.log($(this).serialize())
+		return false;
+	});
+	/*Function to render drug susceptibility table after successfully saving the results*/
+	 function drawSusceptibility(tid, oid){
+		$.getJSON('/susceptibility/saveSusceptibility', { testId: tid, organismId: oid, action: "results"}, 
+			function(data){
+				var tableRow ="";
+				var tableBody ="";
+				$.each(data, function(index, elem){
+					tableRow += "<tr>"
+					+" <td>"+elem.drugName+" </td>"
+					+" <td>"+elem.zone+"</td>"
+					+" <td>"+elem.interpretation+"</td>"
+					+"</tr>";
+				});
+				//tableBody +="<tbody>"+tableRow+"</tbody>";
+				$( "#enteredResults_"+oid).html(tableRow);
+				$("#submit_drug_susceptibility_"+oid).hide();
+			}
+		);
+	}
+	/*End drug susceptibility table rendering script*/
