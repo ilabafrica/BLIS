@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
-
 class ReportConfig extends Eloquent
 {
 	
@@ -20,5 +18,13 @@ class ReportConfig extends Eloquent
 	public function testTypes()
 	{
 	  return $this->hasMany('TestType');
+	}
+
+	/**
+	 * Disease relationship
+	 */
+	public function disease()
+	{
+	  return $this->belongsTo('Disease', 'id');
 	}
 }

@@ -985,9 +985,9 @@ class ReportController extends \BaseController {
 		$to = Input::get('end');
 		if(!$to) $to = $date;
 
-		$reportData = Test::getSurveillanceData($from, $to.' 23:59:59');
+		$surveillance = Test::getSurveillanceData($from, $to.' 23:59:59');
 		return View::make('reports.surveillance.index')
-					->with('reportData', $reportData)
+					->with('surveillance', $surveillance)
 					->withInput(Input::all());
 	}
 
@@ -1006,9 +1006,12 @@ class ReportController extends \BaseController {
 			foreach ($diseases as $id => $disease) {
                 $allSurveillanceIds[] = $id;
 				$surveillance = ReportConfig::find($id);
-				$surveillance->disease = $disease['disease'];
 				$surveillance->test_type_id = $disease['test-type'];
 				$surveillance->save();
+				
+				$diseases = Disease::find($surveillance->disease_id);
+				$diseases->name = $disease['disease'];
+				$diseases->save();
 			}
 		}
 		
@@ -1017,11 +1020,16 @@ class ReportController extends \BaseController {
 			$diseases = Input::get('new-surveillance');
 
 			foreach ($diseases as $id => $disease) {
+				$diseases = new Disease;
+				$diseases->name = $disease['disease'];
+				$diseases->save();
+
 				$surveillance = new ReportConfig;
-				$surveillance->disease = $disease['disease'];
+				$surveillance->disease_id = $diseases->id;
 				$surveillance->test_type_id = $disease['test-type'];
 				$surveillance->save();
                 $allSurveillanceIds[] = $surveillance->id;
+				
 			}
 		}
 

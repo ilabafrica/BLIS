@@ -41,8 +41,8 @@
 		                </select>
 					</div>
 					<div class="col-sm-5 col-md-3">
-						<input class="form-control" name="surveillance[{{ $diseaseTest->id }}][disease]"
-							type="text" value="{{ $diseaseTest->disease }}">
+						<input class="form-control" name="surveillance[{{ $diseaseTest->disease->id }}][disease]"
+							type="text" value="{{ $diseaseTest->disease->name }}">
 					    <button class="close" aria-hidden="true" type="button" 
 					        title="{{trans('messages.delete')}}">×</button>
 					</div>

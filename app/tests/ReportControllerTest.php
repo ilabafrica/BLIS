@@ -32,12 +32,12 @@ class ReportControllerTest extends TestCase
 		$surveillance->surveillanceConfig();
 
 		$surveillanceModel = ReportConfig::all();
-		
+
 		//Check if entry was added
-		$this->assertEquals($surveillanceModel[2]['disease'], $this->input['new-surveillance']['1']['disease']);
+		$this->assertEquals($surveillanceModel[2]->disease->name, $this->input['new-surveillance']['1']['disease']);
 		//Check if entry was edited
-		$this->assertEquals($surveillanceModel[0]['disease'], $this->input['surveillance']['1']['disease']);
-		$this->assertEquals($surveillanceModel[1]['disease'], $this->input['surveillance']['2']['disease']);
+		$this->assertEquals($surveillanceModel[0]->disease->name, $this->input['surveillance']['1']['disease']);
+		$this->assertEquals($surveillanceModel[1]->disease->name, $this->input['surveillance']['2']['disease']);
 
 		//Check if entry was deleted - the only available are the three above => one deleted
 		$this->assertEquals(count($surveillanceModel), 3);

@@ -1420,18 +1420,24 @@ class TestDataSeeder extends DatabaseSeeder
         }
         $this->command->info('Facilities table seeded');
 
+        $malaria = Disease::create(array('name' => "Malaria"));
+        $typhoid = Disease::create(array('name' => "Typhoid"));
+        $dysentry = Disease::create(array('name' => "Shigella Dysentry"));
+
+        $this->command->info("Dieases table seeded");
+
         $reportConfigs = array(
             array(
                 "test_type_id" => $testTypeBS->id,
-                "disease" => "Malaria",
+                "disease_id" => $malaria->id,
                 ),
              array(
                 "test_type_id" => $test_types_salmonella->id,
-                "disease" => "Typhoid",
+                "disease_id" => $typhoid->id,
                 ),
              array(
                 "test_type_id" => $testTypeStoolCS->id,
-                "disease" => "Shigella Dysentry",
+                "disease_id" => $dysentry->id,
                 ),
         );
 

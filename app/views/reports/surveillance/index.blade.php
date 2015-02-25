@@ -78,15 +78,15 @@
 		  			<th>{{trans('messages.tested')}}</th>
 		  			<th>{{trans('messages.positive')}}</th>
 		  		</tr>
-		  		@foreach(ReportConfig::all() as $testType)
+		  		@foreach(ReportConfig::all() as $config)
 		  		<tr>
-	  				<td>{{ $testType->disease }}</td>
-	  				<td>{{ $reportData[$testType->test_type_id.'_less_five_total'] }}</td>
-	  				<td>{{ $reportData[$testType->test_type_id.'_less_five_positive'] }}</td>
-	  				<td>{{ $reportData[$testType->test_type_id.'_total'] - $reportData[$testType->test_type_id.'_less_five_total'] }}</td>
-	  				<td>{{ $reportData[$testType->test_type_id.'_positive'] - $reportData[$testType->test_type_id.'_less_five_positive'] }}</td>
-	  				<td>{{ $reportData[$testType->test_type_id.'_total'] }}</td>
-	  				<td>{{ $reportData[$testType->test_type_id.'_positive'] }}</td>
+	  				<td>{{ $config->disease->name }}</td>
+	  				<td>{{ $surveillance[$config->disease_id.'_less_five_total'] }}</td>
+	  				<td>{{ $surveillance[$config->disease_id.'_less_five_positive'] }}</td>
+	  				<td>{{ $surveillance[$config->disease_id.'_total'] - $surveillance[$config->disease_id.'_less_five_total'] }}</td>
+	  				<td>{{ $surveillance[$config->disease_id.'_positive'] - $surveillance[$config->disease_id.'_less_five_positive'] }}</td>
+	  				<td>{{ $surveillance[$config->disease_id.'_total'] }}</td>
+	  				<td>{{ $surveillance[$config->disease_id.'_positive'] }}</td>
 		  		</tr>
 				@endforeach
 		  	</tbody>

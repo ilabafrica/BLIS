@@ -309,14 +309,21 @@ class CreatekBLIStables extends Migration {
             $table->unique(array('instrument_id','test_type_id'));
         });
 
+        Schema::create('diseases', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->string('name', 60);
+        });
+
         Schema::create('report_configs', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
-            $table->integer('test_type_id')->unsigned()->unique();
-            $table->string('disease', 60);
+            $table->integer('test_type_id')->unsigned();
+            $table->integer('disease_id')->unsigned();
 
+            $table->unique( array('test_type_id','disease_id') );
             $table->foreign('test_type_id')->references('id')->on('test_types');
-
+            $table->foreign('disease_id')->references('id')->on('diseases');
         });
 	}
 
