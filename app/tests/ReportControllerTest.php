@@ -31,7 +31,7 @@ class ReportControllerTest extends TestCase
 		$surveillance = new ReportController;
 		$surveillance->surveillanceConfig();
 
-		$surveillanceModel = ReportConfig::all();
+		$surveillanceModel = ReportDisease::all();
 
 		//Check if entry was added
 		$this->assertEquals($surveillanceModel[2]->disease->name, $this->input['new-surveillance']['1']['disease']);

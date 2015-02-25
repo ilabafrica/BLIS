@@ -1,6 +1,6 @@
 <?php
 
-class ReportConfig extends Eloquent
+class ReportDisease extends Eloquent
 {
 	
 	/**
@@ -8,7 +8,7 @@ class ReportConfig extends Eloquent
 	 *
 	 * @var string
 	 */
-	protected $table = 'report_configs';
+	protected $table = 'report_diseases';
 
 	public $timestamps = false;
 

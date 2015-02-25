@@ -467,18 +467,17 @@ class Test extends Eloquent
 	 */
 	public static function getSurveillanceData($from, $to)
 	{
-		// $testTypes = ReportConfig::all()->toArray();
 		$diseases = Disease::all();
 		$surveillances = array();
 		//foreach diease collect test types
 		foreach (Disease::all() as $disease) {
 			$count = 0;
 			$testType = '';
-			foreach ($disease->reportConfigs as $reportConfig) {
+			foreach ($disease->reportDiseases as $reportDisease) {
 				if ($count == 0) {
-					$testType = 't.test_type_id='.$reportConfig->test_type_id;
+					$testType = 't.test_type_id='.$reportDisease->test_type_id;
 				} else {
-					$testType = $testType.' or t.test_type_id='.$reportConfig->test_type_id;
+					$testType = $testType.' or t.test_type_id='.$reportDisease->test_type_id;
 				}
 				$count++;
 			}
@@ -493,7 +492,7 @@ class Test extends Eloquent
 			$query = $query.
 				"COUNT(DISTINCT if(".$surveillance['test_type_id'].",t.id,NULL)) as ".$surveillance['disease_id']."_total,".
 				"COUNT(DISTINCT if((".$surveillance['test_type_id'].
-					" and DATE_SUB(NOW(), INTERVAL 5 YEAR)>p.dob),t.id,NULL)) as ".$surveillance['disease_id']."_less_five_total, ".
+					" and DATE_SUB(NOW(), INTERVAL 5 YEAR)<p.dob),t.id,NULL)) as ".$surveillance['disease_id']."_less_five_total, ".
 				"COUNT(DISTINCT if((".$surveillance['test_type_id'].
 					" and (tr.result='+' or".
 					" tr.result='++' or".
@@ -517,7 +516,7 @@ class Test extends Eloquent
 					" tr.result='shigella boydie isolated' or".
 					" tr.result='shigella sonnei isolated' or".
 					" tr.result='shigella dysentriae isolated')".
-						" and DATE_SUB(NOW(), INTERVAL 5 YEAR)>p.dob),t.id,NULL)) as ".$surveillance['disease_id'].
+						" and DATE_SUB(NOW(), INTERVAL 5 YEAR)<p.dob),t.id,NULL)) as ".$surveillance['disease_id'].
 						"_less_five_positive";
 		    if($surveillance == end($surveillances)) {
 		        $query = $query." ";

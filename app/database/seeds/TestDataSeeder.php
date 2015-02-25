@@ -1426,7 +1426,7 @@ class TestDataSeeder extends DatabaseSeeder
 
         $this->command->info("Dieases table seeded");
 
-        $reportConfigs = array(
+        $reportDiseases = array(
             array(
                 "test_type_id" => $testTypeBS->id,
                 "disease_id" => $malaria->id,
@@ -1441,10 +1441,10 @@ class TestDataSeeder extends DatabaseSeeder
                 ),
         );
 
-        foreach ($reportConfigs as $reportConfig) {
-            ReportConfig::create($reportConfig);
+        foreach ($reportDiseases as $reportDisease) {
+            ReportDisease::create($reportDisease);
         }
-        $this->command->info("Report Config table seeded");
+        $this->command->info("Report Disease table seeded");
     }
 
     public function createSpecimen(

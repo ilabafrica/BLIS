@@ -1005,7 +1005,7 @@ class ReportController extends \BaseController {
 
 			foreach ($diseases as $id => $disease) {
                 $allSurveillanceIds[] = $id;
-				$surveillance = ReportConfig::find($id);
+				$surveillance = ReportDisease::find($id);
 				$surveillance->test_type_id = $disease['test-type'];
 				$surveillance->save();
 				
@@ -1024,7 +1024,7 @@ class ReportController extends \BaseController {
 				$diseases->name = $disease['disease'];
 				$diseases->save();
 
-				$surveillance = new ReportConfig;
+				$surveillance = new ReportDisease;
 				$surveillance->disease_id = $diseases->id;
 				$surveillance->test_type_id = $disease['test-type'];
 				$surveillance->save();
@@ -1037,7 +1037,7 @@ class ReportController extends \BaseController {
         if (Input::get('from-form')) {
 	     	// Delete any pre-existing surveillance entries
 	     	//that were not captured in any of the above save loops
-	        $allSurveillances = ReportConfig::all(array('id'));
+	        $allSurveillances = ReportDisease::all(array('id'));
 
 	        $deleteSurveillances = array();
 
@@ -1048,11 +1048,11 @@ class ReportController extends \BaseController {
 	            }
 	        }
 	        //Delete Surveillance entry if any
-	        if(count($deleteSurveillances)>0)ReportConfig::destroy($deleteSurveillances);
+	        if(count($deleteSurveillances)>0)ReportDisease::destroy($deleteSurveillances);
         }
 
         //Updates survillance data
-		$diseaseTests = ReportConfig::all();
+		$diseaseTests = ReportDisease::all();
 
 		return View::make('reportconfig.edit')
 					->with('diseaseTests', $diseaseTests);

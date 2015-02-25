@@ -315,7 +315,7 @@ class CreatekBLIStables extends Migration {
             $table->string('name', 60);
         });
 
-        Schema::create('report_configs', function(Blueprint $table)
+        Schema::create('report_diseases', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
             $table->integer('test_type_id')->unsigned();
@@ -334,7 +334,7 @@ class CreatekBLIStables extends Migration {
 	 */
 	public function down()
 	{
-        Schema::dropIfExists('report_configs');
+        Schema::dropIfExists('report_diseases');
         Schema::dropIfExists('instrument_testtypes');
         Schema::dropIfExists('instruments');
 		Schema::dropIfExists('test_results');

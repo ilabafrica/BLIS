@@ -14,9 +14,9 @@ class Disease extends Eloquent
 	/**
 	 * Report Configuration relationship
 	 */
-	public function reportConfigs()
+	public function reportDiseases()
 	{
-	  return $this->hasMany('ReportConfig');
+	  return $this->hasMany('ReportDisease');
 	}
 
 }
