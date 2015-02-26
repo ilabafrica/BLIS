@@ -1414,6 +1414,122 @@ class TestDataSeeder extends DatabaseSeeder
             Facility::create($facility);
         }
         $this->command->info('Facilities table seeded');
+
+        //Seed for drugs
+        $drugs = array(
+            array('name' => "PENICILLIN"),
+            array('name' => "AMPICILLIN"),
+            array('name' => "CLINDAMYCIN"),
+            array('name' => "TETRACYCLINE"),
+            array('name' => "CIPROFLOXACIN"),
+            array('name' => "TRIMETHOPRIM/SULFA"),
+            array('name' => "NITROFURANTOIN"),
+            array('name' => "CHLORAMPHENICOL"),
+            array('name' => "CEFAZOLIN"),
+            array('name' => "GANTAMICIN"),
+            array('name' => "AMOXICILLIN-CLAV"),
+            array('name' => "CEPHALOTHIN"),
+            array('name' => "CEFUROXIME"),
+            array('name' => "CEFOTAXIME"),
+            array('name' => "PIPERACILLIN"),
+            array('name' => "CEFIXIME"),
+            array('name' => "CEFTAZIDIME"),
+            array('name' => "CEFRIAXONE"),
+            array('name' => "LEVOFLOXACIN"),
+            array('name' => "MERODENEM"),
+            array('name' => "PIPERACILLIN/TAZO"),
+            array('name' => "IMEDENEM")
+        );
+
+        foreach ($drugs as $drug) {
+            $addedDrugs[] = Drug::create($drug);
+        }
+        $this->command->info('Drugs table seeded');
+
+        //Seed for organisms
+        $organisms = array(
+            array('name' => "Pseudomonas aeruginosa"),
+            array('name' => "Staphylococci species"),
+            array('name' => "Enterococcus species"),
+            array('name' => "Streptococcus pneumoniae"),
+            array('name' => "Streptococcus species viridans group"),
+            array('name' => "Hemophilus influenzae"),
+            array('name' => "Salmonella species"),
+            array('name' => "Vibrio cholerae"),
+            array('name' => "Gram positive cocci")
+        );
+
+        foreach ($organisms as $organism) {
+            $addedOrganisms[] = Organism::create($organism);
+        }
+        $this->command->info('Organisms table seeded');
+
+        /* Organism_drugs table */
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "1", "drug_id" => "10"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "1", "drug_id" => "15"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "1", "drug_id" => "17"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "1", "drug_id" => "20"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "2", "drug_id" => "1"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "2", "drug_id" => "3"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "2", "drug_id" => "9"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "2", "drug_id" => "12"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "3", "drug_id" => "2"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "3", "drug_id" => "4"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "3", "drug_id" => "7"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "3", "drug_id" => "10"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "4", "drug_id" => "1"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "4", "drug_id" => "6"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "4", "drug_id" => "8"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "4", "drug_id" => "13"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "4", "drug_id" => "18"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "5", "drug_id" => "1"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "5", "drug_id" => "3"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "5", "drug_id" => "8"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "6", "drug_id" => "2"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "6", "drug_id" => "8"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "6", "drug_id" => "18"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "7", "drug_id" => "2"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "7", "drug_id" => "5"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "7", "drug_id" => "6"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "8", "drug_id" => "2"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "8", "drug_id" => "4"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "8", "drug_id" => "6"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "9", "drug_id" => "1"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "9", "drug_id" => "3"));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => "9", "drug_id" => "4"));
+        $this->command->info('Organism_drugs seeded');
     }
 
     public function createSpecimen(
