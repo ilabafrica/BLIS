@@ -163,8 +163,8 @@ class TestTypeController extends \BaseController {
 
 			try{
 				$testtype->save();
-				$testtype->setSpecimenTypes(Input::get('specimentypes'));
 				$testtype->setOrganisms(Input::get('organisms'));
+				$testtype->setSpecimenTypes(Input::get('specimentypes'));
 				$measureIds = array();
 					if (Input::get('new-measures')) {
 						$inputNewMeasures = Input::get('new-measures');
