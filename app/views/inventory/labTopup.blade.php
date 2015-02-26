@@ -1,3 +1,5 @@
+
+
 @extends("layout")
 @section("content")
 <div>
@@ -49,13 +51,13 @@
                         >
                 <tr>
                     <td>{{ $value->date}}</td>
-                    <td>{{ $value->commodity }}</td>
+                    <td>{{ Inventory::find($value->commodity_id)->commodity }}</td>
                     <td>{{ $value->unit_of_issue }}</td>
                     <td>{{ $value->current_bal}}</td>
                     <td>{{ $value->tests_done }}</td>
                     <td>{{ $value->order_qty }}</td>
                     <td>{{ $value->issue_qty}}</td>
-                    <td>{{ $value->issued_by }}</td>
+                    <td>{{ User::find($value->issued_by)->name }}</td>
                     <td>{{ $value->receivers_name }}</td>
                     <td>{{ $value->remarks }}</td>
                     <td> 

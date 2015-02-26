@@ -365,6 +365,10 @@ Route::group(array("before" => "auth"), function()
         "as"   => "inventory.store_FormStockTake",
         "uses" => "inventoryController@store_FormStockTake"
     ));
+        Route::post("/inventory/store_stockTake", array(
+        "as"   => "inventory.store_stockTake",
+        "uses" => "inventoryController@store_stockTake"
+    ));
          Route::any("/inventory/stockTakeCard", array(
         "as"   => "inventory.stockTakeCard",
         "uses" => "inventoryController@stockTakeCard"
@@ -421,8 +425,28 @@ Route::group(array("before" => "auth"), function()
             "as"    =>  "commodity.dropdown",
             "uses"  =>  "inventoryController@commodityDropdown"
         ));
+     Route::resource('commodity', 'CommodityController');
+        Route::any("/inventory/commodities", array(
+        "as"   => "inventory.commodities",
+        "uses" => "CommodityController@index"
+    ));
+        Route::post("/inventory/store_commodity", array(
+        "as"   => "inventory.store_commodity",
+        "uses" => "CommodityController@store"
+    ));
 
 
+
+    Route::resource('supplier', 'SuppliersController');
+        Route::any("/inventory/suppliers", array(
+        "as"   => "inventory.suppliers",
+        "uses" => "SuppliersController@index"
+    ));
+        Route::post("/inventory/store_supplier", array(
+        "as"   => "inventory.store_supplier",
+        "uses" => "SupplierController@store"
+    ));
+     
         
     
 });

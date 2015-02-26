@@ -42,14 +42,11 @@
 			</thead>
 			<tbody>
 			@foreach($issues as $key => $value)
-			<tr @if(Session::has('activecommodity'))
-            {{(Session::get('activecommodity') == $value->id)?"class='info'":""}}
-                        @endif
-                        >
+
 				<tr>
                  	<td>{{ $value->issue_date}}</td>
                  	<td>{{ $value->doc_no}}</td>
-					<td>{{ $value->commodity_id }}</td>
+                 	<td>{{ Inventory::find($value->commodity_id)->commodity }}</td>
 					<td>{{ $value->batch_no}}</td>
 					<td>{{ $value->expiry_date }}</td>
 					<td>{{ $value->qty_avl}}</td>

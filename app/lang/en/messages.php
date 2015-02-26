@@ -506,6 +506,14 @@ return array(
     'labTopUp'=> 'Lab Top-Up',
     'stockTake'=> 'Stock Take',
     'qty-on-stock-card'=> 'Quantity on Stock Card',
+    'commodities'=> 'Commodities',
+    'suppliers'=> 'Suppliers',
+    'item-code'=> 'Item Code',
+    'storage-req'=> 'Storage Requirements',
+    'average-consumption'=> 'Average Monthly Consumption',
+    'min-level'=> 'Minimum Level',
+    'max-level'=> 'Maximum Level',
+    'suppliers-name'=> 'Suppliers Name',
     
 
     

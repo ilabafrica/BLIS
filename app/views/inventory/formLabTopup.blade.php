@@ -50,10 +50,7 @@
                 {{ Form::label('issue-qty', Lang::choice('messages.issue-qty',1)) }}
                 {{ Form::text('issue-qty', Input::old('issue-qty'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
-            <div class="form-group">
-                {{ Form::label('issued-by ', trans('messages.issued-by')) }}
-                {{ Form::text('issued-by', Input::old('issued-by'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
+           
             <div class="form-group">
                 {{ Form::label('Receivers Name ', trans('messages.receivers-name')) }}
                 {{ Form::text('receivers-name', Input::old('receivers-name'),array('class' => 'form-control', 'rows' => '2')) }}

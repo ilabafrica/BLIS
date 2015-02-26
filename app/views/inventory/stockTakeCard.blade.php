@@ -9,7 +9,7 @@
 
 
 <div class="container-fluid">
-	{{ Form::open(array('route' => array('reports.aggregate.tat'), 'id' => 'turnaround', 'class' => 'form-inline')) }}
+{{ Form::open(array('url' => 'inventory/store_stockTake', 'id' => 'form-stocktake')) }}
 	<div class="row">
 	<div class="col-sm-5">
 		    	<div class="row">
@@ -68,7 +68,7 @@
 	Monthly/Quarterly Stock Take(Inventory Control) Card
 	</div>
 	<div class="panel-body">
-		
+
 <table class="table table-striped table-hover table-condensed">
 			<thead>
 				<tr>
@@ -82,7 +82,7 @@
 					<th>{{Lang::choice('messages.unit-price',1)}}</th>
 					<th>{{Lang::choice('messages.total-price',1)}}</th>
 					<th>{{Lang::choice('messages.discrepancy',1)}}</th>
-					<th>{{Lang::choice('messages.remarks',1)}}</th>
+					<!--<th>{{Lang::choice('messages.remarks',1)}}</th>-->
 
 
 					
@@ -107,22 +107,36 @@
                 
                 {{ Form::text('physical-count', Input::old('physical-count'),array('class' => 'form-control', 'rows' => '2')) }}
                 </div></td>
-					<td>0</td>
-					<td>0</td>
-					<td>0</td>
+					<td> {{ Form::text('unit-price', Input::old('unit-price'),array('class' => 'form-control', 'rows' => '2')) }}</td></td>
 					<td><div class="">
                 
+                {{ Form::text('total-price', Input::old('total-price'),array('class' => 'form-control', 'rows' => '2')) }}
+                </div></td></td>
+					<td><div class="">
+                
+                {{ Form::text('discrepancy', Input::old('discrepancy'),array('class' => 'form-control', 'rows' => '2')) }}
+                </div></td></td>
+			
+			   <!-- <td><div class="">
                 {{ Form::text('remarks', Input::old('remarks'),array('class' => 'form-control', 'rows' => '2')) }}
-                </div></td>
+                </div></td> -->
 
 				</tr>
 				@endforeach
+				<tr> 
+				<td>
+				<div class="">
+                    {{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 
+                        array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
+            </div>
+            </td>
+				</tr>
 			</tbody>
 			</table>
-
+{{ Form::close() }}
 		<?php  
 		Session::put('SOURCE_URL', URL::full());?>
 	</div>
 	
 </div>
-@stop
+@stop 

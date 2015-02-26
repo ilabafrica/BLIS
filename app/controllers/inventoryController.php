@@ -109,7 +109,8 @@ class inventoryController extends \BaseController {
 			return Redirect::back()->withErrors($validator)
 				->withInput();
 		} else {
-			// store
+
+
 			$receipts = new Inventory;
 			$receipts->receipt_date = Input::get('lab-receipt-date');
 			$receipts->commodity = Input::get('commodity');
@@ -121,6 +122,7 @@ class inventoryController extends \BaseController {
 			$receipts->expiry_date= Input::get('expiry-date');
 			$receipts->location = Input::get('location');
 			$receipts->receivers_name = Input::get('receivers-name');
+			$receipts->user_id= Auth::user()->id;
 
 			try{
 				$receipts->save();
@@ -165,12 +167,16 @@ class inventoryController extends \BaseController {
 			$issues->destination = Input::get('destination');
 			$issues->receivers_name = Input::get('receivers-name');
 
+			$getQtyAvl =Input::get('qty_avl');
+			$QtyIssued=Input::get('qty-req');
+			$stock_bal= $getQtyAvl- $QtyIssued;
+			$issues->stock_balance =$stock_bal;
 			try{
 				$issues->save();
 				return Redirect::route('inventory.issuesList')
 			->with('message', 'Successfully issued the commodity');
-
-			
+           
+          		
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -260,9 +266,10 @@ class inventoryController extends \BaseController {
 			$labTopup->tests_done = Input::get('tests-done');
 			$labTopup->order_qty = Input::get('order-qty');
 			$labTopup->issue_qty= Input::get('issue-qty');
-			$labTopup->issued_by = Input::get('issued-by');
+			//$labTopup->issued_by = Input::get('issued-by');
 			$labTopup->receivers_name = Input::get('receivers-name');
 			$labTopup->remarks = Input::get('remarks');
+			$labTopup->issued_by= Auth::user()->id;
 
 			try{
 				$labTopup->save();
@@ -369,6 +376,8 @@ class inventoryController extends \BaseController {
 			$commodity->issued_by = Input::get('issued_by');
 			$commodity->receivers_name = Input::get('receivers_name');
 			$commodity->remarks = Input::get('remarks');
+
+
 			
 			$commodity->save();
 
@@ -376,6 +385,55 @@ class inventoryController extends \BaseController {
 					->with('message', 'Successfully updated');
 
 		
+	}
+
+	public function store_stockTake()
+	{
+		//Log::info("here");
+			$rules = array(
+			
+			'physical-count' => 'required',
+			'discrepancy' => 'required'
+		);
+		$validator = Validator::make(Input::all(), $rules);
+
+		// process the login
+		if ($validator->fails()) {
+			return Redirect::back()->withErrors($validator)
+				->withInput();
+		} else {
+		
+
+			$stock = new InventoryStockTake;
+			$commodity->period_beginning = Input::get('start');
+            $commodity->period_ending = Input::get('end');
+			$stock->code = Input::get('doc_no');
+			$stock->commodity = Input::get('commodity');
+			$stock->unit_of_issue = Input::get('unit_of_issue');
+			$stock->batch_no = Input::get('batch_no');
+			$stock->expiry_date= Input::get('expiry_date');
+			$stock->stock_bal = Input::get('qty');
+			$stock->physical_count = Input::get('physical-count');
+			$stock->unit_price= Input::get('unit-price');
+			$stock->total_price = Input::get('	total-price');
+			$stock->discrepancy = Input::get('discrepancy');
+
+			try{
+				$stock->save();
+			
+
+
+				return Redirect::route('inventory.labStockCard')
+					->with('message', 'Successfully added');
+
+
+
+
+			}catch(QueryException $e){
+				Log::error($e);
+			}
+			
+		}
 	}
 
 	public function commodityDropdown(){

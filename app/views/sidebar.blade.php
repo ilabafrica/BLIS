@@ -253,7 +253,18 @@
 								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.stockTakeCard')}}</a>
 						</div>
 					</li>					
-					
+					<li>
+						<div>
+							<a href="{{ URL::route("inventory.commodities")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.commodities')}}</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route("inventory.suppliers")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.suppliers')}}</a>
+						</div>
+					</li>
 				</ul>
 			</div>
 
