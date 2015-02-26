@@ -13,16 +13,22 @@ class ControlMeasureRange extends Eloquent
 	*/
 	protected $table = 'control_measure_ranges';
 
+	public function ControlMeasure()
+	{
+		return $this->belongsTo('ControlMeasure');
+	}
+
 	/**
 	* Get ranges in printable format
 	*
 	* @return string
 	*/
-	public function getRange()
+	public function getRangeUnit()
 	{
 		$upper = $this->upper_range;
 		$lower = $this->lower_range;
+		$unit = $this->unit;
 
-		return $upper . " - " . $lower;
+		return $upper . " - " . $lower ." ". $this->ControlMeasure->unit;
 	}
 }

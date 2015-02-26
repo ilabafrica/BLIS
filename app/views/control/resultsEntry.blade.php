@@ -10,7 +10,16 @@
     <div class="panel panel-primary">
         <div class="panel-heading ">
             <div class="container-fluid">
-                
+                <div class="row less-gutter">
+                    <div class="col-md-11">
+                        <span class="glyphicon glyphicon-user"></span> {{ trans('messages.control-results') }}
+                    </div>
+                    <div class="col-md-1">
+                        <a class="btn btn-sm btn-primary pull-right"  href="#" onclick="window.history.back();return false;"
+                            alt="{{trans('messages.back')}}" title="{{trans('messages.back')}}">
+                            <span class="glyphicon glyphicon-backward"></span></a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="panel-body">
@@ -24,7 +33,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6">
-                    {{ Form::open(array('route' => array('test.saveResults',$control->id), 'method' => 'POST',
+                    {{ Form::open(array('route' => array('control.saveResults',$control->id), 'method' => 'POST',
                         'id' => 'form-enter-results')) }}
                         @foreach($control->controlMeasures as $key => $controlMeasure)
                             <div class="form-group">
@@ -34,12 +43,12 @@
                                         'class' => 'form-control result-interpretation-trigger'))
                                     }}
                                     <span class='units'>
-                                        {{$controlMeasure->controlMeasureRanges->get($key)->getRange()}}
-                                        {{$controlMeasure->controlMeasureRanges->get($key)->unit}}
+                                        {{$controlMeasure->controlMeasureRanges->first()->getRangeUnit()}}
                                     </span>
                                 @elseif ( $controlMeasure->isAlphanumeric() ) 
                                     {{ Form::label("m_".$control->id , $controlMeasure->name) }}
                                     {{ Form::select("m_".$control->id, $controlMeasure->controlMeasureRanges->lists('alphanumeric', 'id'),
+                                    Input::old('instrument'),
                                         array('class' => 'form-control result-interpretation-trigger',
                                         'data-url' => URL::route('test.resultinterpretation'),
                                         'data-measureid' => $controlMeasure->id
@@ -66,31 +75,25 @@
                     <div class="col-md-6">
                         <div class="panel panel-info">  <!-- Patient Details -->
                             <div class="panel-heading">
-                                <h3 class="panel-title">{{trans("messages.patient-details")}}</h3>
+                                <h3 class="panel-title">{{trans("messages.control-details")}}</h3>
                             </div>
                             <div class="panel-body">
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <p><strong>{{trans("messages.patient-number")}}</strong></p></div>
+                                            <p><strong>{{trans("messages.lot-number")}}</strong></p></div>
                                         <div class="col-md-9">
-                                            -</div></div>
+                                            {{ $lotNumber }}</div></div>
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <p><strong>{{ Lang::choice('messages.name',1) }}</strong></p></div>
+                                            <p><strong>{{ Lang::choice('messages.control-name',1) }}</strong></p></div>
                                         <div class="col-md-9">
-                                            -</div></div>
+                                            {{ $control->name }}</div></div>
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <p><strong>{{trans("messages.age")}}</strong></p></div>
-                                        <div class="col-md-9">
-                                            -</div></div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <p><strong>{{trans("messages.gender")}}</strong></p></div>
-                                        <div class="col-md-9">
-                                            -
-                                        </div></div>
+                                            <p><strong>{{Lang::choice("messages.instrument",1)}}</strong></p></div>
+                                        <div class="col-md-9"> {{ $instrumentName }}</div>
+                                    </div>
                                 </div>
                             </div> <!-- ./ panel-body -->
                         </div> <!-- ./ panel -->

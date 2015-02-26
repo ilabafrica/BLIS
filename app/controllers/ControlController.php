@@ -35,8 +35,8 @@ class ControlController extends \BaseController {
 	 */
 	public function store()
 	{
-		//Validation
-		$rules = array('name' => 'required|unique:controls,name',
+		//Validation -checking that name is unique among the un soft-deleted ones
+		$rules = array('name' => 'required|unique:controls,name,NULL,id,deleted_at,null',
 		 			'instrument' => 'required|non_zero_key',
 		 			'new-measures' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
@@ -100,7 +100,7 @@ class ControlController extends \BaseController {
 	public function update($id)
 	{
 		$rules = array(
-			'name' => 'required',
+			'name' => 'unique:controls,name,NULL,id,deleted_at,null',
 			'instrument' => 'required|non_zero_key',
 			'measures' => 'required',
 		);
@@ -164,10 +164,35 @@ class ControlController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function resultsEntry($controlId)
+	public function resultsEntry($controlId) 
 	{
 		$control = Control::find($controlId);
-		return View::make('control.resultsEntry')->with('control', $control);
+		$lotNumber = Lot::where('instrument_id', $control->instrument_id)->orderBy('id', 'desc')->first()->number;
+		$instrumentName = Instrument::find($control->instrument_id)->name;
+		return View::make('control.resultsEntry')->with('control', $control)->with('lotNumber', $lotNumber)
+						->with('instrumentName', $instrumentName);
 	}
+
+	/** 
+	* Saves control results
+	* 
+	* @param Input, result inputs
+	* @return Validation errors or response
+	*/
+	public function saveResults($controlId)
+	{
+		//Validate
+		$control = Control::find($controlId);
+
+		foreach ($control->controlMeasures as $controlMeasure) {
+			$controlResult = new ControlResult;
+			$controlResult->control_id = $controlId;
+			$controlResult->control_measure_id = $controlMeasure->id;
+			$controlResult->results = Input::get('m_'.$controlMeasure->id);
+			$controlResult->entered_by = Auth::user()->id;
+			$controlResult->save();
+		}
+	}
+
 
 }

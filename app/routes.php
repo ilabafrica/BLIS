@@ -343,5 +343,10 @@ Route::group(array("before" => "auth"), function()
         Route::get('control/{controlId}/delete', array(
             'uses' => 'ControlController@destroy'
         ));
+
+        Route::post('control/{controlId}/saveResults', array(
+            "as" => "control.saveResults",
+            'uses' => 'ControlController@saveResults'
+        ));
     });
 });

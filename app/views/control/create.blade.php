@@ -40,7 +40,7 @@
 				<div class="form-pane panel panel-default">
 					<div class="container-fluid measure-container">
 					</div>
-		        	<a class="btn btn-default add-control-measure" href="javascript:void(0);" data-new-measure="1">
+		        	<a class="btn btn-default add-another-measure" href="javascript:void(0);" data-new-measure="1">
 		         		<span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.add-new-measure')}}</a>
 				</div>
 			</div>

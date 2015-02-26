@@ -53,8 +53,8 @@ class QcTables extends Migration {
 
                 Schema::create('control_measure_ranges', function(Blueprint $table){
                 	$table->increments('id');
-                	$table->integer('upper_range')->nullable();
-                	$table->integer('lower_range')->nullable();
+                	$table->decimal('upper_range', 6, 2)->nullable();
+                	$table->decimal('lower_range', 6, 2)->nullable();
                 	$table->string('alphanumeric', '100')->nullable();
                 	$table->integer('control_measure_id')->unsigned();
 
@@ -65,7 +65,7 @@ class QcTables extends Migration {
 
                 Schema::create('control_results', function(Blueprint $table){
                 	$table->increments('id');
-                	$table->string('results', '300');
+                	$table->string('results');
                 	$table->integer('control_id')->unsigned();
                 	$table->integer('control_measure_id')->unsigned();
                         $table->integer('entered_by')->unsigned();
