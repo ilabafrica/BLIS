@@ -17,7 +17,9 @@ class QcTables extends Migration {
                 	$table->increments('id')->unsigned();
                 	$table->string('number', 100)->unique();
                 	$table->string('description', 400)->nullable();
+                        $table->integer('instrument_id')->unsigned();
 
+                        $table->foreign('instrument_id')->references('id')->on('instruments');
                 	$table->softDeletes();
                         $table->timestamps();
                 });
@@ -29,8 +31,9 @@ class QcTables extends Migration {
                 	$table->string('description', 400)->nullable();
                 	$table->integer('instrument_id')->unsigned();
 
+                        $table->foreign('instrument_id')->references('id')->on('instruments');
                 	$table->timestamps();
-                	$table->foreign('instrument_id')->references('id')->on('instruments');
+                        $table->softDeletes();
                 });
 
                 Schema::create('control_measures', function(Blueprint $table)
@@ -44,8 +47,8 @@ class QcTables extends Migration {
 
                         $table->foreign('control_measure_type_id')->references('id')->on('measure_types');
                 	$table->foreign('control_id')->references('id')->on('controls');
-                	$table->timestamps();
-                        $table->softDeletes();
+                	$table->softDeletes();
+                        $table->timestamps();
                 });
 
                 Schema::create('control_measure_ranges', function(Blueprint $table){
@@ -54,12 +57,10 @@ class QcTables extends Migration {
                 	$table->integer('lower_range')->nullable();
                 	$table->string('alphanumeric', '100')->nullable();
                 	$table->integer('control_measure_id')->unsigned();
-                	$table->integer('lot_id')->unsigned();
 
                 	$table->foreign('control_measure_id')->references('id')->on('control_measures');
-                	$table->foreign('lot_id')->references('id')->on('lots');
-                	$table->timestamps();
-                        $table->softDeletes();
+                	$table->softDeletes();
+                        $table->timestamps();
                 });
 
                 Schema::create('control_results', function(Blueprint $table){

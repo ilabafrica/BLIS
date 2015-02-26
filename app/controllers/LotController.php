@@ -22,24 +22,9 @@ class LotController extends \BaseController {
 	 */
 	public function create()
 	{
-		$controls = Control::lists('name', 'id');
-		$measureTypes = MeasureType::all();
-		return View::make('lot.create')->with('controls', $controls)->with('measureTypes', $measureTypes);
+		$instruments = Instrument::lists('name', 'id');
+		return View::make('lot.create')->with('instruments', $instruments);
 	}
-
-	/**
-	 * Returns an lotRanges.blade view depending 
-	 * on the parametes received.
-	 *
-	 * @return View
-	 */
-	public function editRanges($controlId)
-	{
-		$controlMeasures = Control::find($controlId)->ControlMeasures;
-		$measureTypes = MeasureType::all();
-		return View::make('lot.lotRanges')->with('controlMeasures', $controlMeasures)->with('measureTypes', $measureTypes)->render();
-	}
-
 
 	/**
 	 * Store a newly created resource in storage.
@@ -50,25 +35,20 @@ class LotController extends \BaseController {
 	{
 		//Validation
 		$rules = array('number' => 'required|unique:lots,number',
-					'control' => 'required|non_zero_key',
-					'measures' => 'required');
+					'instrument' => 'required|non_zero_key');
 		$validator = Validator::make(Input::all(), $rules);
-		// dd(Input::all());
+
 		if ($validator->fails()) {
 			return Redirect::route('lot.create')->withErrors($validator)->withInput();
 		} else {
 			// Add
-			dd(Input::get('measures'));
 			$lot = new Lot;
 			$lot->number = Input::get('number');
 			$lot->description = Input::get('description');
+			$lot->instrument_id = Input::get('instrument');
+
 			$lot->save();
 
-			if (Input::get('measures')) {
-					$inputMeasures = Input::get('measures');
-					$controlMeasure = New ControlMeasureController;
-					$controlMeasure->saveRanges($inputMeasures, $lot->id);
-			}
 			$url = Session::get('SOURCE_URL');
 			return Redirect::to($url)
 					->with('message', trans('messages.successfully-updated-lot'));
@@ -84,7 +64,8 @@ class LotController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		$lot = Lot::find($id);
+		return View::make('lot.show')->with('lot', $lot);
 	}
 
 
@@ -96,7 +77,9 @@ class LotController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		$lot = Lot::find($id);
+		$instruments = Instrument::lists('name', 'id');
+		return View::make('lot.edit')->with('lot', $lot)->with('instruments', $instruments);
 	}
 
 
@@ -108,7 +91,26 @@ class LotController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		//Validation
+		$rules = array('number' => 'required',
+					'instrument' => 'required|non_zero_key');
+		$validator = Validator::make(Input::all(), $rules);
+
+		if ($validator->fails()) {
+			return Redirect::to('lot/'.$id.'/edit')->withErrors($validator)->withInput();
+		} else {
+			// Add
+			$lot = Lot::find($id);
+			$lot->number = Input::get('number');
+			$lot->description = Input::get('description');
+			$lot->instrument_id = Input::get('instrument');
+
+			$lot->save();
+
+			$url = Session::get('SOURCE_URL');
+			return Redirect::to($url)
+					->with('message', trans('messages.successfully-updated-lot'));
+		}
 	}
 
 
@@ -121,6 +123,23 @@ class LotController extends \BaseController {
 	public function destroy($id)
 	{
 		//
+	}
+
+	/**
+	 * Remove the specified lot from storage (global UI implementation).
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function delete($id)
+	{
+		//Delete the lot
+		$lot = Lot::find($id);
+ 
+		$lot->delete();
+
+		// redirect
+		return Redirect::route('lot.index')->with('message', trans('messages.success-deleting-lot'));
 	}
 
 

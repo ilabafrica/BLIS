@@ -34,6 +34,11 @@
 					<td>{{ $lot->number }}</td>
 					<th>{{ $lot->description }}</th>
 					<td>
+						<!-- show the instrument details -->
+						<a class="btn btn-sm btn-success" href="{{ URL::route('lot.show', array($lot->id)) }}">
+							<span class="glyphicon glyphicon-eye-open"></span>
+							{{trans('messages.view')}}
+						</a>
 						<a class="btn btn-sm btn-info" href="{{ URL::to("lot/" . $lot->id . "/edit") }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							{{ trans('messages.edit') }}

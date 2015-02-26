@@ -105,42 +105,6 @@ $(function(){
 			loadRangeFields();
 		}
 	}
-	/**
-	 *	Control_measure Functions
-	 */
-	 /* Add another measure */
-	$('.add-control-measure').click(function(){
-		newMeasureNo = $(this).data('new-measure');
-		var inputHtml = $('.measureGenericLoader').html();
-		//Count new measures on the new measure button
-		$('.measure-container').append(inputHtml);
-		$('.measure-container .new-measure-section').find(
-			'.measuretype-input-trigger').addClass('new-measure-'+newMeasureNo);
-		$('.measure-container .new-measure-section').find(
-			'.measuretype-input-trigger').attr('data-new-measure-id',  newMeasureNo);
-		$('.measure-container .new-measure-section').find(
-			'.add-another-range').attr('data-new-measure-id',  newMeasureNo);
-		$('.measure-container .new-measure-section').find(
-			'.add-another-range').addClass('new-measure-'+newMeasureNo);
-		$('.measure-container .new-measure-section').find(
-			'.measurevalue').addClass('new-measure-'+newMeasureNo);
-		$('.measure-container .new-measure-section').addClass(
-			'measure-section new-'+newMeasureNo).removeClass('new-measure-section');
-		$(this).data('new-measure',  newMeasureNo+1).attr('data-new-measure',  newMeasureNo+1);
-		addNewControlMeasureAttributes(newMeasureNo);
-		delete newMeasureNo;
-	});
-
-	function addNewControlMeasureAttributes (measureID) {
-		$('.measure-section.new-'+measureID+' input.name').attr(
-			'name', 'new-measures['+measureID+'][name]');
-		$('.measure-section.new-'+measureID+' select.measure_type_id').attr(
-			'name', 'new-measures['+measureID+'][measure_type_id]');
-		$('.measure-section.new-'+measureID+' input.expected').attr(
-			'name', 'new-measures['+measureID+'][expected]');
-		$('.measure-section.new-'+measureID+' input.unit').attr(
-			'name', 'new-measures['+measureID+'][unit]');
-	}
 
 	/** GLOBAL DELETE	
 	 *	Alert on irreversible delete
@@ -389,21 +353,6 @@ $(function(){
 			$('#new-test-modal #patient_id').val(theRadio.val());
 			$('#new-test-modal .modal-footer .next').prop('disabled', false);
 		});
-
-		$('.add-another-control-range').click(function(){
-			if ($(this).data('measure-id') === 0) {
-			var newMeasureId = $(this).data('new-measure-id');
-			var newMeasureNo = newMeasureId + 1;
-			var measureID = 'new-measure-'+newMeasureId;
-			} else {
-				var measureID = $(this).data('measure-id');
-			}
-			var inputHtml = $('.alphanumericInputLoader').html();
-			$('.control-measure-container').find('.add-another-control-range').attr('data-new-measure-id', newMeasureNo);
-			$('.measurevalue.new-measure-'+measureID+' input.val').attr('name', 'new-measures['+measureID+'][val]['+newMeasureNo+']');
-			$(".measurevalue").append(inputHtml);
-
-		});
 	});
 
 	/**
@@ -462,6 +411,8 @@ $(function(){
 			'name', 'new-measures['+measureID+'][measure_type_id]');
 		$('.measure-section.new-'+measureID+' input.unit').attr(
 			'name', 'new-measures['+measureID+'][unit]');
+		$('.measure-section.new-'+measureID+' input.expected').attr(
+			'name', 'new-measures['+measureID+'][expected]');
 		$('.measure-section.new-'+measureID+' textarea.description').attr(
 			'name', 'new-measures['+measureID+'][description]');
 	}
@@ -590,13 +541,4 @@ $(function(){
             	return JSON.parse(localStorage.getItem('.search-table'));
         	}
    		});
-		$( '#lot-create' ).on('change', '.control-edit', function(){
-			controlid = $('#control').val();
-			editControlRanges(controlid);
-		});
 	});
-
-	function editControlRanges(controlid) {
-		url = controlid + '/editranges';
-		$('#edit-control-ranges').load(url);
-	}

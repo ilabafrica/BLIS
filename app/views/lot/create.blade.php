@@ -31,9 +31,9 @@
 					array('class' => 'form-control', 'rows' => '3' )) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('control', trans('messages.control')) }}
-				{{ Form::select('control', array('') + $controls, Input::old('control'), 
-					array('class' => 'form-control control-edit')) }}
+				{{ Form::label('instruments', trans('messages.instrument')) }}
+				{{ Form::select('instrument', array('') + $instruments, Input::old('instrument'), 
+					array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group" id="edit-control-ranges">
 			</div>

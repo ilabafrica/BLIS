@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
+
 class Control extends Eloquent {
 
 	/**
@@ -9,10 +11,14 @@ class Control extends Eloquent {
      */
 	protected $table = "controls";
 
+	//Soft deletes
+	use SoftDeletingTrait;
+    protected $dates = ['deleted_at'];
+
 	/**
 	 * ConrolMeasures relationship
 	 */
-	public function ControlMeasures()
+	public function controlMeasures()
 	{
 	  return $this->hasMany('ControlMeasure');
 	}

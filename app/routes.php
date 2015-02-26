@@ -320,17 +320,28 @@ Route::group(array("before" => "auth"), function()
         
     });
 
-    //  Check if able to manage reports
-    //Check for permisisons
     Route::group(array("before" => "admin"), function()
     {
         Route::resource("lot", "LotController");
 
-        Route::get('lot/{controlid}/editranges', array(
-            'as' => 'lot.editranges',
-            'uses' => 'LotController@editRanges'
+        Route::get('lot/{lotId}/delete', array(
+            'uses' => 'LotController@delete'
         ));
 
         Route::resource("control", "ControlController");
+
+        Route::get("controlresults", array(
+            "as"   => "control.resultsIndex",
+            "uses" => "ControlController@resultsIndex"
+        ));
+
+        Route::get("controlresults/{controlId}/resultsentry", array(
+            "as" => "control.resultsentry",
+            "uses" => "ControlController@resultsEntry"
+        ));
+
+        Route::get('control/{controlId}/delete', array(
+            'uses' => 'ControlController@destroy'
+        ));
     });
 });

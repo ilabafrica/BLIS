@@ -9,7 +9,7 @@ class ControlController extends \BaseController {
 	 */
 	public function index()
 	{
-		$controls = Control::all();
+		$controls = Control::orderBy('id')->get();
 		return View::make('control.index')->with('controls', $controls);
 	}
 
@@ -23,9 +23,8 @@ class ControlController extends \BaseController {
 	{
 		$instruments = Instrument::lists('name', 'id');
 		$measureTypes = MeasureType::all();
-		return View::make('control.create')
-			->with('instruments', $instruments)
-			->with('measureTypes', $measureTypes);
+
+		return View::make('control.create') ->with('instruments', $instruments) ->with('measureTypes', $measureTypes);
 	}
 
 
@@ -50,12 +49,11 @@ class ControlController extends \BaseController {
 			$control->name = Input::get('name');
 			$control->description = Input::get('description');
 			$control->instrument_id = Input::get('instrument');
-			$control->save();
 
 			if (Input::get('new-measures')) {
-					$inputNewMeasures = Input::get('new-measures');
+					$newMeasures = Input::get('new-measures');
 					$controlMeasure = New ControlMeasureController;
-					$controlMeasure->saveMeasures($inputNewMeasures, $control->id);
+					$controlMeasure->saveMeasuresRanges($newMeasures, $control);
 			}
 			// redirect
 			return Redirect::to('control')
@@ -85,7 +83,11 @@ class ControlController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		$instruments = Instrument::lists('name', 'id');
+		$control = Control::find($id);
+		$measureTypes = MeasureType::all();
+		return View::make('control.edit')->with('control',$control)->with('instruments', $instruments)
+				->with('measureTypes', $measureTypes);
 	}
 
 
@@ -97,7 +99,37 @@ class ControlController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$rules = array(
+			'name' => 'required',
+			'instrument' => 'required|non_zero_key',
+			'measures' => 'required',
+		);
+		$validator = Validator::make(Input::all(), $rules);
+
+		// process the login
+		if ($validator->fails()) {
+			return Redirect::back()->withErrors($validator)->withInput();
+		} else {
+			// Update
+			$control = Control::find($id);
+			$control->name = Input::get('name');
+			$control->description = Input::get('description');
+			$control->instrument_id = Input::get('instrument');
+
+			if (Input::get('new-measures')) {
+				$inputNewMeasures = Input::get('new-measures');
+				$measures = New ControlMeasureController;
+				$measureIds = $measures->saveMeasuresRanges($inputNewMeasures, $control);
+			}
+
+			if (Input::get('measures')) {
+				$inputMeasures = Input::get('measures');
+				$measures = New ControlMeasureController;
+				$measures->saveMeasuresRanges($inputMeasures, $control);
+			}
+			// redirect
+			return Redirect::back()->with('message', trans('messages.success-updating-test-type'));
+		}
 	}
 
 
@@ -109,8 +141,33 @@ class ControlController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		//Delete the control
+		$control = Control::find($id);
+		$control->delete();
+		// redirect
+		return Redirect::route('control.index')->with('message', trans('messages.success-deleting-control'));
 	}
 
+	/**
+	 * Return resultsindex page
+	 *
+	 * @return Response
+	 */
+	public function resultsIndex()
+	{
+		$controls = Control::all();
+		return View::make('control.resultsIndex')->with('controls', $controls);
+	}
+
+	/**
+	 * Return resultsindex page
+	 *
+	 * @return Response
+	 */
+	public function resultsEntry($controlId)
+	{
+		$control = Control::find($controlId);
+		return View::make('control.resultsEntry')->with('control', $control);
+	}
 
 }

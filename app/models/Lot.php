@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
+
 class Lot extends Eloquent {
 
 	/**
@@ -8,5 +10,16 @@ class Lot extends Eloquent {
      * @var string
      */
 	protected $table = "lots";
+
+	//Soft deletes
+	use SoftDeletingTrait;
+    protected $dates = ['deleted_at'];
+
+
+	/**
+	*/
+	public function instrument(){
+		return $this->belongsTo('Instrument');
+	}
 
 }

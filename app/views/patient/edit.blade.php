@@ -1,4 +1,4 @@
-@extends("layout")
+	@extends("layout")
 @section("content")
 	<div>
 		<ol class="breadcrumb">

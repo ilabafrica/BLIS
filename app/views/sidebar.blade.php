@@ -29,8 +29,9 @@
 		case 'user': 
 		case 'role': 
 			$active[6] = "active"; break;
-		case 'controls':
-		case 'lots': $active[7] = "active"; break;
+		case 'controlresults':
+		case 'control':
+		case 'lot': $active[7] = "active"; break;
 
 	}
 ?>
@@ -217,11 +218,17 @@
 		</li>
 		<li>
 			<div class="main-menu {{$active[7]}}">
-				<a href="#" title="{{trans('messages.quality-control')}}">
+				<a href="{{ URL::route('control.index') }}" title="{{trans('messages.quality-control')}}">
 					<span class="glyphicon glyphicon-eye-open"></span> {{ trans('messages.quality-control')}}</a>
 			</div>
 			<div class="sub-menu {{$active[7]}}">
 				<ul class="sub-menu-items">
+						<li>
+							<div>
+								<a href="{{ URL::route('control.resultsIndex') }}">
+									<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.controlresults', 2)}}</a>
+							</div>
+						</li>
 						<li>
 							<div>
 								<a href="{{ URL::route('control.index') }}">

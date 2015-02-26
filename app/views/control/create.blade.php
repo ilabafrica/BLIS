@@ -58,5 +58,5 @@
 		</div>
 	{{ Form::close() }}
 </div>
-@include("control.controlMeasures")
+@include("control.measureCreate")
 @stop
