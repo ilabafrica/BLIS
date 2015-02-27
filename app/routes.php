@@ -278,6 +278,11 @@ Route::group(array("before" => "auth"), function()
             "as"   => "facility.delete",
             "uses" => "FacilityController@delete"
         ));
+
+        Route::any("/reportconfig/surveillance", array(
+            "as"   => "reportconfig.surveillance",
+            "uses" => "ReportController@surveillanceConfig"
+        ));
     });
     
     //  Check if able to manage reports
@@ -310,6 +315,11 @@ Route::group(array("before" => "auth"), function()
         Route::any("/prevalence", array(
             "as"   => "reports.aggregate.prevalence",
             "uses" => "ReportController@prevalenceRates"
+        ));
+
+        Route::any("/surveillance", array(
+            "as"   => "reports.aggregate.surveillance",
+            "uses" => "ReportController@surveillance"
         ));
 
         Route::any("/counts", array(

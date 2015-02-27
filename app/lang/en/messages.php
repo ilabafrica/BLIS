@@ -10,6 +10,7 @@ return array(
      */
 
     'actions' => 'Actions',
+    'add-another' => 'Add Another',
     'back' => 'Previous Page',
     'both' => 'Both',
     'cancel' => 'Cancel',
@@ -18,6 +19,7 @@ return array(
     'date-created' => 'Date Created',
     'delete' => 'Delete',
     'description' => 'Description',
+    'disease' => 'Disease',
     'edit' => 'Edit',
     'email' => 'Email',
     'female' => 'Female',
@@ -403,7 +405,12 @@ return array(
     'patient-report-no' =>  'Form No. BDHL-QUA-017F3',
     'patient-report-version'    =>  'Version 1',
     'signature-holder'  =>  '............................................',
+    'surveillance'    =>  'Surveillance',
     'request-origin'    =>  'Request origin',
+    'laboratory'    =>  'Laboratory',
+    'tested'    =>  'Tested',
+    'less-five'    =>  '< 5 Years',
+    'greater-five'    =>  '≥ 5 Years',
 
     /* Infection Report*/
     'age-ranges'    =>  'Age Ranges',

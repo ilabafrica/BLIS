@@ -66,6 +66,8 @@ class TestDataSeeder extends DatabaseSeeder
         
         /* Test Categories table - These map on to the lab sections */
         $test_categories = TestCategory::create(array("name" => "PARASITOLOGY","description" => ""));
+        $lab_section_microbiology = TestCategory::create(array("name" => "MICROBIOLOGY","description" => ""));
+
         $this->command->info('test_categories seeded');
         
         
@@ -225,6 +227,7 @@ class TestDataSeeder extends DatabaseSeeder
         
         /* Test Types table */
         $testTypeBS = TestType::create(array("name" => "BS for mps", "test_category_id" => $test_categories->id));
+        $testTypeStoolCS = TestType::create(array("name" => "Stool for C/S", "test_category_id" => $lab_section_microbiology->id));
         $testTypeGXM = TestType::create(array("name" => "GXM", "test_category_id" => $test_categories->id));
         $testTypeHB = TestType::create(array("name" => "HB", "test_category_id" => $test_categories->id));
         $testTypeUrinalysis = TestType::create(array("name" => "Urinalysis", "test_category_id" => $test_categories->id));
@@ -897,6 +900,8 @@ class TestDataSeeder extends DatabaseSeeder
             array($test_types_brucella->id, "13"));
         DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
             array($test_types_pylori->id, "13"));
+        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+            array($testTypeStoolCS->id, "16"));
         $this->command->info('TestTypes/SpecimenTypes seeded');
         
         /*New measures for prevalence*/
@@ -1414,6 +1419,32 @@ class TestDataSeeder extends DatabaseSeeder
             Facility::create($facility);
         }
         $this->command->info('Facilities table seeded');
+
+        $malaria = Disease::create(array('name' => "Malaria"));
+        $typhoid = Disease::create(array('name' => "Typhoid"));
+        $dysentry = Disease::create(array('name' => "Shigella Dysentry"));
+
+        $this->command->info("Dieases table seeded");
+
+        $reportDiseases = array(
+            array(
+                "test_type_id" => $testTypeBS->id,
+                "disease_id" => $malaria->id,
+                ),
+             array(
+                "test_type_id" => $test_types_salmonella->id,
+                "disease_id" => $typhoid->id,
+                ),
+             array(
+                "test_type_id" => $testTypeStoolCS->id,
+                "disease_id" => $dysentry->id,
+                ),
+        );
+
+        foreach ($reportDiseases as $reportDisease) {
+            ReportDisease::create($reportDisease);
+        }
+        $this->command->info("Report Disease table seeded");
     }
 
     public function createSpecimen(

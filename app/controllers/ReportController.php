@@ -970,4 +970,91 @@ class ReportController extends \BaseController {
 					->with('selectedReport', $selectedReport)
 					->withInput(Input::all());
 	}
+
+
+	/**
+	 * Displays Surveillance
+	 * @param string $from, string $to, array() $testTypeIds
+	 */
+	public function surveillance(){
+		/*surveillance diseases*/
+		//	Fetch form filters
+		$date = date('Y-m-d');
+		$from = Input::get('start');
+		if(!$from) $from = date('Y-m-01');
+		$to = Input::get('end');
+		if(!$to) $to = $date;
+
+		$surveillance = Test::getSurveillanceData($from, $to.' 23:59:59');
+		return View::make('reports.surveillance.index')
+					->with('surveillance', $surveillance)
+					->withInput(Input::all());
+	}
+
+	/**
+	 * Manage Surveillance Configurations
+	 * @param
+	 */
+	public function surveillanceConfig(){
+		
+        $allSurveillanceIds = array();
+		
+		//edit or leave surveillance entries as is
+		if (Input::get('surveillance')) {
+			$diseases = Input::get('surveillance');
+
+			foreach ($diseases as $id => $disease) {
+                $allSurveillanceIds[] = $id;
+				$surveillance = ReportDisease::find($id);
+				$surveillance->test_type_id = $disease['test-type'];
+				$surveillance->save();
+				
+				$diseases = Disease::find($surveillance->disease_id);
+				$diseases->name = $disease['disease'];
+				$diseases->save();
+			}
+		}
+		
+		//save new surveillance entries
+		if (Input::get('new-surveillance')) {
+			$diseases = Input::get('new-surveillance');
+
+			foreach ($diseases as $id => $disease) {
+				$diseases = new Disease;
+				$diseases->name = $disease['disease'];
+				$diseases->save();
+
+				$surveillance = new ReportDisease;
+				$surveillance->disease_id = $diseases->id;
+				$surveillance->test_type_id = $disease['test-type'];
+				$surveillance->save();
+                $allSurveillanceIds[] = $surveillance->id;
+				
+			}
+		}
+
+        //check if action is from a form submission
+        if (Input::get('from-form')) {
+	     	// Delete any pre-existing surveillance entries
+	     	//that were not captured in any of the above save loops
+	        $allSurveillances = ReportDisease::all(array('id'));
+
+	        $deleteSurveillances = array();
+
+	        //Identify survillance entries to be deleted by Ids
+	        foreach ($allSurveillances as $key => $value) {
+	            if (!in_array($value->id, $allSurveillanceIds)) {
+	                $deleteSurveillances[] = $value->id;
+	            }
+	        }
+	        //Delete Surveillance entry if any
+	        if(count($deleteSurveillances)>0)ReportDisease::destroy($deleteSurveillances);
+        }
+
+        //Updates survillance data
+		$diseaseTests = ReportDisease::all();
+
+		return View::make('reportconfig.edit')
+					->with('diseaseTests', $diseaseTests);
+	}
 }

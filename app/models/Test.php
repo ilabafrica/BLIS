@@ -458,5 +458,84 @@ class Test extends Eloquent
 
 		return $tests;
 	}
+
+
+	/**
+	 * Get the Surveillance Data
+	 *
+	 * @return db resultset
+	 */
+	public static function getSurveillanceData($from, $to)
+	{
+		$diseases = Disease::all();
+		$surveillances = array();
+		//foreach diease collect test types
+		foreach (Disease::all() as $disease) {
+			$count = 0;
+			$testType = '';
+			foreach ($disease->reportDiseases as $reportDisease) {
+				if ($count == 0) {
+					$testType = 't.test_type_id='.$reportDisease->test_type_id;
+				} else {
+					$testType = $testType.' or t.test_type_id='.$reportDisease->test_type_id;
+				}
+				$count++;
+			}
+			if (!empty($testType)) {
+				$surveillances[$disease->id]['test_type_id'] = $testType;
+				$surveillances[$disease->id]['disease_id'] = $disease->id;
+			}
+		}
+		//Select surveillance data for the defined diseases
+		$query = "SELECT ";
+		foreach ($surveillances as $surveillance) {
+			$query = $query.
+				"COUNT(DISTINCT if(".$surveillance['test_type_id'].",t.id,NULL)) as ".$surveillance['disease_id']."_total,".
+				"COUNT(DISTINCT if((".$surveillance['test_type_id'].
+					" and DATE_SUB(NOW(), INTERVAL 5 YEAR)<p.dob),t.id,NULL)) as ".$surveillance['disease_id']."_less_five_total, ".
+				"COUNT(DISTINCT if((".$surveillance['test_type_id'].
+					" and (tr.result='+' or".
+					" tr.result='++' or".
+					" tr.result='+++' or".
+					" tr.result='++++' or".
+					" tr.result='Positive' or".
+					" tr.result='salmonella spp isolated' or".
+					" tr.result='shigella flexineri isolated' or".
+					" tr.result='shigella boydie isolated' or".
+					" tr.result='shigella sonnei isolated' or".
+					" tr.result='shygella dysentriae isolated')".
+						"),t.id,NULL)) as ".$surveillance['disease_id']."_positive, ".
+				"COUNT(DISTINCT if((".$surveillance['test_type_id'].
+					" and (tr.result='+' or".
+					" tr.result='++' or".
+					" tr.result='+++' or".
+					" tr.result='++++' or".
+					" tr.result='Positive' or".
+					" tr.result='salmonella spp isolated' or".
+					" tr.result='shigella flexineri isolated' or".
+					" tr.result='shigella boydie isolated' or".
+					" tr.result='shigella sonnei isolated' or".
+					" tr.result='shigella dysentriae isolated')".
+						" and DATE_SUB(NOW(), INTERVAL 5 YEAR)<p.dob),t.id,NULL)) as ".$surveillance['disease_id'].
+						"_less_five_positive";
+		    if($surveillance == end($surveillances)) {
+		        $query = $query." ";
+		    }else{
+		        $query = $query.", ";
+		    }
+		}
+	
+		$query = $query." FROM tests t ".
+			"INNER JOIN test_results tr ON t.id=tr.test_id ".
+			"JOIN visits v ON v.id=t.visit_id ".
+			"JOIN patients p ON v.patient_id=p.id ";
+			if ($from) {
+				$query = $query."WHERE (time_created BETWEEN '".$from."' AND '".$to."')";
+			}
+
+		$data = DB::select($query);
+		$data = json_decode(json_encode($data), true);
+		return $data[0];
+	}
 }
 
