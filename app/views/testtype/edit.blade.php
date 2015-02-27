@@ -104,7 +104,7 @@
 							?>
 							<div class="col-md-3">
 								<label  class="checkbox">
-									<input type="checkbox" name="organisms[]" value="" 
+									<input type="checkbox" name="organisms[]" value="{{ $val->id}}" 
 										{{ in_array($val->id, $testtype->organisms->lists('id'))?"checked":"" }} >
 										{{ $val->name }}
 								</label>
