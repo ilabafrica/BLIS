@@ -51,7 +51,7 @@
 
             <div class="form-group">
                 {{ Form::label('Quantity Available ', trans('messages.qty-avl')) }}
-                {{ Form::text('qty_avl', Input::old('qty_avl'),array('class' => 'form-control', 'rows' => '2', 'id' => 'qty')) }}
+                {{ Form::text('qty_avl', Input::old('qty_avl'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('Quantity', trans('messages.qty-req')) }}

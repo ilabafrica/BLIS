@@ -4,7 +4,7 @@
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
        <li><a href="{{{URL::route('suppliers.index')}}}">{{trans('messages.suppliersList')}}</a></li>
-	 	  <li class="active">{{ Lang::choice('messages.suppliers',2) }}</li>
+	 	  <li class="active">{{ Lang::choice('messages.editSuppliers',2) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -21,19 +21,21 @@
 		{{ Lang::choice('messages.suppliers',2) }}
 	</div>
 	<div class="panel-body">
-		   {{ Form::open(array('route' => 'suppliers.store', 'id' => 'form-store_suppliers')) }}
+		   {{ Form::model($suppliers, array('route' => array('suppliers.update', $suppliers->id), 'method' => 'PUT',
+               'id' => 'form-edit-suppliers')) }}
+
 
             <div class="form-group">
                 {{ Form::label('Suppliers Name', trans('messages.suppliers-name')) }}
-                {{ Form::text('suppliers-name', Input::old('suppliers-name'), array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::text('name', Input::old('name'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
              <div class="form-group">
                 {{ Form::label('physical address', trans('messages.physical-address')) }}
-                {{ Form::text('physical-address', Input::old('physical-address'), array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::text('physical_address', Input::old('physical_address'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('Phone No', trans('messages.phone-number')) }}
-                {{ Form::text('phone-number', Input::old('phone-number'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::text('phone_no', Input::old('phone_no'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('email', trans('messages.email')) }}

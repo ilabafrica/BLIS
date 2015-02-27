@@ -10,79 +10,54 @@ class CommodityController extends \BaseController {
 	public function index()
 	{
 		
-
-
-		return View::make('inventory.commodities');
+       $commodity = Commodity::orderBy('commodity', 'ASC')->get();
+		return View::make('inventory.commodityList')->with('commodity', $commodity);
 	
 	}
 
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
 	public function create()
 	{
-		//
+		 $metrics= Metrics::orderBy('name', 'ASC')->lists('name', 'id');
+		return View::make('inventory.commodities')->with('metrics', $metrics);
+	
+		
 	}
 
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
 	public function store()
 	{
 		//
          $rules = array(			
-			'commodity' => 'required',
-			'item-code' => 'required'
-			
-		);
+			'commodity' => 'required|unique:inventory_commodity,commodity');
 		$validator = Validator::make(Input::all(), $rules);
 
 		
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator)
-				->withInput();
+			return Redirect::back()->withErrors($validator);
 		} else {
 			// store
-			$issues = new InventoryIssues;
-			$issues->issue_date= Input::get('issue-date');
-			$issues->doc_no= Input::get('doc-no');
-			$issues->commodity_id= Input::get('commodity');
-			$issues->batch_no= Input::get('batch_no');
-			$issues->expiry_date= Input::get('expiry_date');
-			$issues->qty_avl= Input::get('qty_avl');
-			$issues->qty_req = Input::get('qty-req');
-			$issues->destination = Input::get('destination');
-			$issues->receivers_name = Input::get('receivers-name');
+			$commodity = new Commodity;
+			$commodity->commodity= Input::get('commodity');
+			$commodity->description= Input::get('description');
+			$commodity->unit_of_issue= Input::get('unit-of-issue');
+			$commodity->unit_price= Input::get('unit-price');
+			$commodity->item_code = Input::get('item-code');
+			$commodity->storage_req = Input::get('storage-req');
+			$commodity->min_level = Input::get('min-level');
+			$commodity->max_level = Input::get('max-level');
 
-			$getQtyAvl =Input::get('qty_avl');
-			$QtyIssued=Input::get('qty-req');
-			$stock_bal= $getQtyAvl- $QtyIssued;
-			$issues->stock_balance =$stock_bal;
 			try{
-				$issues->save();
-				return Redirect::route('inventory.issuesList')
-			->with('message', 'Successfully issued the commodity');
-           
-          		
+				$commodity->save();
+				$url = Session::get('SOURCE_URL');
+					return Redirect::to($url)
+					->with('message', trans('messages.success-creating-commodity')) ->with('activecommodity', $commodity ->id);
+          	
 			}catch(QueryException $e){
 				Log::error($e);
 			}
 			
 		}
-
-
-
-
-
-
-
-
 
 	}
 
@@ -107,7 +82,13 @@ class CommodityController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		$metrics= Metrics::orderBy('name', 'ASC')->lists('name', 'id');
+		$commodity = Commodity::find($id);
+		$metric=$commodity->unit_of_issue;
+
+
+		//Open the Edit View and pass to it the $patient
+		return View::make('inventory.editCommodities')->with('metrics', $metrics)->with('commodity', $commodity)->with('metric', $metric);
 	}
 
 
@@ -118,9 +99,34 @@ class CommodityController extends \BaseController {
 	 * @return Response
 	 */
 	public function update($id)
-	{
-		//
-	}
+	{//Validate
+		$rules = array('commodity' => 'required');
+		$validator = Validator::make(Input::all(), $rules);
+
+		// process the login
+		if ($validator->fails()) {
+			return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
+		} else {
+		// Update
+			$commodity = Commodity::find($id);
+			$commodity->commodity= Input::get('commodity');
+			$commodity->description= Input::get('description');
+			$commodity->unit_of_issue= Input::get('unit_of_issue');
+			$commodity->unit_price= Input::get('unit_price');
+			$commodity->item_code= Input::get('item_code');
+			$commodity->storage_req= Input::get('storage_req');
+			$commodity->min_level= Input::get('min_level');
+			$commodity->max_level= Input::get('max_level');
+
+			$commodity->save();
+
+			$url = Session::get('SOURCE_URL');
+            
+            return Redirect::to($url)
+			->with('message', trans('messages.success-updating-commodity')) ->with('activecommodity', $commodity ->id);
+          		
+	       }
+		 }
 
 
 	/**

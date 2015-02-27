@@ -514,7 +514,13 @@ return array(
     'min-level'=> 'Minimum Level',
     'max-level'=> 'Maximum Level',
     'suppliers-name'=> 'Suppliers Name',
-    
-
-    
+    'metrics'=> 'Metrics',
+    'name'=> 'Name',
+    'commodityList'=> 'Commodity List',
+    'metricsList'=> 'Metrics List',
+    'suppliersList'=> 'Suppliers List',
+    'editMetrics'=> 'Edit Metrics',
+    'editSuppliers'=> 'Edit Suppliers',
+    'editCommodities'=> 'Edit Commodities',
+       
 );

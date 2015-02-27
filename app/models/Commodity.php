@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 class Commodity extends Eloquent
 {
 	
-	protected $table = 'inventory_commodities';
+	protected $table = 'inventory_commodity';
 	public $timestamps = false;
 
 

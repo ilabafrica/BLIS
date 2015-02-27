@@ -28,7 +28,11 @@
 		case 'assign':
 		case 'user': 
 		case 'role': $active[6] = "active"; break;
-		case 'inventory': $active[7] = "active"; break;
+		case 'inventory': 
+		case 'metrics':
+		case 'suppliers':
+		case 'commodity':
+			$active[7] = "active"; break;
 	}
 ?>
 	<ul class="nav nav-sidebar">
@@ -255,16 +259,23 @@
 					</li>					
 					<li>
 						<div>
-							<a href="{{ URL::route("inventory.commodities")}}">
+							<a href="{{ URL::route("commodity.index")}}">
 								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.commodities')}}</a>
 						</div>
 					</li>
 					<li>
 						<div>
-							<a href="{{ URL::route("inventory.suppliers")}}">
+							<a href="{{ URL::route("suppliers.index")}}">
 								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.suppliers')}}</a>
 						</div>
 					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route("metrics.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.metrics')}}</a>
+						</div>
+					</li>
+					
 				</ul>
 			</div>
 

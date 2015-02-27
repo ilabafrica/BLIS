@@ -1,6 +1,6 @@
 <?php
 
-class SuppliersController extends \BaseController {
+class MetricsController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -10,10 +10,9 @@ class SuppliersController extends \BaseController {
 	public function index()
 	{
 		//
-		 $suppliers = Suppliers::orderBy('name', 'ASC')->get();
-		return View::make('inventory.suppliersList')->with('suppliers', $suppliers);
-		
-	
+		$metrics = Metrics::orderBy('name', 'ASC')->get();
+		return View::make('inventory.metricsList')->with('metrics', $metrics);
+		//return View::make('inventory.metricsList');
 	}
 
 
@@ -24,19 +23,15 @@ class SuppliersController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('inventory.suppliers');
+		return View::make('inventory.metrics');
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
+
 	public function store()
 	{
 		//
          $rules = array(			
-			'suppliers-name' => 'required|unique:inventory_suppliers,name');
+			'name' => 'required|unique:inventory_metrics,name');
 		$validator = Validator::make(Input::all(), $rules);
 
 		
@@ -44,19 +39,18 @@ class SuppliersController extends \BaseController {
 			return Redirect::back()->withErrors($validator);
 		} else {
 			// store
-			$supplier = new Suppliers;
-			$supplier->name= Input::get('suppliers-name');
-			$supplier->phone_no= Input::get('phone-number');
-			$supplier->email= Input::get('email');
-			$supplier->physical_address= Input::get('physical-address');			
+			$metric = new Metrics;
+			$metric->name= Input::get('name');
+			$metric->description= Input::get('description');
+			
 			try{
-				$supplier->save();
 
+				$metric->save();
 				$url = Session::get('SOURCE_URL');
             
             	return Redirect::to($url)
-					->with('message', trans('messages.success-creating-supplier')) ->with('activesupplier', $supplier ->id);
-	
+					->with('message', trans('messages.success-creating-metric')) ->with('activemetric', $metric ->id);
+          		
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -64,7 +58,6 @@ class SuppliersController extends \BaseController {
 		}
 
 	}
-
 
 
 	/**
@@ -75,7 +68,7 @@ class SuppliersController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		
 	}
 
 
@@ -87,10 +80,11 @@ class SuppliersController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$suppliers = Suppliers::find($id);
+		$metrics = Metrics::find($id);
+		
 
 		//Open the Edit View and pass to it the $patient
-		return View::make('inventory.editSuppliers')->with('suppliers', $suppliers);
+		return View::make('inventory.editMetrics')->with('metrics', $metrics);
 	}
 
 
@@ -110,20 +104,20 @@ class SuppliersController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
 		} else {
 		// Update
-			$supplier = Suppliers::find($id);
-			$supplier->name= Input::get('name');
-			$supplier->physical_address= Input::get('physical_address');
-			$supplier->phone_no= Input::get('phone_no');
-			$supplier->email= Input::get('email');
-			$supplier->save();
+			$metric = Metrics::find($id);
+			$metric->name= Input::get('name');
+			$metric->description= Input::get('description');
+			$metric->save();
 
 			$url = Session::get('SOURCE_URL');
             
             	return Redirect::to($url)
-					->with('message', trans('messages.success-updating-supplier')) ->with('activesupplier', $supplier ->id);
+					->with('message', trans('messages.success-updating-metric')) ->with('activemetric', $metric ->id);
           		
 	       }
 		 }
+
+
 
 	/**
 	 * Remove the specified resource from storage.

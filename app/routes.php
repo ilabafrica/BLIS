@@ -426,27 +426,15 @@ Route::group(array("before" => "auth"), function()
             "uses"  =>  "inventoryController@commodityDropdown"
         ));
      Route::resource('commodity', 'CommodityController');
-        Route::any("/inventory/commodities", array(
-        "as"   => "inventory.commodities",
-        "uses" => "CommodityController@index"
-    ));
-        Route::post("/inventory/store_commodity", array(
-        "as"   => "inventory.store_commodity",
-        "uses" => "CommodityController@store"
-    ));
+      
+
+
+    Route::resource('suppliers', 'SuppliersController');
+      
 
 
 
-    Route::resource('supplier', 'SuppliersController');
-        Route::any("/inventory/suppliers", array(
-        "as"   => "inventory.suppliers",
-        "uses" => "SuppliersController@index"
-    ));
-        Route::post("/inventory/store_supplier", array(
-        "as"   => "inventory.store_supplier",
-        "uses" => "SupplierController@store"
-    ));
-     
-        
+
+      Route::resource('metrics', 'MetricsController');
     
 });
