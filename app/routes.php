@@ -318,6 +318,17 @@ Route::group(array("before" => "auth"), function()
             "uses" => "ReportController@userStatistics"
         ));
         
+        Route::get("/qualitycontrol", array(
+            "as"   => "reports.qualityControl",
+            "uses" => "ReportController@qualityControl"
+        ));
+
+        Route::post("/qualitycontrol", array(
+            "as"   => "reports.qualityControl",
+            "uses" => "ReportController@qualityControlResults"
+        ));
+
+        
     });
 
     Route::group(array("before" => "admin"), function()

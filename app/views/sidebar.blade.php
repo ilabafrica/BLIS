@@ -23,6 +23,7 @@
 		case 'tat':
 		case 'infection':
 		case 'userstatistics':
+		case 'qualitycontrol':
 			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
@@ -174,6 +175,12 @@
 						<div><a href="{{ URL::route('reports.aggregate.userStatistics')}}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{trans('messages.user-statistics-report')}}</a>
+						</div>
+					</li>
+					<li>
+						<div><a href="{{ URL::route('reports.qualityControl')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.quality-controls')}}</a>
 						</div>
 					</li>
 				</ul>

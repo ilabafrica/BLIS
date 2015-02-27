@@ -970,4 +970,41 @@ class ReportController extends \BaseController {
 					->with('selectedReport', $selectedReport)
 					->withInput(Input::all());
 	}
+
+	/**
+	* Returns qc index page
+	*
+	* @return view
+	*/
+	public function qualityControl()
+	{
+		$controls = Control::all()->lists('name', 'id');
+		return View::make('reports.qualitycontrol.index')->with('controls', $controls);
+	}
+
+	/**
+	* Returns qc results for a specific control page
+	*
+	* @param Input - controlId, date range
+	* @return view
+	*/
+	public function qualityControlResults()
+	{
+		$rules = array('start_date' => 'date|required',
+					'end_date' => 'date|required',
+					'control' => 'required');
+		$validator = Validator::make(Input::all(), $rules);
+
+		if($validator->fails()){
+			return Redirect::back()->withErrors($validator)->withInput();
+		}
+		else {
+			$controlsDropDown = Control::all()->lists('name', 'id');
+			$control = Control::find(Input::get('control'));
+			return View::make('reports.qualitycontrol.results')
+				->with('control', $control)
+				->with('controlsDropDown', $controlsDropDown)
+				->withInput(Input::all());
+		}
+	}
 }

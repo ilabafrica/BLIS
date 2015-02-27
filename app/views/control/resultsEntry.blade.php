@@ -38,16 +38,16 @@
                         @foreach($control->controlMeasures as $key => $controlMeasure)
                             <div class="form-group">
                                 @if ( $controlMeasure->isNumeric() ) 
-                                    {{ Form::label("m_"+$control->id , $controlMeasure->name) }}
-                                    {{ Form::text("m_"+$control->id, Input::old("m_"+$control->id), array(
+                                    {{ Form::label("m_".$controlMeasure->id , $controlMeasure->name) }}
+                                    {{ Form::text("m_".$controlMeasure->id, Input::old("m_".$controlMeasure->id), array(
                                         'class' => 'form-control result-interpretation-trigger'))
                                     }}
                                     <span class='units'>
                                         {{$controlMeasure->controlMeasureRanges->first()->getRangeUnit()}}
                                     </span>
                                 @elseif ( $controlMeasure->isAlphanumeric() ) 
-                                    {{ Form::label("m_".$control->id , $controlMeasure->name) }}
-                                    {{ Form::select("m_".$control->id, $controlMeasure->controlMeasureRanges->lists('alphanumeric', 'id'),
+                                    {{ Form::label("m_".$controlMeasure->id , $controlMeasure->name) }}
+                                    {{ Form::select("m_".$controlMeasure->id, array(null => '') +$controlMeasure->controlMeasureRanges->lists('alphanumeric', 'alphanumeric'),
                                     Input::old('instrument'),
                                         array('class' => 'form-control result-interpretation-trigger',
                                         'data-url' => URL::route('test.resultinterpretation'),
@@ -55,16 +55,11 @@
                                         )) 
                                     }}
                                 @else 
-                                    {{ Form::label("m_"+$control->id, $controlMeasure->name) }}
-                                    {{Form::text("m_"+$control->id, $ans, array('class' => 'form-control'))}}
+                                    {{ Form::label("m_".$controlMeasure->id, $controlMeasure->name) }}
+                                    {{Form::text("m_".$controlMeasure->id, $ans, array('class' => 'form-control'))}}
                                 @endif
                             </div>
                         @endforeach
-                        <div class="form-group">
-                            {{ Form::label('interpretation', trans('messages.interpretation')) }}
-                            {{ Form::textarea('interpretation', Input::old('interpretation'), 
-                                array('class' => 'form-control result-interpretation', 'rows' => '2')) }}
-                        </div>
                         <div class="form-group actions-row">
                             {{ Form::button('<span class="glyphicon glyphicon-save">
                                 </span> '.trans('messages.save-test-results'),

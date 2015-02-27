@@ -185,13 +185,14 @@ class ControlController extends \BaseController {
 		$control = Control::find($controlId);
 
 		foreach ($control->controlMeasures as $controlMeasure) {
-			$controlResult = new ControlResult;
+			$controlResult = new ControlMeasureResult;
 			$controlResult->control_id = $controlId;
 			$controlResult->control_measure_id = $controlMeasure->id;
 			$controlResult->results = Input::get('m_'.$controlMeasure->id);
 			$controlResult->entered_by = Auth::user()->id;
 			$controlResult->save();
 		}
+		return Redirect::route('control.resultsIndex')->with('message', trans('messages.success-adding-control-result'));
 	}
 
 

@@ -22,4 +22,12 @@ class Control extends Eloquent {
 	{
 	  return $this->hasMany('ControlMeasure');
 	}
+
+	/**
+	* Relationship between control measure and its result
+	*/
+	public function controlResults()
+	{
+		return $this->hasMany('ControlMeasureResult');
+	}
 }
