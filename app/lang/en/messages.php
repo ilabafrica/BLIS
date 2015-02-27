@@ -19,7 +19,7 @@ return array(
     'date-created' => 'Date Created',
     'delete' => 'Delete',
     'description' => 'Description',
-    'disease' => 'Disease',
+    'disease' => 'Disease|Diseases',
     'edit' => 'Edit',
     'email' => 'Email',
     'female' => 'Female',

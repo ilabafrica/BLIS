@@ -378,13 +378,18 @@ $(function(){
 	});
 
 	/**
-	 *	Lab Configurattions Functions
+	 *	Lab Configurations Functions
 	 */
 	function addNewSurveillanceAttributes (newSurveillanceNo) {
 		$('.new-surveillance-'+newSurveillanceNo).find('select.test-type').attr(
 			'name', 'new-surveillance['+newSurveillanceNo+'][test-type]');
 		$('.new-surveillance-'+newSurveillanceNo).find('input.disease').attr(
 			'name', 'new-surveillance['+newSurveillanceNo+'][disease]');
+	}
+
+	function addNewDiseaseAttributes (newDiseaseNo) {
+		$('.new-disease-'+newDiseaseNo).find('input.disease').attr(
+			'name', 'new-disease['+newDiseaseNo+'][disease]');
 	}
 
 	/**

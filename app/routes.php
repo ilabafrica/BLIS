@@ -269,6 +269,11 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reportconfig.surveillance",
             "uses" => "ReportController@surveillanceConfig"
         ));
+
+        Route::any("/reportconfig/disease", array(
+            "as"   => "reportconfig.disease",
+            "uses" => "ReportController@disease"
+        ));
     });
     
     //  Check if able to manage reports

@@ -21,10 +21,10 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-5 col-md-3">
-	                <label>{{ Lang::choice('messages.test-type',1) }}</label>
+	                <label>{{ Lang::choice('messages.test-type',2) }}</label>
 				</div>
 				<div class="col-sm-5 col-md-3">
-	                <label>{{ trans('messages.disease') }}</label>
+	                <label>{{ Lang::choice('messages.disease',2) }}</label>
 				</div>
 			</div>
 			@foreach($diseaseTests as $diseaseTest)
@@ -41,10 +41,14 @@
 		                </select>
 					</div>
 					<div class="col-sm-5 col-md-3">
-						<input class="form-control" name="surveillance[{{ $diseaseTest->disease->id }}][disease]"
-							type="text" value="{{ $diseaseTest->disease->name }}">
-					    <button class="close" aria-hidden="true" type="button" 
-					        title="{{trans('messages.delete')}}">×</button>
+					    <select class="form-control" name="surveillance[{{ $diseaseTest->id }}][disease]"> 
+					        <option value="0"></option>
+					        @foreach (Disease::all() as $disease)
+					            <option value="{{ $disease->id }}"
+					            	{{($disease->id == $diseaseTest->disease_id) ? 'selected="selected"' : '' }}>
+					            	{{ $disease->name }}</option>
+					        @endforeach
+					    </select>
 					</div>
 				</div>
             </div>
@@ -63,6 +67,9 @@
 				{{ Form::button(trans('messages.add-another'), 
 					['class' => 'btn btn-default add-another-disease', 'data-new-surveillance' => '1']
 				) }}
+
+				<a href="{{{URL::route('reportconfig.disease')}}}" class="btn btn-default add-another-disease-for-real">
+					{{ trans('messages.new-disease') }}</a>
 			</div>
 		</div>
 	{{ Form::close() }}
