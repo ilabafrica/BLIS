@@ -436,8 +436,8 @@ class TestController extends \BaseController {
 		$rules = array(
 			'referral-status' => 'required',
 			'facility_id' => 'required|non_zero_key',
-			'person' => 'required',
-			'contacts' => 'required'
+			'person',
+			'contacts'
 			);
 		$validator = Validator::make(Input::all(), $rules);
 		$specimenId = Input::get('specimen_id');

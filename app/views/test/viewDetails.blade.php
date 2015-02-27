@@ -188,7 +188,11 @@
 									</div>
 									<div class="row">
 										<div class="col-md-4">
-											<p><strong>{{trans("messages.person-involved")}}</strong></p>
+											<p><strong>@if($test->specimen->referral->status == Referral::REFERRED_IN)
+												{{ trans("messages.originating-from") }}
+											@elseif($test->specimen->referral->status == Referral::REFERRED_OUT)
+												{{ trans("messages.intended-reciepient") }}
+											@endif</strong></p>
 										</div>
 										<div class="col-md-8">
 											{{$test->specimen->referral->person }}
@@ -204,7 +208,11 @@
 									</div>
 									<div class="row">
 										<div class="col-md-4">
-											<p><strong>{{trans("messages.referred-by")}}</strong></p>
+											<p><strong>@if($test->specimen->referral->status == Referral::REFERRED_IN)
+												{{ trans("messages.recieved-by") }}
+											@elseif($test->specimen->referral->status == Referral::REFERRED_OUT)
+												{{ trans("messages.referred-by") }}
+											@endif</strong></p>
 										</div>
 										<div class="col-md-8">
 											{{ $test->specimen->referral->user->name }}
