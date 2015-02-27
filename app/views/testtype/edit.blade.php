@@ -45,21 +45,22 @@
 							$cnt = 0;
 							$zebra = "";
 						?>
-					@foreach($specimentypes as $key=>$value)
-						{{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
-						<?php
-							$cnt++;
-							$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
-						?>
-						<div class="col-md-3">
-							<label  class="checkbox">
-								<input type="checkbox" name="specimentypes[]" value="{{ $value->id}}" 
-									{{ in_array($value->id, $testtype->specimenTypes->lists('id'))?"checked":"" }} />
-									{{$value->name }}
-							</label>
+						@foreach($specimentypes as $key=>$value)
+							{{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
+							<?php
+								$cnt++;
+								$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
+							?>
+							<div class="col-md-3">
+								<label  class="checkbox">
+									<input type="checkbox" name="specimentypes[]" value="{{ $value->id}}" 
+										{{ in_array($value->id, $testtype->specimenTypes->lists('id'))?"checked":"" }} />
+										{{$value->name }}
+								</label>
+							</div>
+							{{ ($cnt%4==0)?"</div>":"" }}
+						@endforeach
 						</div>
-						{{ ($cnt%4==0)?"</div>":"" }}
-					@endforeach
 					</div>
 				</div>
 			</div>
@@ -92,28 +93,28 @@
 				<div class="form-pane panel panel-default">
 					<div class="container-fluid">
 						<?php 
-							$cnt = 0;
-							$zebra = "";
+							$counter = 0;
+							$alternator = "";
 						?>
-					@foreach($organisms as $key=>$value)
-						{{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
-						<?php
-							$cnt++;
-							$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
-						?>
-						<div class="col-md-3">
-							<label  class="checkbox">
-								<input type="checkbox" name="organisms[]" value="{{ $value->id}}" 
-									{{ in_array($value->id, $testtype->organisms->lists('id'))?"checked":"" }} />
-									{{$value->name }}
-							</label>
+						@foreach($organisms as $key=>$val)
+							{{ ($counter%4==0)?"<div class='row $alternator'>":"" }}
+							<?php
+								$counter++;
+								$alternator = (((int)$counter/4)%2==1?"row-striped":"");
+							?>
+							<div class="col-md-3">
+								<label  class="checkbox">
+									<input type="checkbox" name="organisms[]" value="" 
+										{{ in_array($val->id, $testtype->organisms->lists('id'))?"checked":"" }} >
+										{{ $val->name }}
+								</label>
+							</div>
+							{{ ($counter%4==0)?"</div>":"" }}
+						@endforeach
 						</div>
-						{{ ($cnt%4==0)?"</div>":"" }}
-					@endforeach
 					</div>
 				</div>
 			</div>
-		</div>
 		<div class="panel-footer">
 			<div class="form-group actions-row">
 				{{ Form::button(
