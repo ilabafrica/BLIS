@@ -36,7 +36,7 @@
 	        	{{ Form::label('control', Lang::choice('messages.control',1)) }}
 	        </div>
 	        <div class="col-md-9">
-	            {{ Form::select('control',  array(null => '')+ $controlsDropDown,
+	            {{ Form::select('control',  array(null => '')+ $control->lists('name', 'id'),
 	            	isset($input['control'])?$input['control']:0, array('class' => 'form-control')) }}
 	        </div>
         </div>
@@ -51,26 +51,29 @@
 <br />
 <div class="panel panel-primary">
 	<div class="panel-heading ">
-		<span class="glyphicon glyphicon-user"></span> {{ trans('messages.daily-log') }} - {{ trans('messages.test-records') }}
+		<span class="glyphicon glyphicon-user"></span> {{ trans('messages.controlresults') }}
 	</div>
 
 	<div class="panel-body">
 	<!-- if there are search errors, they will show here -->
 		<div id="test_records_div">
 			@include("reportHeader")
-
 			<table class="table table-bordered">
 				<tbody>
 					<tr>
+						<th>{{ trans('messages.date-performed')}}</th>
 						@foreach($control->controlMeasures as $controlMeasure)
-							<th> {{ $controlMeasure->name }} </th>
+							<th> {{ $controlMeasure->name . ' '. $controlMeasure->controlMeasureRanges->first()->getRangeUnit() }} </th>
 						@endforeach
 					</tr>
-						@foreach($control->controlResults as $key => $controlresults)
-
-							<td>{{ $key}}</td>
-							<td>{{ $controlresults->results}}</td>
-						@endforeach
+					@foreach($control->controlTests as $key => $controlTest)
+						<tr>
+							<td>{{ $controlTest->created_at }} </td>
+							@foreach($controlTest->controlResults as $controlResult)
+							<td>{{ $controlResult->results}}</td>
+							@endforeach
+						</tr>
+					@endforeach
 				</tbody>
 
 			

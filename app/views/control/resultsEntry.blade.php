@@ -3,8 +3,8 @@
     <div>
         <ol class="breadcrumb">
           <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-          <li><a href="{{ URL::route('test.index') }}">{{ Lang::choice('messages.test',2) }}</a></li>
-          <li class="active">{{ trans('messages.enter-test-results') }}</li>
+          <li><a href="{{ URL::route('control.resultsIndex') }}">{{ Lang::choice('messages.controlresults',2) }}</a></li>
+          <li class="active">{{ trans('messages.enter-control-results') }}</li>
         </ol>
     </div>
     <div class="panel panel-primary">
@@ -12,7 +12,7 @@
             <div class="container-fluid">
                 <div class="row less-gutter">
                     <div class="col-md-11">
-                        <span class="glyphicon glyphicon-user"></span> {{ trans('messages.control-results') }}
+                        <span class="glyphicon glyphicon-user"></span> {{ trans('messages.controlresults') }}
                     </div>
                     <div class="col-md-1">
                         <a class="btn btn-sm btn-primary pull-right"  href="#" onclick="window.history.back();return false;"

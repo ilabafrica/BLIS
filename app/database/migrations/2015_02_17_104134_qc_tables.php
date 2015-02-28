@@ -63,16 +63,24 @@ class QcTables extends Migration {
                         $table->timestamps();
                 });
 
+                Schema::create('control_tests', function(Blueprint $table){
+                        $table->increments('id');
+                        $table->integer('entered_by')->unsigned();
+                        $table->integer('control_id')->unsigned();
+
+                        $table->foreign('control_id')->references('id')->on('controls');
+                        $table->foreign('entered_by')->references('id')->on('users');
+                        $table->timestamps();
+                });
+
                 Schema::create('control_results', function(Blueprint $table){
                 	$table->increments('id');
                 	$table->string('results');
-                	$table->integer('control_id')->unsigned();
                 	$table->integer('control_measure_id')->unsigned();
-                        $table->integer('entered_by')->unsigned();
-                	
-                	$table->foreign('control_id')->references('id')->on('controls');
+                        $table->integer('control_test_id')->unsigned();
+
+                        $table->foreign('control_tests_id')->references('id')->on('control_tests');
                 	$table->foreign('control_measure_id')->references('id')->on('control_measures');
-                        $table->foreign('entered_by')->references('id')->on('users');
                         $table->timestamps();
                 });
 	}

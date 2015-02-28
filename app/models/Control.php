@@ -24,10 +24,10 @@ class Control extends Eloquent {
 	}
 
 	/**
-	* Relationship between control measure and its result
+	* relationship between a control and its results
 	*/
-	public function controlResults()
+	public function controlTests()
 	{
-		return $this->hasMany('ControlMeasureResult');
+		return $this->hasMany('ControlTest');
 	}
 }

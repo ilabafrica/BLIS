@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li><a href="{{ URL::route('testtype.index') }}">{{ Lang::choice('messages.control',1) }}</a></li>
+	  <li><a href="{{ URL::route('control.index') }}">{{ Lang::choice('messages.control',1) }}</a></li>
 	  <li class="active">{{trans('messages.edit-control')}}</li>
 	</ol>
 </div>
@@ -36,7 +36,7 @@
 					array('class' => 'form-control', 'rows' => '2' )) }}
 			</div>
 			<div class="form-group">
-					{{ Form::label('instruments', trans('messages.instrument')) }}
+					{{ Form::label('instruments', Lang::choice('messages.instrument', 1)) }}
 					{{ Form::select('instrument', $instruments, Input::old('instrument'), 
 					array('class' => 'form-control')) }}
 			</div>

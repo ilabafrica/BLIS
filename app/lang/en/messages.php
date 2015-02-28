@@ -465,9 +465,21 @@ return array(
     *
     * Quality controls
     */
-    'quality-control' => 'Quality Control',
+    'quality-control' => 'Quality Control|Quality controls',
     'instrument' => 'Instrument|Instruments',
     'lot' => 'Lot|Lots',
-    'control' => 'Control|Controls'
-
+    'control' => 'Control|Controls',
+    'list-controls' => 'List of controls',
+    'add-control' => 'add control',
+    'edit-control' => 'edit control',
+    'controlresults' => 'Control Results',
+    'add-lot' => 'add lot',
+    'edit-lot' => 'edit lot',
+    'lot-number' => 'Lot number',
+    'lot-details' => 'Lot details',
+    'expected-value' => 'Expected value',
+    'enter-control-results' => 'Enter control results',
+    'control-details' => 'Control details',
+    'control-name' => 'Control name',
+    'date-performed' => 'Date performed'
 );

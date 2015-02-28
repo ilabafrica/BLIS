@@ -12,7 +12,7 @@
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-adjust"></span>
-		{{ trans('messages.list-lots') }}
+		{{ Lang::choice('messages.lot',2) }}
 		<div class="panel-btn">
 			<a class="btn btn-sm btn-info" href="{{ URL::to("lot/create") }}" >
 				<span class="glyphicon glyphicon-plus-sign"></span>

@@ -20,10 +20,10 @@
 		</div>
 		<div class="panel-body">
 			<div class="display-details">
-				<h3 class="view"><strong>{{Lang::choice('messages.number',1)}}</strong>{{ $lot->number }} </h3>
+				<h3 class="view"><strong>{{Lang::choice('messages.lot-number',1)}}</strong>{{ $lot->number }} </h3>
 				<p class="view-striped"><strong>{{trans('messages.description')}}</strong>
 					{{ $lot->description }}</p>
-				<p class="view"><strong>{{trans('messages.instrument')}}</strong>
+				<p class="view"><strong>{{Lang::choice('messages.instrument', 1)}}</strong>
 					{{ $lot->instrument->name }}</p>
 				<p class="view-striped"><strong>{{trans('messages.date-created')}}</strong>
 					{{ $lot->created_at }}</p>

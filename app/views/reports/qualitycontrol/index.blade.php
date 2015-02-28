@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-	  <li class="active">{{ trans('messages.quality-controls') }}</li>
+	  <li class="active">{{ Lang::choice('messages.quality-control', 2) }}</li>
 	</ol>
 </div>
 <!-- if there are filter errors, they will show here -->
@@ -59,7 +59,7 @@
 			<div class="row less-gutter">
 				<div class="col-md-8">
 					<span class="glyphicon glyphicon-user"></span>
-					{{ trans('messages.quality-control-results') }}
+					{{ trans('messages.controlresults') }}
 				</div>
 				<div class="col-md-4">
 					<a class="btn btn-info pull-right" id="reveal" href="#" onclick="return false;"

@@ -999,11 +999,9 @@ class ReportController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 		else {
-			$controlsDropDown = Control::all()->lists('name', 'id');
 			$control = Control::find(Input::get('control'));
 			return View::make('reports.qualitycontrol.results')
 				->with('control', $control)
-				->with('controlsDropDown', $controlsDropDown)
 				->withInput(Input::all());
 		}
 	}

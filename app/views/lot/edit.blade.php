@@ -4,7 +4,8 @@
 	<div>
 		<ol class="breadcrumb">
 		<li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-		<li class="active">{{Lang::choice('messages.lots',2)}}</li>
+		<li><a href="{{{URL::route('lot.index')}}}">{{Lang::choice('messages.lot',2)}}</a></li>
+		<li class="active">{{trans('messages.edit-lot')}}</li>
 		</ol>
 	</div>
 	@if (Session::has('message'))
@@ -23,7 +24,7 @@
 			@endif
 			{{ Form::model($lot, array('route' => array('lot.update', $lot->id), 'method' => 'PUT', 'id' => 'form-edit-lot')) }}
 				<div class="form-group">
-					{{ Form::label('number', trans('messages.number')) }}
+					{{ Form::label('number', trans('messages.lot-number')) }}
 					{{ Form::text('number', Input::old('number'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">
@@ -31,7 +32,7 @@
 					{{ Form::textarea('description', Input::old('description'), array('class' => 'form-control', 'rows' => '3' )) }}
 				</div>
 				<div class="form-group">
-					{{ Form::label('instruments', trans('messages.instrument')) }}
+					{{ Form::label('instruments', Lang::choice('messages.instrument', 1)) }}
 					{{ Form::select('instrument', $instruments, Input::old('instrument'), 
 					array('class' => 'form-control')) }}
 				</div>

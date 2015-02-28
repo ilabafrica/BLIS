@@ -184,12 +184,16 @@ class ControlController extends \BaseController {
 		//Validate
 		$control = Control::find($controlId);
 
+		$controlTest = new ControlTest();
+		$controlTest->entered_by = Auth::user()->id;
+		$controlTest->control_id = $controlId;
+		$controlTest->save();
+
 		foreach ($control->controlMeasures as $controlMeasure) {
 			$controlResult = new ControlMeasureResult;
-			$controlResult->control_id = $controlId;
-			$controlResult->control_measure_id = $controlMeasure->id;
 			$controlResult->results = Input::get('m_'.$controlMeasure->id);
-			$controlResult->entered_by = Auth::user()->id;
+			$controlResult->control_measure_id = $controlMeasure->id;
+			$controlResult->control_test_id = $controlTest->id;
 			$controlResult->save();
 		}
 		return Redirect::route('control.resultsIndex')->with('message', trans('messages.success-adding-control-result'));
