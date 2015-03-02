@@ -509,4 +509,8 @@ return array(
     'minute' => 'Minute|Minutes',
     'second' => 'Second|Seconds',
 
+    /** 
+     *   MOH 706 report
+     */
+    'moh-706'   =>  'MOH 706',
 );
