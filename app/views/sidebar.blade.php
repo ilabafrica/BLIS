@@ -180,7 +180,7 @@
 					<li>
 						<div><a href="{{ URL::route('reports.qualityControl')}}">
 							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.quality-controls')}}</a>
+							{{Lang::choice('messages.quality-control', 2)}}</a>
 						</div>
 					</li>
 				</ul>
@@ -225,8 +225,8 @@
 		</li>
 		<li>
 			<div class="main-menu {{$active[7]}}">
-				<a href="{{ URL::route('control.index') }}" title="{{trans('messages.quality-control')}}">
-					<span class="glyphicon glyphicon-eye-open"></span> {{ trans('messages.quality-control')}}</a>
+				<a href="{{ URL::route('control.index') }}" title="{{Lang::choice('messages.quality-control', 2)}}">
+					<span class="glyphicon glyphicon-eye-open"></span> {{ Lang::choice('messages.quality-control', 2)}}</a>
 			</div>
 			<div class="sub-menu {{$active[7]}}">
 				<ul class="sub-menu-items">

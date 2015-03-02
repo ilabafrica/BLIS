@@ -79,7 +79,7 @@ class QcTables extends Migration {
                 	$table->integer('control_measure_id')->unsigned();
                         $table->integer('control_test_id')->unsigned();
 
-                        $table->foreign('control_tests_id')->references('id')->on('control_tests');
+                        $table->foreign('control_test_id')->references('id')->on('control_tests');
                 	$table->foreign('control_measure_id')->references('id')->on('control_measures');
                         $table->timestamps();
                 });

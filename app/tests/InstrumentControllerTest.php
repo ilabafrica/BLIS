@@ -38,8 +38,8 @@ class InstrumentControllerTest extends TestCase
 
       $crawler = $this->client->request('GET', $url);
 
-      $ip = $crawler->filter('input#ip')->attr('name');
-      $this->assertEquals("ip", $ip);
+      $name = $crawler->filter('input#name')->attr('name');
+      $this->assertEquals("name", $name);
     }
 
     /*

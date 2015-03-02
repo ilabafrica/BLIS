@@ -10,16 +10,17 @@ class ControlControllerTest extends TestCase {
 		parent::setUp();
 		Artisan::call('migrate');
 		Artisan::call('db:seed');
-		$this->setVariables();
+		// $this->setVariables();
 	}
-	//TODO
-	// /**
-	// * Testing saveResults function
-	// */
-	// public function testSaveResult()
-	// {
 
-	// }
+	/**
+	* Testing saveResults function
+	*/
+	public function testSaveResult()
+	{
+		//Placeholder
+		$this->assertEquals(1,1);
+	}
 
 	// public function setVariables(){
 	// 	$this->inputSaveResults = array(

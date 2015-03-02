@@ -6,37 +6,33 @@
 	  <li class="active">{{ trans('messages.control-results-log') }}</li>
 	</ol>
 </div>
-<div class='container-fluid'>
-    {{ Form::open(array('route' => array('reports.qualityControl'), 'id' => 'qc', 'class' => 'form-inline')) }}
-    <div class='row'>
-    	<div class="col-sm-4">
-	    	<div class="row">
-				<div class="col-sm-2">
-				    {{ Form::label('start_date', trans('messages.from')) }}
-				</div>
-				<div class="col-sm-2">
-				    {{ Form::text('start_date', isset($input['start_date'])?$input['start_date']:date('Y-m-d'), 
-			                array('class' => 'form-control standard-datepicker')) }}
-		        </div>
-			</div>
-		</div>
-		<div class="col-sm-4">
-	    	<div class="row">
-				<div class="col-sm-2">
-				    {{ Form::label('end_date', trans('messages.to')) }}
-				</div>
-				<div class="col-sm-2">
-				    {{ Form::text('end_date', isset($input['end_date'])?$input['end_date']:date('Y-m-d'), 
-			                array('class' => 'form-control standard-datepicker')) }}
-		        </div>
-			</div>
-		</div>
-		<div class="col-md-4">
+{{ Form::open(array('route' => array('reports.qualityControl'), 'id' => 'qc', 'method' => 'post')) }}
+<div class="container-fluid">
+  	<div class="row report-filter">
+        <div class="col-md-3">
+	        <div class="col-md-2">
+	        	{{ Form::label('start_date', trans("messages.from")) }}
+	        </div>
+	        <div class="col-md-10">
+	            {{ Form::text('start_date', isset($input['start_date'])?$input['start_date']:date('Y-m-d'), 
+	                array('class' => 'form-control standard-datepicker')) }}
+	        </div>
+        </div>
+        <div class="col-md-3">
+	        <div class="col-md-2">
+	        	{{ Form::label('end_date', trans("messages.to")) }}
+	        </div>
+	        <div class="col-md-10">
+	            {{ Form::text('end_date', isset($input['end_date'])?$input['end_date']:date('Y-m-d'), 
+	                array('class' => 'form-control standard-datepicker')) }}
+	        </div>
+        </div>
+        <div class="col-md-4">
 	        <div class="col-md-3">
 	        	{{ Form::label('control', Lang::choice('messages.control',1)) }}
 	        </div>
 	        <div class="col-md-9">
-	            {{ Form::select('control',  array(null => '')+ $control->lists('name', 'id'),
+	            {{ Form::select('control', array(null => '')+ $control->lists('name', 'id'),
 	            	isset($input['control'])?$input['control']:0, array('class' => 'form-control')) }}
 	        </div>
         </div>
@@ -44,10 +40,9 @@
         	{{Form::submit(trans('messages.view'), 
 	        	array('class' => 'btn btn-info', 'id'=>'filter', 'name'=>'filter'))}}
         </div>
-	</div>
-
-	{{ Form::close() }}
+  	</div>
 </div>
+{{ Form::close() }}
 <br />
 <div class="panel panel-primary">
 	<div class="panel-heading ">
@@ -66,7 +61,7 @@
 							<th> {{ $controlMeasure->name . ' '. $controlMeasure->controlMeasureRanges->first()->getRangeUnit() }} </th>
 						@endforeach
 					</tr>
-					@foreach($control->controlTests as $key => $controlTest)
+					@foreach($controlTests as $key => $controlTest)
 						<tr>
 							<td>{{ $controlTest->created_at }} </td>
 							@foreach($controlTest->controlResults as $controlResult)

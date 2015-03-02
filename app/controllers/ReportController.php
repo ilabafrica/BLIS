@@ -1,4 +1,4 @@
-<?php
+	<?php
 
 class ReportController extends \BaseController {
 	//	Begin patient report functions
@@ -999,9 +999,14 @@ class ReportController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 		else {
-			$control = Control::find(Input::get('control'));
+			$controlId = Input::get('control');
+			$dates= array(Input::get('start_date'), Input::get('end_date'));
+			$control = Control::find($controlId);
+			$controlTests = ControlTest::where('control_id', '=', $controlId)
+										->whereBetween('created_at', $dates)->get();
 			return View::make('reports.qualitycontrol.results')
 				->with('control', $control)
+				->with('controlTests', $controlTests)
 				->withInput(Input::all());
 		}
 	}

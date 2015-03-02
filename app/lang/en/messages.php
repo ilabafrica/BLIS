@@ -465,7 +465,7 @@ return array(
     *
     * Quality controls
     */
-    'quality-control' => 'Quality Control|Quality controls',
+    'quality-control' => 'Quality Control|Quality Controls',
     'instrument' => 'Instrument|Instruments',
     'lot' => 'Lot|Lots',
     'control' => 'Control|Controls',
