@@ -59,8 +59,8 @@ class OrganismControllerTest extends TestCase
 		$this->assertEquals($organismSaved->description , $this->organismData['description']);
 		
 		//Getting the drugs related to the organism
-		$organismDrugs = $organismSaved->drugs->toArray();
-		$this->assertEquals(12, $this->organismData['drugs'][0]);
+		/*$organismDrugs = $organismSaved->drugs->toArray();
+		$this->assertEquals(12, $this->organismData['drugs'][0]);*/
   	}
 
   	/**
@@ -85,9 +85,9 @@ class OrganismControllerTest extends TestCase
 		$this->assertEquals($organismSavedUpdated->description , $this->organismDataUpdate['description']);
 
 		//Getting the drugs related to the organism
-		$organismDrugUpdated = Organism::find($organismStored[0]['id'])->drugs->toArray();
+		/*$organismDrugUpdated = Organism::find($organismStored[0]['id'])->drugs->toArray();
 		
-		$this->assertEquals(12, $this->organismDataUpdate['drugs'][0]);
+		$this->assertEquals(12, $this->organismDataUpdate['drugs'][0]);*/
 	}
 	
 	/**

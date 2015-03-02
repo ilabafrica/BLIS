@@ -1420,6 +1420,7 @@ class TestDataSeeder extends DatabaseSeeder
         }
         $this->command->info('Facilities table seeded');
 
+        //Seed for diseases
         $malaria = Disease::create(array('name' => "Malaria"));
         $typhoid = Disease::create(array('name' => "Typhoid"));
         $dysentry = Disease::create(array('name' => "Shigella Dysentry"));
@@ -1445,6 +1446,37 @@ class TestDataSeeder extends DatabaseSeeder
             ReportDisease::create($reportDisease);
         }
         $this->command->info("Report Disease table seeded");
+
+        //Seed for drugs
+        $drugs = array(
+            array('name' => "PENICILLIN"),
+            array('name' => "AMPICILLIN"),
+            array('name' => "CLINDAMYCIN"),
+            array('name' => "TETRACYCLINE"),
+            array('name' => "CIPROFLOXACIN"),
+            array('name' => "TRIMETHOPRIM/SULFA"),
+            array('name' => "NITROFURANTOIN"),
+            array('name' => "CHLORAMPHENICOL"),
+            array('name' => "CEFAZOLIN"),
+            array('name' => "GANTAMICIN"),
+            array('name' => "AMOXICILLIN-CLAV"),
+            array('name' => "CEPHALOTHIN"),
+            array('name' => "CEFUROXIME"),
+            array('name' => "CEFOTAXIME"),
+            array('name' => "PIPERACILLIN"),
+            array('name' => "CEFIXIME"),
+            array('name' => "CEFTAZIDIME"),
+            array('name' => "CEFRIAXONE"),
+            array('name' => "LEVOFLOXACIN"),
+            array('name' => "MERODENEM"),
+            array('name' => "PIPERACILLIN/TAZO"),
+            array('name' => "IMEDENEM")
+        );
+
+        foreach ($drugs as $drug) {
+            $addedDrugs[] = Drug::create($drug);
+        }
+        $this->command->info('Drugs table seeded');
     }
 
     public function createSpecimen(

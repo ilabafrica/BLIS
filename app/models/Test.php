@@ -85,6 +85,21 @@ class Test extends Eloquent
 	}
 
 	/**
+	 * Culture relationship
+	 */
+	public function culture()
+	{
+		return $this->hasMany('Culture');
+	}
+	/**
+	 * Drug susceptibility relationship
+	 */
+	public function susceptibility()
+	{
+		return $this->hasMany('Susceptibility');
+	}
+
+	/**
 	 * Check to see if test is external or internal
 	 *
 	 * @return boolean
@@ -459,7 +474,6 @@ class Test extends Eloquent
 		return $tests;
 	}
 
-
 	/**
 	 * Get the Surveillance Data
 	 *
@@ -538,4 +552,3 @@ class Test extends Eloquent
 		return $data[0];
 	}
 }
-

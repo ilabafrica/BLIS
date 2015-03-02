@@ -6,7 +6,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         {{ Form::label('new-measures[][name]', Lang::choice('messages.name',1)) }}
-                       <input class="form-control name" name="new-measures[][name]" type="text">
+                       <input class="form-control name" name="" type="text">
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -15,7 +15,7 @@
                             <select class="form-control measuretype-input-trigger measure_type_id" 
                                 data-measure-id="0" 
                                 data-new-measure-id="" 
-                                name="new-measures[][measure_type_id]" 
+                                name="" 
                                 id="measure_type_id">
                                 <option value="0"></option>
                                 @foreach ($measuretype as $type)
@@ -27,13 +27,13 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         {{ Form::label('new-measures[][unit]', trans('messages.unit')) }}
-                        <input class="form-control unit" name="new-measures[][unit]" type="text">
+                        <input class="form-control unit" name="" type="text">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         {{ Form::label('new-measures[][description]', trans('messages.description')) }}
-                        <textarea class="form-control description" rows="2" name="new-measures[][description]"></textarea>
+                        <textarea class="form-control description" rows="2" name=""></textarea>
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -84,37 +84,37 @@
     <div class="hidden numericInputLoader">
         <div class="col-md-12 measure-input">
             <div class="col-md-4">
-                <input class="col-md-2 agemin" name="new-measures[][agemin][]" type="text" title="{{trans('messages.lower-age-limit')}}">
+                <input class="col-md-2 agemin" name="" type="text" title="{{trans('messages.lower-age-limit')}}">
                 <span class="col-md-1">:</span>
-                <input class="col-md-2 agemax" name="new-measures[][agemax][]" type="text" title="{{trans('messages.upper-age-limit')}}">
+                <input class="col-md-2 agemax" name="" type="text" title="{{trans('messages.upper-age-limit')}}">
                 <span class="col-md-1"></span>
-                <select class="col-md-4 gender" name="new-measures[][gender][]">
+                <select class="col-md-4 gender" name="">
                     <option value="0">{{trans('messages.male')}}</option>
                     <option value="1">{{trans('messages.female')}}</option>
                     <option value="2">{{trans('messages.both')}}</option>
                 </select>
             </div>
             <div class="col-md-3">
-                <input class="col-md-4 rangemin" name="new-measures[][rangemin][]" type="text" title="{{trans('messages.lower-range')}}">
+                <input class="col-md-4 rangemin" name="" type="text" title="{{trans('messages.lower-range')}}">
                 <span class="col-md-2">:</span>
-                <input class="col-md-4 rangemax" name="new-measures[][rangemax][]" type="text" title="{{trans('messages.upper-range')}}">
+                <input class="col-md-4 rangemax" name="" type="text" title="{{trans('messages.upper-range')}}">
             </div>
             <div class="col-md-2">
-                <input class="col-md-10 interpretation" name="new-measures[][interpretation][]" type="text">
+                <input class="col-md-10 interpretation" name="" type="text">
                 <button class="col-md-2 close" aria-hidden="true" type="button" title="{{trans('messages.delete')}}">×</button>
-                <input class="measurerangeid" name="new-measures[][measurerangeid][]" type="hidden">
+                <input class="measurerangeid" name="" type="hidden">
             </div>
         </div>
     </div><!-- numericInput -->
     <div class="hidden alphanumericInputLoader">
         <div class="col-md-12 measure-input">
             <div class="col-md-5">
-                <input class="col-md-10 val" name="new-measures[][val][]" type="text">
+                <input class="col-md-10 val" name="" type="text">
             </div>
             <div class="col-md-5">
-                <input class="col-md-10 interpretation" name="new-measures[][interpretation][]" type="text">
+                <input class="col-md-10 interpretation" name="" type="text">
                 <button class="col-md-2 close" aria-hidden="true" type="button" title="{{trans('messages.delete')}}">×</button>
-                <input class="measurerangeid" name="new-measures[][measurerangeid][]" type="hidden">
+                <input class="measurerangeid" name="" type="hidden">
             </div>
         </div>
     </div><!-- alphanumericInput -->

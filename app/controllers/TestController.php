@@ -474,4 +474,23 @@ class TestController extends \BaseController {
 		return Redirect::to($url)->with('message', trans('messages.specimen-successful-refer'))
 					->with('activeTest', array($specimen->test->id));
 	}
+	/**
+	 * Culture worksheet for Test
+	 *
+	 * @param
+	 * @return
+	 */
+	public function culture()
+	{
+		$test = Test::find(Input::get('testID'));
+		$test->test_status_id = Test::VERIFIED;
+		$test->time_verified = date('Y-m-d H:i:s');
+		$test->verified_by = Auth::user()->id;
+		$test->save();
+
+		//Fire of entry verified event
+		Event::fire('test.verified', array($testID));
+
+		return View::make('test.viewDetails')->with('test', $test);
+	}
 }

@@ -38,7 +38,9 @@ class Organism extends Eloquent
 			foreach ($drugs as $key => $value) {
 				$drugsAdded[] = array(
 					'organism_id' => (int)$this->id,
-					'drug_id' => (int)$value
+					'drug_id' => (int)$value,
+					'created_at' => date('Y-m-d H:i:s'),
+					'updated_at' => date('Y-m-d H:i:s')
 					);
 				$organismID = (int)$this->id;
 			}

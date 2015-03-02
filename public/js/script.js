@@ -586,3 +586,96 @@ $(function(){
         if (empty) return;
 	    $(form).submit();
 	}
+
+	function saveObservation(tid, user, username){
+		txtarea = "observation_"+tid;
+		observation = $("#"+txtarea).val();
+
+		$.ajax({
+			type: 'POST',
+			url:  '/culture/storeObservation',
+			data: {obs: observation, testId: tid, userId: user, action: "add"},
+			success: function(){
+				drawCultureWorksheet(tid , user, username);
+			}
+		});
+	}
+	/**
+	 * Request a json string from the server containing contents of the culture_worksheet table for this test
+	 * and then draws a table based on this data.
+	 * @param  {int} tid      Test Id of the test
+	 * @param  {string} username Current user
+	 * @return {void}          No return
+	 */
+	function drawCultureWorksheet(tid, user, username){
+		console.log(username);
+		$.getJSON('/culture/storeObservation', { testId: tid, userId: user, action: "draw"}, 
+			function(data){
+				var tableBody ="";
+				$.each(data, function(index, elem){
+					tableBody += "<tr>"
+					+" <td>"+elem.timeStamp+" </td>"
+					+" <td>"+elem.user+"</td>"
+					+" <td>"+elem.observation+"</td>"
+					+" <td> </td>"
+					+"</tr>";
+				});
+				tableBody += "<tr>"
+					+"<td>0 seconds ago</td>"
+					+"<td>"+username+"</td>"
+					+"<td><textarea id='observation_"+tid+"' class='form-control result-interpretation' rows='2'></textarea></td>"
+					+"<td><a class='btn btn-xs btn-success' href='javascript:void(0)' onclick='saveObservation("+tid+", &quot;"+user+"&quot;, &quot;"+username+"&quot;)'>Save</a></td>"
+					+"</tr>";
+				$("#tbbody_"+tid).html(tableBody);
+			}
+		);
+	}
+
+	/*Begin save drug susceptibility*/	
+	function saveDrugSusceptibility(tid, oid){
+		console.log(oid);
+		var dataString = $("#drugSusceptibilityForm_"+oid).serialize();
+		$.ajax({
+			type: 'POST',
+			url:  '/susceptibility/saveSusceptibility',
+			data: dataString,
+			success: function(){
+				drawSusceptibility(tid, oid);
+			}
+		});
+	}
+	/*End save drug susceptibility*/
+	/*Function to render drug susceptibility table after successfully saving the results*/
+	 function drawSusceptibility(tid, oid){
+		$.getJSON('/susceptibility/saveSusceptibility', { testId: tid, organismId: oid, action: "results"}, 
+			function(data){
+				var tableRow ="";
+				var tableBody ="";
+				$.each(data, function(index, elem){
+					tableRow += "<tr>"
+					+" <td>"+elem.drugName+" </td>"
+					+" <td>"+elem.zone+"</td>"
+					+" <td>"+elem.interpretation+"</td>"
+					+"</tr>";
+				});
+				//tableBody +="<tbody>"+tableRow+"</tbody>";
+				$( "#enteredResults_"+oid).html(tableRow);
+				$("#submit_drug_susceptibility_"+oid).hide();
+			}
+		);
+	}
+	/*End drug susceptibility table rendering script*/
+	/*Function to toggle possible isolates*/
+	function toggle(className, obj){
+		var $input = $(obj);
+		if($input.prop('checked'))
+			$(className).show();
+		else
+			$(className).hide();
+	}
+	/*End toggle function*/
+	/*Toggle susceptibility tables*/
+	function showSusceptibility(id){
+		$('#drugSusceptibilityForm_'+id).toggle(this.checked);
+	}
+	/*End toggle susceptibility*/

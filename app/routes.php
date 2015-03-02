@@ -249,6 +249,16 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@verify"
     ));
 
+    Route::any("/culture/storeObservation", array(
+        "as"   => "culture.worksheet",
+        "uses" => "CultureController@store"
+    ));
+
+    Route::any("/susceptibility/saveSusceptibility", array(
+        "as"   => "drug.susceptibility",
+        "uses" => "SusceptibilityController@store"
+    ));
+
     Route::group(array("before" => "admin"), function()
     {
         Route::resource("permission", "PermissionController");
