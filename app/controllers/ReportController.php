@@ -1000,7 +1000,8 @@ class ReportController extends \BaseController {
 		}
 		else {
 			$controlId = Input::get('control');
-			$dates= array(Input::get('start_date'), Input::get('end_date'));
+			$endDatePlusOne = date_add(new DateTime(Input::get('end_date')), date_interval_create_from_date_string('1 day'));
+			$dates= array(Input::get('start_date'), $endDatePlusOne);
 			$control = Control::find($controlId);
 			$controlTests = ControlTest::where('control_id', '=', $controlId)
 										->whereBetween('created_at', $dates)->get();
