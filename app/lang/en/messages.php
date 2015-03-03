@@ -481,5 +481,12 @@ return array(
     'enter-control-results' => 'Enter control results',
     'control-details' => 'Control details',
     'control-name' => 'Control name',
-    'date-performed' => 'Date performed'
+    'date-performed' => 'Date performed',
+    'successfully-created-lot' => 'The lot has been successfully created',
+    'success-deleting-lot' => 'The lot has been successfully deleted',
+    'successfully-updated-lot' => 'The lot has been successfully updated',
+    'successfully-added-control' => 'The Control has been successfully added',
+    'success-updating-control' => 'The Control has been successfully updated',
+    'success-deleting-control' => 'The Control has been successfully deleted',
+    'success-adding-control-result' => 'The control results have been succesfully added'
 );

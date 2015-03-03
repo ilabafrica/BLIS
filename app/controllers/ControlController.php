@@ -128,7 +128,7 @@ class ControlController extends \BaseController {
 				$measures->saveMeasuresRanges($inputMeasures, $control);
 			}
 			// redirect
-			return Redirect::back()->with('message', trans('messages.success-updating-test-type'));
+			return Redirect::back()->with('message', trans('messages.success-updating-control'));
 		}
 	}
 

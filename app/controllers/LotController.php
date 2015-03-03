@@ -51,7 +51,7 @@ class LotController extends \BaseController {
 
 			$url = Session::get('SOURCE_URL');
 			return Redirect::to($url)
-					->with('message', trans('messages.successfully-updated-lot'));
+					->with('message', trans('messages.successfully-created-lot'));
 		}
 	}
 

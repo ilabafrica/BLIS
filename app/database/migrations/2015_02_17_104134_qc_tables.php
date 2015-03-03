@@ -93,6 +93,7 @@ class QcTables extends Migration {
 	public function down()
 	{
 		Schema::dropIfExists('control_results');
+                Schema::dropIfExists('control_tests');
 		Schema::dropIfExists('control_measure_ranges');
 		Schema::dropIfExists('control_measures');
 		Schema::dropIfExists('controls');

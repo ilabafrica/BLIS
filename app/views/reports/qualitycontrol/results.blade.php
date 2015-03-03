@@ -58,7 +58,7 @@
 					<tr>
 						<th>{{ trans('messages.date-performed')}}</th>
 						@foreach($control->controlMeasures as $controlMeasure)
-							<th> {{ $controlMeasure->name . ' '. $controlMeasure->controlMeasureRanges->first()->getRangeUnit() }} </th>
+							<th> {{ $controlMeasure->name . ' ('. $controlMeasure->controlMeasureRanges->first()->getRangeUnit() . ')' }} </th>
 						@endforeach
 					</tr>
 					@foreach($controlTests as $key => $controlTest)
