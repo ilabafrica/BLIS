@@ -31,7 +31,6 @@
                 <tr>
                     <th>{{Lang::choice('messages.date',1)}}</th>
                     <th>{{Lang::choice('messages.commodity',1)}}</th>
-                    <th>{{Lang::choice('messages.unit-of-issue',1)}}</th>
                     <th>{{Lang::choice('messages.current-bal',1)}}</th>
                     <th>{{Lang::choice('messages.tests-done',1)}}</th>
                     <th>{{Lang::choice('messages.order-qty',1)}}</th>
@@ -52,7 +51,6 @@
                 <tr>
                     <td>{{ $value->date}}</td>
                     <td>{{ Inventory::find($value->commodity_id)->commodity }}</td>
-                    <td>{{ $value->unit_of_issue }}</td>
                     <td>{{ $value->current_bal}}</td>
                     <td>{{ $value->tests_done }}</td>
                     <td>{{ $value->order_qty }}</td>

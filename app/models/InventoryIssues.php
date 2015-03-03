@@ -9,9 +9,9 @@ class InventoryIssues extends Eloquent
 	public $timestamps = false;
 
 
-public function QtyIssued()
-{
- return $this->belongsToMany('qty_req');
-}
+public function getTotalIssues()
+	{
+     $totalIssues = DB::table('inventory_issues')->sum('qty_req');
+	}
 
 }

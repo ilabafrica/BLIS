@@ -36,7 +36,7 @@
             </div>
            <div class="form-group">
                 {{ Form::label('Commodity', trans('messages.commodity')) }}
-                 {{ Form::select('commodity', array(0 => '-- Select Commodity--')+ $commodities,
+                 {{ Form::select('commodity', array('' => '-- Select Commodity--')+ $inventory,
                     isset($input['commodity'])?$input['commodity']:0, array('class' => 'form-control', 'id' => 'commodity_id')) }}
                     
             </div>
@@ -48,10 +48,9 @@
                 {{ Form::label('Expiry Date', Lang::choice('messages.expiry-date',1)) }}
                 {{ Form::text('expiry_date', Input::old('expiry_date'), array('class' => 'form-control standard-datepicker', 'id' => 'expiry_date')) }}
             </div>
-
             <div class="form-group">
                 {{ Form::label('Quantity Available ', trans('messages.qty-avl')) }}
-                {{ Form::text('qty_avl', Input::old('qty_avl'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::text('qty-avl', Input::old('qty-avl'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('Quantity', trans('messages.qty-req')) }}

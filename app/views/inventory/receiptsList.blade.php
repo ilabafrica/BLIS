@@ -29,8 +29,8 @@
 				<tr>
 					<th>{{Lang::choice('messages.lab-receipt-date',1)}}</th>
 					<th>{{Lang::choice('messages.commodity',1)}}</th>
-					<th>{{Lang::choice('messages.unit-of-issue',1)}}</th>
 					<th>{{Lang::choice('messages.received-from',1)}}</th>
+					<th>{{Lang::choice('messages.unit-price',1)}}</th>
 					<th>{{Lang::choice('messages.doc-no',1)}}</th>
 					<th>{{Lang::choice('messages.qty',1)}}</th>
 					<th>{{Lang::choice('messages.batch-no',1)}}</th>
@@ -38,7 +38,6 @@
 					<th>{{Lang::choice('messages.location',1)}}</th>
 					<th>{{Lang::choice('messages.receivers-name',1)}}</th>
 					<th>{{trans('messages.actions')}}</th>
-					
 				</tr>
 			</thead>
 			<tbody>
@@ -49,9 +48,9 @@
                         >
 				<tr>
                  	<td>{{ $value->receipt_date}}</td>
-					<td>{{ $value->commodity }}</td>
-					<td>{{ $value->unit_of_issue}}</td>
-					<td>{{ $value->received_from }}</td>
+					<td>{{ Commodity::find($value->commodity_id)->commodity }}</td>
+					<td>{{ Suppliers::find($value->received_from)->name }}</td>
+					<td>{{ $value->unit_price}} </td>
 					<td>{{ $value->doc_no }}</td>
 					<td>{{ $value->qty }}</td>
 					<td>{{ $value->batch_no }}</td>

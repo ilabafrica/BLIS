@@ -74,7 +74,6 @@
 				<tr>
 					<th>{{Lang::choice('messages.code',1)}}</th>
 					<th>{{Lang::choice('messages.commodity',1)}}</th>
-					<th>{{Lang::choice('messages.unit-of-issue',1)}}</th>
 					<th>{{Lang::choice('messages.batch-no',1)}}</th>
 					<th>{{Lang::choice('messages.expiry-date',1)}}</th>
 					<th>{{Lang::choice('messages.stock-bal',1)}}</th>
@@ -97,31 +96,25 @@
                         >
 				<tr>
                  	<td>{{ $value->doc_no}}</td>
-					<td>{{ $value->commodity }}</td>
-					<td>{{ $value->unit_of_issue}}</td>
+					<td>{{ Commodity::find($value->commodity_id)->commodity }}</td>
 					<td>{{ $value->batch_no }}</td>
 					<td>{{ $value->expiry_date }}</td>
 					<td>{{ $value->qty }}</td>
+					
 					<td>            
 					<div class="">
-                
-                {{ Form::text('physical-count', Input::old('physical-count'),array('class' => 'form-control', 'rows' => '2')) }}
+					{{ Form::text('physical-count', Input::old('physical-count'),array('class' => 'form-control', 'rows' => '2')) }}
                 </div></td>
-					<td> {{ Form::text('unit-price', Input::old('unit-price'),array('class' => 'form-control', 'rows' => '2')) }}</td></td>
+					<td>{{ $value->unit_price}}</td>
 					<td><div class="">
-                
-                {{ Form::text('total-price', Input::old('total-price'),array('class' => 'form-control', 'rows' => '2')) }}
-                </div></td></td>
+                        {{ Form::text('total-price', Input::old('total-price'),array('class' => 'form-control', 'rows' => '2')) }}
+                     </div></td>
 					<td><div class="">
                 
                 {{ Form::text('discrepancy', Input::old('discrepancy'),array('class' => 'form-control', 'rows' => '2')) }}
-                </div></td></td>
+                </div></td>
 			
-			   <!-- <td><div class="">
-                {{ Form::text('remarks', Input::old('remarks'),array('class' => 'form-control', 'rows' => '2')) }}
-                </div></td> -->
-
-				</tr>
+			   	</tr>
 				@endforeach
 				<tr> 
 				<td>

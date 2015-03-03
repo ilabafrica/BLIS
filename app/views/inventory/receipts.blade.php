@@ -31,16 +31,21 @@
             </div>
             <div class="form-group">
                 {{ Form::label('Commodity', trans('messages.commodity')) }}
-                {{ Form::text('commodity', Input::old('commodity'), array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
-             <div class="form-group">
-                {{ Form::label('Unit of Issue', trans('messages.unit-of-issue')) }}
-                {{ Form::text('unit-of-issue', Input::old('unit-of-issue'), array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
+               {{ Form::select('commodity', array(0 => '-- Select Commodity--')+ $commodities,
+                    isset($input['commodity'])?$input['commodity']:0, 
+                    array('class' => 'form-control', 'id' => 'commodity_id')) }}
+                      </div>
+             
             <div class="form-group">
                 {{ Form::label('Received From', trans('messages.received-from')) }}
-                {{ Form::text('received-from', Input::old('received-from'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
+                {{ Form::select('received-from', array(0 => '-- Select Supplier--')+ $suppliers,
+                    isset($input['received-from'])?$input['received-from']:0, 
+                    array('class' => 'form-control', 'id' => 'supplier_id')) }}
+                      </div>
+            <div class="form-group">
+                {{ Form::label('Unit Price', trans('messages.unit-price')) }}
+                {{ Form::text('unit-price', Input::old('unit-price'),array('class' => 'form-control', 'rows' => '2')) }}
+                    </div>
             <div class="form-group">
                 {{ Form::label('Doc. No.', trans('messages.doc-no')) }}
                 {{ Form::text('doc-no', Input::old('doc-no'),array('class' => 'form-control', 'rows' => '2')) }}

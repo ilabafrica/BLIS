@@ -4,7 +4,7 @@
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
 	  <li><a href="{{{URL::route('inventory.labStockCard')}}}">{{trans('messages.inventory')}}</a></li>
-	  <li class="active">{{ Lang::choice('messages.labStockCardReceipts',2) }}</li>
+	  <li class="active">{{ Lang::choice('messages.labStockCardIssues',2) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))

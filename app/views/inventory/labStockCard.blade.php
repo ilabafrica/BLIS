@@ -31,11 +31,10 @@
 				<tr>
 					<th>{{Lang::choice('messages.lab-receipt-date',1)}}</th>
 					<th>{{Lang::choice('messages.commodity',1)}}</th>
-					<th>{{Lang::choice('messages.unit-of-issue',1)}}</th>
+					<th>{{Lang::choice('messages.unit-price',1)}}</th>
 					<th>{{Lang::choice('messages.batch-no',1)}}</th>
 					<th>{{Lang::choice('messages.expiry-date',1)}}</th>
 					<th>{{Lang::choice('messages.qty',1)}}</th>
-					<!--<th>{{Lang::choice('messages.qty-issued',1)}}</th> -->
 					<th>{{Lang::choice('messages.stock-bal',1)}}</th>
 
 					
@@ -49,8 +48,8 @@
                         >
 				<tr>
                  	<td>{{ $value->receipt_date}}</td>
-					<td>{{ $value->commodity }}</td>
-					<td>{{ $value->unit_of_issue}}</td>
+					<td>{{ Commodity::find($value->commodity_id)->commodity }}</td>
+					<td>{{ $value->unit_price}}</td>
 					<td>{{ $value->batch_no }}</td>
 					<td>{{ $value->expiry_date }}</td>
 					<td>{{ $value->qty }}</td>

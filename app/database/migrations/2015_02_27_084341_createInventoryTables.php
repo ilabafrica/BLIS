@@ -17,9 +17,9 @@ class CreateInventoryTables extends Migration {
         {
             $table->increments('id')->unsigned();
             $table->date('receipt_date');
-            $table->string('commodity', 100);
-            $table->string('unit_of_issue', 100);
-            $table->string('received_from', 100);
+            $table->integer('commodity_id')->unsigned();
+            $table->integer('unit_of_issue')->unsigned();
+            $table->integer('received_from')->unsigned();
             $table->string('doc_no', 100);
             $table->integer('qty')->unsigned();
             $table->integer('batch_no')->unsigned();
@@ -30,6 +30,8 @@ class CreateInventoryTables extends Migration {
                     
             $table->softDeletes();
             $table->timestamps();
+            $table->foreign('commodity_id')->references('id')->on('inventory_commodity');
+            $table->foreign('unit_of_issue')->references('id')->on('inventory_metrics');
             $table->foreign('user_id')->references('id')->on('users');
         });
         
@@ -58,8 +60,7 @@ class CreateInventoryTables extends Migration {
             $table->date('period_beginning');
             $table->date('period_ending');
             $table->string('code', 100);
-            $table->string('commodity', 100);
-            $table->string('unit_of_issue', 100);
+            $table->integer('commodity_id')->unsigned();
             $table->integer('batch_no')->unsigned();
             $table->date('expiry_date');
             $table->integer('stock_balance')->unsigned();
@@ -70,7 +71,7 @@ class CreateInventoryTables extends Migration {
                                      
             $table->softDeletes();
             $table->timestamps();
-
+            $table->foreign('commodity_id')->references('id')->on('inventory_receipts');
        
         });
 

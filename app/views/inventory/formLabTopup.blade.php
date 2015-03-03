@@ -25,15 +25,12 @@
             </div>
            <div class="form-group">
                 {{ Form::label('Commodity', trans('messages.commodity')) }}
-                {{ Form::select('commodity', array(0 => '-- Select Commodity--')+ Inventory::getCommodities(),
+                {{ Form::select('commodity', array(0 => '-- Select Commodity--')+ $inventory,
                     isset($input['commodity'])?$input['commodity']:0, array('class' => 'form-control', 'id' => 'commodity_id')) }}
                     
                     
             </div>
-            <div class="form-group">
-                {{ Form::label('unit-of-issue', trans('messages.unit-of-issue')) }}
-                {{ Form::text('unit-of-issue', Input::old('unit-of-issue'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
+            
             <div class="form-group">
                 {{ Form::label('current-bal', trans('messages.current-bal')) }}
                 {{ Form::text('current-bal', Input::old('current-bal'),array('class' => 'form-control', 'rows' => '2')) }}
