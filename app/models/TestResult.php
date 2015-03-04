@@ -23,4 +23,12 @@ class TestResult extends Eloquent
 	{
 		return $this->belongsTo('Test');
 	}
+
+	/**
+	* relationship between result and measure
+	*/
+	public function measure()
+	{
+		return $this->belongsTo('Measure');
+	}
 }
