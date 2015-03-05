@@ -13,6 +13,33 @@ class CreateInventoryTables extends Migration {
 	public function up()
 	{
 		//
+        Schema::create('inventory_metrics', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->string('name', 100);
+            $table->string('description', 100);
+              
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
+        Schema::create('inventory_commodity', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->string('commodity', 100);
+            $table->string('description', 100);
+            $table->integer('unit_of_issue')->unsigned();
+            $table->decimal('unit_price', 8,2);
+            $table->string('item_code', 100);
+            $table->string('storage_req', 100);
+            $table->integer('min_level');
+            $table->integer('max_level');
+
+            $table->softDeletes();
+            $table->timestamps();
+            $table->foreign('unit_of_issue')->references('id')->on('inventory_metrics');
+        });
+
 		Schema::create('inventory_receipts', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
@@ -27,7 +54,7 @@ class CreateInventoryTables extends Migration {
             $table->string('location', 100);
             $table->string('receivers_name', 100);
             $table->integer('user_id')->unsigned();
-                    
+
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('commodity_id')->references('id')->on('inventory_commodity');
@@ -48,7 +75,7 @@ class CreateInventoryTables extends Migration {
             $table->string('destination', 100);
             $table->string('receivers_name', 100);
             $table->integer('stock_balance')->unsigned();
-                         
+
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('commodity_id')->references('id')->on('inventory_receipts');
@@ -68,7 +95,7 @@ class CreateInventoryTables extends Migration {
             $table->integer('unit_price')->unsigned();
             $table->integer('total_price')->unsigned();
             $table->string('discrepancy', 100);
-                                     
+
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('commodity_id')->references('id')->on('inventory_receipts');
@@ -90,7 +117,6 @@ class CreateInventoryTables extends Migration {
             $table->string('receivers_name', 100);
             $table->string('remarks', 100);
 
-                                     
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('commodity_id')->references('id')->on('inventory_receipts');
@@ -98,50 +124,16 @@ class CreateInventoryTables extends Migration {
        
         });
 
-        Schema::create('inventory_metrics', function(Blueprint $table)
-        {
-            $table->increments('id')->unsigned();
-            $table->string('name', 100);
-            $table->string('description', 100);
-              
-            $table->softDeletes();
-            $table->timestamps();
-                  
-        });
-
-        Schema::create('inventory_commodity', function(Blueprint $table)
-        {
-            $table->increments('id')->unsigned();
-            $table->string('commodity', 100);
-            $table->string('description', 100);
-            $table->integer('unit_of_issue')->unsigned();
-            $table->decimal('unit_price', 8,2);
-            $table->string('item_code', 100);
-            $table->string('storage_req', 100);
-            $table->integer('min_level');
-            $table->integer('max_level');
-                      
-
-                                     
-            $table->softDeletes();
-            $table->timestamps();
-            $table->foreign('unit_of_issue')->references('id')->on('inventory_metrics');
-           
-       
-        });
-
-            Schema::create('inventory_suppliers', function(Blueprint $table)
+        Schema::create('inventory_suppliers', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
             $table->string('name', 100);
             $table->string('phone_no', 100);
-              $table->string('email', 100);
+            $table->string('email', 100);
             $table->string('physical_address');
            
             $table->softDeletes();
             $table->timestamps();
-           
-       
         });
 	}
 
@@ -152,7 +144,13 @@ class CreateInventoryTables extends Migration {
 	 */
 	public function down()
 	{
-		//
+        Schema::dropIfExists('inventory_suppliers');
+        Schema::dropIfExists('inventory_labtopup');
+        Schema::dropIfExists('inventory_stocktake');
+        Schema::dropIfExists('inventory_issues');
+        Schema::dropIfExists('inventory_receipts');
+        Schema::dropIfExists('inventory_commodity');
+        Schema::dropIfExists('inventory_metrics');
 	}
 
 }
