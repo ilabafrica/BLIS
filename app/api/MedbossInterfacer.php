@@ -6,8 +6,6 @@ class MedbossInterfacer implements InterfacerInterface {
     {
         //Setup mssql connection
         $connection = $this->connectToMedboss();
-        //query medboss server
-        //getLabRequestFromView
 
         $labRequests = mssql_query("SELECT * FROM $this->labRequestView WHERE (PatientNumber='$patientId')", $connection);
         
@@ -29,7 +27,7 @@ class MedbossInterfacer implements InterfacerInterface {
             $patient->external_patient_number = $labRequest->PatientNumber;
             $patient->patient_number = $labRequest->PatientNumber;
             $patient->name = $labRequest->FullNames;
-            $gender = array('M' => Patient::MALE, 'F' => Patient::FEMALE, 'F' => Patient::UNKNOWN); 
+            $gender = array('M' => Patient::MALE, 'F' => Patient::FEMALE, 'U' => Patient::UNKNOWN); 
             $patient->gender = $gender[$labRequest->Sex];
             $patient->dob = $this->getDobFromAge($labRequest->Age);
             $patient->address = $labRequest->PoBox;
@@ -41,13 +39,8 @@ class MedbossInterfacer implements InterfacerInterface {
         }
 
         //We check if the test exists in our system if not we just save the request in stagingTable
-        if($labRequest->parentLabNo == '0')
-        {
-            $testTypeId = TestType::getTestTypeIdByTestName($labRequest->investigation);
-        }
-        else {
-            $testTypeId = null;
-        }
+        $testTypeId = TestType::getTestTypeIdByTestName($labRequest->investigation);
+
         if(is_null($testTypeId) && $labRequest->parentLabNo == '0')
         {
             $this->saveToExternalDump($labRequest, ExternalDump::TEST_NOT_FOUND);
@@ -66,9 +59,9 @@ class MedbossInterfacer implements InterfacerInterface {
         }
 
         $test = null;
-       
+        
         //Check via the labno, if this is a duplicate request and we already saved the test 
-        $test = Test::where('external_id', '=', $labRequest->labNo)->get();
+        $test = Test::where('external_id', '=', $labRequest->RequestID)->get();
         if (!$test->first())
         {
             //Specimen
@@ -141,23 +134,35 @@ class MedbossInterfacer implements InterfacerInterface {
         //Sends results or any other flag back to where they came from
         $connection = $this->connectToMedboss();
 
-        $externalId = Test::find($testId)->external_id;
-        $externalDump = ExternalDump::where('lab_no', $externalId);
+        $test = Test::find($testId);
+        $externalId = $test->external_id;
+        $externalDump = ExternalDump::where('lab_no', '=', $externalId);
+        if (!$externalDump->first()){
+            //Can't be sent to the external system
+            return false;
+        }
         $userId = Auth::user()->id;
+        $resultsEntered = date_create($test->time_entered);
+        $dateResultEntered = date_format($resultsEntered, 'Y-m-d');
+        $timeResultEntered = date_format($resultsEntered, 'h:i:s');
 
         $results = getFormattedResults($testId);
 
         $lab_request_no = intval($lab_request_no);
         $query = mssql_query("INSERT INTO BlissLabResults (RequestID,OfferedBy,DateOffered, TimeOffered, TestResults)
-                VALUES ('$lab_request_no','$user_name','$time_stamp','$time_stamp','$result_ent') ");
+                VALUES ('$externalId','$userId','$dateResultEntered','$timeResultEntered','$result_ent') ");
         
-        if (!$query) {
-            
-            Log::error("MSSQL Query Error => ".mssql_get_last_message());
-            
+        if ($query) {
+            //Set status in external lab-request to `sent`
+            $updatedExternalRequest = ExternalDump::where('lab_no', '=', $externalId)->first();
+            $updatedExternalRequest->result_returned = 1;
+            $updatedExternalRequest->save();
         }else {
-            
-            API::updateExternalLabRequestSentStatus($lab_request_no, 1);
+            //Set status in external lab-request to `sent`
+            $updatedExternalRequest = ExternalDump::where('lab_no', '=', $externalId)->first();
+            $updatedExternalRequest->result_returned = 2;
+            $updatedExternalRequest->save();
+            Log::error("MSSQL Query Error => ".mssql_get_last_message());
         }
         mssql_close($link);
     }
