@@ -1,16 +1,10 @@
-
-
 <?php
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class InventoryLabTopup extends Eloquent
-{
+class InventoryLabTopup extends Eloquent {
 
 
-protected $table = 'inventory_labTopup';
+	protected $table = 'inventory_labtopup';
 	public $timestamps = false;
-
-
-
 }
