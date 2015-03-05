@@ -49,10 +49,13 @@ class CommodityController extends \BaseController {
 
 			try{
 				$commodity->save();
-				$url = Session::get('SOURCE_URL');
+				/**$url = Session::get('SOURCE_URL');
 					return Redirect::to($url)
 					->with('message', trans('messages.success-creating-commodity')) ->with('activecommodity', $commodity ->id);
-          	
+          	**/
+                 return Redirect::route('inventory.commodityList')
+					->with('message', 'Successifully added a new commodity');
+
 			}catch(QueryException $e){
 				Log::error($e);
 			}
