@@ -9,126 +9,113 @@ use Illuminate\Database\QueryException;
 class inventoryController extends \BaseController {
 
 	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
+	* Display a listing of the resource.
+	*
+	* @return Response
+	*/
 	public function index()
 	{
-		$commodities = Inventory::orderBy('commodity_id', 'ASC')->get();
+		$commodities = InventoryReceipt::all();
 		return View::make('inventory.labStockCard')->with('commodities', $commodities);
 	}
 
 	public function labStockCard()
 	{
-		
-		//$commodities = Inventory::find($id);
-			return View::make('inventory.labStockCard');
-	}
-	public function receipts()
-
-	{    $commodities = Commodity::lists('commodity', 'id');
-	     $metrics = Metrics::lists('name', 'id');
-	     $suppliers = Suppliers::lists('name', 'id');
-		return View::make('inventory.receipts')->with('commodities', $commodities)->with('metrics', $metrics)->with('suppliers', $suppliers);
+		return View::make('inventory.labStockCard');
 	}
 
-
-	public function issues()
-
-	{   //$totalReceipts= Inventory::getTotalReceipts();
-		//$totalIssues= InventoryIssues::getTotalIssues();
-		//$stock_balance=$totalReceipts-$totalIssues;
-
-		$commodities = Inventory::orderBy('commodity_id', 'ASC')->lists('commodity_id', 'id');
-		
-		$inventory= Commodity::distinct()->select('inventory_commodity.id as pk', 'inventory_commodity.commodity')->join('inventory_receipts', 'inventory_commodity.id', '=', 'inventory_receipts.commodity_id')->lists('commodity', 'pk');
-		return View::make('inventory.issues')->with('commodities', $commodities)
-		->with('inventory', $inventory);
+	public function receipts(){
+		$commodities = InventoryCommodity::lists('commodity', 'id');
+		$metrics = Metrics::lists('name', 'id');
+		$suppliers = Suppliers::lists('name', 'id');
+		return View::make('inventory.receipts')
+				->with('commodities', $commodities)
+				->with('metrics', $metrics)
+				->with('suppliers', $suppliers);
 	}
 
 
-    public function labTopup()
+	public function issues(){
+		$commodities = InventoryReceipt::all();
+		$inventory= InventoryCommodity::has('receipts')->lists('id', 'commodity');
+
+		return View::make('inventory.issues')
+				->with('commodities', $commodities)
+				->with('inventory', $inventory);
+	}
+
+
+	public function labTopup()
 	{
-		$commodities = InventoryLabTopup::orderBy('date', 'ASC')->get();
+		$commodities = InventoryLabTopup::all();
 		return View::make('inventory.labTopup')->with('commodities',$commodities);
-		//return View::make('inventory.labTopup');
 	}
 
-    public function formLabTopup()
+	public function formLabTopup()
 	{
-		//$commodities = Inventory::lists('commodity_id', 'id');
-		$commodities = Inventory::orderBy('commodity_id', 'ASC')->lists('commodity_id', 'id');
-		
-		$inventory= Commodity::distinct()->select('inventory_commodity.id as pk', 'inventory_commodity.commodity')->join('inventory_receipts', 'inventory_commodity.id', '=', 'inventory_receipts.commodity_id')->lists('commodity', 'pk');
-	
+		$commodities = InventoryReceipt::all();
+		$inventory= InventoryCommodity::has('receipts')->lists('id', 'commodity');
+
 		return View::make('inventory.formLabTopup')->with('commodities', $commodities)
 		->with('inventory', $inventory);;
 	}
 
-	  
-
 	public function stockTakeCard()
 	{
-		$commodities = Inventory::orderBy('commodity_id', 'ASC')->get();
+		$commodities = InventoryReceipt::all();
 		return View::make('inventory.stockTakeCard')->with('commodities', $commodities);
-		
-		//return View::make('inventory.stockTakeCard');
 	}
+
 	public function receiptsList()
 	{
-		$commodities = Inventory::orderBy('commodity_id', 'ASC')->get();
+		$commodities = InventoryReceipt::all();
 		return View::make('inventory.receiptsList')->with('commodities', $commodities);
 	}
 
-
-		public function editReceipts($id)
-
-	{   $commodity = Inventory::find($id);
-		$metrics= Metrics::orderBy('name', 'ASC')->lists('name', 'id');
+	public function editReceipts($id) 
+	{
+		$commodity = InventoryReceipt::find($id);
+		$metrics= Metrics::all()->lists('name', 'id');
 		$metric=$commodity->unit_of_issue;
 
-		$suppliers= Suppliers::orderBy('name', 'ASC')->lists('name', 'id');
+		$suppliers= Suppliers::all()->lists('name', 'id');
 		$supplier=$commodity->received_from;
 
-		$commodities= Commodity::orderBy('commodity', 'ASC')->lists('commodity', 'id');
+		$commodities= InventoryCommodity::all()->lists('commodity', 'id');
 		$selectedcommodity= $commodity->commodity_id;
-		//$supplier=$commodity->received_from;
 
 		return View::make('inventory.editReceipts')
-		->with('commodity', $commodity)
-		->with('metrics', $metrics)->with('metric', $metric)
-		->with('commodities', $commodities)->with('selectedcommodity', $selectedcommodity)
-		->with('suppliers', $suppliers)->with('supplier', $supplier);
+				->with('commodity', $commodity)
+				->with('metrics', $metrics)->with('metric', $metric)
+				->with('commodities', $commodities)->with('selectedcommodity', $selectedcommodity)
+				->with('suppliers', $suppliers)->with('supplier', $supplier);
 	}
 
-	    public function editIssues($id)
+	public function editIssues($id)
 	{
 		$commodity = InventoryIssues::find($id);
-		$commodities= Commodity::orderBy('commodity', 'ASC')->lists('commodity', 'id');
+		$commodities= InventoryCommodity::orderBy('commodity', 'ASC')->lists('commodity', 'id');
 		$selectedcommodity= $commodity->commodity_id;
 		return View::make('inventory.editIssues')
 		->with('commodities', $commodities)->with('selectedcommodity', $selectedcommodity)
 		->with('commodity', $commodity);
 	}
 
-	    public function editLabTopUp($id)
+	public function editLabTopUp($id)
 	{
 		$commodity = InventoryLabTopup::find($id);
 		return View::make('inventory.editLabTopUp')->with('commodity', $commodity);
 	}
+
 	public function issuesList()
 	{
 		$issues = InventoryIssues::orderBy('issue_date', 'ASC')->get();
 		return View::make('inventory.issuesList')->with('issues', $issues);
-	//return View::make('inventory.issuesList');
 	}
-	
 
 	public function store_receipts()
 	{
-		//Log::info("here");
-			$rules = array(
+		$rules = array(
 			
 			'commodity' => 'required',
 			'doc-no' => 'required',
@@ -141,9 +128,7 @@ class inventoryController extends \BaseController {
 			return Redirect::back()->withErrors($validator)
 				->withInput();
 		} else {
-
-
-			$receipts = new Inventory;
+			$receipts = new InventoryReceipt;
 			$receipts->receipt_date = Input::get('lab-receipt-date');
 			$receipts->commodity_id = Input::get('commodity');
 			$receipts->unit_price = Input::get('unit-price');
@@ -158,31 +143,21 @@ class inventoryController extends \BaseController {
 
 			try{
 				$receipts->save();
-			
-
-
 				return Redirect::route('inventory.receiptsList')
 					->with('message', 'Successfully added');
-
-
-
-
-			}catch(QueryException $e){
+			}
+			catch(QueryException $e){
 				Log::error($e);
 			}
-			
 		}
 	}
-	 public function store_issues(){
-	
- 		  $rules = array(			
-			
+	public function store_issues(){
+		$rules = array(
 			'receivers-name' => 'required',
 			'qty-req' => 'required'
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
-		
 		if ($validator->fails()) {
 			return Redirect::back()->withErrors($validator)
 				->withInput();
@@ -203,25 +178,23 @@ class inventoryController extends \BaseController {
 			$QtyIssued=Input::get('qty-req');
 			$stock_bal= $getQtyAvl- $QtyIssued;
 			$issues->stock_balance =$stock_bal;
+
 			try{
 				$issues->save();
 				return Redirect::route('inventory.issuesList')
-			->with('message', 'Successfully issued the commodity');
-           
-          		
+					->with('message', 'Successfully issued the commodity');
+
 			}catch(QueryException $e){
 				Log::error($e);
 			}
-			
 		}
-	}	
+	}
 
 
-		public function updateReceipts($id)
+	public function updateReceipts($id)
 	{
-					
 			// Update
-			$commodity = Inventory::find($id);
+			$commodity = InventoryReceipt::find($id);
 			$commodity->receipt_date = Input::get('receipt_date');
 			$commodity->commodity_id = Input::get('commodity');
 			$commodity->received_from = Input::get('received_from');
@@ -235,14 +208,12 @@ class inventoryController extends \BaseController {
 
 			return Redirect::route('inventory.receiptsList')
 			->with('message', 'Successfully updated');
-
-		
 	}
 
 	    public function deleteReceipts($id)
 	    {
 		//Soft delete the patient
-		$commodity = Inventory::find($id);
+		$commodity = InventoryReceipt::find($id);
 		$commodity->delete();
 
 		// redirect
@@ -312,65 +283,53 @@ class inventoryController extends \BaseController {
 			}catch(QueryException $e){
 				Log::error($e);
 			}
-			
 		}
 	}
 
+	public function updateIssuedCommodities($id)
+	{
+		// Update
+		$commodity = InventoryIssues::find($id);
+		$commodity->issue_date = Input::get('issue_date');
+		$commodity->inventory_commodity_id = Input::get('commodity_id');
+		$commodity->doc_no= Input::get('doc_no');
+		$commodity->batch_no = Input::get('batch_no');
+		$commodity->expiry_date= Input::get('expiry_date');
+	    $commodity->qty_avl = Input::get('qty_avl');
+		$commodity->qty_req = Input::get('qty_req');
+		$commodity->destination = Input::get('destination');
+		$commodity->receivers_name = Input::get('receivers_name');
 
-	
-			public function updateIssuedCommodities($id)
-			{
-					
-			// Update
-			$commodity = InventoryIssues::find($id);
-			$commodity->issue_date = Input::get('issue_date');
-			$commodity->commodity_id = Input::get('commodity_id');
-			$commodity->doc_no= Input::get('doc_no');
-			$commodity->batch_no = Input::get('batch_no');
-			$commodity->expiry_date= Input::get('expiry_date');
-            $commodity->qty_avl = Input::get('qty_avl');
-			$commodity->qty_req = Input::get('qty_req');
-			$commodity->destination = Input::get('destination');
-			$commodity->receivers_name = Input::get('receivers_name');
+	    $getQtyAvl =Input::get('qty_avl');
+		$QtyIssued=Input::get('qty_req');
+		$stock_bal= $getQtyAvl - $QtyIssued;
+		$commodity->stock_balance =$stock_bal;
 
-            $getQtyAvl =Input::get('qty_avl');
-			$QtyIssued=Input::get('qty_req');
-			$stock_bal= $getQtyAvl - $QtyIssued;
-			$commodity->stock_balance =$stock_bal;
+		$commodity->save();
 
-
-			$commodity->save();
-
-			return Redirect::route('inventory.issuesList')
-					->with('message', 'Successfully updated');
-
-		
+		return Redirect::route('inventory.issuesList')
+				->with('message', 'Successfully updated');
 	}
 
-			public function updateLabTopup($id)
-			{
-					
-			// Update
-			$commodity = InventoryLabTopup::find($id);
-			$commodity->date = Input::get('date');
-			$commodity->commodity_id = Input::get('commodity_id');
-			$commodity->unit_of_issue= Input::get('unit_of_issue');
-			$commodity->current_bal = Input::get('current_bal');
-			$commodity->tests_done= Input::get('tests_done');
-            $commodity->order_qty = Input::get('order_qty');
-			$commodity->issue_qty= Input::get('issue_qty');
-			$commodity->issued_by = Input::get('issued_by');
-			$commodity->receivers_name = Input::get('receivers_name');
-			$commodity->remarks = Input::get('remarks');
+	public function updateLabTopup($id)
+	{
+		// Update
+		$commodity = InventoryLabTopup::find($id);
+		$commodity->date = Input::get('date');
+		$commodity->inventory_commodity_id = Input::get('commodity_id');
+		$commodity->unit_of_issue= Input::get('unit_of_issue');
+		$commodity->current_bal = Input::get('current_bal');
+		$commodity->tests_done= Input::get('tests_done');
+        $commodity->order_qty = Input::get('order_qty');
+		$commodity->issue_qty= Input::get('issue_qty');
+		$commodity->issued_by = Input::get('issued_by');
+		$commodity->receivers_name = Input::get('receivers_name');
+		$commodity->remarks = Input::get('remarks');
 
+		$commodity->save();
 
-			
-			$commodity->save();
-
-			return Redirect::route('inventory.labTopup')
-					->with('message', 'Successfully updated');
-
-		
+		return Redirect::route('inventory.labTopup')
+				->with('message', 'Successfully updated');
 	}
 
 	public function store_stockTake()
@@ -388,13 +347,11 @@ class inventoryController extends \BaseController {
 			return Redirect::back()->withErrors($validator)
 				->withInput();
 		} else {
-		
-
 			$stock = new InventoryStockTake;
 			$commodity->period_beginning = Input::get('start');
             $commodity->period_ending = Input::get('end');
 			$stock->code = Input::get('doc_no');
-			$stock->commodity = Input::get('commodity');
+			$stock->inventory_commodity = Input::get('commodity');
 			$stock->unit_of_issue = Input::get('unit_of_issue');
 			$stock->batch_no = Input::get('batch_no');
 			$stock->expiry_date= Input::get('expiry_date');
@@ -406,26 +363,18 @@ class inventoryController extends \BaseController {
 
 			try{
 				$stock->save();
-			
 				return Redirect::route('inventory.labStockCard')
 				->with('message', 'Successfully added');
 
 			}catch(QueryException $e){
 				Log::error($e);
 			}
-			
 		}
 	}
 
 	public function commodityDropdown(){
-        $input = Input::get('option');
-        $commodities = Inventory::find($input);
-        return Response::json($commodities);
-    }
-
-
-	
-
-	
-
+		$input = Input::get('option');
+		$commodities = InventoryReceipt::find($input);
+		return Response::json($commodities);
+	}
 }

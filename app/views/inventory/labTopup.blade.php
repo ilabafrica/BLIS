@@ -50,7 +50,7 @@
                         >
                 <tr>
                     <td>{{ $value->date}}</td>
-                    <td>{{ Inventory::find($value->commodity_id)->commodity }}</td>
+                    <td>{{ InventoryReceipt::find($value->commodity_id)->commodity }}</td>
                     <td>{{ $value->current_bal}}</td>
                     <td>{{ $value->tests_done }}</td>
                     <td>{{ $value->order_qty }}</td>

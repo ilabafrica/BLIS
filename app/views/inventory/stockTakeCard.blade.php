@@ -96,7 +96,7 @@
                         >
 				<tr>
                  	<td>{{ $value->doc_no}}</td>
-					<td>{{ Commodity::find($value->commodity_id)->commodity }}</td>
+					<td>{{ InventoryCommodity::find($value->commodity_id)->commodity }}</td>
 					<td>{{ $value->batch_no }}</td>
 					<td>{{ $value->expiry_date }}</td>
 					<td>{{ $value->qty }}</td>

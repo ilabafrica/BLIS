@@ -10,7 +10,7 @@ class CommodityController extends \BaseController {
 	public function index()
 	{
 		
-       $commodity = Commodity::orderBy('commodity', 'ASC')->get();
+       $commodity = InventoryCommodity::orderBy('commodity', 'ASC')->get();
 		return View::make('inventory.commodityList')->with('commodity', $commodity);
 	
 	}
@@ -28,16 +28,15 @@ class CommodityController extends \BaseController {
 	public function store()
 	{
 		//
-         $rules = array(			
+         $rules = array(
 			'commodity' => 'required|unique:inventory_commodity,commodity');
 		$validator = Validator::make(Input::all(), $rules);
 
-		
 		if ($validator->fails()) {
 			return Redirect::back()->withErrors($validator);
 		} else {
 			// store
-			$commodity = new Commodity;
+			$commodity = new InventoryCommodity;
 			$commodity->commodity= Input::get('commodity');
 			$commodity->description= Input::get('description');
 			$commodity->unit_of_issue= Input::get('unit-of-issue');
@@ -52,13 +51,10 @@ class CommodityController extends \BaseController {
 				$url = Session::get('SOURCE_URL');
 					return Redirect::to($url)
 					->with('message', trans('messages.success-creating-commodity')) ->with('activecommodity', $commodity ->id);
-          	
 			}catch(QueryException $e){
 				Log::error($e);
 			}
-			
 		}
-
 	}
 
 
@@ -83,14 +79,12 @@ class CommodityController extends \BaseController {
 	public function edit($id)
 	{
 		$metrics= Metrics::orderBy('name', 'ASC')->lists('name', 'id');
-		$commodity = Commodity::find($id);
+		$commodity = InventoryCommodity::find($id);
 		$metric=$commodity->unit_of_issue;
-
 
 		//Open the Edit View and pass to it the $patient
 		return View::make('inventory.editCommodities')->with('metrics', $metrics)->with('commodity', $commodity)->with('metric', $metric);
 	}
-
 
 	/**
 	 * Update the specified resource in storage.
@@ -99,7 +93,8 @@ class CommodityController extends \BaseController {
 	 * @return Response
 	 */
 	public function update($id)
-	{//Validate
+	{
+		//Validate
 		$rules = array('commodity' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -108,7 +103,7 @@ class CommodityController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
 		} else {
 		// Update
-			$commodity = Commodity::find($id);
+			$commodity = InventoryCommodity::find($id);
 			$commodity->commodity= Input::get('commodity');
 			$commodity->description= Input::get('description');
 			$commodity->unit_of_issue= Input::get('unit_of_issue');
@@ -124,9 +119,8 @@ class CommodityController extends \BaseController {
             
             return Redirect::to($url)
 			->with('message', trans('messages.success-updating-commodity')) ->with('activecommodity', $commodity ->id);
-          		
-	       }
-		 }
+		}
+	}
 
 
 	/**
