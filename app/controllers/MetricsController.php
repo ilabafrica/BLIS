@@ -48,9 +48,9 @@ class MetricsController extends \BaseController {
 				$metric->save();
 				$url = Session::get('SOURCE_URL');
             
-            	return Redirect::to($url)
-					->with('message', trans('messages.success-creating-metric')) ->with('activemetric', $metric ->id);
-          		
+          		return Redirect::route('inventory.metricsList')
+				->with('message', 'Successifully added a new metric');
+
 			}catch(QueryException $e){
 				Log::error($e);
 			}

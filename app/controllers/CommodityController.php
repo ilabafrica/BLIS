@@ -9,10 +9,8 @@ class CommodityController extends \BaseController {
 	 */
 	public function index()
 	{
-		
-       $commodity = InventoryCommodity::orderBy('commodity', 'ASC')->get();
+		$commodity = InventoryCommodity::orderBy('commodity', 'ASC')->get();
 		return View::make('inventory.commodityList')->with('commodity', $commodity);
-	
 	}
 
 
@@ -20,15 +18,12 @@ class CommodityController extends \BaseController {
 	{
 		 $metrics= Metrics::orderBy('name', 'ASC')->lists('name', 'id');
 		return View::make('inventory.commodities')->with('metrics', $metrics);
-	
-		
 	}
-
 
 	public function store()
 	{
 		//
-         $rules = array(
+		$rules = array(
 			'commodity' => 'required|unique:inventory_commodity,commodity');
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -48,9 +43,8 @@ class CommodityController extends \BaseController {
 
 			try{
 				$commodity->save();
-				$url = Session::get('SOURCE_URL');
-					return Redirect::to($url)
-					->with('message', trans('messages.success-creating-commodity')) ->with('activecommodity', $commodity ->id);
+				return Redirect::route('inventory.commodityList')
+					->with('message', trans('messages.success-creating-commodity'));
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -116,9 +110,9 @@ class CommodityController extends \BaseController {
 			$commodity->save();
 
 			$url = Session::get('SOURCE_URL');
-            
-            return Redirect::to($url)
-			->with('message', trans('messages.success-updating-commodity')) ->with('activecommodity', $commodity ->id);
+
+			return Redirect::to($url)
+					->with('message', trans('messages.success-updating-commodity')) ->with('activecommodity', $commodity ->id);
 		}
 	}
 

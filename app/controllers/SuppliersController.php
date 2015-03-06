@@ -52,11 +52,10 @@ class SuppliersController extends \BaseController {
 			try{
 				$supplier->save();
 
-				$url = Session::get('SOURCE_URL');
-            
-            	return Redirect::to($url)
-					->with('message', trans('messages.success-creating-supplier')) ->with('activesupplier', $supplier ->id);
-	
+				return Redirect::route('inventory.suppliersList')
+					->with('message',  'Successifully added a new supplier');
+
+
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -64,7 +63,6 @@ class SuppliersController extends \BaseController {
 		}
 
 	}
-
 
 
 	/**
