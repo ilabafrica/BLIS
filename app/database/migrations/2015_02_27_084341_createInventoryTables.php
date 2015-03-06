@@ -26,9 +26,9 @@ class CreateInventoryTables extends Migration {
         Schema::create('inventory_commodities', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
-            $table->string('commodity', 100);
+            $table->string('name', 100);
             $table->string('description', 100);
-            $table->integer('unit_of_issue')->unsigned();
+            $table->integer('inventory_metrics_id')->unsigned();
             $table->decimal('unit_price', 8,2);
             $table->string('item_code', 100);
             $table->string('storage_req', 100);
@@ -37,7 +37,19 @@ class CreateInventoryTables extends Migration {
 
             $table->softDeletes();
             $table->timestamps();
-            $table->foreign('unit_of_issue')->references('id')->on('inventory_metrics');
+            $table->foreign('inventory_metrics_id')->references('id')->on('inventory_metrics');
+        });
+
+        Schema::create('inventory_suppliers', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->string('name', 100);
+            $table->string('phone_no', 100);
+            $table->string('email', 100);
+            $table->string('physical_address');
+           
+            $table->softDeletes();
+            $table->timestamps();
         });
 
 		Schema::create('inventory_receipts', function(Blueprint $table)
@@ -46,7 +58,7 @@ class CreateInventoryTables extends Migration {
             $table->date('receipt_date');
             $table->integer('inventory_commodity_id')->unsigned();
             $table->integer('inventory_metrics_id')->unsigned();
-            $table->integer('received_from')->unsigned();
+            $table->integer('inventory_suppliers_id')->unsigned();
             $table->string('doc_no', 100);
             $table->integer('qty')->unsigned();
             $table->integer('batch_no')->unsigned();
@@ -59,6 +71,7 @@ class CreateInventoryTables extends Migration {
             $table->timestamps();
             $table->foreign('inventory_commodity_id')->references('id')->on('inventory_commodities');
             $table->foreign('inventory_metrics_id')->references('id')->on('inventory_metrics');
+            $table->foreign('inventory_suppliers_id')->references('id')->on('inventory_suppliers');
             $table->foreign('user_id')->references('id')->on('users');
         });
         
@@ -105,7 +118,7 @@ class CreateInventoryTables extends Migration {
         {
             $table->increments('id')->unsigned();
             $table->integer('inventory_commodity_id')->unsigned();
-            $table->string('unit_of_issue', 100);
+            $table->string('inventory_metrics_id', 100);
             $table->integer('current_bal')->unsigned();
             $table->string('tests_done', 100);
             $table->integer('order_qty')->unsigned();
@@ -118,18 +131,6 @@ class CreateInventoryTables extends Migration {
             $table->timestamps();
             $table->foreign('inventory_commodity_id')->references('id')->on('inventory_commodities');
             $table->foreign('user_id')->references('id')->on('users');
-        });
-
-        Schema::create('inventory_suppliers', function(Blueprint $table)
-        {
-            $table->increments('id')->unsigned();
-            $table->string('name', 100);
-            $table->string('phone_no', 100);
-            $table->string('email', 100);
-            $table->string('physical_address');
-           
-            $table->softDeletes();
-            $table->timestamps();
         });
 	}
 

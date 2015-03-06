@@ -2,12 +2,7 @@
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class Metrics extends Eloquent
+class Metric extends Eloquent
 {
-	
 	protected $table = 'inventory_metrics';
-	public $timestamps = false;
-
-
-
 }

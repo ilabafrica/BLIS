@@ -41,28 +41,28 @@
 				</tr>
 			</thead>
 			<tbody>
-			@foreach($issues as $key => $value)
+			@foreach($issues as $issue)
 
 				<tr>
-					<td>{{ $value->issue_date}}</td>
-					<td>{{ $value->doc_no}}</td>
-					<td>{{ InventoryCommodity::find($value->commodity_id)->commodity }}</td>
-					<td>{{ $value->batch_no}}</td>
-					<td>{{ $value->expiry_date }}</td>
-					<td>{{ $value->qty_avl}}</td>
-					<td>{{ $value->qty_req}}</td>
-					<td>{{ $value->destination }}</td>
-					<td>{{ $value->	receivers_name }}</td>
+					<td>{{ $issue->issue_date}}</td>
+					<td>{{ $issue->doc_no}}</td>
+					<td>{{ $issue->commodity->name }}</td>
+					<td>{{ $issue->batch_no}}</td>
+					<td>{{ $issue->expiry_date }}</td>
+					<td>{{ $issue->qty_avl}}</td>
+					<td>{{ $issue->qty_req}}</td>
+					<td>{{ $issue->destination }}</td>
+					<td>{{ $issue->	receivers_name }}</td>
 					<td> 
 						<!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
-					<a class="btn btn-sm btn-info" href="{{ URL::route('inventory.editIssues', array($value->id)) }}" >
+					<a class="btn btn-sm btn-info" href="{{ URL::route('inventory.editIssues', array($issue->id)) }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							{{trans('messages.edit')}}
 					</a>
 						<!-- delete this commodity (uses the delete method found at GET /inventory/{id}/delete -->
 					<button class="btn btn-sm btn-danger delete-item-link" 
 							data-toggle="modal" data-target=".confirm-delete-modal"	
-							data-id="{{ URL::route('inventory.deleteIssuedCommodity', array($value->id)) }}">
+							data-id="{{ URL::route('inventory.deleteIssuedCommodity', array($issue->id)) }}">
 							<span class="glyphicon glyphicon-trash"></span>
 							{{trans('messages.delete')}}
 					</button>

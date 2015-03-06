@@ -48,7 +48,7 @@
                         >
 				<tr>
                  	<td>{{ $value->receipt_date}}</td>
-					<td>{{ Commodity::find($value->commodity_id)->commodity }}</td>
+					<td>{{ $value->commodity->name }}</td>
 					<td>{{ $value->unit_price}}</td>
 					<td>{{ $value->batch_no }}</td>
 					<td>{{ $value->expiry_date }}</td>

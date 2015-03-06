@@ -274,12 +274,12 @@ $(function(){
 		});
 		/*End dynamic select list options*/
 				/*Dynamic loading of select list options*/
-		$('#commodity_id').change(function(){
+		$('#commodity-id').change(function(){
 			$.get("/commodity/dropdown", 
 				{ option: $(this).val() }, 
 				function(data) {
-					var batch_no = $('#batch_no');
-					var expiry_date = $('#expiry_date');
+					var batch_no = $('#batch-no');
+					var expiry_date = $('#expiry-date');
 					var qty = $('#qty');
 					var unit_of_issue = $('#unit_of_issue');
 		            batch_no.val(data.batch_no);

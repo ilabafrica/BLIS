@@ -473,7 +473,7 @@ return array(
     'received-from'=> 'Received From',
     'commodity'=> 'Commodity ',
     'doc-no'=> 'Doc. No.',
-    'qty'=> 'Quantity',
+    'quantity'=> 'Quantity',
     'qty-avl'=> 'Quantity available',
     'qty-req'=> 'Quantity Required',
     'qty-issued'=> 'Quantity Issued',
@@ -522,5 +522,4 @@ return array(
     'editMetrics'=> 'Edit Metrics',
     'editSuppliers'=> 'Edit Suppliers',
     'editCommodities'=> 'Edit Commodities',
-       
 );

@@ -6,7 +6,7 @@ use Illuminate\Database\QueryException;
  *Contains functions for managing patient records 
  *
  */
-class inventoryController extends \BaseController {
+class InventoryController extends \BaseController {
 
 	/**
 	* Display a listing of the resource.
@@ -25,8 +25,8 @@ class inventoryController extends \BaseController {
 	}
 
 	public function receipts(){
-		$commodities = InventoryCommodity::lists('commodity', 'id');
-		$metrics = Metrics::lists('name', 'id');
+		$commodities = InventoryCommodity::lists('name', 'id');
+		$metrics = Metric::lists('name', 'id');
 		$suppliers = Suppliers::lists('name', 'id');
 		return View::make('inventory.receipts')
 				->with('commodities', $commodities)
@@ -36,12 +36,12 @@ class inventoryController extends \BaseController {
 
 
 	public function issues(){
-		$commodities = InventoryReceipt::all();
-		$inventory= InventoryCommodity::has('receipts')->lists('id', 'commodity');
+		$receipts = InventoryReceipt::all();
+		$commodities = InventoryCommodity::has('receipts')->lists('name', 'id');
 
 		return View::make('inventory.issues')
 				->with('commodities', $commodities)
-				->with('inventory', $inventory);
+				->with('receipts', $receipts);
 	}
 
 
@@ -68,33 +68,28 @@ class inventoryController extends \BaseController {
 
 	public function receiptsList()
 	{
-		$commodities = InventoryReceipt::all();
-		return View::make('inventory.receiptsList')->with('commodities', $commodities);
+		$inventoryReceipts = InventoryReceipt::all();
+		return View::make('inventory.receiptsList')->with('inventoryReceipts', $inventoryReceipts);
 	}
 
 	public function editReceipts($id) 
 	{
 		$commodity = InventoryReceipt::find($id);
-		$metrics= Metrics::all()->lists('name', 'id');
-		$metric=$commodity->unit_of_issue;
-
+		$metrics= Metric::all()->lists('name', 'id');
 		$suppliers= Suppliers::all()->lists('name', 'id');
-		$supplier=$commodity->received_from;
-
-		$commodities= InventoryCommodity::all()->lists('commodity', 'id');
-		$selectedcommodity= $commodity->commodity_id;
+		$commodities= InventoryCommodity::all()->lists('name', 'id');
 
 		return View::make('inventory.editReceipts')
 				->with('commodity', $commodity)
-				->with('metrics', $metrics)->with('metric', $metric)
-				->with('commodities', $commodities)->with('selectedcommodity', $selectedcommodity)
-				->with('suppliers', $suppliers)->with('supplier', $supplier);
+				->with('metrics', $metrics)
+				->with('commodities', $commodities)
+				->with('suppliers', $suppliers);
 	}
 
 	public function editIssues($id)
 	{
 		$commodity = InventoryIssues::find($id);
-		$commodities= InventoryCommodity::orderBy('commodity', 'ASC')->lists('commodity', 'id');
+		$commodities= InventoryCommodity::all()->lists('commodity', 'id');
 		$selectedcommodity= $commodity->commodity_id;
 		return View::make('inventory.editIssues')
 		->with('commodities', $commodities)->with('selectedcommodity', $selectedcommodity)
@@ -116,10 +111,8 @@ class inventoryController extends \BaseController {
 	public function store_receipts()
 	{
 		$rules = array(
-			
 			'commodity' => 'required',
-			'doc-no' => 'required',
-			'qty' => 'required'
+			'quantity' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -130,27 +123,24 @@ class inventoryController extends \BaseController {
 		} else {
 			$receipts = new InventoryReceipt;
 			$receipts->receipt_date = Input::get('lab-receipt-date');
-			$receipts->commodity_id = Input::get('commodity');
-			$receipts->unit_price = Input::get('unit-price');
-			$receipts->received_from = Input::get('received-from');
+			$receipts->inventory_commodity_id = Input::get('commodity');
+			$receipts->inventory_suppliers_id = Input::get('received-from');
+			$receipts->inventory_metrics_id = Input::get('metric');
 			$receipts->doc_no= Input::get('doc-no');
-			$receipts->qty = Input::get('qty');
+			$receipts->qty = Input::get('quantity');
 			$receipts->batch_no = Input::get('batch-no');
 			$receipts->expiry_date= Input::get('expiry-date');
 			$receipts->location = Input::get('location');
 			$receipts->receivers_name = Input::get('receivers-name');
 			$receipts->user_id= Auth::user()->id;
 
-			try{
-				$receipts->save();
-				return Redirect::route('inventory.receiptsList')
+			$receipts->save();
+			return Redirect::route('inventory.receiptsList')
 					->with('message', 'Successfully added');
-			}
-			catch(QueryException $e){
-				Log::error($e);
-			}
+
 		}
 	}
+
 	public function store_issues(){
 		$rules = array(
 			'receivers-name' => 'required',
@@ -166,27 +156,22 @@ class inventoryController extends \BaseController {
 			$issues = new InventoryIssues;
 			$issues->issue_date= Input::get('issue-date');
 			$issues->doc_no= Input::get('doc-no');
-			$issues->commodity_id= Input::get('commodity');
-			$issues->batch_no= Input::get('batch_no');
-			$issues->expiry_date= Input::get('expiry_date');
-			$issues->qty_avl= Input::get('qty_avl');
+			$issues->inventory_commodity_id = Input::get('commodity');
+			$issues->batch_no= Input::get('batch-no');
+			$issues->expiry_date= Input::get('expiry-date');
+			$issues->qty_avl= Input::get('qty-avl');
 			$issues->qty_req = Input::get('qty-req');
 			$issues->destination = Input::get('destination');
 			$issues->receivers_name = Input::get('receivers-name');
 
 			$getQtyAvl =Input::get('qty_avl');
-			$QtyIssued=Input::get('qty-req');
-			$stock_bal= $getQtyAvl- $QtyIssued;
-			$issues->stock_balance =$stock_bal;
+			$qtyIssued=Input::get('qty-req');
+			$stockBal= $getQtyAvl- $qtyIssued;
+			$issues->stock_balance =$stockBal;
 
-			try{
-				$issues->save();
-				return Redirect::route('inventory.issuesList')
-					->with('message', 'Successfully issued the commodity');
-
-			}catch(QueryException $e){
-				Log::error($e);
-			}
+			$issues->save();
+			return Redirect::route('inventory.issuesList')
+				->with('message', 'Successfully issued the commodity');
 		}
 	}
 
@@ -194,20 +179,20 @@ class inventoryController extends \BaseController {
 	public function updateReceipts($id)
 	{
 			// Update
-			$commodity = InventoryReceipt::find($id);
-			$commodity->receipt_date = Input::get('receipt_date');
-			$commodity->commodity_id = Input::get('commodity');
-			$commodity->received_from = Input::get('received_from');
-			$commodity->doc_no= Input::get('doc_no');
-			$commodity->qty = Input::get('qty');
-			$commodity->batch_no = Input::get('batch_no');
-			$commodity->expiry_date= Input::get('expiry_date');
-			$commodity->location = Input::get('location');
-			$commodity->receivers_name = Input::get('receivers_name');
-			$commodity->save();
+			$receipt = InventoryReceipt::find($id);
+			$receipt->receipt_date = Input::get('receipt_date');
+			$receipt->inventory_commodity_id = Input::get('commodity');
+			$receipt->inventory_suppliers_id = Input::get('received_from');
+			$receipt->doc_no= Input::get('doc_no');
+			$receipt->qty = Input::get('qty');
+			$receipt->batch_no = Input::get('batch_no');
+			$receipt->expiry_date= Input::get('expiry_date');
+			$receipt->location = Input::get('location');
+			$receipt->receivers_name = Input::get('receivers_name');
+			$receipt->save();
 
 			return Redirect::route('inventory.receiptsList')
-			->with('message', 'Successfully updated');
+				->with('message', 'Successfully updated');
 	}
 
 	    public function deleteReceipts($id)
@@ -263,23 +248,19 @@ class inventoryController extends \BaseController {
 			$labTopup = new InventoryLabTopup;
 			$labTopup->date = Input::get('date');
 			$labTopup->commodity_id = Input::get('commodity');
-			$labTopup->unit_of_issue = Input::get('unit-of-issue');
+			$labTopup->inventory_metrics_id = Input::get('unit-of-issue');
 			$labTopup->current_bal= Input::get('current-bal');
 			$labTopup->tests_done = Input::get('tests-done');
 			$labTopup->order_qty = Input::get('order-qty');
 			$labTopup->issue_qty= Input::get('issue-qty');
-			//$labTopup->issued_by = Input::get('issued-by');
 			$labTopup->receivers_name = Input::get('receivers-name');
 			$labTopup->remarks = Input::get('remarks');
-			$labTopup->issued_by= Auth::user()->id;
+			$labTopup->user_id = Auth::user()->id;
 
 			try{
 				$labTopup->save();
-			
-
 				return Redirect::route('inventory.labTopup')
 				->with('message', 'Successfully added');
-
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -317,12 +298,12 @@ class inventoryController extends \BaseController {
 		$commodity = InventoryLabTopup::find($id);
 		$commodity->date = Input::get('date');
 		$commodity->inventory_commodity_id = Input::get('commodity_id');
-		$commodity->unit_of_issue= Input::get('unit_of_issue');
+		$commodity->inventory_metrics_id= Input::get('unit_of_issue');
 		$commodity->current_bal = Input::get('current_bal');
 		$commodity->tests_done= Input::get('tests_done');
         $commodity->order_qty = Input::get('order_qty');
 		$commodity->issue_qty= Input::get('issue_qty');
-		$commodity->issued_by = Input::get('issued_by');
+		$commodity->user_id = Input::get('issued_by');
 		$commodity->receivers_name = Input::get('receivers_name');
 		$commodity->remarks = Input::get('remarks');
 
@@ -352,7 +333,7 @@ class inventoryController extends \BaseController {
             $commodity->period_ending = Input::get('end');
 			$stock->code = Input::get('doc_no');
 			$stock->inventory_commodity = Input::get('commodity');
-			$stock->unit_of_issue = Input::get('unit_of_issue');
+			$stock->inventory_metrics_id = Input::get('unit_of_issue');
 			$stock->batch_no = Input::get('batch_no');
 			$stock->expiry_date= Input::get('expiry_date');
 			$stock->stock_bal = Input::get('qty');

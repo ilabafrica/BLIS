@@ -31,17 +31,15 @@
             </div>
 			<div class="form-group">
                 {{ Form::label('Commodity', trans('messages.commodity')) }}
-                {{ Form::select('commodity', array('' => '-- Select Commodity--')+ $commodities,
-                    Request::old('commodity') ? Request::old('commodity') : $selectedcommodity,
-                    array('class' => 'form-control', 'id' => 'selectedCommodity')) }}
+                {{ Form::select('commodity', array(null => '')+ $commodities,
+                    Input::old('commodity'), array('class' => 'form-control', 'id' => 'selectedCommodity')) }}
             </div> 
                      
             <div class="form-group">
                 {{ Form::label('Received From', trans('messages.received-from')) }}
                         
-                  {{ Form::select('received_from', array('' => '-- Select supplier--')+ $suppliers,
-                    Request::old('supplier') ? Request::old('supplier') : $supplier,
-                    array('class' => 'form-control', 'id' => 'received_from')) }}
+                  {{ Form::select('received_from', array(null => '')+ $suppliers,
+                    Input::old('received_from'), array('class' => 'form-control', 'id' => 'received_from')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('Unit Price', trans('messages.unit-price')) }}

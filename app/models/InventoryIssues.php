@@ -6,12 +6,17 @@ class InventoryIssues extends Eloquent
 {
 	
 	protected $table = 'inventory_issues';
-	public $timestamps = false;
 
-
-public function getTotalIssues()
+	public function getTotalIssues()
 	{
-     $totalIssues = DB::table('inventory_issues')->sum('qty_req');
+		$totalIssues = DB::table('inventory_issues')->sum('qty_req');
 	}
 
+	/**
+	* Commodities relationship
+	*/
+	public function commodity()
+	{
+		return $this->belongsTo('InventoryCommodity', 'id');
+	}
 }

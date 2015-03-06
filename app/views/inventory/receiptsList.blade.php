@@ -41,32 +41,29 @@
 				</tr>
 			</thead>
 			<tbody>
-			@foreach($commodities as $key => $value)
-			<tr @if(Session::has('activecommodity'))
-            {{(Session::get('activecommodity') == $value->id)?"class='info'":""}}
-                        @endif
-                        >
+			@foreach($inventoryReceipts as $key => $inventoryReceipts)
+			<tr class='info'>
 				<tr>
-                 	<td>{{ $value->receipt_date}}</td>
-					<td>{{ InventoryCommodity::find($value->commodity_id)->commodity }}</td>
-					<td>{{ Suppliers::find($value->received_from)->name }}</td>
-					<td>{{ $value->unit_price}} </td>
-					<td>{{ $value->doc_no }}</td>
-					<td>{{ $value->qty }}</td>
-					<td>{{ $value->batch_no }}</td>
-					<td>{{ $value->expiry_date }}</td>
-					<td>{{ $value->location}}</td>
-					<td>{{ $value->receivers_name}}</td>
+					<td>{{ $inventoryReceipts->receipt_date}}</td>
+					<td>{{ $inventoryReceipts->commodity->name }}</td>
+					<td>{{ $inventoryReceipts->supplier->name }}</td>
+					<td>{{ $inventoryReceipts->unit_price}} </td>
+					<td>{{ $inventoryReceipts->doc_no }}</td>
+					<td>{{ $inventoryReceipts->qty }}</td>
+					<td>{{ $inventoryReceipts->batch_no }}</td>
+					<td>{{ $inventoryReceipts->expiry_date }}</td>
+					<td>{{ $inventoryReceipts->location}}</td>
+					<td>{{ $inventoryReceipts->receivers_name}}</td>
 					<td> 
 						<!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
-					<a class="btn btn-sm btn-info" href="{{ URL::route('inventory.editReceipts', array($value->id)) }}" >
+					<a class="btn btn-sm btn-info" href="{{ URL::route('inventory.editReceipts', array($inventoryReceipts->id)) }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							{{trans('messages.edit')}}
 					</a>
 						<!-- delete this commodity (uses the delete method found at GET /inventory/{id}/delete -->
 					<button class="btn btn-sm btn-danger delete-item-link" 
 							data-toggle="modal" data-target=".confirm-delete-modal"	
-							data-id="{{ URL::route('inventory.deleteReceipts', array($value->id)) }}">
+							data-id="{{ URL::route('inventory.deleteReceipts', array($inventoryReceipts->id)) }}">
 							<span class="glyphicon glyphicon-trash"></span>
 							{{trans('messages.delete')}}
 					</button>

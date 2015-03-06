@@ -9,14 +9,14 @@ class CommodityController extends \BaseController {
 	 */
 	public function index()
 	{
-		$commodity = InventoryCommodity::orderBy('commodity', 'ASC')->get();
-		return View::make('inventory.commodityList')->with('commodity', $commodity);
+		$commodities = InventoryCommodity::all();
+		return View::make('inventory.commodityList')->with('commodities', $commodities);
 	}
 
 
 	public function create()
 	{
-		 $metrics= Metrics::orderBy('name', 'ASC')->lists('name', 'id');
+		$metrics= Metric::orderBy('name', 'ASC')->lists('name', 'id');
 		return View::make('inventory.commodities')->with('metrics', $metrics);
 	}
 
@@ -24,7 +24,7 @@ class CommodityController extends \BaseController {
 	{
 		//
 		$rules = array(
-			'commodity' => 'required|unique:inventory_commodity,commodity');
+			'commodity' => 'required|unique:inventory_commodities,name');
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
@@ -32,9 +32,9 @@ class CommodityController extends \BaseController {
 		} else {
 			// store
 			$commodity = new InventoryCommodity;
-			$commodity->commodity= Input::get('commodity');
+			$commodity->name= Input::get('commodity');
 			$commodity->description= Input::get('description');
-			$commodity->unit_of_issue= Input::get('unit-of-issue');
+			$commodity->inventory_metrics_id= Input::get('unit-of-issue');
 			$commodity->unit_price= Input::get('unit-price');
 			$commodity->item_code = Input::get('item-code');
 			$commodity->storage_req = Input::get('storage-req');
@@ -72,12 +72,11 @@ class CommodityController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$metrics= Metrics::orderBy('name', 'ASC')->lists('name', 'id');
+		$metrics= Metric::orderBy('name', 'ASC')->lists('name', 'id');
 		$commodity = InventoryCommodity::find($id);
-		$metric=$commodity->unit_of_issue;
 
 		//Open the Edit View and pass to it the $patient
-		return View::make('inventory.editCommodities')->with('metrics', $metrics)->with('commodity', $commodity)->with('metric', $metric);
+		return View::make('inventory.editCommodities')->with('metrics', $metrics)->with('commodity', $commodity);
 	}
 
 	/**
@@ -98,9 +97,9 @@ class CommodityController extends \BaseController {
 		} else {
 		// Update
 			$commodity = InventoryCommodity::find($id);
-			$commodity->commodity= Input::get('commodity');
+			$commodity->name= Input::get('commodity');
 			$commodity->description= Input::get('description');
-			$commodity->unit_of_issue= Input::get('unit_of_issue');
+			$commodity->inventory_metrics_id= Input::get('unit_of_issue');
 			$commodity->unit_price= Input::get('unit_price');
 			$commodity->item_code= Input::get('item_code');
 			$commodity->storage_req= Input::get('storage_req');

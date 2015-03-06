@@ -320,130 +320,126 @@ Route::group(array("before" => "auth"), function()
         ));
         
     });
-      //inventory module
-       //Route::resource('inventory', 'inventoryController');
+      
         Route::post("/inventory/store_receipts", array(
-        "as"   => "inventory.store_receipts",
-        "uses" => "inventoryController@store_receipts"
-    ));
+            "as"   => "inventory.store_receipts",
+            "uses" => "InventoryController@store_receipts"
+        ));
 
         Route::post("/inventory/store_issues", array(
-        "as"   => "inventory.store_issues",
-        "uses" => "inventoryController@store_issues"
-    ));
+            "as"   => "inventory.store_issues",
+            "uses" => "InventoryController@store_issues"
+        ));
         
         Route::any("/inventory/labStockCard", array(
-        "as"   => "inventory.labStockCard",
-        "uses" => "inventoryController@index"
-    ));
+            "as"   => "inventory.labStockCard",
+            "uses" => "InventoryController@index"
+        ));
          Route::any("/inventory/receipts", array(
-        "as"   => "inventory.receipts",
-        "uses" => "inventoryController@receipts"
-    ));
+            "as"   => "inventory.receipts",
+            "uses" => "InventoryController@receipts"
+        ));
         Route::any("/inventory/issues", array(
-        "as"   => "inventory.issues",
-        "uses" => "inventoryController@issues"
-    ));
+            "as"   => "inventory.issues",
+            "uses" => "InventoryController@issues"
+        ));
         Route::any("/inventory/labTopup", array(
-        "as"   => "inventory.labTopup",
-        "uses" => "inventoryController@labTopup"
-    ));
+            "as"   => "inventory.labTopup",
+            "uses" => "InventoryController@labTopup"
+        ));
         Route::post("/inventory/store_FormLabTopup", array(
-        "as"   => "inventory.store_FormLabTopup",
-        "uses" => "inventoryController@store_FormLabTopup"
-    ));
+            "as"   => "inventory.store_FormLabTopup",
+            "uses" => "InventoryController@store_FormLabTopup"
+        ));
         Route::any("/inventory/formLabTopup", array(
-        "as"   => "inventory.formLabTopup",
-        "uses" => "inventoryController@formLabTopup"
-    ));
+            "as"   => "inventory.formLabTopup",
+            "uses" => "InventoryController@formLabTopup"
+        ));
         Route::any("/inventory/formStockTake", array(
-        "as"   => "inventory.formStockTake",
-        "uses" => "inventoryController@formStockTake
-        "
-    ));
+            "as"   => "inventory.formStockTake",
+            "uses" => "InventoryController@formStockTake"
+        ));
         Route::post("/inventory/store_FormStockTake", array(
-        "as"   => "inventory.store_FormStockTake",
-        "uses" => "inventoryController@store_FormStockTake"
-    ));
+            "as"   => "inventory.store_FormStockTake",
+            "uses" => "InventoryController@store_FormStockTake"
+        ));
         Route::post("/inventory/store_stockTake", array(
-        "as"   => "inventory.store_stockTake",
-        "uses" => "inventoryController@store_stockTake"
-    ));
+            "as"   => "inventory.store_stockTake",
+            "uses" => "InventoryController@store_stockTake"
+        ));
          Route::any("/inventory/stockTakeCard", array(
-        "as"   => "inventory.stockTakeCard",
-        "uses" => "inventoryController@stockTakeCard"
-    ));
+            "as"   => "inventory.stockTakeCard",
+            "uses" => "InventoryController@stockTakeCard"
+        ));
         Route::get("/inventory/receiptsList", array(
-        "as"   => "inventory.receiptsList",
-        "uses" => "inventoryController@receiptsList"
-    ));
-     Route::any("/inventory/issuesList", array(
-        "as"   => "inventory.issuesList",
-        "uses" => "inventoryController@issuesList"
-    ));
+            "as"   => "inventory.receiptsList",
+            "uses" => "InventoryController@receiptsList"
+        ));
+        Route::any("/inventory/issuesList", array(
+            "as"   => "inventory.issuesList",
+            "uses" => "InventoryController@issuesList"
+        ));
        // route to edit receipts
         Route::get("/inventory/{id}/editReceipts", array(
-         "as"   => "inventory.editReceipts",
-        "uses" => "inventoryController@editReceipts"
-    )); 
+             "as"   => "inventory.editReceipts",
+            "uses" => "InventoryController@editReceipts"
+        )); 
 
         Route::post("/inventory/{id}/updateReceipts", array(
-        "as"   => "inventory.updateReceipts",
-        "uses" => "inventoryController@updateReceipts"
-    ));
+            "as"   => "inventory.updateReceipts",
+            "uses" => "InventoryController@updateReceipts"
+        ));
 
         Route::get("/inventory/{id}/editIssues", array(
-         "as"   => "inventory.editIssues",
-        "uses" => "inventoryController@editIssues"
-    )); 
+             "as"   => "inventory.editIssues",
+            "uses" => "InventoryController@editIssues"
+        )); 
         Route::get("/inventory/{id}/editLabTopUp", array(
-         "as"   => "inventory.editLabTopup",
-        "uses" => "inventoryController@editLabTopUp"
-    )); 
+             "as"   => "inventory.editLabTopup",
+            "uses" => "InventoryController@editLabTopUp"
+        )); 
         Route::post("/inventory/{id}/updateLabTopup", array(
-        "as"   => "inventory.updateLabTopup",
-        "uses" => "inventoryController@updateLabTopup"
-    ));
+            "as"   => "inventory.updateLabTopup",
+            "uses" => "InventoryController@updateLabTopup"
+        ));
         Route::post("/inventory/{id}/updateIssuedCommodities", array(
-        "as"   => "inventory.updateIssuedCommodities",
-        "uses" => "inventoryController@updateIssuedCommodities"
-    ));
+            "as"   => "inventory.updateIssuedCommodities",
+            "uses" => "InventoryController@updateIssuedCommodities"
+        ));
         Route::get("/inventory/{id}/deleteReceipts", array(
             "as"   => "inventory.deleteReceipts",
-            "uses" => "inventoryController@deleteReceipts"
+            "uses" => "InventoryController@deleteReceipts"
         ));
         
         Route::get("/inventory/{id}/deleteLabTopupCommodity", array(
             "as"   => "inventory.deleteLabTopupCommodity",
-            "uses" => "inventoryController@deleteLabTopupCommodity"
+            "uses" => "InventoryController@deleteLabTopupCommodity"
         ));
         Route::get("/inventory/{id}/deleteIssuedCommodity", array(
             "as"   => "inventory.deleteIssuedCommodity",
-            "uses" => "inventoryController@deleteIssuedCommodity"
+            "uses" => "InventoryController@deleteIssuedCommodity"
         ));
-         Route::get('commodity/dropdown', array(
+        Route::get('commodity/dropdown', array(
             "as"    =>  "commodity.dropdown",
-            "uses"  =>  "inventoryController@commodityDropdown"
+            "uses"  =>  "InventoryController@commodityDropdown"
         ));
-     Route::resource('commodity', 'CommodityController');
-       Route::get("/inventory/commodityList", array(
+        Route::resource('commodity', 'CommodityController');
+
+        Route::get("/inventory/commodityList", array(
             "as"   => "inventory.commodityList",
             "uses" => "CommodityController@index"
         ));
-        
 
+        Route::resource('suppliers', 'SuppliersController');
 
-    Route::resource('suppliers', 'SuppliersController');
-      Route::get("/inventory/suppliersList", array(
+        Route::get("/inventory/suppliersList", array(
             "as"   => "inventory.suppliersList",
             "uses" => "SuppliersController@index"
         ));
 
+        Route::resource('metrics', 'MetricsController');
 
-
-
-      Route::resource('metrics', 'MetricsController');
-      Route::get("/inventory/metricsList", array(
+        Route::get("/inventory/metricsList", array(
             "as"   => "inventory.metricsList",
             "uses" => "MetricsController@index"
         ));

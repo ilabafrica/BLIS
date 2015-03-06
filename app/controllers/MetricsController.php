@@ -10,7 +10,7 @@ class MetricsController extends \BaseController {
 	public function index()
 	{
 		//
-		$metrics = Metrics::orderBy('name', 'ASC')->get();
+		$metrics = Metric::orderBy('name', 'ASC')->get();
 		return View::make('inventory.metricsList')->with('metrics', $metrics);
 		//return View::make('inventory.metricsList');
 	}
@@ -39,7 +39,7 @@ class MetricsController extends \BaseController {
 			return Redirect::back()->withErrors($validator);
 		} else {
 			// store
-			$metric = new Metrics;
+			$metric = new Metric;
 			$metric->name= Input::get('name');
 			$metric->description= Input::get('description');
 			
@@ -80,7 +80,7 @@ class MetricsController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$metrics = Metrics::find($id);
+		$metrics = Metric::find($id);
 		
 
 		//Open the Edit View and pass to it the $patient
@@ -104,7 +104,7 @@ class MetricsController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
 		} else {
 		// Update
-			$metric = Metrics::find($id);
+			$metric = Metric::find($id);
 			$metric->name= Input::get('name');
 			$metric->description= Input::get('description');
 			$metric->save();

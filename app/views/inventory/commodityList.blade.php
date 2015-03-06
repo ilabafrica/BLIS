@@ -40,27 +40,27 @@
 				</tr>
 			</thead>
 			<tbody>
-			@foreach($commodity as $key => $value)
+			@foreach($commodities as $commodity)
 
 				<tr>
-                 	<td>{{ $value->commodity}}</td>
-                 	<td>{{ $value->description}}</td>
-                 	<td>{{ Metrics::find($value->unit_of_issue)->name }}</td>
-                 	<td>{{ $value->unit_price}}</td>
-					<td>{{ $value->item_code }}</td>
-					<td>{{ $value->storage_req }}</td>
-					<td>{{ $value->min_level}}</td>
-					<td>{{ $value->max_level }}</td>
+                 	<td>{{ $commodity->name}}</td>
+                 	<td>{{ $commodity->description}}</td>
+                 	<td>{{ $commodity->metric->name }}</td>
+                 	<td>{{ $commodity->unit_price}}</td>
+					<td>{{ $commodity->item_code }}</td>
+					<td>{{ $commodity->storage_req }}</td>
+					<td>{{ $commodity->min_level}}</td>
+					<td>{{ $commodity->max_level }}</td>
 					<td> 
 					<!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
-					<a class="btn btn-sm btn-info" href="{{ URL::route('commodity.edit', array($value->id)) }}" >
+					<a class="btn btn-sm btn-info" href="{{ URL::route('commodity.edit', array($commodity->id)) }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							{{trans('messages.edit')}}
 					</a>
 						<!-- delete this commodity (uses the delete method found at GET /inventory/{id}/delete -->
 					<button class="btn btn-sm btn-danger delete-item-link" 
 							data-toggle="modal" data-target=".confirm-delete-modal"	
-							data-id="{{ URL::route('commodity.index', array($value->id)) }}">
+							data-id="{{ URL::route('commodity.index', array($commodity->id)) }}">
 							<span class="glyphicon glyphicon-trash"></span>
 							{{trans('messages.delete')}}
 					</button>

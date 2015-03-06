@@ -24,39 +24,36 @@
 	</div>
 	<div class="panel-body">
 		   {{ Form::open(array('url' => 'inventory/store_receipts', 'id' => 'form-receipts')) }}
-
-            <div class="form-group">
+           <div class="form-group">
                 {{ Form::label('Receipt Date', Lang::choice('messages.lab-receipt-date',1)) }}
                 {{ Form::text('lab-receipt-date', Input::old('lab-receipt-date'), array('class' => 'form-control standard-datepicker')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('Commodity', trans('messages.commodity')) }}
-               {{ Form::select('commodity', array(0 => '-- Select Commodity--')+ $commodities,
-                    isset($input['commodity'])?$input['commodity']:0, 
-                    array('class' => 'form-control', 'id' => 'commodity_id')) }}
-                      </div>
-             
+               {{ Form::select('commodity', array(null => '')+ $commodities,
+                    Input::old('commodity'), array('class' => 'form-control', 'id' => 'commodity_id')) }}
+              </div>
             <div class="form-group">
                 {{ Form::label('Received From', trans('messages.received-from')) }}
-                {{ Form::select('received-from', array(0 => '-- Select Supplier--')+ $suppliers,
-                    isset($input['received-from'])?$input['received-from']:0, 
-                    array('class' => 'form-control', 'id' => 'supplier_id')) }}
-                      </div>
+                {{ Form::select('received-from', array(null => '')+ $suppliers,
+                    Input::old('received-from'), array('class' => 'form-control', 'id' => 'supplier_id')) }}
+            </div>
             <div class="form-group">
-                {{ Form::label('Unit Price', trans('messages.unit-price')) }}
-                {{ Form::text('unit-price', Input::old('unit-price'),array('class' => 'form-control', 'rows' => '2')) }}
-                    </div>
+                {{ Form::label(trans('messages.metrics'), trans('messages.metrics')) }}
+                {{ Form::select('metric', array(null => '')+ $metrics,
+                    Input::old('metric'), array('class' => 'form-control', 'id' => 'metric_id')) }}
+            </div>
             <div class="form-group">
                 {{ Form::label('Doc. No.', trans('messages.doc-no')) }}
                 {{ Form::text('doc-no', Input::old('doc-no'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('Quantity', trans('messages.qty')) }}
-                {{ Form::text('qty', Input::old('qty'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('Quantity', trans('messages.quantity')) }}
+                {{ Form::text('quantity', Input::old('quantity'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('Batch No. ', trans('messages.batch-no')) }}
-                {{ Form::text('batch-no', Input::old('qty'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::text('batch-no', Input::old('quantity'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('Expiry Date', Lang::choice('messages.expiry-date',1)) }}
@@ -69,16 +66,14 @@
             <div class="form-group">
                 {{ Form::label('Receivers Name ', trans('messages.receivers-name')) }}
                 {{ Form::text('receivers-name', Input::old('receivers-name'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>            
+            </div>
 
             <div class="form-group actions-row">
                     {{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 
                         array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
             </div>
         {{ Form::close() }}
-
-		<?php  
-		Session::put('SOURCE_URL', URL::full());?>
+		<?php Session::put('SOURCE_URL', URL::full());?>
 	</div>
 	
 </div>

@@ -43,21 +43,21 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach($commodities as $key => $value)
+            @foreach($commodities as $key => $commodity)
             <tr @if(Session::has('activecommodity'))
-                            {{(Session::get('activecommodity') == $value->id)?"class='info'":""}}
+                            {{(Session::get('activecommodity') == $commodity->id)?"class='info'":""}}
                         @endif
                         >
                 <tr>
-                    <td>{{ $value->date}}</td>
-                    <td>{{ InventoryReceipt::find($value->commodity_id)->commodity }}</td>
-                    <td>{{ $value->current_bal}}</td>
-                    <td>{{ $value->tests_done }}</td>
-                    <td>{{ $value->order_qty }}</td>
-                    <td>{{ $value->issue_qty}}</td>
-                    <td>{{ User::find($value->issued_by)->name }}</td>
-                    <td>{{ $value->receivers_name }}</td>
-                    <td>{{ $value->remarks }}</td>
+                    <td>{{ $commodity->date}}</td>
+                    <td>{{ $commodity->commodity->name }}</td>
+                    <td>{{ $commodity->current_bal}}</td>
+                    <td>{{ $commodity->tests_done }}</td>
+                    <td>{{ $commodity->order_qty }}</td>
+                    <td>{{ $commodity->issue_qty}}</td>
+                    <td>{{ $commodity->user->name }}</td>
+                    <td>{{ $commodity->receivers_name }}</td>
+                    <td>{{ $commodity->remarks }}</td>
                     <td> 
                         <!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
                     <a class="btn btn-sm btn-info" href="{{ URL::route('inventory.editLabTopup', array($value->id)) }}" >
