@@ -19,7 +19,7 @@ class InventoryCommodity extends Eloquent
 	* Relationship between commodity and the user who handled it
 	*/
 	public function user(){
-		return $this->hasOne('user');
+		return $this->belongsTo('user');
 	}
 
 	public function metric()

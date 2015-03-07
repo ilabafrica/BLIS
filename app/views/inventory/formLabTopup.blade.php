@@ -15,22 +15,17 @@
 		<span class="glyphicon glyphicon-user"></span>
 		{{trans('messages.labTop-UpForm')}}
 	</div>
-    
 	<div class="panel-body">
 		  {{ Form::open(array('url' => 'inventory/store_FormLabTopup', 'id' => 'form-labTopup')) }}
-
             <div class="form-group">
                 {{ Form::label('Date', Lang::choice('messages.date',1)) }}
                 {{ Form::text('date', Input::old('date'), array('class' => 'form-control standard-datepicker')) }}
             </div>
            <div class="form-group">
                 {{ Form::label('Commodity', trans('messages.commodity')) }}
-                {{ Form::select('commodity', array(0 => '-- Select Commodity--')+ $inventory,
+                {{ Form::select('commodity', array(null => '')+ $inventory,
                     isset($input['commodity'])?$input['commodity']:0, array('class' => 'form-control', 'id' => 'commodity_id')) }}
-                    
-                    
             </div>
-            
             <div class="form-group">
                 {{ Form::label('current-bal', trans('messages.current-bal')) }}
                 {{ Form::text('current-bal', Input::old('current-bal'),array('class' => 'form-control', 'rows' => '2')) }}
@@ -47,32 +42,20 @@
                 {{ Form::label('issue-qty', Lang::choice('messages.issue-qty',1)) }}
                 {{ Form::text('issue-qty', Input::old('issue-qty'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
-           
             <div class="form-group">
                 {{ Form::label('Receivers Name ', trans('messages.receivers-name')) }}
                 {{ Form::text('receivers-name', Input::old('receivers-name'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>   
+            </div>
             <div class="form-group">
                 {{ Form::label('remarks ', trans('messages.remarks')) }}
                 {{ Form::textarea('remarks', Input::old('remarks'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>           
-
-
-
-
-
+            </div>
             <div class="form-group actions-row">
                     {{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 
                         array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
             </div>
         {{ Form::close() }}
-
-
-
-		
-		<?php  
-		Session::put('SOURCE_URL', URL::full());?>
+		<?php Session::put('SOURCE_URL', URL::full()); ?>
 	</div>
-	
 </div>
 @stop

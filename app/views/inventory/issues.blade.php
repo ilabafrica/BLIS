@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
                 {{ Form::label('commodity', trans('messages.commodity')) }}
-                 {{ Form::select('commodity', array('' => '-- Select Commodity--')+ $commodities,
+                 {{ Form::select('commodity', array(null => '')+ $commodities,
                     Input::old('commodity'), array('class' => 'form-control', 'id' => 'commodity-id')) }}
             </div>
              <div class="form-group">

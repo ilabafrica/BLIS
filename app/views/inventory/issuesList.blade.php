@@ -37,12 +37,10 @@
 					<th>{{Lang::choice('messages.destination',1)}}</th>
 					<th>{{Lang::choice('messages.receivers-name',1)}}</th>
 					<th>{{trans('messages.actions')}}</th>
-					
 				</tr>
 			</thead>
 			<tbody>
 			@foreach($issues as $issue)
-
 				<tr>
 					<td>{{ $issue->issue_date}}</td>
 					<td>{{ $issue->doc_no}}</td>
@@ -66,20 +64,13 @@
 							<span class="glyphicon glyphicon-trash"></span>
 							{{trans('messages.delete')}}
 					</button>
-
-
-
 					</td>
-
 				</tr>
 				@endforeach
 				
 			</tbody>
 			</table>
-
-		<?php  
-		Session::put('SOURCE_URL', URL::full());?>
+		<?php Session::put('SOURCE_URL', URL::full());?>
 	</div>
-	
 </div>
 @stop

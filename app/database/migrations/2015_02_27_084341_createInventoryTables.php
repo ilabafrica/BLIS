@@ -118,7 +118,6 @@ class CreateInventoryTables extends Migration {
         {
             $table->increments('id')->unsigned();
             $table->integer('inventory_commodity_id')->unsigned();
-            $table->string('inventory_metrics_id', 100);
             $table->integer('current_bal')->unsigned();
             $table->string('tests_done', 100);
             $table->integer('order_qty')->unsigned();
@@ -141,11 +140,11 @@ class CreateInventoryTables extends Migration {
 	 */
 	public function down()
 	{
-        Schema::dropIfExists('inventory_suppliers');
         Schema::dropIfExists('inventory_labtopup');
         Schema::dropIfExists('inventory_stocktake');
         Schema::dropIfExists('inventory_issues');
         Schema::dropIfExists('inventory_receipts');
+        Schema::dropIfExists('inventory_suppliers');
         Schema::dropIfExists('inventory_commodities');
         Schema::dropIfExists('inventory_metrics');
 	}

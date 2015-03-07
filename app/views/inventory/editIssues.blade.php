@@ -33,9 +33,9 @@
                 {{ Form::text('doc_no', Input::old('doc_no'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
            <div class="form-group">
-                {{ Form::label('Commodity', trans('messages.commodity')) }}
-                 {{ Form::text('commodity_id', Input::old('commodity_id'),array('class' => 'form-control', 'rows' => '2')) }}
-                    
+                {{ Form::label('commodity', trans('messages.commodity')) }}
+                 {{ Form::select('commodity', array(null => '')+ $commodities,
+                    $commodity->id, array('class' => 'form-control', 'id' => 'commodity-id')) }}
             </div>
              <div class="form-group">
                 {{ Form::label('Batch No. ', trans('messages.batch-no')) }}
@@ -45,7 +45,6 @@
                 {{ Form::label('Expiry Date', Lang::choice('messages.expiry-date',1)) }}
                 {{ Form::text('expiry_date', Input::old('expiry_date'), array('class' => 'form-control standard-datepicker')) }}
             </div>
-
             <div class="form-group">
                 {{ Form::label('Quantity Available ', trans('messages.qty-avl')) }}
                 {{ Form::text('qty_avl', Input::old('qty_avl'),array('class' => 'form-control', 'rows' => '2')) }}
@@ -56,7 +55,7 @@
             </div>
             <div class="form-group">
                 {{ Form::label('Destination ', trans('messages.destination')) }}
-                {{ Form::text('destination', Input::old('destination'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::text('destination', Input::old('destination'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('Receivers Name ', trans('messages.receivers-name')) }}
@@ -65,7 +64,6 @@
                     {{ Form::button('<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'),
                          array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
                 </div>
-
             {{ Form::close() }}
         </div>
     </div>

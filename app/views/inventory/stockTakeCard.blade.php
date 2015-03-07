@@ -11,7 +11,7 @@
 <div class="container-fluid">
 {{ Form::open(array('url' => 'inventory/store_stockTake', 'id' => 'form-stocktake')) }}
 	<div class="row">
-	<div class="col-sm-5">
+			<div class="col-sm-5">
 		    	<div class="row">
 					<div class="col-sm-2">
 						{{ Form::label('start', trans("messages.monthly")) }}
@@ -31,33 +31,31 @@
 			        </div>
 		    	</div>
 		    </div>
-
-
 	</div>
-	  	<div class="row">
-			<div class="col-sm-5">
-		    	<div class="row">
-					<div class="col-sm-2">
-						{{ Form::label('start', trans("messages.from")) }}
-					</div>
-					<div class="col-sm-3">
-						{{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-01'), 
-					        array('class' => 'form-control standard-datepicker')) }}
-				    </div>
-		    	</div>
-		    </div>
-		    <div class="col-sm-5">
-		    	<div class="row">
-					<div class="col-sm-2">
-				    	{{ Form::label('end', trans("messages.to")) }}
-				    </div>
-					<div class="col-sm-3">
-					    {{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
-					        array('class' => 'form-control standard-datepicker')) }}
-			        </div>
-		    	</div>
-		    </div>
-		 		</div>
+  	<div class="row">
+		<div class="col-sm-5">
+	    	<div class="row">
+				<div class="col-sm-2">
+					{{ Form::label('start', trans("messages.from")) }}
+				</div>
+				<div class="col-sm-3">
+					{{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-01'), 
+				        array('class' => 'form-control standard-datepicker')) }}
+			    </div>
+	    	</div>
+	    </div>
+	    <div class="col-sm-5">
+	    	<div class="row">
+				<div class="col-sm-2">
+			    	{{ Form::label('end', trans("messages.to")) }}
+			    </div>
+				<div class="col-sm-3">
+				    {{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
+				        array('class' => 'form-control standard-datepicker')) }}
+		        </div>
+	    	</div>
+	    </div>
+	</div>
 
 @if (Session::has('message'))
 	<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
@@ -81,39 +79,29 @@
 					<th>{{Lang::choice('messages.unit-price',1)}}</th>
 					<th>{{Lang::choice('messages.total-price',1)}}</th>
 					<th>{{Lang::choice('messages.discrepancy',1)}}</th>
-					<!--<th>{{Lang::choice('messages.remarks',1)}}</th>-->
-
-
-					
 				</tr>
 			</thead>
-
 			<tbody>
-			@foreach($commodities as $key => $value)
+			@foreach($commodities as $key => $commidity)
 			<tr @if(Session::has('activecommodity'))
-            {{(Session::get('activecommodity') == $value->id)?"class='info'":""}}
-                        @endif
-                        >
+            {{(Session::get('activecommodity') == $commidity->id)?"class='info'":""}} @endif >
 				<tr>
-                 	<td>{{ $value->doc_no}}</td>
-					<td>{{ InventoryCommodity::find($value->commodity_id)->commodity }}</td>
-					<td>{{ $value->batch_no }}</td>
-					<td>{{ $value->expiry_date }}</td>
-					<td>{{ $value->qty }}</td>
-					
-					<td>            
+                 	<td>{{ $commidity->doc_no}}</td>
+					<td>{{ $commidity->commodity->name }}</td>
+					<td>{{ $commidity->batch_no }}</td>
+					<td>{{ $commidity->expiry_date }}</td>
+					<td>{{ $commidity->qty }}</td>
+					<td>
 					<div class="">
 					{{ Form::text('physical-count', Input::old('physical-count'),array('class' => 'form-control', 'rows' => '2')) }}
-                </div></td>
-					<td>{{ $value->unit_price}}</td>
-					<td><div class="">
+                	</div></td>
+						<td>{{ $commidity->unit_price}}</td>
+						<td><div class="">
                         {{ Form::text('total-price', Input::old('total-price'),array('class' => 'form-control', 'rows' => '2')) }}
-                     </div></td>
-					<td><div class="">
-                
-                {{ Form::text('discrepancy', Input::old('discrepancy'),array('class' => 'form-control', 'rows' => '2')) }}
-                </div></td>
-			
+                     	</div></td>
+						<td><div class="">
+	                {{ Form::text('discrepancy', Input::old('discrepancy'),array('class' => 'form-control', 'rows' => '2')) }}
+	                </div></td>
 			   	</tr>
 				@endforeach
 				<tr> 

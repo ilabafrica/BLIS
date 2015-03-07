@@ -47,14 +47,14 @@ class InventoryController extends \BaseController {
 
 	public function labTopup()
 	{
-		$commodities = InventoryLabTopup::all();
-		return View::make('inventory.labTopup')->with('commodities',$commodities);
+		$labTopUps = InventoryLabTopup::all();
+		return View::make('inventory.labTopup')->with('labTopUps',$labTopUps);
 	}
 
 	public function formLabTopup()
 	{
 		$commodities = InventoryReceipt::all();
-		$inventory= InventoryCommodity::has('receipts')->lists('id', 'commodity');
+		$inventory= InventoryCommodity::has('receipts')->lists('name', 'id');
 
 		return View::make('inventory.formLabTopup')->with('commodities', $commodities)
 		->with('inventory', $inventory);;
@@ -89,11 +89,10 @@ class InventoryController extends \BaseController {
 	public function editIssues($id)
 	{
 		$commodity = InventoryIssues::find($id);
-		$commodities= InventoryCommodity::all()->lists('commodity', 'id');
-		$selectedcommodity= $commodity->commodity_id;
+		$commodities= InventoryCommodity::all()->lists('name', 'id');
 		return View::make('inventory.editIssues')
-		->with('commodities', $commodities)->with('selectedcommodity', $selectedcommodity)
-		->with('commodity', $commodity);
+			->with('commodities', $commodities)
+			->with('commodity', $commodity);
 	}
 
 	public function editLabTopUp($id)
@@ -231,8 +230,7 @@ class InventoryController extends \BaseController {
 	public function store_FormLabTopup()
 	{
 		//Log::info("here");
-			$rules = array(
-			
+		$rules = array(
 			'commodity' => 'required',
 			'order-qty' => 'required',
 			'issue-qty' => 'required'
@@ -246,9 +244,7 @@ class InventoryController extends \BaseController {
 		} else {
 			// store
 			$labTopup = new InventoryLabTopup;
-			$labTopup->date = Input::get('date');
-			$labTopup->commodity_id = Input::get('commodity');
-			$labTopup->inventory_metrics_id = Input::get('unit-of-issue');
+			$labTopup->inventory_commodity_id = Input::get('commodity');
 			$labTopup->current_bal= Input::get('current-bal');
 			$labTopup->tests_done = Input::get('tests-done');
 			$labTopup->order_qty = Input::get('order-qty');
@@ -256,14 +252,10 @@ class InventoryController extends \BaseController {
 			$labTopup->receivers_name = Input::get('receivers-name');
 			$labTopup->remarks = Input::get('remarks');
 			$labTopup->user_id = Auth::user()->id;
+			$labTopup->save();
 
-			try{
-				$labTopup->save();
-				return Redirect::route('inventory.labTopup')
+			return Redirect::route('inventory.labTopup')
 				->with('message', 'Successfully added');
-			}catch(QueryException $e){
-				Log::error($e);
-			}
 		}
 	}
 
@@ -271,18 +263,18 @@ class InventoryController extends \BaseController {
 	{
 		// Update
 		$commodity = InventoryIssues::find($id);
-		$commodity->issue_date = Input::get('issue_date');
-		$commodity->inventory_commodity_id = Input::get('commodity_id');
-		$commodity->doc_no= Input::get('doc_no');
-		$commodity->batch_no = Input::get('batch_no');
-		$commodity->expiry_date= Input::get('expiry_date');
-	    $commodity->qty_avl = Input::get('qty_avl');
-		$commodity->qty_req = Input::get('qty_req');
+		$commodity->issue_date = Input::get('issue-date');
+		$commodity->inventory_commodity_id = Input::get('commodity');
+		$commodity->doc_no= Input::get('fdf_add_doc_javascript(fdf_document, script_name, script_code)no');
+		$commodity->batch_no = Input::get('batch-no');
+		$commodity->expiry_date= Input::get('expiry-date');
+	    $commodity->qty_avl = Input::get('qty-avl');
+		$commodity->qty_req = Input::get('qty-req');
 		$commodity->destination = Input::get('destination');
-		$commodity->receivers_name = Input::get('receivers_name');
+		$commodity->receivers_name = Input::get('receivers-name');
 
-	    $getQtyAvl =Input::get('qty_avl');
-		$QtyIssued=Input::get('qty_req');
+	    $getQtyAvl =Input::get('qty-avl');
+		$QtyIssued=Input::get('qty-req');
 		$stock_bal= $getQtyAvl - $QtyIssued;
 		$commodity->stock_balance =$stock_bal;
 
