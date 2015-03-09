@@ -47,8 +47,8 @@ $(function(){
 	 *	LAB CONFIGURATION 
 	 */
 
-	 /* Add another surveillance disease */
-	$('.add-another-disease').click(function(){
+	 /* Add another surveillance */
+	$('.add-another-surveillance').click(function(){
 		newSurveillanceNo = $(this).data('new-surveillance');
 		var inputHtml = $('.addSurveillanceLoader').html();
 		//Count new measures on the new measure button
@@ -57,6 +57,18 @@ $(function(){
 		$(this).data('new-surveillance',  newSurveillanceNo+1).attr('data-new-surveillance',  newSurveillanceNo+1);
 		addNewSurveillanceAttributes(newSurveillanceNo);
 		delete newSurveillanceNo;
+	});
+	 
+	 /* Add another disease */
+	$('.add-another-disease').click(function(){
+		newDiseaseNo = $(this).data('new-disease');
+		var inputHtml = $('.addDiseaseLoader').html();
+		//Count new measures on the new measure button
+		$('.disease-input').append(inputHtml);
+		$('.disease-input .new').addClass('new-disease-'+newDiseaseNo).removeClass('new');
+		$(this).data('new-disease',  newDiseaseNo+1).attr('data-new-disease',  newDiseaseNo+1);
+		addNewDiseaseAttributes(newDiseaseNo);
+		delete newDiseaseNo;
 	});
 
 	/** 
@@ -156,6 +168,12 @@ $(function(){
 	// Delete Surveillance entry
 
 	$('.surveillance-input').on('click', '.close', function(){
+		$(this).parent().parent().parent().remove();
+	});
+
+	// Delete Disease entry
+
+	$('.disease-input').on('click', '.close', function(){
 		$(this).parent().parent().parent().remove();
 	});
 
@@ -383,13 +401,13 @@ $(function(){
 	function addNewSurveillanceAttributes (newSurveillanceNo) {
 		$('.new-surveillance-'+newSurveillanceNo).find('select.test-type').attr(
 			'name', 'new-surveillance['+newSurveillanceNo+'][test-type]');
-		$('.new-surveillance-'+newSurveillanceNo).find('input.disease').attr(
+		$('.new-surveillance-'+newSurveillanceNo).find('select.disease').attr(
 			'name', 'new-surveillance['+newSurveillanceNo+'][disease]');
 	}
 
 	function addNewDiseaseAttributes (newDiseaseNo) {
 		$('.new-disease-'+newDiseaseNo).find('input.disease').attr(
-			'name', 'new-disease['+newDiseaseNo+'][disease]');
+			'name', 'new-diseases['+newDiseaseNo+'][disease]');
 	}
 
 	/**

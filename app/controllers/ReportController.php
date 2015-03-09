@@ -1007,11 +1007,8 @@ class ReportController extends \BaseController {
                 $allSurveillanceIds[] = $id;
 				$surveillance = ReportDisease::find($id);
 				$surveillance->test_type_id = $disease['test-type'];
+				$surveillance->disease_id = $disease['disease'];
 				$surveillance->save();
-				
-				$diseases = Disease::find($surveillance->disease_id);
-				$diseases->name = $disease['disease'];
-				$diseases->save();
 			}
 		}
 		
@@ -1020,13 +1017,9 @@ class ReportController extends \BaseController {
 			$diseases = Input::get('new-surveillance');
 
 			foreach ($diseases as $id => $disease) {
-				$diseases = new Disease;
-				$diseases->name = $disease['disease'];
-				$diseases->save();
-
 				$surveillance = new ReportDisease;
-				$surveillance->disease_id = $diseases->id;
 				$surveillance->test_type_id = $disease['test-type'];
+				$surveillance->disease_id = $disease['disease'];
 				$surveillance->save();
                 $allSurveillanceIds[] = $surveillance->id;
 				
@@ -1053,7 +1046,7 @@ class ReportController extends \BaseController {
 
 		$diseaseTests = ReportDisease::all();
 
-		return View::make('reportconfig.edit')
+		return View::make('reportconfig.surveillance')
 					->with('diseaseTests', $diseaseTests);
 	}
 
@@ -1062,7 +1055,6 @@ class ReportController extends \BaseController {
 	 * @param
 	 */
 	public function disease(){
-		
         $allDiseaseIds = array();
 		
 		//edit or leave disease entries as is
@@ -1082,10 +1074,10 @@ class ReportController extends \BaseController {
 			$diseases = Input::get('new-diseases');
 
 			foreach ($diseases as $id => $disease) {
-                $allDiseaseIds[] = $id;
 				$diseases = new Disease;
 				$diseases->name = $disease['disease'];
 				$diseases->save();
+                $allDiseaseIds[] = $diseases->id;
 			}
 		}
 
@@ -1100,13 +1092,22 @@ class ReportController extends \BaseController {
 	        //Identify disease entries to be deleted by Ids
 	        foreach ($allDiseases as $key => $value) {
 	            if (!in_array($value->id, $allDiseaseIds)) {
-	                $deleteDiseases[] = $value->id;
+
+					//Allow delete if not in use
+					$inUseByReports = Disease::find($value->id)->reportDiseases->toArray();
+					if (empty($inUseByReports)) {
+					    
+					    // The disease is not in use
+	                	$deleteDiseases[] = $value->id;
+					}
 	            }
 	        }
 	        //Delete disease entry if any
-	        if(count($deleteDiseases)>0)Disease::destroy($deleteDiseases);
-        }
+	        if(count($deleteDiseases)>0){
 
+	        	Disease::destroy($deleteDiseases);
+	        }
+        }
 		$diseases = Disease::all();
 
 		return View::make('reportconfig.disease')

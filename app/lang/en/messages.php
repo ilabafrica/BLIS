@@ -422,10 +422,11 @@ return array(
     /** 
      *   Configurations
      */
-    'lab-configuration' => 'Lab Configuration',
-    'list-facilities' => 'List of facilities',
     'add-facility' => 'Add a facility',
     'edit-facility' => 'Edit facility',
+    'lab-configuration' => 'Lab Configuration',
+    'list-facilities' => 'List of facilities',
+    'new-disease' => 'New Disease',
     'successfully-updated-facility' => 'Facility was successfully updated!',
     'successfully-deleted-facility' => 'Facility was successfully deleted!',
 

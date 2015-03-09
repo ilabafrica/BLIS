@@ -23,7 +23,7 @@
 			<div class="form-group">
 				<div class="row">
 					<div class="col-sm-5 col-md-3">
-						<input class="form-control" name="disease[{{ $disease->id }}][disease]"
+						<input class="form-control" name="diseases[{{ $disease->id }}][disease]"
 							type="text" value="{{ $disease->name }}">
 					    <button class="close" aria-hidden="true" type="button" 
 					        title="{{trans('messages.delete')}}">×</button>
@@ -53,15 +53,7 @@
 	<div class="form-group new">
 		<div class="row">
 			<div class="col-sm-5 col-md-3">
-                <select class="form-control test-type" name=""> 
-					<option value="0"></option>
-					@foreach (TestType::all() as $testType)
-					    <option value="{{ $testType->id }}">{{ $testType->name }}</option>
-					@endforeach
-            	</select>
-			</div>
-			<div class="col-sm-5 col-md-3">
-				<input class="form-control disease" name="" type="text">
+				<input class="form-control disease" type="text">
 			    <button class="close" aria-hidden="true" type="button" 
 			        title="{{trans('messages.delete')}}">×</button>
 			</div>
