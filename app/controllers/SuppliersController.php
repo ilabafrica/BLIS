@@ -1,6 +1,6 @@
 <?php
 
-class SuppliersController extends \BaseController {
+class SupplierController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -10,12 +10,9 @@ class SuppliersController extends \BaseController {
 	public function index()
 	{
 		//
-		 $suppliers = Suppliers::orderBy('name', 'ASC')->get();
-		return View::make('inventory.suppliersList')->with('suppliers', $suppliers);
-		
-	
+		 $suppliers = Supplier::orderBy('name', 'ASC')->get();
+		return View::make('supplier.index')->with('suppliers', $suppliers);
 	}
-
 
 	/**
 	 * Show the form for creating a new resource.
@@ -24,7 +21,7 @@ class SuppliersController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('inventory.suppliers');
+		return View::make('supplier.create');
 	}
 
 	/**
@@ -35,7 +32,7 @@ class SuppliersController extends \BaseController {
 	public function store()
 	{
 		//
-         $rules = array(			
+		$rules = array(
 			'suppliers-name' => 'required|unique:inventory_suppliers,name');
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -44,18 +41,16 @@ class SuppliersController extends \BaseController {
 			return Redirect::back()->withErrors($validator);
 		} else {
 			// store
-			$supplier = new Suppliers;
+			$supplier = new Supplier;
 			$supplier->name= Input::get('suppliers-name');
 			$supplier->phone_no= Input::get('phone-number');
 			$supplier->email= Input::get('email');
-			$supplier->physical_address= Input::get('physical-address');			
+			$supplier->physical_address= Input::get('physical-address');
 			try{
 				$supplier->save();
 
-				return Redirect::route('inventory.suppliersList')
+				return Redirect::route('supplier.index')
 					->with('message',  'Successifully added a new supplier');
-
-
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -85,10 +80,10 @@ class SuppliersController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$suppliers = Suppliers::find($id);
+		$suppliers = Supplier::find($id);
 
 		//Open the Edit View and pass to it the $patient
-		return View::make('inventory.editSuppliers')->with('suppliers', $suppliers);
+		return View::make('supplier.edit')->with('suppliers', $suppliers);
 	}
 
 
@@ -108,7 +103,7 @@ class SuppliersController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
 		} else {
 		// Update
-			$supplier = Suppliers::find($id);
+			$supplier = Supplier::find($id);
 			$supplier->name= Input::get('name');
 			$supplier->physical_address= Input::get('physical_address');
 			$supplier->phone_no= Input::get('phone_no');
@@ -116,12 +111,10 @@ class SuppliersController extends \BaseController {
 			$supplier->save();
 
 			$url = Session::get('SOURCE_URL');
-            
-            	return Redirect::to($url)
+			return Redirect::to($url)
 					->with('message', trans('messages.success-updating-supplier')) ->with('activesupplier', $supplier ->id);
-          		
-	       }
-		 }
+			}
+		}
 
 	/**
 	 * Remove the specified resource from storage.
@@ -129,9 +122,14 @@ class SuppliersController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function delete($id)
 	{
-		//
+		//Soft delete the item
+		$supplier = Supplier::find($id);
+		$supplier->delete();
+
+		// redirect
+		return Redirect::route('supplier.index')->with('message', trans('messages.supplier-succesfully-deleted'));
 	}
 
 

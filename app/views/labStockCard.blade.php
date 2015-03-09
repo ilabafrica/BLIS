@@ -18,7 +18,7 @@
 				<span class="glyphicon glyphicon-plus-sign"></span>
 				{{trans('messages.labStockCardReceipts')}}
 			</a>
-			<a class="btn btn-sm btn-info" href="{{ URL::route('inventory.issuesList') }}">
+			<a class="btn btn-sm btn-info" href="{{ URL::route('issues.index') }}">
 				<span class="glyphicon glyphicon-plus-sign"></span>
 				{{trans('messages.labStockCardIssues')}}
 			</a>

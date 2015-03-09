@@ -11,10 +11,9 @@ class MetricsController extends \BaseController {
 	{
 		//
 		$metrics = Metric::orderBy('name', 'ASC')->get();
-		return View::make('inventory.metricsList')->with('metrics', $metrics);
+		return View::make('metric.index')->with('metrics', $metrics);
 		//return View::make('inventory.metricsList');
 	}
-
 
 	/**
 	 * Show the form for creating a new resource.
@@ -23,18 +22,17 @@ class MetricsController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('inventory.metrics');
+		return View::make('metric.create');
 	}
 
 
 	public function store()
 	{
 		//
-         $rules = array(			
+		$rules = array(
 			'name' => 'required|unique:inventory_metrics,name');
 		$validator = Validator::make(Input::all(), $rules);
 
-		
 		if ($validator->fails()) {
 			return Redirect::back()->withErrors($validator);
 		} else {
@@ -44,33 +42,14 @@ class MetricsController extends \BaseController {
 			$metric->description= Input::get('description');
 			
 			try{
-
 				$metric->save();
 				$url = Session::get('SOURCE_URL');
-            
-          		return Redirect::route('inventory.metricsList')
-				->with('message', 'Successifully added a new metric');
-
+				return Redirect::route('metric.index') ->with('message', trans('messages.metric-succesfully-added'));
 			}catch(QueryException $e){
 				Log::error($e);
 			}
-			
 		}
-
 	}
-
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		
-	}
-
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -81,10 +60,9 @@ class MetricsController extends \BaseController {
 	public function edit($id)
 	{
 		$metrics = Metric::find($id);
-		
 
 		//Open the Edit View and pass to it the $patient
-		return View::make('inventory.editMetrics')->with('metrics', $metrics);
+		return View::make('metric.edit')->with('metrics', $metrics);
 	}
 
 
@@ -95,7 +73,8 @@ class MetricsController extends \BaseController {
 	 * @return Response
 	 */
 	public function update($id)
-	{//Validate
+	{
+		//Validate
 		$rules = array('name' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -110,14 +89,10 @@ class MetricsController extends \BaseController {
 			$metric->save();
 
 			$url = Session::get('SOURCE_URL');
-            
-            	return Redirect::to($url)
+			return Redirect::to($url)
 					->with('message', trans('messages.success-updating-metric')) ->with('activemetric', $metric ->id);
-          		
-	       }
-		 }
-
-
+		}
+	}
 
 	/**
 	 * Remove the specified resource from storage.
@@ -125,10 +100,13 @@ class MetricsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function delete($id)
 	{
-		//
+		//Soft delete the patient
+		$metric = Metric::find($id);
+		$metric->delete();
+
+		// redirect
+		return Redirect::route('metric.index')->with('message', trans('messages.metric-succesfully-deleted'));
 	}
-
-
 }

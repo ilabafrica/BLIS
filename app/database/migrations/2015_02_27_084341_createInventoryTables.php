@@ -13,7 +13,7 @@ class CreateInventoryTables extends Migration {
 	public function up()
 	{
 		//
-        Schema::create('inventory_metrics', function(Blueprint $table)
+        Schema::create('metrics', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
             $table->string('name', 100);
@@ -23,12 +23,12 @@ class CreateInventoryTables extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('inventory_commodities', function(Blueprint $table)
+        Schema::create('commodities', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
             $table->string('name', 100);
             $table->string('description', 100);
-            $table->integer('inventory_metrics_id')->unsigned();
+            $table->integer('metrics_id')->unsigned();
             $table->decimal('unit_price', 8,2);
             $table->string('item_code', 100);
             $table->string('storage_req', 100);
@@ -37,10 +37,10 @@ class CreateInventoryTables extends Migration {
 
             $table->softDeletes();
             $table->timestamps();
-            $table->foreign('inventory_metrics_id')->references('id')->on('inventory_metrics');
+            $table->foreign('metric_id')->references('id')->on('inventory_metrics');
         });
 
-        Schema::create('inventory_suppliers', function(Blueprint $table)
+        Schema::create('suppliers', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
             $table->string('name', 100);
@@ -52,13 +52,12 @@ class CreateInventoryTables extends Migration {
             $table->timestamps();
         });
 
-		Schema::create('inventory_receipts', function(Blueprint $table)
+		Schema::create('receipts', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
             $table->date('receipt_date');
-            $table->integer('inventory_commodity_id')->unsigned();
-            $table->integer('inventory_metrics_id')->unsigned();
-            $table->integer('inventory_suppliers_id')->unsigned();
+            $table->integer('commodity_id')->unsigned();
+            $table->integer('suppliers_id')->unsigned();
             $table->string('doc_no', 100);
             $table->integer('qty')->unsigned();
             $table->integer('batch_no')->unsigned();
@@ -69,18 +68,17 @@ class CreateInventoryTables extends Migration {
 
             $table->softDeletes();
             $table->timestamps();
-            $table->foreign('inventory_commodity_id')->references('id')->on('inventory_commodities');
-            $table->foreign('inventory_metrics_id')->references('id')->on('inventory_metrics');
-            $table->foreign('inventory_suppliers_id')->references('id')->on('inventory_suppliers');
+            $table->foreign('commodity_id')->references('id')->on('commodities');
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->foreign('user_id')->references('id')->on('users');
         });
         
-        Schema::create('inventory_issues', function(Blueprint $table)
+        Schema::create('issues', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
             $table->date('issue_date');
             $table->string('doc_no', 100);
-            $table->integer('inventory_commodity_id')->unsigned();
+            $table->integer('commodity_id')->unsigned();
             $table->date('expiry_date');
             $table->integer('batch_no')->unsigned();
             $table->integer('qty_avl')->unsigned();
@@ -91,7 +89,7 @@ class CreateInventoryTables extends Migration {
 
             $table->softDeletes();
             $table->timestamps();
-            $table->foreign('inventory_commodity_id')->references('id')->on('inventory_commodities');
+            $table->foreign('commodity_id')->references('id')->on('commodities');
         });
         
         Schema::create('inventory_stocktake', function(Blueprint $table)
@@ -100,7 +98,7 @@ class CreateInventoryTables extends Migration {
             $table->date('period_beginning');
             $table->date('period_ending');
             $table->string('code', 100);
-            $table->integer('inventory_commodity_id')->unsigned();
+            $table->integer('commodity_id')->unsigned();
             $table->integer('batch_no')->unsigned();
             $table->date('expiry_date');
             $table->integer('stock_balance')->unsigned();
@@ -111,13 +109,13 @@ class CreateInventoryTables extends Migration {
 
             $table->softDeletes();
             $table->timestamps();
-            $table->foreign('inventory_commodity_id')->references('id')->on('inventory_commodities');
+            $table->foreign('commodity_id')->references('id')->on('commodities');
         });
 
         Schema::create('inventory_labtopup', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
-            $table->integer('inventory_commodity_id')->unsigned();
+            $table->integer('commodity_id')->unsigned();
             $table->integer('current_bal')->unsigned();
             $table->string('tests_done', 100);
             $table->integer('order_qty')->unsigned();
@@ -128,7 +126,7 @@ class CreateInventoryTables extends Migration {
 
             $table->softDeletes();
             $table->timestamps();
-            $table->foreign('inventory_commodity_id')->references('id')->on('inventory_commodities');
+            $table->foreign('commodity_id')->references('id')->on('commodities');
             $table->foreign('user_id')->references('id')->on('users');
         });
 	}
@@ -142,11 +140,11 @@ class CreateInventoryTables extends Migration {
 	{
         Schema::dropIfExists('inventory_labtopup');
         Schema::dropIfExists('inventory_stocktake');
-        Schema::dropIfExists('inventory_issues');
-        Schema::dropIfExists('inventory_receipts');
-        Schema::dropIfExists('inventory_suppliers');
-        Schema::dropIfExists('inventory_commodities');
-        Schema::dropIfExists('inventory_metrics');
+        Schema::dropIfExists('issues');
+        Schema::dropIfExists('receipts');
+        Schema::dropIfExists('suppliers');
+        Schema::dropIfExists('commodities');
+        Schema::dropIfExists('metrics');
 	}
 
 }

@@ -2,17 +2,17 @@
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class InventoryCommodity extends Eloquent
+class Commodity extends Eloquent
 {
 
-	protected $table = 'inventory_commodities';
+	protected $table = 'commodities';
 
 	/**
 	* Relationship between receipts and 
 	*/
 	public function receipts()
 	{
-		return $this->hasMany('InventoryReceipt');
+		return $this->hasMany('Receipt');
 	}
 
 	/**

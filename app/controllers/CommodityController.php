@@ -9,15 +9,15 @@ class CommodityController extends \BaseController {
 	 */
 	public function index()
 	{
-		$commodities = InventoryCommodity::all();
-		return View::make('inventory.commodityList')->with('commodities', $commodities);
+		$commodities = Commodity::all();
+		return View::make('commodity.index')->with('commodities', $commodities);
 	}
 
 
 	public function create()
 	{
 		$metrics= Metric::orderBy('name', 'ASC')->lists('name', 'id');
-		return View::make('inventory.commodities')->with('metrics', $metrics);
+		return View::make('commodities.create')->with('metrics', $metrics);
 	}
 
 	public function store()
@@ -31,7 +31,7 @@ class CommodityController extends \BaseController {
 			return Redirect::back()->withErrors($validator);
 		} else {
 			// store
-			$commodity = new InventoryCommodity;
+			$commodity = new Commodity;
 			$commodity->name= Input::get('commodity');
 			$commodity->description= Input::get('description');
 			$commodity->inventory_metrics_id= Input::get('unit-of-issue');
@@ -43,7 +43,7 @@ class CommodityController extends \BaseController {
 
 			try{
 				$commodity->save();
-				return Redirect::route('inventory.commodityList')
+				return Redirect::route('commodity.index')
 					->with('message', trans('messages.success-creating-commodity'));
 			}catch(QueryException $e){
 				Log::error($e);
@@ -73,10 +73,10 @@ class CommodityController extends \BaseController {
 	public function edit($id)
 	{
 		$metrics= Metric::orderBy('name', 'ASC')->lists('name', 'id');
-		$commodity = InventoryCommodity::find($id);
+		$commodity = Commodity::find($id);
 
 		//Open the Edit View and pass to it the $patient
-		return View::make('inventory.editCommodities')->with('metrics', $metrics)->with('commodity', $commodity);
+		return View::make('commodity.index')->with('metrics', $metrics)->with('commodity', $commodity);
 	}
 
 	/**
@@ -96,7 +96,7 @@ class CommodityController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
 		} else {
 		// Update
-			$commodity = InventoryCommodity::find($id);
+			$commodity = Commodity::find($id);
 			$commodity->name= Input::get('commodity');
 			$commodity->description= Input::get('description');
 			$commodity->inventory_metrics_id= Input::get('unit_of_issue');
@@ -115,17 +115,28 @@ class CommodityController extends \BaseController {
 		}
 	}
 
-
 	/**
 	 * Remove the specified resource from storage.
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function delete($id)
 	{
-		//
+		//Soft delete the item
+		$commodity = Commodity::find($id);
+		$commodity->delete();
+
+		// redirect
+		return Redirect::route('commodity.index')->with('message', trans('messages.commodity-succesfully-deleted'));
 	}
 
-
+	/**
+	* Commodity for autofilling some form, not sure if useful
+	*/
+	public function commodityDropdown(){
+		$input = Input::get('option');
+		$receipts = Receipt::find($input);
+		return Response::json($receipts);
+	}
 }

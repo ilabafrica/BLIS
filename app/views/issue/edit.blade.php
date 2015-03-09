@@ -3,8 +3,8 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li><a href="{{{URL::route('inventory.labStockCard')}}}">{{trans('messages.inventory')}}</a></li>
-	  <li class="active">{{ Lang::choice('messages.labStockCardIssues',2) }}</li>
+	  <li><a href="{{{URL::route('issues.index')}}}">{{trans('messages.issues')}}</a></li>
+	  <li class="active">{{ Lang::choice('messages.add-issues',2) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -13,7 +13,7 @@
 	<div class="panel panel-primary">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-edit"></span>
-			{{trans('messages.edit-commodity-details')}}
+			{{trans('messages.edit-issue-details')}}
 		</div>
 		<div class="panel-body">
 			@if($errors->all())
@@ -21,13 +21,8 @@
 					{{ HTML::ul($errors->all()) }}
 				</div>
 			@endif
-         {{ Form::model($commodity, array('route' => array('inventory.updateIssuedCommodities', $commodity->id), 'method' => 'POST',
-               'id' => 'form-edit-Issuedcommodity')) }}
-
-           <div class="form-group">
-                {{ Form::label('Issue Date', Lang::choice('messages.issue-date',1)) }}
-                {{ Form::text('issue_date', Input::old('issue_date'), array('class' => 'form-control standard-datepicker')) }}
-            </div>
+         {{ Form::model($commodity, array('route' => array('issues.update', $issue->id), 'method' => 'PUT',
+               'id' => 'form-edit-issue')) }}
             <div class="form-group">
                 {{ Form::label('Doc No. ', trans('messages.doc-no')) }}
                 {{ Form::text('doc_no', Input::old('doc_no'),array('class' => 'form-control', 'rows' => '2')) }}

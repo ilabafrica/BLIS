@@ -28,9 +28,10 @@
 		case 'assign':
 		case 'user': 
 		case 'role': $active[6] = "active"; break;
-		case 'inventory': 
-		case 'metrics':
-		case 'suppliers':
+		case 'issue': 
+		case 'receipt': 
+		case 'metric':
+		case 'supplier':
 		case 'commodity':
 			$active[7] = "active"; break;
 	}
@@ -229,20 +230,23 @@
 				</ul>
 			</div>
 		</li>
-				<li>
+		<li>
 			<div class="main-menu {{$active[7]}}">
-				<a href="{{ URL::route('inventory.labStockCard')}}">
+				<a href="{{ URL::route('issue.index')}}">
 					<span class="glyphicon glyphicon-download-alt"></span> {{ Lang::choice('messages.inventory', 2)}}</a>
 			</div>
-
-
-
-	<div class="sub-menu {{$active[7]}}">
+			<div class="sub-menu {{$active[7]}}">
 				<ul class="sub-menu-items">
 					<li>
 						<div>
-							<a href="{{ URL::route("inventory.labStockCard")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.labStockCard', 2)}}</a>
+							<a href="{{ URL::route("issue.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.issue', 2)}}</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route("receipt.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.receipt', 2)}}</a>
 						</div>
 					</li>
 					<li>
@@ -278,17 +282,6 @@
 					
 				</ul>
 			</div>
-
-
-
-
-
-
-
-
-
-
-
 		</li> 
 	</ul>
 @show

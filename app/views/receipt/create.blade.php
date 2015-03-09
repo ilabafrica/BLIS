@@ -39,11 +39,6 @@
                     Input::old('received-from'), array('class' => 'form-control', 'id' => 'supplier_id')) }}
             </div>
             <div class="form-group">
-                {{ Form::label(trans('messages.metrics'), trans('messages.metrics')) }}
-                {{ Form::select('metric', array(null => '')+ $metrics,
-                    Input::old('metric'), array('class' => 'form-control', 'id' => 'metric_id')) }}
-            </div>
-            <div class="form-group">
                 {{ Form::label('Doc. No.', trans('messages.doc-no')) }}
                 {{ Form::text('doc-no', Input::old('doc-no'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>

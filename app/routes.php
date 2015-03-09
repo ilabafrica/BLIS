@@ -320,41 +320,88 @@ Route::group(array("before" => "auth"), function()
         ));
         
     });
-      
-        Route::post("/inventory/store_receipts", array(
-            "as"   => "inventory.store_receipts",
-            "uses" => "InventoryController@store_receipts"
+
+        //Commodities
+        Route::resource('commodity', 'CommodityController');
+
+        Route::get('commodity/dropdown', array(
+            "as"    =>  "commodity.dropdown",
+            "uses"  =>  "CommodityController@commodityDropdown"
         ));
 
-        Route::post("/inventory/store_issues", array(
-            "as"   => "inventory.store_issues",
-            "uses" => "InventoryController@store_issues"
+        Route::get("/commodity/{id}/delete", array(
+            "as"   => "commodity.delete",
+            "uses" => "CommodityController@delete"
         ));
+
+        //issues
+        Route::resource('issue', 'IssueController');
+
+        Route::get("/issue/{id}/delete", array(
+            "as"   => "issue.delete",
+            "uses" => "IssueController@delete"
+        ));
+
+        //Metrics
+        Route::resource('metric', 'MetricController');
+
+        Route::get("/metric/{id}/delete", array(
+            "as"   => "metric.delete",
+            "uses" => "MetricController@delete"
+        ));
+
+        //Suppliers
+        Route::resource('supplier', 'SupplierController');
+        
+        Route::get("/supplier/{id}/delete", array(
+            "as"   => "supplier.delete",
+            "uses" => "SupplierController@delete"
+        ));
+
+        //Receipts
+        Route::resource('supplier', 'SupplierController');
+
+        Route::get("/receipt/{id}/delete", array(
+            "as"   => "receipt.delete",
+            "uses" => "InventoryController@delete"
+        ));
+
+        //top-ups
+        Route::any("/inventory/labTopup", array(
+            "as"   => "inventory.labTopup",
+            "uses" => "InventoryController@labTopup"
+        ));
+
+        Route::any("/inventory/formLabTopup", array(
+            "as"   => "inventory.formLabTopup",
+            "uses" => "InventoryController@formLabTopup"
+        ));
+
+        Route::post("/inventory/store_FormLabTopup", array(
+            "as"   => "inventory.store_FormLabTopup",
+            "uses" => "InventoryController@store_FormLabTopup"
+        ));
+        Route::get("/inventory/{id}/editLabTopUp", array(
+             "as"   => "inventory.editLabTopup",
+            "uses" => "InventoryController@editLabTopUp"
+        )); 
+        Route::post("/inventory/{id}/updateLabTopup", array(
+            "as"   => "inventory.updateLabTopup",
+            "uses" => "InventoryController@updateLabTopup"
+        ));
+
+        Route::get("/inventory/{id}/deleteLabTopupCommodity", array(
+            "as"   => "inventory.deleteLabTopupCommodity",
+            "uses" => "InventoryController@deleteLabTopupCommodity"
+        ));
+
         
         Route::any("/inventory/labStockCard", array(
             "as"   => "inventory.labStockCard",
             "uses" => "InventoryController@index"
         ));
-         Route::any("/inventory/receipts", array(
-            "as"   => "inventory.receipts",
-            "uses" => "InventoryController@receipts"
-        ));
-        Route::any("/inventory/issues", array(
-            "as"   => "inventory.issues",
-            "uses" => "InventoryController@issues"
-        ));
-        Route::any("/inventory/labTopup", array(
-            "as"   => "inventory.labTopup",
-            "uses" => "InventoryController@labTopup"
-        ));
-        Route::post("/inventory/store_FormLabTopup", array(
-            "as"   => "inventory.store_FormLabTopup",
-            "uses" => "InventoryController@store_FormLabTopup"
-        ));
-        Route::any("/inventory/formLabTopup", array(
-            "as"   => "inventory.formLabTopup",
-            "uses" => "InventoryController@formLabTopup"
-        ));
+
+        //Stock take
         Route::any("/inventory/formStockTake", array(
             "as"   => "inventory.formStockTake",
             "uses" => "InventoryController@formStockTake"
@@ -371,77 +418,4 @@ Route::group(array("before" => "auth"), function()
             "as"   => "inventory.stockTakeCard",
             "uses" => "InventoryController@stockTakeCard"
         ));
-        Route::get("/inventory/receiptsList", array(
-            "as"   => "inventory.receiptsList",
-            "uses" => "InventoryController@receiptsList"
-        ));
-        Route::any("/inventory/issuesList", array(
-            "as"   => "inventory.issuesList",
-            "uses" => "InventoryController@issuesList"
-        ));
-       // route to edit receipts
-        Route::get("/inventory/{id}/editReceipts", array(
-             "as"   => "inventory.editReceipts",
-            "uses" => "InventoryController@editReceipts"
-        )); 
-
-        Route::post("/inventory/{id}/updateReceipts", array(
-            "as"   => "inventory.updateReceipts",
-            "uses" => "InventoryController@updateReceipts"
-        ));
-
-        Route::get("/inventory/{id}/editIssues", array(
-             "as"   => "inventory.editIssues",
-            "uses" => "InventoryController@editIssues"
-        )); 
-        Route::get("/inventory/{id}/editLabTopUp", array(
-             "as"   => "inventory.editLabTopup",
-            "uses" => "InventoryController@editLabTopUp"
-        )); 
-        Route::post("/inventory/{id}/updateLabTopup", array(
-            "as"   => "inventory.updateLabTopup",
-            "uses" => "InventoryController@updateLabTopup"
-        ));
-        Route::post("/inventory/{id}/updateIssuedCommodities", array(
-            "as"   => "inventory.updateIssuedCommodities",
-            "uses" => "InventoryController@updateIssuedCommodities"
-        ));
-        Route::get("/inventory/{id}/deleteReceipts", array(
-            "as"   => "inventory.deleteReceipts",
-            "uses" => "InventoryController@deleteReceipts"
-        ));
-        
-        Route::get("/inventory/{id}/deleteLabTopupCommodity", array(
-            "as"   => "inventory.deleteLabTopupCommodity",
-            "uses" => "InventoryController@deleteLabTopupCommodity"
-        ));
-        Route::get("/inventory/{id}/deleteIssuedCommodity", array(
-            "as"   => "inventory.deleteIssuedCommodity",
-            "uses" => "InventoryController@deleteIssuedCommodity"
-        ));
-        Route::get('commodity/dropdown', array(
-            "as"    =>  "commodity.dropdown",
-            "uses"  =>  "InventoryController@commodityDropdown"
-        ));
-        Route::resource('commodity', 'CommodityController');
-
-        Route::get("/inventory/commodityList", array(
-            "as"   => "inventory.commodityList",
-            "uses" => "CommodityController@index"
-        ));
-
-        Route::resource('suppliers', 'SuppliersController');
-
-        Route::get("/inventory/suppliersList", array(
-            "as"   => "inventory.suppliersList",
-            "uses" => "SuppliersController@index"
-        ));
-
-        Route::resource('metrics', 'MetricsController');
-
-        Route::get("/inventory/metricsList", array(
-            "as"   => "inventory.metricsList",
-            "uses" => "MetricsController@index"
-        ));
-    
 });

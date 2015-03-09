@@ -23,13 +23,8 @@
 		
 	</div>
 	<div class="panel-body">
-		 
-           {{ Form::open(array('url' => 'inventory/store_issues', 'id' => 'form-issues')) }}
 
-            <div class="form-group">
-                {{ Form::label( 'issue-date' , Lang::choice('messages.issue-date',1)) }}
-                {{ Form::text('issue-date', Input::old('issue-date'), array('class' => 'form-control standard-datepicker')) }}
-            </div>
+           {{ Form::open(array('url' => 'issues', 'id' => 'form-issues', 'method' => 'POST')) }}
             <div class="form-group">
                 {{ Form::label('doc-no', trans('messages.doc-no')) }}
                 {{ Form::text('doc-no', Input::old('doc-no'),array('class' => 'form-control', 'rows' => '2')) }}

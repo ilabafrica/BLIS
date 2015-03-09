@@ -4,7 +4,7 @@
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
 	  <li><a href="{{{URL::route('inventory.labStockCard')}}}">{{trans('messages.inventory')}}</a></li>
-	  <li class="active">{{ Lang::choice('messages.labStockCardIssues',2) }}</li>
+	  <li class="active">{{ Lang::choice('messages.add-issues',2) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -17,7 +17,7 @@
 		<div class="panel-btn">
 			<a class="btn btn-sm btn-info" href="{{ URL::route('inventory.issues') }}">
 				<span class="glyphicon glyphicon-plus-sign"></span>
-				{{trans('messages.labStockCardIssues')}}
+				{{trans('messages.add-issues')}}
 			</a>
 			
 		</div>
@@ -53,14 +53,14 @@
 					<td>{{ $issue->	receivers_name }}</td>
 					<td> 
 						<!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
-					<a class="btn btn-sm btn-info" href="{{ URL::route('inventory.editIssues', array($issue->id)) }}" >
+					<a class="btn btn-sm btn-info" href="{{ URL::route('issues', array($issue->id)) }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							{{trans('messages.edit')}}
 					</a>
 						<!-- delete this commodity (uses the delete method found at GET /inventory/{id}/delete -->
 					<button class="btn btn-sm btn-danger delete-item-link" 
 							data-toggle="modal" data-target=".confirm-delete-modal"	
-							data-id="{{ URL::route('inventory.deleteIssuedCommodity', array($issue->id)) }}">
+							data-id="{{ URL::route('issue.delete', array($issue->id)) }}">
 							<span class="glyphicon glyphicon-trash"></span>
 							{{trans('messages.delete')}}
 					</button>

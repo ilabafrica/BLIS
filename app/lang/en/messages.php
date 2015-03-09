@@ -469,7 +469,7 @@ return array(
     'labTop-UpForm' => 'Laboratory Top-Up Form',
     'stockTakeCard' => 'Stock Take Card',
     'labStockCardReceipts' => 'Add Receipts',
-    'labStockCardIssues' => 'Add Issues',
+    'add-issues' => 'Add Issues',
     'received-from'=> 'Received From',
     'commodity'=> 'Commodity ',
     'doc-no'=> 'Doc. No.',
@@ -522,4 +522,9 @@ return array(
     'editMetrics'=> 'Edit Metrics',
     'editSuppliers'=> 'Edit Suppliers',
     'editCommodities'=> 'Edit Commodities',
+    'metric-succesfully-deleted' => 'Metric has been succesfully deleted',
+    'metric-succesfully-added' => 'Successifully added a new metric',
+    'issue-succesfully-deleted' => 'The issue was successfully deleted!',
+    'commodity-succesfully-deleted' => 'The commodity was successfully deleted!',
+    'supplier-succesfully-deleted' => 'The supplier was successfully deleted!'
 );
