@@ -481,7 +481,8 @@ return array(
     'expiry-date'=> 'Expiry Date',
     'location'=> 'Location',
     'receivers-name'=> 'Receivers Name',
-    'qty-issued'=> 'Issues',
+    'issue'=> 'Issue|Issues',
+    'receipt'=> 'Receipt|Receipts',
     'destination'=> 'Destination',
     'stock-bal'=> 'Stock Balance',
     'unit-of-issue'=> 'Unit of Issue',
@@ -526,5 +527,7 @@ return array(
     'metric-succesfully-added' => 'Successifully added a new metric',
     'issue-succesfully-deleted' => 'The issue was successfully deleted!',
     'commodity-succesfully-deleted' => 'The commodity was successfully deleted!',
-    'supplier-succesfully-deleted' => 'The supplier was successfully deleted!'
+    'supplier-succesfully-deleted' => 'The supplier was successfully deleted!',
+    'receipt-succesfully-updated' => 'The receipt was successfully updated',
+    'receipt-succesfully-deleted' => 'The commodity was successfully deleted!'
 );

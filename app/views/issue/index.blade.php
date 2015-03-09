@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li><a href="{{{URL::route('inventory.labStockCard')}}}">{{trans('messages.inventory')}}</a></li>
+	  <li><a href="{{{URL::route('issue.index')}}}">{{trans('messages.inventory')}}</a></li>
 	  <li class="active">{{ Lang::choice('messages.add-issues',2) }}</li>
 	</ol>
 </div>
@@ -15,7 +15,7 @@
 		<span class="glyphicon glyphicon-user"></span>
 		{{trans('messages.issuesList')}}
 		<div class="panel-btn">
-			<a class="btn btn-sm btn-info" href="{{ URL::route('inventory.issues') }}">
+			<a class="btn btn-sm btn-info" href="{{ URL::route('issue.create') }}">
 				<span class="glyphicon glyphicon-plus-sign"></span>
 				{{trans('messages.add-issues')}}
 			</a>
@@ -53,7 +53,7 @@
 					<td>{{ $issue->	receivers_name }}</td>
 					<td> 
 						<!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
-					<a class="btn btn-sm btn-info" href="{{ URL::route('issues', array($issue->id)) }}" >
+					<a class="btn btn-sm btn-info" href="{{ URL::route('issue', array($issue->id)) }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							{{trans('messages.edit')}}
 					</a>

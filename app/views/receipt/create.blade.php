@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li><a href="{{{URL::route('inventory.labStockCard')}}}">{{ trans('messages.inventory') }}</a></li>
+	  <li><a href="{{{URL::route('receipts.index')}}}">{{ trans('messages.receipts') }}</a></li>
 	  <li class="active">{{ Lang::choice('messages.labStockCardReceipts',2) }}</li>
 	</ol>
 </div>
@@ -23,7 +23,7 @@
 		
 	</div>
 	<div class="panel-body">
-		   {{ Form::open(array('url' => 'inventory/store_receipts', 'id' => 'form-receipts')) }}
+		   {{ Form::open(array('url' => 'receipts', 'method'=>'POST', id' => 'form-receipts' )) }}
            <div class="form-group">
                 {{ Form::label('Receipt Date', Lang::choice('messages.lab-receipt-date',1)) }}
                 {{ Form::text('lab-receipt-date', Input::old('lab-receipt-date'), array('class' => 'form-control standard-datepicker')) }}

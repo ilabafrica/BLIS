@@ -359,7 +359,7 @@ Route::group(array("before" => "auth"), function()
         ));
 
         //Receipts
-        Route::resource('supplier', 'SupplierController');
+        Route::resource('receipt', 'ReceiptController');
 
         Route::get("/receipt/{id}/delete", array(
             "as"   => "receipt.delete",
@@ -395,7 +395,7 @@ Route::group(array("before" => "auth"), function()
             "uses" => "InventoryController@deleteLabTopupCommodity"
         ));
 
-        
+
         Route::any("/inventory/labStockCard", array(
             "as"   => "inventory.labStockCard",
             "uses" => "InventoryController@index"

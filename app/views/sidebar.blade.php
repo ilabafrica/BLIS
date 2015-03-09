@@ -269,13 +269,13 @@
 					</li>
 					<li>
 						<div>
-							<a href="{{ URL::route("suppliers.index")}}">
+							<a href="{{ URL::route("supplier.index")}}">
 								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.suppliers')}}</a>
 						</div>
 					</li>
 					<li>
 						<div>
-							<a href="{{ URL::route("metrics.index")}}">
+							<a href="{{ URL::route("metric.index")}}">
 								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.metrics')}}</a>
 						</div>
 					</li>

@@ -24,16 +24,6 @@ class InventoryController extends \BaseController {
 		return View::make('inventory.labStockCard');
 	}
 
-	public function receipts(){
-		$commodities = InventoryCommodity::lists('name', 'id');
-		$metrics = Metric::lists('name', 'id');
-		$suppliers = Suppliers::lists('name', 'id');
-		return View::make('inventory.receipts')
-				->with('commodities', $commodities)
-				->with('metrics', $metrics)
-				->with('suppliers', $suppliers);
-	}
-
 	public function labTopup()
 	{
 		$labTopUps = InventoryLabTopup::all();
@@ -46,7 +36,7 @@ class InventoryController extends \BaseController {
 		$inventory= InventoryCommodity::has('receipts')->lists('name', 'id');
 
 		return View::make('inventory.formLabTopup')->with('commodities', $commodities)
-		->with('inventory', $inventory);;
+		->with('inventory', $inventory);
 	}
 
 	public function stockTakeCard()
@@ -55,102 +45,20 @@ class InventoryController extends \BaseController {
 		return View::make('inventory.stockTakeCard')->with('commodities', $commodities);
 	}
 
-	public function receiptsList()
-	{
-		$inventoryReceipts = InventoryReceipt::all();
-		return View::make('inventory.receiptsList')->with('inventoryReceipts', $inventoryReceipts);
-	}
-
-	public function editReceipts($id) 
-	{
-		$commodity = InventoryReceipt::find($id);
-		$metrics= Metric::all()->lists('name', 'id');
-		$suppliers= Suppliers::all()->lists('name', 'id');
-		$commodities= InventoryCommodity::all()->lists('name', 'id');
-
-		return View::make('inventory.editReceipts')
-				->with('commodity', $commodity)
-				->with('metrics', $metrics)
-				->with('commodities', $commodities)
-				->with('suppliers', $suppliers);
-	}
-
 	public function editLabTopUp($id)
 	{
 		$commodity = InventoryLabTopup::find($id);
 		return View::make('inventory.editLabTopUp')->with('commodity', $commodity);
 	}
 
-	public function store_receipts()
+	public function deleteLabTopupCommodity($id)
 	{
-		$rules = array(
-			'commodity' => 'required',
-			'quantity' => 'required',
-		);
-		$validator = Validator::make(Input::all(), $rules);
-
-		// process the login
-		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator)
-				->withInput();
-		} else {
-			$receipts = new InventoryReceipt;
-			$receipts->receipt_date = Input::get('lab-receipt-date');
-			$receipts->inventory_commodity_id = Input::get('commodity');
-			$receipts->inventory_suppliers_id = Input::get('received-from');
-			$receipts->inventory_metrics_id = Input::get('metric');
-			$receipts->doc_no= Input::get('doc-no');
-			$receipts->qty = Input::get('quantity');
-			$receipts->batch_no = Input::get('batch-no');
-			$receipts->expiry_date= Input::get('expiry-date');
-			$receipts->location = Input::get('location');
-			$receipts->receivers_name = Input::get('receivers-name');
-			$receipts->user_id= Auth::user()->id;
-
-			$receipts->save();
-			return Redirect::route('inventory.receiptsList')
-					->with('message', 'Successfully added');
-		}
-	}
-
-	public function updateReceipts($id)
-	{
-		// Update
-		$receipt = InventoryReceipt::find($id);
-		$receipt->receipt_date = Input::get('receipt_date');
-		$receipt->inventory_commodity_id = Input::get('commodity');
-		$receipt->inventory_suppliers_id = Input::get('received_from');
-		$receipt->doc_no= Input::get('doc_no');
-		$receipt->qty = Input::get('qty');
-		$receipt->batch_no = Input::get('batch_no');
-		$receipt->expiry_date= Input::get('expiry_date');
-		$receipt->location = Input::get('location');
-		$receipt->receivers_name = Input::get('receivers_name');
-		$receipt->save();
-
-		return Redirect::route('inventory.receiptsList')
-			->with('message', 'Successfully updated');
-	}
-
-	    public function deleteReceipts($id)
-	    {
-		//Soft delete the patient
-		$commodity = InventoryReceipt::find($id);
-		$commodity->delete();
-
-		// redirect
-           return Redirect::route('inventory.receiptsList')
-			->with('message', 'The commodity was successfully deleted!');
-	}
-
-	   public function deleteLabTopupCommodity($id)
-	    {
 		//Soft delete the patient
 		$commodity = InventoryLabTopup::find($id);
 		$commodity->delete();
 
 		// redirect
-           return Redirect::route('inventory.labTopup')
+		return Redirect::route('inventory.labTopup')
 			->with('message', 'The commodity was successfully deleted!');
 	}
 

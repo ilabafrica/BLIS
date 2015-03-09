@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class Issues extends Eloquent
+class Issue extends Eloquent
 {
 	
 	protected $table = 'issues';

@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li><a href="{{{URL::route('inventory.labStockCard')}}}">{{trans('messages.inventory')}}</a></li>
+	  <li><a href="{{{URL::route('receipt.index')}}}">{{trans('messages.inventory')}}</a></li>
 	  <li class="active">{{ Lang::choice('messages.labStockCardReceipts',2) }}</li>
 	</ol>
 </div>
@@ -15,7 +15,7 @@
 		<span class="glyphicon glyphicon-user"></span>
 		{{trans('messages.receiptsList')}}
 		<div class="panel-btn">
-			<a class="btn btn-sm btn-info" href="{{ URL::route('inventory.receipts') }}">
+			<a class="btn btn-sm btn-info" href="{{ URL::route('receipt.create') }}">
 				<span class="glyphicon glyphicon-plus-sign"></span>
 				{{trans('messages.labStockCardReceipts')}}
 			</a>
@@ -41,29 +41,29 @@
 				</tr>
 			</thead>
 			<tbody>
-			@foreach($inventoryReceipts as $key => $inventoryReceipts)
+			@foreach($receipts as $key => $receipt)
 			<tr class='info'>
 				<tr>
-					<td>{{ $inventoryReceipts->receipt_date}}</td>
-					<td>{{ $inventoryReceipts->commodity->name }}</td>
-					<td>{{ $inventoryReceipts->supplier->name }}</td>
-					<td>{{ $inventoryReceipts->unit_price}} </td>
-					<td>{{ $inventoryReceipts->doc_no }}</td>
-					<td>{{ $inventoryReceipts->qty }}</td>
-					<td>{{ $inventoryReceipts->batch_no }}</td>
-					<td>{{ $inventoryReceipts->expiry_date }}</td>
-					<td>{{ $inventoryReceipts->location}}</td>
-					<td>{{ $inventoryReceipts->receivers_name}}</td>
+					<td>{{ $receipt->receipt_date}}</td>
+					<td>{{ $receipt->commodity->name }}</td>
+					<td>{{ $receipt->supplier->name }}</td>
+					<td>{{ $receipt->unit_price}} </td>
+					<td>{{ $receipt->doc_no }}</td>
+					<td>{{ $receipt->qty }}</td>
+					<td>{{ $receipt->batch_no }}</td>
+					<td>{{ $receipt->expiry_date }}</td>
+					<td>{{ $receipt->location}}</td>
+					<td>{{ $receipt->receivers_name}}</td>
 					<td> 
 						<!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
-					<a class="btn btn-sm btn-info" href="{{ URL::route('inventory.editReceipts', array($inventoryReceipts->id)) }}" >
+					<a class="btn btn-sm btn-info" href="{{ URL::route('receipt', array($receipt->id)) }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							{{trans('messages.edit')}}
 					</a>
 						<!-- delete this commodity (uses the delete method found at GET /inventory/{id}/delete -->
 					<button class="btn btn-sm btn-danger delete-item-link" 
 							data-toggle="modal" data-target=".confirm-delete-modal"	
-							data-id="{{ URL::route('inventory.deleteReceipts', array($inventoryReceipts->id)) }}">
+							data-id="{{ URL::route('receipt.delete', array($receipt->id)) }}">
 							<span class="glyphicon glyphicon-trash"></span>
 							{{trans('messages.delete')}}
 					</button>

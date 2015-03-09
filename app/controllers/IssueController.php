@@ -10,8 +10,8 @@ class IssueController extends \BaseController {
 	public function index()
 	{
 		//
-		$issues = InventoryIssues::all();
-		return View::make('inventory.issue.index')->with('issues', $issues);
+		$issues = Issue::all();
+		return View::make('issue.index')->with('issues', $issues);
 	}
 
 	/**
@@ -21,8 +21,8 @@ class IssueController extends \BaseController {
 	 */
 	public function create()
 	{
-		$receipts = InventoryReceipt::all();
-		$commodities = InventoryCommodity::has('receipts')->lists('name', 'id');
+		$receipts = Receipt::all();
+		$commodities = Commodity::has('receipts')->lists('name', 'id');
 
 		return View::make('issue.create')
 				->with('commodities', $commodities)
@@ -49,7 +49,7 @@ class IssueController extends \BaseController {
 				->withInput();
 		} else {
 			// store
-			$issues = new InventoryIssues;
+			$issues = new Issue;
 			$issues->issue_date= Input::get('issue-date');
 			$issues->doc_no= Input::get('doc-no');
 			$issues->inventory_commodity_id = Input::get('commodity');
@@ -93,8 +93,8 @@ class IssueController extends \BaseController {
 	public function edit($id)
 	{
 		//
-		$issue = InventoryIssues::find($id);
-		$commodities= InventoryCommodity::all()->lists('name', 'id');
+		$issue = Issue::find($id);
+		$commodities= Commodity::all()->lists('name', 'id');
 		return View::make('issues.edit')
 			->with('commodities', $commodities)
 			->with('issue', $issue);
@@ -110,10 +110,10 @@ class IssueController extends \BaseController {
 	public function update($id)
 	{
 		// Update
-		$commodity = InventoryIssues::find($id);
+		$commodity = Issue::find($id);
 		$commodity->issue_date = Input::get('issue-date');
 		$commodity->inventory_commodity_id = Input::get('commodity');
-		$commodity->doc_no= Input::get('fdf_add_doc_javascript(fdf_document, script_name, script_code)no');
+		$commodity->doc_no= Input::get('doc-no');
 		$commodity->batch_no = Input::get('batch-no');
 		$commodity->expiry_date= Input::get('expiry-date');
 		$commodity->qty_avl = Input::get('qty-avl');
@@ -128,7 +128,7 @@ class IssueController extends \BaseController {
 
 		$commodity->save();
 
-		return Redirect::route('inventory.issuesList')
+		return Redirect::route('issue.index')
 				->with('message', 'Successfully updated');
 	}
 
@@ -142,7 +142,7 @@ class IssueController extends \BaseController {
 	public function delete($id)
 	{
 		//Soft delete the item
-		$issue = InventoryIssues::find($id);
+		$issue = Issue::find($id);
 		$issue->delete();
 
 		// redirect

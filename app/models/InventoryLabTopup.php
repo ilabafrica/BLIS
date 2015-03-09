@@ -11,7 +11,7 @@ class InventoryLabTopup extends Eloquent {
 	*/
 	public function commodity()
 	{
-		return $this->belongsTo('InventoryCommodity', 'id');
+		return $this->belongsTo('Commodity', 'id');
 	}
 
 	/**
