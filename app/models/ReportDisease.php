@@ -25,6 +25,6 @@ class ReportDisease extends Eloquent
 	 */
 	public function disease()
 	{
-	  return $this->belongsTo('Disease', 'id');
+	  return $this->belongsTo('Disease');
 	}
 }

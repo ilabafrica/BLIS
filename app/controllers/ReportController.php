@@ -1055,59 +1055,80 @@ class ReportController extends \BaseController {
 	 * @param
 	 */
 	public function disease(){
-        $allDiseaseIds = array();
-		
-		//edit or leave disease entries as is
-		if (Input::get('diseases')) {
-			$diseases = Input::get('diseases');
+		if (Input::all()) {
+			$rules = array();
+			$newDiseases = Input::get('new-diseases');
 
-			foreach ($diseases as $id => $disease) {
-                $allDiseaseIds[] = $id;
-				$diseases = Disease::find($id);
-				$diseases->name = $disease['disease'];
-				$diseases->save();
+			if (Input::get('new-diseases')) {
+				// create an array that form the rules array
+				foreach ($newDiseases as $key => $value) {
+					
+					//Ensure no duplicate disease
+					$rules['new-diseases.'.$key.'.disease'] = 'unique:diseases,name';
+				}
 			}
-		}
-		
-		//save new disease entries
-		if (Input::get('new-diseases')) {
-			$diseases = Input::get('new-diseases');
 
-			foreach ($diseases as $id => $disease) {
-				$diseases = new Disease;
-				$diseases->name = $disease['disease'];
-				$diseases->save();
-                $allDiseaseIds[] = $diseases->id;
-			}
-		}
+			$validator = Validator::make(Input::all(), $rules);
 
-        //check if action is from a form submission
-        if (Input::get('from-form')) {
-	     	// Delete any pre-existing disease entries
-	     	//that were not captured in any of the above save loops
-	        $allDiseases = Disease::all(array('id'));
+			if ($validator->fails()) {
+				return Redirect::route('reportconfig.disease')->withErrors($validator);
+			} else {
 
-	        $deleteDiseases = array();
+		        $allDiseaseIds = array();
+				
+				//edit or leave disease entries as is
+				if (Input::get('diseases')) {
+					$diseases = Input::get('diseases');
 
-	        //Identify disease entries to be deleted by Ids
-	        foreach ($allDiseases as $key => $value) {
-	            if (!in_array($value->id, $allDiseaseIds)) {
-
-					//Allow delete if not in use
-					$inUseByReports = Disease::find($value->id)->reportDiseases->toArray();
-					if (empty($inUseByReports)) {
-					    
-					    // The disease is not in use
-	                	$deleteDiseases[] = $value->id;
+					foreach ($diseases as $id => $disease) {
+		                $allDiseaseIds[] = $id;
+						$diseases = Disease::find($id);
+						$diseases->name = $disease['disease'];
+						$diseases->save();
 					}
-	            }
-	        }
-	        //Delete disease entry if any
-	        if(count($deleteDiseases)>0){
+				}
+				
+				//save new disease entries
+				if (Input::get('new-diseases')) {
+					$diseases = Input::get('new-diseases');
 
-	        	Disease::destroy($deleteDiseases);
-	        }
-        }
+					foreach ($diseases as $id => $disease) {
+						$diseases = new Disease;
+						$diseases->name = $disease['disease'];
+						$diseases->save();
+		                $allDiseaseIds[] = $diseases->id;
+					}
+				}
+
+		        //check if action is from a form submission
+		        if (Input::get('from-form')) {
+			     	// Delete any pre-existing disease entries
+			     	//that were not captured in any of the above save loops
+			        $allDiseases = Disease::all(array('id'));
+
+			        $deleteDiseases = array();
+
+			        //Identify disease entries to be deleted by Ids
+			        foreach ($allDiseases as $key => $value) {
+			            if (!in_array($value->id, $allDiseaseIds)) {
+
+							//Allow delete if not in use
+							$inUseByReports = Disease::find($value->id)->reportDiseases->toArray();
+							if (empty($inUseByReports)) {
+							    
+							    // The disease is not in use
+			                	$deleteDiseases[] = $value->id;
+							}
+			            }
+			        }
+			        //Delete disease entry if any
+			        if(count($deleteDiseases)>0){
+
+			        	Disease::destroy($deleteDiseases);
+			        }
+		        }
+			}
+		}
 		$diseases = Disease::all();
 
 		return View::make('reportconfig.disease')

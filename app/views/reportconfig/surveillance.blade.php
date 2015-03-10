@@ -11,7 +11,7 @@
 		<span class="glyphicon glyphicon-edit"></span>
 		{{trans('messages.surveillance')}}
 		<div class="panel-btn">
-			<a href="{{{URL::route('reportconfig.disease')}}}" target="_blank" 
+			<a href="{{{URL::route('reportconfig.disease')}}}" 
 				class="btn btn-info add-another-disease-for-real">
 				<span class="glyphicon glyphicon-plus-sign"></span>
 				{{ trans('messages.new-disease') }}</a>		

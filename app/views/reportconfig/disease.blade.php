@@ -13,12 +13,11 @@
 	</div>
 	{{ Form::open(array('route' => 'reportconfig.disease', 'id' => 'form-edit-disease')) }}
 		<div class="panel-body disease-input">
-			<div class="alert alert-danger error-div hidden">
-				<ul><li>Please enter all fields</li></ul>
-				@if($errors->all())
-					{{ HTML::ul($errors->all()) }}
-				@endif
-			</div>
+			@if($errors->all())
+				<div class="alert alert-danger">
+						{{ HTML::ul($errors->all()) }}
+				</div>
+			@endif
 			@foreach($diseases as $disease)
 			<div class="form-group">
 				<div class="row">
