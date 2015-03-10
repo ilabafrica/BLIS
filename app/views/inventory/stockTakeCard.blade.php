@@ -82,20 +82,20 @@
 				</tr>
 			</thead>
 			<tbody>
-			@foreach($commodities as $key => $commidity)
+			@foreach($receipts as $key => $receipts)
 			<tr @if(Session::has('activecommodity'))
-            {{(Session::get('activecommodity') == $commidity->id)?"class='info'":""}} @endif >
+            {{(Session::get('activecommodity') == $receipts->id)?"class='info'":""}} @endif >
 				<tr>
-                 	<td>{{ $commidity->doc_no}}</td>
-					<td>{{ $commidity->commodity->name }}</td>
-					<td>{{ $commidity->batch_no }}</td>
-					<td>{{ $commidity->expiry_date }}</td>
-					<td>{{ $commidity->qty }}</td>
+                 	<td>{{ $receipts->doc_no}}</td>
+					<td>{{ $receipts->commodity->name }}</td>
+					<td>{{ $receipts->batch_no }}</td>
+					<td>{{ $receipts->expiry_date }}</td>
+					<td>{{ $receipts->qty }}</td>
 					<td>
 					<div class="">
 					{{ Form::text('physical-count', Input::old('physical-count'),array('class' => 'form-control', 'rows' => '2')) }}
                 	</div></td>
-						<td>{{ $commidity->unit_price}}</td>
+						<td>{{ $receipts->unit_price}}</td>
 						<td><div class="">
                         {{ Form::text('total-price', Input::old('total-price'),array('class' => 'form-control', 'rows' => '2')) }}
                      	</div></td>

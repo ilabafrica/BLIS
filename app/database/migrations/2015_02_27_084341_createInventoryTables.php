@@ -55,7 +55,6 @@ class CreateInventoryTables extends Migration {
 		Schema::create('receipts', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
-            $table->date('receipt_date');
             $table->integer('commodity_id')->unsigned();
             $table->integer('supplier_id')->unsigned();
             $table->string('doc_no', 100);
@@ -63,7 +62,6 @@ class CreateInventoryTables extends Migration {
             $table->integer('batch_no')->unsigned();
             $table->date('expiry_date');
             $table->string('location', 100);
-            $table->string('receivers_name', 100);
             $table->integer('user_id')->unsigned();
 
             $table->softDeletes();
@@ -76,16 +74,13 @@ class CreateInventoryTables extends Migration {
         Schema::create('issues', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
-            $table->date('issue_date');
             $table->string('doc_no', 100);
             $table->integer('commodity_id')->unsigned();
             $table->date('expiry_date');
             $table->integer('batch_no')->unsigned();
-            $table->integer('qty_avl')->unsigned();
-            $table->integer('qty_req')->unsigned();
+            $table->integer('qty_issued')->unsigned();
             $table->string('destination', 100);
             $table->string('receivers_name', 100);
-            $table->integer('stock_balance')->unsigned();
 
             $table->softDeletes();
             $table->timestamps();

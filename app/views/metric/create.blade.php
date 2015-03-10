@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-      <li><a href="{{{URL::route('metrics.index')}}}">{{trans('messages.metricsList')}}</a></li>
+      <li><a href="{{{URL::route('metric.index')}}}">{{trans('messages.metricsList')}}</a></li>
 	 	  <li class="active">{{ Lang::choice('messages.metrics',2) }}</li>
 	</ol>
 </div>
@@ -21,7 +21,7 @@
 		{{ Lang::choice('messages.metrics',2) }}
 	</div>
 	<div class="panel-body">
-		   {{ Form::open(array('route' => 'metrics.store', 'id' => 'form-store_metrics')) }}
+		   {{ Form::open(array('route' => 'metric.store', 'id' => 'form-store_metrics')) }}
 
             <div class="form-group">
                 {{ Form::label('name', trans('messages.unit-of-issue')) }}

@@ -16,15 +16,15 @@ class CommodityController extends \BaseController {
 
 	public function create()
 	{
-		$metrics= Metric::orderBy('name', 'ASC')->lists('name', 'id');
-		return View::make('commodities.create')->with('metrics', $metrics);
+		$metrics = Metric::orderBy('name', 'ASC')->lists('name', 'id');
+		return View::make('commodity.create')->with('metrics', $metrics);
 	}
 
 	public function store()
 	{
 		//
 		$rules = array(
-			'commodity' => 'required|unique:inventory_commodities,name');
+			'name' => 'required|unique:commodities,name');
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
@@ -32,19 +32,19 @@ class CommodityController extends \BaseController {
 		} else {
 			// store
 			$commodity = new Commodity;
-			$commodity->name= Input::get('commodity');
+			$commodity->name= Input::get('name');
 			$commodity->description= Input::get('description');
-			$commodity->inventory_metrics_id= Input::get('unit-of-issue');
-			$commodity->unit_price= Input::get('unit-price');
-			$commodity->item_code = Input::get('item-code');
-			$commodity->storage_req = Input::get('storage-req');
-			$commodity->min_level = Input::get('min-level');
-			$commodity->max_level = Input::get('max-level');
+			$commodity->metric_id= Input::get('unit_of_issue');
+			$commodity->unit_price= Input::get('unit_price');
+			$commodity->item_code = Input::get('item_code');
+			$commodity->storage_req = Input::get('storage_req');
+			$commodity->min_level = Input::get('min_level');
+			$commodity->max_level = Input::get('max_level');
 
 			try{
 				$commodity->save();
 				return Redirect::route('commodity.index')
-					->with('message', trans('messages.success-creating-commodity'));
+					->with('message', trans('messages.commodity-succesfully-added'));
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -72,11 +72,11 @@ class CommodityController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$metrics= Metric::orderBy('name', 'ASC')->lists('name', 'id');
+		$metrics = Metric::orderBy('name', 'ASC')->lists('name', 'id');
 		$commodity = Commodity::find($id);
 
 		//Open the Edit View and pass to it the $patient
-		return View::make('commodity.index')->with('metrics', $metrics)->with('commodity', $commodity);
+		return View::make('commodity.edit')->with('metrics', $metrics)->with('commodity', $commodity);
 	}
 
 	/**
@@ -88,7 +88,7 @@ class CommodityController extends \BaseController {
 	public function update($id)
 	{
 		//Validate
-		$rules = array('commodity' => 'required');
+		$rules = array('name' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
 
 		// process the login
@@ -97,9 +97,9 @@ class CommodityController extends \BaseController {
 		} else {
 		// Update
 			$commodity = Commodity::find($id);
-			$commodity->name= Input::get('commodity');
+			$commodity->name= Input::get('name');
 			$commodity->description= Input::get('description');
-			$commodity->inventory_metrics_id= Input::get('unit_of_issue');
+			$commodity->metric_id= Input::get('unit_of_issue');
 			$commodity->unit_price= Input::get('unit_price');
 			$commodity->item_code= Input::get('item_code');
 			$commodity->storage_req= Input::get('storage_req');
@@ -129,14 +129,5 @@ class CommodityController extends \BaseController {
 
 		// redirect
 		return Redirect::route('commodity.index')->with('message', trans('messages.commodity-succesfully-deleted'));
-	}
-
-	/**
-	* Commodity for autofilling some form, not sure if useful
-	*/
-	public function commodityDropdown(){
-		$input = Input::get('option');
-		$receipts = Receipt::find($input);
-		return Response::json($receipts);
 	}
 }

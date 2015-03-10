@@ -270,7 +270,7 @@
 					<li>
 						<div>
 							<a href="{{ URL::route("supplier.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.suppliers')}}</a>
+								<span class="glyphicon glyphicon-tag"></span> {{Lang::choice('messages.supplier',2)}}</a>
 						</div>
 					</li>
 					<li>

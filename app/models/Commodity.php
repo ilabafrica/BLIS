@@ -24,6 +24,6 @@ class Commodity extends Eloquent
 
 	public function metric()
 	{
-		return $this->belongsTo('Metric', 'id');
+		return $this->belongsTo('Metric');
 	}
 }

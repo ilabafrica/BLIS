@@ -1,6 +1,6 @@
 <?php
 
-class MetricsController extends \BaseController {
+class MetricController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -25,12 +25,11 @@ class MetricsController extends \BaseController {
 		return View::make('metric.create');
 	}
 
-
 	public function store()
 	{
 		//
 		$rules = array(
-			'name' => 'required|unique:inventory_metrics,name');
+			'name' => 'required|unique:metrics,name');
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
@@ -40,7 +39,6 @@ class MetricsController extends \BaseController {
 			$metric = new Metric;
 			$metric->name= Input::get('name');
 			$metric->description= Input::get('description');
-			
 			try{
 				$metric->save();
 				$url = Session::get('SOURCE_URL');

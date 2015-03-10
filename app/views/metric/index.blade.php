@@ -15,9 +15,9 @@
 		<span class="glyphicon glyphicon-user"></span>
 		{{trans('messages.metricsList')}}
 		<div class="panel-btn">
-			<a class="btn btn-sm btn-info" href="{{ URL::route('metrics.create') }}">
+			<a class="btn btn-sm btn-info" href="{{ URL::route('metric.create') }}">
 				<span class="glyphicon glyphicon-plus-sign"></span>
-				{{trans('messages.metrics')}}
+				{{trans('messages.add-metrics')}}
 			</a>
 			
 		</div>

@@ -15,7 +15,7 @@ class InventoryController extends \BaseController {
 	*/
 	public function index()
 	{
-		$commodities = InventoryReceipt::all();
+		$receipts = Receipt::all();
 		return View::make('inventory.labStockCard')->with('commodities', $commodities);
 	}
 
@@ -27,28 +27,28 @@ class InventoryController extends \BaseController {
 	public function labTopup()
 	{
 		$labTopUps = InventoryLabTopup::all();
-		return View::make('inventory.labTopup')->with('labTopUps',$labTopUps);
+		return View::make('topup.index')->with('labTopUps',$labTopUps);
 	}
 
 	public function formLabTopup()
 	{
-		$commodities = InventoryReceipt::all();
-		$inventory= InventoryCommodity::has('receipts')->lists('name', 'id');
+		$receipts = Receipt::all();
+		$commodities = Commodity::has('receipts')->lists('name', 'id');
 
-		return View::make('inventory.formLabTopup')->with('commodities', $commodities)
-		->with('inventory', $inventory);
+		return View::make('topup.create')->with('receipts', $receipts)
+			->with('commodities', $commodities);
 	}
 
 	public function stockTakeCard()
 	{
-		$commodities = InventoryReceipt::all();
-		return View::make('inventory.stockTakeCard')->with('commodities', $commodities);
+		$receipts = Receipt::all();
+		return View::make('inventory.stockTakeCard')->with('receipts', $receipts);
 	}
 
 	public function editLabTopUp($id)
 	{
 		$commodity = InventoryLabTopup::find($id);
-		return View::make('inventory.editLabTopUp')->with('commodity', $commodity);
+		return View::make('topup.edit')->with('commodity', $commodity);
 	}
 
 	public function deleteLabTopupCommodity($id)
@@ -58,7 +58,7 @@ class InventoryController extends \BaseController {
 		$commodity->delete();
 
 		// redirect
-		return Redirect::route('inventory.labTopup')
+		return Redirect::route('topup.index')
 			->with('message', 'The commodity was successfully deleted!');
 	}
 
@@ -89,7 +89,7 @@ class InventoryController extends \BaseController {
 			$labTopup->user_id = Auth::user()->id;
 			$labTopup->save();
 
-			return Redirect::route('inventory.labTopup')
+			return Redirect::route('topup.index')
 				->with('message', 'Successfully added');
 		}
 	}
@@ -100,7 +100,7 @@ class InventoryController extends \BaseController {
 		$commodity = InventoryLabTopup::find($id);
 		$commodity->date = Input::get('date');
 		$commodity->inventory_commodity_id = Input::get('commodity_id');
-		$commodity->inventory_metrics_id= Input::get('unit_of_issue');
+		$commodity->metric_id= Input::get('unit_of_issue');
 		$commodity->current_bal = Input::get('current_bal');
 		$commodity->tests_done= Input::get('tests_done');
         $commodity->order_qty = Input::get('order_qty');
@@ -111,7 +111,7 @@ class InventoryController extends \BaseController {
 
 		$commodity->save();
 
-		return Redirect::route('inventory.labTopup')
+		return Redirect::route('topup.index')
 				->with('message', 'Successfully updated');
 	}
 
@@ -135,7 +135,7 @@ class InventoryController extends \BaseController {
 			$commodity->period_ending = Input::get('end');
 			$stock->code = Input::get('doc_no');
 			$stock->inventory_commodity = Input::get('commodity');
-			$stock->inventory_metrics_id = Input::get('unit_of_issue');
+			$stock->metric_id = Input::get('unit_of_issue');
 			$stock->batch_no = Input::get('batch_no');
 			$stock->expiry_date= Input::get('expiry_date');
 			$stock->stock_bal = Input::get('qty');

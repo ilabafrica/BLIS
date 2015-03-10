@@ -41,6 +41,9 @@ class ReceiptController extends \BaseController {
 		$rules = array(
 			'commodity' => 'required',
 			'quantity' => 'required',
+			'batch_no' => 'integer',
+			'supplier' => 'required',
+			'expiry_date' => 'required|date'
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -49,17 +52,14 @@ class ReceiptController extends \BaseController {
 			return Redirect::back()->withErrors($validator)
 				->withInput();
 		} else {
-			$receipts = new InventoryReceipt;
-			$receipts->receipt_date = Input::get('lab-receipt-date');
-			$receipts->inventory_commodity_id = Input::get('commodity');
-			$receipts->inventory_suppliers_id = Input::get('received-from');
-			$receipts->inventory_metrics_id = Input::get('metric');
-			$receipts->doc_no= Input::get('doc-no');
+			$receipts = new Receipt;
+			$receipts->commodity_id = Input::get('commodity');
+			$receipts->supplier_id = Input::get('supplier');
+			$receipts->doc_no= Input::get('doc_no');
 			$receipts->qty = Input::get('quantity');
-			$receipts->batch_no = Input::get('batch-no');
-			$receipts->expiry_date= Input::get('expiry-date');
+			$receipts->batch_no = Input::get('batch_no');
+			$receipts->expiry_date= Input::get('expiry_date');
 			$receipts->location = Input::get('location');
-			$receipts->receivers_name = Input::get('receivers-name');
 			$receipts->user_id= Auth::user()->id;
 
 			$receipts->save();
@@ -89,13 +89,13 @@ class ReceiptController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$receipts = Receipt::find($id);
+		$receipt = Receipt::find($id);
 		$metrics = Metric::all()->lists('name', 'id');
 		$suppliers = Supplier::all()->lists('name', 'id');
 		$commodities = Commodity::all()->lists('name', 'id');
 
 		return View::make('receipt.edit')
-				->with('receipts', $receipts)
+				->with('receipt', $receipt)
 				->with('metrics', $metrics)
 				->with('commodities', $commodities)
 				->with('suppliers', $suppliers);
@@ -110,21 +110,30 @@ class ReceiptController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		// Update
-		$receipt = Receipt::find($id);
-		$receipt->receipt_date = Input::get('receipt_date');
-		$receipt->inventory_commodity_id = Input::get('commodity');
-		$receipt->inventory_suppliers_id = Input::get('received_from');
-		$receipt->doc_no= Input::get('doc_no');
-		$receipt->qty = Input::get('qty');
-		$receipt->batch_no = Input::get('batch_no');
-		$receipt->expiry_date= Input::get('expiry_date');
-		$receipt->location = Input::get('location');
-		$receipt->receivers_name = Input::get('receivers_name');
-		$receipt->save();
+		$rules = array(
+			'commodity' => 'required',
+			'quantity' => 'required',
+			'batch_no' => 'integer',
+			'expiry_date' => 'required|date'
+		);
+		$validator = Validator::make(Input::all(), $rules);
 
+		if ($validator->fails()) {
+			return Redirect::back()->withErrors($validator) ->withInput();
+		} else {
+			// Update
+			$receipt = Receipt::find($id);
+			$receipt->commodity_id = Input::get('commodity');
+			$receipt->supplier_id = Input::get('supplier');
+			$receipt->doc_no= Input::get('doc_no');
+			$receipt->qty = Input::get('quantity');
+			$receipt->batch_no = Input::get('batch_no');
+			$receipt->expiry_date= Input::get('expiry_date');
+			$receipt->location = Input::get('location');
+			$receipt->save();
+		}
 		return Redirect::route('receipt.index')
-			->with('message', trans('messags.receipt-succesfully-updated'));
+			->with('message', trans('messages.receipt-succesfully-updated'));
 	}
 
 

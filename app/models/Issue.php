@@ -17,6 +17,6 @@ class Issue extends Eloquent
 	*/
 	public function commodity()
 	{
-		return $this->belongsTo('Commodity', 'id');
+		return $this->belongsTo('Commodity');
 	}
 }

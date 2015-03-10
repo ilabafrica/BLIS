@@ -324,11 +324,6 @@ Route::group(array("before" => "auth"), function()
         //Commodities
         Route::resource('commodity', 'CommodityController');
 
-        Route::get('commodity/dropdown', array(
-            "as"    =>  "commodity.dropdown",
-            "uses"  =>  "CommodityController@commodityDropdown"
-        ));
-
         Route::get("/commodity/{id}/delete", array(
             "as"   => "commodity.delete",
             "uses" => "CommodityController@delete"
@@ -340,6 +335,11 @@ Route::group(array("before" => "auth"), function()
         Route::get("/issue/{id}/delete", array(
             "as"   => "issue.delete",
             "uses" => "IssueController@delete"
+        ));
+
+        Route::get('issue/{id}/dropdown', array(
+            "as"    =>  "issue.dropdown",
+            "uses"  =>  "IssueController@issueDropdown"
         ));
 
         //Metrics
@@ -363,7 +363,7 @@ Route::group(array("before" => "auth"), function()
 
         Route::get("/receipt/{id}/delete", array(
             "as"   => "receipt.delete",
-            "uses" => "InventoryController@delete"
+            "uses" => "ReceiptController@delete"
         ));
 
         //top-ups

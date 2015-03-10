@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li><a href="{{{URL::route('receipts.index')}}}">{{ trans('messages.receipts') }}</a></li>
+	  <li><a href="{{{URL::route('receipt.index')}}}">{{ Lang::choice('messages.receipt',2) }}</a></li>
 	  <li class="active">{{ Lang::choice('messages.labStockCardReceipts',2) }}</li>
 	</ol>
 </div>
@@ -18,49 +18,39 @@
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
-		{{trans('messages.labStockCard')}}
-		{{trans('messages.labStockCardReceipts')}}
-		
+		{{trans('messages.add-receipts')}}
 	</div>
 	<div class="panel-body">
-		   {{ Form::open(array('url' => 'receipts', 'method'=>'POST', id' => 'form-receipts' )) }}
-           <div class="form-group">
-                {{ Form::label('Receipt Date', Lang::choice('messages.lab-receipt-date',1)) }}
-                {{ Form::text('lab-receipt-date', Input::old('lab-receipt-date'), array('class' => 'form-control standard-datepicker')) }}
-            </div>
+		   {{ Form::open  (array('url' => 'receipt', 'id' => 'form-receipts', 'method' => 'POST' )) }}
             <div class="form-group">
-                {{ Form::label('Commodity', trans('messages.commodity')) }}
+                {{ Form::label('commodity', trans('messages.commodity')) }}
                {{ Form::select('commodity', array(null => '')+ $commodities,
-                    Input::old('commodity'), array('class' => 'form-control', 'id' => 'commodity_id')) }}
+                    Input::old('commodity'), array('class' => 'form-control')) }}
               </div>
             <div class="form-group">
-                {{ Form::label('Received From', trans('messages.received-from')) }}
-                {{ Form::select('received-from', array(null => '')+ $suppliers,
-                    Input::old('received-from'), array('class' => 'form-control', 'id' => 'supplier_id')) }}
+                {{ Form::label('supplier', Lang::choice('messages.supplier',1)) }}
+                {{ Form::select('supplier', array(null => '')+ $suppliers,
+                    Input::old('supplier'), array('class' => 'form-control')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('Doc. No.', trans('messages.doc-no')) }}
-                {{ Form::text('doc-no', Input::old('doc-no'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('doc_no', trans('messages.doc-no')) }}
+                {{ Form::text('doc_no', Input::old('doc-no'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('Quantity', trans('messages.quantity')) }}
+                {{ Form::label('quantity', trans('messages.quantity')) }}
                 {{ Form::text('quantity', Input::old('quantity'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('Batch No. ', trans('messages.batch-no')) }}
-                {{ Form::text('batch-no', Input::old('quantity'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('batch_no', trans('messages.batch-no')) }}
+                {{ Form::text('batch_no', Input::old('quantity'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('Expiry Date', Lang::choice('messages.expiry-date',1)) }}
-                {{ Form::text('expiry-date', Input::old('expiry-date'), array('class' => 'form-control standard-datepicker')) }}
+                {{ Form::label('expiry_date', Lang::choice('messages.expiry-date',1)) }}
+                {{ Form::text('expiry_date', Input::old('expiry-date'), array('class' => 'form-control standard-datepicker')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('Location ', trans('messages.location')) }}
+                {{ Form::label('location ', trans('messages.location')) }}
                 {{ Form::text('location', Input::old('location'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
-            <div class="form-group">
-                {{ Form::label('Receivers Name ', trans('messages.receivers-name')) }}
-                {{ Form::text('receivers-name', Input::old('receivers-name'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
 
             <div class="form-group actions-row">

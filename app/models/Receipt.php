@@ -17,7 +17,7 @@ class Receipt extends Eloquent
 	*/
 	public function commodity()
 	{
-		return $this->belongsTo('Commodity', 'id');
+		return $this->belongsTo('Commodity');
 	}
 
 	/**
@@ -25,6 +25,14 @@ class Receipt extends Eloquent
 	*/
 	public function supplier()
 	{
-		return $this->belongsTo('Supplier', 'id');
+		return $this->belongsTo('Supplier');
+	}
+
+	/**
+	* User relationship
+	*/
+	public function user()
+	{
+		return $this->belongsTo('User');
 	}
 }

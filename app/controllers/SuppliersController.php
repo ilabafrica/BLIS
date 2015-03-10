@@ -33,7 +33,7 @@ class SupplierController extends \BaseController {
 	{
 		//
 		$rules = array(
-			'suppliers-name' => 'required|unique:inventory_suppliers,name');
+			'name' => 'required|unique:suppliers,name');
 		$validator = Validator::make(Input::all(), $rules);
 
 		
@@ -42,21 +42,18 @@ class SupplierController extends \BaseController {
 		} else {
 			// store
 			$supplier = new Supplier;
-			$supplier->name= Input::get('suppliers-name');
+			$supplier->name= Input::get('name');
 			$supplier->phone_no= Input::get('phone-number');
 			$supplier->email= Input::get('email');
 			$supplier->physical_address= Input::get('physical-address');
 			try{
 				$supplier->save();
-
 				return Redirect::route('supplier.index')
 					->with('message',  'Successifully added a new supplier');
 			}catch(QueryException $e){
 				Log::error($e);
 			}
-			
 		}
-
 	}
 
 

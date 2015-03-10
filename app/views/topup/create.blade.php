@@ -23,8 +23,8 @@
             </div>
            <div class="form-group">
                 {{ Form::label('Commodity', trans('messages.commodity')) }}
-                {{ Form::select('commodity', array(null => '')+ $inventory,
-                    isset($input['commodity'])?$input['commodity']:0, array('class' => 'form-control', 'id' => 'commodity_id')) }}
+                {{ Form::select('commodity', array(null => '')+ $commodities,
+                    Input::old('commodity'), array('class' => 'form-control', 'id' => 'commodity_id')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('current-bal', trans('messages.current-bal')) }}

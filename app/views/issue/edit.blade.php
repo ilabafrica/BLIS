@@ -3,8 +3,8 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li><a href="{{{URL::route('issues.index')}}}">{{trans('messages.issues')}}</a></li>
-	  <li class="active">{{ Lang::choice('messages.add-issues',2) }}</li>
+	  <li><a href="{{{URL::route('issue.index')}}}">{{Lang::choice('messages.issue',2)}}</a></li>
+	  <li class="active">{{ trans('messages.add-issue') }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -21,40 +21,41 @@
 					{{ HTML::ul($errors->all()) }}
 				</div>
 			@endif
-         {{ Form::model($commodity, array('route' => array('issues.update', $issue->id), 'method' => 'PUT',
+         {{ Form::model($issue, array('route' => array('issue.update', $issue->id), 'method' => 'PUT',
                'id' => 'form-edit-issue')) }}
             <div class="form-group">
-                {{ Form::label('Doc No. ', trans('messages.doc-no')) }}
+                {{ Form::label('doc_no', trans('messages.doc-no')) }}
                 {{ Form::text('doc_no', Input::old('doc_no'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
            <div class="form-group">
                 {{ Form::label('commodity', trans('messages.commodity')) }}
-                 {{ Form::select('commodity', array(null => '')+ $commodities,
-                    $commodity->id, array('class' => 'form-control', 'id' => 'commodity-id')) }}
+                 {{ Form::select('commodity', array(null => '')+ $commodities, $issue->commodity_id, 
+                    array('class' => 'form-control', 'id' => 'commodity-id')) }}
             </div>
              <div class="form-group">
-                {{ Form::label('Batch No. ', trans('messages.batch-no')) }}
+                {{ Form::label('batch_no', trans('messages.batch-no')) }}
                 {{ Form::text('batch_no', Input::old('batch_no'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('Expiry Date', Lang::choice('messages.expiry-date',1)) }}
+                {{ Form::label('expiry_date', Lang::choice('messages.expiry-date',1)) }}
                 {{ Form::text('expiry_date', Input::old('expiry_date'), array('class' => 'form-control standard-datepicker')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('Quantity Available ', trans('messages.qty-avl')) }}
-                {{ Form::text('qty_avl', Input::old('qty_avl'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('qty_avl', trans('messages.qty-avl')) }}
+                {{ Form::text('qty_avl', $available ,array('class' => 'form-control', 'rows' => '2', 'disabled')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('Quantity', trans('messages.qty-req')) }}
-                {{ Form::text('qty_req', Input::old('qty_req'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('quantity_issued', trans('messages.qty-issued')) }}
+                {{ Form::text('quantity_issued', Input::old('quantity_issued'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('Destination ', trans('messages.destination')) }}
+                {{ Form::label('destination', trans('messages.destination')) }}
                 {{ Form::text('destination', Input::old('destination'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('Receivers Name ', trans('messages.receivers-name')) }}
+                {{ Form::label('receivers_name', trans('messages.receivers-name')) }}
                 {{ Form::text('receivers_name', Input::old('receivers_name'),array('class' => 'form-control', 'rows' => '2')) }}
+            </div>
             <div class="form-group actions-row">
                     {{ Form::button('<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'),
                          array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}

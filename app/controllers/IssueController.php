@@ -39,8 +39,11 @@ class IssueController extends \BaseController {
 	{
 		//
 		$rules = array(
-			'receivers-name' => 'required',
-			'qty-req' => 'required'
+			'receivers_name' => 'required',
+			'quantity_issued' => 'required|integer',
+			'commodity' => 'required',
+			'qty_avl' => 'required|integer',
+			'destination' => 'required'
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -50,23 +53,16 @@ class IssueController extends \BaseController {
 		} else {
 			// store
 			$issues = new Issue;
-			$issues->issue_date= Input::get('issue-date');
-			$issues->doc_no= Input::get('doc-no');
-			$issues->inventory_commodity_id = Input::get('commodity');
-			$issues->batch_no= Input::get('batch-no');
-			$issues->expiry_date= Input::get('expiry-date');
-			$issues->qty_avl= Input::get('qty-avl');
-			$issues->qty_req = Input::get('qty-req');
+			$issues->doc_no= Input::get('doc_no');
+			$issues->commodity_id = Input::get('commodity');
+			$issues->batch_no= Input::get('batch_no');
+			$issues->expiry_date= Input::get('expiry_date');
+			$issues->qty_req = Input::get('quantity_issued');
 			$issues->destination = Input::get('destination');
-			$issues->receivers_name = Input::get('receivers-name');
-
-			$getQtyAvl =Input::get('qty_avl');
-			$qtyIssued=Input::get('qty-req');
-			$stockBal= $getQtyAvl- $qtyIssued;
-			$issues->stock_balance =$stockBal;
+			$issues->receivers_name = Input::get('receivers_name');
 
 			$issues->save();
-			return Redirect::route('inventory.issuesList')
+			return Redirect::route('issue.index')
 				->with('message', 'Successfully issued the commodity');
 		}
 	}
@@ -95,8 +91,10 @@ class IssueController extends \BaseController {
 		//
 		$issue = Issue::find($id);
 		$commodities= Commodity::all()->lists('name', 'id');
-		return View::make('issues.edit')
+		$available = Receipt::where('commodity_id', '=', $issue->commodity_id)->orderBy('created_at', 'DESC')->first()->qty;
+		return View::make('issue.edit')
 			->with('commodities', $commodities)
+			->with('available', $available)
 			->with('issue', $issue);
 	}
 
@@ -109,27 +107,37 @@ class IssueController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		// Update
-		$commodity = Issue::find($id);
-		$commodity->issue_date = Input::get('issue-date');
-		$commodity->inventory_commodity_id = Input::get('commodity');
-		$commodity->doc_no= Input::get('doc-no');
-		$commodity->batch_no = Input::get('batch-no');
-		$commodity->expiry_date= Input::get('expiry-date');
-		$commodity->qty_avl = Input::get('qty-avl');
-		$commodity->qty_req = Input::get('qty-req');
-		$commodity->destination = Input::get('destination');
-		$commodity->receivers_name = Input::get('receivers-name');
+		$rules = array(
+			'receivers_name' => 'required',
+			'quantity_issued' => 'required|integer',
+			'commodity' => 'required',
+			'qty_avl' => 'required|integer',
+			'destination' => 'required'
+		);
 
-		$getQtyAvl =Input::get('qty-avl');
-		$QtyIssued=Input::get('qty-req');
-		$stock_bal= $getQtyAvl - $QtyIssued;
-		$commodity->stock_balance =$stock_bal;
+		$validator = Validator::make(Input::all(), $rules);
 
-		$commodity->save();
+		if ($validator->fails()) {
+			return Redirect::back()->withErrors($validator)
+				->withInput();
+		} else {
+			// Update
+			$commodity = Issue::find($id);
+			$commodity->issue_date = Input::get('issue-date');
+			$commodity->inventory_commodity_id = Input::get('commodity');
+			$commodity->doc_no= Input::get('doc-no');
+			$commodity->batch_no = Input::get('batch-no');
+			$commodity->expiry_date= Input::get('expiry-date');
+			$commodity->qty_avl = Input::get('qty-avl');
+			$commodity->qty_req = Input::get('qty-req');
+			$commodity->destination = Input::get('destination');
+			$commodity->receivers_name = Input::get('receivers-name');
 
-		return Redirect::route('issue.index')
-				->with('message', 'Successfully updated');
+			$commodity->save();
+
+			return Redirect::route('issue.index')
+					->with('message', 'Successfully updated');
+		}
 	}
 
 
@@ -149,5 +157,12 @@ class IssueController extends \BaseController {
 		return Redirect::route('issue.index')->with('message', trans('messages.issue-succesfully-deleted'));
 	}
 
+	/**
+	* for autofilling issue form, from db data
+	*/
+	public function issueDropdown($id){
+		$receipt = Receipt::where('commodity_id', '=', $id)->orderBy('created_at', 'DESC')->first();
+		return Response::json($receipt);
+	}
 
 }

@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-       <li><a href="{{{URL::route('suppliers.index')}}}">{{trans('messages.suppliersList')}}</a></li>
+       <li><a href="{{{URL::route('supplier.index')}}}">{{trans('messages.suppliersList')}}</a></li>
 	 	  <li class="active">{{ Lang::choice('messages.suppliers',2) }}</li>
 	</ol>
 </div>
@@ -21,18 +21,18 @@
 		{{ Lang::choice('messages.suppliers',2) }}
 	</div>
 	<div class="panel-body">
-		   {{ Form::open(array('route' => 'suppliers.store', 'id' => 'form-store_suppliers')) }}
+		   {{ Form::open(array('route' => 'supplier.store', 'id' => 'form-store_suppliers')) }}
 
             <div class="form-group">
-                {{ Form::label('Suppliers Name', trans('messages.suppliers-name')) }}
-                {{ Form::text('suppliers-name', Input::old('suppliers-name'), array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('name', Lang::choice('messages.name', 1)) }}
+                {{ Form::text('name', Input::old('suppliers-name'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
              <div class="form-group">
-                {{ Form::label('physical address', trans('messages.physical-address')) }}
+                {{ Form::label('physical-address', trans('messages.physical-address')) }}
                 {{ Form::text('physical-address', Input::old('physical-address'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('Phone No', trans('messages.phone-number')) }}
+                {{ Form::label('phone-number', trans('messages.phone-number')) }}
                 {{ Form::text('phone-number', Input::old('phone-number'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">

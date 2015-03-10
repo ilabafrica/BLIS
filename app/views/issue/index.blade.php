@@ -3,8 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li><a href="{{{URL::route('issue.index')}}}">{{trans('messages.inventory')}}</a></li>
-	  <li class="active">{{ Lang::choice('messages.add-issues',2) }}</li>
+	  <li class="active">{{ Lang::choice('messages.issue',2) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -17,9 +16,8 @@
 		<div class="panel-btn">
 			<a class="btn btn-sm btn-info" href="{{ URL::route('issue.create') }}">
 				<span class="glyphicon glyphicon-plus-sign"></span>
-				{{trans('messages.add-issues')}}
+				{{trans('messages.add-issue')}}
 			</a>
-			
 		</div>
 	</div>
 	<div class="panel-body">
@@ -32,7 +30,6 @@
 					<th>{{Lang::choice('messages.commodity',1)}}</th>
 					<th>{{Lang::choice('messages.batch-no',1)}}</th>
 					<th>{{Lang::choice('messages.expiry-date',1)}}</th>
-					<th>{{Lang::choice('messages.qty-avl',1)}}</th>
 					<th>{{Lang::choice('messages.qty-issued',1)}}</th>
 					<th>{{Lang::choice('messages.destination',1)}}</th>
 					<th>{{Lang::choice('messages.receivers-name',1)}}</th>
@@ -42,18 +39,17 @@
 			<tbody>
 			@foreach($issues as $issue)
 				<tr>
-					<td>{{ $issue->issue_date}}</td>
+					<td>{{ $issue->created_at}}</td>
 					<td>{{ $issue->doc_no}}</td>
 					<td>{{ $issue->commodity->name }}</td>
 					<td>{{ $issue->batch_no}}</td>
 					<td>{{ $issue->expiry_date }}</td>
-					<td>{{ $issue->qty_avl}}</td>
-					<td>{{ $issue->qty_req}}</td>
+					<td>{{ $issue->qty_issued}}</td>
 					<td>{{ $issue->destination }}</td>
-					<td>{{ $issue->	receivers_name }}</td>
+					<td>{{ $issue->receivers_name }}</td>
 					<td> 
 						<!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
-					<a class="btn btn-sm btn-info" href="{{ URL::route('issue', array($issue->id)) }}" >
+					<a class="btn btn-sm btn-info" href="{{ URL::route('issue.edit', array($issue->id)) }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							{{trans('messages.edit')}}
 					</a>
