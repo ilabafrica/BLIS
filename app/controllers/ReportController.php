@@ -1007,11 +1007,8 @@ class ReportController extends \BaseController {
                 $allSurveillanceIds[] = $id;
 				$surveillance = ReportDisease::find($id);
 				$surveillance->test_type_id = $disease['test-type'];
+				$surveillance->disease_id = $disease['disease'];
 				$surveillance->save();
-				
-				$diseases = Disease::find($surveillance->disease_id);
-				$diseases->name = $disease['disease'];
-				$diseases->save();
 			}
 		}
 		
@@ -1020,13 +1017,9 @@ class ReportController extends \BaseController {
 			$diseases = Input::get('new-surveillance');
 
 			foreach ($diseases as $id => $disease) {
-				$diseases = new Disease;
-				$diseases->name = $disease['disease'];
-				$diseases->save();
-
 				$surveillance = new ReportDisease;
-				$surveillance->disease_id = $diseases->id;
 				$surveillance->test_type_id = $disease['test-type'];
+				$surveillance->disease_id = $disease['disease'];
 				$surveillance->save();
                 $allSurveillanceIds[] = $surveillance->id;
 				
@@ -1051,10 +1044,94 @@ class ReportController extends \BaseController {
 	        if(count($deleteSurveillances)>0)ReportDisease::destroy($deleteSurveillances);
         }
 
-        //Updates survillance data
 		$diseaseTests = ReportDisease::all();
 
-		return View::make('reportconfig.edit')
+		return View::make('reportconfig.surveillance')
 					->with('diseaseTests', $diseaseTests);
+	}
+
+	/**
+	 * Manage Diseases reported on
+	 * @param
+	 */
+	public function disease(){
+		if (Input::all()) {
+			$rules = array();
+			$newDiseases = Input::get('new-diseases');
+
+			if (Input::get('new-diseases')) {
+				// create an array that form the rules array
+				foreach ($newDiseases as $key => $value) {
+					
+					//Ensure no duplicate disease
+					$rules['new-diseases.'.$key.'.disease'] = 'unique:diseases,name';
+				}
+			}
+
+			$validator = Validator::make(Input::all(), $rules);
+
+			if ($validator->fails()) {
+				return Redirect::route('reportconfig.disease')->withErrors($validator);
+			} else {
+
+		        $allDiseaseIds = array();
+				
+				//edit or leave disease entries as is
+				if (Input::get('diseases')) {
+					$diseases = Input::get('diseases');
+
+					foreach ($diseases as $id => $disease) {
+		                $allDiseaseIds[] = $id;
+						$diseases = Disease::find($id);
+						$diseases->name = $disease['disease'];
+						$diseases->save();
+					}
+				}
+				
+				//save new disease entries
+				if (Input::get('new-diseases')) {
+					$diseases = Input::get('new-diseases');
+
+					foreach ($diseases as $id => $disease) {
+						$diseases = new Disease;
+						$diseases->name = $disease['disease'];
+						$diseases->save();
+		                $allDiseaseIds[] = $diseases->id;
+					}
+				}
+
+		        //check if action is from a form submission
+		        if (Input::get('from-form')) {
+			     	// Delete any pre-existing disease entries
+			     	//that were not captured in any of the above save loops
+			        $allDiseases = Disease::all(array('id'));
+
+			        $deleteDiseases = array();
+
+			        //Identify disease entries to be deleted by Ids
+			        foreach ($allDiseases as $key => $value) {
+			            if (!in_array($value->id, $allDiseaseIds)) {
+
+							//Allow delete if not in use
+							$inUseByReports = Disease::find($value->id)->reportDiseases->toArray();
+							if (empty($inUseByReports)) {
+							    
+							    // The disease is not in use
+			                	$deleteDiseases[] = $value->id;
+							}
+			            }
+			        }
+			        //Delete disease entry if any
+			        if(count($deleteDiseases)>0){
+
+			        	Disease::destroy($deleteDiseases);
+			        }
+		        }
+			}
+		}
+		$diseases = Disease::all();
+
+		return View::make('reportconfig.disease')
+					->with('diseases', $diseases);
 	}
 }
