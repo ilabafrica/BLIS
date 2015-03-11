@@ -367,44 +367,21 @@ Route::group(array("before" => "auth"), function()
         ));
 
         //top-ups
-        Route::any("/inventory/labTopup", array(
-            "as"   => "inventory.labTopup",
-            "uses" => "InventoryController@labTopup"
-        ));
+        Route::resource('topup', 'TopUpController');
 
-        Route::any("/inventory/formLabTopup", array(
-            "as"   => "inventory.formLabTopup",
-            "uses" => "InventoryController@formLabTopup"
-        ));
-
-        Route::post("/inventory/store_FormLabTopup", array(
-            "as"   => "inventory.store_FormLabTopup",
-            "uses" => "InventoryController@store_FormLabTopup"
-        ));
-        Route::get("/inventory/{id}/editLabTopUp", array(
-             "as"   => "inventory.editLabTopup",
-            "uses" => "InventoryController@editLabTopUp"
-        )); 
-        Route::post("/inventory/{id}/updateLabTopup", array(
-            "as"   => "inventory.updateLabTopup",
-            "uses" => "InventoryController@updateLabTopup"
-        ));
-
-        Route::get("/inventory/{id}/deleteLabTopupCommodity", array(
-            "as"   => "inventory.deleteLabTopupCommodity",
-            "uses" => "InventoryController@deleteLabTopupCommodity"
-        ));
-
-
-        Route::any("/inventory/labStockCard", array(
-            "as"   => "inventory.labStockCard",
-            "uses" => "InventoryController@index"
+        Route::get("/topup/{id}/delete", array(
+            "as"   => "topup.delete",
+            "uses" => "TopUpController@delete"
         ));
 
         //Stock take
         Route::any("/inventory/formStockTake", array(
             "as"   => "inventory.formStockTake",
             "uses" => "InventoryController@formStockTake"
+        ));
+        Route::any("/inventory/labStockCard", array(
+            "as"   => "inventory.labStockCard",
+            "uses" => "InventoryController@index"
         ));
         Route::post("/inventory/store_FormStockTake", array(
             "as"   => "inventory.store_FormStockTake",

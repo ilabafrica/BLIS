@@ -342,11 +342,6 @@ class CreatekBLIStables extends Migration {
         Schema::dropIfExists('patients');
         Schema::dropIfExists('tokens');
         Schema::dropIfExists('users');
-        Schema::dropIfExists('inventory_receipts');
-        Schema::dropIfExists('inventory_issues');
-        Schema::dropIfExists('inventory_labtopup');
-        Schema::dropIfExists('inventory_stocktake');
-
 	}
 
 

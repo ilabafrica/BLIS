@@ -27,13 +27,11 @@
 				<tr>
 					<th>{{Lang::choice('messages.lab-receipt-date',1)}}</th>
 					<th>{{Lang::choice('messages.commodity',1)}}</th>
-					<th>{{Lang::choice('messages.received-from',1)}}</th>
+					<th>{{Lang::choice('messages.supplier',1)}}</th>
 					<th>{{Lang::choice('messages.unit-price',1)}}</th>
-					<th>{{Lang::choice('messages.doc-no',1)}}</th>
 					<th>{{Lang::choice('messages.quantity',1)}}</th>
 					<th>{{Lang::choice('messages.batch-no',1)}}</th>
 					<th>{{Lang::choice('messages.expiry-date',1)}}</th>
-					<th>{{Lang::choice('messages.location',1)}}</th>
 					<th>{{Lang::choice('messages.receivers-name',1)}}</th>
 					<th>{{trans('messages.actions')}}</th>
 				</tr>
@@ -46,11 +44,9 @@
 					<td>{{ $receipt->commodity->name }}</td>
 					<td>{{ $receipt->supplier->name }}</td>
 					<td>{{ $receipt->commodity->unit_price}} </td>
-					<td>{{ $receipt->doc_no }}</td>
-					<td>{{ $receipt->qty }}</td>
+					<td>{{ $receipt->quantity }}</td>
 					<td>{{ $receipt->batch_no }}</td>
 					<td>{{ $receipt->expiry_date }}</td>
-					<td>{{ $receipt->location}}</td>
 					<td>{{ $receipt->user->name}}</td>
 					<td> 
 						<!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->

@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
+/**
+* Class for holding topup requests from the bench to the inventory
+*/
+class TopUp extends Eloquent {
 
-class InventoryLabTopup extends Eloquent {
-
-	protected $table = 'inventory_labtopup';
+	protected $table = 'topups';
 
 	/**
 	* Commodities relationship

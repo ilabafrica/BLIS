@@ -33,24 +33,16 @@
                     Input::old('supplier'), array('class' => 'form-control')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('doc_no', trans('messages.doc-no')) }}
-                {{ Form::text('doc_no', Input::old('doc-no'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('batch_no', trans('messages.batch-no')) }}
+                {{ Form::text('batch_no', Input::old('quantity'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('quantity', trans('messages.quantity')) }}
                 {{ Form::text('quantity', Input::old('quantity'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('batch_no', trans('messages.batch-no')) }}
-                {{ Form::text('batch_no', Input::old('quantity'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
-            <div class="form-group">
                 {{ Form::label('expiry_date', Lang::choice('messages.expiry-date',1)) }}
                 {{ Form::text('expiry_date', Input::old('expiry-date'), array('class' => 'form-control standard-datepicker')) }}
-            </div>
-            <div class="form-group">
-                {{ Form::label('location ', trans('messages.location')) }}
-                {{ Form::text('location', Input::old('location'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
 
             <div class="form-group actions-row">

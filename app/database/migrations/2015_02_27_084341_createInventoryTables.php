@@ -57,11 +57,9 @@ class CreateInventoryTables extends Migration {
             $table->increments('id')->unsigned();
             $table->integer('commodity_id')->unsigned();
             $table->integer('supplier_id')->unsigned();
-            $table->string('doc_no', 100);
-            $table->integer('qty')->unsigned();
-            $table->integer('batch_no')->unsigned();
+            $table->integer('quantity')->unsigned();
+            $table->string('batch_no', 12);
             $table->date('expiry_date');
-            $table->string('location', 100);
             $table->integer('user_id')->unsigned();
 
             $table->softDeletes();
@@ -74,17 +72,18 @@ class CreateInventoryTables extends Migration {
         Schema::create('issues', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
-            $table->string('doc_no', 100);
             $table->integer('commodity_id')->unsigned();
-            $table->date('expiry_date');
-            $table->integer('batch_no')->unsigned();
-            $table->integer('qty_issued')->unsigned();
-            $table->string('destination', 100);
-            $table->string('receivers_name', 100);
+            $table->integer('receipt_id');
+            $table->integer('quantity_issued');
+            $table->integer('test_category_id')->unsigned();
+            $table->integer('user_id')->unsigned();
 
             $table->softDeletes();
             $table->timestamps();
+            $table->foreign('test_category_id')->references('id')->on('test_categories');
             $table->foreign('commodity_id')->references('id')->on('commodities');
+            $table->foreign('receipt_id')->references('id')->on('receipts');
+            $table->foreign('user_id')->references('id')->on('users');
         });
         
         Schema::create('inventory_stocktake', function(Blueprint $table)
@@ -107,7 +106,7 @@ class CreateInventoryTables extends Migration {
             $table->foreign('commodity_id')->references('id')->on('commodities');
         });
 
-        Schema::create('inventory_labtopup', function(Blueprint $table)
+        Schema::create('topups', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
             $table->integer('commodity_id')->unsigned();
@@ -133,7 +132,7 @@ class CreateInventoryTables extends Migration {
 	 */
 	public function down()
 	{
-        Schema::dropIfExists('inventory_labtopup');
+        Schema::dropIfExists('topups');
         Schema::dropIfExists('inventory_stocktake');
         Schema::dropIfExists('issues');
         Schema::dropIfExists('receipts');

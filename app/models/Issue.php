@@ -19,4 +19,28 @@ class Issue extends Eloquent
 	{
 		return $this->belongsTo('Commodity');
 	}
+
+	/**
+	* User relationship
+	*/
+	public function user()
+	{
+		return $this->belongsTo('User');
+	}
+
+	/**
+	 * TestCategory relationship
+	 */
+	public function section()
+	{
+		return $this->belongsTo('TestCategory', 'test_category_id');
+	}
+
+	/**
+	* Receipts relationship
+	*/
+	public function receipt()
+	{
+		return $this->belongsTo('Receipt');
+	}
 }

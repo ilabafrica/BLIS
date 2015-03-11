@@ -21,12 +21,16 @@ class IssueController extends \BaseController {
 	 */
 	public function create()
 	{
-		$receipts = Receipt::all();
+		$batches = Receipt::all()->lists('batch_no', 'id');
 		$commodities = Commodity::has('receipts')->lists('name', 'id');
+		$users = User::where('id', '!=', Auth::user()->id)->lists('name', 'id');
+		$sections = TestCategory::all()->lists('name', 'id');
 
 		return View::make('issue.create')
 				->with('commodities', $commodities)
-				->with('receipts', $receipts);
+				->with('users', $users)
+				->with('sections', $sections)
+				->with('batches', $batches);
 	}
 
 
@@ -39,11 +43,11 @@ class IssueController extends \BaseController {
 	{
 		//
 		$rules = array(
-			'receivers_name' => 'required',
+			'user' => 'required',
 			'quantity_issued' => 'required|integer',
 			'commodity' => 'required',
-			'qty_avl' => 'required|integer',
-			'destination' => 'required'
+			'batch_no' => 'required',
+			'lab_section' => 'required'
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -52,16 +56,14 @@ class IssueController extends \BaseController {
 				->withInput();
 		} else {
 			// store
-			$issues = new Issue;
-			$issues->doc_no= Input::get('doc_no');
-			$issues->commodity_id = Input::get('commodity');
-			$issues->batch_no= Input::get('batch_no');
-			$issues->expiry_date= Input::get('expiry_date');
-			$issues->qty_req = Input::get('quantity_issued');
-			$issues->destination = Input::get('destination');
-			$issues->receivers_name = Input::get('receivers_name');
+			$issue = new Issue;
+			$issue->commodity_id = Input::get('commodity');
+			$issue->batch_no = Input::get('batch_no');
+			$issue->quantity_issued = Input::get('quantity_issued');
+			$issue->test_category_id = Input::get('lab_section');
+			$issue->user_id = Input::get('user');
 
-			$issues->save();
+			$issue->save();
 			return Redirect::route('issue.index')
 				->with('message', 'Successfully issued the commodity');
 		}
@@ -91,11 +93,18 @@ class IssueController extends \BaseController {
 		//
 		$issue = Issue::find($id);
 		$commodities= Commodity::all()->lists('name', 'id');
+		$batches = Receipt::all()->lists('batch_no', 'id');
+		$users = User::where('id', '!=', Auth::user()->id)->lists('name', 'id');
+		$sections = TestCategory::all()->lists('name', 'id');
+		//To DO:create function for this
 		$available = Receipt::where('commodity_id', '=', $issue->commodity_id)->orderBy('created_at', 'DESC')->first()->qty;
 		return View::make('issue.edit')
 			->with('commodities', $commodities)
 			->with('available', $available)
-			->with('issue', $issue);
+			->with('users', $users)
+			->with('sections', $sections)
+			->with('issue', $issue)
+			->with('batches', $batches);
 	}
 
 
@@ -108,11 +117,11 @@ class IssueController extends \BaseController {
 	public function update($id)
 	{
 		$rules = array(
-			'receivers_name' => 'required',
+			'user' => 'required',
 			'quantity_issued' => 'required|integer',
 			'commodity' => 'required',
-			'qty_avl' => 'required|integer',
-			'destination' => 'required'
+			'batch_no' => 'required',
+			'lab_section' => 'required'
 		);
 
 		$validator = Validator::make(Input::all(), $rules);
@@ -122,18 +131,14 @@ class IssueController extends \BaseController {
 				->withInput();
 		} else {
 			// Update
-			$commodity = Issue::find($id);
-			$commodity->issue_date = Input::get('issue-date');
-			$commodity->inventory_commodity_id = Input::get('commodity');
-			$commodity->doc_no= Input::get('doc-no');
-			$commodity->batch_no = Input::get('batch-no');
-			$commodity->expiry_date= Input::get('expiry-date');
-			$commodity->qty_avl = Input::get('qty-avl');
-			$commodity->qty_req = Input::get('qty-req');
-			$commodity->destination = Input::get('destination');
-			$commodity->receivers_name = Input::get('receivers-name');
+			$issue = Issue::find($id);
+			$issue->commodity_id = Input::get('commodity');
+			$issue->batch_no = Input::get('batch_no');
+			$issue->quantity_issued = Input::get('quantity_issued');
+			$issue->test_category_id = Input::get('lab_section');
+			$issue->user_id = Input::get('user');
 
-			$commodity->save();
+			$issue->save();
 
 			return Redirect::route('issue.index')
 					->with('message', 'Successfully updated');

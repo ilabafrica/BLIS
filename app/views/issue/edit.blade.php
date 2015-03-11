@@ -21,12 +21,7 @@
 					{{ HTML::ul($errors->all()) }}
 				</div>
 			@endif
-         {{ Form::model($issue, array('route' => array('issue.update', $issue->id), 'method' => 'PUT',
-               'id' => 'form-edit-issue')) }}
-            <div class="form-group">
-                {{ Form::label('doc_no', trans('messages.doc-no')) }}
-                {{ Form::text('doc_no', Input::old('doc_no'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
+         {{ Form::model($issue, array('route' => array('issue.update', $issue->id), 'method' => 'PUT', 'id' => 'form-edit-issue')) }}
            <div class="form-group">
                 {{ Form::label('commodity', trans('messages.commodity')) }}
                  {{ Form::select('commodity', array(null => '')+ $commodities, $issue->commodity_id, 
@@ -34,27 +29,30 @@
             </div>
              <div class="form-group">
                 {{ Form::label('batch_no', trans('messages.batch-no')) }}
-                {{ Form::text('batch_no', Input::old('batch_no'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::select('batch_no', array(null => '')+ $batches, $issue->batch_no,
+                    array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('expiry_date', Lang::choice('messages.expiry-date',1)) }}
-                {{ Form::text('expiry_date', Input::old('expiry_date'), array('class' => 'form-control standard-datepicker')) }}
+                {{ Form::label('quantity_available', trans('messages.qty-avl')) }}
+                {{ Form::text('quantity_available', $available ,array('class' => 'form-control', 'rows' => '2', 'disabled')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('qty_avl', trans('messages.qty-avl')) }}
-                {{ Form::text('qty_avl', $available ,array('class' => 'form-control', 'rows' => '2', 'disabled')) }}
+                {{ Form::label('quantity_required', trans('messages.qty-avl')) }}
+                {{ Form::text('quantity_required', $available ,array('class' => 'form-control', 'rows' => '2', 'disabled')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('quantity_issued', trans('messages.qty-issued')) }}
                 {{ Form::text('quantity_issued', Input::old('quantity_issued'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('destination', trans('messages.destination')) }}
-                {{ Form::text('destination', Input::old('destination'), array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('lab_section ', trans('messages.destination')) }}
+                {{ Form::select('lab_section', array(null => '')+ $sections, $issue->test_category_id,
+                    array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('receivers_name', trans('messages.receivers-name')) }}
-                {{ Form::text('receivers_name', Input::old('receivers_name'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('user', trans('messages.receivers-name')) }}
+                {{ Form::select('user', array(null => '')+ $users, $issue->user_id,
+                    array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group actions-row">
                     {{ Form::button('<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'),

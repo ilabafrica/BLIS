@@ -26,11 +26,9 @@
 			<thead>
 				<tr>
 					<th>{{Lang::choice('messages.issue-date',1)}}</th>
-					<th>{{Lang::choice('messages.doc-no',1)}}</th>
 					<th>{{Lang::choice('messages.commodity',1)}}</th>
 					<th>{{Lang::choice('messages.batch-no',1)}}</th>
 					<th>{{Lang::choice('messages.expiry-date',1)}}</th>
-					<th>{{Lang::choice('messages.qty-issued',1)}}</th>
 					<th>{{Lang::choice('messages.destination',1)}}</th>
 					<th>{{Lang::choice('messages.receivers-name',1)}}</th>
 					<th>{{trans('messages.actions')}}</th>
@@ -40,13 +38,11 @@
 			@foreach($issues as $issue)
 				<tr>
 					<td>{{ $issue->created_at}}</td>
-					<td>{{ $issue->doc_no}}</td>
 					<td>{{ $issue->commodity->name }}</td>
-					<td>{{ $issue->batch_no}}</td>
-					<td>{{ $issue->expiry_date }}</td>
-					<td>{{ $issue->qty_issued}}</td>
-					<td>{{ $issue->destination }}</td>
-					<td>{{ $issue->receivers_name }}</td>
+					<td>{{ $issue->receipt->batch_no}}</td>
+					<td>{{ $issue->quantity_issued}}</td>
+					<td>{{ $issue->section->name }}</td>
+					<td>{{ $issue->user->name }}</td>
 					<td> 
 						<!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
 					<a class="btn btn-sm btn-info" href="{{ URL::route('issue.edit', array($issue->id)) }}" >

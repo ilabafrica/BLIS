@@ -473,7 +473,7 @@ return array(
     'doc-no'=> 'Doc. No.',
     'quantity'=> 'Quantity',
     'qty-avl'=> 'Quantity available',
-    'qty-req'=> 'Quantity Required',
+    'quantity-required'=> 'Quantity Required',
     'qty-issued'=> 'Quantity Issued',
     'batch-no'=> 'Batch No.',
     'expiry-date'=> 'Expiry Date',
