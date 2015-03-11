@@ -247,6 +247,37 @@ $(function(){
 		    $(e.currentTarget).find('.modal-body').html(data);
 	    });
 	});
+  
+
+	/** Receive Test Request button.
+	 *  - Updates the Test status via an AJAX call
+	 *  - Changes the UI to show the right status and buttons
+	 */
+	$('.tests-log').on( "click", ".receive-test", function(e) {
+
+		var testID = $(this).data('test-id');
+		var specID = $(this).data('specimen-id');
+
+		var url = location.protocol+ "//"+location.host+ "/test/" + testID+ "/receive";
+		$.post(url, { id: testID}).done(function(){});
+
+		var parent = $(e.currentTarget).parent();
+		// First replace the status
+		var newStatus = $('.pending-test-not-collected-specimen').html();
+		parent.siblings('.test-status').html(newStatus);
+
+		// Add the new buttons
+		var newButtons = $('.accept-button').html();
+		parent.append(newButtons);
+
+		// Set properties for the new buttons
+		parent.children('.accept-specimen').attr('data-test-id', testID);
+		parent.children('.accept-specimen').attr('data-specimen-id', specID);
+
+		// Now remove the unnecessary buttons
+		$(this).siblings('.receive-test').remove();
+		$(this).remove();
+	});
 
 	/** Accept Specimen button.
 	 *  - Updates the Specimen status via an AJAX call
