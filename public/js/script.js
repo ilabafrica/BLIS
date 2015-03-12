@@ -275,11 +275,9 @@ $(function(){
 		/*End dynamic select list options*/
 				/*Dynamic loading of select list options*/
 		$('#commodity-id').change(function(){
-			$.get("/issue/"+$(this).val()+"/dropdown", 
+			$.get("/topup/"+$(this).val()+"/availableStock", 
 				function(data) {
-					$('#batch_no').val(data.batch_no);
-					$('#expiry_date').val(data.expiry_date);
-					$('#qty_avl').val(data.qty);
+					$('#current_bal').val(data.availableStock);
 				});
 		});
 		/*End dynamic select list options*/

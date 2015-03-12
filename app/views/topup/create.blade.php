@@ -3,48 +3,42 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li><a href="{{{URL::route('inventory.labTopup')}}}">{{ trans('messages.labTop-UpForm') }}</a></li>
-	  <li>{{ trans('messages.labTopUp') }}</li>
+	  <li><a href="{{{URL::route('topup.index')}}}">{{ trans('messages.topup') }}</a></li>
+	  <li class="active">{{ trans('messages.request-topup') }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
-	<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
+    <div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
+@endif
+@if($errors->all())
+                <div class="alert alert-danger">
+                    {{ HTML::ul($errors->all()) }}
+                </div>
 @endif
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
-		{{trans('messages.labTop-UpForm')}}
+		{{trans('messages.topup')}}
 	</div>
 	<div class="panel-body">
-		  {{ Form::open(array('url' => 'inventory/store_FormLabTopup', 'id' => 'form-labTopup')) }}
-            <div class="form-group">
-                {{ Form::label('Date', Lang::choice('messages.date',1)) }}
-                {{ Form::text('date', Input::old('date'), array('class' => 'form-control standard-datepicker')) }}
+		  {{ Form::open(array('url' => 'topup', 'id' => 'form-labTopup', 'method' => 'POST')) }}
+           <div class="form-group">
+                {{ Form::label('lab_section', Lang::choice('messages.test-category', 1)) }}
+                {{ Form::select('lab_section', array(null => '')+ $sections, Input::old('lab_section'),
+                    array('class' => 'form-control', 'rows' => '2')) }}
             </div>
            <div class="form-group">
-                {{ Form::label('Commodity', trans('messages.commodity')) }}
+                {{ Form::label('commodity', trans('messages.commodity')) }}
                 {{ Form::select('commodity', array(null => '')+ $commodities,
-                    Input::old('commodity'), array('class' => 'form-control', 'id' => 'commodity_id')) }}
+                    Input::old('commodity'), array('class' => 'form-control', 'id' => 'commodity-id')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('current-bal', trans('messages.current-bal')) }}
-                {{ Form::text('current-bal', Input::old('current-bal'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('current_bal', trans('messages.current-bal')) }}
+                {{ Form::text('current_bal', Input::old('current_bal'),array('class' => 'form-control', 'rows' => '2', 'disabled')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('tests-done', trans('messages.tests-done')) }}
-                {{ Form::text('tests-done', Input::old('tests-done'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
-            <div class="form-group">
-                {{ Form::label('order-qty ', trans('messages.order-qty')) }}
-                {{ Form::text('order-qty', Input::old('order-qty'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
-            <div class="form-group">
-                {{ Form::label('issue-qty', Lang::choice('messages.issue-qty',1)) }}
-                {{ Form::text('issue-qty', Input::old('issue-qty'),array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
-            <div class="form-group">
-                {{ Form::label('Receivers Name ', trans('messages.receivers-name')) }}
-                {{ Form::text('receivers-name', Input::old('receivers-name'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('order_quantity ', trans('messages.order-qty')) }}
+                {{ Form::text('order_quantity', Input::old('order_quantity'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('remarks ', trans('messages.remarks')) }}

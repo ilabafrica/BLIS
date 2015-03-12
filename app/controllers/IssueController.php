@@ -15,21 +15,19 @@ class IssueController extends \BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Show the form for dispatching the resource to the bench.
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function dispatch($id)
 	{
-		$batches = Receipt::all()->lists('batch_no', 'id');
-		$commodities = Commodity::has('receipts')->lists('name', 'id');
+		$topupRequest = TopupRequest::find($id);
+		$batches = Receipt::where('commodity_id', '=', $topupRequest->commodity_id)->lists('batch_no', 'id');
 		$users = User::where('id', '!=', Auth::user()->id)->lists('name', 'id');
-		$sections = TestCategory::all()->lists('name', 'id');
 
 		return View::make('issue.create')
-				->with('commodities', $commodities)
+				->with('topupRequest', $topupRequest)
 				->with('users', $users)
-				->with('sections', $sections)
 				->with('batches', $batches);
 	}
 
@@ -43,11 +41,9 @@ class IssueController extends \BaseController {
 	{
 		//
 		$rules = array(
-			'user' => 'required',
+			'issued_to' => 'required',
 			'quantity_issued' => 'required|integer',
-			'commodity' => 'required',
 			'batch_no' => 'required',
-			'lab_section' => 'required'
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -57,11 +53,12 @@ class IssueController extends \BaseController {
 		} else {
 			// store
 			$issue = new Issue;
-			$issue->commodity_id = Input::get('commodity');
-			$issue->batch_no = Input::get('batch_no');
+			$issue->receipt_id = Input::get('batch_no');
+			$issue->topup_request_id = Input::get('topup_request_id');
 			$issue->quantity_issued = Input::get('quantity_issued');
-			$issue->test_category_id = Input::get('lab_section');
-			$issue->user_id = Input::get('user');
+			$issue->issued_to = Input::get('issued_to');
+			$issue->user_id = Auth::user()->id;
+			$issue->remarks = Input::get('remarks');
 
 			$issue->save();
 			return Redirect::route('issue.index')
@@ -97,7 +94,7 @@ class IssueController extends \BaseController {
 		$users = User::where('id', '!=', Auth::user()->id)->lists('name', 'id');
 		$sections = TestCategory::all()->lists('name', 'id');
 		//To DO:create function for this
-		$available = Receipt::where('commodity_id', '=', $issue->commodity_id)->orderBy('created_at', 'DESC')->first()->qty;
+		$available = $issue->topupRequest->commodity->available();
 		return View::make('issue.edit')
 			->with('commodities', $commodities)
 			->with('available', $available)
@@ -117,11 +114,9 @@ class IssueController extends \BaseController {
 	public function update($id)
 	{
 		$rules = array(
-			'user' => 'required',
+			'issued_to' => 'required',
 			'quantity_issued' => 'required|integer',
-			'commodity' => 'required',
 			'batch_no' => 'required',
-			'lab_section' => 'required'
 		);
 
 		$validator = Validator::make(Input::all(), $rules);
@@ -132,11 +127,12 @@ class IssueController extends \BaseController {
 		} else {
 			// Update
 			$issue = Issue::find($id);
-			$issue->commodity_id = Input::get('commodity');
-			$issue->batch_no = Input::get('batch_no');
+			$issue->receipt_id = Input::get('batch_no');
+			$issue->topup_request_id = Input::get('topup_request_id');
 			$issue->quantity_issued = Input::get('quantity_issued');
-			$issue->test_category_id = Input::get('lab_section');
-			$issue->user_id = Input::get('user');
+			$issue->issued_to = Input::get('issued_to');
+			$issue->user_id = Auth::user()->id;
+			$issue->remarks = Input::get('remarks');
 
 			$issue->save();
 
@@ -160,14 +156,6 @@ class IssueController extends \BaseController {
 
 		// redirect
 		return Redirect::route('issue.index')->with('message', trans('messages.issue-succesfully-deleted'));
-	}
-
-	/**
-	* for autofilling issue form, from db data
-	*/
-	public function issueDropdown($id){
-		$receipt = Receipt::where('commodity_id', '=', $id)->orderBy('created_at', 'DESC')->first();
-		return Response::json($receipt);
 	}
 
 }

@@ -337,9 +337,9 @@ Route::group(array("before" => "auth"), function()
             "uses" => "IssueController@delete"
         ));
 
-        Route::get('issue/{id}/dropdown', array(
-            "as"    =>  "issue.dropdown",
-            "uses"  =>  "IssueController@issueDropdown"
+        Route::get("/issue/{id}/dispatch", array(
+            "as"   => "issue.dispatch",
+            "uses" => "IssueController@dispatch"
         ));
 
         //Metrics
@@ -374,25 +374,8 @@ Route::group(array("before" => "auth"), function()
             "uses" => "TopUpController@delete"
         ));
 
-        //Stock take
-        Route::any("/inventory/formStockTake", array(
-            "as"   => "inventory.formStockTake",
-            "uses" => "InventoryController@formStockTake"
-        ));
-        Route::any("/inventory/labStockCard", array(
-            "as"   => "inventory.labStockCard",
-            "uses" => "InventoryController@index"
-        ));
-        Route::post("/inventory/store_FormStockTake", array(
-            "as"   => "inventory.store_FormStockTake",
-            "uses" => "InventoryController@store_FormStockTake"
-        ));
-        Route::post("/inventory/store_stockTake", array(
-            "as"   => "inventory.store_stockTake",
-            "uses" => "InventoryController@store_stockTake"
-        ));
-         Route::any("/inventory/stockTakeCard", array(
-            "as"   => "inventory.stockTakeCard",
-            "uses" => "InventoryController@stockTakeCard"
+        Route::get('topup/{id}/availableStock', array(
+            "as"    =>  "issue.dropdown",
+            "uses"  =>  "TopUpController@availableStock"
         ));
 });

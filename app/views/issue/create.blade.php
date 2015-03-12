@@ -18,15 +18,20 @@
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
-		{{trans('messages.add-issue')}}
+		{{Lang::choice('messages.issue', 1)}} {{ trans('messages.commodity')}}
 	</div>
 	<div class="panel-body">
 
            {{ Form::open(array('url' => 'issue', 'id' => 'form-issues', 'method' => 'POST')) }}
             <div class="form-group">
                 {{ Form::label('commodity', trans('messages.commodity')) }}
-                 {{ Form::select('commodity', array(null => '')+ $commodities,
-                    Input::old('commodity'), array('class' => 'form-control', 'id' => 'commodity-id')) }}
+                 {{ Form::text('commodity', $topupRequest->commodity->name, 
+                 array('class' => 'form-control', 'disabled')) }}
+            </div>
+            <div class="form-group">
+                {{ Form::label('lab_section ', trans('messages.destination')) }}
+                {{ Form::text('lab_section', $topupRequest->section->name,
+                    array('class' => 'form-control', 'rows' => '2', 'disabled')) }}
             </div>
              <div class="form-group">
                 {{ Form::label('batch_no', trans('messages.batch-no')) }}
@@ -35,12 +40,12 @@
             </div>
             <div class="form-group">
                 {{ Form::label('quantity_available', trans('messages.qty-avl')) }}
-                {{ Form::text('quantity_available', Input::old('quantity_available'), 
+                {{ Form::text('quantity_available', $topupRequest->commodity->available(), 
                     array('class' => 'form-control', 'rows' => '2', 'id' => 'quantity_available', 'disabled')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('quantity_required', trans('messages.quantity-required')) }}
-                {{ Form::text('quantity_required', Input::old('quantity_required'),
+                {{ Form::text('quantity_required', $topupRequest->order_quantity,
                     array('class' => 'form-control', 'rows' => '2', 'id' => 'quantity_required', 'disabled')) }}
             </div>
             <div class="form-group">
@@ -48,15 +53,15 @@
                 {{ Form::text('quantity_issued', Input::old('quantity_issued'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('lab_section ', trans('messages.destination')) }}
-                {{ Form::select('lab_section', array(null => '')+ $sections, Input::old('lab_section'),
+                {{ Form::label('issued_to', trans('messages.receivers-name')) }}
+                {{ Form::select('issued_to', array(null => '')+ $users, Input::old('issued_to'),
                     array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('user', trans('messages.receivers-name')) }}
-                {{ Form::select('user', array(null => '')+ $users, Input::old('user'),
-                    array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('remarks ', trans('messages.remarks')) }}
+                {{ Form::textarea('remarks', Input::old('remarks'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
+            {{ Form::hidden('topup_request_id', $topupRequest->id) }}
             <div class="form-group actions-row">
                     {{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 
                         array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}

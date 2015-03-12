@@ -30,6 +30,7 @@
 		case 'role': $active[6] = "active"; break;
 		case 'issue': 
 		case 'receipt': 
+		case 'topup': 
 		case 'metric':
 		case 'supplier':
 		case 'commodity':
@@ -251,16 +252,10 @@
 					</li>
 					<li>
 						<div>
-							<a href="{{ URL::route("inventory.labTopup")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.labTop-UpForm', 2)}}</a>
+							<a href="{{ URL::route("topup.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.topup', 2)}}</a>
 						</div>
 					</li>
-					<li>
-						<div>
-							<a href="{{ URL::route("inventory.stockTakeCard")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.stockTakeCard')}}</a>
-						</div>
-					</li>					
 					<li>
 						<div>
 							<a href="{{ URL::route("commodity.index")}}">

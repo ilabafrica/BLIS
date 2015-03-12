@@ -4,16 +4,17 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 /**
 * Class for holding topup requests from the bench to the inventory
 */
-class TopUp extends Eloquent {
+class TopupRequest extends Eloquent {
 
-	protected $table = 'topups';
+	protected $table = 'topup_requests';
+	protected $dates = ['deleted_at'];
 
 	/**
 	* Commodities relationship
 	*/
 	public function commodity()
 	{
-		return $this->belongsTo('Commodity', 'id');
+		return $this->belongsTo('Commodity');
 	}
 
 	/**
@@ -21,5 +22,13 @@ class TopUp extends Eloquent {
 	*/
 	public function user(){
 		return $this->belongsTo('user');
+	}
+
+	/**
+	 * TestCategory relationship
+	 */
+	public function section()
+	{
+		return $this->belongsTo('TestCategory', 'test_category_id');
 	}
 }

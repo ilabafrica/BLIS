@@ -9,8 +9,8 @@ class TopUpController extends \BaseController {
 	 */
 	public function index()
 	{
-		$labTopUps = InventoryLabTopup::all();
-		return View::make('topup.index')->with('labTopUps',$labTopUps);
+		$topupRequests = TopupRequest::all();
+		return View::make('topup.index')->with('topupRequests', $topupRequests);
 	}
 
 
@@ -23,8 +23,11 @@ class TopUpController extends \BaseController {
 	{
 		$receipts = Receipt::all();
 		$commodities = Commodity::has('receipts')->lists('name', 'id');
+		$sections = TestCategory::all()->lists('name', 'id');
 
-		return View::make('topup.create')->with('receipts', $receipts)
+		return View::make('topup.create')
+			->with('receipts', $receipts)
+			->with('sections', $sections)
 			->with('commodities', $commodities);
 	}
 
@@ -38,8 +41,8 @@ class TopUpController extends \BaseController {
 	{
 		$rules = array(
 			'commodity' => 'required',
-			'order-qty' => 'required',
-			'issue-qty' => 'required'
+			'lab_section' => 'required',
+			'order_quantity' => 'required'
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -49,13 +52,10 @@ class TopUpController extends \BaseController {
 				->withInput();
 		} else {
 			// store
-			$labTopup = new InventoryLabTopup;
+			$labTopup = new TopupRequest;
 			$labTopup->commodity_id = Input::get('commodity');
-			$labTopup->current_bal= Input::get('current-bal');
-			$labTopup->tests_done = Input::get('tests-done');
-			$labTopup->order_qty = Input::get('order-qty');
-			$labTopup->issue_qty= Input::get('issue-qty');
-			$labTopup->receivers_name = Input::get('receivers-name');
+			$labTopup->test_category_id = Input::get('lab_section');
+			$labTopup->order_quantity = Input::get('order_quantity');
 			$labTopup->remarks = Input::get('remarks');
 			$labTopup->user_id = Auth::user()->id;
 			$labTopup->save();
@@ -86,8 +86,13 @@ class TopUpController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$topUps = InventoryLabTopup::find($id);
-		return View::make('topup.edit')->with('topUps', $topUps);
+		$topupRequest = TopupRequest::find($id);
+		$commodities = Commodity::has('receipts')->lists('name', 'id');
+		$sections = TestCategory::all()->lists('name', 'id');
+		return View::make('topup.edit')
+			->with('topupRequest', $topupRequest)
+			->with('sections', $sections)
+			->with('commodities', $commodities);
 	}
 
 
@@ -99,20 +104,20 @@ class TopUpController extends \BaseController {
 	 */
 	public function update($id)
 	{
+		$rules = array(
+			'commodity' => 'required',
+			'order_quantity' => 'required',
+			'lab_section' => 'required'
+		);
 		// Update
-		$commodity = InventoryLabTopup::find($id);
-		$commodity->date = Input::get('date');
-		$commodity->commodity_id = Input::get('commodity_id');
-		$commodity->metric_id= Input::get('unit_of_issue');
-		$commodity->current_bal = Input::get('current_bal');
-		$commodity->tests_done= Input::get('tests_done');
-        $commodity->order_qty = Input::get('order_qty');
-		$commodity->issue_qty= Input::get('issue_qty');
-		$commodity->user_id = Input::get('issued_by');
-		$commodity->receivers_name = Input::get('receivers_name');
-		$commodity->remarks = Input::get('remarks');
+		$labTopup = TopupRequest::find($id);
+		$labTopup->commodity_id = Input::get('commodity');
+		$labTopup->test_category_id = Input::get('lab_section');
+		$labTopup->order_quantity = Input::get('order_quantity');
+		$labTopup->user_id = Auth::user()->id;
+		$labTopup->remarks = Input::get('remarks');
 
-		$commodity->save();
+		$labTopup->save();
 
 		return Redirect::route('topup.index')
 				->with('message', 'Successfully updated');
@@ -128,7 +133,7 @@ class TopUpController extends \BaseController {
 	public function delete($id)
 	{
 		//Soft delete the patient
-		$commodity = InventoryLabTopup::find($id);
+		$commodity = TopupRequest::find($id);
 		$commodity->delete();
 
 		// redirect
@@ -136,5 +141,11 @@ class TopUpController extends \BaseController {
 			->with('message', 'The commodity was successfully deleted!');
 	}
 
-
+	/**
+	* for autofilling issue form, from db data
+	*/
+	public function availableStock($id){
+		$receipt = Commodity::find($id)->available();
+		return Response::json(array('availableStock' => $receipt));
+	}
 }

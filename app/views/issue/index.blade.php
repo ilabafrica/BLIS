@@ -13,12 +13,6 @@
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
 		{{trans('messages.issuesList')}}
-		<div class="panel-btn">
-			<a class="btn btn-sm btn-info" href="{{ URL::route('issue.create') }}">
-				<span class="glyphicon glyphicon-plus-sign"></span>
-				{{trans('messages.add-issue')}}
-			</a>
-		</div>
 	</div>
 	<div class="panel-body">
 		
@@ -28,6 +22,8 @@
 					<th>{{Lang::choice('messages.issue-date',1)}}</th>
 					<th>{{Lang::choice('messages.commodity',1)}}</th>
 					<th>{{Lang::choice('messages.batch-no',1)}}</th>
+					<th>{{Lang::choice('messages.quantity-required',1)}}</th>
+					<th>{{Lang::choice('messages.qty-issued',1)}}</th>
 					<th>{{Lang::choice('messages.expiry-date',1)}}</th>
 					<th>{{Lang::choice('messages.destination',1)}}</th>
 					<th>{{Lang::choice('messages.receivers-name',1)}}</th>
@@ -38,11 +34,13 @@
 			@foreach($issues as $issue)
 				<tr>
 					<td>{{ $issue->created_at}}</td>
-					<td>{{ $issue->commodity->name }}</td>
+					<td>{{ $issue->topupRequest->commodity->name }}</td>
 					<td>{{ $issue->receipt->batch_no}}</td>
+					<td>{{ $issue->topupRequest->order_quantity }}</td>
 					<td>{{ $issue->quantity_issued}}</td>
-					<td>{{ $issue->section->name }}</td>
-					<td>{{ $issue->user->name }}</td>
+					<td>{{ $issue->receipt->expiry_date}}</td>
+					<td>{{ $issue->topupRequest->section->name }}</td>
+					<td>{{ $issue->receiver->name }}</td>
 					<td> 
 						<!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
 					<a class="btn btn-sm btn-info" href="{{ URL::route('issue.edit', array($issue->id)) }}" >
@@ -59,7 +57,6 @@
 					</td>
 				</tr>
 				@endforeach
-				
 			</tbody>
 			</table>
 		<?php Session::put('SOURCE_URL', URL::full());?>

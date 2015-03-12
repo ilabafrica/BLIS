@@ -6,6 +6,7 @@ class Issue extends Eloquent
 {
 	
 	protected $table = 'issues';
+	protected $dates = ['deleted_at'];
 
 	public function getTotalIssues()
 	{
@@ -13,11 +14,19 @@ class Issue extends Eloquent
 	}
 
 	/**
-	* Commodities relationship
+	* Topup request relationship
 	*/
-	public function commodity()
+	public function topupRequest()
 	{
-		return $this->belongsTo('Commodity');
+		return $this->belongsTo('TopupRequest');
+	}
+
+	/**
+	* Relationship between commodity and the user who was issued 
+	* the items
+	*/
+	public function receiver(){
+		return $this->belongsTo('user', 'issued_to');
 	}
 
 	/**
@@ -26,14 +35,6 @@ class Issue extends Eloquent
 	public function user()
 	{
 		return $this->belongsTo('User');
-	}
-
-	/**
-	 * TestCategory relationship
-	 */
-	public function section()
-	{
-		return $this->belongsTo('TestCategory', 'test_category_id');
 	}
 
 	/**
