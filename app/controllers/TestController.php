@@ -79,12 +79,7 @@ class TestController extends \BaseController {
 		$test->created_by = Auth::user()->id;
 		$test->save();
 
-		$input = Session::get('TESTS_FILTER_INPUT');
-		Session::put('fromRedirect', 'true');
-
-		return Redirect::action('TestController@index')
-				->with('activeTest', array($id))
-				->withInput($input);
+		return $id;
 	}
 
 	/**

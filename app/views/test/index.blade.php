@@ -183,8 +183,8 @@
                             
                         @if ($test->isNotReceived()) 
                             @if(Auth::user()->can('receive_external_test') && $test->isPaid())
-                                <a class="btn btn-sm btn-default receive-test"
-                                    href="{{URL::route('test.receive', array($test->id))}}"
+                                <a class="btn btn-sm btn-default receive-test" href="javascript:void(0)"
+                                    data-test-id="{{$test->id}}" data-specimen-id="{{$test->specimen->id}}"
                                     title="{{trans('messages.receive-test-title')}}">
                                     <span class="glyphicon glyphicon-thumbs-up"></span>
                                     {{trans('messages.receive-test')}}
@@ -355,6 +355,23 @@
     </div><!-- /.modal /#change-specimen-modal-->
 
     <!-- OTHER UI COMPONENTS -->
+    <div class="hidden pending-test-not-collected-specimen">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <span class='label label-info'>
+                        {{trans('messages.pending')}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <span class='label label-default'>
+                        {{trans('messages.specimen-not-collected-label')}}</span>                
+                </div>
+            </div>
+        </div>
+    </div> <!-- /. pending-test-not-collected-specimen -->
+
     <div class="hidden pending-test-accepted-specimen">
         <div class="container-fluid">
             <div class="row">
@@ -388,6 +405,15 @@
             </div>
         </div>
     </div> <!-- /. started-test-accepted-specimen -->
+
+    <div class="hidden accept-button">
+        <a class="btn btn-sm btn-info accept-specimen" href="javascript:void(0)"
+            title="{{trans('messages.accept-specimen-title')}}"
+            data-url="{{ URL::route('test.acceptSpecimen') }}">
+            <span class="glyphicon glyphicon-thumbs-up"></span>
+            {{trans('messages.accept-specimen')}}
+        </a>
+    </div> <!-- /. accept-button -->
 
     <div class="hidden reject-start-buttons">
         <a class="btn btn-sm btn-danger reject-specimen" href="#" title="{{trans('messages.reject-title')}}">
