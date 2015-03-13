@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-	  <li class="active">{{ trans('messages.control-results-log') }}</li>
+	  <li class="active">{{ Lang::choice('messages.quality-control', 2) }}</li>
 	</ol>
 </div>
 {{ Form::open(array('route' => array('reports.qualityControl'), 'id' => 'qc', 'method' => 'post')) }}
@@ -51,8 +51,9 @@
 
 	<div class="panel-body">
 	<!-- if there are search errors, they will show here -->
+		@include("reportHeader")
+	</div>
 		<div id="test_records_div">
-			@include("reportHeader")
 			<table class="table table-bordered">
 				<tbody>
 					<tr>
@@ -70,10 +71,8 @@
 						</tr>
 					@endforeach
 				</tbody>
-
-			
+			</table>
 		</div>
-	</div>
 </div>
 
 @stop

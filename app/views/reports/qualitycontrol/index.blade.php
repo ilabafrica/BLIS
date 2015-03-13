@@ -67,7 +67,5 @@
 	<div class="panel-body">
 		@include("reportHeader")
 	</div>
-	<div id="highChart"></div>
-	</div>
 </div>
 @stop

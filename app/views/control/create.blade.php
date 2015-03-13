@@ -31,7 +31,7 @@
 					array('class' => 'form-control', 'rows' => '3' )) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('instruments', trans('messages.instrument')) }}
+				{{ Form::label('instruments', Lang::choice('messages.instrument', 1)) }}
 				{{ Form::select('instrument', array('') + $instruments, Input::old('instrument'), 
 					array('class' => 'form-control')) }}
 			</div>
