@@ -18,15 +18,15 @@ class MedbossInterfacerTest extends TestCase
     public function testGetDobFromAge()
     {
     	//10 years
-    	$dob = Interfacer::getDobFromAge('3652');
+    	$dob = Interfacer::getDobFromAge('3652', '2015-03-04');
     	$this->assertEquals('2005-03-04', $dob);
 
     	//1 day
-    	$dob = Interfacer::getDobFromAge('1');
+    	$dob = Interfacer::getDobFromAge('1', '2015-03-04');
     	$this->assertEquals('2015-03-03', $dob);
 
     	//100 days
-    	$dob = Interfacer::getDobFromAge('100');
+    	$dob = Interfacer::getDobFromAge('100', '2015-03-04');
     	$this->assertEquals('2014-11-24', $dob);
     }
 

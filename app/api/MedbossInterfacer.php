@@ -119,7 +119,7 @@ class MedbossInterfacer implements InterfacerInterface {
         $dumper->patient_visit_number = $labRequest->RevisitNumber;
         $dumper->patient_id = $labRequest->PatientNumber;
         $dumper->full_name = $labRequest->FullNames;
-        $dumper->dob = $this->getDobFromAge($labRequest->Age);;
+        $dumper->dob = $this->getDobFromAge($labRequest->Age, $labRequest->DateOfRequest);;
         $dumper->gender = $labRequest->Sex;
         $dumper->address = $labRequest->PoBox;
         $dumper->phone_number = $labRequest->PatientsContact;
@@ -194,14 +194,15 @@ class MedbossInterfacer implements InterfacerInterface {
     * Given the age in days we can derive the DOB, by subtracting now and the age
     * 
     * @param int age in days
+    * @param date requestDate
     * @return date dob
     */
-    public function getDobFromAge($age)
+    public function getDobFromAge($age, $requestDate)
     {
-        $currentDate = new DateTime('now');
+        $requestDate = new DateTime($requestDate);
         $dateInterval = DateInterval::createFromDateString($age.' days');
 
-        $dob = $currentDate->sub($dateInterval)->format('Y-m-d');
+        $dob = $requestDate->sub($dateInterval)->format('Y-m-d');
         return $dob;
     }
 
