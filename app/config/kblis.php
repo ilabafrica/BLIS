@@ -17,8 +17,19 @@ return array(
 	|
 	*/
 
-	'version' => 'v2.5 - Kenya',
-	
+	'version' => 'v2.5',
+
+	/*
+
+	/*
+	|--------------------------------------------------------------------------
+	|	Application Country
+	|--------------------------------------------------------------------------
+	|
+	*/
+
+	'country' => 'Kenya',
+
 	/*
 	|--------------------------------------------------------------------------
 	|	Organization Name
@@ -26,7 +37,21 @@ return array(
 	|
 	*/
 
-	'organization' => 'Bungoma District Hospital Laboratory',
+	'organization' => 'Walter Reed Hospital Laboratory',
+	
+
+
+	/*
+	|--------------------------------------------------------------------------
+	|	ORGANIZATION ADDRESS
+	|--------------------------------------------------------------------------
+	|
+	*/
+	'address-info' => 'WALTER REED, HOSPITAL ROAD<br>
+                    OPPOSITE POLICE LINE/DISTRICT HEADQUARTERS<br>
+                    P.O. BOX 14,<br>
+                    MARS.<br>
+                    Phone: +0000000 Ext 203/208</p>',
 	
 	/*
 	|--------------------------------------------------------------------------
