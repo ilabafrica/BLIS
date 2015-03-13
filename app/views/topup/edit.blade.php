@@ -34,7 +34,7 @@
             </div>
             <div class="form-group">
                 {{ Form::label('current_bal', trans('messages.current-bal')) }}
-                {{ Form::text('current_bal', Input::old('current_bal'),array('class' => 'form-control', 'rows' => '2', 'disabled')) }}
+                {{ Form::text('current_bal', $topupRequest->commodity->available(), array('class' => 'form-control', 'rows' => '2', 'disabled')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('order_quantity', trans('messages.order-qty')) }}

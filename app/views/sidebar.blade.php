@@ -240,14 +240,14 @@
 				<ul class="sub-menu-items">
 					<li>
 						<div>
-							<a href="{{ URL::route("issue.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.issue', 2)}}</a>
+							<a href="{{ URL::route("receipt.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.receipt', 2)}}</a>
 						</div>
 					</li>
 					<li>
 						<div>
-							<a href="{{ URL::route("receipt.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.receipt', 2)}}</a>
+							<a href="{{ URL::route("issue.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.issue', 2)}}</a>
 						</div>
 					</li>
 					<li>
