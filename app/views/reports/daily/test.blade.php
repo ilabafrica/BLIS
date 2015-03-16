@@ -178,7 +178,7 @@
 						<td>{{ $test->visit->patient->id }}</td>
 						<td>{{ isset($test->visit->visit_number)?$test->visit->visit_number:$test->visit->id }}</td>
 						<td>{{ $test->visit->patient->name }}</td>
-						<td>{{ $test->specimen->getSpecimenId() }}</td>
+						<td>{{ $test->getSpecimenId() }}</td>
 						<td>{{ $test->specimen->specimentype->name }}</td>
 						<td>{{ $test->specimen->time_accepted }}</td>
 						<td>{{ $test->testType->name }}</td>

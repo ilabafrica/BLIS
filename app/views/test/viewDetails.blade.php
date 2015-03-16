@@ -135,7 +135,7 @@
 											<p><strong>{{trans('messages.specimen-number')}}</strong></p>
 										</div>
 										<div class="col-md-8">
-											{{$test->specimen->getSpecimenId() }}
+											{{$test->getSpecimenId() }}
 										</div>
 									</div>
 									<div class="row">
