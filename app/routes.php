@@ -320,7 +320,25 @@ Route::group(array("before" => "auth"), function()
         ));
         
     });
+    
+    Route::group(array("before" => "checkPerms:request_topup"), function()
+    {
+        //top-ups
+        Route::resource('topup', 'TopUpController');
 
+        Route::get("/topup/{id}/delete", array(
+            "as"   => "topup.delete",
+            "uses" => "TopUpController@delete"
+        ));
+
+        Route::get('topup/{id}/availableStock', array(
+            "as"    =>  "issue.dropdown",
+            "uses"  =>  "TopUpController@availableStock"
+        ));
+    });
+
+    Route::group(array("before" => "checkPerms:manage_inventory"), function()
+    {
         //Commodities
         Route::resource('commodity', 'CommodityController');
 
@@ -365,17 +383,5 @@ Route::group(array("before" => "auth"), function()
             "as"   => "receipt.delete",
             "uses" => "ReceiptController@delete"
         ));
-
-        //top-ups
-        Route::resource('topup', 'TopUpController');
-
-        Route::get("/topup/{id}/delete", array(
-            "as"   => "topup.delete",
-            "uses" => "TopUpController@delete"
-        ));
-
-        Route::get('topup/{id}/availableStock', array(
-            "as"    =>  "issue.dropdown",
-            "uses"  =>  "TopUpController@availableStock"
-        ));
+    });
 });

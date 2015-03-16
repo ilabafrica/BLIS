@@ -231,13 +231,23 @@
 				</ul>
 			</div>
 		</li>
+		@if(Entrust::can('manage_inventory') || Entrust::can('request_topup'))
 		<li>
 			<div class="main-menu {{$active[7]}}">
-				<a href="{{ URL::route('issue.index')}}">
+				<a href="#">
 					<span class="glyphicon glyphicon-download-alt"></span> {{ Lang::choice('messages.inventory', 2)}}</a>
 			</div>
 			<div class="sub-menu {{$active[7]}}">
 				<ul class="sub-menu-items">
+					@if(Entrust::can('request_topup'))
+					<li>
+						<div>
+							<a href="{{ URL::route("topup.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.topup', 2)}}</a>
+						</div>
+					</li>
+					@endif
+					@if(Entrust::can('manage_inventory'))
 					<li>
 						<div>
 							<a href="{{ URL::route("receipt.index")}}">
@@ -248,12 +258,6 @@
 						<div>
 							<a href="{{ URL::route("issue.index")}}">
 								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.issue', 2)}}</a>
-						</div>
-					</li>
-					<li>
-						<div>
-							<a href="{{ URL::route("topup.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.topup', 2)}}</a>
 						</div>
 					</li>
 					<li>
@@ -274,9 +278,10 @@
 								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.metrics')}}</a>
 						</div>
 					</li>
-					
+					@endif
 				</ul>
 			</div>
 		</li> 
+		@endif
 	</ul>
 @show
