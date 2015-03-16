@@ -513,4 +513,11 @@ return array(
      *   MOH 706 report
      */
     'moh-706'   =>  'MOH 706',
+    'moh'   =>  'Ministry of Health',
+    'lab-tests-data-report'  =>  'Laboratory Tests Data Summary Report Form',
+    'affiliation'   =>  'Affiliation',
+    'reporting-period'  =>  'Reporting Period',
+    'begin-end' =>  'Begining|Ending',
+    'gok'   =>  'GOK',
+    'no-service'    =>  'N/B: INDICATE N/S Where there is no service',
 );

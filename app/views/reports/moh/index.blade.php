@@ -20,18 +20,18 @@
 			<thead>
 	            <tr>
 	            	<td colspan="3" style="text-align:center;">
-	                    <strong><p>MINISTRY OF HEALTH<br>
-	                    LABORATORY TESTS DATA SUMMARY REPORT FORM<br></p></strong>
+	                    <strong><p>{{ strtoupper(Lang::choice('messages.moh', 1)) }}<br>
+	                    {{ strtoupper(Lang::choice('messages.lab-tests-data-report', 1)) }}<br></p></strong>
 	            	</td>
 	            </tr>
             </thead>
 		</table>
 		<div class="table-responsive">
 			<div class='container-fluid'>
-				<strong>Facility Name: </strong><u>Bungoma District Hospital</u><strong> Reporting Period Begining: </strong><u>Bungoma District Hospital</u>
-				<strong> Ending: </strong><u>Bungoma District Hospital</u><strong> Affilliation: </strong><u>GOK</u>
+				<strong>{{ Lang::choice('messages.facility', 1) }}: </strong><u>{{ strtoupper(Config::get('kblis.organization')) }}</u><strong> {{ Lang::choice('messages.reporting-period', 1) }} {{ Lang::choice('messages.begin-end', 1) }}: </strong><u>{{ date('01-m-Y') }}</u>
+				<strong> {{ Lang::choice('messages.begin-end', 2) }}: </strong><u>{{ date('d-m-Y') }}</u><strong> {{ Lang::choice('messages.affiliation', 1) }}: </strong><u>{{ Lang::choice('messages.gok', 1) }}: </u>
 				<br />
-				<p>N/B: INDICATE N/S Where there is no service</p>
+				<p>{{ Lang::choice('messages.no-service', 1) }}</p>
 				<div class='row'>
 					{{ $table }}
 					
