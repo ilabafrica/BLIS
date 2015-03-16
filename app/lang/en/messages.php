@@ -60,6 +60,7 @@ return array(
     'confirm-delete-title' => 'Confirm Delete',
     'confirm-delete-message' => 'Do you wish to delete this item?',
     'confirm-delete-irreversible' => 'This action is irreversible.',
+    'court-of-arms' => 'Court of Arms',
 
     /** 
      *   User
@@ -426,6 +427,7 @@ return array(
     'tested'    =>  'Tested',
     'less-five'    =>  '< 5 Years',
     'greater-five'    =>  '≥ 5 Years',
+    'laboratory-report' => 'LABORATORY REPORT',
 
     /* Infection Report*/
     'age-ranges'    =>  'Age Ranges',
