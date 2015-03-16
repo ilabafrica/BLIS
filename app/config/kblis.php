@@ -37,7 +37,7 @@ return array(
 	|
 	*/
 
-	'organization' => 'Walter Reed Hospital Laboratory',
+	'organization' => 'Basic Laboratory Information System',
 	
 
 
@@ -47,10 +47,10 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	*/
-	'address-info' => 'WALTER REED, HOSPITAL ROAD<br>
-                    OPPOSITE POLICE LINE/DISTRICT HEADQUARTERS<br>
-                    P.O. BOX 14,<br>
-                    MARS.<br>
+	'address-info' => 'COUNTY REFERRAL HOSPITAL, BLIS<br>
+                    REFERRAL HOSPITAL LOCATION<br>
+                    P.O. BOX PRIVATE BAG,<br>
+                    KENYA.<br>
                     Phone: +0000000 Ext 203/208</p>',
 	
 	/*
