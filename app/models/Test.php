@@ -177,6 +177,17 @@ class Test extends Eloquent
 		else 
 			return false;
 	}
+    
+    /**
+    * Function to get formatted specimenID's e.g PAR-3333
+    *
+    * @return string
+    */
+    public function getSpecimenId()
+    {
+    	$testCategoryName = $this->testType->testCategory->name;
+    	return substr($testCategoryName, 0 , 3).'-'.$this->specimen->id;
+    }
 
 	/**
 	 * Wait Time: Time difference from test reception to start
