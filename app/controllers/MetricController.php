@@ -84,11 +84,14 @@ class MetricController extends \BaseController {
 			$metric = Metric::find($id);
 			$metric->name= Input::get('name');
 			$metric->description= Input::get('description');
+				
+		try{
 			$metric->save();
-
-			$url = Session::get('SOURCE_URL');
-			return Redirect::to($url)
-					->with('message', trans('messages.success-updating-metric')) ->with('activemetric', $metric ->id);
+			return Redirect::route('metric.index')
+			->with('message', trans('messages.success-updating-metric'))->with('activemetric', $metric ->id);
+			}catch(QueryException $e){
+				Log::error($e);
+			}
 		}
 	}
 

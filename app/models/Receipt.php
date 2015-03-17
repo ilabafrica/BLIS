@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class Receipt extends Eloquent
 {
-	
+	use SoftDeletingTrait;
 	protected $table = 'receipts';
 
 	public function getTotalReceipts()

@@ -106,12 +106,14 @@ class CommodityController extends \BaseController {
 			$commodity->min_level= Input::get('min_level');
 			$commodity->max_level= Input::get('max_level');
 
+			
+		try{
 			$commodity->save();
-
-			$url = Session::get('SOURCE_URL');
-
-			return Redirect::to($url)
-					->with('message', trans('messages.success-updating-commodity')) ->with('activecommodity', $commodity ->id);
+			return Redirect::route('commodity.index')
+			->with('message', trans('messages.success-updating-commodity'))->with('activecommodity', $commodity ->id);
+			}catch(QueryException $e){
+				Log::error($e);
+			}
 		}
 	}
 

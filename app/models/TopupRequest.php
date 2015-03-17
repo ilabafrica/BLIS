@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 * Class for holding topup requests from the bench to the inventory
 */
 class TopupRequest extends Eloquent {
-
+    use SoftDeletingTrait;
 	protected $table = 'topup_requests';
 	protected $dates = ['deleted_at'];
 

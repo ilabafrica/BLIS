@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class Commodity extends Eloquent
 {
-
+	use SoftDeletingTrait;
 	protected $table = 'commodities';
 	protected $dates = ['deleted_at'];
 

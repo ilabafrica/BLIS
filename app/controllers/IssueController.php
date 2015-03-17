@@ -48,8 +48,8 @@ class IssueController extends \BaseController {
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator)
-				->withInput();
+			return Redirect::back()->withErrors($validator);
+				
 		} else {
 			// store
 			$issue = new Issue;
@@ -60,9 +60,13 @@ class IssueController extends \BaseController {
 			$issue->user_id = Auth::user()->id;
 			$issue->remarks = Input::get('remarks');
 
+			try{
 			$issue->save();
 			return Redirect::route('issue.index')
-				->with('message', 'Successfully issued the commodity');
+				->with('message', trans('messages.commodity-succesfully-added'));
+				}catch(QueryException $e){
+				Log::error($e);
+			}
 		}
 	}
 

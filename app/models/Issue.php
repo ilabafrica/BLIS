@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class Issue extends Eloquent
 {
-	
+	use SoftDeletingTrait;
 	protected $table = 'issues';
 	protected $dates = ['deleted_at'];
 
