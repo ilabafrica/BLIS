@@ -387,6 +387,14 @@ $(function(){
 				});
 		});
 		/*End dynamic select list options*/
+				/*Dynamic loading of select list options*/
+		$('#commodity-id').change(function(){
+			$.get("/topup/"+$(this).val()+"/availableStock", 
+				function(data) {
+					$('#current_bal').val(data.availableStock);
+				});
+		});
+		/*End dynamic select list options*/
 		
 		/*Toggle summary div for reports*/
 		$('#reveal').click(function(){

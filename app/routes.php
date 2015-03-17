@@ -300,6 +300,7 @@ Route::group(array("before" => "auth"), function()
         ));
     });
     
+
     //  Check if able to manage reports
     Route::group(array("before" => "checkPerms:view_reports"), function()
     {
@@ -397,6 +398,70 @@ Route::group(array("before" => "auth"), function()
         Route::post('control/{controlId}/saveResults', array(
             "as" => "control.saveResults",
             'uses' => 'ControlController@saveResults'
+        ));
+    });
+    
+    Route::group(array("before" => "checkPerms:request_topup"), function()
+    {
+        //top-ups
+        Route::resource('topup', 'TopUpController');
+
+        Route::get("/topup/{id}/delete", array(
+            "as"   => "topup.delete",
+            "uses" => "TopUpController@delete"
+        ));
+
+        Route::get('topup/{id}/availableStock', array(
+            "as"    =>  "issue.dropdown",
+            "uses"  =>  "TopUpController@availableStock"
+        ));
+    });
+
+    Route::group(array("before" => "checkPerms:manage_inventory"), function()
+    {
+        //Commodities
+        Route::resource('commodity', 'CommodityController');
+
+        Route::get("/commodity/{id}/delete", array(
+            "as"   => "commodity.delete",
+            "uses" => "CommodityController@delete"
+        ));
+
+        //issues
+        Route::resource('issue', 'IssueController');
+
+        Route::get("/issue/{id}/delete", array(
+            "as"   => "issue.delete",
+            "uses" => "IssueController@delete"
+        ));
+
+        Route::get("/issue/{id}/dispatch", array(
+            "as"   => "issue.dispatch",
+            "uses" => "IssueController@dispatch"
+        ));
+
+        //Metrics
+        Route::resource('metric', 'MetricController');
+
+        Route::get("/metric/{id}/delete", array(
+            "as"   => "metric.delete",
+            "uses" => "MetricController@delete"
+        ));
+
+        //Suppliers
+        Route::resource('supplier', 'SupplierController');
+        
+        Route::get("/supplier/{id}/delete", array(
+            "as"   => "supplier.delete",
+            "uses" => "SupplierController@delete"
+        ));
+
+        //Receipts
+        Route::resource('receipt', 'ReceiptController');
+
+        Route::get("/receipt/{id}/delete", array(
+            "as"   => "receipt.delete",
+            "uses" => "ReceiptController@delete"
         ));
     });
 });
