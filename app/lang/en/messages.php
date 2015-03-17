@@ -10,6 +10,7 @@ return array(
      */
 
     'actions' => 'Actions',
+    'add-another' => 'Add Another',
     'back' => 'Previous Page',
     'both' => 'Both',
     'cancel' => 'Cancel',
@@ -18,6 +19,7 @@ return array(
     'date-created' => 'Date Created',
     'delete' => 'Delete',
     'description' => 'Description',
+    'disease' => 'Disease|Diseases',
     'edit' => 'Edit',
     'email' => 'Email',
     'female' => 'Female',
@@ -38,6 +40,7 @@ return array(
     'photo' => 'Photo',
     'role' => 'Role|Roles',
     'save' => 'Save',
+    'save-all' => 'Save All',
     'type' => 'Type',
     'unit' => 'Unit',
     'update' => 'Update',
@@ -56,6 +59,7 @@ return array(
     'confirm-delete-title' => 'Confirm Delete',
     'confirm-delete-message' => 'Do you wish to delete this item?',
     'confirm-delete-irreversible' => 'This action is irreversible.',
+    'court-of-arms' => 'Court of Arms',
 
     /** 
      *   User
@@ -142,13 +146,17 @@ return array(
     'specimen-successful-refer' => 'The specimen was referred',
     'specimen-referred-label' => 'Specimen Referred',
     'person-involved' => 'Person involved',
+    'intended-reciepient' => 'Intended Reciepient',
+    'originating-from' => 'Originating From',
     'referred-by' => 'Referred by',
+    'recieved-by' => 'Recieved by',
 
     /** 
      *   Test Catalog
      */
     /*Measure*/
     'add-new-measure-range' => 'Add New Range',
+    'add-new-measure' => 'Add New Measure',
     'agemax' => 'Age Max',
     'agemin' => 'Age Min',
     'create-measure' => 'Create Measure',
@@ -222,6 +230,44 @@ return array(
     'target-turnaround-time' => 'Target Turnaround Time',
     'test-type' => 'Test Type|Test Types',
     'test-type-details' => 'Test Type Details',
+
+    /* Drugs */
+
+    'drug' => 'Drug|Drugs',
+    'create-drug' => 'Create Drug',
+    'edit-drug' => 'Edit Drug',
+    'failure-drug-in-use' => 'This Drug is in use',
+    'success-creating-drug' => 'Successfully created Drug.',
+    'success-deleting-drug' => 'Successfully deleted the Drug.',
+    'success-updating-drug' => 'The Drug was successfully updated!',
+    'drug-details' => 'Drug Details',
+    'list-drugs' => 'List Drugs',
+
+    /* Organisms */
+
+    'organism' => 'Organism|Organisms',
+    'create-organism' => 'Create Organism',
+    'edit-organism' => 'Edit Organism',
+    'failure-organism-in-use' => 'This Organism is in use',
+    'success-creating-organism' => 'Successfully created Organism.',
+    'success-deleting-organism' => 'Successfully deleted the Organism.',
+    'success-updating-organism' => 'The Organism was successfully updated!',
+    'organism-details' => 'Organism Details',
+    'list-organisms' => 'List Organisms',
+    'compatible-drugs' => 'Compatible Drugs',
+    'no-compatible-drugs' => 'No compatible drugs found for this organism.',
+    /* Culture worksheet */
+    'culture-worksheet' =>  'CULTURE WORKSHEET',
+    'culture-work-up' =>  'CULTURE OBSERVATIONS AND WORK-UP',
+    'show-culture-worksheet'    =>  'Show Culture Worksheet?',
+    'select-organisms'  =>  'Select Organisms',
+    'date'  =>  'Date',
+    'tech-initials' =>  'Tech Initials',
+    'observations-and-work-up'  =>  'Observations and work-up',
+    'susceptibility-test-results'   =>  'SUSCEPTIBILITY TEST RESULTS',
+    'select-isolates'   =>  'Select Isolated Organisms',
+    'zone-size' =>  'Zone size (mm)',
+    'interp'    =>  'Interpretation (S, I, R)',
 
     /**
      *  Tests
@@ -374,6 +420,13 @@ return array(
     'patient-report-no' =>  'Form No. BDHL-QUA-017F3',
     'patient-report-version'    =>  'Version 1',
     'signature-holder'  =>  '............................................',
+    'surveillance'    =>  'Surveillance',
+    'request-origin'    =>  'Request origin',
+    'laboratory'    =>  'Laboratory',
+    'tested'    =>  'Tested',
+    'less-five'    =>  '< 5 Years',
+    'greater-five'    =>  '≥ 5 Years',
+    'laboratory-report' => 'LABORATORY REPORT',
 
     /* Infection Report*/
     'age-ranges'    =>  'Age Ranges',
@@ -411,10 +464,11 @@ return array(
     /** 
      *   Configurations
      */
-    'lab-configuration' => 'Lab Configuration',
-    'list-facilities' => 'List of facilities',
     'add-facility' => 'Add a facility',
     'edit-facility' => 'Edit facility',
+    'lab-configuration' => 'Lab Configuration',
+    'list-facilities' => 'List of facilities',
+    'new-disease' => 'New Disease',
     'successfully-updated-facility' => 'Facility was successfully updated!',
     'successfully-deleted-facility' => 'Facility was successfully deleted!',
 
@@ -538,5 +592,35 @@ return array(
     'receipt-succesfully-deleted' => 'The receipt was successfully deleted!',
     'success-updating-metric' => 'The metric was succesfully updated',
     'success-updating-supplier' => 'The supplier was succesfully updated',
-    'success-updating-commodity' => 'The commodity was succesfully updated'
+    'success-updating-commodity' => 'The commodity was succesfully updated',
+
+    /**
+    *
+    * Quality controls
+    */
+    'quality-control' => 'Quality Control|Quality Controls',
+    'instrument' => 'Instrument|Instruments',
+    'lot' => 'Lot|Lots',
+    'control' => 'Control|Controls',
+    'list-controls' => 'List of controls',
+    'add-control' => 'Add control',
+    'edit-control' => 'Edit control',
+    'controlresults' => 'Control Results',
+    'add-lot' => 'Add lot',
+    'edit-lot' => 'Edit lot',
+    'lot-number' => 'Lot number',
+    'lot-details' => 'Lot details',
+    'expected-value' => 'Expected value',
+    'enter-control-results' => 'Enter control results',
+    'control-details' => 'Control details',
+    'control-name' => 'Control name',
+    'date-performed' => 'Date performed',
+    'successfully-created-lot' => 'The lot has been successfully created',
+    'success-deleting-lot' => 'The lot has been successfully deleted',
+    'successfully-updated-lot' => 'The lot has been successfully updated',
+    'successfully-added-control' => 'The Control has been successfully added',
+    'success-updating-control' => 'The Control has been successfully updated',
+    'success-deleting-control' => 'The Control has been successfully deleted',
+    'success-adding-control-result' => 'The control results have been succesfully added'
+
 );

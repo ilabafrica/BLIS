@@ -379,6 +379,10 @@ label, input {
     border-bottom: 1px solid #D1D1D1;
     padding:5px 0px;
 }
+.measure .col-md-3 .form-group .form-control
+{
+    width:100%;
+}
 
 /*
 * REJECT Specimen shading - Used on test-index view

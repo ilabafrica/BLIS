@@ -10,94 +10,34 @@ use Illuminate\Database\QueryException;
 class MeasureController extends \BaseController {
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        // List all the active measures
-        $measures = Measure::orderBy('name', 'asc')->paginate(Config::get('kblis.page-items'));
-
-        // Load the view and pass the measures
-        return View::make('measure.index')->with('measures', $measures);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        $measuretype = MeasureType::all()->sortBy('id')->lists('name','id');
-        $measuretype = array_merge(array(0 => trans('messages.select-measure-type')), $measuretype);
-
-        //Create measure
-        return View::make('measure.create')->with('measuretype', $measuretype);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @return Response
      */
-    public function store()
+    public function store($measures)
     {
-        //
-        $rules = array();
-        $rules['name'] = 'required|unique:measures,name';
-        $rules['measure_type_id'] = 'required|non_zero_key';
-        
-        switch (Input::get('measure_type_id')) {
-            case Measure::NUMERIC:
-                $rules['rangemin.0'] = 'required';
-                $rules['rangemax.0'] = 'required';
-                $rules['agemin.0'] = 'required';
-                $rules['agemax.0'] = 'required';
-                $rules['gender.0'] = 'required';
-                break;
-            
-            case Measure::ALPHANUMERIC:
-                $rules['val.0'] = 'required';
-                break;
-            
-            case Measure::AUTOCOMPLETE:
-                $rules['val.0'] = 'required';
-                break;
-            
-            default:
-                break;
-        }
-
-        $validator = Validator::make(Input::all(), $rules);
-
-        // process the login
-        if ($validator->fails()) {
-            return Redirect::route("measure.create")
-                ->withInput(Input::all())
-                ->withErrors($validator);
-        } else {
-            // store
+        $measureIds = array();
+        foreach ($measures as $data) {
             $measure = new Measure;
-            $measure->name = Input::get('name');
-            $measure->measure_type_id = Input::get('measure_type_id');
-            $measure->unit = Input::get('unit');
-            $measure->description = Input::get('description');
+            $measure->name = $data['name'];
+            $measure->measure_type_id = $data['measure_type_id'];
+            $measure->unit = $data['unit'];
+            $measure->description = $data['description'];
 
             try{
                 $measure->save();
+                $measureIds[] = $measure->id;
             }catch(QueryException $e){
                 Log::error($e);
             }
             
             if ($measure->isNumeric()) {
-                $val['agemin'] = Input::get('agemin');
-                $val['agemax'] = Input::get('agemax');
-                $val['gender'] = Input::get('gender');
-                $val['rangemin'] = Input::get('rangemin');
-                $val['rangemax'] = Input::get('rangemax');
-                $val['interpretation'] = Input::get('interpretation');
+                $val['agemin'] = $data['agemin'];
+                $val['agemax'] = $data['agemax'];
+                $val['gender'] = $data['gender'];
+                $val['rangemin'] = $data['rangemin'];
+                $val['rangemax'] = $data['rangemax'];
+                $val['interpretation'] = $data['interpretation'];
 
                 // Add ranges for this measure
                 for ($i=0; $i < count($val['agemin']); $i++) { 
@@ -111,11 +51,9 @@ class MeasureController extends \BaseController {
                     $measurerange->interpretation = $val['interpretation'][$i];
                     $measurerange->save();
                  }
-                return Redirect::route('measure.index')
-                    ->with('message', trans('messages.success-creating-measure'));
             }else if( $measure->isAlphanumeric() || $measure->isAutocomplete() ) {
-                $val['val'] = Input::get('val');
-                $val['interpretation'] = Input::get('interpretation');
+                $val['val'] = $data['val'];
+                $val['interpretation'] = $data['interpretation'];
                 for ($i=0; $i < count($val['val']); $i++) { 
                     $measurerange = new MeasureRange;
                     $measurerange->measure_id = $measure->id;
@@ -124,42 +62,8 @@ class MeasureController extends \BaseController {
                     $measurerange->save();
                 }
             }
-            return Redirect::route('measure.index')
-                ->with('message', trans('messages.success-creating-measure'));
         }
-    }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //Show a measure
-        $measure = Measure::find($id);
-
-        //Show the view and pass the $measure to it
-        return View::make('measure.show')->with('measure', $measure);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //Get the measure
-        $measure = Measure::find($id);
-
-        $measuretype = MeasureType::all()->sortBy('id')->lists('name','id');
-
-        //Open the Edit View and pass to it the $measure
-        return View::make('measure.edit')
-                        ->with('measure', $measure)
-                        ->with('measuretype', $measuretype);
+        return $measureIds;
     }
 
     /**
@@ -168,43 +72,33 @@ class MeasureController extends \BaseController {
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
-    {
-        //
-        $rules = array('name' => 'required');
-        $validator = Validator::make(Input::all(), $rules);
+    public function update($measure)
 
-        // process the login
-        if ($validator->fails()) {
-            return Redirect::back()
-                ->withErrors($validator)
-                ->withInput(Input::except('password'));
-        } else {
-            // Update
-            $measureTypeId = Input::get('measure_type_id');
+    {
+        foreach ($measure as $id => $data) {
+            $measureTypeId = $data['measure_type_id'];
             $measure = Measure::find($id);
-            $measure->name = Input::get('name');
+            $measure->name = $data['name'];
             $measure->measure_type_id = $measureTypeId;
-            $measure->unit = Input::get('unit');
-            $measure->description = Input::get('description');
+            $measure->unit = $data['unit'];
+            $measure->description = $data['description'];
             $measure->save();
             if ($measureTypeId != Measure::FREETEXT) {
-               
                 if ($measureTypeId == Measure::NUMERIC){
-                    $val['agemin'] = Input::get('agemin');
-                    $val['agemax'] = Input::get('agemax');
-                    $val['gender'] = Input::get('gender');
-                    $val['rangemin'] = Input::get('rangemin');
-                    $val['rangemax'] = Input::get('rangemax');
+                    $val['agemin'] = $data['agemin'];
+                    $val['agemax'] = $data['agemax'];
+                    $val['gender'] = $data['gender'];
+                    $val['rangemin'] = $data['rangemin'];
+                    $val['rangemax'] = $data['rangemax'];
                 }else{
-                    $val['val'] = Input::get('val');
+                    $val['val'] = $data['val'];
                 }
-                $val['measurerangeid'] = Input::get('measurerangeid');
-                $val['interpretation'] = Input::get('interpretation');
+                $val['measurerangeid'] = $data['measurerangeid'];
+                $val['interpretation'] = $data['interpretation'];
 
                 $allRangeIDs = array();
 
-                for ($i=0; $i < count((Input::get('agemin')) ? $val['agemin'] : $val['val']); $i++) {
+                for ($i=0; $i < count((isset($data['agemin'])) ? $val['agemin'] : $val['val']); $i++) {
                     if ($val['measurerangeid'][$i]==0) {
                         $measurerange = new MeasureRange;
                     }else{
@@ -242,9 +136,6 @@ class MeasureController extends \BaseController {
                 // Since this id has no ranges, delete any references to this id in the measure_range table
                 MeasureRange::where('measure_id', '=', $measure->id)->delete();
             }
-            // redirect
-            return Redirect::route('measure.index')
-                    ->with('message', trans('messages.success-updating-measure'));
         }
     }
 

@@ -16,7 +16,7 @@
 	</div>
 	<div class="panel-body">
 		
-<table class="table table-striped table-hover table-condensed" id="issue-index">
+<table class="table table-striped table-hover table-condensed search-table">
 			<thead>
 				<tr>
 					<th>{{Lang::choice('messages.issue-date',1)}}</th>

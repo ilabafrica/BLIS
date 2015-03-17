@@ -1,4 +1,4 @@
-	@section("sidebar")
+@section("sidebar")
 <?php
 	$active = array("","","","","","","","");
 	$key = explode("?",str_replace("/", "?", Request::path()));
@@ -8,26 +8,32 @@
 		case 'test': $active[2] = "active"; break;
 		case 'labconfig': 
 		case 'instrument':
-		case 'facility': $active[3] = "active"; break;
-		
+		case 'reportconfig':
+		case 'facility': 
+			$active[3] = "active"; break;
 		case 'testcategory': 
 		case 'testtype': 
 		case 'measure': 
 		case 'specimentype': 
 		case 'specimenrejection': 
+		case 'drug':
+		case 'organism':
 			$active[4] = "active"; break;
 		case 'patientreport': 
 		case 'dailylog': 
 		case 'prevalence':
+		case 'surveillance':
 		case 'counts':
 		case 'tat':
 		case 'infection':
 		case 'userstatistics':
+		case 'qualitycontrol':
 			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
 		case 'user': 
-		case 'role': $active[6] = "active"; break;
+		case 'role': 
+			$active[6] = "active"; break;
 		case 'issue': 
 		case 'receipt': 
 		case 'topup': 
@@ -35,6 +41,10 @@
 		case 'supplier':
 		case 'commodity':
 			$active[7] = "active"; break;
+		case 'controlresults':
+		case 'control':
+		case 'lot': $active[8] = "active"; break;
+
 	}
 ?>
 	<ul class="nav nav-sidebar">
@@ -72,12 +82,6 @@
 								{{Lang::choice('messages.instrument', 2)}}</a>
 						</div>
 					</li>
-					<li>
-						<div>
-							<span class="glyphicon glyphicon-tag"></span>
-							{{ Lang::choice('messages.report', 2)}}
-						</div>
-					</li>
 				</ul>
 				<ul class="sub-menu-items">
 					<li>
@@ -89,9 +93,15 @@
 						</div>
 					</li>
 				</ul>
+				<ul class="sub-menu-items">
+					<li>
+						<div><a href="{{ URL::route("reportconfig.surveillance") }}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{ trans('messages.surveillance')}}</a>
+						</div>
+					</li>
+				</ul>
 			</div>
-			
-
 		</li>
 		@endif
 		@if(Entrust::can('manage_test_catalog'))
@@ -128,8 +138,14 @@
 					</li>
 					<li>
 						<div>
-							<a href="{{ URL::route("measure.index")}}" >
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.measure', 2)}}</a>
+							<a href="{{ URL::route("drug.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.drug', 2)}}</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route("organism.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.organism', 2)}}</a>
 						</div>
 					</li>
 				</ul>
@@ -168,6 +184,12 @@
 						</div>
 					</li>
 					<li>
+						<div><a href="{{ URL::route('reports.aggregate.surveillance')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.surveillance')}}</a>
+						</div>
+					</li>
+					<li>
 						<div><a href="{{ URL::route('reports.aggregate.counts')}}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{trans('messages.counts')}}</a>
@@ -189,6 +211,12 @@
 						<div><a href="{{ URL::route('reports.aggregate.userStatistics')}}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{trans('messages.user-statistics-report')}}</a>
+						</div>
+					</li>
+					<li>
+						<div><a href="{{ URL::route('reports.qualityControl')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{Lang::choice('messages.quality-control', 2)}}</a>
 						</div>
 					</li>
 				</ul>
@@ -283,5 +311,33 @@
 			</div>
 		</li> 
 		@endif
+		<li>
+			<div class="main-menu {{$active[8]}}">
+				<a href="{{ URL::route('control.index') }}" title="{{Lang::choice('messages.quality-control', 2)}}">
+					<span class="glyphicon glyphicon-eye-open"></span> {{ Lang::choice('messages.quality-control', 2)}}</a>
+			</div>
+			<div class="sub-menu {{$active[8]}}">
+				<ul class="sub-menu-items">
+						<li>
+							<div>
+								<a href="{{ URL::route('control.resultsIndex') }}">
+									<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.controlresults', 2)}}</a>
+							</div>
+						</li>
+						<li>
+							<div>
+								<a href="{{ URL::route('control.index') }}">
+									<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.control', 2)}}</a>
+							</div>
+						</li>
+						<li>
+							<div>
+								<a href="{{ URL::route('lot.index')}}">
+									<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.lot', 2)}}</a>
+							</div>
+						</li>
+				</ul>
+			</div>
+		</li>
 	</ul>
 @show

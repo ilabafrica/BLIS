@@ -79,12 +79,7 @@ class TestController extends \BaseController {
 		$test->created_by = Auth::user()->id;
 		$test->save();
 
-		$input = Session::get('TESTS_FILTER_INPUT');
-		Session::put('fromRedirect', 'true');
-
-		return Redirect::action('TestController@index')
-				->with('activeTest', array($id))
-				->withInput($input);
+		return $id;
 	}
 
 	/**
@@ -292,7 +287,12 @@ class TestController extends \BaseController {
 	public function enterResults($testID)
 	{
 		$test = Test::find($testID);
-
+		if($test->testType->instruments->count() > 0){
+			//Delete the celtac dump file
+			//TO DO: Clean up and use configs + Handle failure
+			$EMPTY_FILE_URL = "http://192.168.1.88/celtac/emptyfile.php";
+			@file_get_contents($EMPTY_FILE_URL);
+		}
 		return View::make('test.enterResults')->with('test', $test);
 	}
 
@@ -431,8 +431,8 @@ class TestController extends \BaseController {
 		$rules = array(
 			'referral-status' => 'required',
 			'facility_id' => 'required|non_zero_key',
-			'person' => 'required',
-			'contacts' => 'required'
+			'person',
+			'contacts'
 			);
 		$validator = Validator::make(Input::all(), $rules);
 		$specimenId = Input::get('specimen_id');
@@ -468,5 +468,24 @@ class TestController extends \BaseController {
 		
 		return Redirect::to($url)->with('message', trans('messages.specimen-successful-refer'))
 					->with('activeTest', array($specimen->test->id));
+	}
+	/**
+	 * Culture worksheet for Test
+	 *
+	 * @param
+	 * @return
+	 */
+	public function culture()
+	{
+		$test = Test::find(Input::get('testID'));
+		$test->test_status_id = Test::VERIFIED;
+		$test->time_verified = date('Y-m-d H:i:s');
+		$test->verified_by = Auth::user()->id;
+		$test->save();
+
+		//Fire of entry verified event
+		Event::fire('test.verified', array($testID));
+
+		return View::make('test.viewDetails')->with('test', $test);
 	}
 }

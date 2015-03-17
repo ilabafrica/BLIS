@@ -86,7 +86,7 @@
 
 			<div><strong>{{$reportTitle}}</strong></div><br />
 
-			<table class="table table-striped table-hover table-condensed" id='user-statistics-report-table'>
+			<table class="table table-striped table-hover table-condensed search-table">
 				@if($selectedReport==0) <!-- Summary Report-->
 					<thead>
 						<tr>

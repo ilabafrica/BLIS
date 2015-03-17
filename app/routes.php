@@ -112,6 +112,20 @@ Route::group(array("before" => "auth"), function()
             "as"   => "specimenrejection.delete",
             "uses" => "SpecimenRejectionController@delete"
         ));
+
+        Route::resource('drug', 'DrugController');
+        
+        Route::get("/drug/{id}/delete", array(
+            "as"   => "drug.delete",
+            "uses" => "DrugController@delete"
+        ));
+
+        Route::resource('organism', 'OrganismController');
+        
+        Route::get("/organism/{id}/delete", array(
+            "as"   => "organism.delete",
+            "uses" => "OrganismController@delete"
+        ));
     });
 
     Route::group(array("before" => "checkPerms:manage_lab_configurations"), function()
@@ -235,6 +249,16 @@ Route::group(array("before" => "auth"), function()
         "uses" => "TestController@verify"
     ));
 
+    Route::any("/culture/storeObservation", array(
+        "as"   => "culture.worksheet",
+        "uses" => "CultureController@store"
+    ));
+
+    Route::any("/susceptibility/saveSusceptibility", array(
+        "as"   => "drug.susceptibility",
+        "uses" => "SusceptibilityController@store"
+    ));
+
     Route::group(array("before" => "admin"), function()
     {
         Route::resource("permission", "PermissionController");
@@ -263,6 +287,16 @@ Route::group(array("before" => "auth"), function()
         Route::get("/facility/{id}/delete", array(
             "as"   => "facility.delete",
             "uses" => "FacilityController@delete"
+        ));
+
+        Route::any("/reportconfig/surveillance", array(
+            "as"   => "reportconfig.surveillance",
+            "uses" => "ReportController@surveillanceConfig"
+        ));
+
+        Route::any("/reportconfig/disease", array(
+            "as"   => "reportconfig.disease",
+            "uses" => "ReportController@disease"
         ));
     });
     
@@ -299,6 +333,11 @@ Route::group(array("before" => "auth"), function()
             "uses" => "ReportController@prevalenceRates"
         ));
 
+        Route::any("/surveillance", array(
+            "as"   => "reports.aggregate.surveillance",
+            "uses" => "ReportController@surveillance"
+        ));
+
         Route::any("/counts", array(
             "as"   => "reports.aggregate.counts",
             "uses" => "ReportController@countReports"
@@ -319,6 +358,47 @@ Route::group(array("before" => "auth"), function()
             "uses" => "ReportController@userStatistics"
         ));
         
+        Route::get("/qualitycontrol", array(
+            "as"   => "reports.qualityControl",
+            "uses" => "ReportController@qualityControl"
+        ));
+
+        Route::post("/qualitycontrol", array(
+            "as"   => "reports.qualityControl",
+            "uses" => "ReportController@qualityControlResults"
+        ));
+
+        
+    });
+
+    Route::group(array("before" => "admin"), function()
+    {
+        Route::resource("lot", "LotController");
+
+        Route::get('lot/{lotId}/delete', array(
+            'uses' => 'LotController@delete'
+        ));
+
+        Route::resource("control", "ControlController");
+
+        Route::get("controlresults", array(
+            "as"   => "control.resultsIndex",
+            "uses" => "ControlController@resultsIndex"
+        ));
+
+        Route::get("controlresults/{controlId}/resultsentry", array(
+            "as" => "control.resultsentry",
+            "uses" => "ControlController@resultsEntry"
+        ));
+
+        Route::get('control/{controlId}/delete', array(
+            'uses' => 'ControlController@destroy'
+        ));
+
+        Route::post('control/{controlId}/saveResults', array(
+            "as" => "control.saveResults",
+            'uses' => 'ControlController@saveResults'
+        ));
     });
     
     Route::group(array("before" => "checkPerms:request_topup"), function()

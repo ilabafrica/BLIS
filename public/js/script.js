@@ -1,5 +1,7 @@
-//Custom javascript function
-
+/**
+ * Custom javascript function
+ * @author  (c) @iLabAfrica
+ */
 $(function(){
 	/**	HEADER
 	 *   Username display
@@ -42,23 +44,87 @@ $(function(){
 	});
 
 	/** 
-	 *	MEASURES 
-	 *  - Add another measure button 
+	 *	LAB CONFIGURATION 
 	 */
-	$('.add-another-range').click(function(){
+
+	 /* Add another surveillance */
+	$('.add-another-surveillance').click(function(){
+		newSurveillanceNo = $(this).data('new-surveillance');
+		var inputHtml = $('.addSurveillanceLoader').html();
+		//Count new measures on the new measure button
+		$('.surveillance-input').append(inputHtml);
+		$('.surveillance-input .new').addClass('new-surveillance-'+newSurveillanceNo).removeClass('new');
+		$(this).data('new-surveillance',  newSurveillanceNo+1).attr('data-new-surveillance',  newSurveillanceNo+1);
+		addNewSurveillanceAttributes(newSurveillanceNo);
+		delete newSurveillanceNo;
+	});
+	 
+	 /* Add another disease */
+	$('.add-another-disease').click(function(){
+		newDiseaseNo = $(this).data('new-disease');
+		var inputHtml = $('.addDiseaseLoader').html();
+		//Count new measures on the new measure button
+		$('.disease-input').append(inputHtml);
+		$('.disease-input .new').addClass('new-disease-'+newDiseaseNo).removeClass('new');
+		$(this).data('new-disease',  newDiseaseNo+1).attr('data-new-disease',  newDiseaseNo+1);
+		addNewDiseaseAttributes(newDiseaseNo);
+		delete newDiseaseNo;
+	});
+
+	/** 
+	 *	MEASURES 
+	 */
+
+	 /* Add another measure */
+	$('.add-another-measure').click(function(){
+		newMeasureNo = $(this).data('new-measure');
+		var inputHtml = $('.measureGenericLoader').html();
+		//Count new measures on the new measure button
+		$('.measure-container').append(inputHtml);
+		$('.measure-container .new-measure-section').find(
+			'.measuretype-input-trigger').addClass('new-measure-'+newMeasureNo);
+		$('.measure-container .new-measure-section').find(
+			'.measuretype-input-trigger').attr('data-new-measure-id',  newMeasureNo);
+		$('.measure-container .new-measure-section').find(
+			'.add-another-range').attr('data-new-measure-id',  newMeasureNo);
+		$('.measure-container .new-measure-section').find(
+			'.add-another-range').addClass('new-measure-'+newMeasureNo);
+		$('.measure-container .new-measure-section').find(
+			'.measurevalue').addClass('new-measure-'+newMeasureNo);
+		$('.measure-container .new-measure-section').addClass(
+			'measure-section new-'+newMeasureNo).removeClass('new-measure-section');
+		$(this).data('new-measure',  newMeasureNo+1).attr('data-new-measure',  newMeasureNo+1);
+		addNewMeasureAttributes(newMeasureNo);
+		delete newMeasureNo;
+	});
+
+	 /* Add another measure range value */
+	$('.measure-container').on('click', '.add-another-range', function(){
 		var inputClass = [
 			'.numericInputLoader',
 			'.alphanumericInputLoader',
 			'.alphanumericInputLoader',
 			'.freetextInputLoader'
 		]; 
-		var id = $("#measuretype").val() - 1;
-		var inputHtml = $(inputClass[id]).html();
-		$(".measurevalue" ).append(inputHtml);
+
+		if ($(this).data('measure-id') === 0) {
+			var newMeasureId = $(this).data('new-measure-id');
+			var measureID = 'new-measure-'+newMeasureId;
+		} else {
+			var measureID = $(this).data('measure-id');
+		}
+		var measureTypeId = $('.measuretype-input-trigger.'+measureID).val() - 1;
+		var inputHtml = $(inputClass[measureTypeId]).html();
+		$(".measurevalue."+measureID).append(inputHtml);
+		if ($(this).data('measure-id') != 0) {
+			editMeasureRangeAttributes(measureTypeId,measureID);
+		}else{
+			addMeasureRangeAttributes(measureTypeId, newMeasureId);
+		}
 	});
 
 	/*  load measure range input UI for the selected measure type */
-	$( '.measuretype-input-trigger' ).change( loadRangeFields );
+	$( '.measure-container' ).on('change', '.measuretype-input-trigger', loadRangeFields);
 
 	/*  re-load measure range input UI for the selected measure type on error */
 	if ($('.measurevalue').is(':empty')){
@@ -67,7 +133,6 @@ $(function(){
 			loadRangeFields();
 		}
 	}
-
 
 	/** GLOBAL DELETE	
 	 *	Alert on irreversible delete
@@ -90,8 +155,26 @@ $(function(){
 
 	// Delete measure range
 
-	$("body").on("click", ".measure-input .close", function(){
+	$('body').on('click', '.measure-input .close', function(){
 		$(this).parent().parent().remove();
+	});
+
+	// Delete measure
+
+	$('.measure-container').on('click', '.close', function(){
+		$(this).parent().parent().remove();
+	});
+	
+	// Delete Surveillance entry
+
+	$('.surveillance-input').on('click', '.close', function(){
+		$(this).parent().parent().parent().remove();
+	});
+
+	// Delete Disease entry
+
+	$('.disease-input').on('click', '.close', function(){
+		$(this).parent().parent().parent().remove();
 	});
 
 	/** 
@@ -163,6 +246,37 @@ $(function(){
 		    //Show it in the modal
 		    $(e.currentTarget).find('.modal-body').html(data);
 	    });
+	});
+  
+
+	/** Receive Test Request button.
+	 *  - Updates the Test status via an AJAX call
+	 *  - Changes the UI to show the right status and buttons
+	 */
+	$('.tests-log').on( "click", ".receive-test", function(e) {
+
+		var testID = $(this).data('test-id');
+		var specID = $(this).data('specimen-id');
+
+		var url = location.protocol+ "//"+location.host+ "/test/" + testID+ "/receive";
+		$.post(url, { id: testID}).done(function(){});
+
+		var parent = $(e.currentTarget).parent();
+		// First replace the status
+		var newStatus = $('.pending-test-not-collected-specimen').html();
+		parent.siblings('.test-status').html(newStatus);
+
+		// Add the new buttons
+		var newButtons = $('.accept-button').html();
+		parent.append(newButtons);
+
+		// Set properties for the new buttons
+		parent.children('.accept-specimen').attr('data-test-id', testID);
+		parent.children('.accept-specimen').attr('data-specimen-id', specID);
+
+		// Now remove the unnecessary buttons
+		$(this).siblings('.receive-test').remove();
+		$(this).remove();
 	});
 
 	/** Accept Specimen button.
@@ -321,6 +435,21 @@ $(function(){
 	});
 
 	/**
+	 *	Lab Configurations Functions
+	 */
+	function addNewSurveillanceAttributes (newSurveillanceNo) {
+		$('.new-surveillance-'+newSurveillanceNo).find('select.test-type').attr(
+			'name', 'new-surveillance['+newSurveillanceNo+'][test-type]');
+		$('.new-surveillance-'+newSurveillanceNo).find('select.disease').attr(
+			'name', 'new-surveillance['+newSurveillanceNo+'][disease]');
+	}
+
+	function addNewDiseaseAttributes (newDiseaseNo) {
+		$('.new-disease-'+newDiseaseNo).find('input.disease').attr(
+			'name', 'new-diseases['+newDiseaseNo+'][disease]');
+	}
+
+	/**
 	 *	Measure Functions
 	 */
 	function loadRangeFields () {
@@ -335,20 +464,103 @@ $(function(){
 			'.alphanumericInputLoader',
 			'.alphanumericInputLoader',
 			'.freetextInputLoader'
-		]; 
-		var id = $('.measuretype-input-trigger').val() - 1;
-		var headerHtml = $(headerClass[id]).html();
-		var inputHtml = $(inputClass[id]).html();
-		if (id == 0) {
-			$('.measurevalue').removeClass('col-md-6');
-			$('.measurevalue').addClass('col-md-12');
-		} else{
-			$('.measurevalue').removeClass('col-md-12');
-			$('.measurevalue').addClass('col-md-6');
+		];
+
+		if ($(this).data('measure-id') === 0) {
+			var newMeasureId = $(this).data('new-measure-id');
+			var measureID = 'new-measure-'+newMeasureId;
+		} else {
+			var measureID = $(this).data('measure-id');
 		}
-		$('.measurevalue').empty();
-		$('.measurevalue').append(headerHtml);
-		$('.measurevalue').append(inputHtml);
+
+			measureTypeId = $('.measuretype-input-trigger.'+measureID).val() - 1;
+			var headerHtml = $(headerClass[measureTypeId]).html();
+			var inputHtml = $(inputClass[measureTypeId]).html();
+		if (measureTypeId == 0) {
+			$('.measurevalue.'+measureID).removeClass('col-md-6');
+			$('.measurevalue.'+measureID).addClass('col-md-12');
+		} else{
+			$('.measurevalue.'+measureID).removeClass('col-md-12');
+			$('.measurevalue.'+measureID).addClass('col-md-6');
+		}
+		if (measureTypeId == 3) {
+			$('.measurevalue.'+measureID).siblings('.actions-row').addClass('hidden')
+		}else{
+			$('.measurevalue.'+measureID).siblings('.actions-row').removeClass('hidden')
+		}
+		$('.measurevalue.'+measureID).empty();
+		$('.measurevalue.'+measureID).append(headerHtml);
+		$('.measurevalue.'+measureID).append(inputHtml);
+		if ($(this).data('measure-id') != 0) {
+			editMeasureRangeAttributes(measureTypeId,measureID);
+		}else{
+			addMeasureRangeAttributes(measureTypeId, newMeasureId);
+		}
+	}
+
+	function addNewMeasureAttributes (measureID) {
+		$('.measure-section.new-'+measureID+' input.name').attr(
+			'name', 'new-measures['+measureID+'][name]');
+		$('.measure-section.new-'+measureID+' select.measure_type_id').attr(
+			'name', 'new-measures['+measureID+'][measure_type_id]');
+		$('.measure-section.new-'+measureID+' input.unit').attr(
+			'name', 'new-measures['+measureID+'][unit]');
+		$('.measure-section.new-'+measureID+' input.expected').attr(
+			'name', 'new-measures['+measureID+'][expected]');
+		$('.measure-section.new-'+measureID+' textarea.description').attr(
+			'name', 'new-measures['+measureID+'][description]');
+	}
+
+	function addMeasureRangeAttributes (measureTypeId,measureID) {
+		if (measureTypeId == 0) {
+			$('.measurevalue.new-measure-'+measureID+' input.agemin').attr(
+				'name', 'new-measures['+measureID+'][agemin][]');
+			$('.measurevalue.new-measure-'+measureID+' input.agemax').attr(
+				'name', 'new-measures['+measureID+'][agemax][]');
+			$('.measurevalue.new-measure-'+measureID+' select.gender').attr(
+				'name', 'new-measures['+measureID+'][gender][]');
+			$('.measurevalue.new-measure-'+measureID+' input.rangemin').attr(
+				'name', 'new-measures['+measureID+'][rangemin][]');
+			$('.measurevalue.new-measure-'+measureID+' input.rangemax').attr(
+				'name', 'new-measures['+measureID+'][rangemax][]');
+			$('.measurevalue.new-measure-'+measureID+' input.interpretation').attr(
+				'name', 'new-measures['+measureID+'][interpretation][]');
+			$('.measurevalue.new-measure-'+measureID+' input.measurerangeid').attr(
+				'name', 'new-measures['+measureID+'][measurerangeid][]');
+		} else{
+			$('.measurevalue.new-measure-'+measureID+' input.val').attr(
+				'name', 'new-measures['+measureID+'][val][]');
+			$('.measurevalue.new-measure-'+measureID+' input.interpretation').attr(
+				'name', 'new-measures['+measureID+'][interpretation][]');
+			$('.measurevalue.new-measure-'+measureID+' input.measurerangeid').attr(
+				'name', 'new-measures['+measureID+'][measurerangeid][]');
+		}
+	}
+
+	function editMeasureRangeAttributes (measureTypeId,measureID) {
+		if (measureTypeId == 0) {
+			$('.measurevalue.'+measureID+' input.agemin').attr(
+				'name', 'measures['+measureID+'][agemin][]');
+			$('.measurevalue.'+measureID+' input.agemax').attr(
+				'name', 'measures['+measureID+'][agemax][]');
+			$('.measurevalue.'+measureID+' select.gender').attr(
+				'name', 'measures['+measureID+'][gender][]');
+			$('.measurevalue.'+measureID+' input.rangemin').attr(
+				'name', 'measures['+measureID+'][rangemin][]');
+			$('.measurevalue.'+measureID+' input.rangemax').attr(
+				'name', 'measures['+measureID+'][rangemax][]');
+			$('.measurevalue.'+measureID+' input.interpretation').attr(
+				'name', 'measures['+measureID+'][interpretation][]');
+			$('.measurevalue.'+measureID+' input.measurerangeid').attr(
+				'name', 'measures['+measureID+'][measurerangeid][]');
+		} else{
+			$('.measurevalue.'+measureID+' input.val').attr(
+				'name', 'measures['+measureID+'][val][]');
+			$('.measurevalue.'+measureID+' input.interpretation').attr(
+				'name', 'measures['+measureID+'][interpretation][]');
+			$('.measurevalue.'+measureID+' input.measurerangeid').attr(
+				'name', 'measures['+measureID+'][measurerangeid][]');
+		}
 	}
 
 	function UIComponents(){
@@ -412,20 +624,123 @@ $(function(){
 	    }
 	}
 
+	//DataTables search functionality
 	$(document).ready( function () {
-		$('#testcategory-index').DataTable();
-		$('#specimen-type-index').DataTable();
-		$('#specimen-rejection-index').DataTable();
-		$('#testtype-index').DataTable();
-		$('#user-index').DataTable();
-		$('#facilities-index').DataTable();
-		$('#user-statistics-report-table').DataTable();
-		$('#measures-index').DataTable();
-		$('#topup-index').DataTable();
-		$('#receipt-index').DataTable();
-		$('#issue-index').DataTable();
-		$('#commodity-index').DataTable();
-		$('#supplier-index').DataTable();
-		$('#metric-index').DataTable();
-
+		$('.search-table').DataTable({
+        	'bStateSave': true,
+        	'fnStateSave': function (oSettings, oData) {
+            	localStorage.setItem('.search-table', JSON.stringify(oData));
+        	},
+        	'fnStateLoad': function (oSettings) {
+            	return JSON.parse(localStorage.getItem('.search-table'));
+        	}
+   		});
 	});
+
+	//Make sure all input fields are entered before submission
+	function authenticate (form) {
+    	var empty = false;
+		$('form :input:not(button)').each(function() {
+
+            if ($(this).val() == '') {
+                empty = true;
+	            $('.error-div').removeClass('hidden');
+            }
+	        if (empty) return false;
+	    });
+        if (empty) return;
+	    $(form).submit();
+	}
+
+	function saveObservation(tid, user, username){
+		txtarea = "observation_"+tid;
+		observation = $("#"+txtarea).val();
+
+		$.ajax({
+			type: 'POST',
+			url:  '/culture/storeObservation',
+			data: {obs: observation, testId: tid, userId: user, action: "add"},
+			success: function(){
+				drawCultureWorksheet(tid , user, username);
+			}
+		});
+	}
+	/**
+	 * Request a json string from the server containing contents of the culture_worksheet table for this test
+	 * and then draws a table based on this data.
+	 * @param  {int} tid      Test Id of the test
+	 * @param  {string} username Current user
+	 * @return {void}          No return
+	 */
+	function drawCultureWorksheet(tid, user, username){
+		console.log(username);
+		$.getJSON('/culture/storeObservation', { testId: tid, userId: user, action: "draw"}, 
+			function(data){
+				var tableBody ="";
+				$.each(data, function(index, elem){
+					tableBody += "<tr>"
+					+" <td>"+elem.timeStamp+" </td>"
+					+" <td>"+elem.user+"</td>"
+					+" <td>"+elem.observation+"</td>"
+					+" <td> </td>"
+					+"</tr>";
+				});
+				tableBody += "<tr>"
+					+"<td>0 seconds ago</td>"
+					+"<td>"+username+"</td>"
+					+"<td><textarea id='observation_"+tid+"' class='form-control result-interpretation' rows='2'></textarea></td>"
+					+"<td><a class='btn btn-xs btn-success' href='javascript:void(0)' onclick='saveObservation("+tid+", &quot;"+user+"&quot;, &quot;"+username+"&quot;)'>Save</a></td>"
+					+"</tr>";
+				$("#tbbody_"+tid).html(tableBody);
+			}
+		);
+	}
+
+	/*Begin save drug susceptibility*/	
+	function saveDrugSusceptibility(tid, oid){
+		console.log(oid);
+		var dataString = $("#drugSusceptibilityForm_"+oid).serialize();
+		$.ajax({
+			type: 'POST',
+			url:  '/susceptibility/saveSusceptibility',
+			data: dataString,
+			success: function(){
+				drawSusceptibility(tid, oid);
+			}
+		});
+	}
+	/*End save drug susceptibility*/
+	/*Function to render drug susceptibility table after successfully saving the results*/
+	 function drawSusceptibility(tid, oid){
+		$.getJSON('/susceptibility/saveSusceptibility', { testId: tid, organismId: oid, action: "results"}, 
+			function(data){
+				var tableRow ="";
+				var tableBody ="";
+				$.each(data, function(index, elem){
+					tableRow += "<tr>"
+					+" <td>"+elem.drugName+" </td>"
+					+" <td>"+elem.zone+"</td>"
+					+" <td>"+elem.interpretation+"</td>"
+					+"</tr>";
+				});
+				//tableBody +="<tbody>"+tableRow+"</tbody>";
+				$( "#enteredResults_"+oid).html(tableRow);
+				$("#submit_drug_susceptibility_"+oid).hide();
+			}
+		);
+	}
+	/*End drug susceptibility table rendering script*/
+	/*Function to toggle possible isolates*/
+	function toggle(className, obj){
+		var $input = $(obj);
+		if($input.prop('checked'))
+			$(className).show();
+		else
+			$(className).hide();
+	}
+	/*End toggle function*/
+	/*Toggle susceptibility tables*/
+	function showSusceptibility(id){
+		$('#drugSusceptibilityForm_'+id).toggle(this.checked);
+	}
+	/*End toggle susceptibility*/

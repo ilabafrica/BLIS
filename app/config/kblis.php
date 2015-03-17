@@ -8,7 +8,7 @@ return array(
 	|
 	*/
 
-	'name' => 'kBLIS',
+	'name' => 'BLIS',
 	
 	/*
 	|--------------------------------------------------------------------------
@@ -17,8 +17,19 @@ return array(
 	|
 	*/
 
-	'version' => '1.0',
-	
+	'version' => 'v2.5',
+
+	/*
+
+	/*
+	|--------------------------------------------------------------------------
+	|	Application Country
+	|--------------------------------------------------------------------------
+	|
+	*/
+
+	'country' => 'Kenya',
+
 	/*
 	|--------------------------------------------------------------------------
 	|	Organization Name
@@ -26,7 +37,21 @@ return array(
 	|
 	*/
 
-	'organization' => 'Bungoma District Hospital Laboratory',
+	'organization' => 'Basic Laboratory Information System',
+	
+
+
+	/*
+	|--------------------------------------------------------------------------
+	|	ORGANIZATION ADDRESS
+	|--------------------------------------------------------------------------
+	|
+	*/
+	'address-info' => 'COUNTY REFERRAL HOSPITAL, BLIS<br>
+                    REFERRAL HOSPITAL LOCATION<br>
+                    P.O. BOX PRIVATE BAG,<br>
+                    KENYA.<br>
+                    Phone: +0000000 Ext 203/208</p>',
 	
 	/*
 	|--------------------------------------------------------------------------

@@ -21,7 +21,7 @@
 		</div>
 	</div>
 	<div class="panel-body">
-		<table class="table table-striped table-hover table-condensed" id="user-index">
+		<table class="table table-striped table-hover table-condensed search-table">
 			<thead>
 				<tr>
 					<th>{{ trans('messages.username') }}</th>

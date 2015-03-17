@@ -59,7 +59,13 @@ class TestType extends Eloquent
 	{
 	  return $this->belongsToMany('Instrument', 'instrument_testtypes');
 	}
-
+	/**
+	 * Organisms relationship
+	 */
+	public function organisms()
+	{
+	  return $this->belongsToMany('Organism', 'testtype_organisms');
+	}
 	/**
 	 * Set compatible specimen types
 	 *
@@ -103,14 +109,47 @@ class TestType extends Eloquent
 					'test_type_id' => (int)$this->id,
 					'measure_id' => (int)$value
 					);
-				$testTypeID = (int)$this->id;
 			}
+			$testTypeID = (int)$this->id;
 		}
 		// Delete existing test_type measure mappings
 		DB::table('testtype_measures')->where('test_type_id', '=', $testTypeID)->delete();
 
-		// Add the new mapping
-		DB::table('testtype_measures')->insert($measuresAdded);
+		if (!empty($measures)) {
+			// Add the new mapping
+			DB::table('testtype_measures')->insert($measuresAdded);
+		}
+	}
+
+	/**
+	 * Set compatible specimen organisms
+	 *
+	 * @return void
+	 */
+	public function setOrganisms($organisms){
+
+		$organismsAdded = array();
+		$testTypeID = 0;	
+
+		if(is_array($organisms)){
+			foreach ($organisms as $key => $value) {
+				$organismsAdded[] = array(
+					'test_type_id' => (int)$this->id,
+					'organism_id' => (int)$value,
+					'created_at' => date('Y-m-d H:i:s'),
+					'updated_at' => date('Y-m-d H:i:s')
+					);
+				$testTypeID = (int)$this->id;
+			}
+
+		}
+		// Delete existing test_type organism mappings
+		DB::table('testtype_organisms')->where('test_type_id', '=', $testTypeID)->delete();
+
+		if (!empty($organisms)) {
+			// Add the new mapping
+			DB::table('testtype_organisms')->insert($organismsAdded);
+		}
 	}
 
 	/**
