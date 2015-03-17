@@ -185,7 +185,7 @@
 							if($interval=='M')
 								$subtitle.= ' ('.trans("messages.monthly").') ';
 							else if($interval=='D')
-								$subtitle.= ' ('.trans("messages.Daily").') ';
+								$subtitle.= ' ('.trans("messages.daily").') ';
 							else 
 								$subtitle.= ' ('.trans("messages.weekly").') ';
 

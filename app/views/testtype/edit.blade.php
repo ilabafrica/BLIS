@@ -45,21 +45,22 @@
 							$cnt = 0;
 							$zebra = "";
 						?>
-					@foreach($specimentypes as $key=>$value)
-						{{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
-						<?php
-							$cnt++;
-							$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
-						?>
-						<div class="col-md-3">
-							<label  class="checkbox">
-								<input type="checkbox" name="specimentypes[]" value="{{ $value->id}}" 
-									{{ in_array($value->id, $testtype->specimenTypes->lists('id'))?"checked":"" }} />
-									{{$value->name }}
-							</label>
+						@foreach($specimentypes as $key=>$value)
+							{{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
+							<?php
+								$cnt++;
+								$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
+							?>
+							<div class="col-md-3">
+								<label  class="checkbox">
+									<input type="checkbox" name="specimentypes[]" value="{{ $value->id}}" 
+										{{ in_array($value->id, $testtype->specimenTypes->lists('id'))?"checked":"" }} />
+										{{$value->name }}
+								</label>
+							</div>
+							{{ ($cnt%4==0)?"</div>":"" }}
+						@endforeach
 						</div>
-						{{ ($cnt%4==0)?"</div>":"" }}
-					@endforeach
 					</div>
 				</div>
 			</div>
@@ -82,7 +83,38 @@
 				{{ Form::text('prevalence_threshold', Input::old('prevalence_threshold'), 
 					array('class' => 'form-control')) }}
 			</div>
-		</div>
+			<div class="form-group">
+				{{ Form::label('culture-worksheet', trans('messages.show-culture-worksheet')) }}
+				<?php if(count($testtype->organisms)>0){$checked=true;} else{$checked=false;} ?>
+				{{ Form::checkbox(trans('messages.show-culture-worksheet'), "1", $checked, array('onclick'=>'toggle(".organismsClass", this)')) }}
+			</div>
+			<div class="form-group organismsClass" <?php if($checked==true){ ?>style="dispaly:block;"<?php }else{ ?>style="display:none;"<?php } ?>>
+				{{ Form::label('organisms', trans('messages.select-organisms')) }}
+				<div class="form-pane panel panel-default">
+					<div class="container-fluid">
+						<?php 
+							$counter = 0;
+							$alternator = "";
+						?>
+						@foreach($organisms as $key=>$val)
+							{{ ($counter%4==0)?"<div class='row $alternator'>":"" }}
+							<?php
+								$counter++;
+								$alternator = (((int)$counter/4)%2==1?"row-striped":"");
+							?>
+							<div class="col-md-3">
+								<label  class="checkbox">
+									<input type="checkbox" name="organisms[]" value="{{ $val->id}}" 
+										{{ in_array($val->id, $testtype->organisms->lists('id'))?"checked":"" }} >
+										{{ $val->name }}
+								</label>
+							</div>
+							{{ ($counter%4==0)?"</div>":"" }}
+						@endforeach
+						</div>
+					</div>
+				</div>
+			</div>
 		<div class="panel-footer">
 			<div class="form-group actions-row">
 				{{ Form::button(

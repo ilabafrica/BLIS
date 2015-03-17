@@ -66,6 +66,8 @@ class TestDataSeeder extends DatabaseSeeder
         
         /* Test Categories table - These map on to the lab sections */
         $test_categories = TestCategory::create(array("name" => "PARASITOLOGY","description" => ""));
+        $lab_section_microbiology = TestCategory::create(array("name" => "MICROBIOLOGY","description" => ""));
+
         $this->command->info('test_categories seeded');
         
         
@@ -225,6 +227,7 @@ class TestDataSeeder extends DatabaseSeeder
         
         /* Test Types table */
         $testTypeBS = TestType::create(array("name" => "BS for mps", "test_category_id" => $test_categories->id));
+        $testTypeStoolCS = TestType::create(array("name" => "Stool for C/S", "test_category_id" => $lab_section_microbiology->id));
         $testTypeGXM = TestType::create(array("name" => "GXM", "test_category_id" => $test_categories->id));
         $testTypeHB = TestType::create(array("name" => "HB", "test_category_id" => $test_categories->id));
         $testTypeUrinalysis = TestType::create(array("name" => "Urinalysis", "test_category_id" => $test_categories->id));
@@ -897,6 +900,8 @@ class TestDataSeeder extends DatabaseSeeder
             array($test_types_brucella->id, "13"));
         DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
             array($test_types_pylori->id, "13"));
+        DB::insert('INSERT INTO testtype_specimentypes (test_type_id, specimen_type_id) VALUES (?, ?)', 
+            array($testTypeStoolCS->id, "16"));
         $this->command->info('TestTypes/SpecimenTypes seeded');
         
         /*New measures for prevalence*/
@@ -1366,54 +1371,76 @@ class TestDataSeeder extends DatabaseSeeder
 
         //Seed for facilities
         $facilitiesSeed = array(
-            array('name' => "ST.DAMIANO MEDICAL CENTRE"),
+            array('name' => "WALTER REED"),
             array('name' => "AGA KHAN UNIVERSITY HOSPITAL"),
-            array('name' => "BUNGOMA DISTRICT HOSPITAL CCC"),
-            array('name' => "GK PRISON DISPENSARY, BUNGOMA SOUTH"),
+            array('name' => "TEL AVIV GENERAL HOSPITAL"),
+            array('name' => "GK PRISON DISPENSARY"),
             array('name' => "KEMRI ALUPE"),
-            array('name' => "AMPATH"),
-            array('name' => "BULONDO DISPENSARY"),
-            array('name' => "BUMULA HEALTH CENTRE"),
-            array('name' => "CBM NALONDO MODEL"),
-            array('name' => "CHEBUKAKA MISSION HOSPITAL"),
-            array('name' => "CHEMWA BRIDGE DISPENSARY"),
-            array('name' => "CHEPTAIS SUBDISTRICT HOSPITAL"),
-            array('name' => "CHWELE SUB COUNTY HOSPITAL"),
-            array('name' => "EKITALE DISPENSARY"),
-            array('name' => "ELGON VIEW MEDICAL COTTAGE"),
-            array('name' => "KABUCHAI HEALTH CENTRE"),
-            array('name' => "KABULA DISPENSARY"),
-            array('name' => "KAPTANAI DISPENSARY"),
-            array('name' => "KEMRI NAIROBI"),
-            array('name' => "KHASOKO HC"),
-            array('name' => "KIBABII  HEALTH CENTRE"),
-            array('name' => "KIBUKE DISPENSARY"),
-            array('name' => "KIMAETI DISPENSARY"),
-            array('name' => "KIMILILI DISTRICT HOSPITAL"),
-            array('name' => "KITALE DISTRICT HOSPITAL"),
-            array('name' => "KOROSIANDET DISPENSARY"),
-            array('name' => "LUMBOKA MEDICAL SERVICES"),
-            array('name' => "LUUYA DISPENSARY"),
-            array('name' => "MACHWELE DISPENSARY"),
-            array('name' => "MALAKISI HEALTH CENTRE"),
-            array('name' => "MAYANJA DISPENSARY"),
-            array('name' => "MECHIMERU DISPENSARY"),
-            array('name' => "MILUKI DISPENSARY"),
-            array('name' => "MUMBULE DISPENSARY"),
-            array('name' => "NALONDO MODEL HEALTH CENTRE"),
-            array('name' => "NASIANDA DISPENSARY"),
-            array('name' => "NGALASIA DISPENSARY"),
-            array('name' => "NZOIA MEDICAL CENTRE"),
-            array('name' => "NZOIA SUGAR  DISPENSARY"),
-            array('name' => "SIBOTI MODEL HEALTH CENTRE"),
-            array('name' => "SIRISIA SUBDISTRICT HOSPITAL"),
-            array('name' => "TAMLEGA DISPENSARY")
+            array('name' => "AMPATH")
         );
 
         foreach ($facilitiesSeed as $facility) {
             Facility::create($facility);
         }
         $this->command->info('Facilities table seeded');
+
+        //Seed for diseases
+        $malaria = Disease::create(array('name' => "Malaria"));
+        $typhoid = Disease::create(array('name' => "Typhoid"));
+        $dysentry = Disease::create(array('name' => "Shigella Dysentry"));
+
+        $this->command->info("Dieases table seeded");
+
+        $reportDiseases = array(
+            array(
+                "test_type_id" => $testTypeBS->id,
+                "disease_id" => $malaria->id,
+                ),
+             array(
+                "test_type_id" => $test_types_salmonella->id,
+                "disease_id" => $typhoid->id,
+                ),
+             array(
+                "test_type_id" => $testTypeStoolCS->id,
+                "disease_id" => $dysentry->id,
+                ),
+        );
+
+        foreach ($reportDiseases as $reportDisease) {
+            ReportDisease::create($reportDisease);
+        }
+        $this->command->info("Report Disease table seeded");
+
+        //Seed for drugs
+        $drugs = array(
+            array('name' => "PENICILLIN"),
+            array('name' => "AMPICILLIN"),
+            array('name' => "CLINDAMYCIN"),
+            array('name' => "TETRACYCLINE"),
+            array('name' => "CIPROFLOXACIN"),
+            array('name' => "TRIMETHOPRIM/SULFA"),
+            array('name' => "NITROFURANTOIN"),
+            array('name' => "CHLORAMPHENICOL"),
+            array('name' => "CEFAZOLIN"),
+            array('name' => "GANTAMICIN"),
+            array('name' => "AMOXICILLIN-CLAV"),
+            array('name' => "CEPHALOTHIN"),
+            array('name' => "CEFUROXIME"),
+            array('name' => "CEFOTAXIME"),
+            array('name' => "PIPERACILLIN"),
+            array('name' => "CEFIXIME"),
+            array('name' => "CEFTAZIDIME"),
+            array('name' => "CEFRIAXONE"),
+            array('name' => "LEVOFLOXACIN"),
+            array('name' => "MERODENEM"),
+            array('name' => "PIPERACILLIN/TAZO"),
+            array('name' => "IMEDENEM")
+        );
+
+        foreach ($drugs as $drug) {
+            $addedDrugs[] = Drug::create($drug);
+        }
+        $this->command->info('Drugs table seeded');
     }
 
     public function createSpecimen(

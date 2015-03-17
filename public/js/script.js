@@ -44,6 +44,34 @@ $(function(){
 	});
 
 	/** 
+	 *	LAB CONFIGURATION 
+	 */
+
+	 /* Add another surveillance */
+	$('.add-another-surveillance').click(function(){
+		newSurveillanceNo = $(this).data('new-surveillance');
+		var inputHtml = $('.addSurveillanceLoader').html();
+		//Count new measures on the new measure button
+		$('.surveillance-input').append(inputHtml);
+		$('.surveillance-input .new').addClass('new-surveillance-'+newSurveillanceNo).removeClass('new');
+		$(this).data('new-surveillance',  newSurveillanceNo+1).attr('data-new-surveillance',  newSurveillanceNo+1);
+		addNewSurveillanceAttributes(newSurveillanceNo);
+		delete newSurveillanceNo;
+	});
+	 
+	 /* Add another disease */
+	$('.add-another-disease').click(function(){
+		newDiseaseNo = $(this).data('new-disease');
+		var inputHtml = $('.addDiseaseLoader').html();
+		//Count new measures on the new measure button
+		$('.disease-input').append(inputHtml);
+		$('.disease-input .new').addClass('new-disease-'+newDiseaseNo).removeClass('new');
+		$(this).data('new-disease',  newDiseaseNo+1).attr('data-new-disease',  newDiseaseNo+1);
+		addNewDiseaseAttributes(newDiseaseNo);
+		delete newDiseaseNo;
+	});
+
+	/** 
 	 *	MEASURES 
 	 */
 
@@ -136,6 +164,18 @@ $(function(){
 	$('.measure-container').on('click', '.close', function(){
 		$(this).parent().parent().remove();
 	});
+	
+	// Delete Surveillance entry
+
+	$('.surveillance-input').on('click', '.close', function(){
+		$(this).parent().parent().parent().remove();
+	});
+
+	// Delete Disease entry
+
+	$('.disease-input').on('click', '.close', function(){
+		$(this).parent().parent().parent().remove();
+	});
 
 	/** 
 	 * Fetch Test results
@@ -206,6 +246,37 @@ $(function(){
 		    //Show it in the modal
 		    $(e.currentTarget).find('.modal-body').html(data);
 	    });
+	});
+  
+
+	/** Receive Test Request button.
+	 *  - Updates the Test status via an AJAX call
+	 *  - Changes the UI to show the right status and buttons
+	 */
+	$('.tests-log').on( "click", ".receive-test", function(e) {
+
+		var testID = $(this).data('test-id');
+		var specID = $(this).data('specimen-id');
+
+		var url = location.protocol+ "//"+location.host+ "/test/" + testID+ "/receive";
+		$.post(url, { id: testID}).done(function(){});
+
+		var parent = $(e.currentTarget).parent();
+		// First replace the status
+		var newStatus = $('.pending-test-not-collected-specimen').html();
+		parent.siblings('.test-status').html(newStatus);
+
+		// Add the new buttons
+		var newButtons = $('.accept-button').html();
+		parent.append(newButtons);
+
+		// Set properties for the new buttons
+		parent.children('.accept-specimen').attr('data-test-id', testID);
+		parent.children('.accept-specimen').attr('data-specimen-id', specID);
+
+		// Now remove the unnecessary buttons
+		$(this).siblings('.receive-test').remove();
+		$(this).remove();
 	});
 
 	/** Accept Specimen button.
@@ -354,6 +425,21 @@ $(function(){
 			$('#new-test-modal .modal-footer .next').prop('disabled', false);
 		});
 	});
+
+	/**
+	 *	Lab Configurations Functions
+	 */
+	function addNewSurveillanceAttributes (newSurveillanceNo) {
+		$('.new-surveillance-'+newSurveillanceNo).find('select.test-type').attr(
+			'name', 'new-surveillance['+newSurveillanceNo+'][test-type]');
+		$('.new-surveillance-'+newSurveillanceNo).find('select.disease').attr(
+			'name', 'new-surveillance['+newSurveillanceNo+'][disease]');
+	}
+
+	function addNewDiseaseAttributes (newDiseaseNo) {
+		$('.new-disease-'+newDiseaseNo).find('input.disease').attr(
+			'name', 'new-diseases['+newDiseaseNo+'][disease]');
+	}
 
 	/**
 	 *	Measure Functions
@@ -542,3 +628,111 @@ $(function(){
         	}
    		});
 	});
+
+	//Make sure all input fields are entered before submission
+	function authenticate (form) {
+    	var empty = false;
+		$('form :input:not(button)').each(function() {
+
+            if ($(this).val() == '') {
+                empty = true;
+	            $('.error-div').removeClass('hidden');
+            }
+	        if (empty) return false;
+	    });
+        if (empty) return;
+	    $(form).submit();
+	}
+
+	function saveObservation(tid, user, username){
+		txtarea = "observation_"+tid;
+		observation = $("#"+txtarea).val();
+
+		$.ajax({
+			type: 'POST',
+			url:  '/culture/storeObservation',
+			data: {obs: observation, testId: tid, userId: user, action: "add"},
+			success: function(){
+				drawCultureWorksheet(tid , user, username);
+			}
+		});
+	}
+	/**
+	 * Request a json string from the server containing contents of the culture_worksheet table for this test
+	 * and then draws a table based on this data.
+	 * @param  {int} tid      Test Id of the test
+	 * @param  {string} username Current user
+	 * @return {void}          No return
+	 */
+	function drawCultureWorksheet(tid, user, username){
+		console.log(username);
+		$.getJSON('/culture/storeObservation', { testId: tid, userId: user, action: "draw"}, 
+			function(data){
+				var tableBody ="";
+				$.each(data, function(index, elem){
+					tableBody += "<tr>"
+					+" <td>"+elem.timeStamp+" </td>"
+					+" <td>"+elem.user+"</td>"
+					+" <td>"+elem.observation+"</td>"
+					+" <td> </td>"
+					+"</tr>";
+				});
+				tableBody += "<tr>"
+					+"<td>0 seconds ago</td>"
+					+"<td>"+username+"</td>"
+					+"<td><textarea id='observation_"+tid+"' class='form-control result-interpretation' rows='2'></textarea></td>"
+					+"<td><a class='btn btn-xs btn-success' href='javascript:void(0)' onclick='saveObservation("+tid+", &quot;"+user+"&quot;, &quot;"+username+"&quot;)'>Save</a></td>"
+					+"</tr>";
+				$("#tbbody_"+tid).html(tableBody);
+			}
+		);
+	}
+
+	/*Begin save drug susceptibility*/	
+	function saveDrugSusceptibility(tid, oid){
+		console.log(oid);
+		var dataString = $("#drugSusceptibilityForm_"+oid).serialize();
+		$.ajax({
+			type: 'POST',
+			url:  '/susceptibility/saveSusceptibility',
+			data: dataString,
+			success: function(){
+				drawSusceptibility(tid, oid);
+			}
+		});
+	}
+	/*End save drug susceptibility*/
+	/*Function to render drug susceptibility table after successfully saving the results*/
+	 function drawSusceptibility(tid, oid){
+		$.getJSON('/susceptibility/saveSusceptibility', { testId: tid, organismId: oid, action: "results"}, 
+			function(data){
+				var tableRow ="";
+				var tableBody ="";
+				$.each(data, function(index, elem){
+					tableRow += "<tr>"
+					+" <td>"+elem.drugName+" </td>"
+					+" <td>"+elem.zone+"</td>"
+					+" <td>"+elem.interpretation+"</td>"
+					+"</tr>";
+				});
+				//tableBody +="<tbody>"+tableRow+"</tbody>";
+				$( "#enteredResults_"+oid).html(tableRow);
+				$("#submit_drug_susceptibility_"+oid).hide();
+			}
+		);
+	}
+	/*End drug susceptibility table rendering script*/
+	/*Function to toggle possible isolates*/
+	function toggle(className, obj){
+		var $input = $(obj);
+		if($input.prop('checked'))
+			$(className).show();
+		else
+			$(className).hide();
+	}
+	/*End toggle function*/
+	/*Toggle susceptibility tables*/
+	function showSusceptibility(id){
+		$('#drugSusceptibilityForm_'+id).toggle(this.checked);
+	}
+	/*End toggle susceptibility*/

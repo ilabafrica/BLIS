@@ -1,4 +1,4 @@
-	@section("sidebar")
+@section("sidebar")
 <?php
 	$active = array("","","","","","","","");
 	$key = explode("?",str_replace("/", "?", Request::path()));
@@ -8,6 +8,7 @@
 		case 'test': $active[2] = "active"; break;
 		case 'labconfig': 
 		case 'instrument':
+		case 'reportconfig':
 		case 'facility': 
 			$active[3] = "active"; break;
 		case 'testcategory': 
@@ -15,10 +16,13 @@
 		case 'measure': 
 		case 'specimentype': 
 		case 'specimenrejection': 
+		case 'drug':
+		case 'organism':
 			$active[4] = "active"; break;
 		case 'patientreport': 
 		case 'dailylog': 
 		case 'prevalence':
+		case 'surveillance':
 		case 'counts':
 		case 'tat':
 		case 'infection':
@@ -81,9 +85,15 @@
 						</div>
 					</li>
 				</ul>
+				<ul class="sub-menu-items">
+					<li>
+						<div><a href="{{ URL::route("reportconfig.surveillance") }}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{ trans('messages.surveillance')}}</a>
+						</div>
+					</li>
+				</ul>
 			</div>
-			
-
 		</li>
 		@endif
 		@if(Entrust::can('manage_test_catalog'))
@@ -116,6 +126,18 @@
 						<div>
 							<a href="{{ URL::route("testtype.index")}}">
 								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.test-type', 2)}}</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route("drug.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.drug', 2)}}</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route("organism.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.organism', 2)}}</a>
 						</div>
 					</li>
 				</ul>
@@ -151,6 +173,12 @@
 						<div><a href="{{ URL::route('reports.aggregate.prevalence')}}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{trans('messages.prevalence-rates')}}</a>
+						</div>
+					</li>
+					<li>
+						<div><a href="{{ URL::route('reports.aggregate.surveillance')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.surveillance')}}</a>
 						</div>
 					</li>
 					<li>
