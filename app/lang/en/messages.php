@@ -589,6 +589,7 @@ return array(
     'commodity-succesfully-deleted' => 'The commodity was successfully deleted!',
     'supplier-succesfully-deleted' => 'The supplier was successfully deleted!',
     'receipt-succesfully-updated' => 'The receipt was successfully updated',
+    'receipt-succesfully-added' => 'The receipt was successfully added',
     'receipt-succesfully-deleted' => 'The receipt was successfully deleted!',
     'success-updating-metric' => 'The metric was succesfully updated',
     'success-updating-supplier' => 'The supplier was succesfully updated',

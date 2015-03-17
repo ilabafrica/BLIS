@@ -47,8 +47,8 @@ class ReceiptController extends \BaseController {
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator)
-				->withInput();
+			return Redirect::route('receipt.index')->withErrors($validator);
+				
 		} else {
 			$receipts = new Receipt;
 			$receipts->commodity_id = Input::get('commodity');
@@ -60,7 +60,7 @@ class ReceiptController extends \BaseController {
 
 			$receipts->save();
 			return Redirect::route('receipt.index')
-					->with('message', 'Successfully added');
+					->with('message', trans('messages.receipt-succesfully-added'));
 		}
 	}
 
@@ -106,15 +106,14 @@ class ReceiptController extends \BaseController {
 	{
 		$rules = array(
 			'commodity' => 'required',
-			'quantity' => 'required',
-			'batch_no' => 'required',
-			'supplier' => 'required',
-			'expiry_date' => 'required|date'
+		
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
+		// process the login
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator) ->withInput();
+			return Redirect::route('receipt.index')->withErrors($validator);
+				
 		} else {
 			// Update
 			$receipt = Receipt::find($id);
@@ -123,11 +122,15 @@ class ReceiptController extends \BaseController {
 			$receipt->quantity = Input::get('quantity');
 			$receipt->batch_no = Input::get('batch_no');
 			$receipt->expiry_date= Input::get('expiry_date');
-			$receipt->save();
+				
+		    $receipt->save();
+			return Redirect::route('receipt.index')
+					->with('message', trans('messages.receipt-succesfully-updated'));
 		}
-		return Redirect::route('receipt.index')
-			->with('message', trans('messages.receipt-succesfully-updated'));
 	}
+
+
+
 
 
 	/**

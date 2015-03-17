@@ -48,7 +48,7 @@ class TopUpController extends \BaseController {
 
 		// process the login
 		if ($validator->fails()) {
-		return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
+		return Redirect::route('topup.index')->withErrors($validator);
 		} else {
 			// store
 			$labTopup = new TopupRequest;
