@@ -97,7 +97,7 @@ class SupplierController extends \BaseController {
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
+			return Redirect::to('supplier.edit')->withErrors($validator)->withInput(Input::except('password'));
 		} else {
 		// Update
 			$supplier = Supplier::find($id);
