@@ -27,7 +27,7 @@ class IssueControllerTest extends TestCase
 			'batch_no' => Receipt::find(1)->id,
 			'topup_request_id' => TopupRequest::find(1)->id,
 			'quantity_issued' => '20',
-			'issued_to' => 'Lab2',
+			'receivers_name' => 'Lab2',
 			'remarks' => 'first issue',
 			
 		);
@@ -38,7 +38,7 @@ class IssueControllerTest extends TestCase
 			'batch_no' => Receipt::find(1)->id,
 			'topup_request_id' => TopupRequest::find(1)->id,
 			'quantity_issued' => '20',
-			'issued_to' => 'Lab2',
+			'receivers_name' => 'Lab2',
 			'remarks' => 'first issue',
 						
 		);
@@ -62,7 +62,7 @@ class IssueControllerTest extends TestCase
 		$this->assertEquals($issueSaved[0]['receipt_id'], $this->input['batch_no']);
 		$this->assertEquals($issueSaved[0]['topup_request_id'], $this->input['topup_request_id']);
 		$this->assertEquals($issueSaved[0]['quantity_issued'], $this->input['quantity_issued']);
-		$this->assertEquals($issueSaved[0]['issued_to'], $this->input['issued_to']);
+		$this->assertEquals($issueSaved[0]['issued_to'], $this->input['receivers_name']);
 		$this->assertEquals($issueSaved[0]['remarks'], $this->input['remarks']);
 		
   	}
@@ -86,7 +86,7 @@ class IssueControllerTest extends TestCase
 		$this->assertEquals($issueUpdated[0]['receipt_id'], $this->inputUpdate['batch_no']);
 		$this->assertEquals($issueUpdated[0]['topup_request_id'], $this->inputUpdate['topup_request_id']);
 		$this->assertEquals($issueUpdated[0]['quantity_issued'], $this->inputUpdate['quantity_issued']);
-		$this->assertEquals($issueUpdated[0]['issued_to'], $this->inputUpdate['issued_to']);
+		$this->assertEquals($issueUpdated[0]['issued_to'], $this->inputUpdate['receivers_name']);
 		$this->assertEquals($issueUpdated[0]['remarks'], $this->inputUpdate['remarks']);
 	}
 	/**

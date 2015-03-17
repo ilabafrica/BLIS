@@ -99,7 +99,7 @@ class CommodityController extends \BaseController {
 );
 		$validator = Validator::make(Input::all(), $rules);
 
-		// process the login
+		// process the validation
 		if ($validator->fails()) {
 			return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
 		} else {

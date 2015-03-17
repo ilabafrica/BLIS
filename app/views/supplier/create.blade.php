@@ -28,16 +28,16 @@
                 {{ Form::text('name', Input::old('suppliers-name'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('phone-number', trans('messages.phone-number')) }}
-                {{ Form::text('phone-number', Input::old('phone-number'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('phone_no', trans('messages.phone-number')) }}
+                {{ Form::text('phone_no, Input::old('phone_no'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('email', trans('messages.email')) }}
                 {{ Form::text('email', Input::old('email'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
              <div class="form-group">
-                {{ Form::label('physical-address', trans('messages.physical-address')) }}
-                {{ Form::textarea('physical-address', Input::old('physical-address'), array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('physical_address', trans('messages.physical-address')) }}
+                {{ Form::textarea('physical_address', Input::old('physical_address'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             
            

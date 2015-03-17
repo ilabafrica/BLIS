@@ -33,7 +33,7 @@ class MetricController extends \BaseController {
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator);
+			return Redirect::route('metric.index')->withErrors($validator);
 		} else {
 			// store
 			$metric = new Metric;
@@ -78,11 +78,11 @@ class MetricController extends \BaseController {
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
+			return Redirect::route('metric.index')->withErrors($validator);
 		} else {
 		// Update
 			$metric = Metric::find($id);
-			$metric->name= Input::get('name');
+			$metric->name= Input::get('unit-of-issue');
 			$metric->description= Input::get('description');
 				
 		try{

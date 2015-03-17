@@ -24,8 +24,8 @@ class ReceiptControllerTest extends TestCase
 		// Initial sample storage data
 		$this->input = array(
 						
-			'commodity_id' => Commodity::find(1)->id,
-			'supplier_id' => Supplier::find(1)->id,
+			'commodity' => Commodity::find(1)->id,
+			'supplier' => Supplier::find(1)->id,
 			'quantity' => '200',
 			'batch_no' => '4535',
 			'expiry_date' => '2015-07-17',
@@ -37,8 +37,8 @@ class ReceiptControllerTest extends TestCase
 		// Edition sample data
 		$this->inputUpdate = array(
 			
-			'commodity_id' => Commodity::find(1)->id,
-			'supplier_id' => Supplier::find(1)->id,
+			'commodity' => Commodity::find(1)->id,
+			'supplier' => Supplier::find(1)->id,
 			'quantity' => '200',
 			'batch_no' => '4535',
 			'expiry_date' => '2015-07-17',
@@ -61,8 +61,8 @@ class ReceiptControllerTest extends TestCase
 
 		$receiptSaved = receipt::orderBy('id','desc')->take(1)->get()->toArray();
 				
-		$this->assertEquals($receiptSaved[0]['commodity_id'], $this->input['commodity_id']);
-		$this->assertEquals($receiptSaved[0]['supplier_id'], $this->input['supplier_id']);
+		$this->assertEquals($receiptSaved[0]['commodity_id'], $this->input['commodity']);
+		$this->assertEquals($receiptSaved[0]['supplier_id'], $this->input['supplier']);
 		$this->assertEquals($receiptSaved[0]['quantity'], $this->input['quantity']);
 		$this->assertEquals($receiptSaved[0]['batch_no'], $this->input['batch_no']);
 		$this->assertEquals($receiptSaved[0]['expiry_date'], $this->input['expiry_date']);
@@ -85,8 +85,8 @@ class ReceiptControllerTest extends TestCase
 		$receiptUpdated = receipt::orderBy('id','desc')->take(1)->get()->toArray();
 
 
-		$this->assertEquals($receiptUpdated[0]['commodity_id'], $this->inputUpdate['commodity_id']);
-		$this->assertEquals($receiptUpdated[0]['supplier_id'], $this->inputUpdate['supplier_id']);
+		$this->assertEquals($receiptUpdated[0]['commodity_id'], $this->inputUpdate['commodity']);
+		$this->assertEquals($receiptUpdated[0]['supplier_id'], $this->inputUpdate['supplier']);
 		$this->assertEquals($receiptUpdated[0]['quantity'], $this->inputUpdate['quantity']);
 		$this->assertEquals($receiptUpdated[0]['batch_no'], $this->inputUpdate['batch_no']);
 		$this->assertEquals($receiptUpdated[0]['expiry_date'], $this->inputUpdate['expiry_date']);

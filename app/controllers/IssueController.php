@@ -48,8 +48,7 @@ class IssueController extends \BaseController {
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator);
-				
+			return Redirect::route('issue.index')->withErrors($validator);
 		} else {
 			// store
 			$issue = new Issue;
@@ -118,7 +117,7 @@ class IssueController extends \BaseController {
 	public function update($id)
 	{
 		$rules = array(
-			'issued_to' => 'required',
+			'receivers_name' => 'required',
 			'quantity_issued' => 'required|integer',
 			'batch_no' => 'required',
 		);
@@ -126,15 +125,15 @@ class IssueController extends \BaseController {
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator)
-				->withInput();
+			return Redirect::route('issue.index')->withErrors($validator);
+				
 		} else {
 			// Update
 			$issue = Issue::find($id);
 			$issue->receipt_id = Input::get('batch_no');
 			$issue->topup_request_id = Input::get('topup_request_id');
 			$issue->quantity_issued = Input::get('quantity_issued');
-			$issue->issued_to = Input::get('issued_to');
+			$issue->issued_to = Input::get('receivers_name');
 			$issue->user_id = Auth::user()->id;
 			$issue->remarks = Input::get('remarks');
 

@@ -24,8 +24,8 @@ class TopUpControllerTest extends TestCase
 		// Initial sample storage data
 		$this->input = array(
 
-			'test_category_id' => '2',
-			'commodity_id' => '1',
+			'lab_section' => TestCategory::find(1)->id,
+			'commodity' => Commodity::find(1)->id,
 			'order_quantity' => '1000',
 			'remarks' => 'More quantity required',
 			
@@ -35,8 +35,8 @@ class TopUpControllerTest extends TestCase
 		// Edition sample data
 		$this->inputUpdate = array(
 			
-			'test_category_id' => '2',
-			'commodity_id' => '1',
+			'lab_section' => TestCategory::find(1)->id,
+			'commodity' => Commodity::find(1)->id,
 			'order_quantity' => '1000',
 			'remarks' => 'More quantity required',
 						
@@ -58,8 +58,8 @@ class TopUpControllerTest extends TestCase
 
 		$topupSaved = TopUpRequest::orderBy('id','desc')->take(1)->get()->toArray();
 				
-		$this->assertEquals($topupSaved[0]['test_category_id'], $this->input['test_category_id']);
-		$this->assertEquals($topupSaved[0]['commodity_id'], $this->input['commodity_id']);
+		$this->assertEquals($topupSaved[0]['test_category_id'], $this->input['lab_section']);
+		$this->assertEquals($topupSaved[0]['commodity_id'], $this->input['commodity']);
 		$this->assertEquals($topupSaved[0]['order_quantity'], $this->input['order_quantity']);
 		$this->assertEquals($topupSaved[0]['remarks'], $this->input['remarks']);
 		
@@ -81,8 +81,8 @@ class TopUpControllerTest extends TestCase
 		$topupUpdated = TopUpRequest::orderBy('id','desc')->take(1)->get()->toArray();
 
 
-		$this->assertEquals($topupUpdated[0]['test_category_id'], $this->inputUpdate['test_category_id']);
-		$this->assertEquals($topupUpdated[0]['commodity_id'], $this->inputUpdate['commodity_id']);
+		$this->assertEquals($topupUpdated[0]['test_category_id'], $this->inputUpdate['lab_section']);
+		$this->assertEquals($topupUpdated[0]['commodity_id'], $this->inputUpdate['commodity']);
 		$this->assertEquals($topupUpdated[0]['order_quantity'], $this->inputUpdate['order_quantity']);
 		$this->assertEquals($topupUpdated[0]['remarks'], $this->inputUpdate['remarks']);
 		

@@ -43,9 +43,9 @@ class SupplierController extends \BaseController {
 			// store
 			$supplier = new Supplier;
 			$supplier->name= Input::get('name');
-			$supplier->phone_no= Input::get('phone-number');
+			$supplier->phone_no= Input::get('phone_no');
 			$supplier->email= Input::get('email');
-			$supplier->physical_address= Input::get('physical-address');
+			$supplier->physical_address= Input::get('physical_address');
 			try{
 				$supplier->save();
 				return Redirect::route('supplier.index')
