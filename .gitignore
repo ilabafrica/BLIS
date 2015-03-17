@@ -6,4 +6,3 @@ composer.lock
 .env.php
 .DS_Store
 Thumbs.db
-app/controllers/SupplierController.php
