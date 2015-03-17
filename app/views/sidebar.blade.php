@@ -1,6 +1,6 @@
 @section("sidebar")
 <?php
-	$active = array("","","","","","","","");
+	$active = array("","","","","","","","","");
 	$key = explode("?",str_replace("/", "?", Request::path()));
 	switch ($key[0]) {
 		case 'home': $active[0] = "active"; break;
@@ -44,7 +44,6 @@
 		case 'controlresults':
 		case 'control':
 		case 'lot': $active[8] = "active"; break;
-
 	}
 ?>
 	<ul class="nav nav-sidebar">
