@@ -39,7 +39,7 @@
         </div>
         <div class="col-md-2">
         	{{Form::submit(trans('messages.view'), 
-	        	array('class' => 'btn btn-info', 'id'=>'filter', 'name'=>'filter'))}}
+	        	array('class' => 'btn btn-info loader-gif', 'id'=>'filter', 'name'=>'filter'))}}
         </div>
   	</div>
 </div>

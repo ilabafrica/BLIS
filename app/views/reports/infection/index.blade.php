@@ -43,7 +43,7 @@
         </div>
 	    <div class="col-md-2">
 		    {{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
-		        array('class' => 'btn btn-info', 'id' => 'filter', 'type' => 'submit')) }}
+		        array('class' => 'btn btn-info loader-gif', 'id' => 'filter', 'type' => 'submit')) }}
 	    </div>
 	</div>
 <!-- </div> -->

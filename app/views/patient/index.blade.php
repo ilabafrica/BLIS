@@ -19,7 +19,7 @@
 				</div>
 				<div class="form-group">
 					{{ Form::button("<span class='glyphicon glyphicon-search'></span> ".trans('messages.search'), 
-				        array('class' => 'btn btn-primary', 'type' => 'submit')) }}
+				        array('class' => 'btn btn-primary  loader-gif', 'type' => 'submit')) }}
 				</div>
 			{{ Form::close() }}
 		</div>

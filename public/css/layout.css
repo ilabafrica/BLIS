@@ -241,6 +241,26 @@ label, input {
                 left: 5px;
                 top: 11px;
             }
+.loading-gif{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    opacity: .7;
+    z-index: 1;
+    height:100%;
+    width:100%;
+    color: black;
+    background:#f9f9f9;
+}
+    .loading-gif div{
+        position:absolute;
+        top:270px;
+        left:50%;
+        transform:translate(-50%, -50%);
+        color: black;
+    }
+
 /*
  *
  *

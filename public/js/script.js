@@ -327,7 +327,6 @@ $(function(){
 		});
 
 		$('.loader-gif').click(function(){
-			$('.panel-body').children('*:not(.loading-gif)').empty();
 			$('.loading-gif').removeClass('hidden');
 		});
 });
