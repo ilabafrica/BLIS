@@ -27,10 +27,7 @@
                 {{ Form::label('name', trans('messages.name')) }}
                 {{ Form::text('name', Input::old('name'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
-             <div class="form-group">
-                {{ Form::label('physical_address', trans('messages.physical-address')) }}
-                {{ Form::text('physical_address', Input::old('physical_address'), array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
+            
             <div class="form-group">
                 {{ Form::label('phone_no', trans('messages.phone-number')) }}
                 {{ Form::text('phone_no', Input::old('phone_no'),array('class' => 'form-control', 'rows' => '2')) }}
@@ -39,7 +36,10 @@
                 {{ Form::label('email', trans('messages.email')) }}
                 {{ Form::text('email', Input::old('email'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
-
+            <div class="form-group">
+                {{ Form::label('physical_address', trans('messages.physical-address')) }}
+                {{ Form::textarea('physical_address', Input::old('physical_address'), array('class' => 'form-control', 'rows' => '2')) }}
+            </div>
             <div class="form-group actions-row">
                     {{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 
                         array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}

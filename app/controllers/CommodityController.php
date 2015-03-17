@@ -24,7 +24,13 @@ class CommodityController extends \BaseController {
 	{
 		//
 		$rules = array(
-			'name' => 'required|unique:commodities,name');
+		'name' => 'required|unique:commodities,name',
+		'description' => 'required',
+		'unit_price' => 'required|numeric',
+		'item_code' => 'required',
+		'storage_req' => 'required',
+		'min_level' => 'required|numeric',
+		'max_level' => 'required|numeric',);
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
@@ -88,7 +94,9 @@ class CommodityController extends \BaseController {
 	public function update($id)
 	{
 		//Validate
-		$rules = array('name' => 'required');
+		$rules = array(
+		'name' => 'required',
+);
 		$validator = Validator::make(Input::all(), $rules);
 
 		// process the login

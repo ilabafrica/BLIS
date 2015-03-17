@@ -29,7 +29,7 @@ class MetricController extends \BaseController {
 	{
 		//
 		$rules = array(
-			'name' => 'required|unique:metrics,name');
+			'unit-of-issue' => 'required|unique:metrics,name');
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
@@ -37,7 +37,7 @@ class MetricController extends \BaseController {
 		} else {
 			// store
 			$metric = new Metric;
-			$metric->name= Input::get('name');
+			$metric->name= Input::get('unit-of-issue');
 			$metric->description= Input::get('description');
 			try{
 				$metric->save();

@@ -27,10 +27,6 @@
                 {{ Form::label('name', Lang::choice('messages.name', 1)) }}
                 {{ Form::text('name', Input::old('suppliers-name'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
-             <div class="form-group">
-                {{ Form::label('physical-address', trans('messages.physical-address')) }}
-                {{ Form::text('physical-address', Input::old('physical-address'), array('class' => 'form-control', 'rows' => '2')) }}
-            </div>
             <div class="form-group">
                 {{ Form::label('phone-number', trans('messages.phone-number')) }}
                 {{ Form::text('phone-number', Input::old('phone-number'),array('class' => 'form-control', 'rows' => '2')) }}
@@ -38,6 +34,10 @@
             <div class="form-group">
                 {{ Form::label('email', trans('messages.email')) }}
                 {{ Form::text('email', Input::old('email'),array('class' => 'form-control', 'rows' => '2')) }}
+            </div>
+             <div class="form-group">
+                {{ Form::label('physical-address', trans('messages.physical-address')) }}
+                {{ Form::textarea('physical-address', Input::old('physical-address'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             
            

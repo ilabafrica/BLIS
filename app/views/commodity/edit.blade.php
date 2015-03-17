@@ -29,7 +29,7 @@
             </div>
              <div class="form-group">
                 {{ Form::label('description', trans('messages.description')) }}
-                {{ Form::text('description', Input::old('description'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::textarea('description', Input::old('description'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
              <div class="form-group">
                 {{ Form::label('unit_of_issue', trans('messages.unit-of-issue')) }}
@@ -46,7 +46,7 @@
             </div>
             <div class="form-group">
                 {{ Form::label('storage_req', trans('messages.storage-req')) }}
-                {{ Form::text('storage_req', Input::old('storage_req'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::textarea('storage_req', Input::old('storage_req'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('min_level ', trans('messages.min-level')) }}

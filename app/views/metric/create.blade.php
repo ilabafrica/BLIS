@@ -24,12 +24,12 @@
 		   {{ Form::open(array('route' => 'metric.store', 'id' => 'form-store_metrics')) }}
 
             <div class="form-group">
-                {{ Form::label('name', trans('messages.unit-of-issue')) }}
-                {{ Form::text('name', Input::old('name'), array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('unit-of-issue', trans('messages.unit-of-issue')) }}
+                {{ Form::text('unit-of-issue', Input::old('unit-of-issue'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
              <div class="form-group">
                 {{ Form::label('description', trans('messages.description')) }}
-                {{ Form::text('description', Input::old('description'), array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::textarea('description', Input::old('description'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
                      
            

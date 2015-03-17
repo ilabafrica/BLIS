@@ -421,4 +421,11 @@ $(function(){
 		$('#facilities-index').DataTable();
 		$('#user-statistics-report-table').DataTable();
 		$('#measures-index').DataTable();
+		$('#topup-index').DataTable();
+		$('#receipt-index').DataTable();
+		$('#issue-index').DataTable();
+		$('#commodity-index').DataTable();
+		$('#supplier-index').DataTable();
+		$('#metric-index').DataTable();
+
 	});

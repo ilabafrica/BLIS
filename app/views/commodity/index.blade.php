@@ -22,7 +22,7 @@
 	</div>
 	<div class="panel-body">
 		
-<table class="table table-striped table-hover table-condensed">
+<table class="table table-striped table-hover table-condensed" id="commodity-index">
 			<thead>
 				<tr>
 					<th>{{Lang::choice('messages.commodity',1)}}</th>

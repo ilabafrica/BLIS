@@ -106,13 +106,16 @@ class SupplierController extends \BaseController {
 			$supplier->phone_no= Input::get('phone_no');
 			$supplier->email= Input::get('email');
 			$supplier->save();
-
-			$url = Session::get('SOURCE_URL');
-			return Redirect::to($url)
-					->with('message', trans('messages.success-updating-supplier')) ->with('activesupplier', $supplier ->id);
+			try{
+				$supplier->save();
+				return Redirect::route('supplier.index')
+				->with('message', trans('messages.success-updating-supplier')) ->with('activesupplier', $supplier ->id);
+			}catch(QueryException $e){
+				Log::error($e);
 			}
 		}
-
+			
+		}	
 	/**
 	 * Remove the specified resource from storage.
 	 *

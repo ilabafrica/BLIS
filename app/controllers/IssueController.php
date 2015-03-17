@@ -41,7 +41,7 @@ class IssueController extends \BaseController {
 	{
 		//
 		$rules = array(
-			'issued_to' => 'required',
+			'receivers_name' => 'required',
 			'quantity_issued' => 'required|integer',
 			'batch_no' => 'required',
 		);
@@ -56,7 +56,7 @@ class IssueController extends \BaseController {
 			$issue->receipt_id = Input::get('batch_no');
 			$issue->topup_request_id = Input::get('topup_request_id');
 			$issue->quantity_issued = Input::get('quantity_issued');
-			$issue->issued_to = Input::get('issued_to');
+			$issue->issued_to = Input::get('receivers_name');
 			$issue->user_id = Auth::user()->id;
 			$issue->remarks = Input::get('remarks');
 

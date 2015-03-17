@@ -29,7 +29,7 @@
             </div>
              <div class="form-group">
                 {{ Form::label('description', trans('messages.description')) }}
-                {{ Form::text('description', Input::old('description'), array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::textarea('description', Input::old('description'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
 
             <div class="form-group actions-row">

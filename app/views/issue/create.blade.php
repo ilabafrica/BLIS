@@ -53,8 +53,8 @@
                 {{ Form::text('quantity_issued', Input::old('quantity_issued'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('issued_to', trans('messages.receivers-name')) }}
-                {{ Form::select('issued_to', array(null => '')+ $users, Input::old('issued_to'),
+                {{ Form::label('receivers_name', trans('messages.receivers_name')) }}
+                {{ Form::select('receivers_name', array(null => '')+ $users, Input::old('issued_to'),
                     array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
