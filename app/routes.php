@@ -357,5 +357,46 @@ Route::group(array("before" => "auth"), function()
             "uses" => "ReportController@userStatistics"
         ));
         
+        Route::get("/qualitycontrol", array(
+            "as"   => "reports.qualityControl",
+            "uses" => "ReportController@qualityControl"
+        ));
+
+        Route::post("/qualitycontrol", array(
+            "as"   => "reports.qualityControl",
+            "uses" => "ReportController@qualityControlResults"
+        ));
+
+        
+    });
+
+    Route::group(array("before" => "admin"), function()
+    {
+        Route::resource("lot", "LotController");
+
+        Route::get('lot/{lotId}/delete', array(
+            'uses' => 'LotController@delete'
+        ));
+
+        Route::resource("control", "ControlController");
+
+        Route::get("controlresults", array(
+            "as"   => "control.resultsIndex",
+            "uses" => "ControlController@resultsIndex"
+        ));
+
+        Route::get("controlresults/{controlId}/resultsentry", array(
+            "as" => "control.resultsentry",
+            "uses" => "ControlController@resultsEntry"
+        ));
+
+        Route::get('control/{controlId}/delete', array(
+            'uses' => 'ControlController@destroy'
+        ));
+
+        Route::post('control/{controlId}/saveResults', array(
+            "as" => "control.saveResults",
+            'uses' => 'ControlController@saveResults'
+        ));
     });
 });

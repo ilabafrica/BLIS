@@ -162,7 +162,7 @@ class CreatekBLIStables extends Migration {
             $table->integer('id')->unsigned();
             $table->string('name',45);
 
-            $table->primary('id');            
+            $table->primary('id');
         });
 
         Schema::create('test_statuses', function(Blueprint $table)
@@ -291,7 +291,7 @@ class CreatekBLIStables extends Migration {
         {
             $table->increments('id')->unsigned();
             $table->string('name', 100);
-            $table->string('ip', 15);
+            $table->string('ip', 15)->nullable();
             $table->string('hostname', 100)->nullable();
             $table->string('description', 100)->nullable();
             $table->string('driver_name', 100)->nullable();

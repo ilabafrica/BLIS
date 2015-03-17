@@ -497,6 +497,8 @@ $(function(){
 			'name', 'new-measures['+measureID+'][measure_type_id]');
 		$('.measure-section.new-'+measureID+' input.unit').attr(
 			'name', 'new-measures['+measureID+'][unit]');
+		$('.measure-section.new-'+measureID+' input.expected').attr(
+			'name', 'new-measures['+measureID+'][expected]');
 		$('.measure-section.new-'+measureID+' textarea.description').attr(
 			'name', 'new-measures['+measureID+'][description]');
 	}
@@ -614,6 +616,7 @@ $(function(){
 	    }
 	}
 
+	//DataTables search functionality
 	$(document).ready( function () {
 		$('.search-table').DataTable({
         	'bStateSave': true,

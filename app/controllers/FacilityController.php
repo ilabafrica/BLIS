@@ -49,13 +49,12 @@ class FacilityController extends \BaseController {
 				$facility->save();
 				$url = Session::get('SOURCE_URL');
 				return Redirect::to($url)
-
-					->with('message', trans('messages.successfully-updated-facility'))->with('activefacility', $facility ->id);
+					->with('message', trans('messages.successfully-updated-facility'))
+					->with('activefacility', $facility ->id);
 			} catch(QueryException $e){
 				Log::error($e);
 			}
 		}
-
 	}
 
 

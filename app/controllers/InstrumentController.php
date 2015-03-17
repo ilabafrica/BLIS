@@ -45,8 +45,8 @@ class InstrumentController extends \BaseController {
 	{
 		//
 		$rules = array(
-			'instrument' => 'required',
-			'ip' => 'required|ip',
+			'name' => 'required',
+			'ip' => 'sometimes|ip',
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -55,13 +55,14 @@ class InstrumentController extends \BaseController {
 			return Redirect::route('instrument.create')->withErrors($validator);
 		} else {
 			// Save the instrument
-			$code = Input::get('instrument');
-			$ip = Input::get('ip');
-			$hostname = Input::get('hostname');
+			$newInstrument = new Instrument();
+			$newInstrument->name = Input::get('name');
+			$newInstrument->description = Input::get('description');
+			$newInstrument->ip = Input::get('ip');
+			$newInstrument->hostname = Input::get('hostname');
 
-			$message = Instrument::saveInstrument($code, $ip, $hostname);
-
-			return Redirect::route('instrument.index')->with('message', $message);
+			$newInstrument->save();
+			return Redirect::route('instrument.index')->with('message', trans('messages.success-creating-instrument'));
 		}
 	}
 

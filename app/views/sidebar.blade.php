@@ -1,6 +1,6 @@
-	@section("sidebar")
+@section("sidebar")
 <?php
-	$active = array("","","","","","","");
+	$active = array("","","","","","","","");
 	$key = explode("?",str_replace("/", "?", Request::path()));
 	switch ($key[0]) {
 		case 'home': $active[0] = "active"; break;
@@ -27,11 +27,17 @@
 		case 'tat':
 		case 'infection':
 		case 'userstatistics':
+		case 'qualitycontrol':
 			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
 		case 'user': 
-		case 'role': $active[6] = "active"; break;
+		case 'role': 
+			$active[6] = "active"; break;
+		case 'controlresults':
+		case 'control':
+		case 'lot': $active[7] = "active"; break;
+
 	}
 ?>
 	<ul class="nav nav-sidebar">
@@ -60,11 +66,25 @@
 					<span class="glyphicon glyphicon-wrench"></span> {{trans('messages.lab-configuration')}}</a>
 			</div>
 			<div class="sub-menu {{$active[3]}}">
-				<div class="sub-menu-title">
-					<a href="{{ URL::route('instrument.index')}}">
-						{{Lang::choice('messages.instrument', 2)}}</a>
-				</div>
-				<div class="sub-menu-title">{{ Lang::choice('messages.report', 2)}}</div>
+				<ul class="sub-menu-items">
+					<li>
+						<div>
+							<a href="{{ URL::route('instrument.index')}}">
+								<span class="glyphicon glyphicon-tag"></span>
+								{{Lang::choice('messages.instrument', 2)}}</a>
+						</div>
+					</li>
+				</ul>
+				<ul class="sub-menu-items">
+					<li>
+						<div>
+							<a href="{{ URL::route("facility.index") }}">
+								<span class="glyphicon glyphicon-tag"></span>
+									{{Lang::choice('messages.facility',2)}}
+							</a>
+						</div>
+					</li>
+				</ul>
 				<ul class="sub-menu-items">
 					<li>
 						<div><a href="{{ URL::route("reportconfig.surveillance") }}">
@@ -73,10 +93,6 @@
 						</div>
 					</li>
 				</ul>
-				<div class="sub-menu-title">
-					<a href="{{ URL::route("facility.index") }}">
-						{{Lang::choice('messages.facility',2)}}</a>
-				</div>
 			</div>
 		</li>
 		@endif
@@ -189,6 +205,12 @@
 							{{trans('messages.user-statistics-report')}}</a>
 						</div>
 					</li>
+					<li>
+						<div><a href="{{ URL::route('reports.qualityControl')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{Lang::choice('messages.quality-control', 2)}}</a>
+						</div>
+					</li>
 				</ul>
 			</div>
 		</li>
@@ -226,6 +248,34 @@
 						</div>
 					</li>
 					@endif
+				</ul>
+			</div>
+		</li>
+		<li>
+			<div class="main-menu {{$active[7]}}">
+				<a href="{{ URL::route('control.index') }}" title="{{Lang::choice('messages.quality-control', 2)}}">
+					<span class="glyphicon glyphicon-eye-open"></span> {{ Lang::choice('messages.quality-control', 2)}}</a>
+			</div>
+			<div class="sub-menu {{$active[7]}}">
+				<ul class="sub-menu-items">
+						<li>
+							<div>
+								<a href="{{ URL::route('control.resultsIndex') }}">
+									<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.controlresults', 2)}}</a>
+							</div>
+						</li>
+						<li>
+							<div>
+								<a href="{{ URL::route('control.index') }}">
+									<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.control', 2)}}</a>
+							</div>
+						</li>
+						<li>
+							<div>
+								<a href="{{ URL::route('lot.index')}}">
+									<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.lot', 2)}}</a>
+							</div>
+						</li>
 				</ul>
 			</div>
 		</li>

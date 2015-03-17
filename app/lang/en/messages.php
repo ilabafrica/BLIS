@@ -157,7 +157,7 @@ return array(
      */
     /*Measure*/
     'add-new-measure-range' => 'Add New Range',
-    'add-new-measure' => 'Add Another Measure',
+    'add-new-measure' => 'Add New Measure',
     'agemax' => 'Age Max',
     'agemin' => 'Age Min',
     'create-measure' => 'Create Measure',
@@ -512,4 +512,32 @@ return array(
     'minute' => 'Minute|Minutes',
     'second' => 'Second|Seconds',
 
+    /**
+    *
+    * Quality controls
+    */
+    'quality-control' => 'Quality Control|Quality Controls',
+    'instrument' => 'Instrument|Instruments',
+    'lot' => 'Lot|Lots',
+    'control' => 'Control|Controls',
+    'list-controls' => 'List of controls',
+    'add-control' => 'Add control',
+    'edit-control' => 'Edit control',
+    'controlresults' => 'Control Results',
+    'add-lot' => 'Add lot',
+    'edit-lot' => 'Edit lot',
+    'lot-number' => 'Lot number',
+    'lot-details' => 'Lot details',
+    'expected-value' => 'Expected value',
+    'enter-control-results' => 'Enter control results',
+    'control-details' => 'Control details',
+    'control-name' => 'Control name',
+    'date-performed' => 'Date performed',
+    'successfully-created-lot' => 'The lot has been successfully created',
+    'success-deleting-lot' => 'The lot has been successfully deleted',
+    'successfully-updated-lot' => 'The lot has been successfully updated',
+    'successfully-added-control' => 'The Control has been successfully added',
+    'success-updating-control' => 'The Control has been successfully updated',
+    'success-deleting-control' => 'The Control has been successfully deleted',
+    'success-adding-control-result' => 'The control results have been succesfully added'
 );

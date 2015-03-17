@@ -1,4 +1,4 @@
-<?php
+	<?php
 
 class ReportController extends \BaseController {
 	//	Begin patient report functions
@@ -971,6 +971,46 @@ class ReportController extends \BaseController {
 					->withInput(Input::all());
 	}
 
+	/**
+	* Returns qc index page
+	*
+	* @return view
+	*/
+	public function qualityControl()
+	{
+		$controls = Control::all()->lists('name', 'id');
+		return View::make('reports.qualitycontrol.index')->with('controls', $controls);
+	}
+
+	/**
+	* Returns qc results for a specific control page
+	*
+	* @param Input - controlId, date range
+	* @return view
+	*/
+	public function qualityControlResults()
+	{
+		$rules = array('start_date' => 'date|required',
+					'end_date' => 'date|required',
+					'control' => 'required');
+		$validator = Validator::make(Input::all(), $rules);
+
+		if($validator->fails()){
+			return Redirect::back()->withErrors($validator)->withInput();
+		}
+		else {
+			$controlId = Input::get('control');
+			$endDatePlusOne = date_add(new DateTime(Input::get('end_date')), date_interval_create_from_date_string('1 day'));
+			$dates= array(Input::get('start_date'), $endDatePlusOne);
+			$control = Control::find($controlId);
+			$controlTests = ControlTest::where('control_id', '=', $controlId)
+										->whereBetween('created_at', $dates)->get();
+			return View::make('reports.qualitycontrol.results')
+				->with('control', $control)
+				->with('controlTests', $controlTests)
+				->withInput(Input::all());
+		}
+	}
 
 	/**
 	 * Displays Surveillance
