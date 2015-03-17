@@ -98,18 +98,18 @@ class CreateMicrobiologyTables extends Migration {
 	 */
 	public function down()
 	{
+        /* drug susceptibility table */
+        Schema::dropIfExists('drug_susceptibility');
+        /* culture worksheet table */
+        Schema::dropIfExists('culture_worksheet');
+        /* testType_organisms table */
+        Schema::dropIfExists('testtype_organisms');
+        /* Organism_Drugs table */
+        Schema::dropIfExists('organism_drugs');
+        /* Organisms table */
+        Schema::dropIfExists('organisms');
 		/* Drugs table */
 		Schema::dropIfExists('drugs');
-		/* Organisms table */
-		Schema::dropIfExists('organisms');
-		/* Organism_Drugs table */
-		Schema::dropIfExists('organism_drugs');
-		/* testType_organisms table */
-		Schema::dropIfExists('testtype_organisms');
-		/* culture worksheet table */
-		Schema::dropIfExists('culture_worksheet');
-		/* drug susceptibility table */
-		Schema::dropIfExists('drug_susceptibility');
 	}
 
 }
