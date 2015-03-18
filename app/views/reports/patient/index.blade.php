@@ -67,7 +67,6 @@
 			</tbody>
 		</table>
 		{{$patients->links()}}
-		@include("loader")
 	</div>
 
 </div>

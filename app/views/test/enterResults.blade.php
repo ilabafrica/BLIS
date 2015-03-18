@@ -278,6 +278,5 @@
                     </div>
                 </div>
             </div>
-            @include("loader")
         </div>
 @stop

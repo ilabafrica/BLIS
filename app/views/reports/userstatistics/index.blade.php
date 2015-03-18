@@ -208,7 +208,6 @@
 
 			</table>
 		</div><!--/.table-responsive -->
-		@include("loader")
 	</div>
 </div><!--/.panel -->
 

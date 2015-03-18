@@ -177,7 +177,6 @@
 			</tbody>
 		</table></div>
 		@endif
-		@include("loader")
 		</div>
 	</div>
 

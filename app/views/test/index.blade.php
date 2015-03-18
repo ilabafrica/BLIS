@@ -275,7 +275,6 @@
             {{ $testSet->links() }}
         {{ Session::put('SOURCE_URL', URL::full()) }}
         {{ Session::put('TESTS_FILTER_INPUT', Input::except('_token')); }}
-        @include("loader")
         </div>
     </div>
 

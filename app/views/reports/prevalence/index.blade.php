@@ -97,7 +97,6 @@
 			  </div>
 			</div>
 			<div id="highChart"></div>
-			@include("loader")
 		  </div>
 		</div>
 	</div>

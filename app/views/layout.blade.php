@@ -26,6 +26,7 @@
                     </div>
                     <div class="col-md-10 col-md-offset-2 main" id="the-one-main">
                         @yield("content")
+                        @include("loader")
                     </div>
                 </div>
             </div>

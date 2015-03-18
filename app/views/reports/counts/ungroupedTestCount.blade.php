@@ -113,7 +113,6 @@
 		    </tbody>
 		  </table>
 		</div>
-		@include("loader")
 	</div>
 </div>
 

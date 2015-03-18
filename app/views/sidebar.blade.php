@@ -52,14 +52,14 @@
 		@if(Entrust::can('manage_lab_configurations'))
 		<li>
 			<div class="main-menu {{$active[3]}}">
-				<a href="{{ URL::route('instrument.index') }}">
+				<a href="{{ URL::route('instrument.index') }}" class="loader-gif">
 					<span class="glyphicon glyphicon-wrench"></span> {{trans('messages.lab-configuration')}}</a>
 			</div>
 			<div class="sub-menu {{$active[3]}}">
 				<ul class="sub-menu-items">
 					<li>
 						<div>
-							<a href="{{ URL::route('instrument.index')}}">
+							<a href="{{ URL::route('instrument.index')}}" class="loader-gif">
 								<span class="glyphicon glyphicon-tag"></span>
 								{{Lang::choice('messages.instrument', 2)}}</a>
 						</div>
@@ -74,7 +74,7 @@
 				<ul class="sub-menu-items">
 					<li>
 						<div>
-							<a href="{{ URL::route("facility.index") }}">
+							<a href="{{ URL::route("facility.index") }}" class="loader-gif">
 								<span class="glyphicon glyphicon-tag"></span>
 									{{Lang::choice('messages.facility',2)}}
 							</a>
@@ -89,32 +89,32 @@
 		@if(Entrust::can('manage_test_catalog'))
 		<li>
 			<div class="main-menu {{$active[4]}}">
-				<a href="{{ URL::route("testcategory.index")}}">
+				<a href="{{ URL::route("testcategory.index")}}" class="loader-gif">
 					<span class="glyphicon glyphicon-cog"></span> {{trans('messages.test-catalog')}}</a>
 			</div>
 			<div class="sub-menu {{$active[4]}}">
 				<ul class="sub-menu-items">
 					<li>
 						<div>
-							<a href="{{ URL::route("testcategory.index")}}">
+							<a href="{{ URL::route("testcategory.index")}}" class="loader-gif">
 								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.test-category', 2)}}</a>
 						</div>
 					</li>
 					<li>
 						<div>
-							<a href="{{ URL::route("specimentype.index")}}">
+							<a href="{{ URL::route("specimentype.index")}}" class="loader-gif">
 								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.specimen-type', 2)}}</a>
 						</div>
 					</li>
 					<li>
 						<div>
-							<a href="{{ URL::route("specimenrejection.index")}}">
+							<a href="{{ URL::route("specimenrejection.index")}}" class="loader-gif">
 								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.specimen-rejection')}}</a>
 						</div>
 					</li>					
 					<li>
 						<div>
-							<a href="{{ URL::route("testtype.index")}}">
+							<a href="{{ URL::route("testtype.index")}}" class="loader-gif">
 								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.test-type', 2)}}</a>
 						</div>
 					</li>
@@ -183,33 +183,33 @@
 		@endif
 		<li>
 			<div class="main-menu {{$active[6]}}">
-				<a href="{{ (Entrust::can('manage_users')) ? URL::route('user.index') : URL::to('user/'.Auth::user()->id.'/edit') }}">
+				<a href="{{ (Entrust::can('manage_users')) ? URL::route('user.index') : URL::to('user/'.Auth::user()->id.'/edit') }}" class="loader-gif">
 					<span class="glyphicon glyphicon-cog"></span> {{trans('messages.access-controls')}}</a>
 			</div>
 			<div class="sub-menu {{$active[6]}}">
 				<ul class="sub-menu-items">
 					<li>
 						<div>
-							<a href="{{ (Entrust::can('manage_users')) ? URL::route('user.index') : URL::to('user/'.Auth::user()->id.'/edit') }}">
+							<a href="{{ (Entrust::can('manage_users')) ? URL::route('user.index') : URL::to('user/'.Auth::user()->id.'/edit') }}" class="loader-gif">
 								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.user-accounts')}}</a>
 						</div>
 					</li>
 					@if(Entrust::hasRole(Role::getAdminRole()->name))
 					<li>
 						<div>
-							<a href="{{ URL::route("permission.index")}}">
+							<a href="{{ URL::route("permission.index")}}" class="loader-gif">
 								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.permission', 2)}}</a>
 						</div>
 					</li>
 					<li>
 						<div>
-							<a href="{{ URL::route("role.index")}}">
+							<a href="{{ URL::route("role.index")}}" class="loader-gif">
 								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.role', 2)}}</a>
 						</div>
 					</li>
 					<li>
 						<div>
-							<a href="{{ URL::route("role.assign")}}">
+							<a href="{{ URL::route("role.assign")}}" class="loader-gif">
 								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.assign-roles')}}</a>
 						</div>
 					</li>

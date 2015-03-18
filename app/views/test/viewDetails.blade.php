@@ -248,7 +248,6 @@
 					</div>
 				</div>
 			</div> <!-- ./ container-fluid -->
-			@include("loader")
 		</div> <!-- ./ panel-body -->
 	</div> <!-- ./ panel -->
 @stop
