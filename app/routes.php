@@ -371,7 +371,7 @@ Route::group(array("before" => "auth"), function()
         
     });
 
-    Route::group(array("before" => "admin"), function()
+    Route::group(array("before" => "checkPerms:manage_qc"), function()
     {
         Route::resource("lot", "LotController");
 
