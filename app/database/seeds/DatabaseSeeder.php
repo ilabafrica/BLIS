@@ -11,7 +11,7 @@ class DatabaseSeeder extends Seeder {
 	{
 		Eloquent::unguard();
 		// $this->call('KBLISSeeder');
-		$this->call('InventoryQCPermissionsSeeder');
+		$this->call('TestDataSeeder');
 	}
 
 }
