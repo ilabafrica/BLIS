@@ -310,6 +310,7 @@
 			</div>
 		</li> 
 		@endif
+		@if(Entrust::can('manage_qc'))
 		<li>
 			<div class="main-menu {{$active[8]}}">
 				<a href="{{ URL::route('control.index') }}" title="{{Lang::choice('messages.quality-control', 2)}}">
@@ -338,5 +339,6 @@
 				</ul>
 			</div>
 		</li>
+		@endif
 	</ul>
 @show
