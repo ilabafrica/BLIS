@@ -45,7 +45,9 @@ class TestCategoryController extends \BaseController {
 	
 		//process
 		if($validator->fails()){
-			return Redirect::back()->withErrors($validator);
+			$url = Session::get('SOURCE_URL');
+            
+            	return Redirect::to($url)->withErrors($validator);
 		}else{
 			//store
 			$testcategory = new TestCategory;

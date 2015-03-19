@@ -183,7 +183,7 @@ class PatientController extends \BaseController {
 		// redirect
 			$url = Session::get('SOURCE_URL');
 			return Redirect::to($url)
-			->with('message', 'The patient was successfully deleted!');
+			->with('message', 'The commodity was successfully deleted!');
 	}
 
 	/**

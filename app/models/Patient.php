@@ -7,6 +7,7 @@ class Patient extends Eloquent
 	const MALE = 0;
 	const FEMALE = 1;
 	const BOTH = 2;
+	const UNKNOWN = 3;
 	/**
 	 * Enabling soft deletes for patient details.
 	 *

@@ -22,7 +22,6 @@
 			@endif
 
 			{{ Form::open(array('url' => 'patient', 'id' => 'form-create-patient')) }}
-
 				<div class="form-group">
 					{{ Form::label('patient_number', trans('messages.patient-number')) }}
 					{{ Form::text('patient_number', $lastInsertId,
@@ -37,13 +36,13 @@
 					{{ Form::text('dob', Input::old('dob'), 
 						array('class' => 'form-control standard-datepicker')) }}
 				</div>
-                <div class="form-group">
-                    {{ Form::label('gender', trans('messages.gender')) }}
-                    <div>{{ Form::radio('gender', '0', true) }}
-                    	<span class="input-tag">{{trans('messages.male')}}</span></div>
-                    <div>{{ Form::radio("gender", '1', false) }}
-                    	<span class="input-tag">{{trans('messages.female')}}</span></div>
-                </div>
+				<div class="form-group">
+					{{ Form::label('gender', trans('messages.gender')) }}
+					<div>{{ Form::radio('gender', '0', true) }}
+					<span class="input-tag">{{trans('messages.male')}}</span></div>
+					<div>{{ Form::radio("gender", '1', false) }}
+					<span class="input-tag">{{trans('messages.female')}}</span></div>
+				</div>
 				<div class="form-group">
 					{{ Form::label('address', trans('messages.physical-address')) }}
 					{{ Form::text('address', Input::old('address'), array('class' => 'form-control')) }}

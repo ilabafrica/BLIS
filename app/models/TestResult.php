@@ -40,4 +40,11 @@ class TestResult extends Eloquent
 							' AND tr.time_entered BETWEEN '."'".$from."'".' AND '."'".$to->format('Y-m-d')."'".';');
 		return $count;
 	}
+	/**
+	* relationship between result and measure
+	*/
+	public function measure()
+	{
+		return $this->belongsTo('Measure');
+	}
 }

@@ -710,7 +710,9 @@ class TestDataSeeder extends DatabaseSeeder
             array("name" => "manage_users", "display_name" => "Can manage users"),
             array("name" => "manage_test_catalog", "display_name" => "Can manage test catalog"),
             array("name" => "manage_lab_configurations", "display_name" => "Can manage lab configurations"),
-            array("name" => "view_reports", "display_name" => "Can view reports")
+            array("name" => "view_reports", "display_name" => "Can view reports"),
+            array("name" => "manage_inventory", "display_name" => "Can manage inventory"),
+            array("name" => "request_topup", "display_name" => "Can request top-up")
         );
         foreach ($permissions as $permission) {
             Permission::create($permission);
@@ -1371,54 +1373,88 @@ class TestDataSeeder extends DatabaseSeeder
 
         //Seed for facilities
         $facilitiesSeed = array(
-            array('name' => "ST.DAMIANO MEDICAL CENTRE"),
+            array('name' => "WALTER REED"),
             array('name' => "AGA KHAN UNIVERSITY HOSPITAL"),
-            array('name' => "BUNGOMA DISTRICT HOSPITAL CCC"),
-            array('name' => "GK PRISON DISPENSARY, BUNGOMA SOUTH"),
+            array('name' => "TEL AVIV GENERAL HOSPITAL"),
+            array('name' => "GK PRISON DISPENSARY"),
             array('name' => "KEMRI ALUPE"),
-            array('name' => "AMPATH"),
-            array('name' => "BULONDO DISPENSARY"),
-            array('name' => "BUMULA HEALTH CENTRE"),
-            array('name' => "CBM NALONDO MODEL"),
-            array('name' => "CHEBUKAKA MISSION HOSPITAL"),
-            array('name' => "CHEMWA BRIDGE DISPENSARY"),
-            array('name' => "CHEPTAIS SUBDISTRICT HOSPITAL"),
-            array('name' => "CHWELE SUB COUNTY HOSPITAL"),
-            array('name' => "EKITALE DISPENSARY"),
-            array('name' => "ELGON VIEW MEDICAL COTTAGE"),
-            array('name' => "KABUCHAI HEALTH CENTRE"),
-            array('name' => "KABULA DISPENSARY"),
-            array('name' => "KAPTANAI DISPENSARY"),
-            array('name' => "KEMRI NAIROBI"),
-            array('name' => "KHASOKO HC"),
-            array('name' => "KIBABII  HEALTH CENTRE"),
-            array('name' => "KIBUKE DISPENSARY"),
-            array('name' => "KIMAETI DISPENSARY"),
-            array('name' => "KIMILILI DISTRICT HOSPITAL"),
-            array('name' => "KITALE DISTRICT HOSPITAL"),
-            array('name' => "KOROSIANDET DISPENSARY"),
-            array('name' => "LUMBOKA MEDICAL SERVICES"),
-            array('name' => "LUUYA DISPENSARY"),
-            array('name' => "MACHWELE DISPENSARY"),
-            array('name' => "MALAKISI HEALTH CENTRE"),
-            array('name' => "MAYANJA DISPENSARY"),
-            array('name' => "MECHIMERU DISPENSARY"),
-            array('name' => "MILUKI DISPENSARY"),
-            array('name' => "MUMBULE DISPENSARY"),
-            array('name' => "NALONDO MODEL HEALTH CENTRE"),
-            array('name' => "NASIANDA DISPENSARY"),
-            array('name' => "NGALASIA DISPENSARY"),
-            array('name' => "NZOIA MEDICAL CENTRE"),
-            array('name' => "NZOIA SUGAR  DISPENSARY"),
-            array('name' => "SIBOTI MODEL HEALTH CENTRE"),
-            array('name' => "SIRISIA SUBDISTRICT HOSPITAL"),
-            array('name' => "TAMLEGA DISPENSARY")
+            array('name' => "AMPATH")
         );
 
         foreach ($facilitiesSeed as $facility) {
             Facility::create($facility);
         }
         $this->command->info('Facilities table seeded');
+
+        //Seed for suppliers
+        $supplier = Supplier::create(
+            array(
+                "name" => "UNICEF",
+                "phone_no" => "0775112233",
+                "email" => "uni@unice.org",
+                "physical_address" => "un-hqtr"
+
+            )
+        );
+        $this->command->info('Suppliers table seeded');
+
+        //Seed for metrics
+        $metric = Metric::create(
+            array(
+                "name" => "mg",
+                "description" => "milligram"
+            )
+        );
+        $this->command->info('Metrics table seeded');
+
+        //Seed for commodities
+        $commodity = Commodity::create(
+            array(
+                "name" => "Ampicillin",
+                "description" => "Capsule 250mg",
+                "metric_id" => $metric->id,
+                "unit_price" => "500",
+                "item_code" => "no clue",
+                "storage_req" => "no clue",
+                "min_level" => "100000",
+                "max_level" => "400000")
+        );
+        $this->command->info('Commodities table seeded');
+        
+        //Seed for receipts
+        $receipt = Receipt::create(
+            array(
+                "commodity_id" => $commodity->id,
+                "supplier_id" => $supplier->id, 
+                "quantity" => "130000",
+                "batch_no" => "002720",
+                "expiry_date" => "2018-10-14", 
+                "user_id" => "1")
+        );
+        $this->command->info('Receipts table seeded');
+        
+        //Seed for Top Up Request
+        $topUpRequest = TopupRequest::create(
+            array(
+                "commodity_id" => $commodity->id,
+                "test_category_id" => 1,
+                "order_quantity" => "1500",
+                "user_id" => 1,
+                "remarks" => "-")
+        );
+        $this->command->info('Top Up Requests table seeded');
+
+        //Seed for Issues
+        Issue::create(
+            array(
+                "receipt_id" => $receipt->id,
+                "topup_request_id" => $topUpRequest->id,
+                "quantity_issued" => "1700",
+                "issued_to" => 1,
+                "user_id" => 1,
+                "remarks" => "-")
+        );
+        $this->command->info('Issues table seeded');
 
         //Seed for diseases
         $malaria = Disease::create(array('name' => "Malaria"));
@@ -1446,37 +1482,6 @@ class TestDataSeeder extends DatabaseSeeder
             ReportDisease::create($reportDisease);
         }
         $this->command->info("Report Disease table seeded");
-
-        //Seed for drugs
-        $drugs = array(
-            array('name' => "PENICILLIN"),
-            array('name' => "AMPICILLIN"),
-            array('name' => "CLINDAMYCIN"),
-            array('name' => "TETRACYCLINE"),
-            array('name' => "CIPROFLOXACIN"),
-            array('name' => "TRIMETHOPRIM/SULFA"),
-            array('name' => "NITROFURANTOIN"),
-            array('name' => "CHLORAMPHENICOL"),
-            array('name' => "CEFAZOLIN"),
-            array('name' => "GANTAMICIN"),
-            array('name' => "AMOXICILLIN-CLAV"),
-            array('name' => "CEPHALOTHIN"),
-            array('name' => "CEFUROXIME"),
-            array('name' => "CEFOTAXIME"),
-            array('name' => "PIPERACILLIN"),
-            array('name' => "CEFIXIME"),
-            array('name' => "CEFTAZIDIME"),
-            array('name' => "CEFRIAXONE"),
-            array('name' => "LEVOFLOXACIN"),
-            array('name' => "MERODENEM"),
-            array('name' => "PIPERACILLIN/TAZO"),
-            array('name' => "IMEDENEM")
-        );
-
-        foreach ($drugs as $drug) {
-            $addedDrugs[] = Drug::create($drug);
-        }
-        $this->command->info('Drugs table seeded');
     }
 
     public function createSpecimen(

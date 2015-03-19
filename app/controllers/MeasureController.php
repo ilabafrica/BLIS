@@ -14,10 +14,10 @@ class MeasureController extends \BaseController {
      *
      * @return Response
      */
-    public function store($measure)
+    public function store($measures)
     {
         $measureIds = array();
-        foreach ($measure as $data) {
+        foreach ($measures as $data) {
             $measure = new Measure;
             $measure->name = $data['name'];
             $measure->measure_type_id = $data['measure_type_id'];

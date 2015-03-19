@@ -47,8 +47,8 @@ $(function(){
 	 *	LAB CONFIGURATION 
 	 */
 
-	 /* Add another surveillance disease */
-	$('.add-another-disease').click(function(){
+	 /* Add another surveillance */
+	$('.add-another-surveillance').click(function(){
 		newSurveillanceNo = $(this).data('new-surveillance');
 		var inputHtml = $('.addSurveillanceLoader').html();
 		//Count new measures on the new measure button
@@ -57,6 +57,18 @@ $(function(){
 		$(this).data('new-surveillance',  newSurveillanceNo+1).attr('data-new-surveillance',  newSurveillanceNo+1);
 		addNewSurveillanceAttributes(newSurveillanceNo);
 		delete newSurveillanceNo;
+	});
+	 
+	 /* Add another disease */
+	$('.add-another-disease').click(function(){
+		newDiseaseNo = $(this).data('new-disease');
+		var inputHtml = $('.addDiseaseLoader').html();
+		//Count new measures on the new measure button
+		$('.disease-input').append(inputHtml);
+		$('.disease-input .new').addClass('new-disease-'+newDiseaseNo).removeClass('new');
+		$(this).data('new-disease',  newDiseaseNo+1).attr('data-new-disease',  newDiseaseNo+1);
+		addNewDiseaseAttributes(newDiseaseNo);
+		delete newDiseaseNo;
 	});
 
 	/** 
@@ -159,6 +171,12 @@ $(function(){
 		$(this).parent().parent().parent().remove();
 	});
 
+	// Delete Disease entry
+
+	$('.disease-input').on('click', '.close', function(){
+		$(this).parent().parent().parent().remove();
+	});
+
 	/** 
 	 * Fetch Test results
 	 */
@@ -228,6 +246,37 @@ $(function(){
 		    //Show it in the modal
 		    $(e.currentTarget).find('.modal-body').html(data);
 	    });
+	});
+  
+
+	/** Receive Test Request button.
+	 *  - Updates the Test status via an AJAX call
+	 *  - Changes the UI to show the right status and buttons
+	 */
+	$('.tests-log').on( "click", ".receive-test", function(e) {
+
+		var testID = $(this).data('test-id');
+		var specID = $(this).data('specimen-id');
+
+		var url = location.protocol+ "//"+location.host+ "/test/" + testID+ "/receive";
+		$.post(url, { id: testID}).done(function(){});
+
+		var parent = $(e.currentTarget).parent();
+		// First replace the status
+		var newStatus = $('.pending-test-not-collected-specimen').html();
+		parent.siblings('.test-status').html(newStatus);
+
+		// Add the new buttons
+		var newButtons = $('.accept-button').html();
+		parent.append(newButtons);
+
+		// Set properties for the new buttons
+		parent.children('.accept-specimen').attr('data-test-id', testID);
+		parent.children('.accept-specimen').attr('data-specimen-id', specID);
+
+		// Now remove the unnecessary buttons
+		$(this).siblings('.receive-test').remove();
+		$(this).remove();
 	});
 
 	/** Accept Specimen button.
@@ -338,6 +387,14 @@ $(function(){
 				});
 		});
 		/*End dynamic select list options*/
+				/*Dynamic loading of select list options*/
+		$('#commodity-id').change(function(){
+			$.get("/topup/"+$(this).val()+"/availableStock", 
+				function(data) {
+					$('#current_bal').val(data.availableStock);
+				});
+		});
+		/*End dynamic select list options*/
 		
 		/*Toggle summary div for reports*/
 		$('#reveal').click(function(){
@@ -378,13 +435,18 @@ $(function(){
 	});
 
 	/**
-	 *	Lab Configurattions Functions
+	 *	Lab Configurations Functions
 	 */
 	function addNewSurveillanceAttributes (newSurveillanceNo) {
 		$('.new-surveillance-'+newSurveillanceNo).find('select.test-type').attr(
 			'name', 'new-surveillance['+newSurveillanceNo+'][test-type]');
-		$('.new-surveillance-'+newSurveillanceNo).find('input.disease').attr(
+		$('.new-surveillance-'+newSurveillanceNo).find('select.disease').attr(
 			'name', 'new-surveillance['+newSurveillanceNo+'][disease]');
+	}
+
+	function addNewDiseaseAttributes (newDiseaseNo) {
+		$('.new-disease-'+newDiseaseNo).find('input.disease').attr(
+			'name', 'new-diseases['+newDiseaseNo+'][disease]');
 	}
 
 	/**
@@ -443,6 +505,8 @@ $(function(){
 			'name', 'new-measures['+measureID+'][measure_type_id]');
 		$('.measure-section.new-'+measureID+' input.unit').attr(
 			'name', 'new-measures['+measureID+'][unit]');
+		$('.measure-section.new-'+measureID+' input.expected').attr(
+			'name', 'new-measures['+measureID+'][expected]');
 		$('.measure-section.new-'+measureID+' textarea.description').attr(
 			'name', 'new-measures['+measureID+'][description]');
 	}
@@ -560,6 +624,7 @@ $(function(){
 	    }
 	}
 
+	//DataTables search functionality
 	$(document).ready( function () {
 		$('.search-table').DataTable({
         	'bStateSave': true,

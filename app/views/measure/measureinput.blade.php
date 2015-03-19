@@ -74,13 +74,13 @@
                 <span class="col-md-12 interpretation-title">{{trans('messages.interpretation')}}</span>
             </div>
         </div>     
-    </div><!-- numericHeader -->
+    </div><!-- alphanumericHeader -->
     <div class="hidden alphanumericHeaderLoader">
         <div class="col-md-12">
             <span class="col-md-5 interpretation-title">{{trans('messages.value')}}</span>
             <span class="col-md-5 interpretation-title">{{trans('messages.interpretation')}}</span>
         </div>
-    </div><!-- alphanumericHeader -->
+    </div><!-- numericHeader -->
     <div class="hidden numericInputLoader">
         <div class="col-md-12 measure-input">
             <div class="col-md-4">

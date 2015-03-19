@@ -293,8 +293,14 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reportconfig.surveillance",
             "uses" => "ReportController@surveillanceConfig"
         ));
+
+        Route::any("/reportconfig/disease", array(
+            "as"   => "reportconfig.disease",
+            "uses" => "ReportController@disease"
+        ));
     });
     
+
     //  Check if able to manage reports
     Route::group(array("before" => "checkPerms:view_reports"), function()
     {
@@ -357,5 +363,110 @@ Route::group(array("before" => "auth"), function()
             "uses" => "ReportController@moh706"
         ));
         
+        Route::get("/qualitycontrol", array(
+            "as"   => "reports.qualityControl",
+            "uses" => "ReportController@qualityControl"
+        ));
+
+        Route::post("/qualitycontrol", array(
+            "as"   => "reports.qualityControl",
+            "uses" => "ReportController@qualityControlResults"
+        ));
+
+        
+    });
+
+    Route::group(array("before" => "checkPerms:manage_qc"), function()
+    {
+        Route::resource("lot", "LotController");
+
+        Route::get('lot/{lotId}/delete', array(
+            'uses' => 'LotController@delete'
+        ));
+
+        Route::resource("control", "ControlController");
+
+        Route::get("controlresults", array(
+            "as"   => "control.resultsIndex",
+            "uses" => "ControlController@resultsIndex"
+        ));
+
+        Route::get("controlresults/{controlId}/resultsentry", array(
+            "as" => "control.resultsentry",
+            "uses" => "ControlController@resultsEntry"
+        ));
+
+        Route::get('control/{controlId}/delete', array(
+            'uses' => 'ControlController@destroy'
+        ));
+
+        Route::post('control/{controlId}/saveResults', array(
+            "as" => "control.saveResults",
+            'uses' => 'ControlController@saveResults'
+        ));
+    });
+    
+    Route::group(array("before" => "checkPerms:request_topup"), function()
+    {
+        //top-ups
+        Route::resource('topup', 'TopUpController');
+
+        Route::get("/topup/{id}/delete", array(
+            "as"   => "topup.delete",
+            "uses" => "TopUpController@delete"
+        ));
+
+        Route::get('topup/{id}/availableStock', array(
+            "as"    =>  "issue.dropdown",
+            "uses"  =>  "TopUpController@availableStock"
+        ));
+    });
+
+    Route::group(array("before" => "checkPerms:manage_inventory"), function()
+    {
+        //Commodities
+        Route::resource('commodity', 'CommodityController');
+
+        Route::get("/commodity/{id}/delete", array(
+            "as"   => "commodity.delete",
+            "uses" => "CommodityController@delete"
+        ));
+
+        //issues
+        Route::resource('issue', 'IssueController');
+
+        Route::get("/issue/{id}/delete", array(
+            "as"   => "issue.delete",
+            "uses" => "IssueController@delete"
+        ));
+
+        Route::get("/issue/{id}/dispatch", array(
+            "as"   => "issue.dispatch",
+            "uses" => "IssueController@dispatch"
+        ));
+
+        //Metrics
+        Route::resource('metric', 'MetricController');
+
+        Route::get("/metric/{id}/delete", array(
+            "as"   => "metric.delete",
+            "uses" => "MetricController@delete"
+        ));
+
+        //Suppliers
+        Route::resource('supplier', 'SupplierController');
+        
+        Route::get("/supplier/{id}/delete", array(
+            "as"   => "supplier.delete",
+            "uses" => "SupplierController@delete"
+        ));
+
+        //Receipts
+        Route::resource('receipt', 'ReceiptController');
+
+        Route::get("/receipt/{id}/delete", array(
+            "as"   => "receipt.delete",
+            "uses" => "ReceiptController@delete"
+        ));
     });
 });

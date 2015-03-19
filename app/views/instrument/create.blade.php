@@ -21,18 +21,14 @@
 					{{ HTML::ul($errors->all()) }}
 				</div>
 			@endif
-
 			<div class="form-group">
-				{{ Form::label('instrument', Lang::choice('messages.instrument',1)) }}
-                {{ Form::select('instrument', $instruments, '', array('class' => 'form-control')) }}
+				{{ Form::label('name', Lang::choice('messages.name',1)) }}
+                {{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('ip', trans('messages.ip')) }}
-				{{ Form::text('ip', Input::old('ip'), array('class' => 'form-control')) }}
-			</div>
-			<div class="form-group">
-				{{ Form::label('hostname', trans('messages.host-name')) }}
-				{{ Form::text('hostname', Input::old('hostname'), array('class' => 'form-control')) }}
+				{{ Form::label('description', trans('messages.description')) }}
+				{{ Form::textarea('description', Input::old('description'), 
+					array('class' => 'form-control', 'rows' => '3' )) }}
 			</div>
 		</div>
 		<div class="panel-footer">
