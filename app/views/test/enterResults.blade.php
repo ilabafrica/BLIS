@@ -143,7 +143,7 @@
                                             <tr>
                                                 <td>{{ Culture::showTimeAgo(date('Y-m-d H:i:s')) }}</td>
                                                 <td>{{ Auth::user()->name }}</td>
-                                                <td>{{ Form::textarea('observation', $test->interpretation, 
+                                                <td>{{ Form::textarea('observation', '', 
                                                     array('class' => 'form-control result-interpretation', 'rows' => '2', 'id' => 'observation_'.$test->id)) }}
                                                 </td>
                                                 <td><a class="btn btn-xs btn-success" href="javascript:void(0)" onclick="saveObservation(<?php echo $test->id; ?>, <?php echo Auth::user()->id; ?>, <?php echo "'".Auth::user()->name."'"; ?>)">
@@ -220,9 +220,9 @@
                                         <tr>
                                             <td>{{ $drug->name }}</td>
                                             <td>
-                                                {{ Form::selectRange('zone[]', 0, 50, '', ['class' => 'form-control', 'id' => 'zone[]', 'style'=>'width:auto']) }}
+                                                {{ Form::select('zone[]', ['' => '']+range(0, 50), '', ['class' => 'form-control', 'id' => 'zone[]', 'style'=>'width:auto']) }}
                                             </td>
-                                            <td>{{ Form::select('interpretation[]', array('S' => 'S', 'I' => 'I', 'R' => 'R'),'', ['class' => 'form-control', 'id' => 'interpretation[]', 'style'=>'width:auto']) }}</td>
+                                            <td>{{ Form::select('interpretation[]', array('' => '', 'S' => 'S', 'I' => 'I', 'R' => 'R'),'', ['class' => 'form-control', 'id' => 'interpretation[]', 'style'=>'width:auto']) }}</td>
                                         </tr>
                                         @endforeach
                                         <tr id="submit_drug_susceptibility_<?php echo $value->id; ?>">
