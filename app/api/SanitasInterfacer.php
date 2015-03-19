@@ -128,7 +128,7 @@ class SanitasInterfacer implements InterfacerInterface{
         $result = $testResults->first()->result ." ". $range ." ".$unit;
 
         $jsonResponseString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
-            $labNo, $tested_by, $result, $verified_by, $interpretation);
+            $labNo, $tested_by, $result, $verified_by, trim($interpretation));
         $this->sendRequest($httpCurl, urlencode($jsonResponseString), $labNo);
         
         //loop through labRequests and foreach of them get the result and put in an array
