@@ -29,7 +29,7 @@
             </div>
             <div class="form-group">
                 {{ Form::label('phone_no', trans('messages.phone-number')) }}
-                {{ Form::text('phone_no, Input::old('phone_no'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::text('phone_no', Input::old('phone_no'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('email', trans('messages.email')) }}

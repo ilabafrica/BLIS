@@ -38,8 +38,7 @@
 			</thead>
 			<tbody>
 			@foreach($receipts as $key => $receipt)
-			<tr class='info'>
-				<tr>
+			<tr>
 					<td>{{ $receipt->created_at}}</td>
 					<td>{{ $receipt->commodity->name }}</td>
 					<td>{{ $receipt->supplier->name }}</td>

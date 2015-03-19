@@ -59,6 +59,78 @@ class TestTypeControllerTest extends TestCase
 				],
 			],
 		);
+
+		// Trailing space sample data
+		$this->testTypeTrailingSpace = array(
+			'name' => 'Culture for sensitivity ',
+			'description' => 'blaaa ',
+			'targetTAT' => '20',
+			'test_category_id' => '1',
+			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
+			'specimentypes' =>  ['1'],
+			'new-measures' => [
+				'1' => [
+					'name' => 'FreeText',
+					'measure_type_id' => '4',
+					'unit' => 'fUnit',
+					'description' => 'fDescription'
+				],
+			],
+		);
+
+		// Leading sample data
+		$this->testTypeLeadingSpace = array(
+			'name' => ' Culture for sensitivity',
+			'description' => 'blaa ',
+			'targetTAT' => '20',
+			'test_category_id' => '1',
+			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
+			'specimentypes' =>  ['1'],
+			'new-measures' => [
+				'1' => [
+					'name' => 'FreeText',
+					'measure_type_id' => '4',
+					'unit' => 'fUnit',
+					'description' => 'fDescription'
+				],
+			],
+		);
+
+		// Trailing Leading sample data
+		$this->testTypeLeadingTrailingSpace = array(
+			'name' => ' Culture for sensitivity ',
+			'description' => 'blaa ',
+			'targetTAT' => '20',
+			'test_category_id' => '1',
+			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
+			'specimentypes' =>  ['1'],
+			'new-measures' => [
+				'1' => [
+					'name' => 'FreeText',
+					'measure_type_id' => '4',
+					'unit' => 'fUnit',
+					'description' => 'fDescription'
+				],
+			],
+		);
+
+		// Trailing space sample data
+		$this->testTypeNoTrailingLeadingSpace = array(
+			'name' => 'Culture for sensitivity',
+			'description' => 'blaaa ',
+			'targetTAT' => '20',
+			'test_category_id' => '1',
+			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
+			'specimentypes' =>  ['1'],
+			'new-measures' => [
+				'1' => [
+					'name' => 'FreeText',
+					'measure_type_id' => '4',
+					'unit' => 'fUnit',
+					'description' => 'fDescription'
+				],
+			],
+		);
     }
 	
 	/**
@@ -156,6 +228,55 @@ class TestTypeControllerTest extends TestCase
 
         $this->assertEquals( $testTypestored[0]['id'], $testTypeID);
     }
+
+    public function testGetTestTypeIdByTestNameLeadingSpace()
+    {
+        Input::replace($this->testTypeTrailingSpace);
+    	$testType = new TestTypeController;
+    	$testType->store();
+		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
+        $testType = new TestType();
+        $testTypeID = $testType->getTestTypeIdByTestName('Culture for sensitivity');
+
+        $this->assertEquals( $testTypestored[0]['id'], $testTypeID);
+    }
+
+    public function testGetTestTypeIdByTestNameTrailingSpace()
+    {
+        Input::replace($this->testTypeLeadingSpace);
+    	$testType = new TestTypeController;
+    	$testType->store();
+		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
+        $testType = new TestType();
+        $testTypeID = $testType->getTestTypeIdByTestName('Culture for sensitivity');
+
+        $this->assertEquals( $testTypestored[0]['id'], $testTypeID);
+    }
+
+    public function testGetTestTypeIdByTestNameLeadingTrailingSpace()
+    {
+        Input::replace($this->testTypeLeadingTrailingSpace);
+    	$testType = new TestTypeController;
+    	$testType->store();
+		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
+        $testType = new TestType();
+        $testTypeID = $testType->getTestTypeIdByTestName('Culture for sensitivity');
+
+        $this->assertEquals( $testTypestored[0]['id'], $testTypeID);
+    }
+
+    public function testGetTestTypeIdByTestNameWithTrailingLeadingSpaces()
+    {
+        Input::replace($this->testTypeNoTrailingLeadingSpace);
+    	$testType = new TestTypeController;
+    	$testType->store();
+		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
+        $testType = new TestType();
+        $testTypeID = $testType->getTestTypeIdByTestName(' Culture for sensitivity ');
+
+        $this->assertEquals( $testTypestored[0]['id'], $testTypeID);
+    }
+
     //	Test the countPerStatus method
     public function testCountPerStatus()
     {

@@ -161,7 +161,8 @@ class TestType extends Eloquent
 	{
 		try 
 		{
-			$testTypeId = TestType::where('name', 'like', $testName)->orderBy('name', 'asc')->firstOrFail();
+			$testName = '%'.trim($testName).'%';
+			$testTypeId = TestType::where('name', 'like', $testName)->firstOrFail();
 			return $testTypeId->id;
 		} catch (ModelNotFoundException $e) 
 		{
