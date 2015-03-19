@@ -78,7 +78,7 @@
 		  			<th>{{trans('messages.tested')}}</th>
 		  			<th>{{trans('messages.positive')}}</th>
 		  		</tr>
-		  		@foreach(ReportDisease::all() as $report)
+		  		@foreach(ReportDisease::groupBy('disease_id')->get() as $report)
 		  		<tr>
 	  				<td>{{ $report->disease->name }}</td>
 	  				<td>{{ $surveillance[$report->disease_id.'_less_five_total'] }}</td>
