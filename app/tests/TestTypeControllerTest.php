@@ -116,7 +116,7 @@ class TestTypeControllerTest extends TestCase
 
 		// Trailing space sample data
 		$this->testTypeNoTrailingLeadingSpace = array(
-			'name' => 'Culture for sensitivity ',
+			'name' => 'Culture for sensitivity',
 			'description' => 'blaaa ',
 			'targetTAT' => '20',
 			'test_category_id' => '1',
