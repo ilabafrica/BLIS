@@ -36,7 +36,6 @@
             <tbody>
             @foreach($topupRequests as $topupRequest)
             <tr @if(Session::has('activecommodity')){{(Session::get('activecommodity') == $topupRequest->id)?"class='info'":""}} @endif >
-                <tr>
                     <td>{{ $topupRequest->created_at}}</td>
                     <td>{{ $topupRequest->commodity->name }}</td>
                     <td>{{ $topupRequest->section->name }}</td>
