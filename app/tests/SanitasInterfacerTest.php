@@ -181,6 +181,31 @@ class SanitasInterfacerTest extends TestCase
         }
     }
 
+    public function testMultipleVisitTypes()
+    {
+        Interfacer::retrieve($this->labRequestJsonSimpleTestTwoVisits[0]);
+        Interfacer::retrieve($this->labRequestJsonSimpleTestTwoVisits[1]);
+
+        $externalDump = ExternalDump::where('lab_no', '=', $this->labRequestJsonSimpleTestTwoVisits[0]->labNo)->get();
+        $this->assertTrue(count($externalDump) == 1);
+        $this->assertEquals($this->labRequestJsonSimpleTestTwoVisits[0]->patientVisitNumber, $externalDump->first()->patient_visit_number);
+
+        $externalDump = ExternalDump::where('lab_no', '=', $this->labRequestJsonSimpleTestTwoVisits[1]->labNo)->get();
+        $this->assertTrue(count($externalDump) == 1);
+        $this->assertEquals($this->labRequestJsonSimpleTestTwoVisits[1]->patientVisitNumber, $externalDump->first()->patient_visit_number);
+
+        // Is there a Visit for this new patient?
+        $visit = Visit::where('visit_number', '=', $this->labRequestJsonSimpleTestTwoVisits[0]->patientVisitNumber)->get();
+        //Two records inserted for same external visit
+        $this->assertEquals(2, count($visit));
+        //First is IP
+        $this->assertEquals('Out-patient', $visit->first()->visit_type);
+        //Second is OP
+        $this->assertEquals('In-patient', $visit[1]->visit_type );
+        //Two distinct internal visit id's
+        $this->assertTrue($visit->first()->id != $visit[1]->id);
+    }
+
     public function setVariables()
     {
         $this->labRequestJsonSimpleTest = 
@@ -206,7 +231,7 @@ class SanitasInterfacerTest extends TestCase
                     "phoneNumber": "",
                     "city": null
                 }
-            }';//When TRUE, returned objects will be converted into associative arrays.
+            }';
 
         $this->labRequestJsonSimpleTestPayMentRequest = 
             '{"cost": 600,
@@ -353,5 +378,55 @@ class SanitasInterfacerTest extends TestCase
                 "investigation":"pH","requestDate":"2014-10-15 08:35:40","orderStage":"op","patientVisitNumber":647692,"patient":{"id":305368,
                 "fullName":"SRIRACHA SAUCE SECRET","dateOfBirth":"1952-07-22 00:00:00","gender":"Female"},"address":{"address":null,"postalCode":null,
                 "phoneNumber":"","city":null}}');
+
+        $this->labRequestJsonSimpleTestTwoVisits[] = 
+            json_decode('{"cost": null,
+                "receiptNumber": null,
+                "receiptType": null,
+                "labNo": 546726,
+                "parentLabNo": 0,
+                "requestingClinician": "sAM  mAKAL",
+                "investigation": "BS for mps",
+                "requestDate": "2014-10-14 10:43:39",
+                "orderStage": "op",
+                "patientVisitNumber": 564436,
+                "patient": {
+                    "id": 234534,
+                    "fullName": "ADSASDF DASJF ADF",
+                    "dateOfBirth": "1972-04-04 00:00:00",
+                    "gender": "Male"
+                },
+                "address": {
+                    "address": null,
+                    "postalCode": null,
+                    "phoneNumber": "",
+                    "city": null
+                }
+            }');
+
+        $this->labRequestJsonSimpleTestTwoVisits[] = 
+            json_decode('{"cost": null,
+                "receiptNumber": null,
+                "receiptType": null,
+                "labNo": 546727,
+                "parentLabNo": 0,
+                "requestingClinician": "sAM  mAKAL",
+                "investigation": "HB",
+                "requestDate": "2014-10-14 10:43:39",
+                "orderStage": "ip",
+                "patientVisitNumber": 564436,
+                "patient": {
+                    "id": 234534,
+                    "fullName": "ADSASDF DASJF ADF",
+                    "dateOfBirth": "1972-04-04 00:00:00",
+                    "gender": "Male"
+                },
+                "address": {
+                    "address": null,
+                    "postalCode": null,
+                    "phoneNumber": "",
+                    "city": null
+                }
+            }');
     }
 }

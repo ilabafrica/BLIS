@@ -233,12 +233,12 @@ class SanitasInterfacer implements InterfacerInterface{
             return;
         }
         //Check if visit exists, if true dont save again
+        $visitType = array('ip' => 'In-patient', 'op' => 'Out-patient');//Should be a constant
         $visit = Visit::where('visit_number', '=', $labRequest->patientVisitNumber)->get();
         if (!$visit->first())
         {
             $visit = new Visit();
             $visit->patient_id = $patient->id;
-            $visitType = array('ip' => 'In-patient', 'op' => 'Out-patient');//Should be a constant
             $visit->visit_type = $visitType[$labRequest->orderStage];
             $visit->visit_number = $labRequest->patientVisitNumber;
 
@@ -246,6 +246,16 @@ class SanitasInterfacer implements InterfacerInterface{
         }
         else{
             $visit = $visit->first();
+            if($visitType[$labRequest->orderStage] != $visit->visit_type)
+            {
+                $visit = new Visit();
+                $visit->patient_id = $patient->id;
+                $visit->visit_type = $visitType[$labRequest->orderStage];
+                $visit->visit_number = $labRequest->patientVisitNumber;
+            }
+            else {
+                $visit = $visit->first();
+            }
         }
 
         $test = null;
