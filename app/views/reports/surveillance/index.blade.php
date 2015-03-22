@@ -77,19 +77,20 @@
 		  			<th>{{trans('messages.positive')}}</th>
 		  			<th>{{trans('messages.tested')}}</th>
 		  			<th>{{trans('messages.positive')}}</th>
-		  		</tr>
-		  		@foreach(ReportDisease::groupBy('disease_id')->get() as $report)
-		  		<tr>
-	  				<td>{{ $report->disease->name }}</td>
-	  				<td>{{ $surveillance[$report->disease_id.'_less_five_total'] }}</td>
-	  				<td>{{ $surveillance[$report->disease_id.'_less_five_positive'] }}</td>
-	  				<td>{{ $surveillance[$report->disease_id.'_total'] - $surveillance[$report->disease_id.'_less_five_total'] }}</td>
-	  				<td>{{ $surveillance[$report->disease_id.'_positive'] - $surveillance[$report->disease_id.'_less_five_positive'] }}</td>
-	  				<td>{{ $surveillance[$report->disease_id.'_total'] }}</td>
-	  				<td>{{ $surveillance[$report->disease_id.'_positive'] }}</td>
-		  		</tr>
+				</tr>
+				@foreach(Disease::all() as $disease)
+				<?php if(empty(count($disease->reportDiseases))) continue; ?>
+						<tr>
+							<td>{{ $disease->name }}</td>
+							<td>{{ $surveillance[$disease->id.'_less_five_total'] }}</td>
+							<td>{{ $surveillance[$disease->id.'_less_five_positive'] }}</td>
+							<td>{{ $surveillance[$disease->id.'_total'] - $surveillance[$disease->id.'_less_five_total'] }}</td>
+							<td>{{ $surveillance[$disease->id.'_positive'] - $surveillance[$disease->id.'_less_five_positive'] }}</td>
+							<td>{{ $surveillance[$disease->id.'_total'] }}</td>
+							<td>{{ $surveillance[$disease->id.'_positive'] }}</td>
+						</tr>
 				@endforeach
-		  	</tbody>
+			</tbody>
 		  </table>
 		</div>
 	</div>
