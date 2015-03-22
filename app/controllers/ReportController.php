@@ -1026,9 +1026,28 @@ class ReportController extends \BaseController {
 		if(!$to) $to = $date;
 
 		$surveillance = Test::getSurveillanceData($from, $to.' 23:59:59');
-		return View::make('reports.surveillance.index')
+
+
+		if(Input::has('word')){
+			$fileName = "surveillance_".$date.".doc";
+			$headers = array(
+			    "Content-type"=>"text/html",
+			    "Content-Disposition"=>"attachment;Filename=".$fileName
+			);
+			$content = View::make('reports.surveillance.exportSurveillance')
+							->with('surveillance', $surveillance)
+							->withInput(Input::all());
+			return Response::make($content,200, $headers);
+		}
+		else{
+			return View::make('reports.surveillance.index')
 					->with('surveillance', $surveillance)
 					->withInput(Input::all());
+		}
+
+
+
+
 	}
 
 	/**

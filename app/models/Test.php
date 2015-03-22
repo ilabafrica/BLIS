@@ -518,11 +518,11 @@ class Test extends Eloquent
 			$query = "SELECT ";
 			foreach ($surveillances as $surveillance) {
 				$query = $query.
-					"COUNT(DISTINCT if(".$surveillance['test_type_id'].",t.id,NULL)) as ".$surveillance['disease_id']."_total,".
-					"COUNT(DISTINCT if((".$surveillance['test_type_id'].
-						" and DATE_SUB(NOW(), INTERVAL 5 YEAR)<p.dob),t.id,NULL)) as ".$surveillance['disease_id']."_less_five_total, ".
-					"COUNT(DISTINCT if((".$surveillance['test_type_id'].
-						" and (tr.result='+' or".
+					"COUNT(DISTINCT if((".$surveillance['test_type_id']."),t.id,NULL)) as ".$surveillance['disease_id']."_total,".
+					"COUNT(DISTINCT if(((".$surveillance['test_type_id'].
+						") and DATE_SUB(NOW(), INTERVAL 5 YEAR)<p.dob),t.id,NULL)) as ".$surveillance['disease_id']."_less_five_total, ".
+					"COUNT(DISTINCT if(((".$surveillance['test_type_id'].
+						") and (tr.result='+' or".
 						" tr.result='++' or".
 						" tr.result='+++' or".
 						" tr.result='++++' or".
@@ -533,8 +533,8 @@ class Test extends Eloquent
 						" tr.result='shigella sonnei isolated' or".
 						" tr.result='shygella dysentriae isolated')".
 							"),t.id,NULL)) as ".$surveillance['disease_id']."_positive, ".
-					"COUNT(DISTINCT if((".$surveillance['test_type_id'].
-						" and (tr.result='+' or".
+					"COUNT(DISTINCT if(((".$surveillance['test_type_id'].
+						") and (tr.result='+' or".
 						" tr.result='++' or".
 						" tr.result='+++' or".
 						" tr.result='++++' or".
