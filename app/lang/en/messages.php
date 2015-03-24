@@ -622,7 +622,7 @@ return array(
     'successfully-added-control' => 'The Control has been successfully added',
     'success-updating-control' => 'The Control has been successfully updated',
     'success-deleting-control' => 'The Control has been successfully deleted',
-    'success-adding-control-result' => 'The control results have been succesfully added'
+    'success-adding-control-result' => 'The control results have been succesfully added',
 
     /** 
      *   MOH 706 report
