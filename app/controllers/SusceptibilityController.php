@@ -67,10 +67,20 @@ class SusceptibilityController extends \BaseController {
 			$organism_id = Input::get('organismId');
 			$susceptibility = Susceptibility::where('test_id', $test_id)
 											->where('organism_id', $organism_id)
+											->where('zone', '!=', 0)
 											->get();
 			foreach ($susceptibility as $drugSusceptibility) {
 				$drugSusceptibility->drugName = Drug::find($drugSusceptibility->drug_id)->name;
 				$drugSusceptibility->pathogen = Organism::find($drugSusceptibility->organism_id)->name;
+				if($drugSusceptibility->interpretation == 'I'){
+					$drugSusceptibility->sensitivity = 'Intermediate';
+				}
+				else if($drugSusceptibility->interpretation == 'R'){
+					$drugSusceptibility->sensitivity = 'Resistant';
+				}
+				else if($drugSusceptibility->interpretation == 'S'){
+					$drugSusceptibility->sensitivity = 'Sestitive';
+				}
 			}
 
 			return json_encode($susceptibility);
