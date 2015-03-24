@@ -234,7 +234,7 @@ class SanitasInterfacer implements InterfacerInterface{
         }
         //Check if visit exists, if true dont save again
         $visitType = array('ip' => 'In-patient', 'op' => 'Out-patient');//Should be a constant
-        $visit = Visit::where('visit_number', '=', $labRequest->patientVisitNumber)->get();
+        $visit = Visit::where('visit_number', '=', $labRequest->patientVisitNumber)->where('visit_type', '=', $visitType[$labRequest->orderStage])->get();
         if (!$visit->first())
         {
             $visit = new Visit();
