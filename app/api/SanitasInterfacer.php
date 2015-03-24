@@ -246,15 +246,12 @@ class SanitasInterfacer implements InterfacerInterface{
         }
         else{
             $visit = $visit->first();
-            if($visitType[$labRequest->orderStage] != $visit->visit_type)
+            if(strcmp($visitType[$labRequest->orderStage], $visit->visit_type) !=0)
             {
                 $visit = new Visit();
                 $visit->patient_id = $patient->id;
                 $visit->visit_type = $visitType[$labRequest->orderStage];
                 $visit->visit_number = $labRequest->patientVisitNumber;
-            }
-            else {
-                $visit = $visit->first();
             }
         }
 
