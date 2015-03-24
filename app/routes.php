@@ -368,6 +368,19 @@ Route::group(array("before" => "auth"), function()
             "uses" => "ReportController@qualityControlResults"
         ));
 
+        Route::get("/inventory", array(
+            "as"   => "reports.inventory",
+            "uses" => "ReportController@stockLevel"
+        ));
+        Route::post("/inventory", array(
+            "as"   => "reports.inventory",
+            "uses" => "ReportController@stockLevel"
+        ));
+
+
+
+
+
         
     });
 
@@ -463,5 +476,8 @@ Route::group(array("before" => "auth"), function()
             "as"   => "receipt.delete",
             "uses" => "ReceiptController@delete"
         ));
+       
+        
+         
     });
 });

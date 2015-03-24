@@ -1174,4 +1174,47 @@ class ReportController extends \BaseController {
 		return View::make('reportconfig.disease')
 					->with('diseases', $diseases);
 	}
+
+	public function stockLevel(){
+		
+		//	Fetch form filters
+		$date = date('Y-m-d');
+		$from = Input::get('start');
+		if(!$from) $from = date('Y-m-01');
+
+		$to = Input::get('end');
+		if(!$to) $to = $date;
+		
+		$reportTypes = array('Monthly', 'Quarterly');
+		
+
+		$selectedReport = Input::get('report_type');
+		if(!$selectedReport)$selectedReport = 0;
+
+		switch ($selectedReport) {
+			case '0':
+			
+				$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
+				$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
+				break;
+			case '1':
+				$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
+				$reportTitle = Lang::choice('messages.quarterly-stock-level-report-title',1);
+				break;
+				default:
+				$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
+				$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
+				break;
+		}
+
+		$reportTitle = str_replace("[FROM]", $from, $reportTitle);
+		$reportTitle = str_replace("[TO]", $to, $reportTitle);
+		
+		return View::make('reports.inventory.index')
+					->with('reportTypes', $reportTypes)
+					->with('reportData', $reportData)
+					->with('reportTitle', $reportTitle)
+					->with('selectedReport', $selectedReport)
+					->withInput(Input::all());
+	}
 }

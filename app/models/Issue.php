@@ -44,4 +44,5 @@ class Issue extends Eloquent
 	{
 		return $this->belongsTo('Receipt');
 	}
+	
 }
