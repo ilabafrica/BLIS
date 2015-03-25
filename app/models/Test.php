@@ -498,10 +498,11 @@ class Test extends Eloquent
 
 		$testTypeIds = array();
 
-		//foreach disease append test type Ids to query string
+		//Foreach disease create a query string for the different test types
 		foreach (Disease::all() as $disease) {
 			$count = 0;
 			$testTypeQuery = '';
+			//For a single disease creating a query string for it's different test types
 			foreach ($disease->reportDiseases as $reportDisease) {
 				if ($count == 0) {
 					$testTypeQuery = 't.test_type_id='.$reportDisease->test_type_id;
@@ -511,18 +512,24 @@ class Test extends Eloquent
 				$testTypeIds[] = $reportDisease->test_type_id;
 				$count++;
 			}
+
+			//For a single disease holding the test types query string and disease id
 			if (!empty($testTypeQuery)) {
 				$surveillances[$disease->id]['test_type_id'] = $testTypeQuery;
 				$surveillances[$disease->id]['disease_id'] = $disease->id;
 			}
 		}
-		
+
+		//Getting an array of measure ids from an array of test types
 		$measureIds = Test::getMeasureIdsByTestTypeIds($testTypeIds);
 
+		//Getting an array of positive interpretations from an array of measure ids
 		$positiveRanges = Test::getPositiveRangesByMeasureIds($measureIds);
 
 		$idCount = 0;
 		$positiveRangesQuery = '';
+
+		//Formating the positive ranges into part of the the query string
 		foreach ($positiveRanges as $positiveRange) {
 			if ($idCount == 0) {
 				$positiveRangesQuery = "tr.result='".$positiveRange."'";
@@ -546,6 +553,8 @@ class Test extends Eloquent
 					"COUNT(DISTINCT if(((".$surveillance['test_type_id'].") and (".$positiveRangesQuery.
 						") and DATE_SUB(NOW(), INTERVAL 5 YEAR)<p.dob),t.id,NULL)) as ".$surveillance['disease_id'].
 							"_less_five_positive";
+
+			    //Add no comma if it is the last variable in the array
 			    if($surveillance == end($surveillances)) {
 			        $query = $query." ";
 			    }else{

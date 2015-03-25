@@ -1039,16 +1039,11 @@ class ReportController extends \BaseController {
 							->with('surveillance', $surveillance)
 							->withInput(Input::all());
 			return Response::make($content,200, $headers);
-		}
-		else{
+		}else{
 			return View::make('reports.surveillance.index')
 					->with('surveillance', $surveillance)
 					->withInput(Input::all());
 		}
-
-
-
-
 	}
 
 	/**
