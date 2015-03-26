@@ -1,4 +1,4 @@
-	<?php
+<?php
 
 class ReportController extends \BaseController {
 	//	Begin patient report functions
@@ -1015,6 +1015,7 @@ class ReportController extends \BaseController {
 	/**
 	 * Displays Surveillance
 	 * @param string $from, string $to, array() $testTypeIds
+	 * As of now surveillance works only with alphanumeric measures
 	 */
 	public function surveillance(){
 		/*surveillance diseases*/
@@ -1038,16 +1039,11 @@ class ReportController extends \BaseController {
 							->with('surveillance', $surveillance)
 							->withInput(Input::all());
 			return Response::make($content,200, $headers);
-		}
-		else{
+		}else{
 			return View::make('reports.surveillance.index')
 					->with('surveillance', $surveillance)
 					->withInput(Input::all());
 		}
-
-
-
-
 	}
 
 	/**

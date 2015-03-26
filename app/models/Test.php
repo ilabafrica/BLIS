@@ -21,6 +21,11 @@ class Test extends Eloquent
 	const VERIFIED = 5;
 
 	/**
+	 * Other constants
+	 */
+	const POSITIVE = '+';
+
+	/**
 	 * Visit relationship
 	 */
 	public function visit()
@@ -493,27 +498,54 @@ class Test extends Eloquent
 	public static function getSurveillanceData($from, $to)
 	{
 		$diseases = Disease::all();
+
 		$surveillances = array();
-		//foreach diease collect test types
+
+		$testTypeIds = array();
+
+		//Foreach disease create a query string for the different test types
 		foreach (Disease::all() as $disease) {
 			$count = 0;
-			$testType = '';
+			$testTypeQuery = '';
+			//For a single disease creating a query string for it's different test types
 			foreach ($disease->reportDiseases as $reportDisease) {
 				if ($count == 0) {
-					$testType = 't.test_type_id='.$reportDisease->test_type_id;
+					$testTypeQuery = 't.test_type_id='.$reportDisease->test_type_id;
 				} else {
-					$testType = $testType.' or t.test_type_id='.$reportDisease->test_type_id;
+					$testTypeQuery = $testTypeQuery.' or t.test_type_id='.$reportDisease->test_type_id;
 				}
+				$testTypeIds[] = $reportDisease->test_type_id;
 				$count++;
 			}
-			if (!empty($testType)) {
-				$surveillances[$disease->id]['test_type_id'] = $testType;
+
+			//For a single disease holding the test types query string and disease id
+			if (!empty($testTypeQuery)) {
+				$surveillances[$disease->id]['test_type_id'] = $testTypeQuery;
 				$surveillances[$disease->id]['disease_id'] = $disease->id;
 			}
 		}
-		
+
+		//Getting an array of measure ids from an array of test types
+		$measureIds = Test::getMeasureIdsByTestTypeIds($testTypeIds);
+
+		//Getting an array of positive interpretations from an array of measure ids
+		$positiveRanges = Test::getPositiveRangesByMeasureIds($measureIds);
+
+		$idCount = 0;
+		$positiveRangesQuery = '';
+
+		//Formating the positive ranges into part of the the query string
+		foreach ($positiveRanges as $positiveRange) {
+			if ($idCount == 0) {
+				$positiveRangesQuery = "tr.result='".$positiveRange."'";
+			} else {
+				$positiveRangesQuery = $positiveRangesQuery." or tr.result='".$positiveRange."'";
+			}
+			$idCount++;
+		}
+
 		// Query only if there are entries for surveillance
-		if (!empty($surveillances)) {
+		if (!empty($surveillances) && !empty($positiveRangesQuery)) {
 			//Select surveillance data for the defined diseases
 			$query = "SELECT ";
 			foreach ($surveillances as $surveillance) {
@@ -521,38 +553,20 @@ class Test extends Eloquent
 					"COUNT(DISTINCT if((".$surveillance['test_type_id']."),t.id,NULL)) as ".$surveillance['disease_id']."_total,".
 					"COUNT(DISTINCT if(((".$surveillance['test_type_id'].
 						") and DATE_SUB(NOW(), INTERVAL 5 YEAR)<p.dob),t.id,NULL)) as ".$surveillance['disease_id']."_less_five_total, ".
-					"COUNT(DISTINCT if(((".$surveillance['test_type_id'].
-						") and (tr.result='+' or".
-						" tr.result='++' or".
-						" tr.result='+++' or".
-						" tr.result='++++' or".
-						" tr.result='Positive' or".
-						" tr.result='salmonella spp isolated' or".
-						" tr.result='shigella flexineri isolated' or".
-						" tr.result='shigella boydie isolated' or".
-						" tr.result='shigella sonnei isolated' or".
-						" tr.result='shygella dysentriae isolated')".
-							"),t.id,NULL)) as ".$surveillance['disease_id']."_positive, ".
-					"COUNT(DISTINCT if(((".$surveillance['test_type_id'].
-						") and (tr.result='+' or".
-						" tr.result='++' or".
-						" tr.result='+++' or".
-						" tr.result='++++' or".
-						" tr.result='Positive' or".
-						" tr.result='salmonella spp isolated' or".
-						" tr.result='shigella flexineri isolated' or".
-						" tr.result='shigella boydie isolated' or".
-						" tr.result='shigella sonnei isolated' or".
-						" tr.result='shigella dysentriae isolated')".
-							" and DATE_SUB(NOW(), INTERVAL 5 YEAR)<p.dob),t.id,NULL)) as ".$surveillance['disease_id'].
+					"COUNT(DISTINCT if(((".$surveillance['test_type_id'].") and (".$positiveRangesQuery.
+						")),t.id,NULL)) as ".$surveillance['disease_id']."_positive,".
+					"COUNT(DISTINCT if(((".$surveillance['test_type_id'].") and (".$positiveRangesQuery.
+						") and DATE_SUB(NOW(), INTERVAL 5 YEAR)<p.dob),t.id,NULL)) as ".$surveillance['disease_id'].
 							"_less_five_positive";
+
+			    //Add no comma if it is the last variable in the array
 			    if($surveillance == end($surveillances)) {
 			        $query = $query." ";
 			    }else{
 			        $query = $query.", ";
 			    }
 			}
-		
+
 			$query = $query." FROM tests t ".
 				"INNER JOIN test_results tr ON t.id=tr.test_id ".
 				"JOIN visits v ON v.id=t.visit_id ".
@@ -567,5 +581,45 @@ class Test extends Eloquent
 		}else{
 			return null;
 		}
+	}
+
+	/**
+	 * @param  Measure IDs $measureIds array()
+	 * @return Ranges whose interpretation is positive $positiveRanges array()
+	 */
+	public static function getPositiveRangesByMeasureIds($measureIds)
+	{
+		$positiveRanges = array();
+
+		foreach ($measureIds as $measureId) {
+
+			$measure = Measure::find($measureId);
+
+			$measureRanges = $measure->measureRanges;
+
+			foreach ($measureRanges as $measureRange) {
+
+				if ($measureRange->interpretation == Test::POSITIVE) {
+					$positiveRanges[] = $measureRange->alphanumeric;
+				}
+			}
+		}
+
+		return $positiveRanges;
+	}
+
+	/**
+	 * @param  Test Type IDs $testTypeIds array()
+	 * @return Measure IDs $measureIds array()
+	 */
+	public static function getMeasureIdsByTestTypeIds($testTypeIds)
+	{
+		$measureIds = array();
+		foreach ($testTypeIds as $testTypeId) {
+
+			$testType = TestType::find($testTypeId);
+			$measureIds = array_merge($measureIds, $testType->measures->lists('id'));
+		}
+		return $measureIds;
 	}
 }
