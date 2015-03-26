@@ -151,7 +151,7 @@ class MedbossInterfacer implements InterfacerInterface {
         $lab_request_no = intval($lab_request_no);
 
         if ($externalDump->first()->result_returned == 1) {
-            $query = mssql_query("UPDATE BlissLabResults SET TestResults = '$result_ent' ");
+            $query = mssql_query("UPDATE BlissLabResults SET TestResults = '$result_ent' WHERE RequestID = '$externalId' ");
         }else{
             $query = mssql_query("INSERT INTO BlissLabResults (RequestID,OfferedBy,DateOffered, TimeOffered, TestResults)
                     VALUES ('$externalId','$userId','$dateResultEntered','$timeResultEntered','$result_ent') ");
