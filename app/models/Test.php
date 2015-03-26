@@ -21,6 +21,11 @@ class Test extends Eloquent
 	const VERIFIED = 5;
 
 	/**
+	 * Other constants
+	 */
+	const POSITIVE = '+';
+
+	/**
 	 * Visit relationship
 	 */
 	public function visit()
@@ -594,7 +599,7 @@ class Test extends Eloquent
 
 			foreach ($measureRanges as $measureRange) {
 
-				if ($measureRange->interpretation == '+') {
+				if ($measureRange->interpretation == Test::POSITIVE) {
 					$positiveRanges[] = $measureRange->alphanumeric;
 				}
 			}
@@ -613,11 +618,7 @@ class Test extends Eloquent
 		foreach ($testTypeIds as $testTypeId) {
 
 			$testType = TestType::find($testTypeId);
-
-			foreach ($testType->measures as $measure) {
-
-				$measureIds[] = $measure->id;
-			}
+			$measureIds = array_merge($measureIds, $testType->measures->lists('id'));
 		}
 		return $measureIds;
 	}
