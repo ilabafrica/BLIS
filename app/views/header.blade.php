@@ -14,6 +14,16 @@
                         </li>
                     </ul>
                     <div class="user-settings">
+                     <div>
+                            <span class="glyphicon glyphicon-switch"></span>
+                            <a href="admin/user/switch/start/2">Login as Technologist</a>
+                        </div>
+                        <div>
+                            <span class="glyphicon glyphicon-switch"></span>
+                             @if( Session::has('orig_user') )
+                             <a href="admin/user/switch/stop">Switch back to Admin</a>
+                             @endif
+                        </div>
                         <div>
                             <span class="glyphicon glyphicon-edit"></span>
                             <a href='{{ URL::to("user/".Auth::user()->id."/edit") }}'>{{trans('messages.edit-profile')}}</a>

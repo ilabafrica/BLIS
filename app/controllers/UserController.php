@@ -42,6 +42,21 @@ class UserController extends Controller {
         Auth::logout();
         return Redirect::route("user.login");
     }
+    public function user_switch_start( $new_user )
+    {
+        $new_user = User::find( $new_user );
+        Session::put( 'orig_user', Auth::id() );
+        Auth::login( $new_user );
+        return Redirect::back();
+    }
+
+    public function user_switch_stop()
+    {
+        $id = Session::pull( 'orig_user' );
+        $orig_user = User::find( $id );
+        Auth::login( $orig_user );
+        return Redirect::back();
+    }
 
     public function homeAction(){
         return View::make("user.home");

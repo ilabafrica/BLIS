@@ -29,6 +29,8 @@ Route::group(array("before" => "guest"), function()
 	    "as" => "user.login",
 	    "uses" => "UserController@loginAction"
 	));
+    Route::get( 'admin/user/switch/start/{id}', 'UserController@user_switch_start' );
+    Route::get( 'admin/user/switch/stop', 'UserController@user_switch_stop' );
     
 });
 
@@ -48,7 +50,9 @@ Route::group(array("before" => "auth"), function()
             "uses" => "UserController@delete"
         ));
     });
-    
+    Route::get( 'admin/user/switch/start/{id}', 'UserController@user_switch_start' );
+    Route::get( 'admin/user/switch/stop', 'UserController@user_switch_stop' );
+
     Route::any("/logout", array(
         "as"   => "user.logout",
         "uses" => "UserController@logoutAction"
