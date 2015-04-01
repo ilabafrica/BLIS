@@ -712,8 +712,10 @@ class TestDataSeeder extends DatabaseSeeder
             array("name" => "manage_lab_configurations", "display_name" => "Can manage lab configurations"),
             array("name" => "view_reports", "display_name" => "Can view reports"),
             array("name" => "manage_inventory", "display_name" => "Can manage inventory"),
-            array("name" => "request_topup", "display_name" => "Can request top-up")
+            array("name" => "request_topup", "display_name" => "Can request top-up"),
+            array("name" => "manage_qc", "display_name" => "Can manage Quality Control")
         );
+
         foreach ($permissions as $permission) {
             Permission::create($permission);
         }
