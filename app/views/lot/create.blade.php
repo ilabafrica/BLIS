@@ -31,6 +31,11 @@
 					array('class' => 'form-control', 'rows' => '3' )) }}
 			</div>
 			<div class="form-group">
+				{{ Form::label('expiry', trans('messages.expiry-date')) }}
+				{{ Form::text('expiry', Input::old('expiry'), 
+					array('class' => 'form-control standard-datepicker', 'rows' => '3' )) }}
+			</div>
+			<div class="form-group">
 				{{ Form::label('instruments', Lang::choice('messages.instrument', 2)) }}
 				{{ Form::select('instrument', array('') + $instruments, Input::old('instrument'), 
 					array('class' => 'form-control')) }}
