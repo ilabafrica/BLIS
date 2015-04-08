@@ -21,10 +21,10 @@ class ControlController extends \BaseController {
 	 */
 	public function create()
 	{
-		$instruments = Instrument::lists('name', 'id');
-		$measureTypes = MeasureType::all();
+		$lots = Lot::lists('number', 'id');
+		$measureTypes = MeasureType::orderBy('id')->take(2)->get();
 
-		return View::make('control.create') ->with('instruments', $instruments) ->with('measureTypes', $measureTypes);
+		return View::make('control.create')->with('lots', $lots) ->with('measureTypes', $measureTypes);
 	}
 
 
@@ -37,7 +37,7 @@ class ControlController extends \BaseController {
 	{
 		//Validation -checking that name is unique among the un soft-deleted ones
 		$rules = array('name' => 'required|unique:controls,name,NULL,id,deleted_at,null',
-		 			'instrument' => 'required|non_zero_key',
+		 			'lot' => 'required|non_zero_key',
 		 			'new-measures' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -48,7 +48,7 @@ class ControlController extends \BaseController {
 			$control = new Control;
 			$control->name = Input::get('name');
 			$control->description = Input::get('description');
-			$control->instrument_id = Input::get('instrument');
+			$control->lot_id = Input::get('lot');
 
 			if (Input::get('new-measures')) {
 					$newMeasures = Input::get('new-measures');
@@ -83,10 +83,10 @@ class ControlController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$instruments = Instrument::lists('name', 'id');
+		$lots = Lot::lists('number', 'id');
 		$control = Control::find($id);
 		$measureTypes = MeasureType::all();
-		return View::make('control.edit')->with('control',$control)->with('instruments', $instruments)
+		return View::make('control.edit')->with('control',$control)->with('lots', $lots)
 				->with('measureTypes', $measureTypes);
 	}
 
@@ -101,7 +101,7 @@ class ControlController extends \BaseController {
 	{
 		$rules = array(
 			'name' => 'unique:controls,name,NULL,id,deleted_at,null',
-			'instrument' => 'required|non_zero_key',
+			'lot' => 'required|non_zero_key',
 			'measures' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
@@ -114,7 +114,7 @@ class ControlController extends \BaseController {
 			$control = Control::find($id);
 			$control->name = Input::get('name');
 			$control->description = Input::get('description');
-			$control->instrument_id = Input::get('instrument');
+			$control->lot_id = Input::get('lot');
 
 			if (Input::get('new-measures')) {
 				$inputNewMeasures = Input::get('new-measures');
@@ -167,10 +167,7 @@ class ControlController extends \BaseController {
 	public function resultsEntry($controlId) 
 	{
 		$control = Control::find($controlId);
-		$lotNumber = Lot::where('instrument_id', $control->instrument_id)->orderBy('id', 'desc')->first()->number;
-		$instrumentName = Instrument::find($control->instrument_id)->name;
-		return View::make('control.resultsEntry')->with('control', $control)->with('lotNumber', $lotNumber)
-						->with('instrumentName', $instrumentName);
+		return View::make('control.resultsEntry')->with('control', $control);
 	}
 
 	/** 

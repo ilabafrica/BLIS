@@ -15,11 +15,10 @@ class Lot extends Eloquent {
 	use SoftDeletingTrait;
     protected $dates = ['deleted_at'];
 
-
 	/**
+	* Relationship between lot and instrument
 	*/
 	public function instrument(){
 		return $this->belongsTo('Instrument');
 	}
-
 }

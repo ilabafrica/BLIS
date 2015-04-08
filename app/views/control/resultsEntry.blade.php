@@ -78,7 +78,7 @@
                                         <div class="col-md-3">
                                             <p><strong>{{trans("messages.lot-number")}}</strong></p></div>
                                         <div class="col-md-9">
-                                            {{ $lotNumber }}</div></div>
+                                            {{ $control->lot->number }}</div></div>
                                     <div class="row">
                                         <div class="col-md-3">
                                             <p><strong>{{ Lang::choice('messages.control-name',1) }}</strong></p></div>
@@ -87,7 +87,7 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <p><strong>{{Lang::choice("messages.instrument",1)}}</strong></p></div>
-                                        <div class="col-md-9"> {{ $instrumentName }}</div>
+                                        <div class="col-md-9"> {{ $control->lot->instrument->name }}</div>
                                     </div>
                                 </div>
                             </div> <!-- ./ panel-body -->

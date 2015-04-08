@@ -26,12 +26,6 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        {{ Form::label('new-measures[][expected]', trans('messages.expected-value')) }}
-                        <input class="form-control expected" rows="2" name="new-measures[][expected]">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
                         {{ Form::label('new-measures[][unit]', trans('messages.unit')) }}
                         <input class="form-control unit" name="new-measures[][unit]" type="text">
                     </div>
