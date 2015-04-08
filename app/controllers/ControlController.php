@@ -172,6 +172,27 @@ class ControlController extends \BaseController {
 		return View::make('control.resultsEntry')->with('control', $control)->with('lotNumber', $lotNumber)
 						->with('instrumentName', $instrumentName);
 	}
+	public function resultsshow($controlId)
+	{
+		$control = Control::find($controlId);
+		$lotNumber = Lot::where('instrument_id', $control->instrument_id)->orderBy('id', 'desc')->first()->number;
+		$controlMeasure = ControlMeasure::all();
+		$result = ControlMeasureResult:: all();
+		$instrumentName = Instrument::find($control->instrument_id)->name;
+		return View::make('control.resultsshow')->with('control', $control)->with('lotNumber', $lotNumber)->with('result', $result)
+						->with('instrumentName', $instrumentName);
+	}
+
+	public function resultsedit($controlId)
+	{
+		$control = Control::find($controlId);
+		$lotNumber = Lot::where('instrument_id', $control->instrument_id)->orderBy('id', 'desc')->first()->number;
+		$controlMeasure = ControlMeasure::all();
+		$result = ControlMeasureResult:: all();
+		$instrumentName = Instrument::find($control->instrument_id)->name;
+		return View::make('control.resultsedit')->with('control', $control)->with('lotNumber', $lotNumber)->with('result', $result)
+						->with('instrumentName', $instrumentName);
+	}
 
 	/** 
 	* Saves control results

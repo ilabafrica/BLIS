@@ -403,6 +403,15 @@ Route::group(array("before" => "auth"), function()
             "as" => "control.resultsentry",
             "uses" => "ControlController@resultsEntry"
         ));
+        Route::get("controlresults/{controlId}/resultsedit", array(
+            "as" => "control.resultsedit",
+            "uses" => "ControlController@resultsedit"
+        ));
+        Route::get("controlresults/{controlId}/resultsshow", array(
+            "as" => "control.resultsshow",
+            "uses" => "ControlController@resultsshow"
+        ));
+
 
         Route::get('control/{controlId}/delete', array(
             'uses' => 'ControlController@destroy'

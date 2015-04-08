@@ -30,6 +30,10 @@
 							<span class="glyphicon glyphicon-edit"></span>
 							{{ trans('messages.enter-results') }}
 						</a>
+						<a class="btn btn-sm btn-success" href="{{ URL::to("controlresults/" . $control->id . "/resultsshow") }}">
+							<span class="glyphicon glyphicon-eye-open"></span>
+							{{trans('messages.view')}}
+						</a>
 					</td>
 				</tr>
 			@endforeach
