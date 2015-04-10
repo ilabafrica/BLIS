@@ -1005,9 +1005,11 @@ class ReportController extends \BaseController {
 			$control = Control::find($controlId);
 			$controlTests = ControlTest::where('control_id', '=', $controlId)
 										->whereBetween('created_at', $dates)->get();
+			$leveyJennings = $this->leveyJennings($control->controlMeasures->first()->id);
 			return View::make('reports.qualitycontrol.results')
 				->with('control', $control)
 				->with('controlTests', $controlTests)
+				->with('leveyJennings', $leveyJennings)
 				->withInput(Input::all());
 		}
 	}
@@ -1203,7 +1205,7 @@ class ReportController extends \BaseController {
 		$reportTypes = array('Monthly', 'Quarterly');
 		
 
-		$selectedReport = Input::get('report_type');
+		$selectedReport = Input::get('report_type');	
 		if(!$selectedReport)$selectedReport = 0;
 
 		switch ($selectedReport) {
@@ -1231,5 +1233,34 @@ class ReportController extends \BaseController {
 					->with('reportTitle', $reportTitle)
 					->with('selectedReport', $selectedReport)
 					->withInput(Input::all());
+	}
+
+	/**
+	* Function to calculate the mean, SD, and UCL, LCL
+	* for a given control measure.
+	*
+	* @param control_measure_id
+	* @return json string
+	*/
+	public function leveyJennings($control_measure_id)
+	{
+		$controlMeasure = ControlMeasure::find($control_measure_id);
+
+		if(!$controlMeasure->isNumeric())
+		{
+			return json_encode(array("error", "NOT NUMERIC"));
+		}
+
+		$results = $controlMeasure->results();
+
+		$count = $results->count();
+		$average = $results->list('results')->average();
+		$standardDeviation = stats_standard_deviation($results->list('results')->toArray());
+
+		$response = array('count' => $count,
+						'average' => $average,
+						'standardDeviation' => $standardDeviation,
+						'results' => $results->list('results')->toArray());
+		return json_encode($response);
 	}
 }

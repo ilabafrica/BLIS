@@ -50,4 +50,12 @@ class ControlMeasure extends Eloquent {
 		else 
 			return false;
 	}
+
+	/**
+	* relationship between controlMeasure and its results
+	*/
+	public function results()
+	{
+		return $this->hasMany('ControlResult');
+	}
 }

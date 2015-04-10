@@ -376,12 +376,6 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.inventory",
             "uses" => "ReportController@stockLevel"
         ));
-
-
-
-
-
-        
     });
 
     Route::group(array("before" => "checkPerms:manage_qc"), function()
@@ -476,8 +470,5 @@ Route::group(array("before" => "auth"), function()
             "as"   => "receipt.delete",
             "uses" => "ReceiptController@delete"
         ));
-       
-        
-         
     });
 });
