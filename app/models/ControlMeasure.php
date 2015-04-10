@@ -24,6 +24,10 @@ class ControlMeasure extends Eloquent {
 	{
 		return $this->hasMany('ControlMeasureRange');
 	}
+	public function controlmeasure()
+	{
+		return $this->belongsTo('Control');
+	}
 
 	/**
 	* Check if this measure is Numeric
@@ -50,4 +54,11 @@ class ControlMeasure extends Eloquent {
 		else 
 			return false;
 	}
+	/**
+	 * Control measure result relationship
+	 */
+    public function results()
+    {
+        return $this->hasMany('ControlMeasureResult');
+    }
 }

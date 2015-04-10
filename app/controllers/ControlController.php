@@ -176,10 +176,10 @@ class ControlController extends \BaseController {
 	{
 		$control = Control::find($controlId);
 		$lotNumber = Lot::where('instrument_id', $control->instrument_id)->orderBy('id', 'desc')->first()->number;
-		$controlMeasure = ControlMeasure::all();
-		$result = ControlMeasureResult:: all();
+		$controlMeasures = ControlMeasure::where('control_id', $control->id)->orderBy('id', 'desc');
+		$results = ControlMeasureResult::all();//where('control_measure_id', $controlMeasure->id)->orderBy('id', 'desc')->first()->number;
 		$instrumentName = Instrument::find($control->instrument_id)->name;
-		return View::make('control.resultsshow')->with('control', $control)->with('lotNumber', $lotNumber)->with('result', $result)
+		return View::make('control.resultsshow')->with('control', $control)->with('lotNumber', $lotNumber)->with('controlMeasures', $controlMeasures)
 						->with('instrumentName', $instrumentName);
 	}
 
@@ -188,9 +188,18 @@ class ControlController extends \BaseController {
 		$control = Control::find($controlId);
 		$lotNumber = Lot::where('instrument_id', $control->instrument_id)->orderBy('id', 'desc')->first()->number;
 		$controlMeasure = ControlMeasure::all();
-		$result = ControlMeasureResult:: all();
+		$result = ControlMeasureResult::all();
+		//dd(json_encode($result));
 		$instrumentName = Instrument::find($control->instrument_id)->name;
 		return View::make('control.resultsedit')->with('control', $control)->with('lotNumber', $lotNumber)->with('result', $result)
+						->with('instrumentName', $instrumentName);
+	}
+	public function resultsupdate($controlId) 
+	{
+		$control = Control::find($controlId);
+		$lotNumber = Lot::where('instrument_id', $control->instrument_id)->orderBy('id', 'desc')->first()->number;
+		$instrumentName = Instrument::find($control->instrument_id)->name;
+		return View::make('control.resultsEntry')->with('control', $control)->with('lotNumber', $lotNumber)
 						->with('instrumentName', $instrumentName);
 	}
 

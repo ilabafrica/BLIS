@@ -636,6 +636,6 @@ return array(
     'edit-results'=>'Edit Results',
     'show-results'=>'Results',
     'list-results'=>'List of Results',
-    'result-id' =>'Result Number',
+    'created-at' =>'Date Entered',
     'result-name'=>'Result'
 );

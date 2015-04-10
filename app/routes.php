@@ -407,6 +407,10 @@ Route::group(array("before" => "auth"), function()
             "as" => "control.resultsedit",
             "uses" => "ControlController@resultsedit"
         ));
+        Route::get("controlresults/{controlId}/resultsupdate", array(
+            "as" => "control.resultsupdate",
+            "uses" => "ControlController@resultsupdate"
+        ));
         Route::get("controlresults/{controlId}/resultsshow", array(
             "as" => "control.resultsshow",
             "uses" => "ControlController@resultsshow"

@@ -12,6 +12,7 @@ class ControlMeasureResult extends Eloquent {
 	*/
 	public function controlMeasure()
 	{
-		return $this->belongsTo('ControlMeasure');
+		return $this->belongsTo('ControlMeasure', 'control_measure_id');
 	}
+	
 }

@@ -16,19 +16,18 @@
     </div>
     <div class="panel-body">
         <table class="table table-striped table-hover table-condensed search-table">
-          @foreach($control->controlMeasures as $key => $controlMeasure)
-            {{ Form::label("m_".$controlMeasure->id , $control->name) }}
-            @endforeach
             <thead>
                 <tr>
-                    <th>{{ Lang::choice('messages.result-id', 1) }}</th>
+                    <th>{{ Lang::choice('messages.created-at', 1) }}</th>
                     <th>{{ Lang::choice('messages.result-name', 1) }}</th>
                 </tr>
             </thead>
             <tbody>
-            @foreach($result as $result)
-                    <td>{{ $result->id }}</td>
-                    <td>{{ $result->results}}</td>
+            @foreach($control->controlMeasures as $controlMeasure)
+                @foreach($controlMeasure->results as $result)
+                <tr>
+                    <td>{{$result->created_at}}</td>
+                    <td>{{$result->results}}</td>
                     <td>
                         <a class="btn btn-sm btn-info" href="{{ URL::to("controlresults/" . $control->id . "/resultsedit") }}" >
                             <span class="glyphicon glyphicon-edit"></span>
@@ -36,6 +35,7 @@
                         </a>
                     </td>
                 </tr>
+                @endforeach
             @endforeach
             </tbody>
         </table>
