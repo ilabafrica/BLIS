@@ -24,11 +24,6 @@ class ControlMeasure extends Eloquent {
 	{
 		return $this->hasMany('ControlMeasureRange');
 	}
-	public function controlmeasure()
-	{
-		return $this->belongsTo('Control');
-	}
-
 	/**
 	* Check if this measure is Numeric
 	*
