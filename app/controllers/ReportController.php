@@ -1241,6 +1241,10 @@ class ReportController extends \BaseController {
 	*
 	* @param control_measure_id
 	* @return json string
+	*
+	* TODO: 
+	* Limit by date
+	* 
 	*/
 	public function leveyJennings($control_measure_id)
 	{
@@ -1251,16 +1255,67 @@ class ReportController extends \BaseController {
 			return json_encode(array("error", "NOT NUMERIC"));
 		}
 
-		$results = $controlMeasure->results();
+		$results = $controlMeasure->results()->lists('results');
 
-		$count = $results->count();
-		$average = $results->list('results')->average();
-		$standardDeviation = stats_standard_deviation($results->list('results')->toArray());
+		$count = count($results);
+
+		if($count < 6)
+		{
+			return json_encode(array("error", "TOO FEW RESULTS TO CREATE LJ"));
+		}
+
+		//Convert string results to float 
+		foreach ($results as $key => $result) {
+			$result &= float($result);
+		}
+
+
+		$total = 0;
+		foreach ($results as $key => $result) {
+			$total += $result;
+		}
+		$average = $total / $count;
+		$standardDeviation = $this->stat_standard_deviation($results);
 
 		$response = array('count' => $count,
+						'total' => $total,
 						'average' => $average,
 						'standardDeviation' => $standardDeviation,
-						'results' => $results->list('results')->toArray());
+						'dates' => $controlMeasure->results()->lists('created_at'),
+						'name' => $controlMeasure->name,
+						'results' => $results);
 		return json_encode($response);
 	}
+
+    /**
+     * This user-land implementation follows the implementation quite strictly;
+     * it does not attempt to improve the code or algorithm in any way. It will
+     * raise a warning if you have fewer than 2 values in your array, just like
+     * the extension does (although as an E_USER_WARNING, not E_WARNING).
+     * 
+     * @param array $a 
+     * @param bool $sample [optional] Defaults to false
+     * @return float|bool The standard deviation or false on error.
+     */
+    function stat_standard_deviation(array $a, $sample = false) {
+        $n = count($a);
+        if ($n === 0) {
+            trigger_error("The array has zero elements", E_USER_WARNING);
+            return false;
+        }
+        if ($sample && $n === 1) {
+            trigger_error("The array has only 1 element", E_USER_WARNING);
+            return false;
+        }
+        $mean = array_sum($a) / $n;
+        $carry = 0.0;
+        foreach ($a as $val) {
+            $d = ((double) $val) - $mean;
+            $carry += $d * $d;
+        };
+        if ($sample) {
+           --$n;
+        }
+        return sqrt($carry / $n);
+    }
 }

@@ -51,7 +51,7 @@
 
 	<div class="panel-body">
 	<!-- if there are search errors, they will show here -->
-		@include("reportHeader")
+	@include("reportHeader")
 	</div>
 		<div id="test_records_div">
 			<table class="table table-bordered">
@@ -72,8 +72,67 @@
 					@endforeach
 				</tbody>
 			</table>
-			{{ $leveyJennings }}
+			<div id="leveyjennings"></div>
 		</div>
 </div>
-
+<!-- Begin HighCharts scripts -->
+{{ HTML::script('highcharts/highcharts.js') }}
+{{ HTML::script('highcharts/exporting.js') }}
+<!-- End HighCharts scripts -->
+<script type="text/javascript">
+$( document ).ready(function() {
+	var chartdata = {{ $leveyJennings }}
+	console.log(chartdata);
+    $('#leveyjennings').highcharts({
+        title: {
+            text: 'Monthly Average Temperature',
+            x: -20 //center
+        },
+        subtitle: {
+            text: 'Source: WorldClimate.com',
+            x: -20
+        },
+        xAxis: {
+            categories: chartdata.dates
+        },
+        yAxis: {
+            title: {
+                text: 'Temperature (°C)'
+            },
+            plotLines: [{
+            	// +1s
+	            color: '#FF0000',
+	            width: 2,
+	            value: 20.0// Need to set this probably as a var.
+        	},
+        	{
+        		// +2s
+	            color: '#FF0000',
+	            width: 2,
+	            value: 15.0// Need to set this probably as a var.
+        	},
+        	{
+        		// +3s
+	            color: '#FF0000',
+	            width: 2,
+	            value: 10.0// Need to set this probably as a var.
+        	}
+        	]
+        },
+        tooltip: {
+            valueSuffix: '°C'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: chartdata.name,
+            data: chartdata.results
+        }],
+    });
+});
+</script>
 @stop
