@@ -62,14 +62,16 @@
 							<th> {{ $controlMeasure->name . ' ('. $controlMeasure->controlMeasureRanges->first()->getRangeUnit() . ')' }} </th>
 						@endforeach
 					</tr>
-					@foreach($controlTests as $key => $controlTest)
+					@forelse($controlTests as $key => $controlTest)
 						<tr>
 							<td>{{ $controlTest->created_at }} </td>
 							@foreach($controlTest->controlResults as $controlResult)
-							<td>{{ $controlResult->results}}</td>
+								<td>{{ $controlResult->results}}</td>
 							@endforeach
 						</tr>
-					@endforeach
+					@empty
+						<p>No results found for the specified date.</p>
+					@endforelse
 				</tbody>
 			</table>
 			<div id="leveyjennings"></div>
@@ -81,46 +83,143 @@
 <!-- End HighCharts scripts -->
 <script type="text/javascript">
 $( document ).ready(function() {
-	var chartdata = {{ $leveyJennings }}
-	console.log(chartdata);
-    $('#leveyjennings').highcharts({
-        title: {
-            text: 'Monthly Average Temperature',
-            x: -20 //center
-        },
-        subtitle: {
-            text: 'Source: WorldClimate.com',
-            x: -20
-        },
-        xAxis: {
-            categories: chartdata.dates
-        },
-        yAxis: {
-            title: {
-                text: 'Temperature (°C)'
-            },
-            plotLines: [{
-            	// +1s
-	            color: '#FF0000',
-	            width: 2,
-	            value: 20.0// Need to set this probably as a var.
-        	},
-        	{
-        		// +2s
-	            color: '#FF0000',
-	            width: 2,
-	            value: 15.0// Need to set this probably as a var.
-        	},
-        	{
-        		// +3s
-	            color: '#FF0000',
-	            width: 2,
-	            value: 10.0// Need to set this probably as a var.
-        	}
-        	]
+	var chartdatam = {{ $leveyJennings }}
+	console.log(chartdatam);
+	$.each(chartdatam , function(key, chartdata){
+		var chartdivid = 'chart_'+key;
+		var chartdiv = '<div id="'+chartdivid+'"></div>';
+		$('#leveyjennings').append(chartdiv);
+		if(chartdata.success == true){
+			createLJChart(chartdata, chartdivid);
+		}
+	});
+});
+
+function createLJChart(chartdata, chartdivid){
+	$('#'+chartdivid).highcharts({
+		title: {
+			text: 'Levey Jennings chart',
+			x: -20 //center
+		},
+		subtitle: {
+			text: 'For control '+chartdata.controlName,
+			x: -20
+		},
+		xAxis: {
+			categories: chartdata.dates
+		},
+		yAxis: {
+			title: {
+				text: 'Control results '.concat(chartdata.controlUnit) 
+			},
+			max: chartdata.average + (chartdata.standardDeviation * 3),
+			min: chartdata.average - (chartdata.standardDeviation * 3),
+			plotLines: [{
+				// +1s
+			color: 'red',
+			dashStyle: 'Dash',
+			width: 1,
+			label: {
+				text: '+3 SD ('+ chartdata.plusthreesd +')',
+				align: "right",
+				style: {
+					fontSize: 12,
+					color: '#606060'
+				},
+			},
+				value: chartdata.plusthreesd
+			},{
+				// +1s
+				color: 'brown',
+				dashStyle: 'longdashdot',
+				width: 1,
+				label: {
+					text: '+2 SD ('+ chartdata.plustwosd +')',
+					align: "right",
+					style: {
+						fontSize: 12,
+						color: '#606060'
+					},
+				},
+				value: chartdata.plustwosd
+			},{
+				// +1s
+				color: 'blue',
+				dashStyle: 'longdashdot',
+				width: 1,
+				label: {
+					text: '+1 SD ('+ chartdata.plusonesd +')',
+					align: "right",
+					style: {
+						fontSize: 12,
+						color: '#606060'
+					},
+				},
+				value: chartdata.plusonesd
+			},
+			{
+				// Average
+				color: 'green',
+				width: 1,
+				label: {
+					text: 'Mean ('+chartdata.average+ ')',
+					align: "right",
+					style: {
+						fontSize: 12,
+						color: '#606060'
+					},
+				},
+				value: chartdata.average,// Need to set this probably as a var.
+			},
+			{
+				// -1sd
+				color: 'blue',
+				dashStyle: 'longdashdot',
+				width: 1,
+				value: chartdata.minusonesd,// Need to set this probably as a var.
+				label: {
+					text: '-1 SD ('+ chartdata.minusonesd +')',
+					align: "right",
+					style: {
+						fontSize: 12,
+						color: '#606060'
+					},
+				}
+			},
+			{
+				// -2sd
+				color: 'brown',
+				dashStyle: 'longdashdot',
+				width: 1,
+				value: chartdata.minustwosd ,// Need to set this probably as a var.
+				label: {
+					text: '-2 SD ('+ chartdata.minustwosd +')',
+					align: "right", 
+					style: {
+						fontSize: 12,
+						color: '#606060'
+					},
+				}
+			},
+			{
+				// -3sd
+				color: 'red',
+				dashStyle: 'Dash',
+				width: 1,
+				value: chartdata.minusthreesd,// Need to set this probably as a var.
+				label: {
+					text: '-3 SD ('+ chartdata.minustwosd +')',
+					align: "right",
+					style: {
+						fontSize: 12,
+						color: '#606060'
+					},
+				}
+			}
+			]
         },
         tooltip: {
-            valueSuffix: '°C'
+            valueSuffix: ' '+chartdata.controlUnit 
         },
         legend: {
             layout: 'vertical',
@@ -129,10 +228,10 @@ $( document ).ready(function() {
             borderWidth: 0
         },
         series: [{
-            name: chartdata.name,
+            name: chartdata.controlName,
             data: chartdata.results
         }],
     });
-});
+}
 </script>
 @stop
