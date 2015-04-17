@@ -23,8 +23,8 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach($control->controlMeasures as $controlMeasure)
-                @foreach($controlMeasure->results as $result)
+            @foreach($control->controlTests as $controlTest)
+                @foreach($controlTest->results as $result)
                 <tr>
                     <td>{{$result->created_at}}</td>
                     <td>{{$result->results}}</td>
@@ -36,7 +36,7 @@
                     </td>
                 </tr>
                 @endforeach
-            @endforeach
+                @endforeach
             </tbody>
         </table>
         {{ Session::put('SOURCE_URL', URL::full()) }}

@@ -175,11 +175,12 @@ class ControlController extends \BaseController {
 	public function resultsshow($controlId)
 	{
 		$control = Control::find($controlId);
+		$controlTest = ControlTest:: all();
 		$lotNumber = Lot::where('instrument_id', $control->instrument_id)->orderBy('id', 'desc')->first()->number;
 		$controlMeasures = ControlMeasure::where('control_id', $control->id)->orderBy('id', 'desc');
 		$results = ControlMeasureResult::all();//where('control_measure_id', $controlMeasure->id)->orderBy('id', 'desc')->first()->number;
 		$instrumentName = Instrument::find($control->instrument_id)->name;
-		return View::make('control.resultsshow')->with('control', $control)->with('lotNumber', $lotNumber)->with('controlMeasures', $controlMeasures)
+		return View::make('control.resultsshow')->with('control', $control)->with('lotNumber', $lotNumber) -> with('controlTest', $controlTest)
 						->with('instrumentName', $instrumentName);
 	}
 
