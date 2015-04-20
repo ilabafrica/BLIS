@@ -195,13 +195,24 @@ class ControlController extends \BaseController {
 		return View::make('control.resultsedit')->with('control', $control)->with('lotNumber', $lotNumber)->with('result', $result)
 						->with('instrumentName', $instrumentName);
 	}
-	public function resultsupdate($controlId) 
+	public function resultsUpdate($controlId) 
 	{
+		//Validate
 		$control = Control::find($controlId);
-		$lotNumber = Lot::where('instrument_id', $control->instrument_id)->orderBy('id', 'desc')->first()->number;
-		$instrumentName = Instrument::find($control->instrument_id)->name;
-		return View::make('control.resultsEntry')->with('control', $control)->with('lotNumber', $lotNumber)
-						->with('instrumentName', $instrumentName);
+
+		$controlTest = ControlTest::find($controlId);
+		$controlTest->entered_by = Auth::user()->id;
+		$controlTest->control_id = $controlId;
+		$controlTest->save();
+
+		foreach ($control->controlMeasures as $controlMeasure) {
+			$controlResult = new ControlMeasureResult;
+			$controlResult->results = Input::get('m_'.$controlMeasure->id);
+			$controlResult->control_measure_id = $controlMeasure->id;
+			$controlResult->control_test_id = $controlTest->id;
+			$controlResult->save();
+		}
+		return Redirect::route('control.resultsIndex')->with('message', trans('messages.success-updating-control-result'));
 	}
 
 	/** 

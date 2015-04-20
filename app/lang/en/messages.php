@@ -637,5 +637,6 @@ return array(
     'show-results'=>'Results',
     'list-results'=>'List of Results',
     'created-at' =>'Date Entered',
-    'result-name'=>'Result'
+    'result-name'=>'Result',
+    'success-updating-control-result' => 'The control results have been succesfully updated'
 );
