@@ -31,6 +31,7 @@
 					<th>{{Lang::choice('messages.unit-price',1)}}</th>
 					<th>{{Lang::choice('messages.item-code',1)}}</th>
 					<th>{{Lang::choice('messages.storage-req',1)}}</th>
+					<th>{{Lang::choice('messages.qty-avl',1)}}</th>
 					<th>{{Lang::choice('messages.min-level',1)}}</th>
 					<th>{{Lang::choice('messages.max-level',1)}}</th>
 					<th>{{trans('messages.actions')}}</th>
@@ -45,6 +46,7 @@
                  	<td>{{ $commodity->unit_price}}</td>
 					<td>{{ $commodity->item_code }}</td>
 					<td>{{ $commodity->storage_req }}</td>
+					<td>{{ $commodity->available() }}</td>
 					<td>{{ $commodity->min_level}}</td>
 					<td>{{ $commodity->max_level }}</td>
 					<td> 
