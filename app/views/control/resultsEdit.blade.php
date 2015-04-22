@@ -26,7 +26,7 @@
 				<div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6">
-                    {{ Form::model($controlTest->control, array('route' => array('control.resultsUpdate', $controlTest->control->id), 'method' => 'PUT', 'id' => 'form-edit-control')) }}
+                    {{ Form::model($controlTest->control, array('route' => array('controlresult.update', $controlTest->control->id), 'method' => 'PUT', 'id' => 'form-edit-control')) }}
                         @foreach($controlTest->control->controlMeasures as $key => $controlMeasure)
                             <div class="form-group">
                                 <?php
