@@ -26,11 +26,11 @@
 			@foreach($controls as $control)
 					<td>{{ $control->name }}</td>
 					<td>
-						<a class="btn btn-sm btn-info" href="{{ URL::to("controlresults/" . $control->id . "/resultsentry") }}" >
+						<a class="btn btn-sm btn-info" href="{{ URL::to("controlresults/" . $control->id . "/resultsEntry") }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							{{ trans('messages.enter-results') }}
 						</a>
-						<a class="btn btn-sm btn-success" href="{{ URL::to("controlresults/" . $control->id . "/resultsshow") }}">
+						<a class="btn btn-sm btn-success" href="{{ URL::to("controlresults/" . $control->id . "/resultsList") }}">
 							<span class="glyphicon glyphicon-eye-open"></span>
 							{{trans('messages.view')}}
 						</a>

@@ -399,20 +399,19 @@ Route::group(array("before" => "auth"), function()
             "uses" => "ControlController@resultsIndex"
         ));
 
-        Route::get("controlresults/{controlId}/resultsentry", array(
-            "as" => "control.resultsentry",
+        Route::get("controlresults/{controlId}/resultsEntry", array(
+            "as" => "control.resultsEntry",
             "uses" => "ControlController@resultsEntry"
         ));
-        Route::get("controlresults/{controlId}/resultsedit", array(
-            "as" => "control.resultsedit",
-            "uses" => "ControlController@resultsedit"
+        Route::get("controlresults/{controlId}/resultsEdit", array(
+            "as" => "control.resultsEdit",
+            "uses" => "ControlController@resultsEdit"
         ));
     
-        Route::get("controlresults/{controlId}/resultsshow", array(
-            "as" => "control.resultsshow",
-            "uses" => "ControlController@resultsshow"
+        Route::get("controlresults/{controlId}/resultsList", array(
+            "as" => "control.resultsList",
+            "uses" => "ControlController@resultsList"
         ));
-
 
         Route::get('control/{controlId}/delete', array(
             'uses' => 'ControlController@destroy'
