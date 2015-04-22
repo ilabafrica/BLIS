@@ -26,7 +26,7 @@
 				<div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6">
-                    {{ Form::model($control, array('route' => array('control.resultsUpdate', $control->id), 'method' => 'PUT', 'id' => 'form-edit-control')) }}
+                    {{ Form::model($control, array('route' => array('controlresults.update', $control->id), 'method' => 'PUT', 'id' => 'form-edit-controlresults')) }}
                         @foreach($control->controlMeasures as $key => $controlMeasure)
                             <div class="form-group">
                                 @if ( $controlMeasure->isNumeric() ) 

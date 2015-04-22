@@ -392,6 +392,13 @@ Route::group(array("before" => "auth"), function()
             'uses' => 'LotController@delete'
         ));
 
+        Route::resource("controlresults", "ControlResultsController");
+
+        Route::get('controlresults/{controlId}/delete', array(
+            'uses' => 'LotController@delete'
+        ));
+
+
         Route::resource("control", "ControlController");
 
         Route::get("controlresults", array(

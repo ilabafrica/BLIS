@@ -172,6 +172,11 @@ class ControlController extends \BaseController {
 		return View::make('control.resultsEntry')->with('control', $control)->with('lotNumber', $lotNumber)
 						->with('instrumentName', $instrumentName);
 	}
+	/**
+	 * Return resultshow page
+	 *
+	 * @return Response
+	 */
 	public function resultsshow($controlId)
 	{
 		$control = Control::find($controlId);
@@ -183,7 +188,12 @@ class ControlController extends \BaseController {
 		return View::make('control.resultsshow')->with('control', $control)->with('lotNumber', $lotNumber) -> with('controlTest', $controlTest)
 						->with('instrumentName', $instrumentName);
 	}
-
+   /**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
 	public function resultsedit($controlId)
 	{
 		$control = Control::find($controlId);
@@ -195,25 +205,7 @@ class ControlController extends \BaseController {
 		return View::make('control.resultsedit')->with('control', $control)->with('lotNumber', $lotNumber)->with('result', $result)
 						->with('instrumentName', $instrumentName);
 	}
-	public function resultsUpdate($controlId) 
-	{
-		//Validate
-		$control = Control::find($controlId);
-
-		$controlTest = ControlTest::find($controlId);
-		$controlTest->entered_by = Auth::user()->id;
-		$controlTest->control_id = $controlId;
-		$controlTest->save();
-
-		foreach ($control->controlMeasures as $controlMeasure) {
-			$controlResult = new ControlMeasureResult;
-			$controlResult->results = Input::get('m_'.$controlMeasure->id);
-			$controlResult->control_measure_id = $controlMeasure->id;
-			$controlResult->control_test_id = $controlTest->id;
-			$controlResult->save();
-		}
-		return Redirect::route('control.resultsIndex')->with('message', trans('messages.success-updating-control-result'));
-	}
+	
 
 	/** 
 	* Saves control results
