@@ -12,30 +12,29 @@
 <div class="panel panel-primary">
     <div class="panel-heading ">
         <span class="glyphicon glyphicon-adjust"></span>
-        {{ trans('messages.list-results') }}
+        {{ trans('messages.list-results') .'  '. $control->name  }}
     </div>
     <div class="panel-body">
         <table class="table table-striped table-hover table-condensed search-table">
             <thead>
                 <tr>
+                    <th> {{ Lang::choice('messages.test-id', 1) }} </th>
                     <th>{{ Lang::choice('messages.created-at', 1) }}</th>
-                    <th>{{ Lang::choice('messages.result-name', 1) }}</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-            @foreach($control->controlTests as $controlTest)
-                @foreach($controlTest->results as $result)
+            @foreach($control->controlTests as $controlResult)
                 <tr>
-                    <td>{{$result->created_at}}</td>
-                    <td>{{$result->results}}</td>
+                    <td>{{$controlResult->id}}</td>
+                    <td>{{$controlResult->created_at}}</td>
                     <td>
-                        <a class="btn btn-sm btn-info" href="{{ URL::to("controlresults/" . $control->id . "/resultsedit") }}" >
+                        <a class="btn btn-sm btn-info" href="{{ URL::to("controlresults/" . $controlResult->id . "/resultsEdit") }}" >
                             <span class="glyphicon glyphicon-edit"></span>
                             {{ trans('messages.edit') }}
                         </a>
                     </td>
                 </tr>
-                @endforeach
                 @endforeach
             </tbody>
         </table>

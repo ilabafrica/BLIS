@@ -177,16 +177,11 @@ class ControlController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function resultsshow($controlId)
+
+	public function resultsList($controlId)
 	{
 		$control = Control::find($controlId);
-		$controlTest = ControlTest:: all();
-		$lotNumber = Lot::where('instrument_id', $control->instrument_id)->orderBy('id', 'desc')->first()->number;
-		$controlMeasures = ControlMeasure::where('control_id', $control->id)->orderBy('id', 'desc');
-		$results = ControlMeasureResult::all();//where('control_measure_id', $controlMeasure->id)->orderBy('id', 'desc')->first()->number;
-		$instrumentName = Instrument::find($control->instrument_id)->name;
-		return View::make('control.resultsshow')->with('control', $control)->with('lotNumber', $lotNumber) -> with('controlTest', $controlTest)
-						->with('instrumentName', $instrumentName);
+		return View::make('control.resultsList')->with('control',$control);
 	}
    /**
 	 * Show the form for editing the specified resource.
@@ -194,19 +189,12 @@ class ControlController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function resultsedit($controlId)
+	public function resultsEdit($controlTestId)
 	{
-		$control = Control::find($controlId);
-		$lotNumber = Lot::where('instrument_id', $control->instrument_id)->orderBy('id', 'desc')->first()->number;
-		$controlMeasure = ControlMeasure::all();
-		$result = ControlMeasureResult::all();
-		//dd(json_encode($result));
-		$instrumentName = Instrument::find($control->instrument_id)->name;
-		return View::make('control.resultsedit')->with('control', $control)->with('lotNumber', $lotNumber)->with('result', $result)
-						->with('instrumentName', $instrumentName);
+		$controlTest = ControlTest::find($controlTestId);
+		return View::make('control.resultsEdit')->with('controlTest', $controlTest);
 	}
 	
-
 	/** 
 	* Saves control results
 	* 
