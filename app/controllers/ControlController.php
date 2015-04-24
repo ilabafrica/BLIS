@@ -192,9 +192,8 @@ class ControlController extends \BaseController {
 	public function resultsEdit($controlTestId)
 	{
 		$controlTest = ControlTest::find($controlTestId);
-		return View::make('control.resultsEdit')->with('controlTest', $controlTest);
+		return View::make('control.resultsEdit', compact('controlTest'));
 	}
-	
 	/** 
 	* Saves control results
 	* 

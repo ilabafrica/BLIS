@@ -322,7 +322,12 @@ Route::group(array("before" => "auth"), function()
         Route::get('lot/{lotId}/delete', array(
             'uses' => 'LotController@delete'
         ));
-        Route::resource("controlresult", "ControlResultsController");
+        Route::any("controlresult/{id}/update",array(
+            "as" => "controlresult.update",
+            "uses" => "ControlResultsController@update"
+            )
+        );
+
         Route::get('controlresult/{controlTestId}/delete', array(
             'uses' => 'ControlResultsController@delete'
         ));
