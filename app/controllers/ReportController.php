@@ -979,9 +979,9 @@ class ReportController extends \BaseController {
 	public function qualityControl()
 	{
 		$controls = Control::all()->lists('name', 'id');
-		$lotNumber = Lot::all()->lists('number', 'id');
-		return View::make('reports.qualitycontrol.index')->with('controls', $controls)->with('lotNumber', $lotNumber);
- 	}
+		return View::make('reports.qualitycontrol.index')->with('controls', $controls);
+	}
+
 	/**
 	* Returns qc results for a specific control page
 	*

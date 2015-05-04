@@ -36,15 +36,6 @@
 	            	isset($input['control'])?$input['control']:0, array('class' => 'form-control')) }}
 	        </div>
         </div>
-         <div class="col-md-4">
-	        <div class="col-md-3">
-	        	{{ Form::label('lot', Lang::choice('messages.lot-number',1)) }}
-	        </div>
-	        <div class="col-md-9">
-	            {{ Form::select('lot', array(null => '')+ $lotNumber->lists('number', 'id'),
-	            	isset($input['lot'])?$input['lot']:0, array('class' => 'form-control')) }}
-	        </div>
-        </div>
         <div class="col-md-2">
         	{{Form::submit(trans('messages.view'), 
 	        	array('class' => 'btn btn-info', 'id'=>'filter', 'name'=>'filter'))}}
