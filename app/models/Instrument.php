@@ -200,5 +200,11 @@ class Instrument extends Eloquent
 		// Send back a json result
 		return json_encode($resultWithIDs);
 	}
-
+	/**
+	 * Lots relationship
+	 */
+	public function lots()
+	{
+	  return $this->hasMany('Lot');
+	}
 }

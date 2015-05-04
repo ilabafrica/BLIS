@@ -125,7 +125,7 @@ class ControlController extends \BaseController {
 			if (Input::get('measures')) {
 				$inputMeasures = Input::get('measures');
 				$measures = New ControlMeasureController;
-				$measures->saveMeasuresRanges($inputMeasures, $control);
+				$measures->editMeasuresRanges($inputMeasures, $control);
 			}
 			// redirect
 			return Redirect::back()->with('message', trans('messages.success-updating-control'));
@@ -169,7 +169,28 @@ class ControlController extends \BaseController {
 		$control = Control::find($controlId);
 		return View::make('control.resultsEntry')->with('control', $control);
 	}
+	/**
+	 * Return resultshow page
+	 *
+	 * @return Response
+	 */
 
+	public function resultsList($controlId)
+	{
+		$control = Control::find($controlId);
+		return View::make('control.resultsList')->with('control',$control);
+	}
+   /**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function resultsEdit($controlTestId)
+	{
+		$controlTest = ControlTest::find($controlTestId);
+		return View::make('control.resultsEdit', compact('controlTest'));
+	}
 	/** 
 	* Saves control results
 	* 

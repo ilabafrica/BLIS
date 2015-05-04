@@ -1650,7 +1650,7 @@ class TestDataSeeder extends DatabaseSeeder
             );
         
         foreach ($controlResults as $controlResult) {
-            ControlResult::create($controlResult);
+            ControlMeasureResult::create($controlResult);
         }
         $this->command->info("Control results table seeded");
 
