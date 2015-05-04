@@ -12,4 +12,11 @@ class ControlTest extends Eloquent {
 		return $this->hasMany('ControlMeasureResult');
 	}
 
+	/**
+	* Relationship between control test and its control
+	*/
+	public function Control()
+	{
+		return $this->belongsTo('Control');
+	}
 }
