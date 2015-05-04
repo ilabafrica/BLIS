@@ -125,7 +125,7 @@ class ControlController extends \BaseController {
 			if (Input::get('measures')) {
 				$inputMeasures = Input::get('measures');
 				$measures = New ControlMeasureController;
-				$measures->saveMeasuresRanges($inputMeasures, $control);
+				$measures->editMeasuresRanges($inputMeasures, $control);
 			}
 			// redirect
 			return Redirect::back()->with('message', trans('messages.success-updating-control'));

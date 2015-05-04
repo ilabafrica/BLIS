@@ -6,6 +6,7 @@
         <div class="form-group">
             {{ Form::label('measures[name]['.$measure->id.']', Lang::choice('messages.name',1)) }}
            <input class="form-control" name="measures[{{$measure->id}}][name]" value="{{$measure->name}}" type="text">
+           <input type="hidden" name="measures[{{$measure->id}}][id]" value="{{$measure->id}}">
         </div>
     </div>
     <div class="col-md-3">
