@@ -25,10 +25,10 @@ class ControlMeasureRange extends Eloquent
 	*/
 	public function getRangeUnit()
 	{
-		$upper = $this->upper_range;
 		$lower = $this->lower_range;
+		$upper = $this->upper_range;
 		$unit = $this->unit;
 
-		return $upper . " - " . $lower ." ". $this->ControlMeasure->unit;
+		return $lower . " - " . $upper ." ". $this->ControlMeasure->unit;
 	}
 }
