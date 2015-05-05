@@ -38,12 +38,4 @@ class Control extends Eloquent {
 	{
 		return $this->belongsTo('Lot');
 	}
-
-	/**
-	* Instruments relationship
-	*/
-	public function instrument()
-	{
-		return $this->belongsTo('Instrument');
-	}
 }
