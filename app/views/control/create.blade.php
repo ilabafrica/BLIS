@@ -31,17 +31,16 @@
 					array('class' => 'form-control', 'rows' => '3' )) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('instruments', Lang::choice('messages.instrument', 1)) }}
-				{{ Form::select('instrument', array('') + $instruments, Input::old('instrument'), 
-					array('class' => 'form-control')) }}
+				{{ Form::label('lot', Lang::choice('messages.lot', 1)) }}
+				{{ Form::select('lot', array('') + $lots, Input::old('lot'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
 				{{ Form::label('measures', Lang::choice('messages.measure',2)) }}
 				<div class="form-pane panel panel-default">
 					<div class="container-fluid measure-container">
 					</div>
-		        	<a class="btn btn-default add-another-measure" href="javascript:void(0);" data-new-measure="1">
-		         		<span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.add-new-measure')}}</a>
+					<a class="btn btn-default add-another-measure" href="javascript:void(0);" data-new-measure="1">
+					<span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.add-new-measure')}}</a>
 				</div>
 			</div>
 		</div>

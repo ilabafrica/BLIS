@@ -30,11 +30,20 @@ class Control extends Eloquent {
 	{
 		return $this->hasMany('ControlTest');
 	}
+
 	/**
-	 * Instruments relationship
-	 */
+	* Relationship between control and lots
+	*/
+	public function lot()
+	{
+		return $this->belongsTo('Lot');
+	}
+
+	/**
+	* Instruments relationship
+	*/
 	public function instrument()
 	{
-	  return $this->belongsTo('Instrument');
+		return $this->belongsTo('Instrument');
 	}
 }

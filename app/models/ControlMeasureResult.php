@@ -14,9 +14,14 @@ class ControlMeasureResult extends Eloquent {
 	{
 		return $this->belongsTo('ControlMeasure', 'control_measure_id');
 	}
+
+	/**
+	* Relationship between result and test
+	*
+	* @return relationship
+	*/
 	public function controlTests()
 	{
 		return $this->belongsTo('controlTest', 'control_test_id');
 	}
-	
 }

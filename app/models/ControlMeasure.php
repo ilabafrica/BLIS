@@ -49,11 +49,12 @@ class ControlMeasure extends Eloquent {
 		else 
 			return false;
 	}
+
 	/**
 	 * Control measure result relationship
 	 */
-    public function results()
-    {
-        return $this->hasMany('ControlMeasureResult');
-    }
+	public function results()
+	{
+		return $this->hasMany('ControlMeasureResult');
+	}
 }
