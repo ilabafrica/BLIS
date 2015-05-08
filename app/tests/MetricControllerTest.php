@@ -78,26 +78,20 @@ class MetricControllerTest extends TestCase
 
 		$this->assertEquals($metricUpdated[0]['name'], $this->inputUpdate['unit-of-issue']);
 		$this->assertEquals($metricUpdated[0]['description'], $this->inputUpdate['description']);
-		
-		
 	}
+
 	/**
-  	 * Tests the update function in the MetricController
-     * @depends testStore
-	 * @param void
-	 * @return void
-     */
-
-
-  
-
-   public function testDelete()
+	* Tests the update function in the MetricController
+	* @depends testStore
+	* @param void
+	* @return void
+	*/
+	public function testDelete()
 	{
 		$this->be(User::first());
-		
 		$this->runStore($this->input);
 		$metric = new MetricController;
-    	$metric->delete(1);
+		$metric->delete(1);
 		$metricDeleted = Metric::withTrashed()->find(1);
 		$this->assertNotNull($metricDeleted->deleted_at);
 	}
