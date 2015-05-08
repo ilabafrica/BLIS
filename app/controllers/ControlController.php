@@ -169,6 +169,7 @@ class ControlController extends \BaseController {
 		$control = Control::find($controlId);
 		return View::make('control.resultsEntry')->with('control', $control);
 	}
+
 	/**
 	 * Return resultshow page
 	 *
@@ -180,7 +181,8 @@ class ControlController extends \BaseController {
 		$control = Control::find($controlId);
 		return View::make('control.resultsList')->with('control',$control);
 	}
-   /**
+
+	/**
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param  int  $id
@@ -191,6 +193,7 @@ class ControlController extends \BaseController {
 		$controlTest = ControlTest::find($controlTestId);
 		return View::make('control.resultsEdit', compact('controlTest'));
 	}
+
 	/** 
 	* Saves control results
 	* 
@@ -216,6 +219,4 @@ class ControlController extends \BaseController {
 		}
 		return Redirect::route('control.resultsIndex')->with('message', trans('messages.success-adding-control-result'));
 	}
-
-
 }
