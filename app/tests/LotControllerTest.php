@@ -3,7 +3,7 @@
  * Tests the LotController functions that store, edit and delete lot infomation 
  * @author
  */
-class TopUpControllerTest extends TestCase 
+class LotControllerTest extends TestCase 
 {
 	
 	public function setup()
