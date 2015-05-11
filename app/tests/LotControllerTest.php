@@ -49,7 +49,7 @@ class TopUpControllerTest extends TestCase
 		$this->assertEquals($testLot->expiry, $this->inputStoreLots['expiry']);
 		$this->assertEquals($testLot->instrument_id, $this->inputStoreLots['instrument']);
 
-		}
+		
 	}
 
 	/**
@@ -66,7 +66,7 @@ class TopUpControllerTest extends TestCase
 		$this->assertEquals($testLot->description, $this->inputUpdateLots['description']);
 		$this->assertEquals($testLot->expiry, $this->inputUpdateLots['expiry']);
 		$this->assertEquals($testLot->instrument_id, $this->inputUpdateLots['instrument']);
-		}
+		
 	}
 
 	/**
