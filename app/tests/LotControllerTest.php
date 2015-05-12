@@ -1,6 +1,7 @@
 <?php
 /**
  * Tests the LotController functions that store, edit and delete lot infomation 
+ * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng, Lucy Mbugua , Pius mathii
  */
 class LotControllerTest extends TestCase 
 {
@@ -13,6 +14,11 @@ class LotControllerTest extends TestCase
 		$this->setVariables();
 	}
 
+	/**
+	 * Contains the testing sample data for the LotController.
+	 *
+	 * @return void
+	 */
 	private function setVariables(){
 		//Setting the current user
 		$this->be(User::find(4));
@@ -31,7 +37,6 @@ class LotControllerTest extends TestCase
 			'instrument' => 2,
 			);
 	}
-
 	/**
 	* Testing Lot Index page
 	*/
@@ -41,7 +46,6 @@ class LotControllerTest extends TestCase
 		$this->assertTrue($response->isOk());
 		$this->assertViewHas('lots');
 	}
-
 	/**
 	* Testing Lot create method
 	*/
@@ -51,7 +55,6 @@ class LotControllerTest extends TestCase
 		$this->assertTrue($response->isOk());
 		$this->assertViewHas('instruments');
 	}
-
 	/**
 	* Testing Lot store function
 	*/
@@ -62,16 +65,13 @@ class LotControllerTest extends TestCase
 		$response = $this->action('POST', 'LotController@store', $this->input);
 		$this->assertTrue($response->isRedirection());
 		
-
 		$testLot = lot::orderBy('id', 'desc')->first();
 		$this->assertEquals($testLot->number, $this->input['number']);
 		$this->assertEquals($testLot->description, $this->input['description']);
 		$this->assertEquals($testLot->expiry, $this->input['expiry']);
 		$this->assertEquals($testLot->instrument_id, $this->input['instrument']);
-
 		
 	}
-
 	/**
 	* Testing Lot Update function
 	*/
@@ -79,7 +79,6 @@ class LotControllerTest extends TestCase
 	{
 		$response = $this->action('POST', 'LotController@store', $this->inputUpdate);
 		$this->assertTrue($response->isRedirection());
-	
 
 		$testLot = lot::orderBy('id', 'desc')->first();
 		$this->assertEquals($testLot->number, $this->inputUpdate['number']);
@@ -97,20 +96,20 @@ class LotControllerTest extends TestCase
 		$this->be(User::first());
 		$this->runStore($this->input);
 		$lot = new LotController;
-    	$lot->delete(1);
-    	$lotDeleted = lot::withTrashed()->find(1);
+		$lot->delete(1);
+		$lotDeleted = lot::withTrashed()->find(1);
 		$this->assertNotNull($lotDeleted->deleted_at);
 	}
-    /**
-  	 *Executes the store function in the LotController
-  	 * @param  array $input Lot details
-	 * @return void
-  	 */
+	/**
+	 *Executes the store function in the LotController
+	 * @param  array $input Lot details
+	* @return void
+	 */
 	public function runStore($input)
 	{
 		Input::replace($input);
-	    $lot = new LotController;
-	    $lot->store();
+		$lot = new LotController;
+		$lot->store();
 	}
 
 	 /**
@@ -121,9 +120,7 @@ class LotControllerTest extends TestCase
 	public function runUpdate($input, $id)
 	{
 		Input::replace($input);
-    	 $lot = new lotController;
-    	 $lot->update($id);
+		$lot = new lotController;
+		$lot->update($id);
 	}
-
-	
 }
