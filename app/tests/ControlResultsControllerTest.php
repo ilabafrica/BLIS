@@ -20,17 +20,16 @@ class ControlResultsControllerTest extends TestCase
 	public function testUpdate()
 	{
 		echo "\n\nCONTROL RESULTS CONTROLLER TEST\n\n";
-		
 		Input::replace($this->inputUpdateResults);
 		$controlResultsController = new ControlResultsController;
 		$controlResultsController->update(1);
 
-		$results = ControlTest::orderBy('id', 'desc')->first()->controlResults;
-
+		$results = ControlTest::orderBy('id', 'asc')->first()->controlResults;
 		foreach ($results as $result) {
 			$key = 'm_'.$result->control_measure_id;
 			$this->assertEquals($this->inputUpdateResults[$key], $result->results);
-		}
+			}
+		echo "\n\nSuccess!\n\n";
 	}
 
 	/**
