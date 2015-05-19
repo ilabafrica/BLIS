@@ -62,27 +62,27 @@
 							<div class="form-group">
 								{{ Form::label('tests', trans("messages.select-tests")) }}
 								<div class="form-pane panel panel-default">
-									<div class="container-fluid">
-										<?php 
-											$cnt = 0;
-											$zebra = "";
-										?>
-									@foreach($testtypes as $key=>$value)
-										{{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
-										<?php
-											$cnt++;
-											$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
-										?>
-										<div class="col-md-3">
-											<label  class="checkbox">
-												<input type="checkbox" name="testtypes[]" value="{{ $value->id}}" />{{$value->name}}
-											</label>
-										</div>
-										{{ ($cnt%4==0)?"</div>":"" }}
-									@endforeach
-									</div>
-								</div>
-							</div>
+									<table class="table table-striped table-hover table-condensed search-table">
+									<thead>
+										<tr>
+											<th>{{ Lang::choice('messages.name',2) }}</th>
+											<th>{{ Lang::choice('Active',2) }}</th>
+														
+										</tr>
+									</thead>
+									<tbody>
+									@foreach($testtypes as $key => $value)
+										<tr>
+											<td>{{ $value->name }}</td>
+											<td><label  class="editor-active">
+												<input type="checkbox" name="testtypes[]" value="{{ $value->id}}" />
+												</label>
+											</td>
+										</tr>
+									   @endforeach
+									</tbody>
+						            </table>
+				
 							<div class="form-group actions-row">
 								{{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save-test'), 
 									array('class' => 'btn btn-primary', 'onclick' => 'submit()', 'alt' => 'save_new_test')) }}
