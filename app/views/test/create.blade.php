@@ -61,11 +61,12 @@
 							</div>
 							<div class="form-group">
 								{{ Form::label('tests', trans("messages.select-tests")) }}
-								<div class="form-pane panel panel-default">
+								<div class="form-pane">
+
 									<table class="table table-striped table-hover table-condensed search-table">
 									<thead>
 										<tr>
-											<th>{{ Lang::choice('messages.name',2) }}</th>
+											<th>{{ Lang::choice('Testtype',2) }}</th>
 											<th>{{ Lang::choice('Active',2) }}</th>
 														
 										</tr>
@@ -78,15 +79,16 @@
 												<input type="checkbox" name="testtypes[]" value="{{ $value->id}}" />
 												</label>
 											</td>
+																			
 										</tr>
-									   @endforeach
+									@endforeach
 									</tbody>
 						            </table>
 				
-							<div class="form-group actions-row">
+								<div class="form-group actions-row">
 								{{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save-test'), 
 									array('class' => 'btn btn-primary', 'onclick' => 'submit()', 'alt' => 'save_new_test')) }}
-							</div>
+								</div>
 						</div>
 					</div>
 				</div>
