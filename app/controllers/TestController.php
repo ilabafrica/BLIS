@@ -123,7 +123,7 @@ class TestController extends \BaseController {
 				array(Input::get('patient_id')))->withInput()->withErrors($validator);
 		} else {
 
-			$visitType = ['In-patient', 'Out-patient'];
+			$visitType = ['', 'Out-patient','In-patient'];
 			$activeTest = array();
 
 			/*
