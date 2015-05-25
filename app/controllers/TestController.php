@@ -111,7 +111,7 @@ class TestController extends \BaseController {
 	{
 		//Create New Test
 		$rules = array(
-			'visit_type' => 'required|non_zero_key',
+			'visit_type' => 'required',
 			'physician' => 'required',
 			'testtypes' => 'required',
 		);
@@ -123,7 +123,7 @@ class TestController extends \BaseController {
 				array(Input::get('patient_id')))->withInput()->withErrors($validator);
 		} else {
 
-			$visitType = ['', 'Out-patient','In-patient'];
+			$visitType = ['Out-patient','In-patient'];
 			$activeTest = array();
 
 			/*
