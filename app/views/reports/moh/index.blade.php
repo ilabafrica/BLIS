@@ -7,6 +7,47 @@
 	  <li class="active">{{ trans('messages.moh-706') }}</li>
 	</ol>
 </div>
+<div class='container-fluid'>
+    {{ Form::open(array('route' => array('reports.aggregate.moh706'), 'class' => 'form-inline')) }}
+    <div class='row'>
+    	<div class="col-sm-4">
+	    	<div class="row">
+				<div class="col-sm-2">
+				    {{ Form::label('start', trans('messages.from')) }}
+				</div>
+				<div class="col-sm-2">
+				    {{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
+			                array('class' => 'form-control standard-datepicker')) }}
+		        </div>
+			</div>
+		</div>
+		<div class="col-sm-4">
+	    	<div class="row">
+				<div class="col-sm-2">
+				    {{ Form::label('end', trans('messages.to')) }}
+				</div>
+				<div class="col-sm-2">
+				    {{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
+			                array('class' => 'form-control standard-datepicker')) }}
+		        </div>
+			</div>
+		</div>
+		<div class="col-sm-4">
+	    	<div class="row">
+				<div class="col-sm-3">
+				  	{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
+		                array('class' => 'btn btn-info', 'id' => 'filter', 'type' => 'submit')) }}
+		        </div>
+		        <div class="col-sm-1">
+					{{Form::submit('Export to Excel', 
+			    		array('class' => 'btn btn-success', 'id'=>'excel', 'name'=>'excel'))}}
+				</div>
+			</div>
+		</div>
+	</div>
+	{{ Form::close() }}
+</div>
+<br />
 <div class="panel panel-primary" style="font-size:8px;">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>

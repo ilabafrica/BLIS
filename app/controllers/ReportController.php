@@ -2744,7 +2744,18 @@ class ReportController extends \BaseController {
 						</table>
 					</div>
 					<!-- HISTOLOGY AND CYTOLOGY -->';
-
-		return View::make('reports.moh.index')->with('table', $table);
+		if(Input::has('excel')){
+			$date = date("Ymdhi");
+			$fileName = "MOH706_".$date.".xls";
+			$headers = array(
+			    "Content-type"=>"text/html",
+			    "Content-Disposition"=>"attachment;Filename=".$fileName
+			);
+			$content = $table;
+	    	return Response::make($content,200, $headers);
+		}
+		else{
+			return View::make('reports.moh.index')->with('table', $table);
+		}
 	}
 }
