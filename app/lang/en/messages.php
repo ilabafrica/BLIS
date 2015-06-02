@@ -183,6 +183,7 @@ return array(
     'success-updating-measure' => 'The measure details were successfully updated!',
     'update-measure' => 'Update Measure',
     'value' => 'Value',
+    'testtype'=>'Testtypes',
 
     /*Specimen Type*/
 

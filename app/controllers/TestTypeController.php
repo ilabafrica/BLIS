@@ -21,6 +21,14 @@ class TestTypeController extends \BaseController {
 		// Load the view and pass the testtypes
 		return View::make('testtype.index')->with('testtypes', $testtypes);
 	}
+	public function chooseTestType()
+	{
+		// List all the active testtypes
+			$testtypes = TestType::orderBy('name', 'ASC')->get();
+
+		// Load the view and pass the testtypes
+		return View::make('testtype.chooseTestType')->with('testtypes', $testtypes);
+	}
 
 	/**
 	 * Show the form for creating a new resource.
