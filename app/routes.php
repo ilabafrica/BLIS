@@ -93,6 +93,10 @@ Route::group(array("before" => "auth"), function()
         "as"   => "testtype.chooseTestType",
         "uses" => "TestTypeController@chooseTestType"
         ));
+        Route::any("/testtype/saveChoosenTestType", array(
+        "as"   => "testType.saveChoosenTestType",
+        "uses" => "TestTypeController@saveChoosenTestType"
+        ));
 
         Route::resource('specimenrejection', 'SpecimenRejectionController');
         Route::any("/specimenrejection/{id}/delete", array(

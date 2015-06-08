@@ -8,7 +8,8 @@
 </div>
 @if (Session::has('message'))
 	<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
-@endif
+@endif	
+{{ Form::open(array('route' => 'testType.saveChoosenTestType', 'id' => 'form-new-testType')) }}					
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-cog"></span>
@@ -53,4 +54,6 @@
 		</div>
 	</div>
 </div>
+
+{{ Form::close() }}
 @stop

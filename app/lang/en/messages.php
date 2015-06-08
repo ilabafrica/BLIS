@@ -184,6 +184,7 @@ return array(
     'update-measure' => 'Update Measure',
     'value' => 'Value',
     'testtype'=>'Testtypes',
+    'success-choosing-test-type'=>'Successfully Choosen Testtype(s)',
 
     /*Specimen Type*/
 

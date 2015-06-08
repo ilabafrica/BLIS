@@ -93,7 +93,7 @@ class TestController extends \BaseController {
 			$patientID = Input::get('patient_id');
 		}
 
-		$testTypes = TestType::orderBy('name', 'asc')->get();
+		$testTypes = TestType::where('selected_testtypes', 1)-> orderBy('name', 'asc')->get();
 		$patient = Patient::find($patientID);
 
 		//Load Test Create View
