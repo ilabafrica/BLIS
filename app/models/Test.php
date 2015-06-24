@@ -622,4 +622,10 @@ class Test extends Eloquent
 		}
 		return $measureIds;
 	}
+	/**
+	 * External dump relationship
+	 */
+	public function external(){
+		return ExternalDump::where('lab_no', '=', $this->external_id)->get()->first();
+	}
 }

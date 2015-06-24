@@ -100,11 +100,12 @@
 		<table class="table table-bordered">
 			<tbody>
 				<tr>
-					<th colspan="6">{{trans('messages.specimen')}}</th>
+					<th colspan="7">{{trans('messages.specimen')}}</th>
 				</tr>
 				<tr>
 					<th>{{ Lang::choice('messages.specimen-type', 1)}}</th>
 					<th>{{ Lang::choice('messages.test', 2)}}</th>
+					<th>{{ trans('messages.date-ordered') }}</th>
 					<th>{{ Lang::choice('messages.test-category', 2)}}</th>
 					<th>{{ trans('messages.specimen-status')}}</th>
 					<th>{{ trans('messages.collected-by')."/".trans('messages.rejected-by')}}</th>
@@ -114,6 +115,7 @@
 						<tr>
 							<td>{{ $test->specimen->specimenType->name }}</td>
 							<td>{{ $test->testType->name }}</td>
+							<td>{{ $test->isExternal()?$test->external()->request_date:$test->time_created }}</td>
 							<td>{{ $test->testType->testCategory->name }}</td>
 							@if($test->specimen->specimen_status_id == Specimen::NOT_COLLECTED)
 								<td>{{trans('messages.specimen-not-collected')}}</td>
@@ -131,7 +133,7 @@
 						</tr>
 				@empty
 					<tr>
-						<td colspan="6">{{trans("messages.no-records-found")}}</td>
+						<td colspan="7">{{trans("messages.no-records-found")}}</td>
 					</tr>
 				@endforelse
 
