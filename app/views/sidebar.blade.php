@@ -73,16 +73,6 @@
 					<span class="glyphicon glyphicon-wrench"></span> {{trans('messages.lab-configuration')}}</a>
 			</div>
 			<div class="sub-menu {{$active[3]}}">
-			    <ul class="sub-menu-items">
-					<li>
-						<div>
-							<a href="{{ URL::route("testtype.chooseTestType") }}">
-								<span class="glyphicon glyphicon-tag"></span>
-									{{Lang::choice('messages.testtype',2)}}
-							</a>
-						</div>
-					</li>
-				</ul>
 				<ul class="sub-menu-items">
 					<li>
 						<div>

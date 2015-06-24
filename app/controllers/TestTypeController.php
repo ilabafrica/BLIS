@@ -21,14 +21,6 @@ class TestTypeController extends \BaseController {
 		// Load the view and pass the testtypes
 		return View::make('testtype.index')->with('testtypes', $testtypes);
 	}
-	public function chooseTestType()
-	{
-		// List all the active testtypes
-			$testtypes = TestType::orderBy('name', 'ASC')->get();
-
-		// Load the view and pass the testtypes
-		return View::make('testtype.chooseTestType')->with('testtypes', $testtypes);
-	}
 
 	/**
 	 * Show the form for creating a new resource.
@@ -51,32 +43,7 @@ class TestTypeController extends \BaseController {
 					->with('specimentypes', $specimentypes)
 					->with('organisms', $organisms);
 	}
-	/**
-	 * Show the form for chooseing the desired tests.
-	 *
-	 * @return Response
-	 */
 
-	public function saveChoosenTestType()
-	{
-    $rules = array(
-				'testtypes' => 'required',
-		);
-    $testTypes = Input::get('testtypes');
-			if(is_array($testTypes)){
-				foreach ($testTypes as $value) {
-					$testTypeID = (int)$value;
-					$choosenTestType= TestType::find($testTypeID);
-					$choosenTestType->selected_testtypes= 1;
-					$choosenTestType->save();
-
-				}
-			}
-			
-			return Redirect::route('testtype.chooseTestType')
-			->with('message', trans('messages.success-choosing-test-type'));
-					
-	}
 	/**
 	 * Store a newly created resource in storage.
 	 *

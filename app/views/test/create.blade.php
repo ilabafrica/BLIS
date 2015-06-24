@@ -66,8 +66,8 @@
 									<table class="table table-striped table-hover table-condensed search-table">
 									<thead>
 										<tr>
-											<th>{{ Lang::choice('Testtype',2) }}</th>
-											<th>{{ Lang::choice('Active',2) }}</th>
+											<th>{{ Lang::choice('messages.test',2) }}</th>
+											<th>-</th>
 														
 										</tr>
 									</thead>
