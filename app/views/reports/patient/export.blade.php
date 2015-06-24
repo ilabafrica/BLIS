@@ -132,22 +132,22 @@
 		</div>
 		</div>
 		<br />
+		<hr style="border: 1px solid black;">
 		<table class="table table-bordered"  width="100%" style="font-size:12px;">
 			<tbody>
 				<tr>
-					<td>{{ trans('messages.signature-holder') }}</td>
-					<td>{{ trans('messages.signature-holder') }}</td>
+					<td>{{ 'Phidelis Maruti' }}</td>
+					<td>{{ 'Joan Wasike' }}</td>
+					<td>{{ 'Dr. Sylvester Mutoro' }}</td>
 				</tr>
 				<tr>
-					<td><strong>{{ trans('messages.checked-by').": " }}</strong></td>
-					<td><strong>{{ trans('messages.verified-by').": " }}</strong></td>
-				</tr>
-				<tr>
-					<td><strong>{{ trans('messages.designation').": " }}</strong></td>
-					<td><strong>{{ trans('messages.designation').": " }}</strong></td>
+					<td><u><strong>{{ trans('messages.quality-manager') }}</strong></u></td>
+					<td><u><strong>{{ trans('messages.lab-manager') }}</strong></u></td>
+					<td><u><strong>{{ trans('messages.lab-director') }}</strong></u></td>
 				</tr>
 				<tr>
 					<td><strong>{{ trans('messages.patient-report-no') }}</strong></td>
+					<td></td>
 					<td><strong>{{ trans('messages.patient-report-version') }}</strong></td>
 				</tr>
 			</tbody>

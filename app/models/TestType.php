@@ -367,4 +367,21 @@ class TestType extends Eloquent
 						->where('measure_type_id', Measure::NUMERIC);
 		return $boolean->count();
 	}
+	/**
+	 * Accreditation constants
+	 */
+	const ACCREDITED = 1;
+	/**
+	 * Check to see if test is accredited
+	 *
+	 * @return boolean
+	 */
+	public function isAccredited()
+	{
+		if($this->accredited == null || $this->accredited != TestType::ACCREDITED){
+			return false;
+		}
+		else 
+			return true;
+	}
 }
