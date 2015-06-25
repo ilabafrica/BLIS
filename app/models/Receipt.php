@@ -35,4 +35,21 @@ class Receipt extends Eloquent
 	{
 		return $this->belongsTo('User');
 	}
+	
+	public static function getIssuedCommodities($from, $to){
+
+	//$params = array($from, $to);
+		$reportData = DB::select("SELECT *
+			FROM receipts
+			CROSS JOIN issues"
+	//,
+		//$params
+
+		); 
+		return $reportData;
+
+
+
+	}
+
 }

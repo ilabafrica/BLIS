@@ -7,6 +7,46 @@
 	  <li class="active">{{ trans('messages.moh-706') }}</li>
 	</ol>
 </div>
+{{ Form::open(array('route' => array('reports.aggregate.moh706'), 'class' => 'form-inline', 'role' => 'form')) }}
+<div class="row">
+		<div class="col-sm-4">
+	    	<div class="row">
+				<div class="col-sm-2">
+					{{ Form::label('start', trans("messages.from")) }}
+				</div>
+				<div class="col-sm-2">
+					{{ Form::text('start', isset($input['from'])?$input['from']:date('Y-m-01'), 
+				        array('class' => 'form-control standard-datepicker')) }}
+			    </div>
+	    	</div>
+	    </div>
+	    <div class="col-sm-4">
+	    	<div class="row">
+				<div class="col-sm-2">
+			    	{{ Form::label('end', trans("messages.to")) }}
+			    </div>
+				<div class="col-sm-2">
+				    {{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
+				        array('class' => 'form-control standard-datepicker')) }}
+		        </div>
+	    	</div>
+	    </div>
+	    <div class="col-sm-4">
+			<div class="row">
+				<div class="col-sm-3">
+					{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
+						array('class' => 'btn btn-info', 'id' => 'filter', 'type' => 'submit')) }}
+				</div>
+				<div class="col-sm-3">
+					{{ Form::submit('Export to Excel', array('class' => 'btn btn-success', 'id' => 'excel', 'name' => 'excel')) }}
+				</div>
+			</div>
+	    </div>
+	</div>
+</div>
+</div>
+{{ Form::close() }}
+<br />
 <div class="panel panel-primary" style="font-size:8px;">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
@@ -28,8 +68,8 @@
 		</table>
 		<div class="table-responsive">
 			<div class='container-fluid'>
-				<strong>{{ Lang::choice('messages.facility', 1) }}: </strong><u>{{ strtoupper(Config::get('kblis.organization')) }}</u><strong> {{ Lang::choice('messages.reporting-period', 1) }} {{ Lang::choice('messages.begin-end', 1) }}: </strong><u>{{ date('01-m-Y') }}</u>
-				<strong> {{ Lang::choice('messages.begin-end', 2) }}: </strong><u>{{ date('d-m-Y') }}</u><strong> {{ Lang::choice('messages.affiliation', 1) }}: </strong><u>{{ Lang::choice('messages.gok', 1) }}: </u>
+				<strong>{{ Lang::choice('messages.facility', 1) }}: </strong><u>{{ strtoupper(Config::get('kblis.organization')) }}</u><strong> {{ Lang::choice('messages.reporting-period', 1) }} {{ Lang::choice('messages.begin-end', 1) }}: </strong><u>{{ $from }}</u>
+				<strong> {{ Lang::choice('messages.begin-end', 2) }}: </strong><u>{{ $end }}</u><strong> {{ Lang::choice('messages.affiliation', 1) }}: </strong><u>{{ Lang::choice('messages.gok', 1) }}: </u>
 				<br />
 				<p>{{ Lang::choice('messages.no-service', 1) }}</p>
 				<div class='row'>

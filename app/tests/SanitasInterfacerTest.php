@@ -185,6 +185,9 @@ class SanitasInterfacerTest extends TestCase
     {
         Interfacer::retrieve($this->labRequestJsonSimpleTestTwoVisits[0]);
         Interfacer::retrieve($this->labRequestJsonSimpleTestTwoVisits[1]);
+        Interfacer::retrieve($this->labRequestJsonSimpleTestTwoVisits[2]);
+        Interfacer::retrieve($this->labRequestJsonSimpleTestTwoVisits[3]);
+        Interfacer::retrieve($this->labRequestJsonSimpleTestTwoVisits[4]);
 
         $externalDump = ExternalDump::where('lab_no', '=', $this->labRequestJsonSimpleTestTwoVisits[0]->labNo)->get();
         $this->assertTrue(count($externalDump) == 1);
@@ -194,8 +197,21 @@ class SanitasInterfacerTest extends TestCase
         $this->assertTrue(count($externalDump) == 1);
         $this->assertEquals($this->labRequestJsonSimpleTestTwoVisits[1]->patientVisitNumber, $externalDump->first()->patient_visit_number);
 
+        $externalDump = ExternalDump::where('lab_no', '=', $this->labRequestJsonSimpleTestTwoVisits[2]->labNo)->get();
+        $this->assertTrue(count($externalDump) == 1);
+        $this->assertEquals($this->labRequestJsonSimpleTestTwoVisits[2]->patientVisitNumber, $externalDump->first()->patient_visit_number);
+
+        $externalDump = ExternalDump::where('lab_no', '=', $this->labRequestJsonSimpleTestTwoVisits[3]->labNo)->get();
+        $this->assertTrue(count($externalDump) == 1);
+        $this->assertEquals($this->labRequestJsonSimpleTestTwoVisits[3]->patientVisitNumber, $externalDump->first()->patient_visit_number);
+
+        $externalDump = ExternalDump::where('lab_no', '=', $this->labRequestJsonSimpleTestTwoVisits[4]->labNo)->get();
+        $this->assertTrue(count($externalDump) == 1);
+        $this->assertEquals($this->labRequestJsonSimpleTestTwoVisits[4]->patientVisitNumber, $externalDump->first()->patient_visit_number);
+
         // Is there a Visit for this new patient?
         $visit = Visit::where('visit_number', '=', $this->labRequestJsonSimpleTestTwoVisits[0]->patientVisitNumber)->get();
+        //var_dump($visit);
         //Two records inserted for same external visit
         $this->assertEquals(2, count($visit));
         //First is IP
@@ -204,6 +220,8 @@ class SanitasInterfacerTest extends TestCase
         $this->assertEquals('In-patient', $visit[1]->visit_type );
         //Two distinct internal visit id's
         $this->assertTrue($visit->first()->id != $visit[1]->id);
+        //Check visit number is the same
+        $this->assertEquals($visit->first()->visit_number, $visit[1]->visit_number);
     }
 
     public function setVariables()
@@ -404,6 +422,57 @@ class SanitasInterfacerTest extends TestCase
                 }
             }');
 
+
+        $this->labRequestJsonSimpleTestTwoVisits[] = 
+            json_decode('{"cost": null,
+                "receiptNumber": null,
+                "receiptType": null,
+                "labNo": 546730,
+                "parentLabNo": 0,
+                "requestingClinician": "sAM  mAKAL",
+                "investigation": "Direct Coombs test",
+                "requestDate": "2014-10-14 10:43:39",
+                "orderStage": "op",
+                "patientVisitNumber": 564436,
+                "patient": {
+                    "id": 234534,
+                    "fullName": "ADSASDF DASJF ADF",
+                    "dateOfBirth": "1972-04-04 00:00:00",
+                    "gender": "Male"
+                },
+                "address": {
+                    "address": null,
+                    "postalCode": null,
+                    "phoneNumber": "",
+                    "city": null
+                }
+            }');
+
+        $this->labRequestJsonSimpleTestTwoVisits[] = 
+            json_decode('{"cost": null,
+                "receiptNumber": null,
+                "receiptType": null,
+                "labNo": 546728,
+                "parentLabNo": 0,
+                "requestingClinician": "sAM  mAKAL",
+                "investigation": "Pregnancy test",
+                "requestDate": "2014-10-14 10:43:39",
+                "orderStage": "op",
+                "patientVisitNumber": 564436,
+                "patient": {
+                    "id": 234534,
+                    "fullName": "ADSASDF DASJF ADF",
+                    "dateOfBirth": "1972-04-04 00:00:00",
+                    "gender": "Male"
+                },
+                "address": {
+                    "address": null,
+                    "postalCode": null,
+                    "phoneNumber": "",
+                    "city": null
+                }
+            }');
+
         $this->labRequestJsonSimpleTestTwoVisits[] = 
             json_decode('{"cost": null,
                 "receiptNumber": null,
@@ -412,6 +481,56 @@ class SanitasInterfacerTest extends TestCase
                 "parentLabNo": 0,
                 "requestingClinician": "sAM  mAKAL",
                 "investigation": "HB",
+                "requestDate": "2014-10-14 10:43:39",
+                "orderStage": "ip",
+                "patientVisitNumber": 564436,
+                "patient": {
+                    "id": 234534,
+                    "fullName": "ADSASDF DASJF ADF",
+                    "dateOfBirth": "1972-04-04 00:00:00",
+                    "gender": "Male"
+                },
+                "address": {
+                    "address": null,
+                    "postalCode": null,
+                    "phoneNumber": "",
+                    "city": null
+                }
+            }');
+
+        $this->labRequestJsonSimpleTestTwoVisits[] = 
+            json_decode('{"cost": null,
+                "receiptNumber": null,
+                "receiptType": null,
+                "labNo": 546729,
+                "parentLabNo": 0,
+                "requestingClinician": "sAM  mAKAL",
+                "investigation": "Salmonella antigen test",
+                "requestDate": "2014-10-14 10:43:39",
+                "orderStage": "ip",
+                "patientVisitNumber": 564436,
+                "patient": {
+                    "id": 234534,
+                    "fullName": "ADSASDF DASJF ADF",
+                    "dateOfBirth": "1972-04-04 00:00:00",
+                    "gender": "Male"
+                },
+                "address": {
+                    "address": null,
+                    "postalCode": null,
+                    "phoneNumber": "",
+                    "city": null
+                }
+            }');
+
+        $this->labRequestJsonSimpleTestTwoVisits[] = 
+            json_decode('{"cost": null,
+                "receiptNumber": null,
+                "receiptType": null,
+                "labNo": 546729,
+                "parentLabNo": 0,
+                "requestingClinician": "sAM  mAKAL",
+                "investigation": "Indirect coombs test",
                 "requestDate": "2014-10-14 10:43:39",
                 "orderStage": "ip",
                 "patientVisitNumber": 564436,

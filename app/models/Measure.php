@@ -198,7 +198,7 @@ class Measure extends Eloquent
 							   	}
 			}
 			if($range){
-				$testResults = $testResults->where('result', 'LIKE', $range);
+				$testResults = $testResults->whereIn('result', $range);
 			}
 		return $testResults->count();
 	}

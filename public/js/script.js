@@ -722,6 +722,7 @@ $(function(){
 					+" <td>"+elem.zone+"</td>"
 					+" <td>"+elem.interpretation+"</td>"
 					+"</tr>";
+					$(".sense"+tid).val($(".sense"+tid).val()+elem.drugName+" - "+elem.sensitivity+", ");
 				});
 				//tableBody +="<tbody>"+tableRow+"</tbody>";
 				$( "#enteredResults_"+oid).html(tableRow);

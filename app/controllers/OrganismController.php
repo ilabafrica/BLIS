@@ -37,8 +37,7 @@ class OrganismController extends \BaseController {
 	public function store()
 	{
 		//Validation
-		$rules = array('name' => 'required|unique:organisms,name',
-					   'drugs' => 'required');
+		$rules = array('name' => 'required|unique:organisms,name');
 		$validator = Validator::make(Input::all(), $rules);
 	
 		//process
@@ -51,7 +50,9 @@ class OrganismController extends \BaseController {
 			$organism->description = Input::get('description');
 			try{
 				$organism->save();
-				$organism->setDrugs(Input::get('drugs'));
+				if(Input::get('drugs')){
+					$organism->setDrugs(Input::get('drugs'));
+				}
 				$url = Session::get('SOURCE_URL');
             
             	return Redirect::to($url)
@@ -106,13 +107,12 @@ class OrganismController extends \BaseController {
 	public function update($id)
 	{
 		//Validate
-		$rules = array('name' => 'required',
-					   'drugs' => 'required');
+		$rules = array('name' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::route('organism.edit')->withErrors($validator);
+			return Redirect::back()->withErrors($validator);
 		} else {
 			// Update
 			$organism = Organism::find($id);
@@ -120,7 +120,9 @@ class OrganismController extends \BaseController {
 			$organism->description = Input::get('description');
 			try{
 				$organism->save();
-				$organism->setDrugs(Input::get('drugs'));
+				if(Input::get('drugs')){
+					$organism->setDrugs(Input::get('drugs'));
+				}
 			}catch(QueryException $e){
 				Log::error($e);
 			}

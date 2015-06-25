@@ -1026,9 +1026,28 @@ class ReportController extends \BaseController {
 		if(!$to) $to = $date;
 
 		$surveillance = Test::getSurveillanceData($from, $to.' 23:59:59');
-		return View::make('reports.surveillance.index')
+
+
+		if(Input::has('word')){
+			$fileName = "surveillance_".$date.".doc";
+			$headers = array(
+			    "Content-type"=>"text/html",
+			    "Content-Disposition"=>"attachment;Filename=".$fileName
+			);
+			$content = View::make('reports.surveillance.exportSurveillance')
+							->with('surveillance', $surveillance)
+							->withInput(Input::all());
+			return Response::make($content,200, $headers);
+		}
+		else{
+			return View::make('reports.surveillance.index')
 					->with('surveillance', $surveillance)
 					->withInput(Input::all());
+		}
+
+
+
+
 	}
 
 	/**
@@ -1095,12 +1114,13 @@ class ReportController extends \BaseController {
 	 */
 	public function moh706(){
 		//	Variables definition
-		$date = date('Y-m-03');
+		$date = date('Y-m-d');
 		$from = Input::get('start');
 		if(!$from) $from = date('Y-m-01');
-		$to = Input::get('end');
-		if(!$to) $to = $date;
-		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+		$end = Input::get('end');
+		if(!$end) $end = $date;
+		$toPlusOne = date_add(new DateTime($end), date_interval_create_from_date_string('1 day'));
+		$to = date_add(new DateTime($end), date_interval_create_from_date_string('1 day'))->format('Y-m-d');
 		$ageRanges = array('0-5', '5-14', '14-120');
 		$sex = array(Patient::MALE, Patient::FEMALE);
 		$ranges = array('Low', 'Normal', 'High');
@@ -1145,9 +1165,11 @@ class ReportController extends \BaseController {
 									<th>&gt;14yrs</th>
 								</tr>
 							</thead>';
+						$urinaId = TestType::getTestTypeIdByTestName('Urinalysis');
+						$urinalysis = TestType::find($urinaId);
 						$urineChem = TestType::getTestTypeIdByTestName('Urine Chemistry');
 						$urineChemistry = TestType::find($urineChem);
-						$measures = TestTypeMeasure::where('test_type_id', $urineChem)->orderBy('measure_id', 'DESC')->get();
+						$measures = TestTypeMeasure::where('test_type_id', $urinaId)->orderBy('measure_id', 'DESC')->get();
 						$table.='<tbody>
 								<tr>
 									<td colspan="7"><strong>Urine Chemistry</strong></td>
@@ -1155,16 +1177,17 @@ class ReportController extends \BaseController {
 								<tr>
 									<td>Totals</td>';
 								foreach ($sex as $gender) {
-									$table.='<td>'.$urineChemistry->groupedTestCount([$gender], null, $from, $toPlusOne).'</td>';
+									$table.='<td>'.$urinalysis->groupedTestCount([$gender], null, $from, $toPlusOne).'</td>';
 								}
-								$table.='<td>'.$urineChemistry->groupedTestCount(null, null, $from, $toPlusOne).'</td>';
+								$table.='<td>'.$urinalysis->groupedTestCount(null, null, $from, $toPlusOne).'</td>';
 								foreach ($ageRanges as $ageRange) {
-									$table.='<td>'.$urineChemistry->groupedTestCount([Patient::MALE, Patient::FEMALE], $ageRange, $from, $toPlusOne).'</td>';
+									$table.='<td>'.$urinalysis->groupedTestCount([Patient::MALE, Patient::FEMALE], $ageRange, $from, $toPlusOne).'</td>';
 								}	
 							$table.='</tr>';
 						
 						foreach ($measures as $measure) {
 							$tMeasure = Measure::find($measure->measure_id);
+							if(in_array($tMeasure->name, ['ph', 'Epithelial cells', 'Pus cells', 'S. haematobium', 'T. vaginalis', 'Yeast cells', 'Red blood cells', 'Bacteria', 'Spermatozoa'])){continue;}
 							$table.='<tr>
 										<td>'.$tMeasure->name.'</td>';
 									foreach ($sex as $gender) {
@@ -1193,18 +1216,19 @@ class ReportController extends \BaseController {
 									<td>Totals</td>';
 						$urineMic = TestType::getTestTypeIdByTestName('Urine Microscopy');
 						$urineMicroscopy = TestType::find($urineMic);
-						$measures = TestTypeMeasure::where('test_type_id', $urineMic)->orderBy('measure_id', 'DESC')->get();
+						$measures = TestTypeMeasure::where('test_type_id', $urinaId)->orderBy('measure_id', 'DESC')->get();
 								foreach ($sex as $gender) {
-									$table.='<td>'.$urineMicroscopy->groupedTestCount([$gender], null, $from, $toPlusOne).'</td>';
+									$table.='<td>'.$urinalysis->groupedTestCount([$gender], null, $from, $toPlusOne).'</td>';
 								}
-								$table.='<td>'.$urineMicroscopy->groupedTestCount(null, null, $from, $toPlusOne).'</td>';
+								$table.='<td>'.$urinalysis->groupedTestCount(null, null, $from, $toPlusOne).'</td>';
 								foreach ($ageRanges as $ageRange) {
-									$table.='<td>'.$urineMicroscopy->groupedTestCount([Patient::MALE, Patient::FEMALE], $ageRange, $from, $toPlusOne).'</td>';
+									$table.='<td>'.$urinalysis->groupedTestCount([Patient::MALE, Patient::FEMALE], $ageRange, $from, $toPlusOne).'</td>';
 								}	
 							$table.='</tr>';
 						
 						foreach ($measures as $measure) {
 							$tMeasure = Measure::find($measure->measure_id);
+							if(in_array($tMeasure->name, ['Leucocytes', 'Nitrites', 'Glucose', 'pH', 'Bilirubin', 'Ketones', 'Proteins', 'Blood', 'Urobilinogen Phenlpyruvic acid'])){continue;}
 							$table.='<tr>
 										<td>'.$tMeasure->name.'</td>';
 									foreach ($sex as $gender) {
@@ -1256,21 +1280,21 @@ class ReportController extends \BaseController {
 								$table.='<tr>
 									<td>Fasting blood sugar</td>';
 								foreach ($sex as $gender) {
-									$table.='<td>'.$tMeasure->totalTestResults([$gender], null, $from, $toPlusOne, 'fbs').'</td>';
+									$table.='<td>'.$tMeasure->totalTestResults([$gender], null, $from, $toPlusOne, ['fbs']).'</td>';
 								}
-								$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne, 'fbs').'</td>';
+								$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne, ['fbs']).'</td>';
 								foreach ($ageRanges as $ageRange) {
-										$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, 'fbs').'</td>';
+										$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, ['fbs']).'</td>';
 									}
 								$table.='</tr>
 									<tr>
 										<td>Random blood sugar</td>';
 									foreach ($sex as $gender) {
-										$table.='<td>'.$tMeasure->totalTestResults([$gender], null, $from, $toPlusOne, 'rbs').'</td>';
+										$table.='<td>'.$tMeasure->totalTestResults([$gender], null, $from, $toPlusOne, ['rbs']).'</td>';
 									}
-									$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne, 'rbs').'</td>';
+									$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne, ['rbs']).'</td>';
 									foreach ($ageRanges as $ageRange) {
-											$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, 'rbs').'</td>';
+											$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, ['rbs']).'</td>';
 										}
 								$table.='</tr>';
 							}
@@ -1312,7 +1336,7 @@ class ReportController extends \BaseController {
 									}
 									$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne).'</td>';
 									foreach ($ranges as $range) {
-										$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, $range).'</td>';
+										$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, [$range]).'</td>';
 									}
 									$table.='</tr>';
 						}
@@ -1351,7 +1375,7 @@ class ReportController extends \BaseController {
 									}
 									$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne).'</td>';
 									foreach ($ranges as $range) {
-										$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, $range).'</td>';
+										$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, [$range]).'</td>';
 									}
 									$table.='</tr>';
 						}
@@ -1383,7 +1407,7 @@ class ReportController extends \BaseController {
 									}
 									$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne).'</td>';
 									foreach ($ranges as $range) {
-										$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, $range).'</td>';
+										$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, [$range]).'</td>';
 									}
 								$table.='</tr><tr>
 									<td>Total cholestrol</td>';
@@ -1393,7 +1417,7 @@ class ReportController extends \BaseController {
 									}
 									$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne).'</td>';
 									foreach ($ranges as $range) {
-										$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, $range).'</td>';
+										$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, [$range]).'</td>';
 									}
 								$table.='</tr>
 								<tr>
@@ -1431,7 +1455,7 @@ class ReportController extends \BaseController {
 									}
 									$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne).'</td>';
 									foreach ($ranges as $range) {
-										$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, $range).'</td>';
+										$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, [$range]).'</td>';
 									}
 								$table.='</tr>
 								<tr>
@@ -1538,7 +1562,7 @@ class ReportController extends \BaseController {
 								}
 								$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne).'</td>';
 								foreach ($ranges as $range) {
-									$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, $range).'</td>';
+									$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, [$range]).'</td>';
 								}
 								$table.='</tr>';
 						}
@@ -1581,8 +1605,12 @@ class ReportController extends \BaseController {
 								<tr>
 									<td></td>
 									<td>'.$bs4mps->groupedTestCount(null, null, $from, $toPlusOne).'</td>';
-							foreach ($ageRanges as $ageRange) {
-								$table.='<td>'.$bs4mps->groupedTestCount(null, $ageRange, $from, $toPlusOne).'</td>';
+							foreach($measures = TestTypeMeasure::where('test_type_id', $bs)->orderBy('measure_id', 'ASC')->get() as $measure)
+							{
+								$tMeasure = Measure::find($measure->measure_id);
+								foreach ($ageRanges as $ageRange) {
+									$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, ['+', '++', '+++', '++++']).'</td>';
+								}
 							}
 							$table.='</tr>
 								<tr style="text-align:right;">
@@ -1710,7 +1738,7 @@ class ReportController extends \BaseController {
 											<td>'.$range->alphanumeric.'</td>';
 										$table.='<td style="background-color: #CCCCCC;"></td>';
 										foreach ($ageRanges as $ageRange) {
-											$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, $range->alphanumeric).'</td>';
+											$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, [$range->alphanumeric]).'</td>';
 										}
 										$table.='</tr>';
 									}
@@ -2541,47 +2569,25 @@ class ReportController extends \BaseController {
 									}
 									$table.='</tr>
 								<tr>
-									<td>Hepatitis A test</td>';
-									if(count(TestType::getPrevalenceCounts($from, $to, TestType::getTestTypeIdByTestName('Hepatitis A Rapid')))==0)
-									{
-										$table.='<td>0</td>
-											<td>0</td>';
-									}
-									else{
-										foreach(TestType::getPrevalenceCounts($from, $to, TestType::getTestTypeIdByTestName('Hepatitis A Rapid')) as $count){
-											if(count($count)==0)
-												{
-													$count->total=0;
-													$count->positive=0;
-												}
-											$table.='<td>'.$count->total.'</td>
-											<td>'.$count->positive.'</td>';
-										}
-									}
-									foreach ($ageRanges as $ageRange) {
-										$data = TestType::getPrevalenceCounts($from, $to, TestType::getTestTypeIdByTestName('Hepatitis A Rapid'), $ageRange);
-										if(count($data)==0)
-										{
-											$table.='<td>0</td>
-											<td>0</td>';
-										}
-										else{
-											foreach($data as $count){
-												$table.='<td>'.$count->total.'</td>
-												<td>'.$count->positive.'</td>';
-											}
-										}
-									}
+									<td>Hepatitis A test</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>';
 									$table.='</tr>
 								<tr>
 									<td>Hepatitis B test</td>';
-									if(count(TestType::getPrevalenceCounts($from, $to, TestType::getTestTypeIdByTestName('Hepatitis B Rapid')))==0)
+									if(count(TestType::getPrevalenceCounts($from, $to, TestType::getTestTypeIdByTestName('Hepatitis B')))==0)
 									{
 										$table.='<td>0</td>
 											<td>0</td>';
 									}
 									else{
-										foreach(TestType::getPrevalenceCounts($from, $to, TestType::getTestTypeIdByTestName('Hepatitis B Rapid')) as $count){
+										foreach(TestType::getPrevalenceCounts($from, $to, TestType::getTestTypeIdByTestName('Hepatitis B')) as $count){
 											if(count($count)==0)
 												{
 													$count->total=0;
@@ -2592,7 +2598,7 @@ class ReportController extends \BaseController {
 										}
 									}
 									foreach ($ageRanges as $ageRange) {
-										$data = TestType::getPrevalenceCounts($from, $to, TestType::getTestTypeIdByTestName('Hepatitis B Rapid'), $ageRange);
+										$data = TestType::getPrevalenceCounts($from, $to, TestType::getTestTypeIdByTestName('Hepatitis B'), $ageRange);
 										if(count($data)==0)
 										{
 											$table.='<td>0</td>
@@ -2608,13 +2614,13 @@ class ReportController extends \BaseController {
 									$table.='</tr>
 								<tr>
 									<td>Hepatitis C test</td>';
-									if(count(TestType::getPrevalenceCounts($from, $to, TestType::getTestTypeIdByTestName('Hepatitis C Rapid')))==0)
+									if(count(TestType::getPrevalenceCounts($from, $to, TestType::getTestTypeIdByTestName('Hepatitis C')))==0)
 									{
 										$table.='<td>0</td>
 											<td>0</td>';
 									}
 									else{
-										foreach(TestType::getPrevalenceCounts($from, $to, TestType::getTestTypeIdByTestName('Hepatitis C Rapid')) as $count){
+										foreach(TestType::getPrevalenceCounts($from, $to, TestType::getTestTypeIdByTestName('Hepatitis C')) as $count){
 											if(count($count)==0)
 												{
 													$count->total=0;
@@ -2625,7 +2631,7 @@ class ReportController extends \BaseController {
 										}
 									}
 									foreach ($ageRanges as $ageRange) {
-										$data = TestType::getPrevalenceCounts($from, $to, TestType::getTestTypeIdByTestName('Hepatitis C Rapid'), $ageRange);
+										$data = TestType::getPrevalenceCounts($from, $to, TestType::getTestTypeIdByTestName('Hepatitis C'), $ageRange);
 										if(count($data)==0)
 										{
 											$table.='<td>0</td>
@@ -2776,8 +2782,19 @@ class ReportController extends \BaseController {
 						</table>
 					</div>
 					<!-- HISTOLOGY AND CYTOLOGY -->';
-
-		return View::make('reports.moh.index')->with('table', $table);
+		if(Input::has('excel')){
+			$date = date("Ymdhi");
+			$fileName = "MOH706_".$date.".xls";
+			$headers = array(
+			    "Content-type"=>"text/html",
+			    "Content-Disposition"=>"attachment;Filename=".$fileName
+			);
+			$content = $table;
+	    	return Response::make($content,200, $headers);
+		}
+		else{
+			return View::make('reports.moh.index')->with('table', $table)->with('from', $from)->with('end', $end);
+		}
 	}
 	/**
 	 * Manage Diseases reported on
@@ -2862,5 +2879,48 @@ class ReportController extends \BaseController {
 
 		return View::make('reportconfig.disease')
 					->with('diseases', $diseases);
+	}
+
+	public function stockLevel(){
+		
+		//	Fetch form filters
+		$date = date('Y-m-d');
+		$from = Input::get('start');
+		if(!$from) $from = date('Y-m-01');
+
+		$to = Input::get('end');
+		if(!$to) $to = $date;
+		
+		$reportTypes = array('Monthly', 'Quarterly');
+		
+
+		$selectedReport = Input::get('report_type');
+		if(!$selectedReport)$selectedReport = 0;
+
+		switch ($selectedReport) {
+			case '0':
+			
+				$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
+				$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
+				break;
+			case '1':
+				$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
+				$reportTitle = Lang::choice('messages.quarterly-stock-level-report-title',1);
+				break;
+				default:
+				$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
+				$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
+				break;
+		}
+
+		$reportTitle = str_replace("[FROM]", $from, $reportTitle);
+		$reportTitle = str_replace("[TO]", $to, $reportTitle);
+		
+		return View::make('reports.inventory.index')
+					->with('reportTypes', $reportTypes)
+					->with('reportData', $reportData)
+					->with('reportTitle', $reportTitle)
+					->with('selectedReport', $selectedReport)
+					->withInput(Input::all());
 	}
 }

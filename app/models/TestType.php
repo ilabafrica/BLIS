@@ -261,7 +261,7 @@ class TestType extends Eloquent
 	*
 	* @param $from, $to
 	*/
-	public static function getPrevalenceCounts($from, $to, $testTypeID = 0){
+	public static function getPrevalenceCounts($from, $to, $testTypeID = 0, $ageRange=null){
 		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
 
 		// TODO: Should be changed to a more flexible format i.e. that supports localization
@@ -297,8 +297,23 @@ class TestType extends Eloquent
 							->orWhere('measure_ranges.alphanumeric', '=', 'Negative')
 							->orWhere('measure_ranges.interpretation', '=', 'Positive')
 							->orWhere('measure_ranges.interpretation', '=', 'Negative');
-				})
-				->whereBetween('time_created', array($from, $toPlusOne))
+				});
+			if($ageRange){
+				$data = $data->join('visits', 'tests.visit_id', '=', 'visits.id')
+							   ->join('patients', 'visits.patient_id', '=', 'patients.id');
+							  
+							   		$age = explode('-', $ageRange);
+									$ageStart = $age[0];
+									$ageEnd = $age[1];
+									$now = new DateTime('now');
+									$clonedDate = clone $now;
+									$finishDate = $clonedDate->sub(new DateInterval('P'.$ageStart.'Y'))->format('Y-m-d');
+									$clonedDate = clone $now;
+									$startDate = $clonedDate->sub(new DateInterval('P'.$ageEnd.'Y'))->format('Y-m-d');
+							   		$data = $data->whereBetween('dob', [$startDate, $finishDate]);
+							  
+			}	
+				$data = $data->whereBetween('time_created', array($from, $toPlusOne))
 				->groupBy('test_types.id')
 				->get();
 		return $data;

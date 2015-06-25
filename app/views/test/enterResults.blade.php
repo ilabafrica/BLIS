@@ -88,7 +88,12 @@
                                     }}
                                 @elseif ( $measure->isFreeText() ) 
                                     {{ Form::label($fieldName, $measure->name) }}
-                                    {{Form::text($fieldName, $ans, array('class' => 'form-control'))}}
+                                    <?php
+                                        $sense = '';
+                                        if($measure->name=="Sensitivity"||$measure->name=="sensitivity")
+                                            $sense = ' sense'.$test->id;
+                                    ?>
+                                    {{Form::text($fieldName, $ans, array('class' => 'form-control'.$sense))}}
                                 @endif
                             </div>
                         @endforeach

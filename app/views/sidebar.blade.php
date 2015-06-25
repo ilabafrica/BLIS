@@ -226,6 +226,16 @@
 						</div>
 					</li>
 				</ul>
+				<div class="sub-menu-title">{{trans('messages.inventory-reports')}}</div>
+				<ul class="sub-menu-items">
+					<li>
+						<div><a href="{{ URL::route('reports.inventory')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.stock-levels')}}</a>
+						</div>
+					</li>
+					</ul>
+
 			</div>
 		</li>
 		@endif

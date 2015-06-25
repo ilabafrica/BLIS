@@ -461,6 +461,15 @@ return array(
     'user-statistics-tests-register-report-title' => 'Tests Registered (Period: [FROM] - [TO] [USER])',
     'verified-tests' => 'Tests Verified',
 
+     /* Inventory Reports*/ 
+    'inventory-reports' => 'Inventory Reports',
+    'stock-levels' => 'Stock Levels',
+    'stock-level-report' => 'Stock Level Report',
+    'monthly-stock-level-report-title' => 'Monthly Stock Levels (Period: [FROM] - [TO])',
+    'quarterly-stock-level-report-title' => 'Quarterly Stock Levels (Period: [FROM] - [TO] )',
+    
+ 
+
     /** 
      *   Configurations
      */
