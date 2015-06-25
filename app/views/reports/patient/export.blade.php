@@ -131,10 +131,14 @@
 		</table>
 		</div>
 		</div>
-		<br />
 		<hr style="border: 1px solid black;">
 		<table class="table table-bordered"  width="100%" style="font-size:12px;">
 			<tbody>
+				<tr>
+					<td><strong>{{ trans('messages.authorized-by') }}</strong></td>
+					<td>{{ trans('messages.signature-holder') }}</td>
+					<td><strong>{{ Lang::choice('messages.name', 1).":" }}</strong>{{ trans('messages.signature-holder') }}</td>
+				</tr>
 				<tr>
 					<td>{{ 'Phidelis Maruti' }}</td>
 					<td>{{ 'Joan Wasike' }}</td>

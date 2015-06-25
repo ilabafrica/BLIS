@@ -647,4 +647,5 @@ return array(
     'quality-manager'   =>  'Quality Manager',
     'lab-manager'   =>  'Laboratory Manager',
     'lab-director'   =>  'Laboratory Director',
+    'authorized-by' =>  'Authroized By: ',
 );
