@@ -15,7 +15,7 @@ class FreeTestsColumn extends Migration {
 		//Add column for free tests
 		Schema::table('test_types', function(Blueprint $table)
 		{
-			$table->integer('orderable_test')->default(0);
+			$table->integer('orderable_test')->nullable()->after('targetTAT');
 		});
 	}
 
