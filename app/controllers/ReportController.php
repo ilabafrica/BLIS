@@ -72,9 +72,16 @@ class ReportController extends \BaseController {
 		$patient = Patient::find($id);
 		//	Check if tests are accredited
 		$accredited = array();
+		$verified = array();
 		foreach ($tests as $test) {
 			if($test->testType->isAccredited())
 				array_push($accredited, $test->id);
+			else
+				continue;
+		}
+		foreach ($tests as $test) {
+			if($test->isVerified())
+				array_push($verified, $test->id);
 			else
 				continue;
 		}
@@ -102,6 +109,7 @@ class ReportController extends \BaseController {
 						->with('error', $error)
 						->with('visit', $visit)
 						->with('accredited', $accredited)
+						->with('verified', $verified)
 						->withInput(Input::all());
 		}
 	}
