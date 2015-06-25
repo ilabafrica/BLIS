@@ -136,6 +136,7 @@ class ReportController extends \BaseController {
 		$to = Input::get('end');
 		$pendingOrAll = Input::get('pending_or_all');
 		$error = '';
+		$accredited = array();
 		//	Check radiobutton for pending/all tests is checked and assign the 'true' value
 		if (Input::get('tests') === '1') {
 		    $pending='true';
@@ -179,6 +180,7 @@ class ReportController extends \BaseController {
 				);
 				$content = View::make('reports.daily.exportPatientLog')
 								->with('visits', $visits)
+								->with('accredited', $accredited)
 								->withInput(Input::all());
 		    	return Response::make($content,200, $headers);
 			}
@@ -186,6 +188,7 @@ class ReportController extends \BaseController {
 				return View::make('reports.daily.patient')
 								->with('visits', $visits)
 								->with('error', $error)
+								->with('accredited', $accredited)
 								->withInput(Input::all());
 			}
 		}
@@ -232,6 +235,7 @@ class ReportController extends \BaseController {
 								->with('specimens', $specimens)
 								->with('testCategory', $testCategory)
 								->with('testType', $testType)
+								->with('accredited', $accredited)
 								->withInput(Input::all());
 		    	return Response::make($content,200, $headers);
 			}
@@ -244,6 +248,7 @@ class ReportController extends \BaseController {
 							->with('testCategory', $testCategory)
 							->with('testType', $testType)
 							->with('error', $error)
+							->with('accredited', $accredited)
 							->withInput(Input::all());
 			}
 		}
@@ -301,6 +306,7 @@ class ReportController extends \BaseController {
 								->with('testCategory', $testCategory)
 								->with('testType', $testType)
 								->with('pendingOrAll', $pendingOrAll)
+								->with('accredited', $accredited)
 								->withInput(Input::all());
 		    	return Response::make($content,200, $headers);
 			}
@@ -314,6 +320,7 @@ class ReportController extends \BaseController {
 							->with('testCategory', $testCategory)
 							->with('testType', $testType)
 							->with('pendingOrAll', $pendingOrAll)
+							->with('accredited', $accredited)
 							->with('error', $error)
 							->withInput(Input::all());
 			}
@@ -509,6 +516,7 @@ class ReportController extends \BaseController {
 		if(!$to) $to = $date;
 		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
 		$counts = Input::get('counts');
+		$accredited = array();
 		//	Begin grouped test counts
 		if($counts==trans('messages.grouped-test-counts'))
 		{
@@ -539,6 +547,7 @@ class ReportController extends \BaseController {
 						->with('gender', $gender)
 						->with('perTestType', $perTestType)
 						->with('perAgeRange', $perAgeRange)
+						->with('accredited', $accredited)
 						->withInput(Input::all());
 		}
 		else if($counts==trans('messages.ungrouped-specimen-counts')){
@@ -557,6 +566,7 @@ class ReportController extends \BaseController {
 			// $data = $data->groupBy('test_type_id')->paginate(Config::get('kblis.page-items'));
 			return View::make('reports.counts.ungroupedSpecimenCount')
 							->with('ungroupedSpecimen', $ungroupedSpecimen)
+							->with('accredited', $accredited)
 							->withInput(Input::all());
 
 		}
@@ -587,6 +597,7 @@ class ReportController extends \BaseController {
 						->with('gender', $gender)
 						->with('perSpecimenType', $perSpecimenType)
 						->with('perAgeRange', $perAgeRange)
+						->with('accredited', $accredited)
 						->withInput(Input::all());
 		}
 		else{
@@ -604,6 +615,7 @@ class ReportController extends \BaseController {
 			// $data = $data->groupBy('test_type_id')->paginate(Config::get('kblis.page-items'));
 			return View::make('reports.counts.ungroupedTestCount')
 							->with('ungroupedTests', $ungroupedTests)
+							->with('accredited', $accredited)
 							->withInput(Input::all());
 		}
 	}
@@ -868,6 +880,7 @@ class ReportController extends \BaseController {
 		$labSections = TestCategory::lists('name', 'id');
 		$interval = Input::get('period');
 		$error = null;
+		$accredited = array();
 
 		if($testCategory)
 			$testTypes = TestCategory::find($testCategory)->testTypes->lists('name', 'id');
@@ -893,6 +906,7 @@ class ReportController extends \BaseController {
 					->with('testType', $testType)
 					->with('interval', $interval)
 					->with('error', $error)
+					->with('accredited', $accredited)
 					->withInput(Input::all());
 	}
 
@@ -908,6 +922,7 @@ class ReportController extends \BaseController {
 	 					'14-120'=>'14 years and above');	//	Age ranges - will definitely change in configurations
 		$gender = array(Patient::MALE, Patient::FEMALE); 	//	Array for gender - male/female
 		$ranges = array('Low', 'Normal', 'High');
+		$accredited = array();
 
 		//	Fetch form filters
 		$date = date('Y-m-d');
@@ -928,6 +943,7 @@ class ReportController extends \BaseController {
 					->with('ageRanges', $ageRanges)
 					->with('ranges', $ranges)
 					->with('infectionData', $infectionData)
+					->with('accredited', $accredited)
 					->withInput(Input::all());
 	}
 
@@ -1045,6 +1061,7 @@ class ReportController extends \BaseController {
 		if(!$from) $from = date('Y-m-01');
 		$to = Input::get('end');
 		if(!$to) $to = $date;
+		$accredited = array();
 
 		$surveillance = Test::getSurveillanceData($from, $to.' 23:59:59');
 
@@ -1057,11 +1074,13 @@ class ReportController extends \BaseController {
 			);
 			$content = View::make('reports.surveillance.exportSurveillance')
 							->with('surveillance', $surveillance)
+							->with('accredited', $accredited)
 							->withInput(Input::all());
 			return Response::make($content,200, $headers);
 		}else{
 			return View::make('reports.surveillance.index')
 					->with('surveillance', $surveillance)
+					->with('accredited', $accredited)
 					->withInput(Input::all());
 		}
 	}
