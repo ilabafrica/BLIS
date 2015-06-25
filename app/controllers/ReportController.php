@@ -70,6 +70,21 @@ class ReportController extends \BaseController {
 		$tests = $tests->get(array('tests.*'));
 		//	Get patient details
 		$patient = Patient::find($id);
+		//	Check if tests are accredited
+		$accredited = array();
+		$verified = array();
+		foreach ($tests as $test) {
+			if($test->testType->isAccredited())
+				array_push($accredited, $test->id);
+			else
+				continue;
+		}
+		foreach ($tests as $test) {
+			if($test->isVerified())
+				array_push($verified, $test->id);
+			else
+				continue;
+		}
 		if(Input::has('word')){
 			$date = date("Ymdhi");
 			$fileName = "blispatient_".$id."_".$date.".doc";
@@ -82,7 +97,8 @@ class ReportController extends \BaseController {
 							->with('tests', $tests)
 							->with('from', $from)
 							->with('to', $to)
-							->with('visit', $visit);
+							->with('visit', $visit)
+							->with('accredited', $accredited);
 	    	return Response::make($content,200, $headers);
 		}
 		else{
@@ -92,6 +108,8 @@ class ReportController extends \BaseController {
 						->with('pending', $pending)
 						->with('error', $error)
 						->with('visit', $visit)
+						->with('accredited', $accredited)
+						->with('verified', $verified)
 						->withInput(Input::all());
 		}
 	}
@@ -1005,9 +1023,11 @@ class ReportController extends \BaseController {
 			$control = Control::find($controlId);
 			$controlTests = ControlTest::where('control_id', '=', $controlId)
 										->whereBetween('created_at', $dates)->get();
+			$leveyJennings = $this->leveyJennings($control, $dates);
 			return View::make('reports.qualitycontrol.results')
 				->with('control', $control)
 				->with('controlTests', $controlTests)
+				->with('leveyJennings', $leveyJennings)
 				->withInput(Input::all());
 		}
 	}
@@ -1015,6 +1035,7 @@ class ReportController extends \BaseController {
 	/**
 	 * Displays Surveillance
 	 * @param string $from, string $to, array() $testTypeIds
+	 * As of now surveillance works only with alphanumeric measures
 	 */
 	public function surveillance(){
 		/*surveillance diseases*/
@@ -1038,16 +1059,11 @@ class ReportController extends \BaseController {
 							->with('surveillance', $surveillance)
 							->withInput(Input::all());
 			return Response::make($content,200, $headers);
-		}
-		else{
+		}else{
 			return View::make('reports.surveillance.index')
 					->with('surveillance', $surveillance)
 					->withInput(Input::all());
 		}
-
-
-
-
 	}
 
 	/**
@@ -2894,7 +2910,7 @@ class ReportController extends \BaseController {
 		$reportTypes = array('Monthly', 'Quarterly');
 		
 
-		$selectedReport = Input::get('report_type');
+		$selectedReport = Input::get('report_type');	
 		if(!$selectedReport)$selectedReport = 0;
 
 		switch ($selectedReport) {
@@ -2923,4 +2939,96 @@ class ReportController extends \BaseController {
 					->with('selectedReport', $selectedReport)
 					->withInput(Input::all());
 	}
+	/**
+	* Function to calculate the mean, SD, and UCL, LCL
+	* for a given control measure.
+	*
+	* @param control_measure_id
+	* @return json string
+	* 
+	*/
+	public function leveyJennings($control, $dates)
+	{
+		foreach ($control->controlMeasures as $key => $controlMeasure) {
+			if(!$controlMeasure->isNumeric())
+			{
+				//We ignore non-numeric results
+				continue;
+			}
+
+			$results = $controlMeasure->results()->whereBetween('created_at', $dates)->lists('results');
+
+			$count = count($results);
+
+			if($count < 6)
+			{
+				$response[] = array('success' => false,
+					'error' => "Too few results to create LJ for ".$controlMeasure->name);
+				continue;
+			}
+
+			//Convert string results to float 
+			foreach ($results as &$result) {
+				$result = (double) $result;
+			}
+
+			$total = 0;
+			foreach ($results as $res) {
+				$total += $res;
+			}
+
+			$average = round($total / $count, 2);
+
+			$standardDeviation = $this->stat_standard_deviation($results);
+			$standardDeviation  = round($standardDeviation, 2);
+
+			$response[] = array('success' => true,
+							'total' => $total,
+							'average' => $average,
+							'standardDeviation' => $standardDeviation,
+							'plusonesd' => $average + $standardDeviation,
+							'plustwosd' => $average + ($standardDeviation * 2),
+							'plusthreesd' => $average + ($standardDeviation * 3),
+							'minusonesd' => $average - ($standardDeviation),
+							'minustwosd' => $average - ($standardDeviation * 2),
+							'minusthreesd' => $average - ($standardDeviation * 3),
+							'dates' => $controlMeasure->results()->lists('created_at'),
+							'controlName' => $controlMeasure->name,
+							'controlUnit' => $controlMeasure->unit,
+							'results' => $results);
+		}
+		return json_encode($response);
+	}
+
+    /**
+     * This user-land implementation follows the implementation quite strictly;
+     * it does not attempt to improve the code or algorithm in any way. It will
+     * raise a warning if you have fewer than 2 values in your array, just like
+     * the extension does (although as an E_USER_WARNING, not E_WARNING).
+     * 
+     * @param array $a 
+     * @param bool $sample [optional] Defaults to false
+     * @return float|bool The standard deviation or false on error.
+     */
+    function stat_standard_deviation(array $a, $sample = false) {
+        $n = count($a);
+        if ($n === 0) {
+            trigger_error("The array has zero elements", E_USER_WARNING);
+            return false;
+        }
+        if ($sample && $n === 1) {
+            trigger_error("The array has only 1 element", E_USER_WARNING);
+            return false;
+        }
+        $mean = array_sum($a) / $n;
+        $carry = 0.0;
+        foreach ($a as $val) {
+            $d = ((double) $val) - $mean;
+            $carry += $d * $d;
+        };
+        if ($sample) {
+           --$n;
+        }
+        return sqrt($carry / $n);
+    }
 }

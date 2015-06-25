@@ -30,4 +30,12 @@ class Control extends Eloquent {
 	{
 		return $this->hasMany('ControlTest');
 	}
+
+	/**
+	* Relationship between control and lots
+	*/
+	public function lot()
+	{
+		return $this->belongsTo('Lot');
+	}
 }

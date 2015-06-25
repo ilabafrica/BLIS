@@ -45,6 +45,7 @@ class LotController extends \BaseController {
 			$lot = new Lot;
 			$lot->number = Input::get('number');
 			$lot->description = Input::get('description');
+			$lot->expiry = Input::get('expiry');
 			$lot->instrument_id = Input::get('instrument');
 
 			$lot->save();
@@ -103,6 +104,7 @@ class LotController extends \BaseController {
 			$lot = Lot::find($id);
 			$lot->number = Input::get('number');
 			$lot->description = Input::get('description');
+			$lot->expiry = Input::get('expiry');
 			$lot->instrument_id = Input::get('instrument');
 
 			$lot->save();

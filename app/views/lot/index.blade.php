@@ -26,6 +26,8 @@
 				<tr>
 					<th>{{ Lang::choice('messages.name', 1) }}</th>
 					<th>{{ Lang::choice('messages.description', 1) }}</th>
+					<th>{{ Lang::choice('messages.expiry-date', 1) }}</th>
+					<th>{{ Lang::choice('messages.instrument', 1) }}</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -33,6 +35,8 @@
 			@foreach($lots as $lot)
 					<td>{{ $lot->number }}</td>
 					<th>{{ $lot->description }}</th>
+					<th>{{ $lot->expiry }}</th>
+					<th>{{ $lot->instrument->name }}</th>
 					<td>
 						<!-- show the instrument details -->
 						<a class="btn btn-sm btn-success" href="{{ URL::route('lot.show', array($lot->id)) }}">

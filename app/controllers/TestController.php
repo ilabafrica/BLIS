@@ -93,7 +93,7 @@ class TestController extends \BaseController {
 			$patientID = Input::get('patient_id');
 		}
 
-		$testTypes = TestType::orderBy('name', 'asc')->get();
+		$testTypes = TestType::where('orderable_test', 1)-> orderBy('name', 'asc')->get();
 		$patient = Patient::find($patientID);
 
 		//Load Test Create View
@@ -111,7 +111,7 @@ class TestController extends \BaseController {
 	{
 		//Create New Test
 		$rules = array(
-			'visit_type' => 'required|non_zero_key',
+			'visit_type' => 'required',
 			'physician' => 'required',
 			'testtypes' => 'required',
 		);
@@ -123,7 +123,7 @@ class TestController extends \BaseController {
 				array(Input::get('patient_id')))->withInput()->withErrors($validator);
 		} else {
 
-			$visitType = ['In-patient', 'Out-patient'];
+			$visitType = ['Out-patient','In-patient'];
 			$activeTest = array();
 
 			/*

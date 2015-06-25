@@ -112,9 +112,17 @@
 							{{ ($counter%4==0)?"</div>":"" }}
 						@endforeach
 						</div>
-					</div>
 				</div>
 			</div>
+		</div>
+		<div class="form-group">
+			{{ Form::label('orderable_test', trans('messages.orderable-test')) }}
+			{{ Form::checkbox('orderable_test', 1, Input::old('orderable_test')) }}
+		</div>
+		<div class="form-group">
+			{{ Form::label('accredited', trans('messages.accredited')) }}
+			{{ Form::checkbox('accredited', "1", $testtype->isAccredited(), array()) }}
+		</div>
 		<div class="panel-footer">
 			<div class="form-group actions-row">
 				{{ Form::button(

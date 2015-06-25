@@ -52,7 +52,7 @@
 							<div class="form-group">
 								{{ Form::hidden('patient_id', $patient->id) }}
 								{{ Form::label('visit_type', trans("messages.visit-type")) }}
-								{{ Form::select('visit_type', ["",trans("messages.out-patient"),trans("messages.in-patient")], null,
+								{{ Form::select('visit_type', [' ' => '--- Select visit type ---','0' => trans("messages.out-patient"),'1' => trans("messages.in-patient")], null,
 									 array('class' => 'form-control')) }}
 							</div>
 							<div class="form-group">
@@ -61,32 +61,33 @@
 							</div>
 							<div class="form-group">
 								{{ Form::label('tests', trans("messages.select-tests")) }}
-								<div class="form-pane panel panel-default">
-									<div class="container-fluid">
-										<?php 
-											$cnt = 0;
-											$zebra = "";
-										?>
-									@foreach($testtypes as $key=>$value)
-										{{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
-										<?php
-											$cnt++;
-											$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
-										?>
-										<div class="col-md-3">
-											<label  class="checkbox">
-												<input type="checkbox" name="testtypes[]" value="{{ $value->id}}" />{{$value->name}}
-											</label>
-										</div>
-										{{ ($cnt%4==0)?"</div>":"" }}
+								<div class="form-pane">
+
+									<table class="table table-striped table-hover table-condensed search-table">
+									<thead>
+										<tr>
+											<th>{{ Lang::choice('messages.test',2) }}</th>
+											<th>{{ trans('messages.actions') }}</th>
+														
+										</tr>
+									</thead>
+									<tbody>
+									@foreach($testtypes as $key => $value)
+										<tr>
+											<td>{{ $value->name }}</td>
+											<td><label  class="editor-active">
+												<input type="checkbox" name="testtypes[]" value="{{ $value->id}}" />
+												</label>
+											</td>
+										</tr>
 									@endforeach
-									</div>
-								</div>
-							</div>
-							<div class="form-group actions-row">
+									</tbody>
+						            </table>
+				
+								<div class="form-group actions-row">
 								{{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save-test'), 
 									array('class' => 'btn btn-primary', 'onclick' => 'submit()', 'alt' => 'save_new_test')) }}
-							</div>
+								</div>
 						</div>
 					</div>
 				</div>

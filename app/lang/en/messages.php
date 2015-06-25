@@ -230,6 +230,7 @@ return array(
     'target-turnaround-time' => 'Target Turnaround Time',
     'test-type' => 'Test Type|Test Types',
     'test-type-details' => 'Test Type Details',
+    'orderable-test' => 'Can order test',
 
     /* Drugs */
 
@@ -642,6 +643,25 @@ return array(
     'affiliation'   =>  'Affiliation',
     'reporting-period'  =>  'Reporting Period',
     'begin-end' =>  'Begining|Ending',
+    /** 
+     *   Controls
+     */
     'gok'   =>  'GOK',
     'no-service'    =>  'N/B: INDICATE N/S Where there is no service',
+    'control-results-edit' => 'Results Edit',
+    'edit-results'=>'Edit Results',
+    'show-results'=>'Results',
+    'list-results'=>'List of Results',
+    'created-at' =>'Date Entered',
+    'result-name'=>'Result',
+    'success-updating-control-result' => 'The control results have been succesfully updated',
+    /**
+    *
+    * 15189 Accreditation
+    */
+    'accredited'    =>  'Accredited?',
+    'quality-manager'   =>  'Quality Manager',
+    'lab-manager'   =>  'Laboratory Manager',
+    'lab-director'   =>  'Laboratory Director',
+    'authorized-by' =>  'Authroized By: ',
 );

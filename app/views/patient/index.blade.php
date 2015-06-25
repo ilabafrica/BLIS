@@ -56,34 +56,40 @@
 				</tr>
 			</thead>
 			<tbody>
-			@foreach($patients as $key => $value)
+			@foreach($patients as $key => $patient)
 				<tr  @if(Session::has('activepatient'))
-                            {{(Session::get('activepatient') == $value->id)?"class='info'":""}}
-                        @endif
-                        >
-					<td>{{ $value->patient_number }}</td>
-					<td>{{ $value->name }}</td>
-					<td>{{ $value->email }}</td>
-					<td>{{ ($value->gender==0?trans('messages.male'):trans('messages.female')) }}</td>
-					<td>{{ $value->dob }}</td>
+						{{(Session::get('activepatient') == $patient->id)?"class='info'":""}}
+					@endif
+				>
+					<td>{{ $patient->patient_number }}</td>
+					<td>{{ $patient->name }}</td>
+					<td>{{ $patient->email }}</td>
+					<td>{{ ($patient->gender==0?trans('messages.male'):trans('messages.female')) }}</td>
+					<td>{{ $patient->dob }}</td>
 
 					<td>
-
+						@if(Auth::user()->can('request_test'))
+						<a class="btn btn-sm btn-info" 
+							href="{{ URL::route('test.create', array('patient_id' => $patient->id)) }}">
+							<span class="glyphicon glyphicon-edit"></span>
+							{{ trans('messages.new-test') }}
+						</a>
+						@endif
 						<!-- show the patient (uses the show method found at GET /patient/{id} -->
-						<a class="btn btn-sm btn-success" href="{{ URL::route('patient.show', array($value->id)) }}" >
+						<a class="btn btn-sm btn-success" href="{{ URL::route('patient.show', array($patient->id)) }}" >
 							<span class="glyphicon glyphicon-eye-open"></span>
 							{{trans('messages.view')}}
 						</a>
 
 						<!-- edit this patient (uses the edit method found at GET /patient/{id}/edit -->
-						<a class="btn btn-sm btn-info" href="{{ URL::route('patient.edit', array($value->id)) }}" >
+						<a class="btn btn-sm btn-info" href="{{ URL::route('patient.edit', array($patient->id)) }}" >
 							<span class="glyphicon glyphicon-edit"></span>
 							{{trans('messages.edit')}}
 						</a>
 						<!-- delete this patient (uses the delete method found at GET /patient/{id}/delete -->
 						<button class="btn btn-sm btn-danger delete-item-link" 
 							data-toggle="modal" data-target=".confirm-delete-modal"	
-							data-id="{{ URL::route('patient.delete', array($value->id)) }}">
+							data-id="{{ URL::route('patient.delete', array($patient->id)) }}">
 							<span class="glyphicon glyphicon-trash"></span>
 							{{trans('messages.delete')}}
 						</button>
