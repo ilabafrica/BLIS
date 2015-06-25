@@ -115,6 +115,10 @@
 					</div>
 				</div>
 			</div>
+			<div class="form-group">
+				{{ Form::label('accredited', trans('messages.accredited')) }}
+				{{ Form::checkbox('accredited', "1", $testtype->isAccredited(), array()) }}
+			</div>
 		<div class="panel-footer">
 			<div class="form-group actions-row">
 				{{ Form::button(
