@@ -67,7 +67,7 @@
 									<thead>
 										<tr>
 											<th>{{ Lang::choice('messages.test',2) }}</th>
-											<th>-</th>
+											<th>{{ trans('messages.actions') }}</th>
 														
 										</tr>
 									</thead>
@@ -79,7 +79,6 @@
 												<input type="checkbox" name="testtypes[]" value="{{ $value->id}}" />
 												</label>
 											</td>
-																			
 										</tr>
 									@endforeach
 									</tbody>

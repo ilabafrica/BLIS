@@ -230,6 +230,7 @@ return array(
     'target-turnaround-time' => 'Target Turnaround Time',
     'test-type' => 'Test Type|Test Types',
     'test-type-details' => 'Test Type Details',
+    'orderable-test' => 'Can order test',
 
     /* Drugs */
 

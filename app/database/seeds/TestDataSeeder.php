@@ -226,10 +226,10 @@ class TestDataSeeder extends DatabaseSeeder
         $this->command->info('measures seeded');
         
         /* Test Types table */
-        $testTypeBS = TestType::create(array("name" => "BS for mps", "test_category_id" => $test_categories->id));
+        $testTypeBS = TestType::create(array("name" => "BS for mps", "test_category_id" => $test_categories->id, "orderable_test" => 1));
         $testTypeStoolCS = TestType::create(array("name" => "Stool for C/S", "test_category_id" => $lab_section_microbiology->id));
         $testTypeGXM = TestType::create(array("name" => "GXM", "test_category_id" => $test_categories->id));
-        $testTypeHB = TestType::create(array("name" => "HB", "test_category_id" => $test_categories->id));
+        $testTypeHB = TestType::create(array("name" => "HB", "test_category_id" => $test_categories->id, "orderable_test" => 1));
         $testTypeUrinalysis = TestType::create(array("name" => "Urinalysis", "test_category_id" => $test_categories->id));
         $testTypeWBC = TestType::create(array("name" => "WBC", "test_category_id" => $test_categories->id));
 

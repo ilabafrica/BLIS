@@ -32,6 +32,7 @@ class TestTypeControllerTest extends TestCase
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'Whatisdis',
 			'specimentypes' =>  ['1'],
+			'orderable_test' => '1',
 			'new-measures' => [
 				'1' => [
 					'name' => 'CSFforBiochemistry',
@@ -50,6 +51,7 @@ class TestTypeControllerTest extends TestCase
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'specimentypes' =>  ['1'],
+			'orderable_test' => '1',
 			'new-measures' => [
 				'1' => [
 					'name' => 'FreeText',

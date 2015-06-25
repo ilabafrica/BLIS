@@ -15,7 +15,7 @@ class FreeTestsColumn extends Migration {
 		//Add column for free tests
 		Schema::table('test_types', function(Blueprint $table)
 		{
-			$table->integer('orderable_test');
+			$table->integer('orderable_test')->default(0);
 		});
 	}
 
@@ -27,7 +27,9 @@ class FreeTestsColumn extends Migration {
 	public function down()
 	{
 		//Reverse up
-		$table->dropColumn('orderable_test');
+		Schema::table('test_types', function(Blueprint $table){
+			$table->dropColumn('orderable_test');
+		});
 	}
 
 }

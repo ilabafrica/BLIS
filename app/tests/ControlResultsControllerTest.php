@@ -28,8 +28,7 @@ class ControlResultsControllerTest extends TestCase
 		foreach ($results as $result) {
 			$key = 'm_'.$result->control_measure_id;
 			$this->assertEquals($this->inputUpdateResults[$key], $result->results);
-			}
-		echo "\n\nSuccess!\n\n";
+		}
 	}
 
 	/**
