@@ -639,5 +639,14 @@ return array(
     'list-results'=>'List of Results',
     'created-at' =>'Date Entered',
     'result-name'=>'Result',
-    'success-updating-control-result' => 'The control results have been succesfully updated'
+    'success-updating-control-result' => 'The control results have been succesfully updated',
+    /**
+    *
+    * 15189 Accreditation
+    */
+    'accredited'    =>  'Accredited?',
+    'quality-manager'   =>  'Quality Manager',
+    'lab-manager'   =>  'Laboratory Manager',
+    'lab-director'   =>  'Laboratory Director',
+    'authorized-by' =>  'Authroized By: ',
 );

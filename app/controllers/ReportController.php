@@ -70,6 +70,21 @@ class ReportController extends \BaseController {
 		$tests = $tests->get(array('tests.*'));
 		//	Get patient details
 		$patient = Patient::find($id);
+		//	Check if tests are accredited
+		$accredited = array();
+		$verified = array();
+		foreach ($tests as $test) {
+			if($test->testType->isAccredited())
+				array_push($accredited, $test->id);
+			else
+				continue;
+		}
+		foreach ($tests as $test) {
+			if($test->isVerified())
+				array_push($verified, $test->id);
+			else
+				continue;
+		}
 		if(Input::has('word')){
 			$date = date("Ymdhi");
 			$fileName = "blispatient_".$id."_".$date.".doc";
@@ -82,7 +97,8 @@ class ReportController extends \BaseController {
 							->with('tests', $tests)
 							->with('from', $from)
 							->with('to', $to)
-							->with('visit', $visit);
+							->with('visit', $visit)
+							->with('accredited', $accredited);
 	    	return Response::make($content,200, $headers);
 		}
 		else{
@@ -92,6 +108,8 @@ class ReportController extends \BaseController {
 						->with('pending', $pending)
 						->with('error', $error)
 						->with('visit', $visit)
+						->with('accredited', $accredited)
+						->with('verified', $verified)
 						->withInput(Input::all());
 		}
 	}
