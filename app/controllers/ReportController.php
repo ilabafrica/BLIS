@@ -1182,12 +1182,12 @@ class ReportController extends \BaseController {
 												" and time_accepted between ? and ?".
 												" group by facility_id;"), array($from, $toPlusOne));
 		$table = '<!-- URINALYSIS -->
-					<div class="col-sm-2">
+					<div class="col-sm-12">
 						<strong>URINE ANALYSIS</strong>
 						<table class="table table-condensed report-table-border">
 							<thead>
 								<tr>
-									<th rowspan="2"></th>
+									<th rowspan="2">Urine Chemistry</th>
 									<th colspan="2">No. Exam</th>
 									<th colspan="4"> Number positive</th>
 								</tr>
@@ -1206,9 +1206,6 @@ class ReportController extends \BaseController {
 						$urineChemistry = TestType::find($urineChem);
 						$measures = TestTypeMeasure::where('test_type_id', $urinaId)->orderBy('measure_id', 'DESC')->get();
 						$table.='<tbody>
-								<tr>
-									<td colspan="7"><strong>Urine Chemistry</strong></td>
-								</tr>
 								<tr>
 									<td>Totals</td>';
 								foreach ($sex as $gender) {
@@ -1244,9 +1241,26 @@ class ReportController extends \BaseController {
 									<td></td>
 									<td></td>
 								</tr>
+							</tbody>
+						</table>
+						<table class="table table-condensed report-table-border">
+							<thead>
 								<tr>
-									<td colspan="7"><strong>Urine Microscopy</strong></td>
+									<th rowspan="2">Urine Microscopy</th>
+									<th colspan="2">No. Exam</th>
+									<th colspan="4"> Number positive</th>
 								</tr>
+								<tr>
+									<th>M</th>
+									<th>F</th>
+									<th>Total</th>
+									<th>&lt;5yrs</th>
+									<th>5-14yrs</th>
+									<th>&gt;14yrs</th>
+								</tr>
+							</thead>
+
+							<tbody>
 								<tr>
 									<td>Totals</td>';
 						$urineMic = TestType::getTestTypeIdByTestName('Urine Microscopy');
@@ -1284,20 +1298,25 @@ class ReportController extends \BaseController {
 									<td></td>
 									<td></td>
 								</tr>
+							</tbody>
+						</table>
+						<table class="table table-condensed report-table-border">
+							<thead>
 								<tr>
-									<strong>
-										<th></th>
-										<th>M</th>
-										<td>F</td>
-										<td>Total</td>
-										<td>Low</td>
-										<td>Normal</td>
-										<td>High</td>
-									</strong>
+									<th rowspan="2">Blood Chemistry</th>
+									<th colspan="2">No. Exam</th>
+									<th colspan="4"> Number positive</th>
 								</tr>
 								<tr>
-									<td colspan="7"><strong>Blood Chemistry</strong></td>
-								</tr>';
+									<th>M</th>
+									<th>F</th>
+									<th>Total</th>
+									<th>Low</th>
+									<th>Normal</th>
+									<th>High</th>
+								</tr>
+							</thead>
+							<tbody>';
 						$bloodChem = TestType::getTestTypeIdByTestName('Blood Sugar');
 						$bloodChemistry = TestType::find($bloodChem);
 						$measures = TestTypeMeasure::where('test_type_id', $bloodChem)->orderBy('measure_id', 'DESC')->get();
@@ -1342,9 +1361,25 @@ class ReportController extends \BaseController {
 									<td></td>
 									<td></td>
 								</tr>
+							</tbody>
+						</table>
+						<table class="table table-condensed report-table-border">
+							<thead>
 								<tr>
-									<td colspan="7"><strong>Renal function tests</strong></td>
-								</tr>';
+									<th rowspan="2">Renal function tests</th>
+									<th colspan="2">No. Exam</th>
+									<th colspan="4"> Number positive</th>
+								</tr>
+								<tr>
+									<th>M</th>
+									<th>F</th>
+									<th>Total</th>
+									<th>Low</th>
+									<th>Normal</th>
+									<th>High</th>
+								</tr>
+							</thead>
+							<tbody>';
 						$rfts = TestType::getTestTypeIdByTestName('RFTS');
 						$rft = TestType::find($rfts);
 						$measures = TestTypeMeasure::where('test_type_id', $rfts)->orderBy('measure_id', 'DESC')->get();
@@ -1375,9 +1410,25 @@ class ReportController extends \BaseController {
 									}
 									$table.='</tr>';
 						}
-						$table.='<tr>
-									<td colspan="7"><strong>Liver Function Tests</strong></td>
-								</tr>';
+						$table.='</tbody>
+						</table>
+						<table class="table table-condensed report-table-border">
+							<thead>
+								<tr>
+									<th rowspan="2">Liver Function Tests</th>
+									<th colspan="2">No. Exam</th>
+									<th colspan="4"> Number positive</th>
+								</tr>
+								<tr>
+									<th>M</th>
+									<th>F</th>
+									<th>Total</th>
+									<th>Low</th>
+									<th>Normal</th>
+									<th>High</th>
+								</tr>
+							</thead>
+							<tbody>';
 						$lfts = TestType::getTestTypeIdByTestName('LFTS');
 						$lft = TestType::find($lfts);
 						$measures = TestTypeMeasure::where('test_type_id', $lfts)->orderBy('measure_id', 'DESC')->get();
@@ -1423,9 +1474,25 @@ class ReportController extends \BaseController {
 									<td></td>
 									<td></td>
 								</tr>
+							</tbody>
+						</table>
+						<table class="table table-condensed report-table-border">
+							<thead>
 								<tr>
-									<td colspan="7"><strong>Lipid Profile</strong></td>
+									<th rowspan="2">Lipid Profile</th>
+									<th colspan="2">No. Exam</th>
+									<th colspan="4"> Number positive</th>
 								</tr>
+								<tr>
+									<th>M</th>
+									<th>F</th>
+									<th>Total</th>
+									<th>Low</th>
+									<th>Normal</th>
+									<th>High</th>
+								</tr>
+							</thead>
+							<tbody>
 								<tr>
 									<td>Totals</td>
 									<td></td>
@@ -1493,9 +1560,25 @@ class ReportController extends \BaseController {
 										$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, [$range]).'</td>';
 									}
 								$table.='</tr>
+							</tbody>
+						</table>
+						<table class="table table-condensed report-table-border">
+							<thead>
 								<tr>
-									<td colspan="7"><strong>CSF Chemistry</strong></td>
+									<th rowspan="2">CSF Chemistry</th>
+									<th colspan="2">No. Exam</th>
+									<th colspan="4"> Number positive</th>
 								</tr>
+								<tr>
+									<th>M</th>
+									<th>F</th>
+									<th>Total</th>
+									<th>Low</th>
+									<th>Normal</th>
+									<th>High</th>
+								</tr>
+							</thead>
+							<tbody>
 								<tr>
 									<td>Totals</td>
 									<td>0</td>
@@ -1519,9 +1602,25 @@ class ReportController extends \BaseController {
 									<td></td>
 								</tr>';
 						}
-						$table.='<tr>
-									<td colspan="7"><strong>Body Fluids</strong></td>
+						$table.='</tbody>
+						</table>
+						<table class="table table-condensed report-table-border">
+							<thead>
+								<tr>
+									<th rowspan="2">Body Fluids</th>
+									<th colspan="2">No. Exam</th>
+									<th colspan="4"> Number positive</th>
 								</tr>
+								<tr>
+									<th>M</th>
+									<th>F</th>
+									<th>Total</th>
+									<th>Low</th>
+									<th>Normal</th>
+									<th>High</th>
+								</tr>
+							</thead>
+							<tbody>
 								<tr>
 									<td>Totals</td>
 									<td>0</td>
@@ -1567,9 +1666,25 @@ class ReportController extends \BaseController {
 									<td></td>
 									<td></td>
 								</tr>
+							</tbody>
+						</table>
+						<table class="table table-condensed report-table-border">
+							<thead>
 								<tr>
-									<td colspan="7"><strong>Thyroid Function Tests</strong></td>
+									<th rowspan="2">Thyroid Function Tests</th>
+									<th colspan="2">No. Exam</th>
+									<th colspan="4"> Number positive</th>
 								</tr>
+								<tr>
+									<th>M</th>
+									<th>F</th>
+									<th>Total</th>
+									<th>Low</th>
+									<th>Normal</th>
+									<th>High</th>
+								</tr>
+							</thead>
+							<tbody>
 								<tr>
 									<td>Totals</td>
 									<td>0</td>
@@ -1615,8 +1730,7 @@ class ReportController extends \BaseController {
 					</div>
 					<!-- URINALYSIS -->
 					<!-- PARASITOLOGY -->
-					<!-- Paratitology -->
-					<div class="col-sm-2">
+					<div class="col-sm-12">
 						<strong>PARASITOLOGY</strong>
 						<table class="table table-condensed report-table-border">
 							<thead>
@@ -1793,10 +1907,10 @@ class ReportController extends \BaseController {
 					</div>
 					<!-- PARASITOLOGY -->
 					<!-- BACTERIOLOGY -->
-					<div class="col-sm-4">
+					<div class="col-sm-12">
 						<strong>BACTERIOLOGY</strong>
 						<div class="row">
-							<div class="col-sm-3">
+							<div class="col-sm-4">
 								<table class="table table-condensed report-table-border" style="padding-right:5px;">
 									<tbody style="text-align:right;">
 										<tr>
@@ -1839,7 +1953,7 @@ class ReportController extends \BaseController {
 									</tbody>
 								</table>
 							</div>
-							<div class="col-sm-2">
+							<div class="col-sm-8">
 								<table class="table table-condensed report-table-border">
 									<tbody>
 										<tr>
@@ -1948,7 +2062,7 @@ class ReportController extends \BaseController {
 							</tbody>
 						</table>
 						<div class="row">
-							<div class="col-sm-6">
+							<div class="col-sm-12">
 								<strong>HEMATOLOGY REPORT</strong>
 								<table class="table table-condensed report-table-border">
 									<thead>
@@ -2075,72 +2189,77 @@ class ReportController extends \BaseController {
 									</tbody>
 								</table>
 							</div>
-							<div class="col-sm-1">
+							<div class="col-sm-12">
 								<strong>BLOOD GROUPING AND CROSSMATCH REPORT</strong>
-								<table class="table table-condensed report-table-border">
-									<tbody>
-										<tr>
-											<td>Total groupings done</td>
-											<td>'.TestType::find(TestType::getTestTypeIdByTestName('GXM'))->groupedTestCount(null, null, $from, $toPlusOne).'</td>
-										</tr>
-										<tr>
-											<td>Blood units grouped</td>
-											<td>'.TestType::find(TestType::getTestTypeIdByTestName('Blood Grouping'))->groupedTestCount(null, null, $from, $toPlusOne).'</td>
-										</tr>
-										<tr>
-											<td>Total transfusion reactions</td>
-											<td></td>
-										</tr>
-										<tr>
-											<td>Blood cross matches</td>
-											<td>'.TestType::find(TestType::getTestTypeIdByTestName('Cross Match'))->groupedTestCount(null, null, $from, $toPlusOne).'</td>
-										</tr>
-									</tbody>
-								</table>
-								<br />
-								<strong>Blood safety</strong>
-								<table class="table table-condensed report-table-border">
-									<tbody>
-										<tr>
-											<td>Measure</td>
-											<td>Number</td>
-										</tr>
-										<tr>
-											<td>A. Blood units collected from regional blood transfusion centres</td>
-											<td></td>
-										</tr>
-										<tr>
-											<td>Blood units collected from other centres and screened at health facility</td>
-											<td></td>
-										</tr>
-										<tr>
-											<td>Blood units screened at health facility that are HIV positive</td>
-											<td></td>
-										</tr>
-										<tr>
-											<td>Blood units screened at health facility that are Hepatitis positive</td>
-											<td></td>
-										</tr>
-										<tr>
-											<td>Blood units positive for other infections</td>
-											<td></td>
-										</tr>
-										<tr>
-											<td>Blood units transfered</td>
-											<td></td>
-										</tr>
-										<tr>
-											<td rowspan="2">General remarks .............................</td>
-											<td rowspan="2"></td>
-										</tr>
-									</tbody>
-								</table>
+								<div class="row">
+									<div class="col-sm-6">
+										<table class="table table-condensed report-table-border">
+											<tbody>
+												<tr>
+													<td>Total groupings done</td>
+													<td>'.TestType::find(TestType::getTestTypeIdByTestName('GXM'))->groupedTestCount(null, null, $from, $toPlusOne).'</td>
+												</tr>
+												<tr>
+													<td>Blood units grouped</td>
+													<td>'.TestType::find(TestType::getTestTypeIdByTestName('Blood Grouping'))->groupedTestCount(null, null, $from, $toPlusOne).'</td>
+												</tr>
+												<tr>
+													<td>Total transfusion reactions</td>
+													<td></td>
+												</tr>
+												<tr>
+													<td>Blood cross matches</td>
+													<td>'.TestType::find(TestType::getTestTypeIdByTestName('Cross Match'))->groupedTestCount(null, null, $from, $toPlusOne).'</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="col-sm-6">
+										<strong>Blood safety</strong>
+										<table class="table table-condensed report-table-border">
+											<tbody>
+												<tr>
+													<td>Measure</td>
+													<td>Number</td>
+												</tr>
+												<tr>
+													<td>A. Blood units collected from regional blood transfusion centres</td>
+													<td></td>
+												</tr>
+												<tr>
+													<td>Blood units collected from other centres and screened at health facility</td>
+													<td></td>
+												</tr>
+												<tr>
+													<td>Blood units screened at health facility that are HIV positive</td>
+													<td></td>
+												</tr>
+												<tr>
+													<td>Blood units screened at health facility that are Hepatitis positive</td>
+													<td></td>
+												</tr>
+												<tr>
+													<td>Blood units positive for other infections</td>
+													<td></td>
+												</tr>
+												<tr>
+													<td>Blood units transfered</td>
+													<td></td>
+												</tr>
+												<tr>
+													<td rowspan="2">General remarks .............................</td>
+													<td rowspan="2"></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 					<!-- BACTERIOLOGY -->
 					<!-- HISTOLOGY AND CYTOLOGY -->
-					<div class="col-sm-4">
+					<div class="col-sm-12">
 						<strong>HISTOLOGY AND CYTOLOGY REPORT</strong>
 						<table class="table table-condensed report-table-border">
 							<thead>
@@ -2828,6 +2947,7 @@ class ReportController extends \BaseController {
 	    	return Response::make($content,200, $headers);
 		}
 		else{
+			//return View::make('reports.moh.706');
 			return View::make('reports.moh.index')->with('table', $table)->with('from', $from)->with('end', $end);
 		}
 	}

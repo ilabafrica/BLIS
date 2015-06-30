@@ -48,7 +48,7 @@
 	{{ Form::close() }}
 </div>
 <br />
-<div class="panel panel-primary" style="font-size:8px;">
+<div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
 		{{ trans('messages.moh-706') }}
@@ -74,16 +74,10 @@
 				<br />
 				<p>{{ Lang::choice('messages.no-service', 1) }}</p>
 				<div class='row'>
-					{{ $table }}
-					
+					{{ $table }}					
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-	$('.sidebar').remove();
-	$('#the-one-main').removeClass('col-md-10 col-md-offset-2');
-	$('#the-one-main').addClass('col-md-12');
-</script>
 @stop
