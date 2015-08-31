@@ -408,19 +408,26 @@ class TestType extends Eloquent
 	 */
 	public function cd4($from, $to, $range, $comment)
 	{
+		$tests = array();
 		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
 		$counter = Test::where('test_type_id', $this->id)
 						->join('test_results', 'tests.id', '=', 'test_results.test_id')
 						->join('measures', 'measures.id', '=', 'test_results.measure_id')
 						->join('measure_ranges', 'measures.id', '=', 'measure_ranges.measure_id')
 						->where('measures.id', Measure::getMeasureIdByName('CD4'))
-						->where('measure_ranges.alphanumeric', $comment)
 						->whereBetween('tests.time_created', [$from, $toPlusOne]);
 						if($range == '< 500')
 							$counter = $counter->where('result', '<', '500');
+
 						else if($range == '> 500')
 							$counter = $counter->where('result', '>', '500');
-						$counter = $counter->count();
-		return $counter;
+						$counter = $counter->get();
+		foreach ($counter as $test)
+		{
+			if(TestResult::where('test_id', $test->test_id)->where('result', $comment)->first())
+				array_push($tests, $test->id);
+		}
+						//$q = DB::getQueryLog();
+		return count($tests);
 	}
 }

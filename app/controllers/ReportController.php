@@ -3193,8 +3193,10 @@ class ReportController extends \BaseController {
 		$columns = array(Lang::choice('messages.cd4-less', 1), Lang::choice('messages.cd4-greater', 1));
 		$rows = array(Lang::choice('messages.baseline', 1), Lang::choice('messages.follow-up', 1));
 		//	Get test
-		$test = TestType::find(TestType::getTestTypeIdByTestName('cd4'));
+		$testId = TestType::getTestTypeIdByTestName('cd4');
+		$test = TestType::find($testId);
 		$counts = array();
+		
 		foreach ($columns as $column)
 		{
 			foreach ($rows as $row)
