@@ -3210,6 +3210,8 @@ class ReportController extends \BaseController {
 					->with('rows', $rows)
 					->with('accredited', $accredited)
 					->with('test', $test)
+					->with('from', $from)
+					->with('to', $to)
 					->with('counts', $counts);
 	}
 }

@@ -427,7 +427,6 @@ class TestType extends Eloquent
 			if(TestResult::where('test_id', $test->test_id)->where('result', $comment)->first())
 				array_push($tests, $test->id);
 		}
-						//$q = DB::getQueryLog();
 		return count($tests);
 	}
 }

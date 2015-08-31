@@ -4,7 +4,7 @@
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
 	  <li class="active"><a href="{{ URL::route('reports.patient.index') }}">{{ Lang::choice('messages.report', 2) }}</a></li>
-	  <li class="active">{{ trans('messages.daily-log') }}</li>
+	  <li class="active">{{ trans('messages.cd4-report') }}</li>
 	</ol>
 </div>
 	<div class='container-fluid'>
@@ -16,7 +16,7 @@
 					{{ Form::label('start', trans("messages.from")) }}
 				</div>
 				<div class="col-sm-3">
-					{{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-01'), 
+					{{ Form::text('start', isset($from)?$from:date('Y-m-01'), 
 				        array('class' => 'form-control standard-datepicker')) }}
 	   			</div>
 	    	</div>
@@ -27,7 +27,7 @@
 					{{ Form::label('end', trans("messages.to")) }}
 				</div>
 				<div class="col-sm-3">
-					{{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
+					{{ Form::text('end', isset($to)?$to:date('Y-m-d'), 
 					    array('class' => 'form-control standard-datepicker')) }}
 				</div>
 	    	</div>
@@ -45,21 +45,27 @@
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
-		{{ trans('messages.daily-log') }} - {{ trans('messages.rejected-specimen') }}
+		{{ trans('messages.cd4-report') }}
 	</div>
 
 	<div class="panel-body">
 		<!-- if there are search errors, they will show here -->
 		<div id="specimen_records_div">
 		  @include("reportHeader")
-			<strong>
-				<p>
-				</p>
-			</strong>
+		<strong>
+		<p>  <?php $from = isset($from) ? $from : date('01-m-Y');?>
+			<?php $to = isset($to) ? $to : date('d-m-Y');?>
+			@if($from!=$to)
+				{{trans('messages.from').' '.$from.' '.trans('messages.to').' '.$to}}
+			@else
+				{{trans('messages.for').' '.date('d-m-Y')}}
+			@endif
+		</p>
+		</strong>
 			<table class="table table-bordered">
 				<tbody>
 					<tr>
-					<th></th>
+					<th>{{ trans('messages.cd4-counts') }}</th>
 					@foreach($columns as $column)
 						<th>{{ $column }}</th>
 					@endforeach

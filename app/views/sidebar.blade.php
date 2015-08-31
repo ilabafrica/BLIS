@@ -28,6 +28,7 @@
 		case 'infection':
 		case 'userstatistics':
 		case 'MOH 706':
+		case 'cd4':
 		case 'qualitycontrol':
 			$active[5] = "active"; break;
 		case 'permission': 

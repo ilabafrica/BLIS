@@ -672,5 +672,6 @@ return array(
     'baseline'  =>  'Baseline',
     'follow-up' =>  'Follow Up',
     'cd4-less'  =>  '< 500',
-    'cd4-greater'   =>  '> 500',   
+    'cd4-greater'   =>  '> 500',  
+    'cd4-counts' => 'CD4 Counts'
 );
