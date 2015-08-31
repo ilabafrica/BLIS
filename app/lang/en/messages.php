@@ -664,4 +664,13 @@ return array(
     'lab-manager'   =>  'Laboratory Manager',
     'lab-director'   =>  'Laboratory Director',
     'authorized-by' =>  'Authroized By: ',
+    /**
+    *
+    * cd4 report
+    */
+    'cd4-report'  =>  'CD4 Report',
+    'baseline'  =>  'Baseline',
+    'follow-up' =>  'Follow Up',
+    'cd4-less'  =>  '< 500',
+    'cd4-greater'   =>  '> 500',   
 );

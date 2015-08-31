@@ -302,6 +302,11 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.aggregate.moh706",
             "uses" => "ReportController@moh706"
         ));
+
+        Route::any("/cd4", array(
+            "as"   => "reports.aggregate.cd4",
+            "uses" => "ReportController@cd4"
+        ));
         
         Route::get("/qualitycontrol", array(
             "as"   => "reports.qualityControl",

@@ -3170,4 +3170,44 @@ class ReportController extends \BaseController {
         }
         return sqrt($carry / $n);
     }
+
+	/**
+	 * Display data after applying the filters on the report uses patient ID
+	 *
+	 * @return Response
+	 */
+	public function cd4(){
+		//	check if accredited
+		$accredited = array();
+		$from = Input::get('start');
+		$to = Input::get('end');
+		$pending = Input::get('pending');
+		$date = date('Y-m-d');
+		$error = '';
+		//	Check dates
+		if(!$from)
+			$from = date('Y-m-01');
+		if(!$to)
+			$to = $date;
+		//	Get columns
+		$columns = array(Lang::choice('messages.cd4-less', 1), Lang::choice('messages.cd4-greater', 1));
+		$rows = array(Lang::choice('messages.baseline', 1), Lang::choice('messages.follow-up', 1));
+		//	Get test
+		$test = TestType::find(TestType::getTestTypeIdByTestName('cd4'));
+		$counts = array();
+		foreach ($columns as $column)
+		{
+			foreach ($rows as $row)
+			{
+				$counts[$column][$row] = $test->cd4($from, $to, $column, $row);
+			}
+		}
+		
+		return View::make('reports.cd4.index')
+					->with('columns', $columns)
+					->with('rows', $rows)
+					->with('accredited', $accredited)
+					->with('test', $test)
+					->with('counts', $counts);
+	}
 }
