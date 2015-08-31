@@ -1332,25 +1332,15 @@ class ReportController extends \BaseController {
 					foreach ($measures as $measure) {
 						$tMeasure = Measure::find($measure->measure_id);	
 						$table.='<tr>
-							<td>Fasting blood sugar</td>';
-						foreach ($sex as $gender) {
-							$table.='<td>'.$tMeasure->totalTestResults([$gender], null, $from, $toPlusOne, ['fbs'], null).'</td>';
-						}
-						$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne, ['fbs'], 1).'</td>';
-						foreach ($ageRanges as $ageRange) {
-								$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, ['fbs'], 1).'</td>';
-							}
-						$table.='</tr>
-							<tr>
-								<td>Random blood sugar</td>';
+								<td>'.$tMeasure->name.'</td>';
 							foreach ($sex as $gender) {
-								$table.='<td>'.$tMeasure->totalTestResults([$gender], null, $from, $toPlusOne, ['rbs'], null).'</td>';
+								$table.='<td>'.$tMeasure->totalTestResults([$gender], null, $from, $toPlusOne, null, null).'</td>';
 							}
-							$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne, ['rbs'], 1).'</td>';
-							foreach ($ageRanges as $ageRange) {
-									$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, ['rbs'], 1).'</td>';
-								}
-						$table.='</tr>';
+							$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne, ['Low', 'Normal', 'High'], null).'</td>';
+							foreach ($ranges as $range) {
+								$table.='<td>'.$tMeasure->totalTestResults(null, null, $from, $toPlusOne, [$range], 1).'</td>';
+							}
+							$table.='</tr>';
 					}
 					$table.='<tr>
 							<td>OGTT</td>
@@ -1406,7 +1396,7 @@ class ReportController extends \BaseController {
 							}
 							$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne, null, 1).'</td>';
 							foreach ($ranges as $range) {
-								$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, [$range], 1).'</td>';
+								$table.='<td>'.$tMeasure->totalTestResults(null, null, $from, $toPlusOne, [$range], 1).'</td>';
 							}
 							$table.='</tr>';
 				}
@@ -1461,7 +1451,7 @@ class ReportController extends \BaseController {
 							}
 							$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne, null, 1).'</td>';
 							foreach ($ranges as $range) {
-								$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, [$range], 1).'</td>';
+								$table.='<td>'.$tMeasure->totalTestResults(null, null, $from, $toPlusOne, [$range], 1).'</td>';
 							}
 							$table.='</tr>';
 				}
@@ -1519,7 +1509,7 @@ class ReportController extends \BaseController {
 							}
 							$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne, null, 1).'</td>';
 							foreach ($ranges as $range) {
-								$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, [$range], 1).'</td>';
+								$table.='<td>'.$tMeasure->totalTestResults(null, null, $from, $toPlusOne, [$range], 1).'</td>';
 							}
 						$table.='</tr>
 						<tr>
@@ -1557,7 +1547,7 @@ class ReportController extends \BaseController {
 							}
 							$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne, null, 1).'</td>';
 							foreach ($ranges as $range) {
-								$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, [$range], 1).'</td>';
+								$table.='<td>'.$tMeasure->totalTestResults(null, null, $from, $toPlusOne, [$range], 1).'</td>';
 							}
 						$table.='</tr>
 					</tbody>
@@ -1712,7 +1702,7 @@ class ReportController extends \BaseController {
 						}
 						$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne, null, 1).'</td>';
 						foreach ($ranges as $range) {
-							$table.='<td>'.$tMeasure->totalTestResults(null, $ageRange, $from, $toPlusOne, [$range], 1).'</td>';
+							$table.='<td>'.$tMeasure->totalTestResults(null, null, $from, $toPlusOne, [$range], 1).'</td>';
 						}
 						$table.='</tr>';
 				}
