@@ -1012,8 +1012,9 @@ class ReportController extends \BaseController {
 	*/
 	public function qualityControl()
 	{
+		$accredited = array();
 		$controls = Control::all()->lists('name', 'id');
-		return View::make('reports.qualitycontrol.index')->with('controls', $controls);
+		return View::make('reports.qualitycontrol.index')->with('controls', $controls)->with('accredited', $accredited);
 	}
 
 	/**
@@ -3198,6 +3199,7 @@ class ReportController extends \BaseController {
 					->with('rows', $rows)
 					->with('accredited', $accredited)
 					->with('test', $test)
-					->with('counts', $counts);
+					->with('counts', $counts)
+					->withInput(Input::all());
 	}
 }
