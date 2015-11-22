@@ -409,30 +409,20 @@ class TestType extends Eloquent
 	public function cd4($from = null, $to = null, $range, $comment)
 	{
 		$tests = array();
+		$measureIds = Measure::where('name', 'CD4')->lists('id');
 		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
-		$counter = Test::where('test_type_id', $this->id)
-						->join('test_results', 'tests.id', '=', 'test_results.test_id')
-						->join('measures', 'measures.id', '=', 'test_results.measure_id')
-						->join('measure_ranges', 'measures.id', '=', 'measure_ranges.measure_id')
-						->where('measures.id', Measure::getMeasureIdByName('CD4'));
-						if($from && $to)
-						{
-							$counter = $counter->whereBetween('tests.time_created', [$from, $toPlusOne]);
-						}
-						if($range == '< 500')
-						{
-							$counter = $counter->where('result', '<', '500');
-						}
-						else if($range == '> 500')
-						{
-							$counter = $counter->where('result', '>', '500');
-						}
-						$counter = $counter->get();
-		foreach ($counter as $test)
+		$tests = $this->tests()->whereBetween('time_created', [$from, $toPlusOne])->lists('id');
+		$results = TestResult::whereIn('test_id', $tests)->whereIn('measure_id', $measureIds)->where('result', $comment)->lists('test_id');
+		$qualifier = TestResult::whereIn('test_id', $tests)->whereIn('measure_id', $measureIds)->whereRaw("result REGEXP '^[0-9]+$'");
+		if($range == '< 500')
 		{
-			if(TestResult::where('test_id', $test->test_id)->where('result', $comment)->first())
-				array_push($tests, $test->id);
+			$qualifier = $qualifier->where('result', '<', 500);
 		}
-		return count($tests);
+		else if($range == '> 500')
+		{
+			$qualifier = $qualifier->where('result', '>', 500);
+		}
+		$qualifier = $qualifier->lists('test_id');
+		return count(array_intersect(array_unique($qualifier), array_unique($results)));
 	}
 }
