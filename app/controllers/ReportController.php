@@ -3193,13 +3193,32 @@ class ReportController extends \BaseController {
 				$counts[$column][$row] = $test->cd4($from, $to, $column, $row);
 			}
 		}
-		
-		return View::make('reports.cd4.index')
-					->with('columns', $columns)
-					->with('rows', $rows)
-					->with('accredited', $accredited)
-					->with('test', $test)
-					->with('counts', $counts)
-					->withInput(Input::all());
+		if(Input::has('word'))
+		{
+			$date = date("Ymdhi");
+			$fileName = "cd4_report_".$date.".doc";
+			$headers = array(
+			    "Content-type"=>"text/html",
+			    "Content-Disposition"=>"attachment;Filename=".$fileName
+			);
+			$content = View::make('reports.cd4.export')
+				->with('columns', $columns)
+				->with('rows', $rows)
+				->with('accredited', $accredited)
+				->with('test', $test)
+				->with('counts', $counts)
+				->withInput(Input::all());
+	    	return Response::make($content,200, $headers);
+		}
+		else
+		{
+			return View::make('reports.cd4.index')
+				->with('columns', $columns)
+				->with('rows', $rows)
+				->with('accredited', $accredited)
+				->with('test', $test)
+				->with('counts', $counts)
+				->withInput(Input::all());
+		}
 	}
 }
