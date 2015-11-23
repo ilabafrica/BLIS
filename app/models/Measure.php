@@ -198,7 +198,30 @@ class Measure extends Eloquent
 							   	}
 			}
 			if($range){
-				$testResults = $testResults->whereIn('result', $range);
+				if ($this->isNumeric())
+				{
+					$mRange = null;
+					if($gender)
+						$mRange = $this->measureRanges()->where('gender', $gender)->first();
+					else
+						$mRange = $this->measureRanges->first();
+					if($range[0] == 'Low')
+					{
+						$testResults = $testResults->whereRaw("result REGEXP '^[0-9]+$'")->where('result', '<', $mRange->range_lower);
+					}
+					else if($range[0] == 'Normal')
+					{
+						$testResults = $testResults->whereRaw("result REGEXP '^[0-9]+$'")->where('result', '>=', $mRange->range_lower)->where('result', '<=', $mRange->range_upper);
+					}
+					else if($range[0] == 'High')
+					{
+						$testResults = $testResults->whereRaw("result REGEXP '^[0-9]+$'")->where('result', '>', $mRange->range_upper);
+					}
+				}
+				else
+				{
+					$testResults = $testResults->whereIn('result', $range);
+				}
 			}
 			if($positive)
 			{

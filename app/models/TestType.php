@@ -342,7 +342,7 @@ class TestType extends Eloquent
 	*/
 	public function groupedTestCount($gender=null, $ageRange=null, $from=null, $to=null){
 			$tests = Test::where('test_type_id', $this->id)
-						 ->whereIn('test_status_id', [Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED]);
+						 ->whereIn('test_status_id', [Test::COMPLETED, Test::VERIFIED]);
 			if($to && $from){
 				$tests = $tests->whereBetween('time_created', [$from, $to]);
 			}
