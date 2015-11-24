@@ -1512,34 +1512,37 @@ class ReportController extends \BaseController {
 							foreach ($ranges as $range) {
 								$table.='<td>'.$tMeasure->totalTestResults(null, null, $from, $toPlusOne, [$range], 1).'</td>';
 							}
+						$table.='</tr><tr>
+							<td>Tryglycerides</td>';
+							$tMeasure = Measure::find(Measure::getMeasureIdByName('Tryglycerides'));
+							foreach ($sex as $gender) {
+								$table.='<td>'.$tMeasure->totalTestResults([$gender], null, $from, $toPlusOne, null, null).'</td>';
+							}
+							$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne, null, 1).'</td>';
+							foreach ($ranges as $range) {
+								$table.='<td>'.$tMeasure->totalTestResults(null, null, $from, $toPlusOne, [$range], 1).'</td>';
+							}
+						$table.='</tr><tr>
+							<td>HDL</td>';
+							$tMeasure = Measure::find(Measure::getMeasureIdByName('HDL'));
+							foreach ($sex as $gender) {
+								$table.='<td>'.$tMeasure->totalTestResults([$gender], null, $from, $toPlusOne, null, null).'</td>';
+							}
+							$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne, null, 1).'</td>';
+							foreach ($ranges as $range) {
+								$table.='<td>'.$tMeasure->totalTestResults(null, null, $from, $toPlusOne, [$range], 1).'</td>';
+							}
+						$table.='</tr><tr>
+							<td>LDL</td>';
+							$tMeasure = Measure::find(Measure::getMeasureIdByName('LDL'));
+							foreach ($sex as $gender) {
+								$table.='<td>'.$tMeasure->totalTestResults([$gender], null, $from, $toPlusOne, null, null).'</td>';
+							}
+							$table.='<td>'.$tMeasure->totalTestResults($sex, null, $from, $toPlusOne, null, 1).'</td>';
+							foreach ($ranges as $range) {
+								$table.='<td>'.$tMeasure->totalTestResults(null, null, $from, $toPlusOne, [$range], 1).'</td>';
+							}
 						$table.='</tr>
-						<tr>
-							<td>Trigycerides</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>HDL</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>LDE</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
 						<tr>
 							<td>PSA</td>';
 							$tMeasure = Measure::find(Measure::getMeasureIdByName('PSA'));

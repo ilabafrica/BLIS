@@ -202,20 +202,22 @@ class Measure extends Eloquent
 				{
 					$mRange = null;
 					if($gender)
-						$mRange = $this->measureRanges()->where('gender', $gender)->first();
+						dd($gender[0]);
+						// $mRange = $this->measureRanges()->where('gender', $gender)->first();
 					else
 						$mRange = $this->measureRanges->first();
+					$testResults = $testResults->whereRaw("result REGEXP '^[0-9]+\\.?[0-9]*$'");
 					if($range[0] == 'Low')
 					{
-						$testResults = $testResults->whereRaw("result REGEXP '^[0-9]+$'")->where('result', '<', $mRange->range_lower);
+						$testResults = $testResults->where('result', '<', $mRange->range_lower);
 					}
 					else if($range[0] == 'Normal')
 					{
-						$testResults = $testResults->whereRaw("result REGEXP '^[0-9]+$'")->where('result', '>=', $mRange->range_lower)->where('result', '<=', $mRange->range_upper);
+						$testResults = $testResults->where('result', '>=', $mRange->range_lower)->where('result', '<=', $mRange->range_upper);
 					}
 					else if($range[0] == 'High')
 					{
-						$testResults = $testResults->whereRaw("result REGEXP '^[0-9]+$'")->where('result', '>', $mRange->range_upper);
+						$testResults = $testResults->where('result', '>', $mRange->range_upper);
 					}
 				}
 				else
