@@ -342,7 +342,7 @@ class TestType extends Eloquent
 	*/
 	public function groupedTestCount($gender=null, $ageRange=null, $from=null, $to=null){
 			$tests = Test::where('test_type_id', $this->id)
-						 ->whereIn('test_status_id', [Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED]);
+						 ->whereIn('test_status_id', [Test::COMPLETED, Test::VERIFIED]);
 			if($to && $from){
 				$tests = $tests->whereBetween('time_created', [$from, $to]);
 			}
@@ -400,5 +400,29 @@ class TestType extends Eloquent
 		}
 		else 
 			return true;
+	}
+	/**
+	 * Get cd4 counts based on either baseline/follow-up and <500/>500
+	 *
+	 * @return counts
+	 */
+	public function cd4($from = null, $to = null, $range, $comment)
+	{
+		$tests = array();
+		$measureIds = Measure::where('name', 'CD4')->lists('id');
+		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+		$tests = $this->tests()->whereBetween('time_created', [$from, $toPlusOne])->lists('id');
+		$results = TestResult::whereIn('test_id', $tests)->whereIn('measure_id', $measureIds)->where('result', $comment)->lists('test_id');
+		$qualifier = TestResult::whereIn('test_id', $tests)->whereIn('measure_id', $measureIds)->whereRaw("result REGEXP '^[0-9]+$'");
+		if($range == '< 500')
+		{
+			$qualifier = $qualifier->where('result', '<', 500);
+		}
+		else if($range == '> 500')
+		{
+			$qualifier = $qualifier->where('result', '>', 500);
+		}
+		$qualifier = $qualifier->lists('test_id');
+		return count(array_intersect(array_unique($qualifier), array_unique($results)));
 	}
 }

@@ -169,13 +169,13 @@ class Measure extends Eloquent
 	 *
 	 * @return count
 	 */
-	public function totalTestResults($gender=null, $ageRange=null, $from=null, $to=null, $range=null){
+	public function totalTestResults($gender=null, $ageRange=null, $from=null, $to=null, $range=null, $positive=null){
 		$testResults = TestResult::where('test_results.measure_id', $this->id)
 						 ->join('tests', 'tests.id', '=', 'test_results.test_id')
 						 ->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
 						 ->join('testtype_measures', 'testtype_measures.test_type_id', '=', 'test_types.id')
 						 ->where('testtype_measures.measure_id', $this->id)
-						 ->whereIn('test_status_id', [Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED]);
+						 ->whereIn('test_status_id', [Test::COMPLETED, Test::VERIFIED]);
 			if($to && $from){
 				$testResults = $testResults->whereBetween('time_created', [$from, $to]);
 			}
@@ -198,7 +198,36 @@ class Measure extends Eloquent
 							   	}
 			}
 			if($range){
-				$testResults = $testResults->whereIn('result', $range);
+				if ($this->isNumeric())
+				{
+					$mRange = null;
+					if($gender)
+						dd($gender[0]);
+						// $mRange = $this->measureRanges()->where('gender', $gender)->first();
+					else
+						$mRange = $this->measureRanges->first();
+					$testResults = $testResults->whereRaw("result REGEXP '^[0-9]+\\.?[0-9]*$'");
+					if($range[0] == 'Low')
+					{
+						$testResults = $testResults->where('result', '<', $mRange->range_lower);
+					}
+					else if($range[0] == 'Normal')
+					{
+						$testResults = $testResults->where('result', '>=', $mRange->range_lower)->where('result', '<=', $mRange->range_upper);
+					}
+					else if($range[0] == 'High')
+					{
+						$testResults = $testResults->where('result', '>', $mRange->range_upper);
+					}
+				}
+				else
+				{
+					$testResults = $testResults->whereIn('result', $range);
+				}
+			}
+			if($positive)
+			{
+				$testResults = $testResults->whereNotIn('result', ['nil', 'nill', 'not seen']);
 			}
 		return $testResults->count();
 	}

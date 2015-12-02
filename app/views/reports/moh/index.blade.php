@@ -16,8 +16,7 @@
 				    {{ Form::label('start', trans('messages.from')) }}
 				</div>
 				<div class="col-sm-2">
-				    {{ Form::text('start', isset($from)? $from : date('Y-m-d'), 
-			                array('class' => 'form-control standard-datepicker')) }}
+				    {{ Form::text('start', $from?$from:date('Y-m-01'),array('class' => 'form-control standard-datepicker')) }}
 		        </div>
 			</div>
 		</div>
@@ -26,9 +25,7 @@
 				<div class="col-sm-2">
 				    {{ Form::label('end', trans('messages.to')) }}
 				</div>
-				<div class="col-sm-2">
-				    {{ Form::text('end', isset($end) ? $end : date('Y-m-d'), 
-			                array('class' => 'form-control standard-datepicker')) }}
+				<div class="col-sm-2">{{ Form::text('end', $end?$end:date('Y-m-d'),array('class' => 'form-control standard-datepicker')) }}
 		        </div>
 			</div>
 		</div>
