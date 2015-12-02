@@ -26,7 +26,7 @@ class ReportController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function viewPatientReport($id, $visit = null){
+	public function viewPatientReport($id, $visit = null, $testId = null){
 		$from = Input::get('start');
 		$to = Input::get('end');
 		$pending = Input::get('pending');
@@ -38,7 +38,10 @@ class ReportController extends \BaseController {
 		    $pending='checked';
 		}
 		//	Query to get tests of a particular patient
-		if(($visit || $visitId) && $id){
+		if (($visit || $visitId) && $id && $testId){
+			$tests = Test::where('id', '=', $testId);
+		}
+		else if(($visit || $visitId) && $id){
 			$tests = Test::where('visit_id', '=', $visit?$visit:$visitId);
 		}
 		else{

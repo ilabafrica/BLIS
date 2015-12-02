@@ -259,11 +259,11 @@ Route::group(array("before" => "auth"), function()
         Route::any("/patientreport/{id}", array(
             "as" => "reports.patient.report", 
             "uses" => "ReportController@viewPatientReport"
-            ));
-        Route::any("/patientreport/{id}/{visit}", array(
+        ));
+        Route::any("/patientreport/{id}/{visit}/{testId?}", array(
             "as" => "reports.patient.report", 
             "uses" => "ReportController@viewPatientReport"
-            ));
+        ));
         Route::any("/dailylog", array(
             "as"   => "reports.daily.log",
             "uses" => "ReportController@dailyLog"
