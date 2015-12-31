@@ -1,6 +1,6 @@
 @section("sidebar")
 <?php
-	$active = array("","","","","","","","","");
+	$active = array("","","","","","","","","","");
 	$key = explode("?",str_replace("/", "?", Request::path()));
 	switch ($key[0]) {
 		case 'home': $active[0] = "active"; break;
@@ -27,6 +27,8 @@
 		case 'tat':
 		case 'infection':
 		case 'userstatistics':
+		case 'MOH 706':
+		case 'cd4':
 		case 'qualitycontrol':
 			$active[5] = "active"; break;
 		case 'permission': 
@@ -210,6 +212,18 @@
 						<div><a href="{{ URL::route('reports.aggregate.userStatistics')}}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{trans('messages.user-statistics-report')}}</a>
+						</div>
+					</li>
+					<li>
+						<div><a href="{{ URL::route('reports.aggregate.moh706')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.moh-706')}}</a>
+						</div>
+					</li>					
+					<li>
+						<div><a href="{{ URL::route('reports.aggregate.cd4')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.cd4-report')}}</a>
 						</div>
 					</li>
 					<li>

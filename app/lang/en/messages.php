@@ -635,6 +635,21 @@ return array(
     'success-updating-control' => 'The Control has been successfully updated',
     'success-deleting-control' => 'The Control has been successfully deleted',
     'success-adding-control-result' => 'The control results have been succesfully added',
+
+    /** 
+     *   MOH 706 report
+     */
+    'moh-706'   =>  'MOH 706',
+    'moh'   =>  'Ministry of Health',
+    'lab-tests-data-report'  =>  'Laboratory Tests Data Summary Report Form',
+    'affiliation'   =>  'Affiliation',
+    'reporting-period'  =>  'Reporting Period',
+    'begin-end' =>  'Begining|Ending',
+    /** 
+     *   Controls
+     */
+    'gok'   =>  'GOK',
+    'no-service'    =>  'N/B: INDICATE N/S Where there is no service',
     'control-results-edit' => 'Results Edit',
     'edit-results'=>'Edit Results',
     'show-results'=>'Results',
@@ -651,4 +666,14 @@ return array(
     'lab-manager'   =>  'Laboratory Manager',
     'lab-director'   =>  'Laboratory Director',
     'authorized-by' =>  'Authroized By: ',
+    /**
+    *
+    * cd4 report
+    */
+    'cd4-report'  =>  'CD4 Report',
+    'baseline'  =>  'Baseline',
+    'follow-up' =>  'Follow Up',
+    'cd4-less'  =>  '< 500',
+    'cd4-greater'   =>  '> 500',  
+    'cd4-counts' => 'CD4 Counts'
 );
