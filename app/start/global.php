@@ -75,7 +75,7 @@ App::down(function()
 * -------------------------------------------
 */
 
-App::bind('Interfacer', 'SanitasInterfacer');
+App::bind('Interfacer', 'DefaultInterfacer');
 
 
 /*
