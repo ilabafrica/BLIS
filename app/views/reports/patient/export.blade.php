@@ -142,7 +142,7 @@
 					<td><strong>{{ Lang::choice('messages.name', 1).":" }}</strong>{{ trans('messages.signature-holder') }}</td>
 				</tr>
 				<tr>
-					<td>{{ 'Phidelis Maruti' }}</td>
+					<td>{{ 'Antony Sangolo' }}</td>
 					<td>{{ 'Joan Wasike' }}</td>
 					<td>{{ 'Dr. Sylvester Mutoro' }}</td>
 				</tr>

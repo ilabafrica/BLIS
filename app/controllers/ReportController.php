@@ -78,7 +78,7 @@ class ReportController extends \BaseController {
 		$verified = array();
 		foreach ($tests as $test) {
 			if($test->isVerified())
-				array_push($VERIFIED, $test->id);
+				array_push($verified, $test->id);
 			else
 				continue;
 		}
