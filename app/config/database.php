@@ -57,7 +57,7 @@ return array(
 			'host'      => 'localhost',
 			'database'  => 'iblis',
 			'username'  => 'root',
-			'password'  => 'Admin123',
+			'password'  => '',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
