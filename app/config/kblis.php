@@ -37,7 +37,7 @@ return array(
 	|
 	*/
 
-	'organization' => 'Basic Laboratory Information System',
+	'organization' => 'I-TECH Basic Laboratory Information System',
 	
 
 
