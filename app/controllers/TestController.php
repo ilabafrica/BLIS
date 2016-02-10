@@ -287,12 +287,6 @@ class TestController extends \BaseController {
 	public function enterResults($testID)
 	{
 		$test = Test::find($testID);
-		if($test->testType->instruments->count() > 0){
-			//Delete the celtac dump file
-			//TO DO: Clean up and use configs + Handle failure
-			$EMPTY_FILE_URL = "http://192.168.1.88/celtac/emptyfile.php";
-			@file_get_contents($EMPTY_FILE_URL);
-		}
 		return View::make('test.enterResults')->with('test', $test);
 	}
 
@@ -335,7 +329,17 @@ class TestController extends \BaseController {
 		foreach ($test->testType->measures as $measure) {
 			$testResult = TestResult::firstOrCreate(array('test_id' => $testID, 'measure_id' => $measure->id));
 			$testResult->result = Input::get('m_'.$measure->id);
-			$testResult->save();
+
+			$inputName = "m_".$measure->id;
+			$rules = array("$inputName" => 'max:255');
+
+			$validator = Validator::make(Input::all(), $rules);
+
+			if ($validator->fails()) {
+				return Redirect::back()->withErrors($validator)->withInput(Input::all());
+			} else {
+				$testResult->save();
+			}
 		}
 
 		//Fire of entry saved/edited event

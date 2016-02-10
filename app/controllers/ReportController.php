@@ -74,14 +74,8 @@ class ReportController extends \BaseController {
 		//	Get patient details
 		$patient = Patient::find($id);
 		//	Check if tests are accredited
-		$accredited = array();
+		$accredited = $this->accredited($tests);
 		$verified = array();
-		foreach ($tests as $test) {
-			if($test->testType->isAccredited())
-				array_push($accredited, $test->id);
-			else
-				continue;
-		}
 		foreach ($tests as $test) {
 			if($test->isVerified())
 				array_push($verified, $test->id);
@@ -291,7 +285,6 @@ class ReportController extends \BaseController {
 			{
 				$tests = $tests->where('time_created', 'LIKE', $date.'%')->get(array('tests.*'));
 			}
-				
 			if(Input::has('word')){
 				$date = date("Ymdhi");
 				$fileName = "daily_test_records_".$date.".doc";
@@ -313,6 +306,7 @@ class ReportController extends \BaseController {
 							->with('labSections', $labSections)
 							->with('testTypes', $testTypes)
 							->with('tests', $tests)
+							->with('accredited', $this->accredited($tests))
 							->with('counts', $tests->count())
 							->with('testCategory', $testCategory)
 							->with('testType', $testType)
@@ -1000,7 +994,12 @@ class ReportController extends \BaseController {
 	public function qualityControl()
 	{
 		$controls = Control::all()->lists('name', 'id');
-		return View::make('reports.qualitycontrol.index')->with('controls', $controls);
+		$accredited = array();
+		$tests = array();
+		return View::make('reports.qualitycontrol.index')
+			->with('accredited', $accredited)
+			->with('tests', $tests)
+			->with('controls', $controls);
 	}
 
 	/**
@@ -1050,7 +1049,8 @@ class ReportController extends \BaseController {
 		if(!$to) $to = $date;
 
 		$surveillance = Test::getSurveillanceData($from, $to.' 23:59:59');
-
+		$accredited = array();
+		$tests = array();
 
 		if(Input::has('word')){
 			$fileName = "surveillance_".$date.".doc";
@@ -1060,10 +1060,14 @@ class ReportController extends \BaseController {
 			);
 			$content = View::make('reports.surveillance.exportSurveillance')
 							->with('surveillance', $surveillance)
+							->with('tests', $tests)
+							->with('accredited', $accredited)
 							->withInput(Input::all());
 			return Response::make($content,200, $headers);
 		}else{
 			return View::make('reports.surveillance.index')
+					->with('accredited', $accredited)
+					->with('tests', $tests)
 					->with('surveillance', $surveillance)
 					->withInput(Input::all());
 		}
@@ -1347,5 +1351,18 @@ class ReportController extends \BaseController {
            --$n;
         }
         return sqrt($carry / $n);
+    }
+    /**
+    *	Function to check for accredited test types
+    *
+    */
+    public function accredited($tests)
+    {
+    	$accredited = array();
+		foreach ($tests as $test) {
+			if($test->testType->isAccredited())
+				array_push($accredited, $test->id);
+		}
+		return $accredited;
     }
 }

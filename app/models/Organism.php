@@ -52,5 +52,18 @@ class Organism extends Eloquent
 		// Add the new mapping
 		DB::table('organism_drugs')->insert($drugsAdded);
 	}
-
+	/**
+	 * Drug-susceptibility relationship
+	 */
+	public function susceptibility()
+	{
+	  return $this->hasMany('Susceptibility');
+	}
+	/**
+	 * sensitivity relationship for a single test
+	 */
+	public function sensitivity($id)
+	{
+	  return $this->susceptibility()->where('test_id', $id)->count();
+	}
 }

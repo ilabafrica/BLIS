@@ -79,7 +79,7 @@ class SusceptibilityController extends \BaseController {
 					$drugSusceptibility->sensitivity = 'Resistant';
 				}
 				else if($drugSusceptibility->interpretation == 'S'){
-					$drugSusceptibility->sensitivity = 'Sestitive';
+					$drugSusceptibility->sensitivity = 'Sensitive';
 				}
 			}
 
