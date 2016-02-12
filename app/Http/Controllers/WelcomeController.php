@@ -32,5 +32,4 @@ class WelcomeController extends Controller {
 	{
 		return view('home');
 	}
-
 }

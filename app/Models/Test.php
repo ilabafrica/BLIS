@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use DB;
 use DateTime;
+use Jenssegers\Date\Date as Carbon;
 
 class Test extends Model
 {
@@ -632,5 +633,21 @@ class Test extends Model
 	 */
 	public function external(){
 		return ExternalDump::where('lab_no', '=', $this->external_id)->get()->first();
+	}
+	/**
+	 * @param  Count tests for a particular time of day and status
+	 * @return Total count
+	 */
+	public static function perHour($status, $from)
+	{
+		$counter = 0;
+		$cloned = clone $from;
+		$liked = clone $from;
+		$hour = $cloned->hour;
+		if(strlen($hour)==1)
+			$hour = '0'.$hour;
+		$liker = $cloned->toDateString().' '.$hour;
+		$counter = Test::where('test_status_id', $status)->where('time_created', 'like', '%' . $liker . '%')->count();
+		return $counter;
 	}
 }
