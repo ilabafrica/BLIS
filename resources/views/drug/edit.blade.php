@@ -24,14 +24,17 @@
 	  	<div class="card-block">	  		
 			<!-- if there are creation errors, they will show here -->
 			@if($errors->all())
-				<div class="alert alert-danger">
-					{!! HTML::ul($errors->all()) !!}
-				</div>
-			@endif
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">{!! trans('action.close') !!}</span></button>
+                {!! HTML::ul($errors->all(), array('class'=>'list-unstyled')) !!}
+            </div>
+            @endif
 
 			{!! Form::model($drug, array('route' => array('drug.update', $drug->id), 
 				'method' => 'PUT', 'id' => 'form-edit-drug')) !!}
-
+				<!-- CSRF Token -->
+                <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+                <!-- ./ csrf token -->
 				<div class="form-group row">
 					{!! Form::label('name', trans_choice('general-terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">

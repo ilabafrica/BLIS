@@ -145,12 +145,12 @@
 											<li><a href="#"><i class="fa fa-folder-open"></i> {!! trans('menu.user-statistics') !!}</a></li>
 										</ul>
 									</li>
-									<li class="sidenav-dropdown ">
+									<li class="sidenav-dropdown{!! in_array(Request::segment(1), [strtolower(trans_choice('menu.user', 1)), strtolower(trans_choice('menu.permission', 1)), strtolower(trans_choice('menu.role', 1))])?' show-subnav':'' !!}">
 										<a class="subnav-toggle" href="#"><i class="fa fa-users"></i> {!! trans('menu.access-control') !!} <i class="fa fa-angle-down fa-angle-down  pull-right"></i></a>
 										<ul class="nav sidenav-sub-menu">
-											<li><a href="#"><i class="fa fa-tag"></i> {!! trans('menu.user-accounts') !!}</a></li>
-											<li><a href="#"><i class="fa fa-tag"></i> {!! trans_choice('menu.permission', 2) !!}</a></li>
-											<li><a href="#"><i class="fa fa-tag"></i> {!! trans_choice('menu.role', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.user', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('user') !!}"><i class="fa fa-tag"></i> {!! trans('menu.user-accounts') !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.permission', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('permission') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.permission', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.role', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('role') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.role', 2) !!}</a></li>
 											<li><a href="#"><i class="fa fa-tag"></i> {!! trans('menu.assign-roles') !!}</a></li>
 										</ul>
 									</li>

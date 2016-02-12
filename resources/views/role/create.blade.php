@@ -5,15 +5,16 @@
     <div class="col-sm-12">
         <ul class="breadcrumb">
             <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
-            <li><a href="{!! route('organism.index') !!}"><i class="fa fa-cube"></i> {!! trans_choice('menu.organism', 2) !!}</a></li>
-            <li class="active">{!! trans('action.edit').' '.trans_choice('menu.organism', 1) !!}</li>
+            <li class="active"><i class="fa fa-users"></i> {!! trans('menu.access-control') !!}</li>
+            <li><a href="{!! route('role.index') !!}"><i class="fa fa-cube"></i> {!! trans_choice('menu.role', 2) !!}</a></li>
+            <li class="active">{!! trans('action.new').' '.trans_choice('menu.role', 1) !!}</li>
         </ul>
     </div>
 </div>
 <div class="conter-wrapper">
 	<div class="card">
 		<div class="card-header">
-		    <i class="fa fa-pencil"></i> {!! trans('action.edit').' '.trans_choice('menu.organism', 1) !!} 
+		    <i class="fa fa-pencil"></i> {!! trans('action.new').' '.trans_choice('menu.role', 1) !!} 
 		    <span>
 				<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
 					<i class="fa fa-step-backward"></i>
@@ -30,8 +31,7 @@
             </div>
             @endif
 
-			{!! Form::model($organism, array('route' => array('organism.update', $organism->id), 
-				'method' => 'PUT', 'id' => 'form-edit-organism')) !!}
+			{!! Form::open(array('route' => 'role.store', 'id' => 'form-create-role')) !!}
 				<!-- CSRF Token -->
                 <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
                 <!-- ./ csrf token -->
@@ -49,7 +49,7 @@
 					</div>
 				</div>
 				<div class="form-group row col-sm-offset-2">
-					{!! Form::button("<i class='fa fa-check-circle'></i> ".trans('action.update'), 
+					{!! Form::button("<i class='fa fa-plus-circle'></i> ".trans('action.save'), 
 						array('class' => 'btn btn-primary btn-sm', 'onclick' => 'submit()')) !!}
 					<a href="#" class="btn btn-sm btn-silver"><i class="fa fa-times-circle"></i> {!! trans('action.cancel') !!}</a>
 				</div>
@@ -58,4 +58,4 @@
 	  	</div>
 	</div>
 </div>
-@endsection
+@endsection	

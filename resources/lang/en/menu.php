@@ -48,6 +48,7 @@ return [
 	'permission'			=>	'Permission|Permissions',
 	'role'					=>	'Role|Roles',
 	'assign-roles'			=>	'Assign Roles',
+	'user'					=>	'User|Users',
 	/*
 	*	grand menus
 	*/

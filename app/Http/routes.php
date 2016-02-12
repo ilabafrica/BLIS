@@ -143,3 +143,32 @@ Route::any("/test/{test}/verify", array(
     "as"   => "test.verify",
     "uses" => "TestController@verify"
 ));
+/*
+*	Routes for role
+*/
+Route::get("role/assign", array(
+    "as"   => "role.assign",
+    "uses" => "RoleController@assign"
+));
+Route::post("role/assign", array(
+    "as"   => "role.assign",
+    "uses" => "RoleController@saveUserRoleAssignment"
+));
+Route::resource("role", "RoleController");
+Route::get("/role/{id}/delete", array(
+    "as"   => "role.delete",
+    "uses" => "RoleController@delete"
+));
+
+/*
+*	Routes for permission
+*/
+Route::resource("permission", "PermissionController");
+/*
+*	Routes for user
+*/
+Route::resource('user', 'UserController');
+Route::get("/user/{id}/delete", array(
+    "as"   => "user.delete",
+    "uses" => "UserController@delete"
+));

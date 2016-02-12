@@ -15,6 +15,7 @@ return [
 	'back'		=>	'Back',
 	'reset'		=>	'Reset',
 	'cancel'	=>	'Cancel',
+	'close'		=>	'Close',
 	'receive-test'		=>	'Receive Test',
 	'start-test'		=>	'Start Test',
 	'enter-results'		=>	'Enter Results',

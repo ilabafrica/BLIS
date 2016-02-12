@@ -29,4 +29,18 @@ return [
 	*/
 	'visit-no'		=>	'Visit No.',
 	'visit-type'	=>	'Visit Type',
+	/*
+	*	User
+	*/
+	'full-name'		=>	'Full Name',
+	'username'		=>	'Username',
+	'gender'		=>	'Gender',
+	'email-address'	=>	'Email Address',
+	'password'		=>	'Password|Retype Password',
+	'phone'			=>	'Phone',
+	'use-default'	=>	'Use Default Password',
+	'address'		=>	'Address',
+	'sex'			=>	'Male|Female',
+	'no-photo'		=>	'No photo available.',
+	'profile-photo'	=>	'Profile Photo',
 ];

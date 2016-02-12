@@ -5,7 +5,8 @@
     <div class="col-sm-12">
         <ul class="breadcrumb">
             <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
-            <li class="active"><i class="fa fa-cube"></i> {!! trans_choice('menu.drug', 2) !!}</li>
+            <li class="active"><i class="fa fa-users"></i> {!! trans('menu.access-control') !!}</li>
+            <li class="active"><i class="fa fa-cube"></i> {!! trans_choice('menu.role', 2) !!}</li>
         </ul>
     </div>
 </div>
@@ -14,11 +15,11 @@
 		<div class="col-sm-12">
 			<div class="card">
 				<div class="card-header">
-				    <i class="fa fa-book"></i> {!! trans_choice('menu.drug', 2) !!} 
+				    <i class="fa fa-book"></i> {!! trans_choice('menu.role', 2) !!} 
 				    <span>
-					    <a class="btn btn-sm btn-belize-hole" href="{!! url("drug/create") !!}" >
+					    <a class="btn btn-sm btn-belize-hole" href="{!! url("role/create") !!}" >
 							<i class="fa fa-plus-circle"></i>
-							{!! trans('action.new').' '.trans_choice('menu.drug', 1) !!}
+							{!! trans('action.new').' '.trans_choice('menu.role', 1) !!}
 						</a>
 						<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
 							<i class="fa fa-step-backward"></i>
@@ -45,9 +46,9 @@
 							</tr>
 						</thead>
 						<tbody>
-						@foreach($drugs as $key => $value)
-							<tr @if(session()->has('active_drug'))
-				                    {!! (session('active_drug') == $value->id)?"class='warning'":"" !!}
+						@foreach($roles as $key => $value)
+							<tr @if(session()->has('active_role'))
+				                    {!! (session('active_role') == $value->id)?"class='warning'":"" !!}
 				                @endif
 				                >
 								<td>{!! $value->name !!}</td>
@@ -55,22 +56,22 @@
 								
 								<td>
 
-								<!-- show the test category (uses the show method found at GET /drug/{id} -->
-									<a class="btn btn-sm btn-success" href="{!! url("drug/" . $value->id) !!}" >
+								<!-- show the test category (uses the show method found at GET /role/{id} -->
+									<a class="btn btn-sm btn-success" href="{!! url("role/" . $value->id) !!}" >
 										<i class="fa fa-folder-open-o"></i>
 										{!! trans('action.view') !!}
 									</a>
 
-								<!-- edit this test category (uses edit method found at GET /drug/{id}/edit -->
-									<a class="btn btn-sm btn-info" href="{!! url("drug/" . $value->id . "/edit") !!}" >
+								<!-- edit this test category (uses edit method found at GET /role/{id}/edit -->
+									<a class="btn btn-sm btn-info" href="{!! url("role/" . $value->id . "/edit") !!}" >
 										<i class="fa fa-edit"></i>
 										{!! trans('action.edit') !!}
 									</a>
 									
-								<!-- delete this test category (uses delete method found at GET /drug/{id}/delete -->
+								<!-- delete this test category (uses delete method found at GET /role/{id}/delete -->
 									<button class="btn btn-sm btn-danger delete-item-link"
 										data-toggle="modal" data-target=".confirm-delete-modal"	
-										data-id='{!! url("drug/" . $value->id . "/delete") !!}'>
+										data-id='{!! url("role/" . $value->id . "/delete") !!}'>
 										<i class="fa fa-trash-o"></i>
 										{!! trans('action.delete') !!}
 									</button>

@@ -11,4 +11,5 @@ return [
 	'latest-tests'	=>	'Latest Tests',
 	'daily-tests'	=>	'Daily Tests',
 	'barcode'		=>	'Barcode',
+	'no-records'	=>	'No records found.',
 ];
