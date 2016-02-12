@@ -6,7 +6,7 @@
         <ul class="breadcrumb">
             <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
             <li class="active"><i class="fa fa-users"></i> {!! trans('menu.access-control') !!}</li>
-            <li class="active"><i class="fa fa-cube"></i> {!! trans_choice('menu.permission', 2) !!}</li>
+            <li class="active"><i class="fa fa-cube"></i> {!! trans('menu.authorized-users') !!}</li>
         </ul>
     </div>
 </div>
@@ -15,7 +15,7 @@
 		<div class="col-sm-12">
 			<div class="card">
 				<div class="card-header">
-				    <i class="fa fa-book"></i> {!! trans_choice('menu.permission', 2) !!} 
+				    <i class="fa fa-book"></i> {!! trans('menu.authorized-users') !!}
 				    <span>
 					    <a class="btn btn-sm btn-belize-hole" href="{!! url("role/create") !!}">
 							<i class="fa fa-plus-circle"></i>
@@ -37,11 +37,11 @@
 		                {!! HTML::ul($errors->all(), array('class'=>'list-unstyled')) !!}
 		            </div>
 		            @endif
-					{!! Form::open(array('route'=>'permission.store'))!!}
+					{!! Form::open(array('route'=>'authorize')) !!}
 				 	<table class="table table-bordered table-sm">
 						<thead>
 		                    <tr>
-		                        <th>{!! trans_choice('menu.permission', 2) !!}</th>
+		                        <th>{!! trans_choice('menu.user', 2) !!}</th>
 		                        <th colspan="{!! count($roles)!!}">{!! trans_choice('menu.role', 2) !!}</th>
 		                    </tr>
 		                </thead>
@@ -54,20 +54,18 @@
 		                        <td>{!!trans('general-terms.no-records')!!}</td>
 		                    @endforelse
 		                </tr>
-		                @forelse($permissions as $permissionKey => $permission)
+		                @forelse($users as $userKey=>$user)
 		                    <tr>
-		                        <td>{!!$permission->display_name!!}</td>
-		                        @forelse($roles as $roleKey => $role)
+		                        <td>{!! $user->username !!}</td>
+		                        @forelse($roles as $roleKey=>$role)
 		                        <td>
-		                            @if($role == App\Models\Role::getAdminRole())
+		                            @if ($role == App\Models\Role::getAdminRole() && $user == App\Models\User::getAdminUser())
 		                                <i class="fa fa-lock"></i>
-		                                {!! Form::checkbox('permissionRoles['.$permissionKey.']['.$roleKey.']', '1',
-		                                $permission->hasRole($role->name), array('style'=>'display:none') )!!}
+		                                {!! Form::checkbox('userRoles['.$userKey.']['.$roleKey.']', '1', $user->hasRole($role->name),
+		                                array('style'=>'display:none')) !!}
 		                            @else
-		                                {!! Form::checkbox('permissionRoles['.$permissionKey.']['.$roleKey.']', '1',
-		                                $permission->hasRole($role->name))!!}
+		                               {!! Form::checkbox('userRoles['.$userKey.']['.$roleKey.']', '1', $user->hasRole($role->name)) !!}
 		                            @endif
-		                            
 		                        </td>
 		                        @empty
 		                            <td>[-]</td>

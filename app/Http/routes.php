@@ -146,12 +146,12 @@ Route::any("/test/{test}/verify", array(
 /*
 *	Routes for role
 */
-Route::get("role/assign", array(
-    "as"   => "role.assign",
+Route::get("authorize", array(
+    "as"   => "authorize",
     "uses" => "RoleController@assign"
 ));
-Route::post("role/assign", array(
-    "as"   => "role.assign",
+Route::post("authorize", array(
+    "as"   => "authorize",
     "uses" => "RoleController@saveUserRoleAssignment"
 ));
 Route::resource("role", "RoleController");
