@@ -31,17 +31,115 @@ Route::post('password/email', 'Auth\PasswordController@postEmail');
 // Password reset routes...
 Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset');
-
+/*
+*	Routes for test-category
+*/
 Route::resource('testcategory', 'TestCategoryController');
+/*
+*	Routes for drugs
+*/
 Route::resource('drug', 'DrugController');
 
 Route::get("/drug/{id}/delete", array(
     "as"   => "drug.delete",
     "uses" => "DrugController@delete"
 ));
+/*
+*	Routes for organism
+*/
 Route::resource('organism', 'OrganismController');
 
 Route::get("/organism/{id}/delete", array(
     "as"   => "organism.delete",
     "uses" => "OrganismController@delete"
+));
+/*
+*	Routes for tests activities
+*/
+Route::any("/test", array(
+    "as"   => "test.index",
+    "uses" => "TestController@index"
+));
+Route::post("/test/resultinterpretation", array(
+"as"   => "test.resultinterpretation",
+"uses" => "TestController@getResultInterpretation"
+));
+ Route::any("/test/{id}/receive", array(
+    "before" => "checkPerms:receive_external_test",
+    "as"   => "test.receive",
+    "uses" => "TestController@receive"
+));
+Route::any("/test/create/{patient?}", array(
+    "before" => "checkPerms:request_test",
+    "as"   => "test.create",
+    "uses" => "TestController@create"
+));
+ Route::post("/test/savenewtest", array(
+    "before" => "checkPerms:request_test",
+    "as"   => "test.saveNewTest",
+    "uses" => "TestController@saveNewTest"
+));
+ Route::post("/test/acceptspecimen", array(
+    "before" => "checkPerms:accept_test_specimen",
+    "as"   => "test.acceptSpecimen",
+    "uses" => "TestController@accept"
+));
+ Route::get("/test/{id}/refer", array(
+    "before" => "checkPerms:refer_specimens",
+    "as"   => "test.refer",
+    "uses" => "TestController@showRefer"
+));
+Route::post("/test/referaction", array(
+    "before" => "checkPerms:refer_specimens",
+    "as"   => "test.referAction",
+    "uses" => "TestController@referAction"
+));
+Route::get("/test/{id}/reject", array(
+    "before" => "checkPerms:reject_test_specimen",
+    "as"   => "test.reject",
+    "uses" => "TestController@reject"
+));
+Route::post("/test/rejectaction", array(
+    "before" => "checkPerms:reject_test_specimen",
+    "as"   => "test.rejectAction",
+    "uses" => "TestController@rejectAction"
+));
+ Route::post("/test/changespecimen", array(
+    "before" => "checkPerms:change_test_specimen",
+    "as"   => "test.changeSpecimenType",
+    "uses" => "TestController@changeSpecimenType"
+));
+ Route::post("/test/updatespecimentype", array(
+    "before" => "checkPerms:change_test_specimen",
+    "as"   => "test.updateSpecimenType",
+    "uses" => "TestController@updateSpecimenType"
+));
+Route::post("/test/start", array(
+    "before" => "checkPerms:start_test",
+    "as"   => "test.start",
+    "uses" => "TestController@start"
+));
+ Route::get("/test/{test}/enterresults", array(
+    "before" => "checkPerms:enter_test_results",
+    "as"   => "test.enterResults",
+    "uses" => "TestController@enterResults"
+));
+Route::get("/test/{test}/edit", array(
+    "before" => "checkPerms:edit_test_results",
+    "as"   => "test.edit",
+    "uses" => "TestController@edit"
+));
+ Route::post("/test/{test}/saveresults", array(
+    "before" => "checkPerms:edit_test_results",
+    "as"   => "test.saveResults",
+    "uses" => "TestController@saveResults"
+));
+Route::get("/test/{test}/viewdetails", array(
+    "as"   => "test.viewDetails",
+    "uses" => "TestController@viewDetails"
+));
+Route::any("/test/{test}/verify", array(
+    "before" => "checkPerms:verify_test_results",
+    "as"   => "test.verify",
+    "uses" => "TestController@verify"
 ));

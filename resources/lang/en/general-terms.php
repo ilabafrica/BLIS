@@ -6,6 +6,9 @@ return [
 	*/
 	'name'			=>	'Name',
 	'description' 	=>	'Description',
-	'details-for' 		=>	'Details for',
+	'details-for' 	=>	'Details for',
 	'active'		=>	'Active',
+	'latest-tests'	=>	'Latest Tests',
+	'daily-tests'	=>	'Daily Tests',
+	'barcode'		=>	'Barcode',
 ];
