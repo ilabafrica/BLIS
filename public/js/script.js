@@ -765,3 +765,10 @@ function toggle(className, obj){
         $(className).show();
 }
 /*End toggle function*/
+/* Bootstrap 3 datepicker */
+$(function () {
+    $('.datepicker').datepicker({
+        format: 'yyyy-mm-dd'
+    });
+});
+/* End datepicker */

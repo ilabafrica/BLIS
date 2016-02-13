@@ -196,3 +196,27 @@ Route::get("/specimentype/{id}/delete", array(
     "as"   => "specimentype.delete",
     "uses" => "SpecimenTypeController@delete"
 ));
+/*
+*	Routes for patient
+*/
+Route::resource('patient', 'PatientController');
+Route::get("/patient/{id}/delete", array(
+    "as"   => "patient.delete",
+    "uses" => "PatientController@delete"
+));
+Route::post("/patient/search", array(
+    "as"   => "patient.search",
+    "uses" => "PatientController@search"
+));
+Route::any("/patientreport", array(
+    "as"   => "reports.patient.index",
+    "uses" => "ReportController@loadPatients"
+));
+Route::any("/patientreport/{id}", array(
+    "as" => "reports.patient.report", 
+    "uses" => "ReportController@viewPatientReport"
+));
+Route::any("/patientreport/{id}/{visit}", array(
+    "as" => "reports.patient.report", 
+    "uses" => "ReportController@viewPatientReport"
+));

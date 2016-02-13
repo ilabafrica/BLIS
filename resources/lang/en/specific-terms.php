@@ -24,6 +24,8 @@ return [
 	*/
 	'patient-no'	=>	'Patient No.',
 	'patient-name'	=>	'Patient Name',
+	'date-of-birth'	=>	'Date of Birth',
+	'external-no'	=>	'External Number',
 	/*
 	*	Visit
 	*/

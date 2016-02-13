@@ -23,6 +23,7 @@ return [
 	'gender'		=>	'Gender',
 	'range'			=>	'Range|Ranges',
 	'info'			=>	'Info',
+	'search'		=>	'Search',
 	'prevalence-threshold'	=>	'Prevalence Threshold',
 	'culture-worksheet'		=>	'Culture Worksheet',
 	/*
