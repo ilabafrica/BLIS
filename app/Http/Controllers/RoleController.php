@@ -22,7 +22,7 @@ class RoleController extends Controller {
 	public function index()
 	{
 		$roles = Role::paginate(Config::get('kblis.page-items'));
-		return view('role.index')->with('roles', $roles);
+		return view('role.index', compact('roles'));
 	}
 
 
@@ -76,7 +76,7 @@ class RoleController extends Controller {
 		}
 
 		$url = session('SOURCE_URL');
-		return reditect()->to($url)->with('message', trans('messages.success-updating-role'));
+		return reditect()->to($url)->with('message', trans('general-terms.record-successfully-updated'));
 	}
 
 	/**
@@ -92,7 +92,7 @@ class RoleController extends Controller {
 		$role->save();
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', Lang::choice('messages.record-successfully-saved', 1))->with('active_role', $role ->id);
+        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_role', $role ->id);
 	}
 
 	/**
@@ -134,7 +134,7 @@ class RoleController extends Controller {
 		$role->save();
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', Lang::choice('messages.record-successfully-saved', 1))->with('active_role', $role ->id);
+        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-updated'))->with('active_role', $role ->id);
 	}
 
 	/**
@@ -151,7 +151,7 @@ class RoleController extends Controller {
         // redirect
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', Lang::choice('messages.record-successfully-deleted', 1));
+        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-deleted'));
 	}
 
 	/**

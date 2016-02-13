@@ -5,6 +5,7 @@
     <div class="col-sm-12">
         <ul class="breadcrumb">
             <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
+            <li class="active"><i class="fa fa-database"></i> {!! trans('menu.test-catalog') !!}</li>
             <li><a href="{!! route('organism.index') !!}"><i class="fa fa-cube"></i> {!! trans_choice('menu.organism', 2) !!}</a></li>
             <li class="active">{!! trans('action.view').' '.trans_choice('menu.organism', 1) !!}</li>
         </ul>
@@ -39,6 +40,7 @@
 		<ul class="list-group list-group-flush">
 		    <li class="list-group-item"><h4>{!! trans('general-terms.name').': ' !!}<small>{!! $organism->name !!}</small></h4></li>
 		    <li class="list-group-item"><h5>{!! trans('general-terms.description').': ' !!}<small>{!! $organism->description !!}</small></h5></li>
+		    <li class="list-group-item"><h5>{!! trans_choice('menu.drug', 2).': ' !!}<small>{!! implode(", ", $organism->drugs->lists('name')->toArray()) !!}</small></h5></li>
 	  	</ul>
 	</div>
 </div>

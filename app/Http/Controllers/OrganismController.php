@@ -36,7 +36,7 @@ class OrganismController extends Controller {
 	{
 		$drugs = Drug::orderBy('name')->get();
 		//Create organism
-		return view('organism.create')->with('drugs', $drugs);
+		return view('organism.create', compact('drugs'));
 	}
 
 
@@ -56,7 +56,7 @@ class OrganismController extends Controller {
 		}
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', Lang::choice('messages.record-successfully-saved', 1))->with('active_organism', $organism ->id);
+        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_organism', $organism ->id);
 	}
 
 
@@ -71,7 +71,7 @@ class OrganismController extends Controller {
 		//show a organism
 		$organism = Organism::find($id);
 		//show the view and pass the $organism to it
-		return view('organism.show')->with('organism',$organism);
+		return view('organism.show', compact('organism'));
 	}
 
 
@@ -88,9 +88,7 @@ class OrganismController extends Controller {
 		$organism = Organism::find($id);
 
 		//Open the Edit View and pass to it the $organism
-		return view('organism.edit')
-					->with('organism', $organism)
-					->with('drugs', $drugs);
+		return view('organism.edit', compact('organism', 'drugs'));
 	}
 
 
@@ -111,7 +109,7 @@ class OrganismController extends Controller {
 		}
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', Lang::choice('messages.record-successfully-saved', 1))->with('active_organism', $organism ->id);
+        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_organism', $organism ->id);
 	}
 
 
@@ -145,11 +143,11 @@ class OrganismController extends Controller {
 		    $url = Session::get('SOURCE_URL');
             
             return Redirect::to($url)
-		    	->with('message', trans('messages.failure-test-category-in-use'));
+		    	->with('message', trans('general-terms.failure-test-category-in-use'));
 		}*/
 		// redirect
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', Lang::choice('messages.record-successfully-deleted', 1));
+        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-deleted'));
 	}
 }

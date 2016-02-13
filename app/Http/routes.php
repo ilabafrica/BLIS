@@ -172,3 +172,27 @@ Route::get("/user/{id}/delete", array(
     "as"   => "user.delete",
     "uses" => "UserController@delete"
 ));
+/*
+*	Routes for test-type
+*/
+Route::resource('testtype', 'TestTypeController');
+Route::get("/testtype/{id}/delete", array(
+    "as"   => "testtype.delete",
+    "uses" => "TestTypeController@delete"
+));
+/*
+*	Routes for specimen-rejection
+*/
+Route::resource('rejection', 'RejectionController');
+Route::any("/rejection/{id}/delete", array(
+    "as"   => "rejection.delete",
+    "uses" => "RejectionController@delete"
+));
+/*
+*	Routes for specimen-type
+*/
+Route::resource('specimentype', 'SpecimenTypeController');
+Route::get("/specimentype/{id}/delete", array(
+    "as"   => "specimentype.delete",
+    "uses" => "SpecimenTypeController@delete"
+));

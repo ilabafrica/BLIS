@@ -54,7 +54,7 @@ class DrugController extends Controller {
 		$drug->save();
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', Lang::choice('messages.record-successfully-saved', 1))->with('active_drug', $drug ->id);
+        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_drug', $drug ->id);
 	}
 
 
@@ -69,7 +69,7 @@ class DrugController extends Controller {
 		//show a drug
 		$drug = Drug::find($id);
 		//show the view and pass the $drug to it
-		return view('drug.show')->with('drug',$drug);
+		return view('drug.show', compact('drug'));
 	}
 
 
@@ -85,7 +85,7 @@ class DrugController extends Controller {
 		$drug = Drug::find($id);
 
 		//Open the Edit View and pass to it the $drug
-		return view('drug.edit')->with('drug', $drug);
+		return view('drug.edit', compact('drug'));
 	}
 
 
@@ -103,7 +103,7 @@ class DrugController extends Controller {
 		$drug->save();
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', Lang::choice('messages.record-successfully-saved', 1))->with('active_drug', $drug ->id);
+        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_drug', $drug ->id);
 	}
 
 
@@ -137,11 +137,11 @@ class DrugController extends Controller {
 		    $url = Session::get('SOURCE_URL');
             
             return Redirect::to($url)
-		    	->with('message', trans('messages.failure-test-category-in-use'));
+		    	->with('message', trans('general-terms.failure-test-category-in-use'));
 		}*/
 		// redirect
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', Lang::choice('messages.record-successfully-deleted', 1));
+        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-deleted'));
 	}
 }

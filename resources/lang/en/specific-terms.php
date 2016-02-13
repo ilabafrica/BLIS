@@ -34,7 +34,6 @@ return [
 	*/
 	'full-name'		=>	'Full Name',
 	'username'		=>	'Username',
-	'gender'		=>	'Gender',
 	'email-address'	=>	'Email Address',
 	'password'		=>	'Password|Retype Password',
 	'phone'			=>	'Phone',
@@ -43,4 +42,14 @@ return [
 	'sex'			=>	'Male|Female',
 	'no-photo'		=>	'No photo available.',
 	'profile-photo'	=>	'Profile Photo',
+	/*
+	*	Measure
+	*/
+	'both'			=>	'Both',
+	'agemax' 		=>	'Age Max',
+    'agemin' 		=>	'Age Min',
+    'value'			=>	'Value',
+    'measure-range' =>	'Measure Range',
+    'interpretation'=>	'Interpretation',
+    'freetext-measure-config-input-message' => 'A text box will appear for results entry.',
 ];

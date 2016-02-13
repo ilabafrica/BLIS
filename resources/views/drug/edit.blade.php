@@ -5,6 +5,7 @@
     <div class="col-sm-12">
         <ul class="breadcrumb">
             <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
+            <li class="active"><i class="fa fa-database"></i> {!! trans('menu.test-catalog') !!}</li>
             <li><a href="{!! route('drug.index') !!}"><i class="fa fa-cube"></i> {!! trans_choice('menu.drug', 2) !!}</a></li>
             <li class="active">{!! trans('action.edit').' '.trans_choice('menu.drug', 1) !!}</li>
         </ul>
@@ -25,7 +26,7 @@
 			<!-- if there are creation errors, they will show here -->
 			@if($errors->all())
             <div class="alert alert-danger alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">{!! trans('action.close') !!}</span></button>
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">{!! trans('action.close') !!}</span></button>
                 {!! HTML::ul($errors->all(), array('class'=>'list-unstyled')) !!}
             </div>
             @endif

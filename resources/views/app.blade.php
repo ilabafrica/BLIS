@@ -99,15 +99,15 @@
 											</li>
 										</ul>
 									</li>
-									<li class="sidenav-dropdown{!! in_array(Request::segment(1), ['testcategory', 'specimentype', 'testtype', 'drug', 'organism', 'specimenrejection'])?' show-subnav':'' !!}">
+									<li class="sidenav-dropdown{!! in_array(Request::segment(1), ['testcategory', 'specimentype', 'testtype', strtolower(trans_choice('menu.drug', 1)), strtolower(trans_choice('menu.organism', 1)), 'rejection'])?' show-subnav':'' !!}">
 										<a class="subnav-toggle" href="#"><i class="fa fa-database"></i> {!! trans('menu.test-catalog') !!} <i class="fa fa-angle-down fa-angle-down  pull-right"></i></a>
 										<ul class="nav sidenav-sub-menu">
-											<li class="{!! Request::segment(1)=='testcategory'?strtolower(trans('general-terms.active')):'' !!}"><a href="#"><i class="fa fa-tag"></i> {!! trans_choice('menu.lab-section', 2) !!}</a></li>
-											<li><a href="#"><i class="fa fa-tag"></i> {!! trans_choice('menu.specimen-type', 2) !!}</a></li>
-											<li><a href="#"><i class="fa fa-tag"></i> {!! trans_choice('menu.test-type', 2) !!}</a></li>
-											<li class="{!! Request::segment(1)=='drug'?strtolower(trans('general-terms.active')):'' !!}"><a href="#"><i class="fa fa-tag"></i> {!! trans_choice('menu.drug', 2) !!}</a></li>
-											<li class="{!! Request::segment(1)=='organism'?strtolower(trans('general-terms.active')):'' !!}"><a href="#"><i class="fa fa-tag"></i> {!! trans_choice('menu.organism', 2) !!}</a></li>
-											<li><a href="#"><i class="fa fa-tag"></i> {!! trans('menu.specimen-rejection') !!}</a></li>
+											<li class="{!! Request::segment(1)=='testcategory'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('testcategory') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.lab-section', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)=='specimentype'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('specimentype') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.specimen-type', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)=='testtype'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('testtype') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.test-type', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.drug', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('drug') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.drug', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.organism', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('organism') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.organism', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)=='rejection'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('rejection') !!}"><i class="fa fa-tag"></i> {!! trans('menu.specimen-rejection') !!}</a></li>
 										</ul>
 									</li>
 									<li class="sidenav-dropdown ">

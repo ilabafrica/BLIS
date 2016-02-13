@@ -5,6 +5,7 @@
     <div class="col-sm-12">
         <ul class="breadcrumb">
             <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
+            <li class="active"><i class="fa fa-database"></i> {!! trans('menu.test-catalog') !!}</li>
             <li><a href="{!! route('drug.index') !!}"><i class="fa fa-cube"></i> {!! trans_choice('menu.drug', 2) !!}</a></li>
             <li class="active">{!! trans('action.view').' '.trans_choice('menu.drug', 1) !!}</li>
         </ul>

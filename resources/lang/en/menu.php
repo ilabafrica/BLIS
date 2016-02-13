@@ -51,6 +51,7 @@ return [
 	'user'					=>	'User|Users',
 	'authorize'				=>	'Authorize',
 	'authorized-users'		=>	'Authorized Users',
+	'measure'				=>	'Measure|Measures',
 	/*
 	*	grand menus
 	*/

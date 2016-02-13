@@ -5,6 +5,7 @@
     <div class="col-sm-12">
         <ul class="breadcrumb">
             <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
+            <li class="active"><i class="fa fa-database"></i> {!! trans('menu.test-catalog') !!}</li>
             <li class="active"><i class="fa fa-cube"></i> {!! trans_choice('menu.lab-section', 2) !!}</li>
         </ul>
     </div>
@@ -32,7 +33,7 @@
 					@endif
 					@if($errors->all())
 		            <div class="alert alert-danger alert-dismissible" role="alert">
-		                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">{!! trans('action.close') !!}</span></button>
+		                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">{!! trans('action.close') !!}</span></button>
 		                {!! HTML::ul($errors->all(), array('class'=>'list-unstyled')) !!}
 		            </div>
 		            @endif
