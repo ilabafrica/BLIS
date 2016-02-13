@@ -88,7 +88,7 @@
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.order-patient-fields') !!}</a></li>
 												</ul>
 											</li>
-											<li><a href="#"><i class="fa fa-tag"></i> {!! trans('menu.referral-facilities') !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.facility', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('facility') !!}"><i class="fa fa-tag"></i> {!! trans('menu.referral-facilities') !!}</a></li>
 											<li><a href="#"><i class="fa fa-tag"></i> {!! trans('menu.barcode-settings') !!}</a></li>
 											<li><a href="#"><i class="fa fa-tag"></i> {!! trans('menu.registration-fields') !!}</a></li>
 											<li><a href="#"><i class="fa fa-tag"></i> {!! trans('menu.setup-network') !!}</a></li>

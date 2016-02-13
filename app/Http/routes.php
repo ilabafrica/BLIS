@@ -208,6 +208,14 @@ Route::post("/patient/search", array(
     "as"   => "patient.search",
     "uses" => "PatientController@search"
 ));
+/*
+*   Routes for referral facilities
+*/
+Route::resource("facility", "FacilityController");
+Route::get("/facility/{id}/delete", array(
+    "as"   => "facility.delete",
+    "uses" => "FacilityController@delete"
+));
 Route::any("/patientreport", array(
     "as"   => "reports.patient.index",
     "uses" => "ReportController@loadPatients"
