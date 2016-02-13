@@ -1,9 +1,9 @@
 <?php namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\RejectionReason;
+use App\Models\Reason;
 
-class RejectionRequest extends Request {
+class ReasonRequest extends Request {
 
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -33,6 +33,6 @@ class RejectionRequest extends Request {
 	public function ingnoreId(){
 		$id = $this->route('rejection');
 		$reason = $this->input('reason');
-		return RejectionReason::where(compact('id', 'reason'))->exists() ? $id : '';
+		return Reason::where(compact('id', 'reason'))->exists() ? $id : '';
 	}
 }

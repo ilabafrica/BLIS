@@ -186,10 +186,10 @@ $(function(){
 
 	$('#new-test-modal .search-patient').click(function(){
 		var searchText = $('#new-test-modal .search-text').val();
-		var url = location.protocol+ "//"+location.host+ "/patient/search";
+		var url = location.protocol+ "//"+location.host+ "/lis/public/patient/search";
 		var output = "";
 		var cnt = 0;
-		$.post(url, { text: searchText}).done(function(data){
+		$.post(url, { text: searchText, '_token': $('input[name=_token]').val()}).done(function(data){
 			$.each($.parseJSON(data), function (index, obj) {
 				output += "<tr>";
 				output += "<td><input type='radio' value='" + obj.id + "' name='pat_id'></td>";

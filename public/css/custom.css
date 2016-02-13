@@ -239,6 +239,11 @@
     .btn.btn-asbestos:hover {
         opacity: .8;
     }
+    .btn-primary {
+        color: #fff;
+        background-color: #0275d8;
+        border-color: #0275d8;
+    }
     /*** End button colors ***/
 
 /** The Magic **/
@@ -270,3 +275,10 @@
   padding: 0 5px;
   color: #999999;
 }
+/* Labels */
+.label-silver{background-color:#BDC3C7;color: #ffffff;}.label-silver[href]:hover,.label-silver[href]:focus{opacity: .8;}
+.label-asbestos{background-color:#7F8C8D;color: #ffffff;}.label-asbestos[href]:hover,.label-asbestos[href]:focus{opacity: .8;}
+.label-pumpkin{background-color:#D35400;color: #ffffff;}.label-pumpkin[href]:hover,.label-pumpkin[href]:focus{opacity: .8;}
+.label-sub-flower{background-color:#F1C40F;color: #ffffff;}.label-sub-flower[href]:hover,.label-sub-flower[href]:focus{opacity: .8;}
+.label-nephritis{background-color:#27AE60;color: #ffffff;}.label-nephritis[href]:hover,.label-nephritis[href]:focus{opacity: .8;}
+.label-wet-asphalt{background-color:#34495E;color: #ffffff;}.label-wet-asphalt[href]:hover,.label-wet-asphalt[href]:focus{opacity: .8;}

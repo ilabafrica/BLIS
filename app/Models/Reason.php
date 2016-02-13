@@ -3,7 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class RejectionReason extends Model
+class Reason extends Model
 {
 	/**
 	 * The database table used by the model.

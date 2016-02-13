@@ -4,14 +4,21 @@ return [
 	/*
 	*	Tests
 	*/
-	'test-not-paid'		=>	'Not Paid',
-	'test-not-received' =>	'Test Not Received',
-	'test-pending' 		=>	'Test Pending',
-	'test-started'		=>	'Test Started',
-	'test-completed'	=>	'Test Completed',
-	'test-verified'		=>	'Test Verified',
-	'test-status'		=>	'Test Status',
-	'date-ordered'		=>	'Date Ordered',
+	'not-paid'		=>	'Not Paid',
+	'not-received' 	=>	'Test Not Received',
+	'pending' 		=>	'Test Pending',
+	'started'		=>	'Test Started',
+	'completed'		=>	'Test Completed',
+	'verified'		=>	'Test Verified',
+	'test-status'	=>	'Status',
+	'date-ordered'	=>	'Date Ordered',
+	'test-id'		=>	'Test ID',
+	'all'			=>	'All',
+	'date-received'	=>	'Date Received',
+	'origin'		=>	'Origin',
+	'registered-by'	=>	'Registered By',
+	'performed-by'	=>	'Performed By',
+	'verified-by'	=>	'Verified By',
 	/*
 	*	Specimen
 	*/
@@ -26,11 +33,14 @@ return [
 	'patient-name'	=>	'Patient Name',
 	'date-of-birth'	=>	'Date of Birth',
 	'external-no'	=>	'External Number',
+	'select-patient'=>	'Select Patient',
 	/*
 	*	Visit
 	*/
 	'visit-no'		=>	'Visit No.',
 	'visit-type'	=>	'Visit Type',
+	'in-patient'	=>	'In Patient',
+	'out-patient'	=>	'Out Patient',
 	/*
 	*	User
 	*/
@@ -53,5 +63,6 @@ return [
     'value'			=>	'Value',
     'measure-range' =>	'Measure Range',
     'interpretation'=>	'Interpretation',
+    'remarks'		=>	'Remarks',
     'freetext-measure-config-input-message' => 'A text box will appear for results entry.',
 ];

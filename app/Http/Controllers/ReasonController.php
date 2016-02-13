@@ -1,9 +1,9 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Http\Requests\RejectionRequest;
+use App\Http\Requests\ReasonRequest;
 
-use App\Models\RejectionReason;
+use App\Models\Reason;
 
 use Response;
 use Auth;
@@ -23,7 +23,7 @@ class RejectionController extends Controller {
     public function index()
     {
         // List all the active rejection reasons
-        $rejections = RejectionReason::orderBy('reason', 'ASC')->get();
+        $rejections = Reason::orderBy('reason', 'ASC')->get();
 
         // Load the view and pass the reasons
         return view('rejection.index', compact('rejections'));
@@ -44,9 +44,9 @@ class RejectionController extends Controller {
      * Store a newly created resource in storage.
      * @return Response
      */
-    public function store(RejectionRequest $request)
+    public function store(ReasonRequest $request)
     {
-        $rejection = new RejectionReason;
+        $rejection = new Reason;
         $rejection->reason = $request->reason;
         $rejection->save();
         $url = session('SOURCE_URL');
@@ -63,7 +63,7 @@ class RejectionController extends Controller {
     public function show($id)
     {
         //Get the Rejection Reason
-        $rejection = RejectionReason::find($id);
+        $rejection = Reason::find($id);
         //Open the Edit View and pass to it the $rejection
         return view('rejection.show', compact('rejection'));
     }
@@ -77,7 +77,7 @@ class RejectionController extends Controller {
     public function edit($id)
     {
         //Get the Rejection Reason
-        $rejection = RejectionReason::find($id);
+        $rejection = Reason::find($id);
         //Open the Edit View and pass to it the $rejection
         return view('rejection.edit', compact('rejection'));
     }
@@ -88,9 +88,9 @@ class RejectionController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update(RejectionRequest $request, $id)
+    public function update(ReasonRequest $request, $id)
     {
-        $rejection = RejectionReason::find($id);
+        $rejection = Reason::find($id);
         $rejection->reason = $request->reason;
         $rejection->save();
         $url = session('SOURCE_URL');
@@ -107,7 +107,7 @@ class RejectionController extends Controller {
     public function delete($id)
     {
         //Soft delete the rejection
-        $rejection = RejectionReason::find($id);
+        $rejection = Reason::find($id);
         $inUseBySpecimen = $rejection->specimen->toArray();
         try {
             // The rejection is not in use

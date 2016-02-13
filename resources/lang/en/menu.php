@@ -21,6 +21,7 @@ return [
 	'signout' 				=> 'Sign Out',
 	'profile'				=>	'Profile',
 	'compiled-by'			=>	'Compiled By',
+	'facility'				=>	'Facility|Facilities',
 	/*
 	*	Sub menus
 	*/

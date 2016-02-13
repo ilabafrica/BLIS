@@ -183,10 +183,10 @@ Route::get("/testtype/{id}/delete", array(
 /*
 *	Routes for specimen-rejection
 */
-Route::resource('rejection', 'RejectionController');
+Route::resource('rejection', 'ReasonController');
 Route::any("/rejection/{id}/delete", array(
     "as"   => "rejection.delete",
-    "uses" => "RejectionController@delete"
+    "uses" => "ReasonController@delete"
 ));
 /*
 *	Routes for specimen-type
