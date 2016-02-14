@@ -83,4 +83,5 @@ return [
 	'available-qty'	=>	'Available Quantity',
 	'date-of-usage'	=>	'Date of Usage',
 	'signed-out'	=>	'Quantity Signed Out',
+	'lot'			=>	'Lot',
 ];

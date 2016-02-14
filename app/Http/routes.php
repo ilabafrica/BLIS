@@ -249,6 +249,18 @@ Route::post("stock/saveusage", array(
     "as"   => "stock.saveUsage",
     "uses" => "StockController@stockUsage"
 ));
+Route::any("stock/{id}/show", array(
+    "as"   => "stocks.show",
+    "uses" => "StockController@show"
+));
+Route::any("stock/{id}/lot", array(
+    "as"   => "stocks.lot",
+    "uses" => "StockController@lot"
+));
+Route::any("lot/usage", array(
+    "as"   => "lot.update",
+    "uses" => "StockController@lotUsage"
+));
 Route::any("/patientreport", array(
     "as"   => "reports.patient.index",
     "uses" => "ReportController@loadPatients"

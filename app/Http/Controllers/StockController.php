@@ -162,4 +162,36 @@ class StockController extends Controller {
 
         return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_stock', 1);
 	}
+	/**
+	 * lot usage
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function lot($id)
+	{
+		//	Get lot usage
+		$lot = Usage::find($id);
+		//show the view and pass the $stock to it
+		return view('stock.lot', compact('lot'));
+	}
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function lotUsage(UsageRequest $request)
+	{
+		$id = $request->id;
+		$usage = Usage::findOrFail($id);
+        $usage->stock_id = 1;
+        $usage->quantity_used = $request->quantity_used;
+        $usage->date_of_usage = $request->date_of_usage;
+        $usage->remarks = $request->remarks;
+        $usage->user_id = 1;
+        $usage->save();
+        $url = session('SOURCE_URL');
+
+        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_stock', 1);
+	}
 }

@@ -8,8 +8,8 @@ class Usage extends Model {
 	/*
     *   Relationship with stock
     */
-    public function supplier()
+    public function stock()
     {
-        return $this->belongsTo('App\Models\Supplier', 'supplier_id');
+        return $this->belongsTo('App\Models\Stock', 'stock_id');
     }
 }

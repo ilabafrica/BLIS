@@ -81,6 +81,12 @@
 										{!! trans('action.edit') !!}
 									</a>
 
+								<!-- Usage for this lot -->
+									<a class="btn btn-sm btn-midnight-blue" href="{!! url("stock/" . $value->id . "/show") !!}">
+										<i class="fa fa-history"></i>
+										{!! trans('action.usage') !!}
+									</a>
+
 								<!-- show barcode generation button -->
 									<a class="btn btn-sm btn-asbestos" href="{!! url("stock/" . $value->id . "/edit") !!}" >
 										<i class="fa fa-barcode"></i>

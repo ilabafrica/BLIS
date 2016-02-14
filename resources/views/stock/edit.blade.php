@@ -88,7 +88,7 @@
 							</div>
 						</div>
 						<div class="form-group row col-sm-offset-3">
-							{!! Form::button("<i class='fa fa-plus-circle'></i> ".trans('action.save'), 
+							{!! Form::button("<i class='fa fa-check-circle'></i> ".trans('action.update'), 
 								array('class' => 'btn btn-primary btn-sm', 'onclick' => 'submit()')) !!}
 							<a href="#" class="btn btn-sm btn-silver"><i class="fa fa-times-circle"></i> {!! trans('action.cancel') !!}</a>
 						</div>

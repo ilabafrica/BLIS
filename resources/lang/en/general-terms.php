@@ -28,6 +28,7 @@ return [
 	'to'			=>	'To',
 	'in'			=>	'In',
 	'out'			=>	'Out',
+	'id'			=>	'ID',
 	'keyword'		=>	'Keyword',
 	'age'			=>	'Age',
 	'physician'		=>	'Physician',

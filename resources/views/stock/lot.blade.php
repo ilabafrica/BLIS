@@ -14,7 +14,7 @@
 <div class="conter-wrapper">
 	<div class="card">
 		<div class="card-header">
-		    <i class="fa fa-pencil"></i> {!! trans('specific-terms.stock-usage') !!} 
+		    <i class="fa fa-edit"></i> {!! trans('specific-terms.stock-usage') !!} 
 		    <span>
 				<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
 					<i class="fa fa-step-backward"></i>
@@ -32,11 +32,12 @@
             @endif
             <div class="row">
 	            <div class="col-md-8">
-				{!! Form::open(array('route' => array('stock.saveUsage', $stock->id), 'method' => 'POST')) !!}
+				{!! Form::model($lot, array('route' => array('lot.update', $lot->id), 'method' => 'PUT', 'id' => 'form-edit-lot')) !!}
 					<!-- CSRF Token -->
 	                <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 	                <!-- ./ csrf token -->
-	                {!! Form::hidden('stock_id', $stock->id) !!}
+	                {!! Form::hidden('stock_id', $lot->stock_id) !!}
+	                {!! Form::hidden('id', $lot->id) !!}
 					<div class="form-group row">
 						{!! Form::label('signed-out', trans('specific-terms.signed-out'), array('class' => 'col-sm-4 form-control-label')) !!}
 						<div class="col-sm-8">
@@ -57,7 +58,7 @@
 						</div>
 					</div>
 					<div class="form-group row col-sm-offset-4">
-						{!! Form::button("<i class='fa fa-plus-circle'></i> ".trans('action.save'), 
+						{!! Form::button("<i class='fa fa-check-circle'></i> ".trans('action.update'), 
 							array('class' => 'btn btn-primary btn-sm', 'onclick' => 'submit()')) !!}
 						<a href="#" class="btn btn-sm btn-silver"><i class="fa fa-times-circle"></i> {!! trans('action.cancel') !!}</a>
 					</div>
@@ -66,10 +67,10 @@
 				</div>
 				<div class="col-md-4">
 					<ul class="list-group">
-						<li class="list-group-item"><strong>{!! trans_choice('menu.item', 1).': '.$stock->item->name !!}</strong></li>
-						<li class="list-group-item"><h6>{!! trans("specific-terms.unit") !!}<small> {!! $stock->item->unit !!}</small></h6></li>
-						<li class="list-group-item"><h6>{!! trans('specific-terms.lot-no') !!}<small> {!! $stock->lot !!}</small></h6></li>
-						<li class="list-group-item"><h6>{!! trans('specific-terms.available-qty') !!}<small> {!! $stock->quantity() !!}</small></h6></li>						
+						<li class="list-group-item"><strong>{!! trans_choice('menu.item', 1).': '.$lot->stock->item->name !!}</strong></li>
+						<li class="list-group-item"><h6>{!! trans("specific-terms.unit") !!}<small> {!! $lot->stock->item->unit !!}</small></h6></li>
+						<li class="list-group-item"><h6>{!! trans('specific-terms.lot-no') !!}<small> {!! $lot->stock->lot !!}</small></h6></li>
+						<li class="list-group-item"><h6>{!! trans('specific-terms.available-qty') !!}<small> {!! $lot->stock->quantity() !!}</small></h6></li>						
 					</ul>
 				</div>
 			</div>

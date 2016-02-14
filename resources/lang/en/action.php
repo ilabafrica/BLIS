@@ -20,6 +20,7 @@ return [
 	'next'		=>	'Next',
 	'change'	=>	'Change',
 	'barcode'	=>	'Barcode',
+	'usage'		=>	'Usage',
 	'log-usage'	=>	'Log Stock Usage',
 	'add-stock'	=>	'Add Stock',
 	'update-stock'		=>	'Update Stock',
