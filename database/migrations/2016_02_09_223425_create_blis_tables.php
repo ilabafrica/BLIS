@@ -3,6 +3,8 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+use App\Models\Specimen;
+
 class CreateBlisTables extends Migration
 {
     /**
@@ -406,8 +408,83 @@ class CreateBlisTables extends Migration
             $table->foreign('organism_id')->references('id')->on('organisms');
             $table->foreign('drug_id')->references('id')->on('drugs');
         });
-    }
+        /* inventory table */
+        Schema::create('inv_items', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->string('name', 100)->unique();
+            $table->string('unit', 100)->nullable();
+            $table->decimal('min_level', 8, 2);
+            $table->decimal('max_level', 8, 2)->nullable();
+            $table->string('remarks', 250)->nullable();
 
+            $table->integer('user_id')->unsigned();
+
+            $table->softDeletes();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+        });
+        /* supplier table */
+        Schema::create('suppliers', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->string('name', 100);
+            $table->string('phone_no', 100);
+            $table->string('email', 100)->nullable();
+            $table->string('address');
+           
+            $table->integer('user_id')->unsigned();
+
+            $table->softDeletes();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+        });
+        /* inventory-supply table */
+        Schema::create('inv_supply', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->integer('item_id')->unsigned();
+            $table->string('lot', 100);
+            $table->dateTime('expiry_date');
+            $table->string('manufacturer', 100)->nullable();
+            $table->integer('supplier_id')->unsigned();
+            $table->integer('quantity_ordered')->default(0);
+            $table->integer('quantity_supplied')->default(0);
+            $table->decimal('cost_per_unit', 5, 2)->nullable();
+            $table->date('date_of_order')->nullable();
+            $table->date('date_of_supply')->nullable();
+            $table->date('date_of_reception');
+            $table->string('remarks', 250)->nullable();
+
+            $table->integer('user_id')->unsigned();
+
+            $table->softDeletes();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('item_id')->references('id')->on('inv_items');
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
+        });
+        /* inventory-usage table */
+        Schema::create('inv_usage', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->integer('stock_id')->unsigned();
+            $table->integer('quantity_used')->default(0);
+            $table->date('date_of_usage');
+            $table->string('remarks', 250)->nullable();
+
+            $table->integer('user_id')->unsigned();
+
+            $table->softDeletes();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('stock_id')->references('id')->on('inv_supply');
+        });
+    }
     /**
      * Reverse the migrations.
      *

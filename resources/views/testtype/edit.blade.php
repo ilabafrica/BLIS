@@ -14,7 +14,7 @@
 <div class="conter-wrapper">
 	<div class="card">
 		<div class="card-header">
-		    <i class="fa fa-pencil"></i> {!! trans('action.edit').' '.trans_choice('menu.test-type', 1) !!} 
+		    <i class="fa fa-edit"></i> {!! trans('action.edit').' '.trans_choice('menu.test-type', 1) !!} 
 		    <span>
 				<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
 					<i class="fa fa-step-backward"></i>
@@ -45,8 +45,7 @@
 				<div class="form-group row">
 					{!! Form::label('description', trans("general-terms.description"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
 					<div class="col-sm-6">
-						{!! Form::textarea('description', old('description'), 
-						array('class' => 'form-control', 'rows' => '2')) !!}
+						{!! Form::textarea('description', old('description'), array('class' => 'form-control', 'rows' => '2')) !!}
 					</div>
 				</div>
 				<div class="form-group row">

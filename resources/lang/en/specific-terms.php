@@ -65,4 +65,22 @@ return [
     'interpretation'=>	'Interpretation',
     'remarks'		=>	'Remarks',
     'freetext-measure-config-input-message' => 'A text box will appear for results entry.',
+    /*
+	*	Inventory
+	*/
+	'unit'			=>	'Unit',
+	'min-level'		=>	'Min. Level',
+	'max-level'		=>	'Max. Level',
+	'lot-no'		=>	'Lot Number',
+	'quantity'		=>	'Quantity',
+	'expiry'		=>	'Expiry Date',
+	'manufacturer'	=>	'Manufacturer',
+	'ordered'		=>	'Quantity Ordered',
+	'supplied'		=>	'Quantity Supplied',
+	'cost-per-unit'	=>	'Cost Per Unit',
+	'date-supplied'	=>	'Date Supplied',
+	'stock-usage'	=>	'Stock Usage',
+	'available-qty'	=>	'Available Quantity',
+	'date-of-usage'	=>	'Date of Usage',
+	'signed-out'	=>	'Quantity Signed Out',
 ];

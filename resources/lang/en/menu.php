@@ -53,6 +53,8 @@ return [
 	'authorize'				=>	'Authorize',
 	'authorized-users'		=>	'Authorized Users',
 	'measure'				=>	'Measure|Measures',
+	'item'					=>	'Item|Items',
+	'supplier'				=>	'Supplier|Suppliers',
 	/*
 	*	grand menus
 	*/
@@ -66,4 +68,5 @@ return [
 	'turn-around-time'		=>	'Turnaround Time',
 	'infection-report'		=>	'Infection Report',
 	'stock-levels'			=>	'Stock Levels',
+	'stock'					=>	'Stock',
 ];

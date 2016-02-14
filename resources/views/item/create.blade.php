@@ -5,16 +5,16 @@
     <div class="col-sm-12">
         <ul class="breadcrumb">
             <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
-            <li class="active"><i class="fa fa-database"></i> {!! trans('menu.test-catalog') !!}</li>
-            <li><a href="{!! route('rejection.index') !!}"><i class="fa fa-cube"></i> {!! trans('menu.specimen-rejection') !!}</a></li>
-            <li class="active">{!! trans('action.new').' '.trans('general-terms.reject-reason') !!}</li>
+            <li class="active"><i class="fa fa-cubes"></i> {!! trans('menu.inventory') !!}</li>
+            <li><a href="{!! route('item.index') !!}"><i class="fa fa-cube"></i> {!! trans_choice('menu.item', 2) !!}</a></li>
+            <li class="active">{!! trans('action.new').' '.trans_choice('menu.item', 1) !!}</li>
         </ul>
     </div>
 </div>
 <div class="conter-wrapper">
 	<div class="card">
 		<div class="card-header">
-		    <i class="fa fa-pencil"></i> {!! trans('action.new').' '.trans('general-terms.reject-reason') !!} 
+		    <i class="fa fa-pencil"></i> {!! trans('action.new').' '.trans_choice('menu.item', 1) !!} 
 		    <span>
 				<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
 					<i class="fa fa-step-backward"></i>
@@ -31,7 +31,7 @@
             </div>
             @endif
 
-			{!! Form::open(array('route' => 'rejection.store', 'id' => 'form-create-rejection')) !!}
+			{!! Form::open(array('route' => 'item.store', 'id' => 'form-create-item')) !!}
 				<!-- CSRF Token -->
                 <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
                 <!-- ./ csrf token -->
@@ -42,9 +42,27 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('description', trans("general-terms.description"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
+					{!! Form::label('unit', trans_choice('specific-terms.unit',1), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
-						{!! Form::textarea('description', old('description'), array('class' => 'form-control', 'rows' => '2')) !!}
+						{!! Form::text('unit', old('unit'), array('class' => 'form-control')) !!}
+					</div>
+				</div>
+				<div class="form-group row">
+					{!! Form::label('min-level', trans_choice('specific-terms.min-level',1), array('class' => 'col-sm-2 form-control-label')) !!}
+					<div class="col-sm-6">
+						{!! Form::text('min_level', old('min_level'), array('class' => 'form-control')) !!}
+					</div>
+				</div>
+				<div class="form-group row">
+					{!! Form::label('max-level', trans_choice('specific-terms.max-level',1), array('class' => 'col-sm-2 form-control-label')) !!}
+					<div class="col-sm-6">
+						{!! Form::text('max_level', old('max_level'), array('class' => 'form-control')) !!}
+					</div>
+				</div>
+				<div class="form-group row">
+					{!! Form::label('remarks', trans("general-terms.remarks"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
+					<div class="col-sm-6">
+						{!! Form::textarea('remarks', old('remarks'), array('class' => 'form-control', 'rows' => '2')) !!}
 					</div>
 				</div>
 				<div class="form-group row col-sm-offset-2">

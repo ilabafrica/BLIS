@@ -43,6 +43,7 @@ return [
 	'explained-to'	=>	'Explained To',
 	'person'		=>	'Care Of',
 	'contacts'		=>	'Contacts',
+	'remarks'		=>	'Remarks',
 	'prevalence-threshold'	=>	'Prevalence Threshold',
 	'culture-worksheet'		=>	'Culture Worksheet',
 	'specimen-referral'		=>	'Specimen Referral',

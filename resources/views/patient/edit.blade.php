@@ -13,7 +13,7 @@
 <div class="conter-wrapper">
 	<div class="card">
 		<div class="card-header">
-		    <i class="fa fa-pencil"></i> {!! trans('action.edit').' '.trans_choice('menu.patient', 1) !!} 
+		    <i class="fa fa-edit"></i> {!! trans('action.edit').' '.trans_choice('menu.patient', 1) !!} 
 		    <span>
 				<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
 					<i class="fa fa-step-backward"></i>

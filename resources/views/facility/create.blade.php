@@ -44,8 +44,7 @@
 				<div class="form-group row">
 					{!! Form::label('contacts', trans("general-terms.contacts"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
 					<div class="col-sm-6">
-						{!! Form::textarea('contacts', old('contacts'), 
-						array('class' => 'form-control', 'rows' => '2')) !!}
+						{!! Form::textarea('contacts', old('contacts'), array('class' => 'form-control', 'rows' => '2')) !!}
 					</div>
 				</div>
 				<div class="form-group row col-sm-offset-2">

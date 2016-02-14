@@ -156,7 +156,13 @@
 											<li class="{!! Request::segment(1)==strtolower(trans('menu.authorize'))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('authorize') !!}"><i class="fa fa-tag"></i> {!! trans('menu.assign-roles') !!}</a></li>
 										</ul>
 									</li>
-									<li><a href="#"><i class="fa fa-cubes"></i> {!! trans('menu.inventory') !!}</a></li>
+									<li class="sidenav-dropdown{!! in_array(Request::segment(1), [strtolower(trans_choice('menu.item', 1)), strtolower(trans_choice('menu.supplier', 1)), strtolower(trans('menu.stock'))])?' show-subnav':'' !!}">
+										<a class="subnav-toggle" href="#"><i class="fa fa-cubes"></i> {!! trans('menu.inventory') !!} <i class="fa fa-angle-down fa-angle-down  pull-right"></i></a>
+										<ul class="nav sidenav-sub-menu">
+											<li class="{!! (Request::segment(1)==strtolower(trans_choice('menu.item', 1)) || Request::segment(1)==strtolower(trans('menu.stock')))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('item') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.item', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.supplier', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('supplier') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.supplier', 2) !!}</a></li>
+										</ul>
+									</li>
 									<li class="{!! Request::segment(1)==strtolower(trans('menu.quality-control'))?strtolower(trans('general-terms.active')):'' !!}"><a href="#"><i class="fa fa-bookmark-o"></i> {!! trans('menu.quality-control') !!}</a></li>
 									<li><a href="#"><i class="fa fa-hdd-o"></i> {!! trans('menu.data-backup') !!}</a></li>
 								</ul>

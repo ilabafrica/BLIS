@@ -61,8 +61,8 @@ Route::any("/test", array(
     "uses" => "TestController@index"
 ));
 Route::post("/test/resultinterpretation", array(
-"as"   => "test.resultinterpretation",
-"uses" => "TestController@getResultInterpretation"
+    "as"   => "test.resultinterpretation",
+    "uses" => "TestController@getResultInterpretation"
 ));
  Route::any("/test/{id}/receive", array(
     "before" => "checkPerms:receive_external_test",
@@ -74,17 +74,17 @@ Route::any("/test/create/{patient?}", array(
     "as"   => "test.create",
     "uses" => "TestController@create"
 ));
- Route::post("/test/savenewtest", array(
+Route::post("/test/savenewtest", array(
     "before" => "checkPerms:request_test",
     "as"   => "test.saveNewTest",
     "uses" => "TestController@saveNewTest"
 ));
- Route::post("/test/acceptspecimen", array(
+Route::post("/test/acceptspecimen", array(
     "before" => "checkPerms:accept_test_specimen",
     "as"   => "test.acceptSpecimen",
     "uses" => "TestController@accept"
 ));
- Route::get("/test/{id}/refer", array(
+Route::get("/test/{id}/refer", array(
     "before" => "checkPerms:refer_specimens",
     "as"   => "test.refer",
     "uses" => "TestController@showRefer"
@@ -215,6 +215,39 @@ Route::resource("facility", "FacilityController");
 Route::get("/facility/{id}/delete", array(
     "as"   => "facility.delete",
     "uses" => "FacilityController@delete"
+));
+/*
+*   Routes for suppliers
+*/
+Route::resource('supplier', 'SupplierController');
+        
+Route::get("/supplier/{id}/delete", array(
+    "as"   => "supplier.delete",
+    "uses" => "SupplierController@delete"
+));
+/*
+*   Routes for items
+*/
+Route::resource('item', 'ItemController');
+/*
+*   Routes for stocks
+*/
+Route::resource('stock', 'StockController');
+Route::any("stock/{id}/log", array(
+    "as"   => "stocks.log",
+    "uses" => "StockController@index"
+));
+Route::any("stock/{id}/create", array(
+    "as"   => "stocks.create",
+    "uses" => "StockController@create"
+));
+Route::any("stock/{id}/usage", array(
+    "as"   => "stocks.usage",
+    "uses" => "StockController@usage"
+));
+Route::post("stock/saveusage", array(
+    "as"   => "stock.saveUsage",
+    "uses" => "StockController@stockUsage"
 ));
 Route::any("/patientreport", array(
     "as"   => "reports.patient.index",
