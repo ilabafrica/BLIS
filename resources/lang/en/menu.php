@@ -69,4 +69,5 @@ return [
 	'infection-report'		=>	'Infection Report',
 	'stock-levels'			=>	'Stock Levels',
 	'stock'					=>	'Stock',
+	'specimen'				=>	'Specimen',
 ];

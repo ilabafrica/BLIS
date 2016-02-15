@@ -14,26 +14,42 @@ return [
 	'date-ordered'	=>	'Date Ordered',
 	'test-id'		=>	'Test ID',
 	'all'			=>	'All',
+	'collect-date'	=>	'Collection Date',
+	'report-date'	=>	'Report Date',
 	'date-received'	=>	'Date Received',
+	'date-verified'	=>	'Date Verified',
 	'origin'		=>	'Origin',
 	'registered-by'	=>	'Registered By',
 	'performed-by'	=>	'Performed By',
 	'verified-by'	=>	'Verified By',
+	'accepted-by'	=>	'Accepted By',
+	'result'		=>	'Result',
+	'reference'		=>	'Reference',
+	'requested'		=>	'Requested',
+	'verification-pending'	=>	'Pending',
+	'include-pending'		=>	'Include Pending',
 	/*
 	*	Specimen
 	*/
 	'specimen-id'				=>	'Specimen ID',
+	'spec-id'					=>	'Spec. #',
 	'specimen-not-collected'	=>	'Specimen Not Collected',
 	'specimen-accepted'			=>	'Specimen Accepted',
 	'specimen-rejected'			=>	'Specimen Rejected',
+	'reject-date'				=>	'Rejection Date',
+	'rejected-by'				=>	'Rejected By',
 	/*
 	*	Patient
 	*/
 	'patient-no'	=>	'Patient No.',
+	'patient-id'	=>	'Patient ID',
 	'patient-name'	=>	'Patient Name',
 	'date-of-birth'	=>	'Date of Birth',
 	'external-no'	=>	'External Number',
+	'lab-ref'		=>	'Lab Ref.',
+	'lab-no'		=>	'Lab No.',
 	'select-patient'=>	'Select Patient',
+	'dob'			=>	'DOB',
 	/*
 	*	Visit
 	*/
