@@ -2,7 +2,7 @@
 <html lang="en" class="no-js">
     <head>
         <meta charset="utf-8"/>
-        <title>Dashy Laravel 5 Theme | Login </title>
+        <title>{!! Config::get('blis.organization') !!}</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta content="" name="description"/>

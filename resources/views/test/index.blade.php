@@ -166,6 +166,11 @@
 		                                <i class="fa fa-folder-open"></i>
 		                                {!! trans('action.view') !!}
 		                            </a>
+		                            <!-- /. barcode-button -->
+		                            <a class="btn btn-sm btn-asbestos barcode-button" href="{!! url("specimen/" . $test->getSpecimenId() . "/barcode") !!}">
+                                        <i class="fa fa-barcode"></i>
+                                        {!! trans('general-terms.barcode') !!}
+                                    </a>
 		                            
 		                        @if ($test->isNotReceived()) 
 		                            @if(Auth::user()->can('receive_external_test') && $test->isPaid())
@@ -250,13 +255,6 @@
 		                                        {!! trans('action.verify') !!}
 		                                    </a>
 		                                @endif
-
-		                                <div class="">
-		                                    <a class="btn btn-sm btn-asbestos barcode-button" href="{!! url("specimen/" . $test->getSpecimenId() . "/barcode") !!}">
-		                                        <i class="fa fa-barcode"></i>
-		                                        {!! trans('general-terms.barcode') !!}
-		                                    </a>
-		                                </div> <!-- /. barcode-button -->
 		                            @endif
 		                        @endif
 		                        </td>
@@ -268,6 +266,10 @@
 			</div>
 		</div>
 	</div>
+	<div id="count" style='display:none;'>0</div>
+	<div id ="barcodeList" style="display:none;"></div>
+	<!-- jQuery barcode script -->
+	<script type="text/javascript" src="{{ asset('js/barcode.js') }} "></script>
 	{!! session(['SOURCE_URL' => URL::full()]) !!}
 </div>
 

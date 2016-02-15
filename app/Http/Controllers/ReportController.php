@@ -139,6 +139,207 @@ class ReportController extends Controller
         }
     }
 
+    //  Begin Daily Log-Patient report functions
+    /**
+     * Display a view of the daily patient records.
+     *
+     */
+    public function dailyLog()
+    {
+        $from = Input::get('start');
+        $to = Input::get('end');
+        $pendingOrAll = Input::get('pending_or_all');
+        $error = '';
+        $accredited = array();
+        //  Check radiobutton for pending/all tests is checked and assign the 'true' value
+        if (Input::get('tests') === '1') {
+            $pending='true';
+        }
+        $date = date('Y-m-d');
+        if(!$to){
+            $to=$date;
+        }
+        $toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+        $records = Input::get('records');
+        $testCategory = Input::get('section_id');
+        $testType = Input::get('test_type');
+        $labSections = TestCategory::lists('name', 'id');
+        if($testCategory)
+            $testTypes = TestCategory::find($testCategory)->testTypes->lists('name', 'id');
+        else
+            $testTypes = array(""=>"");
+        
+        if($records=='patients'){
+            if($from||$to){
+                if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+                        $error = trans('messages.check-date-range');
+                }
+                else{
+                    $visits = Visit::whereBetween('created_at', array($from, $toPlusOne))->get();
+                }
+                if (count($visits) == 0) {
+                    Session::flash('message', trans('messages.no-match'));
+                }
+            }
+            else{
+
+                $visits = Visit::where('created_at', 'LIKE', $date.'%')->orderBy('patient_id')->get();
+            }
+            if(Input::has('word')){
+                $date = date("Ymdhi");
+                $fileName = "daily_visits_log_".$date.".doc";
+                $headers = array(
+                    "Content-type"=>"text/html",
+                    "Content-Disposition"=>"attachment;Filename=".$fileName
+                );
+                $content = view('reports.daily.exportPatientLog')
+                                ->with('visits', $visits)
+                                ->with('accredited', $accredited)
+                                ->withInput(Input::all());
+                return Response::make($content,200, $headers);
+            }
+            else{
+                return view('reports.daily.patient')
+                                ->with('visits', $visits)
+                                ->with('error', $error)
+                                ->with('accredited', $accredited)
+                                ->withInput(Input::all());
+            }
+        }
+        //Begin specimen rejections
+        else if($records=='rejections')
+        {
+            $specimens = Specimen::where('specimen_status_id', '=', Specimen::REJECTED);
+            /*Filter by test category*/
+            if($testCategory&&!$testType){
+                $specimens = $specimens->join('tests', 'specimens.id', '=', 'tests.specimen_id')
+                                       ->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
+                                       ->where('test_types.test_category_id', '=', $testCategory);
+            }
+            /*Filter by test type*/
+            if($testCategory&&$testType){
+                $specimens = $specimens->join('tests', 'specimens.id', '=', 'tests.specimen_id')
+                                       ->where('tests.test_type_id', '=', $testType);
+            }
+
+            /*Filter by date*/
+            if($from||$to){
+                if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+                        $error = trans('messages.check-date-range');
+                }
+                else
+                {
+                    $specimens = $specimens->whereBetween('time_rejected', 
+                        array($from, $toPlusOne))->get(array('specimens.*'));
+                }
+            }
+            else
+            {
+                $specimens = $specimens->where('time_rejected', 'LIKE', $date.'%')->orderBy('id')
+                                        ->get(array('specimens.*'));
+            }
+            if(Input::has('word')){
+                $date = date("Ymdhi");
+                $fileName = "daily_rejected_specimen_".$date.".doc";
+                $headers = array(
+                    "Content-type"=>"text/html",
+                    "Content-Disposition"=>"attachment;Filename=".$fileName
+                );
+                $content = view('reports.daily.exportSpecimenLog')
+                                ->with('specimens', $specimens)
+                                ->with('testCategory', $testCategory)
+                                ->with('testType', $testType)
+                                ->with('accredited', $accredited)
+                                ->withInput(Input::all());
+                return Response::make($content,200, $headers);
+            }
+            else
+            {
+                return view('reports.daily.specimen')
+                            ->with('labSections', $labSections)
+                            ->with('testTypes', $testTypes)
+                            ->with('specimens', $specimens)
+                            ->with('testCategory', $testCategory)
+                            ->with('testType', $testType)
+                            ->with('error', $error)
+                            ->with('accredited', $accredited)
+                            ->withInput(Input::all());
+            }
+        }
+        //Begin test records
+        else
+        {
+            $tests = Test::whereNotIn('test_status_id', [Test::NOT_RECEIVED]);
+            
+            /*Filter by test category*/
+            if($testCategory&&!$testType){
+                $tests = $tests->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
+                               ->where('test_types.test_category_id', '=', $testCategory);
+            }
+            /*Filter by test type*/
+            if($testType){
+                $tests = $tests->where('test_type_id', '=', $testType);
+            }
+            /*Filter by all tests*/
+            if($pendingOrAll=='pending'){
+                $tests = $tests->whereIn('test_status_id', [Test::PENDING, Test::STARTED]);
+            }
+            else if($pendingOrAll=='all'){
+                $tests = $tests->whereIn('test_status_id', 
+                    [Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED]);
+            }
+            //For Complete tests and the default.
+            else{
+                $tests = $tests->whereIn('test_status_id', [Test::COMPLETED, Test::VERIFIED]);
+            }
+            /*Get collection of tests*/
+            /*Filter by date*/
+            if($from||$to){
+                if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+                        $error = trans('messages.check-date-range');
+                }
+                else
+                {
+                    $tests = $tests->whereBetween('time_created', array($from, $toPlusOne))->get(array('tests.*'));
+                }
+            }
+            else
+            {
+                $tests = $tests->where('time_created', 'LIKE', $date.'%')->get(array('tests.*'));
+            }
+                
+            if(Input::has('word')){
+                $date = date("Ymdhi");
+                $fileName = "daily_test_records_".$date.".doc";
+                $headers = array(
+                    "Content-type"=>"text/html",
+                    "Content-Disposition"=>"attachment;Filename=".$fileName
+                );
+                $content = view('reports.daily.exportTestLog')
+                                ->with('tests', $tests)
+                                ->with('testCategory', $testCategory)
+                                ->with('testType', $testType)
+                                ->with('pendingOrAll', $pendingOrAll)
+                                ->with('accredited', $accredited)
+                                ->withInput(Input::all());
+                return Response::make($content,200, $headers);
+            }
+            else
+            {
+                return view('reports.daily.test', compact('labSections'))
+                            ->with('testTypes', $testTypes)
+                            ->with('tests', $tests)
+                            ->with('counts', $tests->count())
+                            ->with('testCategory', $testCategory)
+                            ->with('testType', $testType)
+                            ->with('pendingOrAll', $pendingOrAll)
+                            ->with('accredited', $accredited)
+                            ->with('error', $error)
+                            ->withInput(Input::all());
+            }
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *

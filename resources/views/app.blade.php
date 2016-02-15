@@ -191,5 +191,7 @@
 	<script src="{{ URL::asset('js/bootstrap-datepicker.js') }}"></script>
 	<!-- Custom script -->
 	<script type="text/javascript" src="{{ asset('js/script.js') }} "></script>
+	<!-- jQuery barcode script -->
+	<script type="text/javascript" src="{{ asset('js/jquery-barcode-2.0.2.js') }} "></script>
 </body>
 </html>
