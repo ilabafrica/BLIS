@@ -35,4 +35,5 @@ return [
 	'reject'					=>	'Reject',
 	'change-specimen'			=>	'Change Specimen',
 	'refer-sample'				=>	'Refer Sample',
+	'show-hide'					=>	'Show/Hide Summary',
 ];

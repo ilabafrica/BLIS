@@ -168,7 +168,7 @@
 			            				{!! $result->result !!}           				
 			            			</div>
 			            			<div class="col-sm-4">
-			            				{!! App\Models\Measure::getRange($test->visit->patient, $result->measure_id).' '.App\Models\Measure::find($result->measure_id)->unit !!}           				
+			            				{!! App\Models\Measure::getRange($test->visit->patient, $result->measure_id).' '.App\Models\Measure::find($result->measure_id)->unit !!}
 			            			</div>
 			            		</div>
 		            		@endforeach

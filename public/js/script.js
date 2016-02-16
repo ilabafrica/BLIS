@@ -772,3 +772,42 @@ $(function () {
     });
 });
 /* End datepicker */
+/*Dynamic loading of select list options for counties-sub-counties*/
+function testTypes()
+{
+    cId = $('#test_category_id').val();
+    var URL_ROOT = 'http://127.0.0.1/lis/public/';
+    _token: JSON.stringify($('input[name=_token]').val());
+    $.ajax({
+        dataType: 'json',
+        type: 'POST',
+        url:  URL_ROOT+'select/list',
+        data: {test_category_id: cId, '_token': $('input[name=_token]').val()},
+        success: function(data){
+            var select_list = $('#test_type_id');
+            select_list.empty();
+            select_list.append("<option value=''>Select Test Type</option>");
+            $.each(data, function(index, element) {
+                select_list.append("<option value='"+ element.id +"'>" + element.name + "</option>");
+            });
+        }
+    });
+}
+$('#patients').on('click', function()
+{
+	alert();
+	$('#dismissable').toggleClass("hide");
+});
+/*Sexy radio buttons*/
+$('#radioBtn a').on('click', function(){
+    var sel = $(this).data('title');
+    var tog = $(this).data('toggle');
+    $('#'+tog).prop('value', sel);
+    
+    $('a[data-toggle="'+tog+'"]').not('[data-title="'+sel+'"]').removeClass('active').addClass('notActive');
+    $('a[data-toggle="'+tog+'"][data-title="'+sel+'"]').removeClass('notActive').addClass('active');
+    if(sel == 'Patient Records' || sel == 'Specimen Rejection Records')
+    	$('#hideable').hide();
+    else
+    	$('#hideable').show();
+});

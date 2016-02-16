@@ -45,6 +45,7 @@ return [
 	'person'		=>	'Care Of',
 	'contacts'		=>	'Contacts',
 	'remarks'		=>	'Remarks',
+	'records'		=>	'Records',
 	'prevalence-threshold'	=>	'Prevalence Threshold',
 	'culture-worksheet'		=>	'Culture Worksheet',
 	'specimen-referral'		=>	'Specimen Referral',

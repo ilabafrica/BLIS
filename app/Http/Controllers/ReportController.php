@@ -144,100 +144,109 @@ class ReportController extends Controller
      * Display a view of the daily patient records.
      *
      */
-    public function dailyLog()
+    public function log()
     {
-        $from = Input::get('start');
-        $to = Input::get('end');
-        $pendingOrAll = Input::get('pending_or_all');
+        $start = Carbon::parse(Input::get('from'));
+        $end = Carbon::parse(Input::get('to'));
+        $date = Carbon::today();
+        $today = clone $date;
+        $completePending = Input::get('completePending');
         $error = '';
+        $from = Carbon::parse($start->toDateString());
+        $to = Carbon::parse($end->toDateString());
         $accredited = array();
         //  Check radiobutton for pending/all tests is checked and assign the 'true' value
         if (Input::get('tests') === '1') {
             $pending='true';
         }
-        $date = date('Y-m-d');
         if(!$to){
             $to=$date;
         }
-        $toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+        $added = clone $to;
+        $toPlusOne = $added->addDay();
         $records = Input::get('records');
-        $testCategory = Input::get('section_id');
-        $testType = Input::get('test_type');
+        if(!$records)
+            $records = trans('menu.test-records');
+        $testCategory = Input::get('test_category_id');
+        $testType = Input::get('test_type_id');
         $labSections = TestCategory::lists('name', 'id');
         if($testCategory)
             $testTypes = TestCategory::find($testCategory)->testTypes->lists('name', 'id');
         else
             $testTypes = array(""=>"");
-        
-        if($records=='patients'){
-            if($from||$to){
-                if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-                        $error = trans('messages.check-date-range');
+        if($records==trans('menu.patient-records'))
+        {
+            if($from||$to)
+            {
+                if($from->gt($to) || $from->gt($date) || $to->gt($date))
+                {
+                    $error = trans('general-terms.check-date-range');
                 }
                 else{
-                    $visits = Visit::whereBetween('created_at', array($from, $toPlusOne))->get();
+                    $visits = Visit::whereBetween('created_at', [$from->toDateString(), $toPlusOne->toDateString()]);
                 }
                 if (count($visits) == 0) {
                     Session::flash('message', trans('messages.no-match'));
                 }
             }
-            else{
+            else
+            {
 
-                $visits = Visit::where('created_at', 'LIKE', $date.'%')->orderBy('patient_id')->get();
+                $visits = Visit::where('created_at', 'LIKE', $date.'%')->orderBy('patient_id');
             }
-            if(Input::has('word')){
+            $visits = $visits->get();
+            if(Input::has('word'))
+            {
                 $date = date("Ymdhi");
                 $fileName = "daily_visits_log_".$date.".doc";
                 $headers = array(
                     "Content-type"=>"text/html",
                     "Content-Disposition"=>"attachment;Filename=".$fileName
                 );
-                $content = view('reports.daily.exportPatientLog')
-                                ->with('visits', $visits)
-                                ->with('accredited', $accredited)
-                                ->withInput(Input::all());
+                $content = view('reports.daily.exportPatientLog', compact('visits', 'accredited'))->withInput(Input::all());
                 return Response::make($content,200, $headers);
             }
-            else{
-                return view('reports.daily.patient')
-                                ->with('visits', $visits)
-                                ->with('error', $error)
-                                ->with('accredited', $accredited)
-                                ->withInput(Input::all());
+            else
+            {
+                $to = $to->toDateString();
+                $from = $from->toDateString();
+                return view('report.daily.log.patient', compact('visits', 'error', 'accredited', 'from', 'to', 'records', 'completePending', 'labSections'))->withInput(Input::all());
             }
         }
         //Begin specimen rejections
-        else if($records=='rejections')
+        else if($records==trans('menu.specimen-rej-rec'))
         {
             $specimens = Specimen::where('specimen_status_id', '=', Specimen::REJECTED);
             /*Filter by test category*/
-            if($testCategory&&!$testType){
-                $specimens = $specimens->join('tests', 'specimens.id', '=', 'tests.specimen_id')
-                                       ->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
-                                       ->where('test_types.test_category_id', '=', $testCategory);
-            }
-            /*Filter by test type*/
-            if($testCategory&&$testType){
-                $specimens = $specimens->join('tests', 'specimens.id', '=', 'tests.specimen_id')
-                                       ->where('tests.test_type_id', '=', $testType);
-            }
-
-            /*Filter by date*/
-            if($from||$to){
-                if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-                        $error = trans('messages.check-date-range');
+            if($testCategory || $testType)
+            {
+                $ids = TestCategory::find($testCategory)->testTypes->lists('id');
+                if($testType)
+                {
+                    $specimens = $specimens->whereIn('specimen_type_id', DB::table('testtype_specimentypes')->where('test_type_id', $testType)->lists('specimen_type_id'));
                 }
                 else
                 {
-                    $specimens = $specimens->whereBetween('time_rejected', 
-                        array($from, $toPlusOne))->get(array('specimens.*'));
+                    $specimens = $specimens->whereIn('specimen_type_id', DB::table('testtype_specimentypes')->whereIn('test_type_id', $ids)->lists('specimen_type_id'));
+                }
+            }
+            /*Filter by date*/
+            if($from||$to)
+            {
+                if($from->gt($to) || $from->gt($date) || $to->gt($date))
+                {
+                    $error = trans('general-terms.check-date-range');
+                }
+                else
+                {
+                    $specimens = $specimens->whereBetween('time_rejected', [$from->toDateString(), $toPlusOne->toDateString()]);
                 }
             }
             else
             {
-                $specimens = $specimens->where('time_rejected', 'LIKE', $date.'%')->orderBy('id')
-                                        ->get(array('specimens.*'));
+                $specimens = $specimens->where('time_rejected', 'LIKE', $date.'%')->orderBy('id');
             }
+            $specimens = $specimens->get();
             if(Input::has('word')){
                 $date = date("Ymdhi");
                 $fileName = "daily_rejected_specimen_".$date.".doc";
@@ -245,25 +254,14 @@ class ReportController extends Controller
                     "Content-type"=>"text/html",
                     "Content-Disposition"=>"attachment;Filename=".$fileName
                 );
-                $content = view('reports.daily.exportSpecimenLog')
-                                ->with('specimens', $specimens)
-                                ->with('testCategory', $testCategory)
-                                ->with('testType', $testType)
-                                ->with('accredited', $accredited)
-                                ->withInput(Input::all());
+                $content = view('reports.daily.exportSpecimenLog', compact('specimens', 'testCategory', 'testType', 'accredited', 'from', 'to', 'completePending', 'labSections'))->withInput(Input::all());
                 return Response::make($content,200, $headers);
             }
             else
             {
-                return view('reports.daily.specimen')
-                            ->with('labSections', $labSections)
-                            ->with('testTypes', $testTypes)
-                            ->with('specimens', $specimens)
-                            ->with('testCategory', $testCategory)
-                            ->with('testType', $testType)
-                            ->with('error', $error)
-                            ->with('accredited', $accredited)
-                            ->withInput(Input::all());
+                $to = $to->toDateString();
+                $from = $from->toDateString();
+                return view('report.daily.log.specimen', compact('labSections', 'testType', 'specimens', 'testCategory', 'error', 'accredited', 'from', 'to', 'records', 'completePending'))->withInput(Input::all());
             }
         }
         //Begin test records
@@ -272,42 +270,42 @@ class ReportController extends Controller
             $tests = Test::whereNotIn('test_status_id', [Test::NOT_RECEIVED]);
             
             /*Filter by test category*/
-            if($testCategory&&!$testType){
-                $tests = $tests->join('test_types', 'tests.test_type_id', '=', 'test_types.id')
-                               ->where('test_types.test_category_id', '=', $testCategory);
-            }
-            /*Filter by test type*/
-            if($testType){
-                $tests = $tests->where('test_type_id', '=', $testType);
+            if($testCategory || $testType)
+            {
+                $ids = TestCategory::find($testCategory)->testTypes->lists('id');
+                if($testType)
+                {
+                    $tests = $tests->whereIn('test_type_id', $ids);
+                }
+                else
+                {
+                    $tests = $tests->where('test_type_id', '=', $testType);
+                }
             }
             /*Filter by all tests*/
-            if($pendingOrAll=='pending'){
-                $tests = $tests->whereIn('test_status_id', [Test::PENDING, Test::STARTED]);
-            }
-            else if($pendingOrAll=='all'){
-                $tests = $tests->whereIn('test_status_id', 
-                    [Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED]);
-            }
-            //For Complete tests and the default.
-            else{
+            if($completePending==trans('menu.complete'))
+            {
                 $tests = $tests->whereIn('test_status_id', [Test::COMPLETED, Test::VERIFIED]);
             }
             /*Get collection of tests*/
             /*Filter by date*/
-            if($from||$to){
-                if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-                        $error = trans('messages.check-date-range');
+            if($from || $to)
+            {
+                if($from->gt($to) || $from->gt($date) || $to->gt($date))
+                {
+                    $error = trans('general-terms.check-date-range');
                 }
                 else
                 {
-                    $tests = $tests->whereBetween('time_created', array($from, $toPlusOne))->get(array('tests.*'));
+                    $tests = $tests->whereBetween('time_created', [$from->toDateString(), $toPlusOne->toDateString()]);
                 }
             }
             else
             {
-                $tests = $tests->where('time_created', 'LIKE', $date.'%')->get(array('tests.*'));
+                $tests = $tests->where('time_created', 'LIKE', $date->toDateString().'%');
             }
-                
+
+            $tests = $tests->get();
             if(Input::has('word')){
                 $date = date("Ymdhi");
                 $fileName = "daily_test_records_".$date.".doc";
@@ -315,29 +313,26 @@ class ReportController extends Controller
                     "Content-type"=>"text/html",
                     "Content-Disposition"=>"attachment;Filename=".$fileName
                 );
-                $content = view('reports.daily.exportTestLog')
-                                ->with('tests', $tests)
-                                ->with('testCategory', $testCategory)
-                                ->with('testType', $testType)
-                                ->with('pendingOrAll', $pendingOrAll)
-                                ->with('accredited', $accredited)
-                                ->withInput(Input::all());
+                $content = view('reports.daily.exportTestLog', compact('tests', 'testCategory', 'testType', 'completePending', 'accredited'))->withInput(Input::all());
                 return Response::make($content,200, $headers);
             }
             else
             {
-                return view('reports.daily.test', compact('labSections'))
-                            ->with('testTypes', $testTypes)
-                            ->with('tests', $tests)
-                            ->with('counts', $tests->count())
-                            ->with('testCategory', $testCategory)
-                            ->with('testType', $testType)
-                            ->with('pendingOrAll', $pendingOrAll)
-                            ->with('accredited', $accredited)
-                            ->with('error', $error)
-                            ->withInput(Input::all());
+                $to = $to->toDateString();
+                $from = $from->toDateString();
+                return view('report.daily.log.test', compact('labSections', 'testTypes', 'tests', 'counts', 'testCategory', 'testType', 'completePending', 'accredited', 'error', 'from', 'to', 'records'))->withInput(Input::all());
             }
         }
+    }
+
+    /**
+    *   Function to return test types of a particular test category to fill test types dropdown
+    */
+    public function dropdown()
+    {
+        $input = Input::get('test_category_id');
+        $testCategory = TestCategory::find($input);
+        return json_encode($testCategory->testTypes);
     }
 
     /**

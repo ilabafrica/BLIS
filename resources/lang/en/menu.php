@@ -70,4 +70,10 @@ return [
 	'stock-levels'			=>	'Stock Levels',
 	'stock'					=>	'Stock',
 	'specimen'				=>	'Specimen',
+	'test-records'			=>	'Test Records',
+	'patient-records'		=>	'Patient Records',
+	'specimen-rej-rec'		=>	'Specimen Rejection Records',
+	'complete'				=>	'Complete',
+	'pending'				=>	'Pending',
+	'all'					=>	'All',
 ];

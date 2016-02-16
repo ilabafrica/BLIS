@@ -56,7 +56,7 @@ class Specimen extends Model
 	 */
 	public function rejectionReason()
 	{
-		return $this->belongsTo('App\Models\RejectionReason');
+		return $this->belongsTo('App\Models\Reason');
 	}
 
 	/**

@@ -273,3 +273,11 @@ Route::any("/patientreport/{id}/{visit}", array(
     "as" => "reports.patient.report", 
     "uses" => "ReportController@viewPatientReport"
 ));
+Route::any("log", array(
+    "as"   => "reports.daily.log",
+    "uses" => "ReportController@log"
+));
+Route::any('select/list', array(
+    "as"    =>  "select.list",
+    "uses"  =>  "ReportController@dropdown"
+));

@@ -119,7 +119,7 @@
 												<a class="subnav-toggle" href="#"><i class="fa fa-clock-o"></i> {!! trans('menu.daily-report') !!}<i class="fa fa-angle-down  pull-right"></i></a>
 												<ul class="nav sidenav-sub-menu">
 													<li class="{!! Request::segment(1)=='patientreport'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('patientreport') !!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.patient-report') !!}</a></li>
-													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.daily-log') !!}</a></li>
+													<li class="{!! Request::segment(1)=='log'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('log') !!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.daily-log') !!}</a></li>
 												</ul>
 											</li>
 											<li class="sidenav-dropdown ">
