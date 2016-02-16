@@ -76,4 +76,13 @@ return [
 	'complete'				=>	'Complete',
 	'pending'				=>	'Pending',
 	'all'					=>	'All',
+	'ungrouped-test' 		=>  'Test Counts (Ungrouped)',
+    'grouped-test' 			=>  'Test Counts (Grouped)',
+    'ungrouped-specimen' 	=>  'Specimen Counts (Ungrouped)',
+    'grouped-specimen' 		=>  'Specimen Counts (Grouped)',
+    'accepted'				=>	'Accepted',
+    'rejected'				=>	'Rejected',
+    'total'					=>	'Total',
+    'm-f'					=>	'M/F',
+    'age-range'				=>	'Age Range',
 ];

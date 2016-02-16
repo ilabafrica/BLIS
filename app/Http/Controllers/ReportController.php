@@ -324,6 +324,127 @@ class ReportController extends Controller
             }
         }
     }
+    //  Begin count reports functions
+    /**
+     * Display a test((un)grouped) and specimen((un)grouped) counts.
+     *
+     */
+    public function count()
+    {
+        $start = Carbon::parse(Input::get('from'));
+        $end = Carbon::parse(Input::get('to'));
+        $date = Carbon::today();
+        $today = clone $date;
+        $error = '';
+        $from = Carbon::parse($start->toDateString());
+        $to = Carbon::parse($end->toDateString());
+        $to_date = clone $to;
+        $toPlusOne = $to_date->addDay();
+        $counts = Input::get('counts');
+        if(!$counts)
+            $counts = trans('menu.ungrouped-test');
+        $accredited = array();
+        //  Begin grouped test counts
+        if($counts==trans('menu.grouped-test'))
+        {
+            $testCategories = TestCategory::all();
+            $testTypes = TestType::all();
+            $ageRanges = array('0-5', '5-15', '15-120');    //  Age ranges - will definitely change in configurations
+            $gender = array(Patient::MALE, Patient::FEMALE);    //  Array for gender - male/female
+
+            $perAgeRange = array(); // array for counts data for each test type and age range
+            $perTestType = array(); //  array for counts data per testype
+            if($from->gt($to) || $from->gt($date) || $to->gt($date))
+            {
+                Session::flash('message', trans('general-terms.check-date-range'));
+            }
+            foreach ($testTypes as $testType)
+            {
+                $countAll = $testType->groupedTestCount(null, null, $from->toDateString(), $toPlusOne->toDateString());
+                $countMale = $testType->groupedTestCount([Patient::MALE], null, $from->toDateString(), $toPlusOne->toDateString());
+                $countFemale = $testType->groupedTestCount([Patient::FEMALE], null, $from->toDateString(), $toPlusOne->toDateString());
+                $perTestType[$testType->id] = ['countAll'=>$countAll, 'countMale'=>$countMale, 'countFemale'=>$countFemale];
+                foreach ($ageRanges as $ageRange)
+                {
+                    $maleCount = $testType->groupedTestCount([Patient::MALE], $ageRange, $from->toDateString(), $toPlusOne->toDateString());
+                    $femaleCount = $testType->groupedTestCount([Patient::FEMALE], $ageRange, $from->toDateString(), $toPlusOne->toDateString());
+                    $perAgeRange[$testType->id][$ageRange] = ['male'=>$maleCount, 'female'=>$femaleCount];
+                }
+            }
+            $to = $to->toDateString();
+            $from = $from->toDateString();
+            return view('report.aggregate.count.groupedTest', compact('testCategories', 'ageRanges', 'gender', 'perTestType', 'perAgeRange', 'counts', 'accredited', 'from', 'to'))->withInput(Input::all());
+        }
+        else if($counts==trans('menu.ungrouped-specimen'))
+        {
+            if($from->gt($to) || $from->gt($date) || $to->gt($date))
+            {
+                Session::flash('message', trans('general-terms.check-date-range'));
+            }
+
+            $ungroupedSpecimen = array();
+            foreach (SpecimenType::all() as $specimenType)
+            {
+                $rejected = $specimenType->countPerStatus([Specimen::REJECTED], $from->toDateString(), $toPlusOne->toDateString());
+                $accepted = $specimenType->countPerStatus([Specimen::ACCEPTED], $from->toDateString(), $toPlusOne->toDateString());
+                $total = $rejected+$accepted;
+                $ungroupedSpecimen[$specimenType->id] = ["total"=>$total, "rejected"=>$rejected, "accepted"=>$accepted];
+            }
+
+            $to = $to->toDateString();
+            $from = $from->toDateString();
+            return view('report.aggregate.count.ungroupedSpecimen', compact('ungroupedSpecimen', 'counts', 'accredited', 'from', 'to'))->withInput(Input::all());
+
+        }
+        else if($counts==trans('menu.grouped-specimen'))
+        {
+            $ageRanges = array('0-5', '5-15', '15-120');    //  Age ranges - will definitely change in configurations
+            $gender = array(Patient::MALE, Patient::FEMALE);    //  Array for gender - male/female
+
+            $perAgeRange = array(); // array for counts data for each test type and age range
+            $perSpecimenType = array(); //  array for counts data per testype
+            if($from->gt($to) || $from->gt($date) || $to->gt($date))
+            {
+                Session::flash('message', trans('general-terms.check-date-range'));
+            }
+            $specimenTypes = SpecimenType::all();
+            foreach ($specimenTypes as $specimenType)
+            {
+                $countAll = $specimenType->groupedSpecimenCount([Patient::MALE, Patient::FEMALE], null, $from->toDateString(), $toPlusOne->toDateString());
+                $countMale = $specimenType->groupedSpecimenCount([Patient::MALE], null, $from->toDateString(), $toPlusOne->toDateString());
+                $countFemale = $specimenType->groupedSpecimenCount([Patient::FEMALE], null, $from->toDateString(), $toPlusOne->toDateString());
+                $perSpecimenType[$specimenType->id] = ['countAll'=>$countAll, 'countMale'=>$countMale, 'countFemale'=>$countFemale];
+                foreach ($ageRanges as $ageRange)
+                {
+                    $maleCount = $specimenType->groupedSpecimenCount([Patient::MALE], $ageRange, $from->toDateString(), $toPlusOne->toDateString());
+                    $femaleCount = $specimenType->groupedSpecimenCount([Patient::FEMALE], $ageRange, $from->toDateString(), $toPlusOne->toDateString());
+                    $perAgeRange[$specimenType->id][$ageRange] = ['male'=>$maleCount, 'female'=>$femaleCount];
+                }
+            }
+            $to = $to->toDateString();
+            $from = $from->toDateString();
+            return view('report.aggregate.count.groupedSpecimen', compact('specimenTypes', 'counts', 'ageRanges', 'gender', 'perSpecimenType', 'perAgeRange', 'accredited', 'from', 'to'))->withInput(Input::all());
+        }
+        else
+        {
+            if($from->gt($to) || $from->gt($date) || $to->gt($date))
+            {
+                Session::flash('message', trans('general-terms.check-date-range'));
+            }
+
+            $ungroupedTests = array();
+            foreach (TestType::all() as $testType)
+            {
+                $pending = $testType->countPerStatus([Test::PENDING, Test::STARTED], $from->toDateString(), $toPlusOne->toDateString());
+                $complete = $testType->countPerStatus([Test::COMPLETED, Test::VERIFIED], $from->toDateString(), $toPlusOne->toDateString());
+                $ungroupedTests[$testType->id] = ["complete"=>$complete, "pending"=>$pending];
+            }
+
+            $to = $to->toDateString();
+            $from = $from->toDateString();
+            return view('report.aggregate.count.ungroupedTest', compact('ungroupedTests', 'counts', 'accredited', 'from', 'to'))->withInput(Input::all());
+        }
+    }
 
     /**
     *   Function to return test types of a particular test category to fill test types dropdown

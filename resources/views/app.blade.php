@@ -112,7 +112,7 @@
 											<li class="{!! Request::segment(1)=='rejection'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('rejection') !!}"><i class="fa fa-tag"></i> {!! trans('menu.specimen-rejection') !!}</a></li>
 										</ul>
 									</li>
-									<li class="sidenav-dropdown{!! in_array(Request::segment(1), [strtolower('patientreport'), strtolower('log')])?' show-subnav':'' !!}">
+									<li class="sidenav-dropdown{!! in_array(Request::segment(1), [strtolower('patientreport'), strtolower('log'), strtolower('count')])?' show-subnav':'' !!}">
 										<a class="subnav-toggle" href="#"><i class="fa fa-bar-chart"></i> {!! trans_choice('menu.report', 2) !!} <i class="fa fa-angle-down fa-angle-down  pull-right"></i></a>
 										<ul class="nav sidenav-sub-menu">
 											<li class="sidenav-dropdown{!! in_array(Request::segment(1), [strtolower('patientreport'), strtolower('log')])?' show-subnav':'' !!}">
@@ -122,12 +122,12 @@
 													<li class="{!! Request::segment(1)=='log'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('log') !!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.daily-log') !!}</a></li>
 												</ul>
 											</li>
-											<li class="sidenav-dropdown ">
+											<li class="sidenav-dropdown{!! in_array(Request::segment(1), [strtolower('count')])?' show-subnav':'' !!}">
 												<a class="subnav-toggle" href="#"><i class="fa fa-file-archive-o"></i> {!! trans('menu.aggregate-reports') !!}<i class="fa fa-angle-down  pull-right"></i></a>
 												<ul class="nav sidenav-sub-menu">
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.prevalence-rates') !!}</a></li>
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.surveillance') !!}</a></li>
-													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.test-specimen-counts') !!}</a></li>
+													<li class="{!! Request::segment(1)=='count'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('count') !!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.test-specimen-counts') !!}</a></li>
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.turn-around-time') !!}</a></li>
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.infection-report') !!}</a></li>
 												</ul>

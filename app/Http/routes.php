@@ -281,3 +281,7 @@ Route::any('select/list', array(
     "as"    =>  "select.list",
     "uses"  =>  "ReportController@dropdown"
 ));
+Route::any("count", array(
+    "as"   => "reports.aggregate.counts",
+    "uses" => "ReportController@count"
+));
