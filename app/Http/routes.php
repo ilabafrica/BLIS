@@ -261,6 +261,32 @@ Route::any("lot/usage", array(
     "as"   => "lot.update",
     "uses" => "StockController@lotUsage"
 ));
+/*
+*   Routes for barcodes
+*/
+Route::resource('barcode', 'BarcodeController');
+        
+Route::get("/barcode/{id}/delete", array(
+    "as"   => "barcode.delete",
+    "uses" => "BarcodeController@delete"
+));
+/*
+*   Routes for configurable settings
+*/
+Route::resource('configurable', 'ConfigurableController');
+        
+Route::get("/configurable/{id}/delete", array(
+    "as"   => "configurable.delete",
+    "uses" => "ConfigurableController@delete"
+));
+/*
+*   Routes for lab-config-settings
+*/
+Route::resource('setting', 'LabConfigController');
+Route::get("setting/{id}", array(
+    "as"   => "setting.config",
+    "uses" => "LabConfigController@edit"
+));
 Route::any("/patientreport", array(
     "as"   => "reports.patient.index",
     "uses" => "ReportController@loadPatients"

@@ -55,6 +55,10 @@ return [
 	'measure'				=>	'Measure|Measures',
 	'item'					=>	'Item|Items',
 	'supplier'				=>	'Supplier|Suppliers',
+	'barcode'				=>	'Barcode|Barcodes',
+	'configurable'			=>	'Configurable|Configurables',
+	'summary'				=>	'Summary',
+	'lab-settings'			=>	'Lab Settings',
 	/*
 	*	grand menus
 	*/

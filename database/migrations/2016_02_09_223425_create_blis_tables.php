@@ -484,6 +484,50 @@ class CreateBlisTables extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('stock_id')->references('id')->on('inv_supply');
         });
+        /* configurable modules */
+        Schema::create('configurables', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->string('name', 45);
+            $table->string('route', 25);
+            $table->string('description', 100);
+            $table->integer('user_id')->unsigned();
+
+            $table->softDeletes();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+        });
+        /* configurable fields */
+        Schema::create('configurable_fields', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->string('field_name', 45);
+            $table->tinyInteger('field_type');
+            $table->string('options', 1000)->nullable();
+            $table->integer('configurable_id')->unsigned();
+            $table->integer('user_id')->unsigned();
+
+            $table->softDeletes();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('configurable_id')->references('id')->on('configurables');
+        });
+        /* config settings */
+        Schema::create('lab_config_settings', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->integer('key')->unsigned();
+            $table->string('value', 100);
+            $table->integer('user_id')->unsigned();
+
+            $table->softDeletes();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('key')->references('id')->on('configurable_fields');
+        });
     }
     /**
      * Reverse the migrations.
