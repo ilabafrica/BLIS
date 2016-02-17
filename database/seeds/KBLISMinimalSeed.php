@@ -16,11 +16,11 @@ class KBLISMinimalSeed extends Seeder
         /* Users table */
         $usersData = array(
             array(
-                "username" => "administrator", "password" => Hash::make("password"), "email" => "admin@kblis.org",
+                "username" => "administrator", "password" => bcrypt("password"), "email" => "admin@kblis.org",
                 "name" => "kBLIS Administrator", "designation" => "Administrator"
             ),
             array(
-                "username" => "external", "password" => Hash::make("password"), "email" => "admin@kblis.org",
+                "username" => "external", "password" => bcrypt("password"), "email" => "admin2@kblis.org",
                 "name" => "External System User", "designation" => "Administrator", "image" => "/i/users/user-2.jpg"
             ),
         );

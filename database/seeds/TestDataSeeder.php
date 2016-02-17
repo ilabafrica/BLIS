@@ -1,12 +1,16 @@
 <?php namespace Database\Seeds;
 
 use Illuminate\Database\Seeder;
+use DB;
+use DateTime;
+use DateInterval;
 use App\Models\User;
+use App\Models\Visit;
 use App\Models\Measure;
+use App\Models\Patient;
 use App\Models\MeasureType;
 use App\Models\MeasureRange;
-use App\Models\Patient;
-use App\Models\Visit;
+use App\Models\ExternalDump;
 use App\Models\RejectionReason;
 use App\Models\Role;
 use App\Models\Specimen;
@@ -17,25 +21,24 @@ use App\Models\TestPhase;
 use App\Models\TestStatus;
 use App\Models\TestResult;
 use App\Models\TestCategory;
-use App\Models\TestTypeMeasure;
-use App\Models\SpecimenType;
 use App\Models\SpecimenStatus;
+use App\Models\TestTypeMeasure;
+use App\Models\Metric;
+use App\Models\Receipt;
+use App\Models\Supplier;
+use App\Models\Facility;
+use App\Models\Commodity;
 use App\Models\Permission;
 use App\Models\Instrument;
-use App\Models\Facility;
-use App\Models\Supplier;
-use App\Models\Metric;
-use App\Models\Commodity;
-use App\Models\Receipt;
-use App\Models\TopupRequest;
-use App\Models\Issue;
-use App\Models\Disease;
-use App\Models\ReportDisease;
 use App\Models\Lot;
+use App\Models\Issue;
 use App\Models\Control;
+use App\Models\Disease;
+use App\Models\ControlTest;
+use App\Models\TopupRequest;
+use App\Models\ReportDisease;
 use App\Models\ControlMeasure;
 use App\Models\ControlMeasureRange;
-use App\Models\ControlTest;
 use App\Models\ControlMeasureResult;
 
 class TestDataSeeder extends Seeder
@@ -45,19 +48,15 @@ class TestDataSeeder extends Seeder
         /* Users table */
         $usersData = array(
             array(
-                "username" => "administrator", "password" => Hash::make("password"), "email" => "admin@kblis.org",
+                "username" => "admin", "password" => bcrypt("password"), "email" => "administrator@kblis.org",
                 "name" => "kBLIS Administrator", "designation" => "Programmer"
             ),
             array(
-                "username" => "external", "password" => Hash::make("password"), "email" => "admin@kblis.org",
-                "name" => "External System User", "designation" => "Administrator", "image" => "/i/users/user-2.jpg"
-            ),
-            array(
-                "username" => "lmorena", "password" => Hash::make("password"), "email" => "lmorena@kblis.org",
+                "username" => "lmorena", "password" => bcrypt("password"), "email" => "lmorena@kblis.org",
                 "name" => "L. Morena", "designation" => "Lab Technologist", "image" => "/i/users/user-3.png"
             ),
             array(
-                "username" => "abumeyang", "password" => Hash::make("password"), "email" => "abumeyang@kblis.org",
+                "username" => "abumeyang", "password" => bcrypt("password"), "email" => "abumeyang@kblis.org",
                 "name" => "A. Abumeyang", "designation" => "Doctor"
             ),
         );
@@ -108,21 +107,6 @@ class TestDataSeeder extends Seeder
 
         $this->command->info('test_categories seeded');
         
-        
-        /* Measure Types */
-        $measureTypes = array(
-            array("id" => "1", "name" => "Numeric Range"),
-            array("id" => "2", "name" => "Alphanumeric Values"),
-            array("id" => "3", "name" => "Autocomplete"),
-            array("id" => "4", "name" => "Free Text")
-        );
-
-        foreach ($measureTypes as $measureType)
-        {
-            MeasureType::create($measureType);
-        }
-        $this->command->info('measure_types seeded');
-                
         /* Measures table */
         $measureBSforMPS = Measure::create(
             array("measure_type_id" => "2",
@@ -264,10 +248,10 @@ class TestDataSeeder extends Seeder
         $this->command->info('measures seeded');
         
         /* Test Types table */
-        $testTypeBS = TestType::create(array("name" => "BS for mps", "test_category_id" => $test_categories->id, "orderable_test" => 1));
+        $testTypeBS = TestType::create(array("name" => "BS for mps", "test_category_id" => $test_categories->id));
         $testTypeStoolCS = TestType::create(array("name" => "Stool for C/S", "test_category_id" => $lab_section_microbiology->id));
         $testTypeGXM = TestType::create(array("name" => "GXM", "test_category_id" => $test_categories->id));
-        $testTypeHB = TestType::create(array("name" => "HB", "test_category_id" => $test_categories->id, "orderable_test" => 1));
+        $testTypeHB = TestType::create(array("name" => "HB", "test_category_id" => $test_categories->id));
         $testTypeUrinalysis = TestType::create(array("name" => "Urinalysis", "test_category_id" => $test_categories->id));
         $testTypeWBC = TestType::create(array("name" => "WBC", "test_category_id" => $test_categories->id));
 
@@ -323,44 +307,6 @@ class TestDataSeeder extends Seeder
         }
 
         $this->command->info('patients seeded');
-
-        /* Test Phase table */
-        $test_phases = array(
-          array("id" => "1", "name" => "Pre-Analytical"),
-          array("id" => "2", "name" => "Analytical"),
-          array("id" => "3", "name" => "Post-Analytical")
-        );
-        foreach ($test_phases as $test_phase)
-        {
-            TestPhase::create($test_phase);
-        }
-        $this->command->info('test_phases seeded');
-
-        /* Test Status table */
-        $test_statuses = array(
-          array("id" => "1","name" => "not-received","test_phase_id" => "1"),//Pre-Analytical
-          array("id" => "2","name" => "pending","test_phase_id" => "1"),//Pre-Analytical
-          array("id" => "3","name" => "started","test_phase_id" => "2"),//Analytical
-          array("id" => "4","name" => "completed","test_phase_id" => "3"),//Post-Analytical
-          array("id" => "5","name" => "verified","test_phase_id" => "3")//Post-Analytical
-        );
-        foreach ($test_statuses as $test_status)
-        {
-            TestStatus::create($test_status);
-        }
-        $this->command->info('test_statuses seeded');
-
-        /* Specimen Status table */
-        $specimen_statuses = array(
-          array("id" => "1", "name" => "specimen-not-collected"),
-          array("id" => "2", "name" => "specimen-accepted"),
-          array("id" => "3", "name" => "specimen-rejected")
-        );
-        foreach ($specimen_statuses as $specimen_status)
-        {
-            SpecimenStatus::create($specimen_status);
-        }
-        $this->command->info('specimen_statuses seeded');
 
         /* Visits table */
         
@@ -726,60 +672,6 @@ class TestDataSeeder extends Seeder
             TestResult::create($testResult);
         }
         $this->command->info('test results seeded');
-
-        
-        /* Permissions table */
-        $permissions = array(
-            array("name" => "view_names", "display_name" => "Can view patient names"),
-            array("name" => "manage_patients", "display_name" => "Can add patients"),
-
-            array("name" => "receive_external_test", "display_name" => "Can receive test requests"),
-            array("name" => "request_test", "display_name" => "Can request new test"),
-            array("name" => "accept_test_specimen", "display_name" => "Can accept test specimen"),
-            array("name" => "reject_test_specimen", "display_name" => "Can reject test specimen"),
-            array("name" => "change_test_specimen", "display_name" => "Can change test specimen"),
-            array("name" => "start_test", "display_name" => "Can start tests"),
-            array("name" => "enter_test_results", "display_name" => "Can enter tests results"),
-            array("name" => "edit_test_results", "display_name" => "Can edit test results"),
-            array("name" => "verify_test_results", "display_name" => "Can verify test results"),
-            array("name" => "send_results_to_external_system", "display_name" => "Can send test results to external systems"),
-            array("name" => "refer_specimens", "display_name" => "Can refer specimens"),
-
-            array("name" => "manage_users", "display_name" => "Can manage users"),
-            array("name" => "manage_test_catalog", "display_name" => "Can manage test catalog"),
-            array("name" => "manage_lab_configurations", "display_name" => "Can manage lab configurations"),
-            array("name" => "view_reports", "display_name" => "Can view reports"),
-            array("name" => "manage_inventory", "display_name" => "Can manage inventory"),
-            array("name" => "request_topup", "display_name" => "Can request top-up"),
-            array("name" => "manage_qc", "display_name" => "Can manage Quality Control")
-        );
-
-        foreach ($permissions as $permission) {
-            Permission::create($permission);
-        }
-        $this->command->info('Permissions table seeded');
-
-        /* Roles table */
-        $roles = array(
-            array("name" => "Superadmin"),
-            array("name" => "Technologist"),
-            array("name" => "Receptionist")
-        );
-        foreach ($roles as $role) {
-            Role::create($role);
-        }
-        $this->command->info('Roles table seeded');
-
-        $user1 = User::find(1);
-        $role1 = Role::find(1);
-        $permissions = Permission::all();
-
-        //Assign all permissions to role administrator
-        foreach ($permissions as $permission) {
-            $role1->attachPermission($permission);
-        }
-        //Assign role Administrator to user 1 administrator
-        $user1->attachRole($role1);
 
         /* Instruments table */
         $instrumentsData = array(
@@ -1431,6 +1323,7 @@ class TestDataSeeder extends Seeder
             array(
                 "name" => "UNICEF",
                 "phone_no" => "0775112233",
+                "user_id" => "1",
                 "email" => "uni@unice.org",
                 "physical_address" => "un-hqtr"
 
