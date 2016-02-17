@@ -34,7 +34,7 @@
 			@endif
             <div class="row">
 	            <div class="col-md-8">
-					{!! Form::model($setting, array('route' => array('setting.update', $setting->id), 'method' => 'PUT', 'id' => 'form-edit-setting')) !!}
+					{!! Form::model($setting, array('route' => array('setting.update', $setting->id), 'method' => 'PUT', 'enctype' => 'multipart/form-data', 'files' => true, 'id' => 'form-edit-setting')) !!}
 						<!-- CSRF Token -->
 		                <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 		                <!-- ./ csrf token -->
@@ -51,7 +51,7 @@
 									{!! Form::label('field', $field->field_name, array('class' => 'col-sm-4 form-control-label')) !!}
 									<div class="col-sm-8">
 					                	<label class="file">
-					  						<input type="file" id="file_{!! $field->id !!}">
+					  						{!! Form::file('field_'.$field->id, '') !!}
 					  						<span class="file-custom"></span>
 										</label>
 									</div>
@@ -83,14 +83,14 @@
 		                		<div class="form-group row">
 									{!! Form::label('field', $field->field_name, array('class' => 'col-sm-4 form-control-label')) !!}
 									<div class="col-sm-8">
-										{!! Form::text('field_'.$field->id, old(''), array('class' => 'form-control')) !!}
+										{!! Form::text('field_'.$field->id, $field->setting?$field->setting->value:'', array('class' => 'form-control')) !!}
 									</div>
 								</div>
 		                	@elseif($field->field_type == App\Models\Field::TEXTAREA)
 		                		<div class="form-group row">
 									{!! Form::label('field', $field->field_name, array('class' => 'col-sm-4 form-control-label')) !!}
 									<div class="col-sm-8">
-										{!! Form::textarea('field_'.$field->id, old(''), array('class' => 'form-control')) !!}
+										{!! Form::textarea('field_'.$field->id, $field->setting?$field->setting->value:'', array('class' => 'form-control', 'rows' => '2')) !!}
 									</div>
 								</div>
 		                	@endif
@@ -105,9 +105,24 @@
 				</div>
 				<div class="col-md-4">
 					<ul class="list-group">
-						<li class="list-group-item"><strong>{!! trans('menu.barcode-settings').' '.trans('menu.summary') !!}</strong></li>
+						<li class="list-group-item"><strong>{!! $setting->name.' '.trans('menu.summary') !!}</strong></li>
 						@foreach($fields as $field)
-							<li class="list-group-item"><h6>{!! $field->field_name !!}<small> {!! $field->setting?$field->setting->value:'' !!}</small></h6></li>
+							<li class="list-group-item">
+								<h6>
+									{!! $field->field_name !!}
+									<small> 
+										@if($field->field_type == App\Models\Field::FILEBROWSER)
+											<div class="thumbnail">
+												@if($field->setting)
+						                        	{!! HTML::image(url().'/img/'.$field->setting->value, 'Image not found', array('class'=>'img-responsive img-thumbnail')) !!}
+						                        @endif
+						                    </div>
+										@else
+											{!! $field->setting?$field->setting->value:'' !!}
+										@endif
+									</small>
+								</h6>
+							</li>
 						@endforeach
 					</ul>
 				</div>

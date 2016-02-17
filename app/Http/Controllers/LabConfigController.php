@@ -7,8 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\LabConfigRequest;
+
 use App\Models\Configurable;
 use App\Models\LabConfig;
+use App\Models\Field;
 
 use Input;
 
@@ -89,11 +92,21 @@ class LabConfigController extends Controller
             }
             else
             {
-                $fieldId = $this->strip($key);
-                $setting = LabConfig::findOrFail($fieldId);
-                $setting->value = $value;
-                $setting->user_id = 1;
-                $setting->update();
+                if(strlen($value)>0)
+                {
+                    $fieldId = $this->strip($key);
+                    $counter = count(LabConfig::where('key', $fieldId)->get());
+                    if($counter == 0)
+                        $setting = new LabConfig;
+                    else                    
+                        $setting = LabConfig::findOrFail($fieldId);
+                    $setting->key = $fieldId;
+                    $setting->value = $value;
+                    if(Field::find($fieldId)->field_type == Field::FILEBROWSER)
+                        $setting->value = $this->imageModifier(Input::file('field_'.$fieldId));
+                    $setting->user_id = 1;
+                    $counter==0?$setting->save():$setting->update();
+                }
             }
         }
         $url = session('SOURCE_URL');
@@ -120,5 +133,23 @@ class LabConfigController extends Controller
     {
         if(($pos = strpos($field, '_')) !== FALSE)
         return substr($field, $pos+1);
+    }
+    /**
+     * Change the image name, move it to images/profile, and return its new name
+     *
+     * @param $request
+     * @param $data
+     * @return string
+     */
+    private function imageModifier($image)
+    {
+        if(empty($image)){
+            $filename = 'default.png';
+        }else{
+            $ext = $image->getClientOriginalExtension();
+            $filename = uniqid() . "." . $ext;
+            $image->move('/', $filename);
+        }
+        return $filename;
     }
 }

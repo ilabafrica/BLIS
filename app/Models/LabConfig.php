@@ -18,4 +18,11 @@ class LabConfig extends Model
 	 * @var string
 	 */
 	protected $table = 'lab_config_settings';
+	/**
+	* Relationship with field
+	*/
+	public function field()
+	{
+		return $this->belongsTo('App\Models\Field');
+	}
 }
