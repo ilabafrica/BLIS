@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Requests\ConfigurableRequest;
 
 use App\Models\Configurable;
+use App\Models\Field;
 
 use Response;
 use Auth;
@@ -82,11 +83,12 @@ class ConfigurableController extends Controller {
      */
     public function edit($id)
     {
+        $fields = Field::orderBy('field_name')->get();
         //Get the Configurable
         $configurable = Configurable::find($id);
 
         //Open the Edit View and pass to it the $configurable
-        return view('config.configurable.edit', compact('configurable'));
+        return view('config.configurable.edit', compact('configurable', 'fields'));
     }
 
 

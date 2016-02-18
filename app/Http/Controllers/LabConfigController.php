@@ -12,6 +12,7 @@ use App\Http\Requests\LabConfigRequest;
 use App\Models\Configurable;
 use App\Models\LabConfig;
 use App\Models\Field;
+use App\Models\ConField;
 
 use Input;
 
@@ -83,7 +84,7 @@ class LabConfigController extends Controller
      */
     public function update($id)
     {
-        $setting = Configurable::find($id);
+        $setting = Configurable::find((int)$id);
         foreach (Input::all() as $key => $value)
         {
             if((stripos($key, 'token') !==FALSE) || (stripos($key, 'method') !==FALSE))
@@ -95,11 +96,12 @@ class LabConfigController extends Controller
                 if(strlen($value)>0)
                 {
                     $fieldId = $this->strip($key);
-                    $counter = count(LabConfig::where('key', $fieldId)->get());
+                    $conId = ConField::where('configurable_id', $id)->where('field_id', (int)$fieldId)->first();
+                    $counter = count(LabConfig::where('key', $conId->id)->get());
                     if($counter == 0)
                         $setting = new LabConfig;
                     else                    
-                        $setting = LabConfig::findOrFail($fieldId);
+                        $setting = LabConfig::where('key', $conId->id)->first();
                     $setting->key = $fieldId;
                     $setting->value = $value;
                     if(Field::find($fieldId)->field_type == Field::FILEBROWSER)
@@ -148,7 +150,7 @@ class LabConfigController extends Controller
         }else{
             $ext = $image->getClientOriginalExtension();
             $filename = uniqid() . "." . $ext;
-            $image->move('/', $filename);
+            $image->move('img/', $filename);
         }
         return $filename;
     }

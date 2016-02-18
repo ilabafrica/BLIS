@@ -23,7 +23,7 @@ class Configurable extends Model
 	 */
 	public function fields()
 	{
-		return $this->hasMany('App\Models\Field');
+	  return $this->belongsToMany('App\Models\Field', 'configurable_fields', 'configurable_id', 'field_id');
 	}
 	/**
 	* Return Configurable ID given the name

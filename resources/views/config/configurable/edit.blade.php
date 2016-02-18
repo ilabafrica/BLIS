@@ -47,6 +47,21 @@
 						{!! Form::textarea('description', old('description'), array('class' => 'form-control', 'rows' => '2')) !!}
 					</div>
 				</div>
+				<div class="form-group row">
+					{!! Form::label('fields', trans_choice("menu.field", 2),  array('class' => 'col-sm-2 form-control-label')) !!}
+				</div>				
+				<div class="col-sm-12 card card-block">	
+					@foreach($fields as $key=>$value)
+						
+						<div class="col-md-3">
+							<label  class="checkbox">
+								<input type="checkbox" name="fields[]" value="{!! $value->id!!}" 
+									{!! in_array($value->id, $configurable->fields->lists('id')->toArray())?"checked":"" !!} />
+									<small>{!!$value->field_name !!}</small>
+							</label>
+						</div>
+					@endforeach
+				</div>
 				<div class="form-group row col-sm-offset-2">
 					{!! Form::button("<i class='fa fa-check-circle'></i> ".trans('action.update'), 
 						array('class' => 'btn btn-primary btn-sm', 'onclick' => 'submit()')) !!}

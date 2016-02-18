@@ -262,14 +262,9 @@ Route::any("lot/usage", array(
     "uses" => "StockController@lotUsage"
 ));
 /*
-*   Routes for barcodes
+*   Routes for analyser
 */
-Route::resource('barcode', 'BarcodeController');
-        
-Route::get("/barcode/{id}/delete", array(
-    "as"   => "barcode.delete",
-    "uses" => "BarcodeController@delete"
-));
+Route::resource('analyser', 'AnalyserController');
 /*
 *   Routes for configurable settings
 */

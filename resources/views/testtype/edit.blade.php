@@ -51,8 +51,7 @@
 				<div class="form-group row">
 					{!! Form::label('test_category_id', trans_choice('menu.lab-section', 1), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
-						{!! Form::select('test_category_id', $testcategories,
-							old('testcategory') ? old('testcategory') : $testcategory, array('class' => 'form-control c-select')) !!}
+						{!! Form::select('test_category_id', $testcategories, old('testcategory') ? old('testcategory') : $testcategory, array('class' => 'form-control c-select')) !!}
 					</div>
 				</div>
 				<div class="form-group row">

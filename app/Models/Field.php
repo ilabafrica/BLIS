@@ -17,7 +17,7 @@ class Field extends Model
 	 *
 	 * @var string
 	 */
-	protected $table = 'configurable_fields';
+	protected $table = 'fields';
 	/**
 	 * settings relationship
 	 */

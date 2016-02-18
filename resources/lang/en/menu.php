@@ -59,6 +59,8 @@ return [
 	'configurable'			=>	'Configurable|Configurables',
 	'summary'				=>	'Summary',
 	'lab-settings'			=>	'Lab Settings',
+	'analyser'				=>	'Analyser|Analysers',
+	'field'					=>	'Field|Fields',
 	/*
 	*	grand menus
 	*/
