@@ -59,15 +59,7 @@ function get_barcode(code)
     $('#barcodeList').html(content);
         $("#"+div).barcode(code, 'code39',{barWidth:2, barHeight:30, fontSize:11, output:'css'});
     var data = $('#barcodeList').html();
-    var mywindow = window.open('', 'my div', 'height=400,width=600');
-    mywindow.document.write('<html><head><title>Barcodes</title>');
-    /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
-    mywindow.document.write('</head><body >');
-    mywindow.document.write(data);
-    mywindow.document.write('</body></html>');
-
-    mywindow.print();
-    mywindow.close();    
+    Popup(data); 
 }
 function print_specimen_barcode(code)
 {
@@ -81,15 +73,7 @@ function print_specimen_barcode(code)
     console.log(code);
     $("#"+div).barcode(code, 'code39',{barWidth:2, barHeight:30, fontSize:11, output:'css'});
     var data = $('#specimenBarcodeDiv').html();
-    var mywindow = window.open('', 'my div', 'height=400,width=600');
-    mywindow.document.write('<html><head><title>Barcodes</title>');
-    /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
-    mywindow.document.write('</head><body >');
-    mywindow.document.write(data);
-    mywindow.document.write('</body></html>');
-
-    mywindow.print();
-    mywindow.close();
+    Popup(data);
 }
 function Popup(data) 
 {
