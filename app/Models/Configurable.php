@@ -26,6 +26,20 @@ class Configurable extends Model
 	  return $this->belongsToMany('App\Models\Field', 'configurable_fields', 'configurable_id', 'field_id');
 	}
 	/**
+	 * confield relationship
+	 */
+    public function confield()
+    {
+        return $this->hasMany('App\Models\ConField');
+    }
+	/**
+	 * value given for config
+	 */
+	public function conf($id)
+	{
+		return $this->confield()->where('field_id', $id)->first();
+	}
+	/**
 	* Return Configurable ID given the name
 	* @param $name the name of the module
 	*/

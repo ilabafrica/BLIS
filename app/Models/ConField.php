@@ -18,4 +18,11 @@ class ConField extends Model
 	 * @var string
 	 */
 	protected $table = 'configurable_fields';
+	/**
+	 * settings relationship
+	 */
+	public function setting()
+	{
+		return $this->hasOne('App\Models\LabConfig', 'key');
+	}
 }

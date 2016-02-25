@@ -19,11 +19,18 @@ class Field extends Model
 	 */
 	protected $table = 'fields';
 	/**
-	 * settings relationship
+	 * confield relationship
 	 */
-	public function setting()
+    public function confield()
+    {
+        return $this->hasMany('App\Models\ConField');
+    }
+	/**
+	 * value given for config
+	 */
+	public function conf($id)
 	{
-		return $this->hasOne('App\Models\LabConfig', 'key');
+		return $this->confield()->where('configurable_id', $id)->first();
 	}
 	/*
 	*	Constants for type of field
@@ -51,22 +58,20 @@ class Field extends Model
 	{
 		if($name)
 		{
-			if($name)
+			try 
 			{
-				try 
-				{
-					$field = Field::where('field_name', $name)->orderBy('field_name', 'asc')->firstOrFail();
-					return $field->id;
-				} 
-				catch (ModelNotFoundException $e) 
-				{
-					Log::error("The field ` $name ` does not exist:  ". $e->getMessage());
-					//TODO: send email?
-					return null;
-				}
+				$field = Field::where('field_name', $name)->orderBy('field_name', 'asc')->firstOrFail();
+				return $field->id;
+			} 
+			catch (ModelNotFoundException $e) 
+			{
+				Log::error("The field ` $name ` does not exist:  ". $e->getMessage());
+				//TODO: send email?
+				return null;
 			}
 		}
-		else{
+		else
+		{
 			return null;
 		}
 	}

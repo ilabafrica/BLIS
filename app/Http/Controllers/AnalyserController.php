@@ -13,6 +13,8 @@ use Response;
 use Auth;
 use Session;
 use Lang;
+use Input;
+use DB;
 /**
  * Contains analysers resources  
  * 
@@ -138,7 +140,7 @@ class AnalyserController extends Controller {
         // Communication-types
         $commtypes = [Analyser::UNIDIRECTIONAL => 'Uni-directional', Analyser::BIDIRECTIONAL => 'Bi-directional'];
         // selected comm-type
-        $commtype = $analyser->commtype;
+        $commtype = $analyser->comm_type;
         //Open the Edit View and pass to it the $analyser
         return view('config.analyser.edit', compact('analyser', 'testcategories', 'testcategory', 'feedsources', 'feedsource', 'commtypes', 'commtype'));
     }
@@ -171,6 +173,8 @@ class AnalyserController extends Controller {
         $configurable->name = $analyser->name;
         $configurable->user_id = 1;
         $configurable->save();
+        /* Delete existing configs */
+        DB::table('configurable_fields')->where('configurable_id', '=', $configurable->id)->delete();
         /* Save configurable-fields for the configurable RS232,TCP/IP, MSACCESS,HTTP,TEXT */
         $fields = [];
         if($analyser->feed_source == Analyser::RS232)
@@ -236,5 +240,20 @@ class AnalyserController extends Controller {
         $url = session('SOURCE_URL');
 
         return redirect()->to($url)->with('message', trans('general-terms.record-successfully-deleted'));
+    }
+    /**
+     * Fetch details of the given analyzer id
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function fetch()
+    {
+        $id = Input::get('analyzer_id');
+        $analyzer = Analyser::find($id);
+        $analyzer->labSection = $analyzer->testCategory->name;
+        $analyzer->commtype = $analyzer->commtype();
+        $analyzer->feedsource = $analyzer->feedsource();
+        return json_encode($analyzer);
     }
 }

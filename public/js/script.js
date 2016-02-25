@@ -811,3 +811,120 @@ $('#radioBtn a').on('click', function(){
     else
     	$('#hideable').show();
 });
+/**
+*	Function to change content of analyzer div without page reload
+*/
+function reloadable()
+{
+    aId = $('#analyser_id').val();
+    var equi = $('#equi');
+    equi.val(aId);
+    var URL_ROOT = 'http://127.0.0.1/lis/public/';
+    $.ajax({
+        dataType: 'json',
+        type: 'POST',
+        url:  URL_ROOT+'analyser/fetch',
+        data: {analyzer_id: aId, '_token': $('input[name=_token]').val()},
+        success: function(data){
+        	/* set name */
+            var setting_name = $('#setting');
+            var setting_name_2 = $('#setting_2');
+            setting_name.empty();
+            setting_name_2.empty();
+            setting_name.html(data.name);
+            setting_name_2.html(data.name);
+            /* set rest of the details */
+            var reloadable = $('#reloadable');
+            reloadable.empty();
+            var html = "<div class='form-group row'>"+
+					"<label class='col-sm-4 form-control-label'>Name</label>"+
+					"<div class='col-sm-6'>"+
+					"<h6><small>"+data.name+"</small></h6>"+
+					"</div>"+
+					"</div>"+
+
+					"<div class='form-group row'>"+
+					"<label class='col-sm-4 form-control-label'>Version</label>"+
+					"<div class='col-sm-6'>"+
+					"<h6><small>"+data.version+"</small></h6>"+
+					"</div>"+
+					"</div>"+
+
+					"<div class='form-group row'>"+
+					"<label class='col-sm-4 form-control-label'>Lab Section</label>"+
+					"<div class='col-sm-6'>"+
+					"<h6><small>"+data.labSection+"</small></h6>"+
+					"</div>"+
+					"</div>"+
+
+					"<div class='form-group row'>"+
+					"<label class='col-sm-4 form-control-label'>Communication Type</label>"+
+					"<div class='col-sm-6'>"+
+					"<h6><small>"+data.commtype+"</small></h6>"+
+					"</div>"+
+					"</div>"+
+
+					"<div class='form-group row'>"+
+					"<label class='col-sm-4 form-control-label'>Feed Source</label>"+
+					"<div class='col-sm-6'>"+
+					"<h6><small>"+data.feedsource+"</small></h6>"+
+					"</div>"+
+					"</div>"+
+
+					"<div class='form-group row'>"+
+					"<label class='col-sm-4 form-control-label'>Config File</label>"+
+					"<div class='col-sm-6'>"+
+					"<h6><small>"+data.config_file+"</small></h6>"+
+					"</div>"+
+					"</div>";
+			$.ajax({
+		        dataType: 'json',
+		        type: 'POST',
+		        url:  URL_ROOT+'fields/fetch',
+		        data: {analyzer_id: aId, '_token': $('input[name=_token]').val()},
+		        success: function(data){
+		        	console.log(data);
+		        	var container = $('#conf');
+		        	container.empty();
+		        	var data_input = $('#dataInput');
+		        	data_input.empty();
+		        	var values = "";
+		        	var d_input = "";
+		        	$.each(data, function(index, element) {
+		        		values+="<li class='list-group-item'>"+
+								"<h6>"+element.field_name+"<small>"+element.data+
+								"</small></h6>"+
+								"</li>";
+						d_input+="<div class='form-group row'>"+
+								"<label class='col-sm-4 form-control-label'>"+element.field_name+"</label>"+
+								"<div class='col-sm-8'>"+
+								"<input class = 'form-control' name = 'field_"+element.id+"' type='text' id = 'field_"+element.id+"' value = '"+element.data+"'>"+
+								"</div>"+
+								"</div>";
+		            });
+		            data_input.html(d_input);
+		        	container.html(values);
+		        }
+		    });
+            reloadable.html(html);
+        }
+    });
+}
+/* Function to generate instrument config file */
+function generateICfile()
+{
+	aId = $('#analyser_id').val();
+	var URL_ROOT = 'http://127.0.0.1/lis/public/';
+	$.ajax({
+        dataType: 'json',
+        type: 'POST',
+        url:  URL_ROOT+'conf/generate',
+        data: {analyzer_id: aId, '_token': $('input[name=_token]').val()},
+        success: function(data)
+        {
+        	console.log(data);
+        	alert("Equipment configuration has been saved in BLISInterfaceClient/BLISInterfaceClient.ini");
+        	// console.log(data);
+        }
+    });
+}

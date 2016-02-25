@@ -269,6 +269,10 @@ Route::any("lot/usage", array(
 *   Routes for analyser
 */
 Route::resource('analyser', 'AnalyserController');
+Route::any("analyser/fetch", array(
+    "as"   => "analyser.fetch",
+    "uses" => "AnalyserController@fetch"
+));
 /*
 *   Routes for configurable settings
 */
@@ -285,6 +289,14 @@ Route::resource('setting', 'LabConfigController');
 Route::get("setting/{id}", array(
     "as"   => "setting.config",
     "uses" => "LabConfigController@edit"
+));
+Route::any("fields/fetch", array(
+    "as"   => "fields.fetch",
+    "uses" => "LabConfigController@fetch"
+));
+Route::any("conf/generate", array(
+    "as"   => "conf.generate",
+    "uses" => "LabConfigController@configFile"
 ));
 Route::any("/patientreport", array(
     "as"   => "reports.patient.index",

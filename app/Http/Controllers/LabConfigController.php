@@ -99,25 +99,30 @@ class LabConfigController extends Controller
      */
     public function update($id)
     {
-        $setting = Configurable::find((int)$id);
+        if(Input::get('equi'))
+        {
+            $anId = Input::get('equi');
+            $id = Configurable::idByName(Analyser::find($anId)->name);
+        }
+        $conf = Configurable::find((int)$id);
         foreach (Input::all() as $key => $value)
         {
-            if((stripos($key, 'token') !==FALSE) || (stripos($key, 'method') !==FALSE))
+            if((stripos($key, 'token') !==FALSE) || (stripos($key, 'method') !==FALSE) || (stripos($key, 'equi') !==FALSE))
             {
                 continue;
             }
-            else
+            else if(stripos($key, 'field') !==FALSE)
             {
                 if(strlen($value)>0)
                 {
                     $fieldId = $this->strip($key);
-                    $conId = ConField::where('configurable_id', $id)->where('field_id', (int)$fieldId)->first();
+                    $conId = ConField::where('configurable_id', $conf->id)->where('field_id', (int)$fieldId)->first();
                     $counter = count(LabConfig::where('key', $conId->id)->get());
                     if($counter == 0)
                         $setting = new LabConfig;
                     else                    
                         $setting = LabConfig::where('key', $conId->id)->first();
-                    $setting->key = $fieldId;
+                    $setting->key = $conId->id;
                     $setting->value = $value;
                     if(Field::find($fieldId)->field_type == Field::FILEBROWSER)
                         $setting->value = $this->imageModifier(Input::file('field_'.$fieldId));
@@ -168,5 +173,82 @@ class LabConfigController extends Controller
             $image->move('img/', $filename);
         }
         return $filename;
+    }
+
+    /**
+     * Fetch settings of the given analyzer 
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function fetch()
+    {
+        $id = Input::get('analyzer_id');
+        $analyzer = Analyser::find($id);
+        $cId = Configurable::idByName($analyzer->name);
+        $setting = Configurable::find($cId);
+        $fields = $setting->fields;
+        foreach ($fields as $field)
+        {
+            $field->conf($setting->id)?$field->data=$field->conf($setting->id)->setting->value:$field->data='';
+        }
+        return json_encode($fields);
+    }
+    /**
+    *
+    *   Function to generate config file for instrumentation
+    *
+    */
+    public function configFile()
+    {
+        $id = Input::get('analyzer_id');
+        $analyzer = Analyser::find($id);
+        $cId = Configurable::idByName($analyzer->name);
+        $setting = Configurable::find($cId);
+        $fields = $setting->fields;
+
+        // Part 1
+        $file = 'BLISInterfaceClient/part1.txt';
+        $current = file_get_contents($file);
+        $config_p1 = str_replace("--FS--", $analyzer->feedsource(), $current);
+
+        //Part2
+        if ($analyzer->feed_source == Analyser::RS232)
+            $file = 'BLISInterfaceClient/rs232.txt';
+        else if ($analyzer->feed_source == Analyser::TEXT)
+            $file = 'BLISInterfaceClient/flatfile.txt';
+        else if ($analyzer->feed_source == Analyser::MSACCESS)
+            $file = 'BLISInterfaceClient/msaccess.txt';
+        else if ($analyzer->feed_source == Analyser::HTTP)
+            $file = 'BLISInterfaceClient/http.txt';
+        else if ($analyzer->feed_source == Analyser::TCPIP)
+            $file = 'BLISInterfaceClient/tcpip.txt';
+
+        $current = file_get_contents($file);
+        $config_p2 ="";
+        foreach ($fields as $field)
+        {
+            $config_p2 = str_replace("--".$field->field_name."--",$field->field_name." = ". $field->conf($setting->id)->setting->value, $current);
+            $current = $config_p2;
+        }
+        echo $config_p2;
+
+
+        //Part 3
+        $file = 'BLISInterfaceClient/part3.txt';
+        $current = file_get_contents($file);
+        $config_p3 = str_replace("--BLIS_URL--", 'http://'.$_SERVER['HTTP_HOST'], $current);
+
+
+        //Part 4
+        $file = 'BLISInterfaceClient/part4.txt';
+        $current = file_get_contents($file);
+        $config_p4 = str_replace("--EQUIP_NAME--", $analyzer->name, $current);
+
+
+        //Concatenated file
+        $config_file_content = $config_p1."\n".$config_p2."\n".$config_p3."\n".$config_p4;
+        $file2 = 'BLISInterfaceClient/BLISInterfaceClient.ini';
+        file_put_contents($file2, $config_file_content);
     }
 }
