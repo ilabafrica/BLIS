@@ -34,4 +34,40 @@ class Field extends Model
 	const SELECTLIST = 3;
 	const TEXTFIELD = 4;
 	const TEXTAREA = 5;
+	/*
+	*	Constants for fields given the feed source
+	*/
+	const RS232 = ['COMPORT', 'BAUD_RATE', 'PARITY', 'STOP_BITS', 'APPEND_NEWLINE', 'DATA_BITS', 'APPEND_CARRIAGE_RETURN'];
+	const TCPIP = ['PORT', 'MODE', 'CLIENT_RECONNECT', 'EQUIPMENT_IP'];
+	const MSACCESS = ['DATASOURCE', 'DAYS'];
+	const HTTP = [];
+	const TEXT = ['BASE_DIRECTORY', 'USE_SUB_DIRECTORIES', 'SUB_DIRECTORY_FORMAT', 'FILE_NAME_FORMAT', 'FILE_EXTENSION', 'FILE_SEPERATOR'];
+
+	/**
+	* Return field ID given the name
+	* @param $name the name of the field
+	*/
+	public static function idByName($name = NULL)
+	{
+		if($name)
+		{
+			if($name)
+			{
+				try 
+				{
+					$field = Field::where('field_name', $name)->orderBy('field_name', 'asc')->firstOrFail();
+					return $field->id;
+				} 
+				catch (ModelNotFoundException $e) 
+				{
+					Log::error("The field ` $name ` does not exist:  ". $e->getMessage());
+					//TODO: send email?
+					return null;
+				}
+			}
+		}
+		else{
+			return null;
+		}
+	}
 }

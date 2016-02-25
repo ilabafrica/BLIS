@@ -61,6 +61,7 @@ return [
 	'lab-settings'			=>	'Lab Settings',
 	'analyser'				=>	'Analyser|Analysers',
 	'field'					=>	'Field|Fields',
+	'route'					=>	'Route|Routes',
 	/*
 	*	grand menus
 	*/

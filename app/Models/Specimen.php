@@ -154,4 +154,14 @@ class Specimen extends Model
             return false;
         }
     }
+    /**
+    * Specimen barcode
+    *
+    * @return code
+    */
+    public function barcode()
+    {
+        $scode = $this->id;
+    	return $scode;
+    }
 }

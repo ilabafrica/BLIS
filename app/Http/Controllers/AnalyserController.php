@@ -5,6 +5,9 @@ use App\Http\Requests\AnalyserRequest;
 
 use App\Models\Analyser;
 use App\Models\TestCategory;
+use App\Models\Configurable;
+use App\Models\Field;
+use App\Models\ConField;
 
 use Response;
 use Auth;
@@ -65,6 +68,34 @@ class AnalyserController extends Controller {
         $analyser->description = $request->description;
         $analyser->user_id = 1;
         $analyser->save();
+        /* Save the analyser name to configurables */
+        $configurable = new Configurable;
+        $configurable->name = $analyser->name;
+        $configurable->user_id = 1;
+        $configurable->save();
+        /* Save configurable-fields for the configurable RS232,TCP/IP, MSACCESS,HTTP,TEXT */
+        $fields = [];
+        if($analyser->feed_source == Analyser::RS232)
+            $fields = Field::RS232;
+        else if($analyser->feed_source == Analyser::TCPIP)
+            $fields = Field::TCPIP;
+        else if($analyser->feed_source == Analyser::MSACCESS)
+            $fields = Field::MSACCESS;
+        else if($analyser->feed_source == Analyser::TEXT)
+            $fields = Field::TEXT;
+        foreach ($fields as $field)
+        {
+            $fId = Field::idByName($field);
+            $conf = ConField::where('configurable_id', $configurable->id)->where('field_id', $fId)->first();
+            if($conf)
+                $conField = ConField::find($conf->id);
+            else
+                $conField = new ConField;
+            $conField->configurable_id = $configurable->id;
+            $conField->field_id = $fId;
+            $conField->user_id = 1;
+            $conField->save();
+        }
         $url = session('SOURCE_URL');
 
         return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_analyser', $analyser ->id);
@@ -131,6 +162,38 @@ class AnalyserController extends Controller {
         $analyser->description = $request->description;
         $analyser->user_id = 1;
         $analyser->save();
+        //dd(Configurable::idByName($analyser->name));
+        /* Proceed to update the corresponding equipment */
+        if(count(Configurable::where('name', $analyser->name)->get())>0)
+            $configurable = Configurable::where('name', $analyser->name)->first();
+        else
+            $configurable = new Configurable;
+        $configurable->name = $analyser->name;
+        $configurable->user_id = 1;
+        $configurable->save();
+        /* Save configurable-fields for the configurable RS232,TCP/IP, MSACCESS,HTTP,TEXT */
+        $fields = [];
+        if($analyser->feed_source == Analyser::RS232)
+            $fields = Field::RS232;
+        else if($analyser->feed_source == Analyser::TCPIP)
+            $fields = Field::TCPIP;
+        else if($analyser->feed_source == Analyser::MSACCESS)
+            $fields = Field::MSACCESS;
+        else if($analyser->feed_source == Analyser::TEXT)
+            $fields = Field::TEXT;
+        foreach ($fields as $field)
+        {
+            $fId = Field::idByName($field);
+            $conf = ConField::where('configurable_id', $configurable->id)->where('field_id', $fId)->first();
+            if($conf)
+                $conField = ConField::find($conf->id);
+            else
+                $conField = new ConField;
+            $conField->configurable_id = $configurable->id;
+            $conField->field_id = $fId;
+            $conField->user_id = 1;
+            $conField->save();
+        }
         $url = session('SOURCE_URL');
 
         return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_analyser', $analyser ->id);

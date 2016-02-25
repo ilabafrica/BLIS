@@ -76,7 +76,7 @@
 									<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.patient', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('patient') !!}"><i class="fa fa-street-view"></i> {!! trans('menu.patient-register') !!}</a></li>
 									<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.test', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('test') !!}"><i class="fa fa-user-md"></i> {!! trans_choice('menu.test', 2) !!}</a></li>
 									<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.configurable', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('configurable') !!}"><i class="fa fa-google-wallet"></i> {!! trans_choice('menu.configurable', 2) !!}</a></li>
-									<li class="sidenav-dropdown{!! in_array(Request::segment(1), ['setting', 'analyser'])?' show-subnav':'' !!}">
+									<li class="sidenav-dropdown{!! in_array(Request::segment(1), ['setting', 'analyser', 'registration', 'facility'])?' show-subnav':'' !!}">
 										<a class="subnav-toggle" href="javascript:;"><i class="fa fa-toggle-off"></i> {!! trans('menu.lab-config') !!} <i class="fa fa-angle-down  pull-right"></i></a>
 										<ul class="nav sidenav-sub-menu">
 											<li class="sidenav-dropdown ">
@@ -93,13 +93,13 @@
 											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.facility', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('facility') !!}"><i class="fa fa-tag"></i> {!! trans('menu.referral-facilities') !!}</a></li>
 											<li class="{!! Request::segment(2)=='barcode'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('setting/barcode/edit') !!}"><i class="fa fa-tag"></i> {!! trans('menu.barcode-settings') !!}</a></li>
 											<li class="{!! Request::segment(2)=='lab'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('setting/lab/edit') !!}"><i class="fa fa-tag"></i> {!! trans('menu.lab-settings') !!}</a></li>
-											<li><a href="#"><i class="fa fa-tag"></i> {!! trans('menu.registration-fields') !!}</a></li>
+											<li class="{!! Request::segment(1)=='registration'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('registration') !!}"><i class="fa fa-tag"></i> {!! trans('menu.registration-fields') !!}</a></li>
 											<li><a href="#"><i class="fa fa-tag"></i> {!! trans('menu.setup-network') !!}</a></li>
-											<li class="sidenav-dropdown ">
+											<li class="sidenav-dropdown{!! in_array(Request::segment(2), ['hmis', 'equipment'])?' show-subnav':'' !!}">
 												<a class="subnav-toggle" href="#"><i class="fa fa-external-link"></i> {!! trans('menu.external-interface') !!}<i class="fa fa-angle-down  pull-right"></i></a>
 												<ul class="nav sidenav-sub-menu">
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.hmis') !!}</a></li>
-													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.interfaced-equipment') !!}</a></li>
+													<li class="{!! Request::segment(2)=='equipment'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('setting/equipment/edit') !!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.interfaced-equipment') !!}</a></li>
 												</ul>
 											</li>
 										</ul>

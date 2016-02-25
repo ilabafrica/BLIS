@@ -46,11 +46,11 @@ function Popup(data, code)
 
 function get_barcode(code)
 {
-     if(code == '')
-        {
-            alert('cannot be empty');
-            return;
-        }
+    if(code == '')
+    {
+        alert('cannot be empty');
+        return;
+    }
     var count = parseInt($('#count').html()); 
     count = count + 1;
     $('#count').html(count);  
@@ -68,4 +68,40 @@ function get_barcode(code)
 
     mywindow.print();
     mywindow.close();    
+}
+function print_specimen_barcode(code)
+{
+    var count = parseInt($('#count').html()); 
+    count = count + 1;
+    $('#count').html(count);  
+    var div = "bar"+count;
+    var content = "<br><br><div id='"+div+"'></div>";
+    $('#specimenBarcodeDiv').html(content);
+
+    console.log(code);
+    $("#"+div).barcode(code, 'code39',{barWidth:2, barHeight:30, fontSize:11, output:'css'});
+    var data = $('#specimenBarcodeDiv').html();
+    var mywindow = window.open('', 'my div', 'height=400,width=600');
+    mywindow.document.write('<html><head><title>Barcodes</title>');
+    /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+    mywindow.document.write('</head><body >');
+    mywindow.document.write(data);
+    mywindow.document.write('</body></html>');
+
+    mywindow.print();
+    mywindow.close();
+}
+function Popup(data) 
+{
+    var mywindow = window.open('', 'my div', 'height=400,width=600');
+    mywindow.document.write('<html><head><title>Barcode</title>');
+    /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+    mywindow.document.write('</head><body >');
+    mywindow.document.write(data);
+    mywindow.document.write('</body></html>');
+
+    mywindow.print();
+    mywindow.close();
+    //mywindow.document.show
+    return true;
 }

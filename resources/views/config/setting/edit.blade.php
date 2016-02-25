@@ -32,12 +32,62 @@
             @if (Session::has('message'))
 				<div class="alert alert-info">{!! Session::get('message') !!}</div>
 			@endif
+			@if(Request::segment(2)=='equipment')
+			<div class="row">            	
+				<div class='col-md-12' style="padding-bottom:5px;">
+			        {!! Form::open() !!}
+	                    <div class='col-md-8'>
+	                        {!! Form::select('analyser_id', $analysers, '', array('class' => 'form-control c-select', 'id' => 'analyser_id', 'onchange' => "reload()")) !!}
+	                    </div>
+			        {!! Form::close() !!}
+			    </div>
+            </div>
+            @endif
             <div class="row">
 	            <div class="col-md-8">
 					{!! Form::model($setting, array('route' => array('setting.update', $setting->id), 'method' => 'PUT', 'enctype' => 'multipart/form-data', 'files' => true, 'id' => 'form-edit-setting')) !!}
+					<div id="reloadable">
 						<!-- CSRF Token -->
 		                <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 		                <!-- ./ csrf token -->
+		                @if(Request::segment(2)=='equipment')
+		                	<div class="form-group row">
+								{!! Form::label('name', trans_choice('general-terms.name',1), array('class' => 'col-sm-4 form-control-label')) !!}
+								<div class="col-sm-6">
+									<h6><small>{!! $analyser->name !!}</small></h6>
+								</div>
+							</div>
+							<div class="form-group row">
+								{!! Form::label('version', trans('general-terms.version'), array('class' => 'col-sm-4 form-control-label')) !!}
+								<div class="col-sm-6">
+									<h6><small>{!! $analyser->version !!}</small></h6>
+								</div>
+							</div>
+							<div class="form-group row">
+								{!! Form::label('test_category_id', trans_choice('menu.lab-section', 1), array('class' => 'col-sm-4 form-control-label')) !!}
+								<div class="col-sm-6">
+									<h6><small>{!! $analyser->testCategory->name !!}</small></h6>
+								</div>
+							</div>
+							<div class="form-group row">
+								{!! Form::label('comm-type', trans('general-terms.comm-type'), array('class' => 'col-sm-4 form-control-label')) !!}
+								<div class="col-sm-6">
+									<h6><small>{!! $analyser->commtype() !!}</small></h6>
+								</div>
+							</div>
+							<div class="form-group row">
+								{!! Form::label('feed-source', trans('general-terms.feed-source'), array('class' => 'col-sm-4 form-control-label')) !!}
+								<div class="col-sm-6">
+									<h6><small>{!! $analyser->feedsource() !!}</small></h6>
+								</div>
+							</div>
+							<div class="form-group row">
+								{!! Form::label('config-file', trans('general-terms.config-file'), array('class' => 'col-sm-4 form-control-label')) !!}
+								<div class="col-sm-6">
+				                	<h6><small>{!! $analyser->config_file !!}</small></h6>
+								</div>
+							</div>
+		                @endif
 						@foreach($fields as $field)
 		                	@if($field->field_type == App\Models\Field::CHECKBOX)
 		                		<div class="form-group row">
@@ -99,11 +149,14 @@
 							{!! Form::button("<i class='fa fa-check-circle'></i> ".trans('action.update'), 
 								array('class' => 'btn btn-primary btn-sm', 'onclick' => 'submit()')) !!}
 							<a href="#" class="btn btn-sm btn-silver"><i class="fa fa-times-circle"></i> {!! trans('action.cancel') !!}</a>
+							@if(Request::segment(2)=='equipment')
+								<a href="#" class="btn btn-sm btn-pomegranate"><i class="fa fa-cog"></i> {!! trans('action.generate-config') !!}</a>
+							@endif
 						</div>
-
+					</div>
 					{!! Form::close() !!}
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4" id="equipment">
 					<ul class="list-group">
 						<li class="list-group-item"><strong>{!! $setting->name.' '.trans('menu.summary') !!}</strong></li>
 						@foreach($fields as $field)

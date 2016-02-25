@@ -541,15 +541,32 @@ class CreateBlisTables extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('key')->references('id')->on('configurable_fields');
         });
+        /* custom values */
+        Schema::create('lab_custom_values', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->integer('reference')->nullable();
+            $table->integer('key')->unsigned();
+            $table->string('value', 100);
+            $table->integer('user_id')->unsigned();
+
+            $table->softDeletes();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('key')->references('id')->on('configurable_fields');
+        });
         /* Analysers table */
         Schema::create('analysers', function(Blueprint $table)
         {
             $table->increments('id');
             $table->string('name', 50);
             $table->string('version', 25)->nullable();
-            $table->string('feed_source', 25);
+            $table->tinyInteger('comm_type');
+            $table->tinyInteger('feed_source');
             $table->integer('test_category_id')->unsigned();
             $table->string('description', 100)->nullable();
+            $table->string('config_file', 200);
             $table->integer('user_id')->unsigned();
 
             $table->softDeletes();

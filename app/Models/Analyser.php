@@ -38,4 +38,20 @@ class Analyser extends Model
 	*/
 	const UNIDIRECTIONAL = 0;
 	const BIDIRECTIONAL = 1;
+	/*
+	*	Return corresponding comm-type
+	*/
+	public function feedsource()
+	{
+		$feed_sources = ['RS232', 'TCP/IP', 'MSACCESS', 'HTTP', 'TEXT'];
+		return $feed_sources[$this->feed_source];
+	}
+	/*
+	*	Return corresponding feed-source
+	*/
+	public function commtype()
+	{
+		$comm_types = ['Uni-directional', 'Bi-directional'];
+		return $comm_types[$this->comm_type];
+	}
 }

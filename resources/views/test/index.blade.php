@@ -167,10 +167,15 @@
 		                                {!! trans('action.view') !!}
 		                            </a>
 		                            <!-- /. barcode-button -->
-		                            <a class="btn btn-sm btn-asbestos barcode-button" href="{!! url("specimen/" . $test->getSpecimenId() . "/barcode") !!}">
+		                            {!! Form::open() !!}
+		                            <!-- CSRF Token -->
+					                <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+					                <!-- ./ csrf token -->
+		                            <a class="btn btn-sm btn-asbestos barcode-button" onclick="print_specimen_barcode('{!! $test->specimen->id !!}')">
                                         <i class="fa fa-barcode"></i>
                                         {!! trans('general-terms.barcode') !!}
                                     </a>
+                                    {!! Form::close() !!}
 		                            
 		                        @if ($test->isNotReceived()) 
 		                            @if(Auth::user()->can('receive_external_test') && $test->isPaid())
@@ -435,5 +440,9 @@
         {!!trans('messages.refer-sample')!!}
     </a>
 </div> <!-- /. referral-button -->
+<div id="count" style='display:none;'>0</div>
+<div id="specimenBarcodeDiv" style="display:none;"></div>
 
+<!-- jQuery barcode script -->
+<script type="text/javascript" src="{{ asset('js/barcode.js') }} "></script>
 @endsection

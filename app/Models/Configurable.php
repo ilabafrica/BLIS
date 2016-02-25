@@ -52,4 +52,31 @@ class Configurable extends Model
 			return null;
 		}
 	}
+	/**
+	* Return Configurable ID given the name
+	* @param $name the name of the module
+	*/
+	public static function idByName($name = NULL)
+	{
+		if($name)
+		{
+			if($name)
+			{
+				try 
+				{
+					$conf = Configurable::where('name', $name)->orderBy('name', 'asc')->firstOrFail();
+					return $conf->id;
+				} 
+				catch (ModelNotFoundException $e) 
+				{
+					Log::error("The Configurable ` $name ` does not exist:  ". $e->getMessage());
+					//TODO: send email?
+					return null;
+				}
+			}
+		}
+		else{
+			return null;
+		}
+	}
 }

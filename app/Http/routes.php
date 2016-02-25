@@ -143,6 +143,10 @@ Route::any("/test/{test}/verify", array(
     "as"   => "test.verify",
     "uses" => "TestController@verify"
 ));
+Route::any("specimen/barcode", array(
+    "as"   => "specimen.barcode",
+    "uses" => "TestController@barcode"
+));
 /*
 *	Routes for role
 */
@@ -305,4 +309,13 @@ Route::any('select/list', array(
 Route::any("count", array(
     "as"   => "reports.aggregate.counts",
     "uses" => "ReportController@count"
+));
+/*
+*   Routes for registration fields settings
+*/
+Route::resource('registration', 'RegistrationController');
+        
+Route::get("/registration/{id}/delete", array(
+    "as"   => "registration.delete",
+    "uses" => "RegistrationController@delete"
 ));

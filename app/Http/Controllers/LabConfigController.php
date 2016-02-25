@@ -13,6 +13,7 @@ use App\Models\Configurable;
 use App\Models\LabConfig;
 use App\Models\Field;
 use App\Models\ConField;
+use App\Models\Analyser;
 
 use Input;
 
@@ -68,11 +69,25 @@ class LabConfigController extends Controller
      */
     public function edit($id)
     {
+        $analysers = [];
+        $analyser = NULL;
+        if($id=='equipment')
+        {
+            $analysers = Analyser::lists('name', 'id');
+        }
+        if(!$analyser)
+        {
+            $analyser = Analyser::first();
+            // $id = $analyser->id;
+        }
         //  Fetch given id
-        $cId = Configurable::idByRoute($id);
+        if($id=='equipment')
+            $cId = Configurable::idByName($analyser->name);
+        else
+            $cId = Configurable::idByRoute($id);
         $setting = Configurable::find($cId);
         $fields = $setting->fields;
-        return view('config.setting.edit', compact('id', 'setting', 'fields'));
+        return view('config.setting.edit', compact('id', 'setting', 'fields', 'analysers', 'analyser'));
     }
 
     /**

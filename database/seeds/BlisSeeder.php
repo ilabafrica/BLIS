@@ -6,9 +6,9 @@ use App\Models\User;
 use App\Models\Configurable;
 use App\Models\Field;
 use App\Models\LabConfig;
-use App\Models\Analyser;
 use App\Models\ConField;
 use App\Models\TestCategory;
+use App\Models\Analyser;
 
 //	Carbon - for use with dates
 use Jenssegers\Date\Date as Carbon;
@@ -199,6 +199,45 @@ class BlisSeeder extends Seeder
                 "key" => "4", "value" => "11", "user_id" => "1", "created_at" => $now, "updated_at" => $now
             )
         );
+        /* lnterfaced-equipment table */
+        $analysers = array(
+            array(
+                "name" => "Mindray BS-200E", "version" => "01.00.07", "comm_type" => "1", "feed_source" => "2", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "ABX Pentra 60 C+", "version" => "", "comm_type" => "1", "feed_source" => "3", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "ABX MACROS 60", "version" => "", "comm_type" => "0", "feed_source" => "1", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "BT 3000 Plus", "version" => "", "comm_type" => "0", "feed_source" => "1", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "Sysmex SX 500i", "version" => "", "comm_type" => "0", "feed_source" => "2", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "BD FACSCalibur", "version" => "", "comm_type" => "1", "feed_source" => "5", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "Mindray BC 3600", "version" => "", "comm_type" => "0", "feed_source" => "1", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "Selectra Junior", "version" => "", "comm_type" => "0", "feed_source" => "1", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "GeneXpert", "version" => "", "comm_type" => "1", "feed_source" => "2", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "ABX Pentra 80", "version" => "", "comm_type" => "1", "feed_source" => "1", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "Sysmex XT 2000i", "version" => "", "comm_type" => "0", "feed_source" => "2", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "Vitalex Flexor", "version" => "", "comm_type" => "0", "feed_source" => "2", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            )
+        );
         foreach ($usersData as $user)
         {
             $users[] = User::create($user);
@@ -229,5 +268,10 @@ class BlisSeeder extends Seeder
         $lab_section_microbiology = TestCategory::create(array("name" => "MICROBIOLOGY","description" => "", "created_at" => $now, "updated_at" => $now));
 
         $this->command->info('Test categories seeded');
+        foreach ($analysers as $analyser)
+        {
+            $lyser[] = Analyser::create($analyser);
+        }
+        $this->command->info('Analysers table seeded');
     }
 }
