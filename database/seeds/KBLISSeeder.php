@@ -60,19 +60,6 @@ class KBLISSeeder extends Seeder
         // User::find(163)->attachRole($role2);
         // User::find(164)->attachRole($role2);
 
-        /* Instruments table */
-        $instrumentsData = array(
-            "name" => "Celltac F Mek 8222",
-            "description" => "Automatic analyzer with 22 parameters and WBC 5 part diff Hematology Analyzer",
-            "driver_name" => "KBLIS\\Plugins\\CelltacFMachine",
-            "ip" => "192.168.1.12",
-            "hostname" => "HEMASERVER"
-        );
-
-        $instrument = Instrument::create($instrumentsData);
-        $instrument->testTypes()->attach(array(176));
-
-        $this->command->info('Instruments table seeded');
     }
 
 }

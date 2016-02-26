@@ -17,6 +17,5 @@ class DatabaseSeeder extends Seeder
         $this->call('Database\Seeds\TestDataSeeder');
         $this->call('Database\Seeds\KBLISSeeder');
         $this->call('Database\Seeds\CultureSensitivitySeeder');
-        $this->call('Database\Seeds\SurveillanceSeeder');
     }
 }
