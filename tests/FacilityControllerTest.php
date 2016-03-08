@@ -35,19 +35,13 @@ class FacilityControllerTest extends TestCase
 	{
 		//Check if it prevents blank name entries
 		$facilityNameEmpty = '';
-		Input::replace(array('name' => $facilityNameEmpty));
-		$facilityController = new FacilityController;
-		$facilityController->store();
-
+		$response = $this->action('POST', 'FacilityController@store', array('name' => $facilityNameEmpty));
 		$this->assertRedirectedToRoute('facility.index');
 		$this->assertSessionHasErrors('name');
 
 		//Check if it prevents duplicate name entries
 		$facilityNameDuplicate = Facility::find(1)->name;
-		Input::replace(array('name' => $facilityNameDuplicate));
-		$facilityController = new FacilityController;
-		$facilityController->store();
-
+		$response = $this->action('POST', 'FacilityController@store', array('name' => $facilityNameDuplicate));
 		$this->assertRedirectedToRoute('facility.index');
 		$this->assertSessionHasErrors('name');
 	}
@@ -56,10 +50,7 @@ class FacilityControllerTest extends TestCase
 	{
 		$facilityName = "LIKUD GILAT HOSPITAL";
 		$idToUpdate = 1;
-		Input::replace(array('id' => $idToUpdate, 'name' => $facilityName));
-		$facilityController = new FacilityController;
-		$facilityController->update();
-
+		$this->action('PUT', 'FacilityController@update', array('id' => $idToUpdate, 'name' => $facilityName));
 		$faciltyNameUpdated = Facility::find($idToUpdate)->name;
 
 		$this->assertEquals($facilityName, $faciltyNameUpdated);
@@ -70,20 +61,14 @@ class FacilityControllerTest extends TestCase
 		//Prevents blank entries
 		$facilityName = "";
 		$idToUpdate = 1;
-		Input::replace(array('id' => $idToUpdate, 'name' => $facilityName));
-		$facilityController = new FacilityController;
-		$facilityController->update();
-
+		$this->action('PUT', 'FacilityController@update', array('id' => $idToUpdate, 'name' => $facilityName));
 		$this->assertRedirectedToRoute('facility.index');
 		$this->assertSessionHasErrors('name');
 
 		//Prevents duplicate entries
 		$facilityName = Facility::find(2)->name;
 		$idToUpdate = 1;
-		Input::replace(array('id' => $idToUpdate, 'name' => $facilityName));
-		$facilityController = new FacilityController;
-		$response = $facilityController->update();
-
+		$this->action('PUT', 'FacilityController@update', array('id' => $idToUpdate, 'name' => $facilityName));
 		$this->assertRedirectedToRoute('facility.index');
 		$this->assertSessionHasErrors('name');
 	}

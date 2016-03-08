@@ -44,8 +44,7 @@ class LotControllerTest extends TestCase
 	*/
 	public function testIndex()
 	{
-		$lotController = new LotController;
-		$response = $lotController->index();
+		$response = $this->action('GET', 'LotController@index');
 		$this->assertTrue($response->isOk());
 		$this->assertViewHas('lots');
 	}
@@ -54,8 +53,7 @@ class LotControllerTest extends TestCase
 	*/
 	public function testCreate()
 	{
-		$lotController = new LotController;
-		$response = $lotController->index();
+		$response = $this->action('GET', 'LotController@index');
 		$this->assertTrue($response->isOk());
 		$this->assertViewHas('instruments');
 	}
@@ -66,9 +64,7 @@ class LotControllerTest extends TestCase
 	{
 		echo "\n\nLOT CONTROLLER TEST\n\n";
 
-		Input::replace($this->input);
-		$lotController = new LotController;
-		$lotController->store();
+		$response = $this->action('POST', 'LotController@store', $this->input);
 		$this->assertTrue($response->isRedirection());
 
 		$testLot = lot::orderBy('id', 'desc')->first();
@@ -83,9 +79,7 @@ class LotControllerTest extends TestCase
 	*/
 	public function testUpdate()
 	{
-		Input::replace($this->inputUpdate);
-		$lotController = new LotController;
-		$lotController->store();
+		$response = $this->action('POST', 'LotController@store', $this->inputUpdate);
 		$this->assertTrue($response->isRedirection());
 
 		$testLot = lot::orderBy('id', 'desc')->first();

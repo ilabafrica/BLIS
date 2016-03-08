@@ -22,8 +22,7 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testIndex()
 	{
-		$controlController = new ControlController;
-		$response = $controlController->index();
+		$response = $this->action('GET', 'ControlController@index');
 		$this->assertViewHas('controls');
 	}
 
@@ -32,8 +31,7 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testCreate()
 	{
-		$controlController = new ControlController;
-		$response = $controlController->create();
+		$response = $this->action('GET', 'ControlController@create');
 		$this->assertViewHas('measureTypes');
 		$this->assertViewHas('lots');
 	}
@@ -43,9 +41,8 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testStore()
 	{
-		Input::replace($this->inputStoreControls);
-		$controlController = new ControlController;
-		$controlController->store();
+   		$response = $this->action('POST', 'ControlController@store', $this->inputStoreControls);
+
 		$this->assertTrue($response->isRedirection());
 		$this->assertRedirectedToRoute('control.index');
 
@@ -68,9 +65,7 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testUpdate()
 	{
-		Input::replace($this->inputUpdateControls);
-		$controlController = new ControlController;
-		$controlController->store();
+   		$response = $this->action('POST', 'ControlController@store', $this->inputUpdateControls);
 
 		$this->assertTrue($response->isRedirection());
 		$this->assertRedirectedToRoute('control.index');
@@ -93,9 +88,7 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testDestroy()
 	{
-		$controlController = new ControlController;
-		$controlController->destroy(1);
-
+		$this->action('DELETE', 'ControlController@destroy', array(1));
 		$control = Control::find(1);
 		$this->assertNull($control);
 	}

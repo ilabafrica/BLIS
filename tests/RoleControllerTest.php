@@ -70,28 +70,19 @@ class RoleControllerTest extends TestCase
         // Set SOURCE URL - the index page for roles
         Session::put('SOURCE_URL', URL::route('role.index'));
 
-        Input::replace($this->systemRoleUpdateWorks);
-        $roleController = new RoleController;
-        $roleController->update();
-
+        $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateWorks);
         $role1 = Role::find(1);
         $this->assertEquals($this->systemRoleUpdateWorks['name'], $role1->name);
         $this->assertEquals($this->systemRoleUpdateWorks['description'], $role1->description);
         $this->assertRedirectedToRoute('role.index');
 
-        Input::replace($this->systemRoleUpdateChecksForUniqNameExceptThisId);
-        $roleController = new RoleController;
-        $roleController->update();
-
+        $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateChecksForUniqNameExceptThisId);
         $role2 = Role::find(2);
         $this->assertEquals($this->systemRoleUpdateChecksForUniqNameExceptThisId['name'], $role2->name);
         $this->assertEquals($this->systemRoleUpdateChecksForUniqNameExceptThisId['description'], $role2->description);
         $this->assertRedirectedToRoute('role.index');
 
-        Input::replace($this->systemRoleUpdateFailsUpdatingWithExistingName);
-        $roleController = new RoleController;
-        $roleController->update();
-
+        $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateFailsUpdatingWithExistingName);
         $role2 = Role::find(2);
         $this->assertNotEquals($this->systemRoleUpdateFailsUpdatingWithExistingName['name'], $role2->name);
         $this->assertRedirectedToRoute('role.edit', array(2));
