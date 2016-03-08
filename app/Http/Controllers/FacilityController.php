@@ -2,9 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Requests\FacilityRequest;
-
 use App\Models\Facility;
-
 use Response;
 use Auth;
 use Session;

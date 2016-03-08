@@ -3,6 +3,8 @@
  * Tests the MetricController functions that store, edit and delete metric infomation 
  * @author
  */
+use App\Models\User;
+use App\Http\Controllers\MetricController;
 class MetricControllerTest extends TestCase 
 {
 	

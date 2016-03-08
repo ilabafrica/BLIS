@@ -3,6 +3,9 @@
  * Tests the SupplierController functions that store, edit and delete supplier infomation 
  * @author
  */
+use App\Models\User;
+use App\Models\Supplier;
+use App\Http\Controllers\SupplierController;
 class SupplierControllerTest extends TestCase 
 {
 	

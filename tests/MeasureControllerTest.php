@@ -3,6 +3,9 @@
  * Tests the MeasureController functions that store, edit and delete measures 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+use App\Http\Controllers\MeasureController;
+use App\Models\Measure;
+use App\Models\MeasureRange;
 class MeasureControllerTest extends TestCase 
 {
 	/**

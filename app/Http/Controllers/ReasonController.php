@@ -2,9 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Requests\ReasonRequest;
-
 use App\Models\Reason;
-
 use Response;
 use Auth;
 use Session;

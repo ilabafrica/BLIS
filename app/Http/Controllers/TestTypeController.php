@@ -2,14 +2,12 @@
 
 use App\Http\Requests;
 use App\Http\Requests\TestTypeRequest;
-
 use App\Models\TestType;
 use App\Models\Measure;
 use App\Models\MeasureType;
 use App\Models\SpecimenType;
 use App\Models\TestCategory;
 use App\Models\Organism;
-
 use Response;
 use Auth;
 use Session;

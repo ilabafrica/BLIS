@@ -4,6 +4,11 @@
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
 
+use App\Models\User;
+use App\Models\Test;
+use App\Models\Patient;
+use App\Models\Specimen;
+use App\Http\Controllers\TestController;
 class TestControllerTest extends TestCase 
 {
 

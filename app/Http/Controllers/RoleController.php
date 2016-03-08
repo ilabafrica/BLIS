@@ -2,10 +2,8 @@
 
 use App\Http\Requests;
 use App\Http\Requests\RoleRequest;
-
 use App\Models\Role;
 use App\Models\User;
-
 use Config;
 use Response;
 use Auth;

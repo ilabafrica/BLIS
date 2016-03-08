@@ -2,9 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Requests\SupplierRequest;
-
 use App\Models\Supplier;
-
 use Response;
 use Auth;
 use Session;

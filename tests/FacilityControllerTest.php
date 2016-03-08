@@ -3,6 +3,8 @@
  * Tests the MeasureController functions that store, edit and delete measures 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+use App\Models\Facility;
+use App\Http\Controllers\FacilityController;
 class FacilityControllerTest extends TestCase 
 {
 	/**
@@ -33,14 +35,18 @@ class FacilityControllerTest extends TestCase
 	{
 		//Check if it prevents blank name entries
 		$facilityNameEmpty = '';
-		$response = $this->action('POST', 'FacilityController@store', array('name' => $facilityNameEmpty));
+		Input::replace(array('name' => $facilityNameEmpty));
+		$facilityController = new FacilityController;
+		$facilityController->store();
 
 		$this->assertRedirectedToRoute('facility.index');
 		$this->assertSessionHasErrors('name');
 
 		//Check if it prevents duplicate name entries
 		$facilityNameDuplicate = Facility::find(1)->name;
-		$response = $this->action('POST', 'FacilityController@store', array('name' => $facilityNameDuplicate));
+		Input::replace(array('name' => $facilityNameDuplicate));
+		$facilityController = new FacilityController;
+		$facilityController->store();
 
 		$this->assertRedirectedToRoute('facility.index');
 		$this->assertSessionHasErrors('name');
@@ -50,7 +56,9 @@ class FacilityControllerTest extends TestCase
 	{
 		$facilityName = "LIKUD GILAT HOSPITAL";
 		$idToUpdate = 1;
-		$this->action('PUT', 'FacilityController@update', array('id' => $idToUpdate, 'name' => $facilityName));
+		Input::replace(array('id' => $idToUpdate, 'name' => $facilityName));
+		$facilityController = new FacilityController;
+		$facilityController->update();
 
 		$faciltyNameUpdated = Facility::find($idToUpdate)->name;
 
@@ -62,7 +70,9 @@ class FacilityControllerTest extends TestCase
 		//Prevents blank entries
 		$facilityName = "";
 		$idToUpdate = 1;
-		$response = $this->action('PUT', 'FacilityController@update', array('id' => $idToUpdate, 'name' => $facilityName));
+		Input::replace(array('id' => $idToUpdate, 'name' => $facilityName));
+		$facilityController = new FacilityController;
+		$facilityController->update();
 
 		$this->assertRedirectedToRoute('facility.index');
 		$this->assertSessionHasErrors('name');
@@ -70,7 +80,9 @@ class FacilityControllerTest extends TestCase
 		//Prevents duplicate entries
 		$facilityName = Facility::find(2)->name;
 		$idToUpdate = 1;
-		$response = $this->action('PUT', 'FacilityController@update', array('id' => $idToUpdate, 'name' => $facilityName));
+		Input::replace(array('id' => $idToUpdate, 'name' => $facilityName));
+		$facilityController = new FacilityController;
+		$response = $facilityController->update();
 
 		$this->assertRedirectedToRoute('facility.index');
 		$this->assertSessionHasErrors('name');

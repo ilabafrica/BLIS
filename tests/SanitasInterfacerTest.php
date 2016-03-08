@@ -4,6 +4,8 @@
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
 use App\Models\ExternalDump;
+use App\Api\Facades\Interfacer;
+use App\Api\SanitasInterfacer;
 
 class SanitasInterfacerTest extends TestCase
 {

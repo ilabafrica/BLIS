@@ -13,7 +13,7 @@ class ControlMeasureResult extends Model {
 	*/
 	public function controlMeasure()
 	{
-		return $this->belongsTo('ControlMeasure', 'control_measure_id');
+		return $this->belongsTo('App\Models\ControlMeasure', 'control_measure_id');
 	}
 
 	/**
@@ -23,6 +23,6 @@ class ControlMeasureResult extends Model {
 	*/
 	public function controlTests()
 	{
-		return $this->belongsTo('controlTest', 'control_test_id');
+		return $this->belongsTo('App\Models\ControlTest', 'control_test_id');
 	}
 }

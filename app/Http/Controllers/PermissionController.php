@@ -2,10 +2,8 @@
 
 use App\Http\Requests;
 use App\Http\Requests\PermissionRequest;
-
 use App\Models\Permission;
 use App\Models\Role;
-
 use Response;
 use Auth;
 use Session;

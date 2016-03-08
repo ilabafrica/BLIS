@@ -3,6 +3,12 @@
  * Tests the SupplierController functions that store, edit and delete receipt infomation 
  * @author
  */
+use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\SupplierController;
+use App\Models\Commodity;
+use App\Models\Supplier;
+use App\Models\Receipt;
+use App\Models\User;
 class ReceiptControllerTest extends TestCase 
 {
 	

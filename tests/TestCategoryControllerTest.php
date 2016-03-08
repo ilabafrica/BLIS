@@ -3,6 +3,8 @@
  * Tests the TestCategoryController functions that store, edit and delete testCategories 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+use App\Http\Controllers\TestCategoryController;
+use App\Models\TestCategory;
 class TestCategoryControllerTest extends TestCase 
 {
     /**

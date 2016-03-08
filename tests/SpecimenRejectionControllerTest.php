@@ -3,6 +3,8 @@
  * Tests the SpecimenRejectionController functions that store, edit and delete specimen rejection reason 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+use App\Models\RejectionReason;
+use App\Http\Controllers\SpecimenRejectionController;
 class SpecimenRejectionControllerTest extends TestCase 
 {
     /**

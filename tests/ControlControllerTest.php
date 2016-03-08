@@ -3,6 +3,10 @@
  * Tests the MeasureController functions that store, edit and delete measures 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+use App\Models\User;
+use App\Models\Control;
+use App\Models\ControlTest;
+use App\Http\Controllers\ControlController;
 class ControlControllerTest extends TestCase {
 
 	public function setup()
@@ -18,8 +22,8 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testIndex()
 	{
-		$response = $this->action('GET', 'ControlController@index');
-		$this->assertTrue($response->isOk());
+		$controlController = new ControlController;
+		$response = $controlController->index();
 		$this->assertViewHas('controls');
 	}
 
@@ -28,8 +32,8 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testCreate()
 	{
-		$response = $this->action('GET', 'ControlController@create');
-		$this->assertTrue($response->isOk());
+		$controlController = new ControlController;
+		$response = $controlController->create();
 		$this->assertViewHas('measureTypes');
 		$this->assertViewHas('lots');
 	}
@@ -39,7 +43,9 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testStore()
 	{
-		$response = $this->action('POST', 'ControlController@store', $this->inputStoreControls);
+		Input::replace($this->inputStoreControls);
+		$controlController = new ControlController;
+		$controlController->store();
 		$this->assertTrue($response->isRedirection());
 		$this->assertRedirectedToRoute('control.index');
 
@@ -62,7 +68,10 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testUpdate()
 	{
-		$response = $this->action('POST', 'ControlController@store', $this->inputUpdateControls);
+		Input::replace($this->inputUpdateControls);
+		$controlController = new ControlController;
+		$controlController->store();
+
 		$this->assertTrue($response->isRedirection());
 		$this->assertRedirectedToRoute('control.index');
 
@@ -84,7 +93,8 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testDestroy()
 	{
-		$this->action('DELETE', 'ControlController@destroy', array(1));
+		$controlController = new ControlController;
+		$controlController->destroy(1);
 
 		$control = Control::find(1);
 		$this->assertNull($control);

@@ -2,7 +2,6 @@
 
 use App\Http\Requests;
 use App\Http\Requests\PatientRequest;
-
 use App\Models\Patient;
 use Config;
 use Input;

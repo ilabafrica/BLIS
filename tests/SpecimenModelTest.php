@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Referral;
+use App\Models\Specimen;
 class SpecimenModelTest extends TestCase {
     
     public function setup()

@@ -3,6 +3,10 @@
  * Tests the IssueController functions that store, edit and delete issue infomation 
  * @author
  */
+use App\Http\Controllers\IssueController;
+use App\Models\TopupRequest;
+use App\Models\User;
+use App\Models\Receipt;
 class IssueControllerTest extends TestCase 
 {
 	

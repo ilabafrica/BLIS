@@ -1,5 +1,10 @@
-<?php namespace Api;
+<?php namespace App\Api;
 
+use App\Models\ExternalDump;
+use App\Models\TestType;
+use App\Models\Measures;
+use App\Models\Patient;
+use App\Models\Test;
 class SanitasInterfacer implements InterfacerInterface{
 
     public function retrieve($labRequest)

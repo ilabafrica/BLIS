@@ -23,6 +23,7 @@
     "autoload": {
         "classmap": [
             "database",
+            "app/Api",
             "app/Models"
         ],
         "psr-4": {

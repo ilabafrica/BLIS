@@ -3,6 +3,11 @@
  * Tests the TopUpController functions that store, edit and delete topup infomation 
  * @author
  */
+use App\Models\TestCategory;
+use App\Models\Commodity;
+use App\Models\TopupRequest;
+use App\Models\User;
+use App\Http\Controllers\TopUpController;
 class TopUpControllerTest extends TestCase 
 {
 	

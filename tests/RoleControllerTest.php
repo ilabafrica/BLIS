@@ -3,6 +3,9 @@
  * Tests the MeasureController functions that store, edit and delete measures 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+use App\Models\User;
+use App\Models\Role;
+use App\Http\Controllers\RoleController;
 class RoleControllerTest extends TestCase 
 {
     /**
@@ -67,19 +70,28 @@ class RoleControllerTest extends TestCase
         // Set SOURCE URL - the index page for roles
         Session::put('SOURCE_URL', URL::route('role.index'));
 
-        $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateWorks);
+        Input::replace($this->systemRoleUpdateWorks);
+        $roleController = new RoleController;
+        $roleController->update();
+
         $role1 = Role::find(1);
         $this->assertEquals($this->systemRoleUpdateWorks['name'], $role1->name);
         $this->assertEquals($this->systemRoleUpdateWorks['description'], $role1->description);
         $this->assertRedirectedToRoute('role.index');
 
-        $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateChecksForUniqNameExceptThisId);
+        Input::replace($this->systemRoleUpdateChecksForUniqNameExceptThisId);
+        $roleController = new RoleController;
+        $roleController->update();
+
         $role2 = Role::find(2);
         $this->assertEquals($this->systemRoleUpdateChecksForUniqNameExceptThisId['name'], $role2->name);
         $this->assertEquals($this->systemRoleUpdateChecksForUniqNameExceptThisId['description'], $role2->description);
         $this->assertRedirectedToRoute('role.index');
 
-        $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateFailsUpdatingWithExistingName);
+        Input::replace($this->systemRoleUpdateFailsUpdatingWithExistingName);
+        $roleController = new RoleController;
+        $roleController->update();
+
         $role2 = Role::find(2);
         $this->assertNotEquals($this->systemRoleUpdateFailsUpdatingWithExistingName['name'], $role2->name);
         $this->assertRedirectedToRoute('role.edit', array(2));

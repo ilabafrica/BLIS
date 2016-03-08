@@ -12,7 +12,6 @@ use App\Models\Patient;
 use App\Models\Specimen;
 use App\Models\Reason;
 use App\Models\Facility;
-
 use Input;
 use Response;
 use Auth;
@@ -196,7 +195,7 @@ class TestController extends Controller {
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
-			return Redirect::route('test.reject', array(Input::get('specimen_id')))
+			return redirect()->to('test.reject', array(Input::get('specimen_id')))
 				->withInput()
 				->withErrors($validator);
 		} else {

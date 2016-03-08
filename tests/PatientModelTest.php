@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Patient;
 class PatientModelTest extends TestCase {
     
     public function setup()

@@ -3,6 +3,9 @@
  * Tests the SpecimenTypeController functions that store, edit and delete specimenTypes 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+use App\Models\Specimen;
+use App\Models\SpecimenType;
+use App\Http\Controllers\SpecimenTypeController;
 class SpecimenTypeControllerTest extends TestCase 
 {
     /**

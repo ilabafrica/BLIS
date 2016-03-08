@@ -3,6 +3,8 @@
  * Tests for SanitasInterfacer class in api folder
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+use App\Api\MedbossInterfacer;
+use App\Api\Facades\Interfacer;
 
 class MedbossInterfacerTest extends TestCase
 {

@@ -56,9 +56,10 @@ class CultureSensitivitySeeder extends Seeder
         $grampositive = Organism::create(array('name' => "Gram positive cocci"));
 
         $this->command->info('Organisms table seeded');
+// todo: ask kitsao
         //  Seed for organism_drugs
         //  Staphylococci species
-        DB::table('organism_drugs')->insert(
+      /*  DB::table('organism_drugs')->insert(
             array("organism_id" => $staphylococci->id, "drug_id" => $penicillin->id));
         DB::table('organism_drugs')->insert(
             array("organism_id" => $staphylococci->id, "drug_id" => $oxacillin->id));
@@ -273,6 +274,6 @@ class CultureSensitivitySeeder extends Seeder
         DB::table('organism_drugs')->insert(
             array("organism_id" => $grampositive->id, "drug_id" => $vancomycin->id));
         
-        $this->command->info('Gram positive cocci seeded');
+      */  $this->command->info('Gram positive cocci seeded');
     }
 }

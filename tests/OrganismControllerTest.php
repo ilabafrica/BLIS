@@ -3,6 +3,7 @@
  * Tests the OrganismController functions that store, edit and delete Organisms 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+use App\Http\Controllers\OrganismController;
 class OrganismControllerTest extends TestCase 
 {
 	/**

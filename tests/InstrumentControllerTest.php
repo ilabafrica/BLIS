@@ -4,6 +4,7 @@
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
 
+use App\Models\User;
 class InstrumentControllerTest extends TestCase 
 {
 

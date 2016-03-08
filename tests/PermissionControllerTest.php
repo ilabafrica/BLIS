@@ -3,6 +3,9 @@
  * Tests the MeasureController functions that store, edit and delete measures 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+use App\Models\Role;
+use App\Models\Permission;
+use App\Http\Controllers\PermissionController;
 class PermissionControllerTest extends TestCase 
 {
     /**

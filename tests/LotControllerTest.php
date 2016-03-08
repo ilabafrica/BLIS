@@ -3,6 +3,8 @@
  * Tests the LotController functions that store, edit and delete lot infomation 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng, Lucy Mbugua , Pius mathii
  */
+use App\Http\Controllers\LotController;
+use App\Models\User;
 class LotControllerTest extends TestCase 
 {
 	
@@ -42,7 +44,8 @@ class LotControllerTest extends TestCase
 	*/
 	public function testIndex()
 	{
-		$response = $this->action('GET', 'LotController@index');
+		$lotController = new LotController;
+		$response = $lotController->index();
 		$this->assertTrue($response->isOk());
 		$this->assertViewHas('lots');
 	}
@@ -51,7 +54,8 @@ class LotControllerTest extends TestCase
 	*/
 	public function testCreate()
 	{
-		$response = $this->action('GET', 'LotController@create');
+		$lotController = new LotController;
+		$response = $lotController->index();
 		$this->assertTrue($response->isOk());
 		$this->assertViewHas('instruments');
 	}
@@ -62,9 +66,11 @@ class LotControllerTest extends TestCase
 	{
 		echo "\n\nLOT CONTROLLER TEST\n\n";
 
-		$response = $this->action('POST', 'LotController@store', $this->input);
+		Input::replace($this->input);
+		$lotController = new LotController;
+		$lotController->store();
 		$this->assertTrue($response->isRedirection());
-		
+
 		$testLot = lot::orderBy('id', 'desc')->first();
 		$this->assertEquals($testLot->number, $this->input['number']);
 		$this->assertEquals($testLot->description, $this->input['description']);
@@ -77,7 +83,9 @@ class LotControllerTest extends TestCase
 	*/
 	public function testUpdate()
 	{
-		$response = $this->action('POST', 'LotController@store', $this->inputUpdate);
+		Input::replace($this->inputUpdate);
+		$lotController = new LotController;
+		$lotController->store();
 		$this->assertTrue($response->isRedirection());
 
 		$testLot = lot::orderBy('id', 'desc')->first();

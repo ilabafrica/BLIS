@@ -3,6 +3,7 @@
  * Tests the DrugController functions that store, edit and delete drugs 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+use App\Http\Controllers\DrugController;
 class DrugControllerTest extends TestCase 
 {
     /**

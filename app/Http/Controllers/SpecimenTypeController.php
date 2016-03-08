@@ -2,9 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Requests\SpecimenTypeRequest;
-
 use App\Models\SpecimenType;
-
 use Response;
 use Auth;
 use Session;

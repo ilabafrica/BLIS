@@ -1,4 +1,4 @@
-<?php namespace Api;
+<?php namespace App\Api;
 
 class MedbossInterfacer implements InterfacerInterface {
 

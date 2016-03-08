@@ -4,7 +4,8 @@
  * Tests for SanitasInterfacer class in api folder
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
-use Api\Facades\Interfacer;
+use App\Api\SanitasInterfacer;
+use App\Api\Facades\Interfacer;
 
 class ExternalDumpTest extends TestCase
 {

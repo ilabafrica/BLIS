@@ -16,7 +16,7 @@ class ControlMeasureRange extends Model
 
 	public function ControlMeasure()
 	{
-		return $this->belongsTo('ControlMeasure');
+		return $this->belongsTo('App\Models\ControlMeasure');
 	}
 
 	/**

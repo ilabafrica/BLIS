@@ -2,9 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Requests\DrugRequest;
-
 use App\Models\Drug;
-
 use Response;
 use Auth;
 use Session;

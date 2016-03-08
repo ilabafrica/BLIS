@@ -3,6 +3,10 @@
  * Tests the TestTypeController functions that store, edit and delete testTypes 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+
+use App\Models\Test;
+use App\Models\TestType;
+use App\Http\Controllers\TestTypeController;
 class TestTypeControllerTest extends TestCase 
 {
 	/**
@@ -231,8 +235,7 @@ class TestTypeControllerTest extends TestCase
         $this->assertEquals( $testTypestored[0]['id'], $testTypeID);
     }
 
-// todo: ask kitsao
-/*    public function testGetTestTypeIdByTestNameLeadingSpace()
+    public function testGetTestTypeIdByTestNameLeadingSpace()
     {
         Input::replace($this->testTypeTrailingSpace);
     	$testType = new TestTypeController;
@@ -243,7 +246,7 @@ class TestTypeControllerTest extends TestCase
 
         $this->assertEquals( $testTypestored[0]['id'], $testTypeID);
     }
-*/
+
     public function testGetTestTypeIdByTestNameTrailingSpace()
     {
         Input::replace($this->testTypeLeadingSpace);

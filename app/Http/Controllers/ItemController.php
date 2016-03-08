@@ -1,7 +1,6 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests\ItemRequest;
-
 use App\Models\Item;
 use Response;
 use Session;

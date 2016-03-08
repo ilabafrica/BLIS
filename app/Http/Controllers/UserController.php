@@ -2,13 +2,11 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Hash;
 use Input;
-
 class UserController extends Controller {
 
 	/**

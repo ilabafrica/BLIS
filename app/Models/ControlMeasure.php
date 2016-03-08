@@ -23,7 +23,7 @@ class ControlMeasure extends Model {
 	*/
 	public function controlMeasureRanges()
 	{
-		return $this->hasMany('ControlMeasureRange');
+		return $this->hasMany('App\Models\ControlMeasureRange');
 	}
 	/**
 	* Check if this measure is Numeric
@@ -56,6 +56,6 @@ class ControlMeasure extends Model {
 	 */
 	public function results()
 	{
-		return $this->hasMany('ControlMeasureResult');
+		return $this->hasMany('App\Models\ControlMeasureResult');
 	}
 }

@@ -3,6 +3,8 @@
  * Tests the PatientController functions that store, edit and delete patient infomation 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+use App\Models\User;
+use App\Http\Controllers\PatientController;
 class PatientControllerTest extends TestCase 
 {
 	

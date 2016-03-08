@@ -3,6 +3,7 @@
  * Tests the ReportController configuration settings 
  * @author  (c) @iLabAfrica
  */
+use App\Http\Controllers\ReportController;
 class ReportControllerTest extends TestCase 
 {
 	/**
