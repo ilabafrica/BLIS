@@ -1,7 +1,7 @@
 <?php namespace App\Http\Requests;
 use App\Http\Requests\Request;
-use App\Models\TestType;
-class TestTypeRequest extends Request {
+use App\Models\Issue;
+class IssueRequest extends Request {
 	/**
 	* Determine if the user is authorized to make this request.
 	*
@@ -17,15 +17,16 @@ class TestTypeRequest extends Request {
 	*/
 	public function rules() {
 		$id = $this->ingnoreId();
-		return [ 'name' => 'required|unique:test_types,name,'.$id, ];
+		return [ 'name' => 'required|unique:issues,name,'.$id, ];
 	}
 	/**
 	* @return \Illuminate\Routing\Route|null|string
 	*/
 	public function ingnoreId(){
-		$id = $this->route('testtype');
-		$name = $this->input('name');
-		$test_category_id = $this->input('test_category_id');
-		return TestType::where(compact('id', 'name', 'test_category_id'))->exists() ? $id : '';
+		$id = $this->route('issue');
+		$receipt_id = $this->input('receipt_id');
+		$topup_request_id = $this->input('topup_request_id');
+		$user_id = $this->input('user_id');
+		return Issue::where(compact('id', 'receipt_id', 'topup_request_id', 'user_id'))->exists() ? $id : '';
 	}
 }

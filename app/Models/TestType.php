@@ -171,7 +171,7 @@ class TestType extends Model
 			return $testTypeId->id;
 		} catch (ModelNotFoundException $e) 
 		{
-			Log::error("The test type ` $testName ` does not exist:  ". $e->getMessage());
+			\Log::error("The test type ` $testName ` does not exist:  ". $e->getMessage());
 			//TODO: send email?
 			return null;
 		}

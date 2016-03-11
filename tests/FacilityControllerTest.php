@@ -5,8 +5,10 @@
  */
 use App\Models\Facility;
 use App\Http\Controllers\FacilityController;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class FacilityControllerTest extends TestCase 
 {
+	use WithoutMiddleware;
 	/**
 	 * Default preparations for tests
 	 *

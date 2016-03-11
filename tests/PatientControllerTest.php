@@ -4,10 +4,13 @@
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
 use App\Models\User;
+use App\Models\Patient;
 use App\Http\Controllers\PatientController;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class PatientControllerTest extends TestCase 
 {
 	
+	use WithoutMiddleware;
 	    public function setUp()
 	    {
 	    	parent::setUp();
@@ -124,9 +127,7 @@ class PatientControllerTest extends TestCase
   	 */
 	public function runStore($input)
 	{
-		Input::replace($input);
-	    	$patient = new PatientController;
-	    	$patient->store();
+		$response = $this->action('POST', 'PatientController@store', $input);
 	}
 
   	/**
@@ -136,9 +137,7 @@ class PatientControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
-		Input::replace($input);
-    	$patient = new PatientController;
-    	$patient->update($id);
+		$response = $this->action('PUT', 'PatientController@update', $input);
 	}
 
 }

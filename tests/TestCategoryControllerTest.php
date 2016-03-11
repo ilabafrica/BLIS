@@ -5,8 +5,10 @@
  */
 use App\Http\Controllers\TestCategoryController;
 use App\Models\TestCategory;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class TestCategoryControllerTest extends TestCase 
 {
+	use WithoutMiddleware;
     /**
      * Initial setup function for tests
      *
@@ -49,9 +51,7 @@ class TestCategoryControllerTest extends TestCase
   	{
 		echo "\n\nTEST CATEGORY CONTROLLER TEST\n\n";
   		 // Store the TestCategory
-        Input::replace($this->testCategoryData);
-        $testCategory = new TestCategoryController;
-        $testCategory->store();
+		$response = $this->action('POST', 'TestCategoryController@store', $this->testCategoryData);
 		$testCategorystored = TestCategory::orderBy('id','desc')->take(1)->get()->toArray();
 
 		$testCategoriesSaved = TestCategory::find($testCategorystored[0]['id']);
@@ -67,12 +67,10 @@ class TestCategoryControllerTest extends TestCase
 	public function testUpdate()
 	{
 		// Update the TestCategory
-        Input::replace($this->testCategoryData);
-        $testCategory = new TestCategoryController;
-        $testCategory->store();
+		$response = $this->action('POST', 'TestCategoryController@store', $this->testCategoryData);
 		$testCategorystored = TestCategory::orderBy('id','desc')->take(1)->get()->toArray();
 
-        Input::replace($this->testCategoryUpdate);
+		$response = $this->action('PUT', 'TestCategoryController@update', $this->testCategoryUpdate);
         $testCategory->update($testCategorystored[0]['id']);
 
 		$testCategorySaved = TestCategory::find($testCategorystored[0]['id']);
@@ -87,9 +85,7 @@ class TestCategoryControllerTest extends TestCase
      */
 	public function testDelete()
 	{
-        Input::replace($this->testCategoryData);
-        $testCategory = new TestCategoryController;
-        $testCategory->store();
+		$response = $this->action('POST', 'TestCategoryController@store', $this->testCategoryData);
 		$testCategorystored = TestCategory::orderBy('id','desc')->take(1)->get()->toArray();
 
         $testCategory->delete($testCategorystored[0]['id']);

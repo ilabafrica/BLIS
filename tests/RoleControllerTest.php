@@ -6,8 +6,10 @@
 use App\Models\User;
 use App\Models\Role;
 use App\Http\Controllers\RoleController;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class RoleControllerTest extends TestCase 
 {
+    use WithoutMiddleware;
     /**
      * Default preparations for tests
      *

@@ -8,9 +8,11 @@ use App\Models\Commodity;
 use App\Models\TopupRequest;
 use App\Models\User;
 use App\Http\Controllers\TopUpController;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class TopUpControllerTest extends TestCase 
 {
 	
+	use WithoutMiddleware;
 	    public function setUp()
 	    {
 	    	parent::setUp();
@@ -114,9 +116,7 @@ class TopUpControllerTest extends TestCase
   	 */
 	public function runStore($input)
 	{
-		Input::replace($input);
-	     $topup = new TopUpController;
-	     $topup->store();
+		$response = $this->action('POST', 'TopUpController@store', $input);
 	}
     /**
   	 * Executes the update function in the TopUpController
@@ -125,8 +125,6 @@ class TopUpControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
-		Input::replace($input);
-    	 $topup = new TopUpController;
-    	 $topup->update($id);
+		$response = $this->action('PUT', 'TopUpController@update', $input);
 	}
 }

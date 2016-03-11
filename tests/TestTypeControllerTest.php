@@ -7,8 +7,10 @@
 use App\Models\Test;
 use App\Models\TestType;
 use App\Http\Controllers\TestTypeController;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class TestTypeControllerTest extends TestCase 
 {
+	use WithoutMiddleware;
 	/**
      * Initial setup function for tests
      *
@@ -148,9 +150,7 @@ class TestTypeControllerTest extends TestCase
   	{
   		echo "\n\nTEST TYPE CONTROLLER TEST\n\n";
   		 // Store the TestType Types
-  		Input::replace($this->testTypeData);
-    	$testType = new TestTypeController;
-    	$testType->store();
+		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeData);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
 
 		$testTypeSaved = TestType::find($testTypestored[0]['id']);
@@ -178,13 +178,11 @@ class TestTypeControllerTest extends TestCase
 	public function testUpdate()
 	{
 
-		Input::replace($this->testTypeData);
-    	$testType = new TestTypeController;
-    	$testType->store();
+		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeData);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
 
 
-    	Input::replace($this->testTypeDataUpdate);
+		$response = $this->action('PUT', 'TestTypeController@update', $this->testTypeDataUpdate);
     	$testType->update($testTypestored[0]['id']);
 
 		$testTypeSavedUpdated = TestType::find($testTypestored[0]['id']);
@@ -210,9 +208,7 @@ class TestTypeControllerTest extends TestCase
      */
 	public function testDelete()
 	{
-		Input::replace($this->testTypeData);
-    	$testType = new TestTypeController;
-    	$testType->store();
+		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeData);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
 
 
@@ -225,9 +221,7 @@ class TestTypeControllerTest extends TestCase
 
     public function testGetTestTypeIdByTestName()
     {
-        Input::replace($this->testTypeData);
-    	$testType = new TestTypeController;
-    	$testType->store();
+		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeData);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testType = new TestType();
         $testTypeID = $testType->getTestTypeIdByTestName($testTypestored[0]['name']);
@@ -237,9 +231,7 @@ class TestTypeControllerTest extends TestCase
 
     public function testGetTestTypeIdByTestNameLeadingSpace()
     {
-        Input::replace($this->testTypeTrailingSpace);
-    	$testType = new TestTypeController;
-    	$testType->store();
+		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeTrailingSpace);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testType = new TestType();
         $testTypeID = $testType->getTestTypeIdByTestName('Culture for sensitivity');
@@ -249,9 +241,7 @@ class TestTypeControllerTest extends TestCase
 
     public function testGetTestTypeIdByTestNameTrailingSpace()
     {
-        Input::replace($this->testTypeLeadingSpace);
-    	$testType = new TestTypeController;
-    	$testType->store();
+		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeLeadingSpace);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testType = new TestType();
         $testTypeID = $testType->getTestTypeIdByTestName('Culture for sensitivity');
@@ -261,9 +251,7 @@ class TestTypeControllerTest extends TestCase
 
     public function testGetTestTypeIdByTestNameLeadingTrailingSpace()
     {
-        Input::replace($this->testTypeLeadingTrailingSpace);
-    	$testType = new TestTypeController;
-    	$testType->store();
+		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeLeadingTrailingSpace);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testType = new TestType();
         $testTypeID = $testType->getTestTypeIdByTestName('Culture for sensitivity');
@@ -273,9 +261,7 @@ class TestTypeControllerTest extends TestCase
 
     public function testGetTestTypeIdByTestNameWithTrailingLeadingSpaces()
     {
-        Input::replace($this->testTypeNoTrailingLeadingSpace);
-    	$testType = new TestTypeController;
-    	$testType->store();
+		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeNoTrailingLeadingSpace);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testType = new TestType();
         $testTypeID = $testType->getTestTypeIdByTestName(' Culture for sensitivity ');
@@ -286,9 +272,7 @@ class TestTypeControllerTest extends TestCase
     //	Test the countPerStatus method
     public function testCountPerStatus()
     {
-        Input::replace($this->testTypeData);
-    	$testType = new TestTypeController;
-    	$testType->store();
+		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeData);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testTypeSaved = TestType::find($testTypestored[0]['id']);
         $count = $testTypeSaved->countPerStatus([Test::NOT_RECEIVED, Test::STARTED, Test::PENDING, Test::COMPLETED, Test::VERIFIED]);

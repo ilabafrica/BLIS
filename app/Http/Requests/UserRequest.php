@@ -32,8 +32,8 @@ class UserRequest extends Request {
         ];
 	}
 	/**
-	* @return \Illuminate\Routing\Route|null|string
-	*/
+	 * @return \Illuminate\Routing\Route|null|string
+	 */
 	public function ingnoreId(){
 		$id = $this->route('user');
 		$name = $this->input('name');

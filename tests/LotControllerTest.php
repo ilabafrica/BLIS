@@ -5,9 +5,11 @@
  */
 use App\Http\Controllers\LotController;
 use App\Models\User;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class LotControllerTest extends TestCase 
 {
 	
+	use WithoutMiddleware;
 	public function setup()
 	{
 		parent::setUp();
@@ -109,9 +111,7 @@ class LotControllerTest extends TestCase
 	 */
 	public function runStore($input)
 	{
-		Input::replace($input);
-		$lot = new LotController;
-		$lot->store();
+		$response = $this->action('POST', 'LotController@store', $input);
 	}
 
 	 /**
@@ -121,8 +121,6 @@ class LotControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
-		Input::replace($input);
-		$lot = new lotController;
-		$lot->update($id);
+		$response = $this->action('PUT', 'lotController@update', $input);
 	}
 }

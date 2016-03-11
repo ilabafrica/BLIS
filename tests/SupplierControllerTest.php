@@ -6,9 +6,11 @@
 use App\Models\User;
 use App\Models\Supplier;
 use App\Http\Controllers\SupplierController;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class SupplierControllerTest extends TestCase 
 {
 	
+	use WithoutMiddleware;
 	    public function setUp()
 	    {
 	    	parent::setUp();
@@ -113,9 +115,7 @@ class SupplierControllerTest extends TestCase
   	 */
 	public function runStore($input)
 	{
-		Input::replace($input);
-	    $supplier = new SupplierController;
-	    $supplier->store();
+		$response = $this->action('POST', 'SupplierController@store', $input);
 	}
     /**
   	 * Executes the update function in the SupplierController
@@ -124,8 +124,6 @@ class SupplierControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
-		Input::replace($input);
-    	$supplier = new SupplierController;
-    	$supplier->update($id);
+		$response = $this->action('PUT', 'SupplierController@update', $input);
 	}
 }

@@ -1,8 +1,10 @@
 <?php
 
 use App\Models\Patient;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class PatientModelTest extends TestCase {
     
+    use WithoutMiddleware;
     public function setup()
     {
         parent::setup();

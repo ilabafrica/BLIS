@@ -4,8 +4,11 @@
  * @author  (c) @iLabAfrica
  */
 use App\Http\Controllers\ReportController;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class ReportControllerTest extends TestCase 
 {
+
+	use WithoutMiddleware;
 	/**
 	 * Default preparations for tests
 	 *
@@ -29,9 +32,7 @@ class ReportControllerTest extends TestCase
 		echo "\n\nREPORT CONTROLLER TEST\n\n";
 		
   		// add, edit and delete surveillance entry
-		Input::replace($this->inputSurveillance);	
-		$surveillance = new ReportController;
-		$surveillance->surveillanceConfig();
+		$response = $this->action('POST', 'ReportController@surveillanceConfig', $this->inputSurveillance);
 
 		$surveillanceModel = ReportDisease::all();
 
@@ -53,9 +54,7 @@ class ReportControllerTest extends TestCase
  	public function testifDiseaseCrudWorks() 
   	{
   		// add, edit and delete disease entry
-		Input::replace($this->inputDisease);	
-		$config = new ReportController;
-		$config->disease();
+		$response = $this->action('POST', 'ReportController@disease', $this->inputDisease);
 
 		$diseaseModel = Disease::all();
 

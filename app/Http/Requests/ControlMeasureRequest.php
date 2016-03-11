@@ -1,7 +1,7 @@
 <?php namespace App\Http\Requests;
 use App\Http\Requests\Request;
-use App\Models\TestType;
-class TestTypeRequest extends Request {
+use App\Models\ControlMeasure;
+class ControlMeasureRequest extends Request {
 	/**
 	* Determine if the user is authorized to make this request.
 	*
@@ -17,15 +17,16 @@ class TestTypeRequest extends Request {
 	*/
 	public function rules() {
 		$id = $this->ingnoreId();
-		return [ 'name' => 'required|unique:test_types,name,'.$id, ];
+		return [ 'name' => 'required|unique:control_measures,name,'.$id, ];
 	}
 	/**
 	* @return \Illuminate\Routing\Route|null|string
 	*/
 	public function ingnoreId(){
-		$id = $this->route('testtype');
+		$id = $this->route('controlmeasure');
 		$name = $this->input('name');
-		$test_category_id = $this->input('test_category_id');
-		return TestType::where(compact('id', 'name', 'test_category_id'))->exists() ? $id : '';
+		$control_id = $this->input('control_id');
+		$control_measure_type_id = $this->input('control_measure_type_id');
+		return ControlMeasure::where(compact('id', 'name', 'control_id', 'control_measure_type_id'))->exists() ? $id : '';
 	}
 }

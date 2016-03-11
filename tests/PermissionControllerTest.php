@@ -6,8 +6,11 @@
 use App\Models\Role;
 use App\Models\Permission;
 use App\Http\Controllers\PermissionController;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class PermissionControllerTest extends TestCase 
 {
+
+    use WithoutMiddleware;
     /**
      * Default preparations for tests
      *

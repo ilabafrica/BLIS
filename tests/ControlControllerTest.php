@@ -7,8 +7,10 @@ use App\Models\User;
 use App\Models\Control;
 use App\Models\ControlTest;
 use App\Http\Controllers\ControlController;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class ControlControllerTest extends TestCase {
 
+	use WithoutMiddleware;
 	public function setup()
 	{
 		parent::setUp();
@@ -98,9 +100,7 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testSaveResults()
 	{
-		Input::replace($this->inputSaveResults);
-		$controlController = new ControlController;
-		$controlController->saveResults(1);
+		$response = $this->action('POST', 'ControlController@saveResults', $this->inputSaveResults);
 
 		$results = ControlTest::orderBy('id', 'desc')->first()->controlResults;
 

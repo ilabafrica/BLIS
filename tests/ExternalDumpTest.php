@@ -7,8 +7,10 @@
 use App\Api\SanitasInterfacer;
 use App\Api\Facades\Interfacer;
 
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class ExternalDumpTest extends TestCase
 {
+    use WithoutMiddleware;
     public function setup()
     {
         parent::setup();

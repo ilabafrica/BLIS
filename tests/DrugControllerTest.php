@@ -3,9 +3,12 @@
  * Tests the DrugController functions that store, edit and delete drugs 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use App\Models\Drug;
 use App\Http\Controllers\DrugController;
 class DrugControllerTest extends TestCase 
 {
+	use WithoutMiddleware;
     /**
      * Initial setup function for tests
      *
@@ -42,15 +45,13 @@ class DrugControllerTest extends TestCase
 	/**
 	 * Tests the store function in the DrugController
 	 * @param  void
-	 * @return int $testDrugId ID of Drug stored; used in testUpdate() to identify test for update
+	 * @return int $testDrugId ID of Drug stored;used in testUpdate() to identify test for update
 	 */    
  	public function testStore() 
   	{
 		echo "\n\nDRUG CONTROLLER TEST\n\n";
   		 // Store the Drug
-        Input::replace($this->drugData);
-        $drug = new DrugController;
-        $drug->store();
+		$response = $this->action('POST', 'DrugController@store', $this->drugData);
 		$drugStored = Drug::orderBy('id','desc')->take(1)->get()->toArray();
 
 		$drugSaved = Drug::find($drugStored[0]['id']);
@@ -66,12 +67,10 @@ class DrugControllerTest extends TestCase
 	public function testUpdate()
 	{
 		// Update the Drug
-        Input::replace($this->drugData);
-        $drug = new DrugController;
-        $drug->store();
+		$response = $this->action('POST', 'DrugController@store', $this->drugData);
 		$drugStored = Drug::orderBy('id','desc')->take(1)->get()->toArray();
 
-        Input::replace($this->drugUpdate);
+		$response = $this->action('PUT', 'DrugController@update', $this->drugUpdate);
         $drug->update($drugStored[0]['id']);
 
 		$drugSaved = Drug::find($drugStored[0]['id']);
@@ -86,9 +85,7 @@ class DrugControllerTest extends TestCase
      */
 	public function testDelete()
 	{	// to be done later
-        /*Input::replace($this->drugData);
-        $drug = new DrugController;
-        $drug->store();
+		/*$response = $this->action('POST', 'DrugController@store', $this->drugData);
 		$drugStored = Drug::orderBy('id','desc')->take(1)->get()->toArray();
 
         $drug->delete($drugStored[0]['id']);

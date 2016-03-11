@@ -6,8 +6,10 @@
 use App\Models\Specimen;
 use App\Models\SpecimenType;
 use App\Http\Controllers\SpecimenTypeController;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class SpecimenTypeControllerTest extends TestCase 
 {
+	use WithoutMiddleware;
     /**
      * Initial setup function for tests
      *
@@ -49,9 +51,7 @@ class SpecimenTypeControllerTest extends TestCase
   	{
 		echo "\n\nSPECIMEN TYPE CONTROLLER TEST\n\n";
 
-        Input::replace($this->specimenData);
-        $specimenType = new SpecimenTypeController;
-        $specimenType->store();
+		$response = $this->action('POST', 'SpecimenTypeController@store', $this->specimenData);
 		$specimenTypestored = SpecimenType::orderBy('id','desc')->take(1)->get()->toArray();
 
 		$specimenTypesSaved = SpecimenType::find($specimenTypestored[0]['id']);
@@ -66,12 +66,10 @@ class SpecimenTypeControllerTest extends TestCase
      */
 	public function testUpdate()
 	{
-        Input::replace($this->specimenData);
-        $specimenType = new SpecimenTypeController;
-        $specimenType->store();
+		$response = $this->action('POST', 'SpecimenTypeController@store', $this->specimenData);
 		$specimenTypestored = SpecimenType::orderBy('id','desc')->take(1)->get()->toArray();
 
-        Input::replace($this->specimenDataUpdate);
+		$response = $this->action('PUT', 'SpecimenTypeController@update', $this->specimenDataUpdate);
         $specimenType->update($specimenTypestored[0]['id']);
 
 		$specimenTypeUpdated = SpecimenType::find($specimenTypestored[0]['id']);
@@ -86,9 +84,7 @@ class SpecimenTypeControllerTest extends TestCase
      */
 	public function testDelete()
 	{
-        Input::replace($this->specimenData);
-        $specimenType = new SpecimenTypeController;
-        $specimenType->store();
+		$response = $this->action('POST', 'SpecimenTypeController@store', $this->specimenData);
 		$specimenTypestored = SpecimenType::orderBy('id','desc')->take(1)->get()->toArray();
 
         $specimenType->delete($specimenTypestored[0]['id']);
@@ -99,9 +95,7 @@ class SpecimenTypeControllerTest extends TestCase
 	//	Test the countPerStatus method in Specimen Type
     public function specimenCountPerStatus()
     {
-        Input::replace($this->specimenData);
-    	$specimenType = new SpecimenTypeController;
-        $specimenType->store();
+		$response = $this->action('POST', 'SpecimenTypeController@store', $this->specimenData);
 		$specimenTypeStored = SpecimenType::orderBy('id','desc')->take(1)->get()->toArray();
         $specimenTypeSaved = SpecimenType::find($specimenTypeStored[0]['id']);
         $count = $specimenTypeSaved->countPerStatus([Specimen::ACCEPTED, Specimen::REJECTED, Specimen::NOT_COLLECTED]);

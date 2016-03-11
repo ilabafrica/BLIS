@@ -9,16 +9,18 @@ use App\Models\Commodity;
 use App\Models\Supplier;
 use App\Models\Receipt;
 use App\Models\User;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class ReceiptControllerTest extends TestCase 
 {
 	
-	    public function setUp()
-	    {
-	    	parent::setUp();
-	    	Artisan::call('migrate');
-      		Artisan::call('db:seed');
-			$this->setVariables();
-	    }
+	use WithoutMiddleware;
+	public function setUp()
+	{
+		parent::setUp();
+		Artisan::call('migrate');
+		Artisan::call('db:seed');
+		$this->setVariables();
+	}
 	
 	/**
 	 * Contains the testing sample data for the ReceiptController.
@@ -120,9 +122,7 @@ class ReceiptControllerTest extends TestCase
   	 */
 	public function runStore($input)
 	{
-		Input::replace($input);
-	    $receipt = new ReceiptController;
-	    $receipt->store();
+		$response = $this->action('POST', 'ReceiptController@store', $input);
 	}
     /**
   	 * Executes the update function in the ReceiptController
@@ -131,8 +131,6 @@ class ReceiptControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
-		Input::replace($input);
-    	$receipt = new SupplierController;
-    	$receipt->update($id);
+		$response = $this->action('PUT', 'SupplierController@update', $input);
 	}
 }

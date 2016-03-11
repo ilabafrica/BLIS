@@ -7,8 +7,10 @@
 use App\Models\User;
 use App\Http\Controllers\UserController;
 
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class UserControllerTest extends TestCase 
 {
+    use WithoutMiddleware;
     /**
     * Initial setup function for tests
     *
@@ -77,9 +79,7 @@ class UserControllerTest extends TestCase
 	{
         echo "\n\nUSER CONTROLLER TEST\n\n";
         // Store the User
-        Input::replace($this->userData);
-        $user = new UserController;
-        $user->store();
+        $response = $this->action('POST', 'UserController@store', $this->userData);
 
 		$userSaved = User::find(1);
 
@@ -98,11 +98,8 @@ class UserControllerTest extends TestCase
     public function testUpdate()
     {
         // Update the User Types
-        Input::replace($this->userData);
-        $user = new UserController;
-        $user->store();
-        Input::replace($this->userDataUpdate);
-        $user->update(1);
+        $response = $this->action('POST', 'UserController@store', $this->userData);
+        $response = $this->action('PUT', 'UserController@update', $this->userDataUpdate);
 
         $userUpdated = User::find(1);
         $this->assertEquals($userUpdated->email , $this->userDataUpdate['email']);
@@ -119,10 +116,8 @@ class UserControllerTest extends TestCase
     public function testUpdateOwnPassword()
     {
         // Update the User Types
-        Input::replace($this->userData);
-        $user = new UserController;
-        $user->store();
-        Input::replace($this->userDataUpdate);
+        $response = $this->action('POST', 'UserController@store', $this->userData);
+        $response = $this->action('POST', 'UserController@updateOwnPassword', $this->userDataUpdate);
         $user->updateOwnPassword(1);
 
         $userUpdated = User::find(1);
@@ -137,9 +132,7 @@ class UserControllerTest extends TestCase
    */
 	public function testDelete()
 	{
-        Input::replace($this->userData);
-        $user = new UserController;
-        $user->store();
+        $response = $this->action('POST', 'UserController@store', $this->userData);
         $user->delete(1);
 		$usersSaved = User::withTrashed()->find(1);
 
@@ -148,9 +141,7 @@ class UserControllerTest extends TestCase
 
     public function testHandlesFailedLogin()
     {
-        Input::replace($this->userData);
-        $user = new UserController;
-        $user->store();
+        $response = $this->action('POST', 'UserController@store', $this->userData);
 
         $this->action('POST', 'UserController@loginAction', $this->userDataLoginBad);
         $this->assertRedirectedToRoute('user.login');
@@ -158,9 +149,7 @@ class UserControllerTest extends TestCase
 
     public function testHandlesValidLogin()
     {
-        Input::replace($this->userData);
-        $user = new UserController;
-        $user->store();
+        $response = $this->action('POST', 'UserController@store', $this->userData);
 
         $this->action('POST', 'UserController@loginAction', $this->userDataLoginGood);
         $this->assertRedirectedToRoute('user.home');
@@ -168,9 +157,7 @@ class UserControllerTest extends TestCase
 
     public function testHandlesLoginValidation()
     {
-        Input::replace($this->userData);
-        $user = new UserController;
-        $user->store();
+        $response = $this->action('POST', 'UserController@store', $this->userData);
 
         $this->action('POST', 'UserController@loginAction', $this->userDataLoginFailsVerification);
         $this->assertRedirectedToRoute('user.login');

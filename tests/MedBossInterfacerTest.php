@@ -6,8 +6,10 @@
 use App\Api\MedbossInterfacer;
 use App\Api\Facades\Interfacer;
 
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class MedbossInterfacerTest extends TestCase
 {
+    use WithoutMiddleware;
     public function setup()
     {
         parent::setup();

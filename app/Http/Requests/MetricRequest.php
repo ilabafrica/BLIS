@@ -1,7 +1,7 @@
 <?php namespace App\Http\Requests;
 use App\Http\Requests\Request;
-use App\Models\TestType;
-class TestTypeRequest extends Request {
+use App\Models\Metric;
+class MetricRequest extends Request {
 	/**
 	* Determine if the user is authorized to make this request.
 	*
@@ -17,15 +17,14 @@ class TestTypeRequest extends Request {
 	*/
 	public function rules() {
 		$id = $this->ingnoreId();
-		return [ 'name' => 'required|unique:test_types,name,'.$id, ];
+		return [ 'name' => 'required|unique:metrics,name,'.$id, ];
 	}
 	/**
 	* @return \Illuminate\Routing\Route|null|string
 	*/
 	public function ingnoreId(){
-		$id = $this->route('testtype');
+		$id = $this->route('metric');
 		$name = $this->input('name');
-		$test_category_id = $this->input('test_category_id');
-		return TestType::where(compact('id', 'name', 'test_category_id'))->exists() ? $id : '';
+		return Metric::where(compact('id', 'name'))->exists() ? $id : '';
 	}
 }

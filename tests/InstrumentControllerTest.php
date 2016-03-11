@@ -5,9 +5,11 @@
  */
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class InstrumentControllerTest extends TestCase 
 {
 
+    use WithoutMiddleware;
     public function setUp(){
       parent::setUp();
       Artisan::call('migrate');

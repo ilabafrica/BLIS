@@ -3,9 +3,12 @@
  * Tests the OrganismController functions that store, edit and delete Organisms 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+use App\Models\Organism;
 use App\Http\Controllers\OrganismController;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class OrganismControllerTest extends TestCase 
 {
+	use WithoutMiddleware;
 	/**
      * Initial setup function for tests
      *
@@ -49,9 +52,7 @@ class OrganismControllerTest extends TestCase
   	{
   		echo "\n\nORGANISM CONTROLLER TEST\n\n";
   		 // Store the Organism Types
-  		Input::replace($this->organismData);
-    	$organism = new OrganismController;
-    	$organism->store();
+		$response = $this->action('POST', 'OrganismController@store', $this->organismData);
 		$organismStored = Organism::orderBy('id','desc')->take(1)->get()->toArray();
 
 		$organismSaved = Organism::find($organismStored[0]['id']);
@@ -72,13 +73,10 @@ class OrganismControllerTest extends TestCase
 	public function testUpdate()
 	{
 
-		Input::replace($this->organismData);
-    	$organism = new OrganismController;
-    	$organism->store();
+		$response = $this->action('POST', 'OrganismController@store', $this->organismData);
 		$organismStored = Organism::orderBy('id','desc')->take(1)->get()->toArray();
 
-
-    	Input::replace($this->organismDataUpdate);
+		$response = $this->action('PUT', 'OrganismController@update', $this->organismDataUpdate);
     	$organism->update($organismStored[0]['id']);
 
 		$organismSavedUpdated = Organism::find($organismStored[0]['id']);
@@ -98,16 +96,13 @@ class OrganismControllerTest extends TestCase
      */
 	public function testDelete()
 	{
-		/*Input::replace($this->organismData);
-    	$organism = new OrganismController;
-    	$organism->store();
+		$response = $this->action('POST', 'OrganismController@store', $this->organismData);
 		$organismStored = Organism::orderBy('id','desc')->take(1)->get()->toArray();
-
 
 		$organism = new OrganismController;
     	$organism->delete($organismStored[0]['id']);
     	
 		$organismSaved = Organism::withTrashed()->find($organismStored[0]['id']);
-		$this->assertNotNull($organismSaved->deleted_at);*/
+		$this->assertNotNull($organismSaved->deleted_at);
 	}
 }

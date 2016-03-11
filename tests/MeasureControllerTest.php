@@ -6,8 +6,10 @@
 use App\Http\Controllers\MeasureController;
 use App\Models\Measure;
 use App\Models\MeasureRange;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 class MeasureControllerTest extends TestCase 
 {
+	use WithoutMiddleware;
 	/**
 	 * Default preparations for tests
 	 *
