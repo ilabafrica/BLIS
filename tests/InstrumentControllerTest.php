@@ -5,6 +5,7 @@
  */
 
 use App\Models\User;
+use App\Models\Instrument;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 class InstrumentControllerTest extends TestCase 
 {

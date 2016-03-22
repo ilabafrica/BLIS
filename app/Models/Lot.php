@@ -20,6 +20,6 @@ class Lot extends Model {
 	* Relationship between lot and instrument
 	*/
 	public function instrument(){
-		return $this->belongsTo('Instrument');
+		return $this->belongsTo('App\Models\Instrument');
 	}
 }

@@ -6,6 +6,7 @@
 use App\Http\Controllers\IssueController;
 use App\Models\TopupRequest;
 use App\Models\User;
+use App\Models\Issue;
 use App\Models\Receipt;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 class IssueControllerTest extends TestCase 
@@ -117,7 +118,7 @@ class IssueControllerTest extends TestCase
   	 */
 	public function runStore($input)
 	{
-		$response = $this->action('POST', 'IssueController@store', $input);
+		$this->call('POST', '/issue', $input);
 	}
     /**
   	 * Executes the update function in the IssueController
@@ -126,6 +127,6 @@ class IssueControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
-		$response = $this->action('PUT', 'IssueController@update', $input);
+		$this->call('PUT', '/issue/'.$id, $input);
 	}
 }

@@ -26,10 +26,9 @@ class FacilityControllerTest extends TestCase
 		echo "\n\nFACILITY CONTROLLER TEST\n\n";
 
 		$facilityName = 'TEL AVIV MEDICAL CENTRE';
-		$this->action('POST', 'FacilityController@store', array('name' => $facilityName));
+		$this->call('POST', '/facility', ['name' => $facilityName]);
 
 		$facility = Facility::orderBy('id', 'desc')->first();
-
 		$this->assertEquals($facilityName, $facility->name);
 	}
 
@@ -37,13 +36,13 @@ class FacilityControllerTest extends TestCase
 	{
 		//Check if it prevents blank name entries
 		$facilityNameEmpty = '';
-		$response = $this->action('POST', 'FacilityController@store', array('name' => $facilityNameEmpty));
+		$this->call('POST', '/facility', ['name' => $facilityNameEmpty]);
 		$this->assertRedirectedToRoute('facility.index');
 		$this->assertSessionHasErrors('name');
 
 		//Check if it prevents duplicate name entries
 		$facilityNameDuplicate = Facility::find(1)->name;
-		$response = $this->action('POST', 'FacilityController@store', array('name' => $facilityNameDuplicate));
+		$this->call('POST', '/facility', ['name' => $facilityNameDuplicate]);
 		$this->assertRedirectedToRoute('facility.index');
 		$this->assertSessionHasErrors('name');
 	}
@@ -52,7 +51,7 @@ class FacilityControllerTest extends TestCase
 	{
 		$facilityName = "LIKUD GILAT HOSPITAL";
 		$idToUpdate = 1;
-		$this->action('PUT', 'FacilityController@update', array('id' => $idToUpdate, 'name' => $facilityName));
+		$this->call('PUT', '/facility/'.$idToUpdate, ['id' => $idToUpdate, 'name' => $facilityName]);
 		$faciltyNameUpdated = Facility::find($idToUpdate)->name;
 
 		$this->assertEquals($facilityName, $faciltyNameUpdated);
@@ -63,21 +62,22 @@ class FacilityControllerTest extends TestCase
 		//Prevents blank entries
 		$facilityName = "";
 		$idToUpdate = 1;
-		$this->action('PUT', 'FacilityController@update', array('id' => $idToUpdate, 'name' => $facilityName));
+		$this->call('PUT', '/facility/'.$idToUpdate, ['id' => $idToUpdate, 'name' => $facilityName]);
 		$this->assertRedirectedToRoute('facility.index');
 		$this->assertSessionHasErrors('name');
 
 		//Prevents duplicate entries
 		$facilityName = Facility::find(2)->name;
 		$idToUpdate = 1;
-		$this->action('PUT', 'FacilityController@update', array('id' => $idToUpdate, 'name' => $facilityName));
+		$this->call('PUT', '/facility/{id}', ['id' => $idToUpdate, 'name' => $facilityName]);
 		$this->assertRedirectedToRoute('facility.index');
 		$this->assertSessionHasErrors('name');
 	}
 
 	public function testStoreDelete()
 	{
-		$this->action('GET', 'FacilityController@delete', array('id' => 1));
+
+		$this->call('GET', '/facility/1/delete');
 
 		$facilityDeleted = Facility::find(1);
 

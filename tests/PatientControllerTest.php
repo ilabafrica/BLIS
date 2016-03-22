@@ -127,7 +127,7 @@ class PatientControllerTest extends TestCase
   	 */
 	public function runStore($input)
 	{
-		$response = $this->action('POST', 'PatientController@store', $input);
+		$this->call('POST', '/patient', $input);
 	}
 
   	/**
@@ -137,7 +137,7 @@ class PatientControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
-		$response = $this->action('PUT', 'PatientController@update', $input);
+		$this->call('PUT', '/patient/'.$id, $input);
 	}
 
 }

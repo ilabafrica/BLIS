@@ -59,7 +59,7 @@ class SpecimenRejectionController extends Controller {
         }
             $url = Session::get('SOURCE_URL');
             
-            return Redirect::to($url)
+            return redirect()->to($url)
             
             ->with('message', trans('messages.success-creating-rejection-reason'));
     }
@@ -92,7 +92,7 @@ class SpecimenRejectionController extends Controller {
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::back()->withErrors($validator);
+            return redirect()->back()->withErrors($validator);
         } else {
             // Update
             $rejection = RejectionReason::find($id);
@@ -102,7 +102,7 @@ class SpecimenRejectionController extends Controller {
             // redirect
             $url = Session::get('SOURCE_URL');
             
-            return Redirect::to($url)
+            return redirect()->to($url)
                     ->with('message', trans('messages.success-updating-rejection-reason')) ->with('activerejection', $rejection->id);
         }
     }
@@ -125,13 +125,13 @@ class SpecimenRejectionController extends Controller {
             // The rejection is in use
             $url = Session::get('SOURCE_URL');
             
-            return Redirect::to($url)
+            return redirect()->to($url)
                 ->with('message', trans('messages.failure-specimen-rejection-reason-in-use'));
         }
         // redirect
             $url = Session::get('SOURCE_URL');
             
-            return Redirect::to($url)
+            return redirect()->to($url)
             ->with('message', trans('messages.success-deleting-rejection-reason'));
     }
 }

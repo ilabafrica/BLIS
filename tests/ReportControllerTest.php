@@ -3,6 +3,8 @@
  * Tests the ReportController configuration settings 
  * @author  (c) @iLabAfrica
  */
+use App\Models\Disease;
+use App\Models\ReportDisease;
 use App\Http\Controllers\ReportController;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 class ReportControllerTest extends TestCase 

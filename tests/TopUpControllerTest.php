@@ -116,7 +116,7 @@ class TopUpControllerTest extends TestCase
   	 */
 	public function runStore($input)
 	{
-		$response = $this->action('POST', 'TopUpController@store', $input);
+		$this->call('POST', '/topup', $input);
 	}
     /**
   	 * Executes the update function in the TopUpController
@@ -125,6 +125,6 @@ class TopUpControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
-		$response = $this->action('PUT', 'TopUpController@update', $input);
+		$this->call('PUT', '/topup/'.$id, $input);
 	}
 }

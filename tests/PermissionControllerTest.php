@@ -28,7 +28,7 @@ class PermissionControllerTest extends TestCase
     {
         echo "\n\nPERMISSION CONTROLLER TEST\n\n";
 
-        $this->action('POST', 'PermissionController@store', $this->permissionRolesMapping);
+        $this->call('POST', '/permission', $this->permissionRolesMapping);
 
         $permission1 = Permission::find(1);
         $permission2 = Permission::find(2);

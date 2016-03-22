@@ -32,7 +32,7 @@ class RoleControllerTest extends TestCase
         Session::put('SOURCE_URL', URL::route('role.assign'));
 
         // Invoke controller function
-        $this->action('POST', 'RoleController@saveUserRoleAssignment', $this->userRolesMapping);
+        $this->call('POST', 'role/assign', $this->userRolesMapping);
 
         $user1 = User::find(1);
         $user2 = User::find(2);
@@ -50,19 +50,19 @@ class RoleControllerTest extends TestCase
 
     public function testStore()
     {
-        $this->action('POST', 'RoleController@store', $this->systemRoleWorks);
+        $this->call('POST', '/role', $this->systemRoleWorks);
         $role4 = Role::find(4);
         $this->assertEquals($this->systemRoleWorks['name'], $role4->name);
 
-        $this->action('POST', 'RoleController@store', $this->systemRoleFailsValidationNoName);
+        $this->call('POST', '/role', $this->systemRoleFailsValidationNoName);
         $this->assertRedirectedToRoute('role.create');
         $this->assertSessionHasErrors('name');
 
-        $this->action('POST', 'RoleController@store', $this->systemRoleFailsValidationSameRole);
+        $this->call('POST', '/role', $this->systemRoleFailsValidationSameRole);
         $this->assertRedirectedToRoute('role.create');
         $this->assertSessionHasErrors('name');
 
-        $this->action('POST', 'RoleController@store', $this->systemRoleFailsValidationShortRole);
+        $this->call('POST', '/role', $this->systemRoleFailsValidationShortRole);
         $this->assertRedirectedToRoute('role.create');
         $this->assertSessionHasErrors('name');
     }
@@ -72,19 +72,19 @@ class RoleControllerTest extends TestCase
         // Set SOURCE URL - the index page for roles
         Session::put('SOURCE_URL', URL::route('role.index'));
 
-        $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateWorks);
+        $this->call('PUT', '/role/'.$id, $this->systemRoleUpdateWorks);
         $role1 = Role::find(1);
         $this->assertEquals($this->systemRoleUpdateWorks['name'], $role1->name);
         $this->assertEquals($this->systemRoleUpdateWorks['description'], $role1->description);
         $this->assertRedirectedToRoute('role.index');
 
-        $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateChecksForUniqNameExceptThisId);
+        $this->call('PUT', '/role/'.$id, $this->systemRoleUpdateChecksForUniqNameExceptThisId);
         $role2 = Role::find(2);
         $this->assertEquals($this->systemRoleUpdateChecksForUniqNameExceptThisId['name'], $role2->name);
         $this->assertEquals($this->systemRoleUpdateChecksForUniqNameExceptThisId['description'], $role2->description);
         $this->assertRedirectedToRoute('role.index');
 
-        $this->action('PUT', 'RoleController@update', $this->systemRoleUpdateFailsUpdatingWithExistingName);
+        $this->call('PUT', '/role/'.$id, $this->systemRoleUpdateFailsUpdatingWithExistingName);
         $role2 = Role::find(2);
         $this->assertNotEquals($this->systemRoleUpdateFailsUpdatingWithExistingName['name'], $role2->name);
         $this->assertRedirectedToRoute('role.edit', array(2));
@@ -96,7 +96,7 @@ class RoleControllerTest extends TestCase
         // Set SOURCE URL - the index page for roles
         Session::put('SOURCE_URL', URL::route('role.index'));
         
-        $this->action('GET', 'RoleController@delete', array("id"=>2));
+        $this->call('GET', '/role/2/delete');
         $role2 = Role::find(2);
         $this->assertNull($role2);
         $this->assertRedirectedToRoute('role.index');

@@ -47,7 +47,7 @@ class FacilityController extends Controller {
 		$facility->save();
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_facility', $facility ->id);
+        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_facility', $facility->id);
 	}
 
 
@@ -106,7 +106,7 @@ class FacilityController extends Controller {
 	{
 		//Deleting the Item
 		$facility = Facility::find($id);
-
+// \Log::info();
 		//Soft delete
 		$facility->delete();
 

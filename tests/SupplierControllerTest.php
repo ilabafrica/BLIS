@@ -115,7 +115,7 @@ class SupplierControllerTest extends TestCase
   	 */
 	public function runStore($input)
 	{
-		$response = $this->action('POST', 'SupplierController@store', $input);
+		$this->call('POST', '/supplier', $input);
 	}
     /**
   	 * Executes the update function in the SupplierController
@@ -124,6 +124,6 @@ class SupplierControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
-		$response = $this->action('PUT', 'SupplierController@update', $input);
+		$this->call('PUT', '/supplier/'.$id, $input);
 	}
 }

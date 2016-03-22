@@ -20,6 +20,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
+        Dotenv::load(__DIR__.'/../');
+        $this->baseUrl = env('APP_URL', $this->baseUrl);
+
         return $app;
     }
 }

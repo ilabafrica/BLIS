@@ -52,7 +52,7 @@ class OrganismControllerTest extends TestCase
   	{
   		echo "\n\nORGANISM CONTROLLER TEST\n\n";
   		 // Store the Organism Types
-		$response = $this->action('POST', 'OrganismController@store', $this->organismData);
+		$this->call('POST', '/organism', $this->organismData);
 		$organismStored = Organism::orderBy('id','desc')->take(1)->get()->toArray();
 
 		$organismSaved = Organism::find($organismStored[0]['id']);
@@ -73,11 +73,10 @@ class OrganismControllerTest extends TestCase
 	public function testUpdate()
 	{
 
-		$response = $this->action('POST', 'OrganismController@store', $this->organismData);
+		$this->call('POST', '/organism', $this->organismData);
 		$organismStored = Organism::orderBy('id','desc')->take(1)->get()->toArray();
 
-		$response = $this->action('PUT', 'OrganismController@update', $this->organismDataUpdate);
-    	$organism->update($organismStored[0]['id']);
+		$this->call('PUT', '/organism/'.$organismStored[0]['id'], $this->organismDataUpdate);
 
 		$organismSavedUpdated = Organism::find($organismStored[0]['id']);
 		$this->assertEquals($organismSavedUpdated->name , $this->organismDataUpdate['name']);
@@ -96,7 +95,7 @@ class OrganismControllerTest extends TestCase
      */
 	public function testDelete()
 	{
-		$response = $this->action('POST', 'OrganismController@store', $this->organismData);
+		$this->call('POST', '/organism', $this->organismData);
 		$organismStored = Organism::orderBy('id','desc')->take(1)->get()->toArray();
 
 		$organism = new OrganismController;

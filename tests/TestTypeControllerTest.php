@@ -150,7 +150,7 @@ class TestTypeControllerTest extends TestCase
   	{
   		echo "\n\nTEST TYPE CONTROLLER TEST\n\n";
   		 // Store the TestType Types
-		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeData);
+		$this->call('POST', '/testtype', $this->testTypeData);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
 
 		$testTypeSaved = TestType::find($testTypestored[0]['id']);
@@ -178,12 +178,11 @@ class TestTypeControllerTest extends TestCase
 	public function testUpdate()
 	{
 
-		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeData);
+		$this->call('POST', '/testtype', $this->testTypeData);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
 
 
-		$response = $this->action('PUT', 'TestTypeController@update', $this->testTypeDataUpdate);
-    	$testType->update($testTypestored[0]['id']);
+		$this->call('PUT', '/testtype/'.$testTypestored[0]['id'], $this->testTypeDataUpdate);
 
 		$testTypeSavedUpdated = TestType::find($testTypestored[0]['id']);
 		$this->assertEquals($testTypeSavedUpdated->name , $this->testTypeDataUpdate['name']);
@@ -208,7 +207,7 @@ class TestTypeControllerTest extends TestCase
      */
 	public function testDelete()
 	{
-		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeData);
+		$this->call('POST', '/testtype', $this->testTypeData);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
 
 
@@ -221,7 +220,7 @@ class TestTypeControllerTest extends TestCase
 
     public function testGetTestTypeIdByTestName()
     {
-		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeData);
+		$this->call('POST', '/testtype', $this->testTypeData);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testType = new TestType();
         $testTypeID = $testType->getTestTypeIdByTestName($testTypestored[0]['name']);
@@ -231,7 +230,7 @@ class TestTypeControllerTest extends TestCase
 
     public function testGetTestTypeIdByTestNameLeadingSpace()
     {
-		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeTrailingSpace);
+		$this->call('POST', '/testtype', $this->testTypeTrailingSpace);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testType = new TestType();
         $testTypeID = $testType->getTestTypeIdByTestName('Culture for sensitivity');
@@ -241,7 +240,7 @@ class TestTypeControllerTest extends TestCase
 
     public function testGetTestTypeIdByTestNameTrailingSpace()
     {
-		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeLeadingSpace);
+		$this->call('POST', '/testtype', $this->testTypeLeadingSpace);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testType = new TestType();
         $testTypeID = $testType->getTestTypeIdByTestName('Culture for sensitivity');
@@ -251,7 +250,7 @@ class TestTypeControllerTest extends TestCase
 
     public function testGetTestTypeIdByTestNameLeadingTrailingSpace()
     {
-		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeLeadingTrailingSpace);
+		$this->call('POST', '/testtype', $this->testTypeLeadingTrailingSpace);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testType = new TestType();
         $testTypeID = $testType->getTestTypeIdByTestName('Culture for sensitivity');
@@ -261,7 +260,7 @@ class TestTypeControllerTest extends TestCase
 
     public function testGetTestTypeIdByTestNameWithTrailingLeadingSpaces()
     {
-		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeNoTrailingLeadingSpace);
+		$this->call('POST', '/testtype', $this->testTypeNoTrailingLeadingSpace);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testType = new TestType();
         $testTypeID = $testType->getTestTypeIdByTestName(' Culture for sensitivity ');
@@ -272,7 +271,7 @@ class TestTypeControllerTest extends TestCase
     //	Test the countPerStatus method
     public function testCountPerStatus()
     {
-		$response = $this->action('POST', 'TestTypeController@store', $this->testTypeData);
+		$this->call('POST', '/testtype', $this->testTypeData);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testTypeSaved = TestType::find($testTypestored[0]['id']);
         $count = $testTypeSaved->countPerStatus([Test::NOT_RECEIVED, Test::STARTED, Test::PENDING, Test::COMPLETED, Test::VERIFIED]);

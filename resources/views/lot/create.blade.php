@@ -3,17 +3,17 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li><a href="{{ URL::route('instrument.index') }}">{{Lang::choice('messages.control',2)}}</a></li>
-	  <li class="active">{{trans('messages.add-control')}}</li>
+	  <li><a href="{{ URL::route('instrument.index') }}">{{Lang::choice('messages.lot',2)}}</a></li>
+	  <li class="active">{{trans('messages.add-lot')}}</li>
 	</ol>
 </div>
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-cog"></span>
-		{{trans('messages.add-control')}}
+		{{trans('messages.add-lot')}}
 	</div>
-	{{ Form::open(array('route' => array('control.index'), 'id' => 'form-add-control')) }}
-		<div class="panel-body">
+	{{ Form::open(array('route' => array('lot.index'), 'id' => 'form-add-lot')) }}
+		<div class="panel-body" id="lot-create">
 		<!-- if there are creation errors, they will show here -->
 			
 			@if($errors->all())
@@ -22,8 +22,8 @@
 				</div>
 			@endif
 			<div class="form-group">
-				{{ Form::label('name', Lang::choice('messages.name',1)) }}
-                {{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
+				{{ Form::label('number', Lang::choice('messages.lot-number',1)) }}
+                {{ Form::text('number', Input::old('number'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
 				{{ Form::label('description', trans('messages.description')) }}
@@ -31,17 +31,16 @@
 					array('class' => 'form-control', 'rows' => '3' )) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('lot', Lang::choice('messages.lot', 1)) }}
-				{{ Form::select('lot', array('') + $lots, Input::old('lot'), array('class' => 'form-control')) }}
+				{{ Form::label('expiry', trans('messages.expiry-date')) }}
+				{{ Form::text('expiry', Input::old('expiry'), 
+					array('class' => 'form-control standard-datepicker', 'rows' => '3' )) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('measures', Lang::choice('messages.measure',2)) }}
-				<div class="form-pane panel panel-default">
-					<div class="container-fluid measure-container">
-					</div>
-					<a class="btn btn-default add-another-measure" href="javascript:void(0);" data-new-measure="1">
-					<span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.add-new-measure')}}</a>
-				</div>
+				{{ Form::label('instruments', Lang::choice('messages.instrument', 2)) }}
+				{{ Form::select('instrument', array('') + $instruments, Input::old('instrument'), 
+					array('class' => 'form-control')) }}
+			</div>
+			<div class="form-group" id="edit-control-ranges">
 			</div>
 		</div>
 		<div class="panel-footer">
@@ -57,5 +56,4 @@
 		</div>
 	{{ Form::close() }}
 </div>
-@include("control.measureCreate")
 @stop

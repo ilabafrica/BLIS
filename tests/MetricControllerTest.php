@@ -4,6 +4,7 @@
  * @author
  */
 use App\Models\User;
+use App\Models\Metric;
 use App\Http\Controllers\MetricController;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 class MetricControllerTest extends TestCase 
@@ -108,7 +109,7 @@ class MetricControllerTest extends TestCase
   	 */
 	public function runStore($input)
 	{
-		$response = $this->action('POST', 'MetricController@store', $input);
+		$this->call('POST', '/metric', $input);
 	}
     /**
   	 * Executes the update function in the MetricController
@@ -117,6 +118,6 @@ class MetricControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
-		$response = $this->action('PUT', 'MetricController@update', $input);
+		$this->call('PUT', '/metric/'.$id, $input);
 	}
 }

@@ -3,21 +3,18 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li><a href="{{ URL::route('control.index') }}">{{ Lang::choice('messages.control',1) }}</a></li>
-	  <li class="active">{{trans('messages.edit-control')}}</li>
+	  <li><a href="{{ URL::route('instrument.index') }}">{{Lang::choice('messages.instrument',2)}}</a></li>
+	  <li class="active">{{trans('messages.edit-instrument')}}</li>
 	</ol>
 </div>
-@if (Session::has('message'))
-	<div class="alert alert-info">{{ Session::get('message') }}</div>
-@endif
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-edit"></span>
-		{{trans('messages.edit-control')}}
+		{{trans('messages.edit-instrument')}}
 	</div>
-	{{ Form::model($control, array(
-			'route' => array('control.update', $control->id), 'method' => 'PUT',
-			'id' => 'form-edit-control'
+	{{ Form::model($instrument, array(
+			'route' => array('instrument.update', $instrument->id), 'method' => 'PUT',
+			'id' => 'form-edit-instrument'
 		)) }}
 		<div class="panel-body">
 			@if($errors->all())
@@ -36,25 +33,22 @@
 					array('class' => 'form-control', 'rows' => '2' )) }}
 			</div>
 			<div class="form-group">
-					{{ Form::label('lot', Lang::choice('messages.lot', 1)) }}
-					{{ Form::select('lot', $lots, Input::old('lot'), 
-					array('class' => 'form-control')) }}
+				{{ Form::label('ip', trans('messages.ip')) }}
+				{{ Form::text('ip', Input::old('ip'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('measures', Lang::choice('messages.measure',2)) }}
-				<div class="form-pane panel panel-default">
-					<div class="container-fluid measure-container">
-						@include("control.measureEdit")
-					</div>
-			        <a class="btn btn-default add-another-measure" href="javascript:void(0);" data-new-measure="1">
-			        	<span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.add-new-measure')}}</a>
-				</div>
+				{{ Form::label('hostname', trans('messages.host-name')) }}
+				{{ Form::text('hostname', Input::old('hostname'), array('class' => 'form-control')) }}
+			</div>
+			<div class="form-group">
+				{{ Form::label('test_types', trans('messages.supported-test-types')) }}
+				{{ Form::text('test_types', implode(",", $instrument->testTypes()->lists('name')),
+					 array('class' => 'form-control', 'readonly')) }}
 			</div>
 		</div>
 		<div class="panel-footer">
 			<div class="form-group actions-row">
-				{{ Form::button(
-					'<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'), 
+				{{ Form::button('<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'), 
 					['class' => 'btn btn-primary', 'onclick' => 'submit()']
 				) }}
 				{{ Form::button(trans('messages.cancel'), 
@@ -64,5 +58,4 @@
 		</div>
 	{{ Form::close() }}
 </div>
-@include("control.measureCreate")
 @stop

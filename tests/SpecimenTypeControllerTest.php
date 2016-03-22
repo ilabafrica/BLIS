@@ -51,7 +51,7 @@ class SpecimenTypeControllerTest extends TestCase
   	{
 		echo "\n\nSPECIMEN TYPE CONTROLLER TEST\n\n";
 
-		$response = $this->action('POST', 'SpecimenTypeController@store', $this->specimenData);
+		$this->call('POST', '/specimentype', $this->specimenData);
 		$specimenTypestored = SpecimenType::orderBy('id','desc')->take(1)->get()->toArray();
 
 		$specimenTypesSaved = SpecimenType::find($specimenTypestored[0]['id']);
@@ -66,11 +66,10 @@ class SpecimenTypeControllerTest extends TestCase
      */
 	public function testUpdate()
 	{
-		$response = $this->action('POST', 'SpecimenTypeController@store', $this->specimenData);
+		$this->call('POST', '/specimentype', $this->specimenData);
 		$specimenTypestored = SpecimenType::orderBy('id','desc')->take(1)->get()->toArray();
 
-		$response = $this->action('PUT', 'SpecimenTypeController@update', $this->specimenDataUpdate);
-        $specimenType->update($specimenTypestored[0]['id']);
+		$this->call('PUT', '/specimentype/'.$specimenTypestored[0]['id'], $this->specimenDataUpdate);
 
 		$specimenTypeUpdated = SpecimenType::find($specimenTypestored[0]['id']);
 		$this->assertEquals($specimenTypeUpdated->name , $this->specimenDataUpdate['name']);
@@ -84,10 +83,10 @@ class SpecimenTypeControllerTest extends TestCase
      */
 	public function testDelete()
 	{
-		$response = $this->action('POST', 'SpecimenTypeController@store', $this->specimenData);
+		$this->call('POST', '/specimentype', $this->specimenData);
 		$specimenTypestored = SpecimenType::orderBy('id','desc')->take(1)->get()->toArray();
 
-        $specimenType->delete($specimenTypestored[0]['id']);
+		$this->call('DELETE', '/specimentype/'.$specimenTypestored[0]['id'], $this->specimenData);
 
 		$specimenTypesDeleted = SpecimenType::withTrashed()->find($specimenTypestored[0]['id']);
 		$this->assertNotNull($specimenTypesDeleted->deleted_at);
@@ -95,7 +94,7 @@ class SpecimenTypeControllerTest extends TestCase
 	//	Test the countPerStatus method in Specimen Type
     public function specimenCountPerStatus()
     {
-		$response = $this->action('POST', 'SpecimenTypeController@store', $this->specimenData);
+		$this->call('POST', '/specimentype', $this->specimenData);
 		$specimenTypeStored = SpecimenType::orderBy('id','desc')->take(1)->get()->toArray();
         $specimenTypeSaved = SpecimenType::find($specimenTypeStored[0]['id']);
         $count = $specimenTypeSaved->countPerStatus([Specimen::ACCEPTED, Specimen::REJECTED, Specimen::NOT_COLLECTED]);

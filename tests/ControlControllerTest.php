@@ -24,7 +24,7 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testIndex()
 	{
-		$response = $this->action('GET', 'ControlController@index');
+		$this->call('GET', '/control');
 		$this->assertViewHas('controls');
 	}
 
@@ -33,7 +33,7 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testCreate()
 	{
-		$response = $this->action('GET', 'ControlController@create');
+		$this->call('GET', '/control/create');
 		$this->assertViewHas('measureTypes');
 		$this->assertViewHas('lots');
 	}
@@ -43,7 +43,7 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testStore()
 	{
-   		$response = $this->action('POST', 'ControlController@store', $this->inputStoreControls);
+		$response = $this->call('POST', '/control', $this->inputStoreControls);
 
 		$this->assertTrue($response->isRedirection());
 		$this->assertRedirectedToRoute('control.index');
@@ -67,7 +67,7 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testUpdate()
 	{
-   		$response = $this->action('POST', 'ControlController@store', $this->inputUpdateControls);
+		$response = $this->call('POST', '/control', $this->inputUpdateControls);
 
 		$this->assertTrue($response->isRedirection());
 		$this->assertRedirectedToRoute('control.index');
@@ -90,9 +90,9 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testDestroy()
 	{
-		$this->action('DELETE', 'ControlController@destroy', array(1));
-		$control = Control::find(1);
-		$this->assertNull($control);
+		$this->call('DELETE', '/control/1');
+		$control = Control::withTrashed()->find(1);
+		$this->assertNotNull($control->deleted_at);
 	}
 
 	/**
@@ -100,7 +100,7 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testSaveResults()
 	{
-		$response = $this->action('POST', 'ControlController@saveResults', $this->inputSaveResults);
+		$this->call('POST', 'control/1/saveResults', $this->inputSaveResults);
 
 		$results = ControlTest::orderBy('id', 'desc')->first()->controlResults;
 

@@ -79,7 +79,7 @@ class UserControllerTest extends TestCase
 	{
         echo "\n\nUSER CONTROLLER TEST\n\n";
         // Store the User
-        $response = $this->action('POST', 'UserController@store', $this->userData);
+        $this->call('POST', '/user', $this->userData);
 
 		$userSaved = User::find(1);
 
@@ -98,8 +98,8 @@ class UserControllerTest extends TestCase
     public function testUpdate()
     {
         // Update the User Types
-        $response = $this->action('POST', 'UserController@store', $this->userData);
-        $response = $this->action('PUT', 'UserController@update', $this->userDataUpdate);
+        $this->call('POST', '/user', $this->userData);
+        $this->call('PUT', '/user/1', $this->userDataUpdate);
 
         $userUpdated = User::find(1);
         $this->assertEquals($userUpdated->email , $this->userDataUpdate['email']);
@@ -116,8 +116,7 @@ class UserControllerTest extends TestCase
     public function testUpdateOwnPassword()
     {
         // Update the User Types
-        $response = $this->action('POST', 'UserController@store', $this->userData);
-        $response = $this->action('POST', 'UserController@updateOwnPassword', $this->userDataUpdate);
+        $this->call('POST', '/user', $this->userData);
         $user->updateOwnPassword(1);
 
         $userUpdated = User::find(1);
@@ -132,7 +131,7 @@ class UserControllerTest extends TestCase
    */
 	public function testDelete()
 	{
-        $response = $this->action('POST', 'UserController@store', $this->userData);
+        $this->call('POST', '/user', $this->userData);
         $user->delete(1);
 		$usersSaved = User::withTrashed()->find(1);
 
@@ -141,7 +140,7 @@ class UserControllerTest extends TestCase
 
     public function testHandlesFailedLogin()
     {
-        $response = $this->action('POST', 'UserController@store', $this->userData);
+        $this->call('POST', '/user', $this->userData);
 
         $this->action('POST', 'UserController@loginAction', $this->userDataLoginBad);
         $this->assertRedirectedToRoute('user.login');
@@ -149,7 +148,7 @@ class UserControllerTest extends TestCase
 
     public function testHandlesValidLogin()
     {
-        $response = $this->action('POST', 'UserController@store', $this->userData);
+        $this->call('POST', '/user', $this->userData);
 
         $this->action('POST', 'UserController@loginAction', $this->userDataLoginGood);
         $this->assertRedirectedToRoute('user.home');
@@ -157,7 +156,7 @@ class UserControllerTest extends TestCase
 
     public function testHandlesLoginValidation()
     {
-        $response = $this->action('POST', 'UserController@store', $this->userData);
+        $this->call('POST', '/user', $this->userData);
 
         $this->action('POST', 'UserController@loginAction', $this->userDataLoginFailsVerification);
         $this->assertRedirectedToRoute('user.login');

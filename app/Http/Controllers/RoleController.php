@@ -9,6 +9,7 @@ use Response;
 use Auth;
 use Session;
 use Lang;
+use Input;
 
 class RoleController extends Controller {
 
@@ -74,7 +75,7 @@ class RoleController extends Controller {
 		}
 
 		$url = session('SOURCE_URL');
-		return reditect()->to($url)->with('message', trans('general-terms.record-successfully-updated'));
+		return redirect()->to($url)->with('message', trans('general-terms.record-successfully-updated'));
 	}
 
 	/**

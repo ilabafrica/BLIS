@@ -5,6 +5,8 @@
  */
 use App\Http\Controllers\LotController;
 use App\Models\User;
+use App\Models\Lot;
+use App\Models\Instrument;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 class LotControllerTest extends TestCase 
 {
@@ -46,7 +48,7 @@ class LotControllerTest extends TestCase
 	*/
 	public function testIndex()
 	{
-		$response = $this->action('GET', 'LotController@index');
+		$response = $this->call('GET', '/lot');
 		$this->assertTrue($response->isOk());
 		$this->assertViewHas('lots');
 	}
@@ -55,7 +57,7 @@ class LotControllerTest extends TestCase
 	*/
 	public function testCreate()
 	{
-		$response = $this->action('GET', 'LotController@index');
+		$response = $this->call('GET', '/lot');
 		$this->assertTrue($response->isOk());
 		$this->assertViewHas('instruments');
 	}
@@ -66,10 +68,10 @@ class LotControllerTest extends TestCase
 	{
 		echo "\n\nLOT CONTROLLER TEST\n\n";
 
-		$response = $this->action('POST', 'LotController@store', $this->input);
+		$response = $this->call('POST', '/lot', $this->input);
 		$this->assertTrue($response->isRedirection());
 
-		$testLot = lot::orderBy('id', 'desc')->first();
+		$testLot = Lot::orderBy('id', 'desc')->first();
 		$this->assertEquals($testLot->number, $this->input['number']);
 		$this->assertEquals($testLot->description, $this->input['description']);
 		$this->assertEquals($testLot->expiry, $this->input['expiry']);
@@ -81,10 +83,10 @@ class LotControllerTest extends TestCase
 	*/
 	public function testUpdate()
 	{
-		$response = $this->action('POST', 'LotController@store', $this->inputUpdate);
+		$response = $this->call('POST', '/lot', $this->inputUpdate);
 		$this->assertTrue($response->isRedirection());
 
-		$testLot = lot::orderBy('id', 'desc')->first();
+		$testLot = Lot::orderBy('id', 'desc')->first();
 		$this->assertEquals($testLot->number, $this->inputUpdate['number']);
 		$this->assertEquals($testLot->description, $this->inputUpdate['description']);
 		$this->assertEquals($testLot->expiry, $this->inputUpdate['expiry']);
@@ -101,7 +103,7 @@ class LotControllerTest extends TestCase
 		$this->runStore($this->input);
 		$lot = new LotController;
 		$lot->delete(1);
-		$lotDeleted = lot::withTrashed()->find(1);
+		$lotDeleted = Lot::withTrashed()->find(1);
 		$this->assertNotNull($lotDeleted->deleted_at);
 	}
 	/**
@@ -111,7 +113,7 @@ class LotControllerTest extends TestCase
 	 */
 	public function runStore($input)
 	{
-		$response = $this->action('POST', 'LotController@store', $input);
+		$this->call('POST', '/lot', $input);
 	}
 
 	 /**
@@ -121,6 +123,6 @@ class LotControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
-		$response = $this->action('PUT', 'lotController@update', $input);
+		$this->call('POST', '/lot/'.$id, $input);
 	}
 }

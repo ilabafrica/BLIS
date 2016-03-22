@@ -42,7 +42,7 @@ class SpecimenRejectionControllerTest extends TestCase
 	{
 		echo "\n\nTEST SPECIMEN REJECTION CONTROLLER TEST\n\n";
 		// Store the Rejection Reason
-		$response = $this->action('POST', 'SpecimenRejectionController@store', $this->rejectionReasonData);
+		$this->call('POST', '/specimenrejection', $this->rejectionReasonData);
 		$rejectionReasonstored = RejectionReason::orderBy('id','desc')->take(1)->get()->toArray();
 
 		$rejectionReasonSaved = RejectionReason::find($rejectionReasonstored[0]['id']);
@@ -55,11 +55,10 @@ class SpecimenRejectionControllerTest extends TestCase
 	public function testUpdate()
 	{
 		// Update the SpecimenRejection
-		$response = $this->action('POST', 'SpecimenRejectionController@store', $this->rejectionReasonData);
+		$this->call('POST', '/specimenrejection', $this->rejectionReasonData);
 		$rejectionReasonstored = RejectionReason::orderBy('id','desc')->take(1)->get()->toArray();
 
-		$response = $this->action('PUT', 'SpecimenRejectionController@update', $this->rejectionReasonUpdate);
-		$rejectionReason->update($rejectionReasonstored[0]['id']);
+		$this->call('PUT', '/specimenrejection/'.$rejectionReasonstored[0]['id'], $this->rejectionReasonUpdate);
 
 		$this->assertEquals($rejectionReasonSaved->reason , $this->rejectionReasonUpdate['reason']);
 	}
@@ -69,12 +68,12 @@ class SpecimenRejectionControllerTest extends TestCase
 	 */
 	public function testDelete()
 	{
-		$response = $this->action('POST', 'SpecimenRejectionController@store', $this->rejectionReasonData);
+		$this->call('POST', '/specimenrejection', $this->rejectionReasonData);
 		$rejectionReasonstored = RejectionReason::orderBy('id','desc')->take(1)->get()->toArray();
 
-		$rejectionReason->delete($rejectionReasonstored[0]['id']);
+		$this->call('DELETE', '/specimenrejection/'.$rejectionReasonstored[0]['id'], $this->rejectionReasonData);
 
-		$rejectionReasonDeleted = RejectionReason::find($rejectionReasonstored[0]['id']);
-		$this->assertNull($rejectionReasonDeleted);
+		$rejectionReasonDeleted = RejectionReason::withTrashed()->find($rejectionReasonstored[0]['id']);
+		$this->assertNotNull($rejectionReasonDeleted);
 	}
 }

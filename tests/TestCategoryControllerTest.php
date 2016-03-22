@@ -51,7 +51,7 @@ class TestCategoryControllerTest extends TestCase
   	{
 		echo "\n\nTEST CATEGORY CONTROLLER TEST\n\n";
   		 // Store the TestCategory
-		$response = $this->action('POST', 'TestCategoryController@store', $this->testCategoryData);
+		$this->call('POST', '/testcategory', $this->testCategoryData);
 		$testCategorystored = TestCategory::orderBy('id','desc')->take(1)->get()->toArray();
 
 		$testCategoriesSaved = TestCategory::find($testCategorystored[0]['id']);
@@ -67,11 +67,10 @@ class TestCategoryControllerTest extends TestCase
 	public function testUpdate()
 	{
 		// Update the TestCategory
-		$response = $this->action('POST', 'TestCategoryController@store', $this->testCategoryData);
+		$this->call('POST', '/testcategory', $this->testCategoryData);
 		$testCategorystored = TestCategory::orderBy('id','desc')->take(1)->get()->toArray();
 
-		$response = $this->action('PUT', 'TestCategoryController@update', $this->testCategoryUpdate);
-        $testCategory->update($testCategorystored[0]['id']);
+		$this->call('PUT', '/testcategory/'.$testCategorystored[0]['id'], $this->testCategoryUpdate);
 
 		$testCategorySaved = TestCategory::find($testCategorystored[0]['id']);
 		$this->assertEquals($testCategorySaved->name , $this->testCategoryUpdate['name']);
@@ -85,10 +84,10 @@ class TestCategoryControllerTest extends TestCase
      */
 	public function testDelete()
 	{
-		$response = $this->action('POST', 'TestCategoryController@store', $this->testCategoryData);
+		$this->call('POST', '/testcategory', $this->testCategoryData);
 		$testCategorystored = TestCategory::orderBy('id','desc')->take(1)->get()->toArray();
 
-        $testCategory->delete($testCategorystored[0]['id']);
+		$this->call('DELETE', '/testcategory/'.$testCategorystored[0]['id'], $this->testCategoryData);
 
 		$testCategoriesDeleted = TestCategory::withTrashed()->find($testCategorystored[0]['id']);
 		$this->assertNotNull($testCategoriesDeleted->deleted_at);

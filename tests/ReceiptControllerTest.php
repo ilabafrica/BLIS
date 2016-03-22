@@ -122,7 +122,7 @@ class ReceiptControllerTest extends TestCase
   	 */
 	public function runStore($input)
 	{
-		$response = $this->action('POST', 'ReceiptController@store', $input);
+		$this->call('POST', '/receipt', $input);
 	}
     /**
   	 * Executes the update function in the ReceiptController
@@ -131,6 +131,6 @@ class ReceiptControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
-		$response = $this->action('PUT', 'SupplierController@update', $input);
+		$this->call('PUT', '/supplier/'.$id, $input);
 	}
 }

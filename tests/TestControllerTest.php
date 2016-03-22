@@ -70,7 +70,8 @@ class TestControllerTest extends TestCase
     // Load the index page
     public function runIndex($searchValue, $formInput, $returnValue, $returnValue2 = null, $returnValue3 = null)
     {
-      $response = $this->action('POST', 'TestController@index', $formInput);      $tests = $view->getData()['testSet'];
+      $response = $this->action('POST', 'TestController@index', $formInput);
+      $tests = $view->getData()['testSet'];
       if (isset($returnValue3)) {
         $field3 = $returnValue3;
         $field2 = $returnValue2;

@@ -37,7 +37,7 @@ class DrugControllerTest extends TestCase
 		
 		// Edition sample data
 		$this->drugUpdate = array(
-			'name' => 'VANCOMYCIN',
+			'name' => 'VANCOMYCININ',
 			'description' => 'Staphylococci species',
 		);
     }
@@ -51,9 +51,9 @@ class DrugControllerTest extends TestCase
   	{
 		echo "\n\nDRUG CONTROLLER TEST\n\n";
   		 // Store the Drug
-		$response = $this->action('POST', 'DrugController@store', $this->drugData);
+		$this->call('POST', '/drug', $this->drugData);
 		$drugStored = Drug::orderBy('id','desc')->take(1)->get()->toArray();
-
+var_dump($drugStored);
 		$drugSaved = Drug::find($drugStored[0]['id']);
 		$this->assertEquals($drugSaved->name , $this->drugData['name']);
 		$this->assertEquals($drugSaved->description ,$this->drugData['description']);
@@ -67,15 +67,15 @@ class DrugControllerTest extends TestCase
 	public function testUpdate()
 	{
 		// Update the Drug
-		$response = $this->action('POST', 'DrugController@store', $this->drugData);
+		$this->call('POST', '/drug', $this->drugData);
 		$drugStored = Drug::orderBy('id','desc')->take(1)->get()->toArray();
 
-		$response = $this->action('PUT', 'DrugController@update', $this->drugUpdate);
-        $drug->update($drugStored[0]['id']);
+		$this->call('PUT', '/drug/1', $this->drugUpdate);
 
-		$drugSaved = Drug::find($drugStored[0]['id']);
-		$this->assertEquals($drugSaved->name , $this->drugUpdate['name']);
-		$this->assertEquals($drugSaved->description ,$this->drugUpdate['description']);
+		// $drugUpdated = Drug::find($drugStored[0]['id']);
+		$drugUpdated = Drug::find('1');
+		$this->assertEquals($drugUpdated->name , $this->drugUpdate['name']);
+		$this->assertEquals($drugUpdated->description ,$this->drugUpdate['description']);
 	}
 
 	/**
@@ -85,7 +85,7 @@ class DrugControllerTest extends TestCase
      */
 	public function testDelete()
 	{	// to be done later
-		/*$response = $this->action('POST', 'DrugController@store', $this->drugData);
+		/*$this->call('POST', '/drug', $this->drugData);
 		$drugStored = Drug::orderBy('id','desc')->take(1)->get()->toArray();
 
         $drug->delete($drugStored[0]['id']);
