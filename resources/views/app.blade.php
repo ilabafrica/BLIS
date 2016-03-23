@@ -7,14 +7,14 @@
     <meta content="" name="description"/>
     <meta content="" name="author"/>
 	<title>{!! Config::get('blis.organization') !!}</title>
-	<link href="{{ asset('css/vendor.css') }}" rel="stylesheet">
-	<link href="{{ asset('css/style.css') }}" rel="stylesheet">
-	<link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
-	<link href="{{ asset('css/font.css') }}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/dataTables.bootstrap.css') }}" />
-	<link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+	<link href="{!! asset('css/vendor.css') !!}" rel="stylesheet">
+	<link href="{!! asset('css/style.css') !!}" rel="stylesheet">
+	<link href="{!! asset('css/bootstrap.css') !!}" rel="stylesheet">
+	<link href="{!! asset('css/font.css') !!}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{!! asset('css/dataTables.bootstrap.css') !!}" />
+	<link href="{!! asset('css/custom.css') !!}" rel="stylesheet">
 	<!-- Datepicker -->
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('css/datepicker.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{!! URL::asset('css/datepicker.css') !!}" />
 </head>
 <body class="page-header-fixed page-quick-sidebar-over-content ">
 	<div id="app-container">
@@ -175,7 +175,7 @@
 		<div id="body-container">
 			@yield('content')
 			<div id="footer-wrap" class="footer">
-				{!! trans('menu.compiled-by') !!} <a href="{{ Config::get('blis.ilab-url') }}">{!! Config::get('blis.ilab') !!}</a> | {!! date('Y') !!}
+				{!! trans('menu.compiled-by') !!} <a href="{!! Config::get('blis.ilab-url') !!}">{!! Config::get('blis.ilab') !!}</a> | {!! date('Y') !!}
 				<span class="pull-right">
 					<a href="javascript:;"><i class="fa fa-facebook-square"></i></a>
 					<a href="javascript:;">&nbsp;<i class="fa fa-twitter-square"></i></a>
@@ -184,12 +184,12 @@
 		</div>
 	</div>
     <!-- jQuery -->
-    <script src="{{ asset('js/vendor.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('js/jquery.dataTables.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/dataTables.bootstrap.js') }}"></script>
+    <script src="{!! asset('js/vendor.js') !!}"></script>
+	<script type="text/javascript" src="{!! asset('js/jquery.dataTables.js') !!}"></script>
+    <script type="text/javascript" src="{!! asset('js/dataTables.bootstrap.js') !!}"></script>
 	<!-- Datepicker -->
-	<script src="{{ URL::asset('js/bootstrap-datepicker.js') }}"></script>
+	<script src="{!! URL::asset('js/bootstrap-datepicker.js') !!}"></script>
 	<!-- Custom script -->
-	<script type="text/javascript" src="{{ asset('js/script.js') }} "></script>
+	<script type="text/javascript" src="{!! asset('js/script.js') !!} "></script>
 </body>
 </html>

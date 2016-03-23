@@ -2,6 +2,7 @@
 
 use App\Models\ControlMeasure;
 use App\Models\ControlMeasureRange;
+use DB;
 class ControlMeasureController extends Controller {
 
 	/**

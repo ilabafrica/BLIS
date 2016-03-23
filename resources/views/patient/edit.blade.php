@@ -37,7 +37,7 @@
 
 			{!! Form::model($patient, array('route' => array('patient.update', $patient->id), 'method' => 'PUT', 'id' => 'form-edit-patient')) !!}
 				<!-- CSRF Token -->
-                <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+                <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
                 <!-- ./ csrf token -->
                 <div class="form-group row">
 					{!! Form::label('patient_number', trans('specific-terms.patient-no'), array('class' => 'col-sm-2 form-control-label')) !!}
@@ -61,8 +61,8 @@
                 <div class="form-group row">
                     {!! Form::label('gender', trans('general-terms.gender'), array('class' => 'col-sm-2 form-control-label')) !!}
                     <div class="col-sm-6">
-                        <label class="radio-inline">{!! Form::radio('gender', App\Models\User::MALE, true) !!}{{ trans_choice('specific-terms.sex', 1) }}</label>
-                        <label class="radio-inline">{!! Form::radio("gender", App\Models\User::FEMALE, false) !!}{{ trans_choice('specific-terms.sex', 2) }}</label>
+                        <label class="radio-inline">{!! Form::radio('gender', App\Models\User::MALE, true) !!}{!! trans_choice('specific-terms.sex', 1) !!}</label>
+                        <label class="radio-inline">{!! Form::radio("gender", App\Models\User::FEMALE, false) !!}{!! trans_choice('specific-terms.sex', 2) !!}</label>
                     </div>
                 </div>
                 <div class="form-group row">

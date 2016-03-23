@@ -30,10 +30,10 @@ class ControlController extends Controller {
 	 */
 	public function create()
 	{
-		$lots = Lot::lists('number', 'id');
+		$lots = [''=>''] + Lot::lists('number', 'id')->all();
 		$measureTypes = MeasureType::orderBy('id')->take(2)->get();
 
-		return view('control.create')->with('lots', $lots) ->with('measureTypes', $measureTypes);
+		return view('control.create')->with('lots', $lots)->with('measureTypes', $measureTypes);
 	}
 
 
@@ -65,7 +65,7 @@ class ControlController extends Controller {
 					$controlMeasure->saveMeasuresRanges($newMeasures, $control);
 			}
 			// redirect
-			return Redirect::to('control')
+			return redirect()->to('control')
 					->with('message', trans('messages.successfully-added-control'))
 					->with('activeControl', $control ->id);
 		}
@@ -117,7 +117,7 @@ class ControlController extends Controller {
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator)->withInput();
+			return redirect()->back()->withErrors($validator)->withInput();
 		} else {
 			// Update
 			$control = Control::find($id);
@@ -137,7 +137,7 @@ class ControlController extends Controller {
 				$measures->editMeasuresRanges($inputMeasures, $control);
 			}
 			// redirect
-			return Redirect::back()->with('message', trans('messages.success-updating-control'));
+			return redirect()->back()->with('message', trans('messages.success-updating-control'));
 		}
 	}
 

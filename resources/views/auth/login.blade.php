@@ -7,11 +7,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta content="" name="description"/>
         <meta content="" name="author"/>
-        <link href="{{ asset('css/vendor.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/font.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+        <link href="{!! asset('css/vendor.css') !!}" rel="stylesheet">
+        <link href="{!! asset('css/style.css') !!}" rel="stylesheet">
+        <link href="{!! asset('css/bootstrap.css') !!}" rel="stylesheet">
+        <link href="{!! asset('css/font.css') !!}" rel="stylesheet">
+        <link href="{!! asset('css/custom.css') !!}" rel="stylesheet">
     </head>
     <body class="page-header-fixed page-quick-sidebar-over-content ">
     <div class="back">
@@ -20,7 +20,7 @@
                 <div class="login-right striped-bg">
                     <div class="row">
                         <div class="col-md-12 col-sm-offset-3">
-                            <img src="{{ Config::get('blis.organization-logo') }}" height="60px" align="center">
+                            <img src="{!! Config::get('blis.organization-logo') !!}" height="60px" align="center">
                         </div>
                     </div>
                     <div class="heading col-sm-offset-1">{!! Config::get('blis.organization') !!}</div>
@@ -31,7 +31,7 @@
                                 <div class="alert alert-danger col-sm-10">
                                     <ul class="list-unstyled"> 
                                         @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
+                                            <li>{!! $error !!}</li>
                                         @endforeach
                                     </ul>
                                 </div>
@@ -46,9 +46,9 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-sm-offset-1">
-                            <form class="form-horizontal" role="form" method="POST" action="{{ url('auth/login') }}">
+                            <form class="form-horizontal" role="form" method="POST" action="{!! url('auth/login') !!}">
                                 <!-- CSRF Token -->
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                                 <!-- ./ csrf token -->
                                 <div class="form-group row">
                                     <label for="username" class="col-sm-2 form-control-label">Username</label>
@@ -87,6 +87,6 @@
                 </div>
             </div>
         </div>
-        <script src="{{ asset('js/vendor.js') }}"></script>
+        <script src="{!! asset('js/vendor.js') !!}"></script>
     </body>
 </html>

@@ -12,20 +12,20 @@
 							<strong>Whoops!</strong> There were some problems with your input.<br><br>
 							<ul>
 								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
+									<li>{!! $error !!}</li>
 								@endforeach
 							</ul>
 						</div>
 					@endif
 
 					<form class="form-horizontal" role="form" method="POST" action="/password/reset">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-						<input type="hidden" name="token" value="{{ $token }}">
+						<input type="hidden" name="_token" value="{!! csrf_token() !!}">
+						<input type="hidden" name="token" value="{!! $token !!}">
 
 						<div class="form-group">
 							<label class="col-md-4 control-label">E-Mail Address</label>
 							<div class="col-md-6">
-								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
+								<input type="email" class="form-control" name="email" value="{!! old('email') !!}">
 							</div>
 						</div>
 

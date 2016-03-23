@@ -34,7 +34,7 @@
 	            <div class="col-md-8">
 				{!! Form::model($lot, array('route' => array('lot.update', $lot->id), 'method' => 'PUT', 'id' => 'form-edit-lot')) !!}
 					<!-- CSRF Token -->
-	                <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+	                <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
 	                <!-- ./ csrf token -->
 	                {!! Form::hidden('stock_id', $lot->stock_id) !!}
 	                {!! Form::hidden('id', $lot->id) !!}

@@ -33,14 +33,14 @@
 	            <div class="col-md-8">
 				{!! Form::open(array('route' => 'test.referAction')) !!}
 					<!-- CSRF Token -->
-	                <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+	                <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
 	                <!-- ./ csrf token -->
 					{!! Form::hidden('specimen_id', $specimen->id) !!}
 	                <div class="form-group row">
 						{!! Form::label('refer', trans('action.refer-sample'), array('class' => 'col-sm-3 form-control-label')) !!}
 						<div class="col-sm-9">
-							<label class="radio-inline">{!! Form::radio('referral-status', 0, true) !!}{{ trans('general-terms.in') }}</label>
-                        	<label class="radio-inline">{!! Form::radio("referral-status", 1, false) !!}{{ trans('general-terms.out') }}</label>
+							<label class="radio-inline">{!! Form::radio('referral-status', 0, true) !!}{!! trans('general-terms.in') !!}</label>
+                        	<label class="radio-inline">{!! Form::radio("referral-status", 1, false) !!}{!! trans('general-terms.out') !!}</label>
 						</div>
 					</div>
 					<div class="form-group row">

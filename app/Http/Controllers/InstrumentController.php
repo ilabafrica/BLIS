@@ -36,7 +36,7 @@ class InstrumentController extends Controller {
 	public function create()
 	{
 		// Get a list of all installed plugins
-		$plugins = Instrument::getInstalledPlugins();
+		$plugins = [''=>''] + Instrument::getInstalledPlugins();
 
 		//Create Instrument view
 		return view('instrument.create')->with('instruments', $plugins);

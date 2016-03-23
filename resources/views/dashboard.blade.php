@@ -226,7 +226,7 @@
 	  	</div>
 	</div>
 </div>
-<!-- Highcharts scripts --><script src="{{ asset('js/jquery.min.js') }}"></script>
+<!-- Highcharts scripts --><script src="{!! asset('js/jquery.min.js') !!}"></script>
 	
 <script src="{!! asset('js/highcharts.js') !!}"></script>
 <script src="{!! asset('js/exporting.js') !!}"></script>

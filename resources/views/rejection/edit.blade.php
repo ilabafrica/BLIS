@@ -34,7 +34,7 @@
 			{!! Form::model($rejection, array('route' => array('rejection.update', $rejection->id), 
 				'method' => 'PUT', 'id' => 'form-edit-rejection')) !!}
 				<!-- CSRF Token -->
-                <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+                <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
                 <!-- ./ csrf token -->
 				<div class="form-group row">
 					{!! Form::label('name', trans_choice('general-terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}

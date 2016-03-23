@@ -33,7 +33,7 @@
 			<div class="row">
 				{!! Form::open(array('route' => 'user.store', 'id' => 'form-add-user', 'enctype' => 'multipart/form-data', 'class' => 'form-horizontal', 'files' => 'true')) !!}
 				<!-- CSRF Token -->
-                <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+                <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
                 <!-- ./ csrf token -->
 				<div class="col-md-8"> 
 					<div class="form-group row">
@@ -45,8 +45,8 @@
 					<div class="form-group row">
 						{!! Form::label('gender', trans('specific-terms.gender'), array('class' => 'col-sm-4 form-control-label')) !!}
 						<div class="col-sm-6">
-							<label class="radio-inline">{!! Form::radio('gender', App\Models\User::MALE, true) !!}{{ trans_choice('specific-terms.sex', 1) }}</label>
-	                        <label class="radio-inline">{!! Form::radio("gender", App\Models\User::FEMALE, false) !!}{{ trans_choice('specific-terms.sex', 2) }}</label>
+							<label class="radio-inline">{!! Form::radio('gender', App\Models\User::MALE, true) !!}{!! trans_choice('specific-terms.sex', 1) !!}</label>
+	                        <label class="radio-inline">{!! Form::radio("gender", App\Models\User::FEMALE, false) !!}{!! trans_choice('specific-terms.sex', 2) !!}</label>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -76,7 +76,7 @@
 	                <div class="form-group row">
 	                    <div class="col-sm-offset-4 col-sm-6">
 	                        <label class="checkbox-inline">
-	                            {!! Form::checkbox("default_password", '1', '', array('onclick' => 'toggle(".pword", this)')) !!}{{ trans('specific-terms.use-default') }}
+	                            {!! Form::checkbox("default_password", '1', '', array('onclick' => 'toggle(".pword", this)')) !!}{!! trans('specific-terms.use-default') !!}
 	                        </label>
 	                    </div>
 	                </div>
@@ -109,7 +109,7 @@
 		                </div>
 		                <div class="col-md-8 col-sm-offset-1">
 		                    <div class="form-group">
-		                        <label>{{ trans('specific-terms.profile-photo') }}</label>
+		                        <label>{!! trans('specific-terms.profile-photo') !!}</label>
 		                        {!! Form::file('photo', null, ['class' => 'form-control']) !!}
 		                    </div>
 		                </div>
