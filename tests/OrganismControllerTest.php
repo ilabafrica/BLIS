@@ -5,10 +5,10 @@
  */
 use App\Models\Organism;
 use App\Http\Controllers\OrganismController;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class OrganismControllerTest extends TestCase 
 {
-	use WithoutMiddleware;
+	
 	/**
      * Initial setup function for tests
      *
@@ -52,6 +52,7 @@ class OrganismControllerTest extends TestCase
   	{
   		echo "\n\nORGANISM CONTROLLER TEST\n\n";
   		 // Store the Organism Types
+		$this->withoutMiddleware();
 		$this->call('POST', '/organism', $this->organismData);
 		$organismStored = Organism::orderBy('id','desc')->take(1)->get()->toArray();
 
@@ -73,9 +74,11 @@ class OrganismControllerTest extends TestCase
 	public function testUpdate()
 	{
 
+		$this->withoutMiddleware();
 		$this->call('POST', '/organism', $this->organismData);
 		$organismStored = Organism::orderBy('id','desc')->take(1)->get()->toArray();
 
+		$this->withoutMiddleware();
 		$this->call('PUT', '/organism/'.$organismStored[0]['id'], $this->organismDataUpdate);
 
 		$organismSavedUpdated = Organism::find($organismStored[0]['id']);
@@ -95,6 +98,7 @@ class OrganismControllerTest extends TestCase
      */
 	public function testDelete()
 	{
+		$this->withoutMiddleware();
 		$this->call('POST', '/organism', $this->organismData);
 		$organismStored = Organism::orderBy('id','desc')->take(1)->get()->toArray();
 

@@ -3,18 +3,20 @@
  * Tests for SanitasInterfacer class in api folder
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
+use App\Models\Test;
+use App\Models\Visit;
+use App\Models\Patient;
 use App\Models\ExternalDump;
 use App\Api\Facades\Interfacer;
-use App\Api\SanitasInterfacer;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class SanitasInterfacerTest extends TestCase
 {
-    use WithoutMiddleware;
+    
     public function setup()
     {
         parent::setup();
-        $this->app->bind('Interfacer', 'SanitasInterfacer');
+        $this->app->bind('Interfacer', 'App\Api\SanitasInterfacer');
         Artisan::call('migrate');
         Artisan::call('db:seed');
         $this->setVariables();
@@ -23,9 +25,9 @@ class SanitasInterfacerTest extends TestCase
     public function testRetrieveSingleRequest()
     {
         echo "\n\nSANITAS INTERFACER TEST\n\n";
+		$this->withoutMiddleware();
         // Invoke API URL making a single test request (presumed successful)
-        $this->call('POST', 'api/receiver', array(), 
-                array(), array(), $this->labRequestJsonSimpleTest);
+        $this->call('POST', 'api/receiver', [], [], [], [], $this->labRequestJsonSimpleTest);
 
         $labR = json_decode($this->labRequestJsonSimpleTest);
 
@@ -53,9 +55,10 @@ class SanitasInterfacerTest extends TestCase
 
     public function testRequestForTestNotFound()
     {
+		$this->withoutMiddleware();
         // Invoke API URL to insert seed data
-        $this->call('POST', 'api/receiver', array(), 
-                array(), array(), $this->labRequestJsonSimpleTestNotFoundInSanitas);
+        $this->call('POST', 'api/receiver', [], [], [],
+            [], $this->labRequestJsonSimpleTestNotFoundInSanitas);
 
         $labRNF = json_decode($this->labRequestJsonSimpleTestNotFoundInSanitas);
 
@@ -131,9 +134,9 @@ class SanitasInterfacerTest extends TestCase
 
     public function testPaymentRequest()
     {
+		$this->withoutMiddleware();
         // Invoke API URL making a single test request (presumed successful)
-        $this->call('POST', 'api/receiver', array(), 
-                array(), array(), $this->labRequestJsonSimpleTest);
+        $this->call('POST', 'api/receiver', [], [], [], [], $this->labRequestJsonSimpleTest);
 
         $labR = json_decode($this->labRequestJsonSimpleTest);
 

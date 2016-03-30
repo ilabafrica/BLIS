@@ -1,7 +1,7 @@
 <?php namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Models\Reason;
+use App\Models\RejectionReason;
 
 class ReasonRequest extends Request {
 
@@ -33,6 +33,6 @@ class ReasonRequest extends Request {
 	public function ingnoreId(){
 		$id = $this->route('rejection');
 		$reason = $this->input('reason');
-		return Reason::where(compact('id', 'reason'))->exists() ? $id : '';
+		return RejectionReason::where(compact('id', 'reason'))->exists() ? $id : '';
 	}
 }

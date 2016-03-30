@@ -1,4 +1,9 @@
 <?php
+Route::post('/api/receiver', array(
+    'as' => 'api.receiver',
+    'uses' => 'InterfacerController@receiveLabRequest'
+));
+
 Route::get('/', [
     'uses' => 'WelcomeController@index'
 ]);

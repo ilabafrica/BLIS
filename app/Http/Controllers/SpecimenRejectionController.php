@@ -57,7 +57,7 @@ class SpecimenRejectionController extends Controller {
             $rejection->reason = Input::get('reason');
             $rejection->save();
         }
-            $url = Session::get('SOURCE_URL');
+            $url = session('SOURCE_URL');
             
             return redirect()->to($url)
             
@@ -100,7 +100,7 @@ class SpecimenRejectionController extends Controller {
             $rejection->save();
 
             // redirect
-            $url = Session::get('SOURCE_URL');
+            $url = session('SOURCE_URL');
             
             return redirect()->to($url)
                     ->with('message', trans('messages.success-updating-rejection-reason')) ->with('activerejection', $rejection->id);
@@ -113,7 +113,7 @@ class SpecimenRejectionController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function delete($id)
+    public function destroy($id)
     {
         //Soft delete the rejection
         $rejection = RejectionReason::find($id);
@@ -123,13 +123,13 @@ class SpecimenRejectionController extends Controller {
             $rejection->delete();
         } catch (Exception $e) {
             // The rejection is in use
-            $url = Session::get('SOURCE_URL');
+            $url = session('SOURCE_URL');
             
             return redirect()->to($url)
                 ->with('message', trans('messages.failure-specimen-rejection-reason-in-use'));
         }
         // redirect
-            $url = Session::get('SOURCE_URL');
+            $url = session('SOURCE_URL');
             
             return redirect()->to($url)
             ->with('message', trans('messages.success-deleting-rejection-reason'));

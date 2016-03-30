@@ -2,10 +2,10 @@
 
 use App\Models\Referral;
 use App\Models\Specimen;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class SpecimenModelTest extends TestCase {
     
-    use WithoutMiddleware;
+    
     public function setup()
     {
         parent::setup();

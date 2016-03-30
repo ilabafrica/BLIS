@@ -10,7 +10,7 @@ use App\Models\Referral;
 use App\Models\TestType;
 use App\Models\Patient;
 use App\Models\Specimen;
-use App\Models\Reason;
+use App\Models\RejectionReason;
 use App\Models\Facility;
 use Input;
 use Response;
@@ -175,7 +175,7 @@ class TestController extends Controller {
 	public function reject($specimenID)
 	{
 		$specimen = Specimen::find($specimenID);
-		$reasons = Reason::lists('reason', 'id');
+		$reasons = RejectionReason::lists('reason', 'id');
 		return view('test.reject', compact('specimen', 'reasons'));
 	}
 
@@ -258,7 +258,7 @@ class TestController extends Controller {
 		return view('test.viewDetails', array($specimen->test->id));
 	}
 
-/**
+	/**
 	 * Starts Test
 	 *
 	 * @param
@@ -341,7 +341,7 @@ class TestController extends Controller {
 		Session::put('fromRedirect', 'true');
 
 		// Get page
-		$url = Session::get('SOURCE_URL');
+		$url = session('SOURCE_URL');
 		$urlParts = explode('&', $url);
 		if(isset($urlParts['page'])){
 			$pageParts = explode('=', $urlParts['page']);

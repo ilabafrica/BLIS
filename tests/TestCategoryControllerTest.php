@@ -5,10 +5,10 @@
  */
 use App\Http\Controllers\TestCategoryController;
 use App\Models\TestCategory;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class TestCategoryControllerTest extends TestCase 
 {
-	use WithoutMiddleware;
+	
     /**
      * Initial setup function for tests
      *
@@ -51,6 +51,7 @@ class TestCategoryControllerTest extends TestCase
   	{
 		echo "\n\nTEST CATEGORY CONTROLLER TEST\n\n";
   		 // Store the TestCategory
+		$this->withoutMiddleware();
 		$this->call('POST', '/testcategory', $this->testCategoryData);
 		$testCategorystored = TestCategory::orderBy('id','desc')->take(1)->get()->toArray();
 
@@ -67,9 +68,11 @@ class TestCategoryControllerTest extends TestCase
 	public function testUpdate()
 	{
 		// Update the TestCategory
+		$this->withoutMiddleware();
 		$this->call('POST', '/testcategory', $this->testCategoryData);
 		$testCategorystored = TestCategory::orderBy('id','desc')->take(1)->get()->toArray();
 
+		$this->withoutMiddleware();
 		$this->call('PUT', '/testcategory/'.$testCategorystored[0]['id'], $this->testCategoryUpdate);
 
 		$testCategorySaved = TestCategory::find($testCategorystored[0]['id']);
@@ -84,6 +87,7 @@ class TestCategoryControllerTest extends TestCase
      */
 	public function testDelete()
 	{
+		$this->withoutMiddleware();
 		$this->call('POST', '/testcategory', $this->testCategoryData);
 		$testCategorystored = TestCategory::orderBy('id','desc')->take(1)->get()->toArray();
 

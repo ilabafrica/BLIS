@@ -6,11 +6,11 @@
 use App\Models\User;
 use App\Models\Commodity;
 use App\Http\Controllers\CommodityController;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class CommodityControllerTest extends TestCase 
 {
 	
-	use WithoutMiddleware;
+	
 	    public function setUp()
 	    {
 	    	parent::setUp();

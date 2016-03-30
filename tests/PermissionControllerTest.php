@@ -6,11 +6,11 @@
 use App\Models\Role;
 use App\Models\Permission;
 use App\Http\Controllers\PermissionController;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class PermissionControllerTest extends TestCase 
 {
 
-    use WithoutMiddleware;
+    
     /**
      * Default preparations for tests
      *
@@ -28,6 +28,7 @@ class PermissionControllerTest extends TestCase
     {
         echo "\n\nPERMISSION CONTROLLER TEST\n\n";
 
+		$this->withoutMiddleware();
         $this->call('POST', '/permission', $this->permissionRolesMapping);
 
         $permission1 = Permission::find(1);

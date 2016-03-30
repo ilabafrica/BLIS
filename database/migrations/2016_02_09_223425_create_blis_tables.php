@@ -180,6 +180,7 @@ class CreateBlisTables extends Migration
             $table->increments('id')->unsigned();
             $table->string("reason", 100);
             $table->string('description', 150)->nullable();
+            $table->softDeletes();
         });
 
         Schema::create('facilities', function(Blueprint $table)

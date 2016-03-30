@@ -3,12 +3,12 @@
  * Tests the DrugController functions that store, edit and delete drugs 
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 use App\Models\Drug;
 use App\Http\Controllers\DrugController;
 class DrugControllerTest extends TestCase 
 {
-	use WithoutMiddleware;
+	
     /**
      * Initial setup function for tests
      *
@@ -51,9 +51,10 @@ class DrugControllerTest extends TestCase
   	{
 		echo "\n\nDRUG CONTROLLER TEST\n\n";
   		 // Store the Drug
+		$this->withoutMiddleware();
 		$this->call('POST', '/drug', $this->drugData);
 		$drugStored = Drug::orderBy('id','desc')->take(1)->get()->toArray();
-var_dump($drugStored);
+
 		$drugSaved = Drug::find($drugStored[0]['id']);
 		$this->assertEquals($drugSaved->name , $this->drugData['name']);
 		$this->assertEquals($drugSaved->description ,$this->drugData['description']);
@@ -66,10 +67,12 @@ var_dump($drugStored);
      */
 	public function testUpdate()
 	{
-		// Update the Drug
+		$this->withoutMiddleware();
 		$this->call('POST', '/drug', $this->drugData);
+		// Update the Drug
 		$drugStored = Drug::orderBy('id','desc')->take(1)->get()->toArray();
 
+		$this->withoutMiddleware();
 		$this->call('PUT', '/drug/1', $this->drugUpdate);
 
 		// $drugUpdated = Drug::find($drugStored[0]['id']);
@@ -85,7 +88,9 @@ var_dump($drugStored);
      */
 	public function testDelete()
 	{	// to be done later
-		/*$this->call('POST', '/drug', $this->drugData);
+		/*
+		$this->withoutMiddleware();
+		$this->call('POST', '/drug', $this->drugData);
 		$drugStored = Drug::orderBy('id','desc')->take(1)->get()->toArray();
 
         $drug->delete($drugStored[0]['id']);

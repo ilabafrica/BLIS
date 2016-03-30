@@ -7,10 +7,10 @@
 use App\Models\User;
 use App\Http\Controllers\UserController;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class UserControllerTest extends TestCase 
 {
-    use WithoutMiddleware;
+    
     /**
     * Initial setup function for tests
     *

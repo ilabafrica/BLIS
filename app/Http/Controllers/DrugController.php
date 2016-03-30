@@ -132,7 +132,7 @@ class DrugController extends Controller {
 			$testcategory->delete();
 		} else {
 		    // The test category is in use
-		    $url = Session::get('SOURCE_URL');
+		    $url = session('SOURCE_URL');
             
             return Redirect::to($url)
 		    	->with('message', trans('general-terms.failure-test-category-in-use'));

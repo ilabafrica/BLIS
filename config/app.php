@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'url' => 'http://localhost',
+    'url' => env('APP_URL', 'http://localhost'),
 
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'timezone' => 'Africa/Nairobi',
+    'timezone' => env('TIMEZONE', 'Africa/Nairobi'),
 
     /*
     |--------------------------------------------------------------------------

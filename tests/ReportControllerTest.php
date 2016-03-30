@@ -6,11 +6,11 @@
 use App\Models\Disease;
 use App\Models\ReportDisease;
 use App\Http\Controllers\ReportController;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class ReportControllerTest extends TestCase 
 {
 
-	use WithoutMiddleware;
+	
 	/**
 	 * Default preparations for tests
 	 *
@@ -61,6 +61,7 @@ class ReportControllerTest extends TestCase
 		$diseaseModel = Disease::all();
 
 		//Check if entry was added
+		// todo: pick last entry and compare instead
 		$this->assertEquals($diseaseModel[3]->name, $this->inputDisease['new-diseases']['1']['disease']);
 		//Check if entry was edited
 		$this->assertEquals($diseaseModel[0]->name, $this->inputDisease['diseases']['1']['disease']);

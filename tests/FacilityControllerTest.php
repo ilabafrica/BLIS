@@ -5,10 +5,10 @@
  */
 use App\Models\Facility;
 use App\Http\Controllers\FacilityController;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class FacilityControllerTest extends TestCase 
 {
-	use WithoutMiddleware;
+	
 	/**
 	 * Default preparations for tests
 	 *
@@ -24,6 +24,7 @@ class FacilityControllerTest extends TestCase
 	public function testStorePass()
 	{
 		echo "\n\nFACILITY CONTROLLER TEST\n\n";
+		$this->withoutMiddleware();
 
 		$facilityName = 'TEL AVIV MEDICAL CENTRE';
 		$this->call('POST', '/facility', ['name' => $facilityName]);
@@ -34,12 +35,14 @@ class FacilityControllerTest extends TestCase
 
 	public function testStoreFailValidation()
 	{
+		$this->withoutMiddleware();
 		//Check if it prevents blank name entries
 		$facilityNameEmpty = '';
 		$this->call('POST', '/facility', ['name' => $facilityNameEmpty]);
 		$this->assertRedirectedToRoute('facility.index');
 		$this->assertSessionHasErrors('name');
 
+		$this->withoutMiddleware();
 		//Check if it prevents duplicate name entries
 		$facilityNameDuplicate = Facility::find(1)->name;
 		$this->call('POST', '/facility', ['name' => $facilityNameDuplicate]);
@@ -51,6 +54,7 @@ class FacilityControllerTest extends TestCase
 	{
 		$facilityName = "LIKUD GILAT HOSPITAL";
 		$idToUpdate = 1;
+		$this->withoutMiddleware();
 		$this->call('PUT', '/facility/'.$idToUpdate, ['id' => $idToUpdate, 'name' => $facilityName]);
 		$faciltyNameUpdated = Facility::find($idToUpdate)->name;
 
@@ -62,6 +66,7 @@ class FacilityControllerTest extends TestCase
 		//Prevents blank entries
 		$facilityName = "";
 		$idToUpdate = 1;
+		$this->withoutMiddleware();
 		$this->call('PUT', '/facility/'.$idToUpdate, ['id' => $idToUpdate, 'name' => $facilityName]);
 		$this->assertRedirectedToRoute('facility.index');
 		$this->assertSessionHasErrors('name');
@@ -69,6 +74,7 @@ class FacilityControllerTest extends TestCase
 		//Prevents duplicate entries
 		$facilityName = Facility::find(2)->name;
 		$idToUpdate = 1;
+		$this->withoutMiddleware();
 		$this->call('PUT', '/facility/{id}', ['id' => $idToUpdate, 'name' => $facilityName]);
 		$this->assertRedirectedToRoute('facility.index');
 		$this->assertSessionHasErrors('name');

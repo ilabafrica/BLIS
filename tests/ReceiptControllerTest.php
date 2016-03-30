@@ -9,11 +9,11 @@ use App\Models\Commodity;
 use App\Models\Supplier;
 use App\Models\Receipt;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class ReceiptControllerTest extends TestCase 
 {
 	
-	use WithoutMiddleware;
+	
 	public function setUp()
 	{
 		parent::setUp();
@@ -122,6 +122,7 @@ class ReceiptControllerTest extends TestCase
   	 */
 	public function runStore($input)
 	{
+		$this->withoutMiddleware();
 		$this->call('POST', '/receipt', $input);
 	}
     /**
@@ -131,6 +132,7 @@ class ReceiptControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
+		$this->withoutMiddleware();
 		$this->call('PUT', '/supplier/'.$id, $input);
 	}
 }

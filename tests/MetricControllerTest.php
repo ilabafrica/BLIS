@@ -6,11 +6,11 @@
 use App\Models\User;
 use App\Models\Metric;
 use App\Http\Controllers\MetricController;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class MetricControllerTest extends TestCase 
 {
 	
-	use WithoutMiddleware;
+	
 	    public function setUp()
 	    {
 	    	parent::setUp();
@@ -109,6 +109,7 @@ class MetricControllerTest extends TestCase
   	 */
 	public function runStore($input)
 	{
+		$this->withoutMiddleware();
 		$this->call('POST', '/metric', $input);
 	}
     /**
@@ -118,6 +119,7 @@ class MetricControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
+		$this->withoutMiddleware();
 		$this->call('PUT', '/metric/'.$id, $input);
 	}
 }

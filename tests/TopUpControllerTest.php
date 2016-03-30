@@ -8,11 +8,11 @@ use App\Models\Commodity;
 use App\Models\TopupRequest;
 use App\Models\User;
 use App\Http\Controllers\TopUpController;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class TopUpControllerTest extends TestCase 
 {
 	
-	use WithoutMiddleware;
+	
 	    public function setUp()
 	    {
 	    	parent::setUp();
@@ -116,6 +116,7 @@ class TopUpControllerTest extends TestCase
   	 */
 	public function runStore($input)
 	{
+		$this->withoutMiddleware();
 		$this->call('POST', '/topup', $input);
 	}
     /**
@@ -125,6 +126,7 @@ class TopUpControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
+		$this->withoutMiddleware();
 		$this->call('PUT', '/topup/'.$id, $input);
 	}
 }
