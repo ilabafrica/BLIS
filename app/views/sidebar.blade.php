@@ -9,6 +9,8 @@
 		case 'labconfig': 
 		case 'instrument':
 		case 'reportconfig':
+		case 'barcode':
+		case 'blisclient':
 		case 'facility': 
 			$active[3] = "active"; break;
 		case 'testcategory': 
@@ -97,6 +99,22 @@
 						<div><a href="{{ URL::route("reportconfig.surveillance") }}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{ trans('messages.surveillance')}}</a>
+						</div>
+					</li>
+				</ul>
+				<ul class="sub-menu-items">
+					<li>
+						<div><a href="{{ URL::route("barcode.index") }}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{ trans('messages.barcode-settings')}}</a>
+						</div>
+					</li>
+				</ul>
+				<ul class="sub-menu-items">
+					<li>
+						<div><a href="{{ URL::route("blisclient.index") }}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{ trans('messages.interfaced-equipment')}}</a>
 						</div>
 					</li>
 				</ul>
