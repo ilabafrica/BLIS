@@ -23,6 +23,12 @@ Route::group(array("before" => "guest"), function()
         "as" => "api.receiver",
         "uses" => "InterfacerController@receiveLabRequest"
     ));
+    Route::post('/api/getTestInfo', array(
+        "uses" => "InterfacerController/"
+    ));
+    Route::post('/api/saveTestResults', array(
+        "uses" => "InterfacerController/"
+    ));
     Route::any('/', array(
         "as" => "user.login",
         "uses" => "UserController@loginAction"
