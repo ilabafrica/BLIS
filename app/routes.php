@@ -10,6 +10,7 @@
 |
 */
 /* Routes accessible before logging in */
+
 Route::group(array("before" => "guest"), function()
 {
     /*
@@ -23,11 +24,11 @@ Route::group(array("before" => "guest"), function()
         "as" => "api.receiver",
         "uses" => "InterfacerController@receiveLabRequest"
     ));
-    Route::post('/api/getTestInfo', array(
-        "uses" => "InterfacerController/"
+    Route::get('/api/getTestInfo', array(
+        "uses" => "InterfacerController@getTestInfo"
     ));
-    Route::post('/api/saveTestResults', array(
-        "uses" => "InterfacerController/"
+    Route::get('/api/saveTestResults', array(
+        "uses" => "InterfacerController@saveTestResults"
     ));
     Route::any('/', array(
         "as" => "user.login",

@@ -51,15 +51,16 @@ class InterfacerController extends \BaseController{
         //save results
         $testId = Input::get('testId');
         $test = Test::find($testId);
+        $testResults = Input::get('results');
 
         foreach ($test->testType->measures as $measure) {
             $testResult = TestResult::firstOrCreate(array('test_id' => $testID, 'measure_id' => $measure->id));
-            $testResult->result = Input::get($measure->id);
-
-            if($testResult)
+            //Validate results
+            $testResult->result = $testResults[$measure->id];
             $testResult->save();
         }
     }
+
     /**
     * Get test, specimen, measure info related to a test
     * @param key For authentication
@@ -74,8 +75,29 @@ class InterfacerController extends \BaseController{
             return json_encode(array('error' => 'Authentication failed'));
         }
         //Validate params
-
+        $specimenFilter =  Input::get('specimenFilter');
+        $testFilter = Input::get('testFilter');
         //return test info
+        return Specimen::where('id', $specimenFilter)->with('test.testType.measures')->first();
+    }
 
+    /**
+    * Get measure info related to a test
+    * @param key For authentication
+    * @param testId testID to get the measure info for
+    * @return json of the test info
+    */
+    public function getTestMeasureInfo($key, $testId)
+    {
+        //Auth
+        $authKey = $key;
+        if(!$this->authenticate($authKey)){
+            return json_encode(array('error' => 'Authentication failed'));
+        }
+        //Validate params
+        $testId = $testId;
+        //return test info
+        $measures = DB::select('select id, name from measures where id in (select measure_id from testtype_measures where test_type_id = ?', $testId);
+        return json_encode($measures);
     }
 }
