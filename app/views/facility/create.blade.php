@@ -27,6 +27,21 @@
 					{{ Form::label('name', Lang::choice('messages.name',2)) }}
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 				</div>
+				<div class="form-group">
+                    {{ Form::label('county_id', Lang::choice('messages.county', 2)) }}
+                    <div class="col-sm-8">
+                       {!! Form::select('county_id', array(''=>trans('messages.select-county'))+$counties,'', 
+                            array('class' => 'form-control', 'id' => 'county_id')) !!}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ Form::label('county_id', Lang::choice('messages.country', 2)) }}
+                    <div class="col-sm-8">
+                       {!! Form::select('county_id', array(''=>trans('messages.select-county'))+$counties,'', 
+                            array('class' => 'form-control', 'id' => 'county_id')) !!}
+                    </div>
+                </div>
+
 				<div class="form-group actions-row">
 					{{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 
 						array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}

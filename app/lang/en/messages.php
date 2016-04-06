@@ -52,6 +52,9 @@ return array(
     'refer' => 'Refer',
     'in' => 'In',
     'out' => 'Out',
+    'county' => 'County/District',
+    'country' => 'Country',
+    'create-county' => 'Create County',
 
     /** 
      *   Generic phrases
