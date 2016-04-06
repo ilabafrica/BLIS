@@ -67,7 +67,7 @@ class InterfacerController extends \BaseController{
     * @param Filters to get specific info
     * @return json of the test info
     */
-    public function getTestInfo()
+    public function getSpecimenInfo()
     {
         //Auth
         $authKey = Input::get('key');
