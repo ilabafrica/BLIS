@@ -14,6 +14,8 @@
         <script type="text/javascript" src="{{ URL::asset('js/jquery.dataTables.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('js/dataTables.bootstrap.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('js/script.js') }} "></script>
+        <!-- jQuery barcode script -->
+        <script type="text/javascript" src="{{ asset('js/jquery-barcode-2.0.2.js') }} "></script>
         <title>{{ Config::get('kblis.name') }} {{ Config::get('kblis.version') }}</title>
     </head>
     <body>
