@@ -55,6 +55,7 @@ return array(
     'county' => 'County/District',
     'country' => 'Country',
     'create-county' => 'Create County',
+    'select-country' => 'Select Country',
 
     /** 
      *   Generic phrases

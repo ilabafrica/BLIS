@@ -13,7 +13,7 @@
 <div class="panel panel-primary">
     <div class="panel-heading"><i class="fa fa-tags"></i> {{ Lang::choice('messages.county', 2) }} <span class="panel-btn">
       
-      <a class="btn btn-sm btn-info" href="{{ URL::to("subCounty/create") }}" >
+      <a class="btn btn-sm btn-info" href="{{ URL::to("county/create") }}" >
         <span class="glyphicon glyphicon-plus-sign"></span>
             {{ trans('messages.create-county') }}
           </a>
@@ -35,12 +35,12 @@
                         @forelse($subCounties as $subCounty)
                         <tr>
                             <td>{{ $subCounty->name }}</td>
-                            <td>{{ $subCounty->county->name }}</td>
+                            <td>{{ $subCounty->country->name }}</td>
                             <td>
-                              <a href="{{ URL::to("subCounty/" . $subCounty->id) }}" class="btn btn-success btn-sm"><i class="fa fa-eye"></i><span> View</span></a>
+                              <a href="{{ URL::to("county/" . $subCounty->id) }}" class="btn btn-success btn-sm"><i class="fa fa-eye"></i><span> View</span></a>
                               @if(Auth::user()->can('manage-sub-county'))
-                              <a href="{{ URL::to("subCounty/" . $subCounty->id . "/edit") }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i><span> Edit</span></a>
-                              <a href="{{ URL::to("subCounty/" . $subCounty->id . "/delete") }}" class="btn btn-warning btn-sm"><i class="fa fa-trash-o"></i><span> Delete</span></a>
+                              <a href="{{ URL::to("county/" . $subCounty->id . "/edit") }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i><span> Edit</span></a>
+                              <a href="{{ URL::to("county/" . $subCounty->id . "/delete") }}" class="btn btn-warning btn-sm"><i class="fa fa-trash-o"></i><span> Delete</span></a>
                               @endif
                             </td>
                         </tr>

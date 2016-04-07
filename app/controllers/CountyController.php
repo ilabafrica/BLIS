@@ -23,8 +23,9 @@ class CountyController extends Controller {
 	public function create()
 	{
 		//	Get all counties for select list
-		$counties = County::lists('name', 'id');
-		return view('County.create', compact('counties'));
+		$countries = Country::lists('name', 'id');
+
+		return View::make('county.create', compact('countries'));
 	}
 
 	/**
@@ -32,15 +33,20 @@ class CountyController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(SubCountyRequest $request)
+	public function store()
 	{
-		$subCounty = new SubCounty;
-        $subCounty->name = $request->name;
-        $subCounty->county_id = $request->county_id;
+		$subCounty = new County;
+        $subCounty->name =Input::get('name');
+        $subCounty->country_id = Input::get('country_id');
         $subCounty->user_id = Auth::user()->id;;
         $subCounty->save();
 
-        return redirect('subCounty')->with('message', 'Sub-County created successfully.');
+       
+        $url = Session::get('SOURCE_URL');
+			
+			return Redirect::to($url)
+
+			->with('message', 'County created successfully.');
 	}
 
 	/**
