@@ -30,6 +30,7 @@
 		case 'moh706':
 		case 'cd4':
 		case 'qualitycontrol':
+		case 'inventory':
 			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
