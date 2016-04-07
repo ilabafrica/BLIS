@@ -24,7 +24,7 @@ Quick Start
     </blockquote>
 4. Update the application configuration files to suit your local settings:
   - Set the "Application URL" in `/app/config/app.php`
-  - Set the database connection details in `/app/config/database.php`
+  - Create a database and set the database connection details in `/app/config/database.php`
   - The organization name in `/app/config/kblis.php`
 
 5. Run the migrations to create the required database tables.
