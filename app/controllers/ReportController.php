@@ -3206,7 +3206,12 @@ class ReportController extends \BaseController {
 		{
 			foreach ($rows as $row)
 			{
-				$counts[$column][$row] = $test->cd4($from, $to, $column, $row);
+				if($test != null) {
+					$counts[$column][$row] = $test->cd4($from, $to, $column, $row);
+				}
+				else {
+					$counts[$column][$row] = 0;
+				}
 			}
 		}
 		if(Input::has('word'))
