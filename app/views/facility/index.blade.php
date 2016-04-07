@@ -25,7 +25,7 @@
 			<thead>
 				<tr>
 					<th>{{ Lang::choice('messages.name', 1) }}</th>
-					<th></th>
+					<th>{{ Lang::choice('messages.county', 1) }}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -35,6 +35,7 @@
                         @endif
                     >
 					<td>{{ $facility->name }}</td>
+					<td>{{ $facility->county->name }}</td>
 					<td>
 					<!-- edit this facility (uses edit method found at GET /facility/{id}/edit -->
 						<a class="btn btn-sm btn-info" href="{{ URL::to("facility/" . $facility->id . "/edit") }}" >
