@@ -1654,6 +1654,10 @@ class TestDataSeeder extends DatabaseSeeder
         }
         $this->command->info("Control results table seeded");
 
+        /* Require Verifications table */
+        RequireVerification::create(["verification_required" => "1"]);
+        $this->command->info('Require Verifications table seeded');
+
     }
 
     public function createSpecimen(

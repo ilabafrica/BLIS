@@ -118,6 +118,15 @@ Route::group(array("before" => "auth"), function()
             "as"   => "instrument.importDriver",
             "uses" => "InstrumentController@importDriver"
         ));
+        Route::get("/requireverification", array(
+            "as"   => "requireverification.edit",
+            "uses" => "RequireVerificationController@edit"
+        ));
+
+        Route::get("/requireverification/update", array(
+            "as"   => "requireverification.update",
+            "uses" => "RequireVerificationController@update"
+        ));
     });
     Route::any("/test", array(
         "as"   => "test.index",

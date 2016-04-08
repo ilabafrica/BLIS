@@ -407,6 +407,46 @@ $(function(){
 
 
 
+
+
+
+    $('#timepickerfrom').timepicker({
+        template: false,
+        showInputs: false,
+        minuteStep: 5
+    });
+    $('#timepickerto').timepicker({
+        template: false,
+        showInputs: false,
+        minuteStep: 5
+    });
+
+	$(".require-verificaton").click(function(){
+	    console.log('I hear you 1');
+	    alert('I hear you 1');
+	    if ( $( this ).is(':checked')) {
+	        $(".periodClass").show();
+	    } else {
+	        $(".periodClass").hide();
+	    }
+	});
+
+	$(".restrict-verificaton").click(function(){
+	    console.log('I hear you 2');
+	    alert('I hear you 2');
+	    if ( $( this ).is(':checked')) {
+	        $(".restrictionClass").hide();
+	    } else {
+	        $(".restrictionClass").show();
+	    }
+	});
+
+
+
+
+
+
+
 });
 	/**
 	 *-----------------------------------
