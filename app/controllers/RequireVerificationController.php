@@ -31,29 +31,28 @@ class RequireVerificationController extends \BaseController {
 	 */
 	public function update()
 	{
-		$verificationRequired = Input::get('verificationRequired');
-		$restrictVerification = Input::get('restrictVerification');
+		$verificationRequired = Input::get('verify');
+		$alwaysVerify = Input::get('always');
+		Log::info(Input::all());
+		if ($alwaysVerify) {
 
-		if ($restrictVerification) {
-
-			$from = Input::get('from');
-			$to = Input::get('to');
-
+			$from = '00:00:00';
+			$to = '00:00:00';
 		} else {
 
-			$from = strtotime('00:00:00');
-			$to = strtotime('00:00:00');
-		}
+			$from = date("H:i", strtotime(Input::get('time_from')));
+			$to = date("H:i", strtotime(Input::get('time_to')));
 
+		Log::info($from);
+		Log::info($to);
+		}
 		$requireVerification = RequireVerification::find(1);
 		$requireVerification->verification_required = $verificationRequired;
 		$requireVerification->verification_required_from = $from;
 		$requireVerification->verification_required_to = $to;
 		$requireVerification->save();
 
-		return View::make('requireverification.edit')
-			->with('restrictVerification', $restrictVerification)
-			->with('requireVerification', $requireVerification);
+		return Redirect::back()->with('message', trans('messages.success-updating-verification-config'));
 	}
 
 }

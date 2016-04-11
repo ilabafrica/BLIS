@@ -123,7 +123,7 @@ Route::group(array("before" => "auth"), function()
             "uses" => "RequireVerificationController@edit"
         ));
 
-        Route::get("/requireverification/update", array(
+        Route::put("/requireverification", array(
             "as"   => "requireverification.update",
             "uses" => "RequireVerificationController@update"
         ));

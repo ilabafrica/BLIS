@@ -404,49 +404,16 @@ $(function(){
 				$('#summary').addClass('hidden');
 			}
 		});
-
-
-
-
-
-
-    $('#timepickerfrom').timepicker({
-        template: false,
-        showInputs: false,
-        minuteStep: 5
-    });
-    $('#timepickerto').timepicker({
-        template: false,
-        showInputs: false,
-        minuteStep: 5
-    });
-
-	$(".require-verificaton").click(function(){
-	    console.log('I hear you 1');
-	    alert('I hear you 1');
-	    if ( $( this ).is(':checked')) {
-	        $(".periodClass").show();
-	    } else {
-	        $(".periodClass").hide();
-	    }
-	});
-
-	$(".restrict-verificaton").click(function(){
-	    console.log('I hear you 2');
-	    alert('I hear you 2');
-	    if ( $( this ).is(':checked')) {
-	        $(".restrictionClass").hide();
-	    } else {
-	        $(".restrictionClass").show();
-	    }
-	});
-
-
-
-
-
-
-
+		$('#timepickerfrom').timepicker({
+			template: false,
+			showInputs: false,
+			minuteStep: 5
+		});
+		$('#timepickerto').timepicker({
+			template: false,
+			showInputs: false,
+			minuteStep: 5
+		});
 });
 	/**
 	 *-----------------------------------
@@ -782,6 +749,13 @@ $(function(){
 			$(className).show();
 		else
 			$(className).hide();
+	}
+	function toggleInverse(className, obj){
+		var $input = $(obj);
+		if($input.prop('checked'))
+			$(className).hide();
+		else
+			$(className).show();
 	}
 	/*End toggle function*/
 	/*Toggle susceptibility tables*/

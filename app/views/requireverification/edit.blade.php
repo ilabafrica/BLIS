@@ -2,7 +2,8 @@
 @section("content")
     <div>
     	<ol class="breadcrumb">
-    	 <li class="active">{{ trans('messages.require-verification-edit') }}</li>
+            <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
+            <li class="active">{{ trans('messages.require-verification') }}</li>
     	</ol>
     </div>
 @if (Session::has('message'))
@@ -22,9 +23,9 @@
 		{{ Form::model($requireVerification, array('route' => array('requireverification.update'),
 		  	'method' => 'PUT', 'id' => 'form-edit-require-verification')) }}
 			<div class="form-group">
-				{{ Form::label('requireVerification', trans('messages.require-verification')) }}
+				{{ Form::label('requireVerification', trans('messages.require-verification-to-send')) }}
                 <?php $periodChecked = ($requireVerification->verification_required) ? true : false ; ?>
-                {{ Form::checkbox(trans('messages.require-verification'), "1", $periodChecked, array('class'=>'require-verification')) }}
+                {{ Form::checkbox('verify', "1", $periodChecked, array('onclick'=>'toggle(".periodClass", this)')) }}
             </div>
             <div class="form-group periodClass"
 				<?php if ($periodChecked) { ?>style="dispaly:block;"<?php }
@@ -33,46 +34,43 @@
                 {{ Form::label('period', trans('messages.specify-period')) }}
                 <div class="form-pane panel panel-default">
                     <div class="container-fluid">
-                        <div class='row restrictionClass'
+                        <div class='row'>
+                            <div class='col-md-6 restrictionClass'
                             <?php if ($restrictVerification) { ?>style="dispaly:block;"<?php }
                             else { ?>style="display:none;"<?php }
                              ?>>
-                            <div class='col-md-6'>
                                 <div class='col-md-2'>
-                                    {{ Form::label('date_from', trans('messages.from')) }}
+                                    {{ Form::label('time_from', trans('messages.from')) }}
                                 </div>
                                 <div class='col-md-10'>
-                                    <input id="timepickerfrom"
+                                    <input id="timepickerfrom" name="time_from"
                                         value="<?php echo $requireVerification->verification_required_from; ?>"type="text" class="form-control">
                                     <i class="icon-time"></i>
                                 </div>
                             </div>
-                            <div class='col-md-6'>
+                            <div class='col-md-6 restrictionClass'
+                                <?php if ($restrictVerification) { ?>style="dispaly:block;"<?php }
+                                else { ?>style="display:none;"<?php }
+                                 ?>>
                                 <div class='col-md-2'>
-                                    {{ Form::label('date_to', trans('messages.to')) }}
+                                    {{ Form::label('time_to', trans('messages.to')) }}
                                 </div>
                                 <div class='col-md-10'>
-                                    <input id="timepickerto"
+                                    <input id="timepickerto" name="time_to"
                                         value="<?php echo $requireVerification->verification_required_to; ?>"type="text" class="form-control">
                                     <i class="icon-time"></i>
                                 </div>
                             </div>
-                        </div>
-
-
-                        <div class='row'>
                             <div class='col-md-2'>
-                                {{ Form::label('date_from', trans('messages.twenty-four-hours')) }}
+                                {{ Form::label('always', trans('messages.twenty-four-hours')) }}
                             </div>
                             <div class='col-md-10'>
                                 <div class="form-group">
-                                    <?php $periodChecked = ($restrictVerification) ? false : true ; ?>
-                                    {{ Form::checkbox(trans('messages.require-verification'), "1", $periodChecked, array('class'=>'restrict-verification')) }}
+                                    <?php $restrictionChecked = ($restrictVerification) ? false : true ; ?>
+                                    {{ Form::checkbox('always', "1", $restrictionChecked, array('onclick'=>'toggleInverse(".restrictionClass ", this)')) }}
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
