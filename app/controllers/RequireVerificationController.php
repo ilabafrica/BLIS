@@ -33,7 +33,6 @@ class RequireVerificationController extends \BaseController {
 	{
 		$verificationRequired = Input::get('verify');
 		$alwaysVerify = Input::get('always');
-		Log::info(Input::all());
 		if ($alwaysVerify) {
 
 			$from = '00:00:00';
@@ -42,9 +41,6 @@ class RequireVerificationController extends \BaseController {
 
 			$from = date("H:i", strtotime(Input::get('time_from')));
 			$to = date("H:i", strtotime(Input::get('time_to')));
-
-		Log::info($from);
-		Log::info($to);
 		}
 		$requireVerification = RequireVerification::find(1);
 		$requireVerification->verification_required = $verificationRequired;

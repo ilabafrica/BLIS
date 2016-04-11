@@ -100,6 +100,14 @@
 						</div>
 					</li>
 				</ul>
+				<ul class="sub-menu-items">
+					<li>
+						<div><a href="{{ URL::route("requireverification.edit") }}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{ trans('messages.require-verification')}}</a>
+						</div>
+					</li>
+				</ul>
 			</div>
 		</li>
 		@endif
