@@ -668,6 +668,26 @@ return array(
     'authorized-by' =>  'Authroized By: ',
     /**
     *
+    * Barcode
+    */
+    'barcode'    =>  'Barcode',
+    'barcode-settings'   =>  'Barcode Settings',
+    'encoding-format'   =>  'Encoding Format',
+    'barcode-width'   =>  'Barcode Width',
+    'barcode-height'   =>  'Barcode Height',
+    'text-size'   =>  'Text Size',
+    'configure-barcode-settings'    => 'Configure Barcode Format Settings',
+    'barcode-update-success' => 'Barcode settings successfully updated.',
+    /**
+    *
+    * BLIS client interfacer
+    */
+    'interfaced-equipment'  =>  'Interfaced Equipment',
+    'equipment' =>  'Equipment',
+    'uni'   =>  'Uni-directional',
+    'bi'    =>  'Bi-directional',
+    'select-equipment'  =>  'Select Equipment to be interfaced through BLISInterfaceClient',
+    /**
     * cd4 report
     */
     'cd4-report'  =>  'CD4 Report',

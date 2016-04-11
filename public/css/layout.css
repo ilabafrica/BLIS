@@ -425,3 +425,16 @@ table.table.report-table-border > thead > tr > th,
 table.table.report-table-border > tbody > tr > td{
     border: 1px solid #DDDDDD;
 }
+/*Styling for barcode button*/
+.btn.btn-midnight-blue {
+    background-color: #2C3E50;
+    color: #ffffff;
+    -webkit-transition:all 0.5s ease;
+    -moz-transition:all 0.5s ease;
+    -o-transition:all 0.5s ease;
+    -ms-transition:all 0.5s ease;
+    transition:all 0.5s ease;
+}
+.btn.btn-midnight-blue:hover {
+    opacity: .8;
+}

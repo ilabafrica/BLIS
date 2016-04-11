@@ -247,6 +247,20 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reportconfig.disease",
             "uses" => "ReportController@disease"
         ));
+
+        Route::resource("barcode", "BarcodeController");
+        Route::any("/blisclient", array(
+            "as"   => "blisclient.index",
+            "uses" => "BlisClientController@index"
+        ));
+        Route::any("/blisclient/details", array(
+            "as"   => "blisclient.details",
+            "uses" => "BlisClientController@details"
+        ));
+        Route::any("/blisclient/properties", array(
+            "as"   => "blisclient.properties",
+            "uses" => "BlisClientController@properties"
+        ));
     });
     
     //  Check if able to manage reports
