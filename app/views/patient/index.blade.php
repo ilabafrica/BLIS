@@ -86,14 +86,6 @@
 							<span class="glyphicon glyphicon-edit"></span>
 							{{trans('messages.edit')}}
 						</a>
-						<!-- delete this patient (uses the delete method found at GET /patient/{id}/delete -->
-						<button class="btn btn-sm btn-danger delete-item-link" 
-							data-toggle="modal" data-target=".confirm-delete-modal"	
-							data-id="{{ URL::route('patient.delete', array($patient->id)) }}">
-							<span class="glyphicon glyphicon-trash"></span>
-							{{trans('messages.delete')}}
-						</button>
-
 					</td>
 				</tr>
 			@endforeach
