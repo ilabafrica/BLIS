@@ -35,7 +35,11 @@
 							@if(Auth::user()->can('view_reports'))
 								<a class="btn btn-sm btn-default" href="{{ URL::to('patientreport/'.$test->visit->patient->id.'/'.$test->visit->id) }}">
 									<span class="glyphicon glyphicon-eye-open"></span>
-									{{trans('messages.view-report')}}
+									{{trans('messages.view-visit-report')}}
+								</a>
+								<a class="btn btn-sm btn-default" href="{{ URL::to('patientreport/'.$test->visit->patient->id.'/'.$test->visit->id.'/'.$test->id ) }}">
+									<span class="glyphicon glyphicon-eye-open"></span>
+									{{trans('messages.view-test-report')}}
 								</a>
 							@endif
 						</div>
@@ -307,17 +311,13 @@
 			                            </tr>
 			                            @foreach($organism->drugs as $drug)
 			                            	@if($drugSusceptibility = Susceptibility::getDrugSusceptibility($test->id, $organism->id, $drug->id))
-				                            <tr>
-				                                <td>{{ $drug->name }}</td>
-				                                <td>{{ $drugSusceptibility->zone!=null?$drugSusceptibility->zone:'' }}</td>
-				                                <td>{{ $drugSusceptibility->interpretation!=null?$drugSusceptibility->interpretation:'' }}</td>
-				                            </tr>
-				                            @else
-				                            <tr>
-				                            	<td>{{ $drug->name }}</td>
-				                            	<td></td>
-				                            	<td></td>
-				                            </tr>
+			                            		@if($drugSusceptibility->interpretation)
+					                            <tr>
+					                                <td>{{ $drug->name }}</td>
+					                                <td>{{ $drugSusceptibility->zone!=null?$drugSusceptibility->zone:'' }}</td>
+					                                <td>{{ $drugSusceptibility->interpretation!=null?$drugSusceptibility->interpretation:'' }}</td>
+					                            </tr>
+					                            @endif
 				                            @endif
 			                            @endforeach
 			                        </tbody>

@@ -711,19 +711,23 @@ $(function(){
 	}
 	/*End save drug susceptibility*/
 	/*Function to render drug susceptibility table after successfully saving the results*/
-	 function drawSusceptibility(tid, oid){
+	function drawSusceptibility(tid, oid){
 		$.getJSON('/susceptibility/saveSusceptibility', { testId: tid, organismId: oid, action: "results"}, 
 			function(data){
 				var tableRow ="";
 				var tableBody ="";
+				var suscept = "";
 				$.each(data, function(index, elem){
 					tableRow += "<tr>"
 					+" <td>"+elem.drugName+" </td>"
 					+" <td>"+elem.zone+"</td>"
 					+" <td>"+elem.interpretation+"</td>"
 					+"</tr>";
-					$(".sense"+tid).val($(".sense"+tid).val()+elem.drugName+" - "+elem.sensitivity+", ");
+					suscept+=elem.drugName+" - "+elem.sensitivity+", ";
 				});
+
+				//$(".sense"+tid).val($(".sense"+tid).val()+elem.drugName+" - "+elem.sensitivity+", ");
+				$(".sense"+tid).val(suscept);
 				//tableBody +="<tbody>"+tableRow+"</tbody>";
 				$( "#enteredResults_"+oid).html(tableRow);
 				$("#submit_drug_susceptibility_"+oid).hide();

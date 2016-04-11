@@ -387,6 +387,8 @@ return array(
     'results-entry-date' => 'Results Entry Date',
     'test-results-values' => 'Test:Result',
     'view-report' => 'View Report',
+    'view-visit-report' => 'View visit report',
+    'view-test-report' => 'View test report',
     'test-records'  =>  'Test Records',
     'patient-records' =>    'Patient Records',
     'rejected-specimen' =>  'Rejected Specimen Records',
