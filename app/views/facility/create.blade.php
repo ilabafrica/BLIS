@@ -1,6 +1,6 @@
 @extends("layout")
 @section("content")
-
+  <br />
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
@@ -27,6 +27,14 @@
 					{{ Form::label('name', Lang::choice('messages.name',2)) }}
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 				</div>
+				 <div class="form-group">
+                    {{ Form::label('county_id', Lang::choice('messages.county', 2)) }}
+               
+                    {{ Form::select('county_id', array(''=>trans('messages.select-county'))+$counties,'', 
+                            array('class' => 'form-control', 'id' => 'county_id')) }}
+                  
+                </div>
+                
 				<div class="form-group actions-row">
 					{{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 
 						array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}

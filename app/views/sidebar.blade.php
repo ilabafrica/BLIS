@@ -99,6 +99,16 @@
 				</ul>
 				<ul class="sub-menu-items">
 					<li>
+						<div>
+							<a href="{{ URL::route("county.index") }}">
+								<span class="glyphicon glyphicon-tag"></span>
+									{{Lang::choice('messages.county',2)}}
+							</a>
+						</div>
+					</li>
+				</ul>
+				<ul class="sub-menu-items">
+					<li>
 						<div><a href="{{ URL::route("reportconfig.surveillance") }}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{ trans('messages.surveillance')}}</a>

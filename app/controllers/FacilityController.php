@@ -23,7 +23,10 @@ class FacilityController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('facility.create');
+		$counties = County::lists('name', 'id');
+
+		return View::make('facility.create', compact('counties'));
+		
 	}
 
 
@@ -44,6 +47,7 @@ class FacilityController extends \BaseController {
 			// Add
 			$facility = new Facility;
 			$facility->name = Input::get('name');
+			$facility->county_id = Input::get('county_id');
 			// redirect
 			try{
 				$facility->save();
