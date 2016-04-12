@@ -324,7 +324,7 @@
 					@if(Entrust::can('request_topup'))
 					<li>
 						<div>
-							<a href="{{ URL::route("topup.index")}}">
+							<a href="{{ URL::route("request.index")}}">
 								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.top-up', 2)}}</a>
 						</div>
 					</li>

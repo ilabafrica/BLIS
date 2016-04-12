@@ -89,4 +89,6 @@
 		{{ Session::put('SOURCE_URL', URL::full()) }}
 	</div>
 </div>
+<!-- jQuery barcode script -->
+<script type="text/javascript" src="{{ asset('js/barcode.js') }} "></script>
 @stop

@@ -1,6 +1,6 @@
 <?php
 
-class RequestController extends \BaseController {
+class TopupController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -9,7 +9,7 @@ class RequestController extends \BaseController {
 	 */
 	public function index()
 	{
-		$requests = Request::all();
+		$requests = Topup::all();
 		return View::make('inventory.request.index')->with('requests', $requests);
 	}
 	/**
@@ -43,8 +43,8 @@ class RequestController extends \BaseController {
 		return Redirect::route('inventory.request.index')->withErrors($validator);
 		} else {
 			// store
-			$request = new Request;
-			$request->item_id = Input::get('commodity');
+			$request = new Topup;
+			$request->item_id = Input::get('item_id');
 			$request->test_category_id = Input::get('test_category_id');
 			$request->quantity_ordered = Input::get('quantity_ordered');
 			$request->remarks = Input::get('remarks');
@@ -69,7 +69,7 @@ class RequestController extends \BaseController {
 	public function show($id)
 	{
 		//show a request
-		$request =Request::find($id);
+		$request =Topup::find($id);
 		//show the view and pass the $request to it
 		return View::make('inventory.request.show')->with('request', $request);
 	}
@@ -81,7 +81,7 @@ class RequestController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$request = Request::find($id);
+		$request = Topup::find($id);
 		$items = Item::lists('name', 'id');
 		$item = $request->item_id;
 		$testCategories = TestCategory::lists('name', 'id');
@@ -90,6 +90,7 @@ class RequestController extends \BaseController {
 			->with('testCategories', $testCategories)
 			->with('items', $items)
 			->with('item', $item)
+			->with('request', $request)
 			->with('testCategory', $testCategory);
 	}
 	/**
@@ -106,8 +107,8 @@ class RequestController extends \BaseController {
 			'test_category_id' => 'required'
 		);
 		// Update
-		$request = Request::find($id);
-		$request->item_id = Input::get('commodity');
+		$request = Topup::find($id);
+		$request->item_id = Input::get('item_id');
 		$request->test_category_id = Input::get('test_category_id');
 		$request->quantity_ordered = Input::get('quantity_ordered');
 		$request->remarks = Input::get('remarks');
@@ -132,7 +133,7 @@ class RequestController extends \BaseController {
 	public function delete($id)
 	{
 		//Soft delete the request
-		$request = Request::find($id);
+		$request = Topup::find($id);
 		$request->delete();
 		// redirect
 		return Redirect::route('inventory.request.index')->with('message', trans('messages.record-successfully-deleted'));

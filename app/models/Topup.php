@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class Request extends Eloquent 
+class Topup extends Eloquent 
 {
     use SoftDeletingTrait;
 	protected $table = 'requests';
@@ -20,5 +20,20 @@ class Request extends Eloquent
 	public function item()
 	{
 		return $this->belongsTo('Item');
+	}
+
+	/**
+	 * Usage relationship
+	 */
+	public function usage()
+	{
+		return $this->hasMany('Usage', 'request_id');
+	}
+	/**
+	 * Quantity issued
+	 */
+	public function issued()
+	{
+		return $this->usage->sum('quantity_used');
 	}
 }

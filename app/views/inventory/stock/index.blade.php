@@ -77,7 +77,7 @@
 
 						<!-- show barcode generation button -->
 						{{--*/ $barcode_separator = '$' /*--}}
-						<a class="btn btn-sm btn-midnight-blue" href="#" onclick="get_barcode('{!! $value->id.$barcode_separator.$item->name.$barcode_separator.$value->lot !!}')">
+						<a class="btn btn-sm btn-midnight-blue" href="#" onclick="print_barcode('{!! $value->id.$barcode_separator.$item->name.$barcode_separator.$value->lot !!}')">
 							<span class="glyphicon glyphicon-barcode"></span>
 							{{ trans('messages.barcode') }}
 						</a>
@@ -89,4 +89,6 @@
 		{{ Session::put('SOURCE_URL', URL::full()) }}
 	</div>
 </div>
+<!-- jQuery barcode script -->
+<script type="text/javascript" src="{{ asset('js/barcode.js') }} "></script>
 @stop

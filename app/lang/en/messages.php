@@ -533,6 +533,7 @@ return array(
     'item'          =>  'Item|Items',
     'supplier'      =>  'Supplier|Suppliers',
     'top-up'        =>  'Request|Requests',
+    'request'        =>  'Request|Requests',
     'stock-levels'  =>  'Stock Levels',
     'stock'         =>  'Stock',
     'unit'          =>  'Unit',
@@ -565,6 +566,9 @@ return array(
     'storage'       =>  'Storage Req.',
     'date-received' =>  'Date Received',
     'id'            =>  'ID',
+    'status'        =>  'Status',
+    'issued'        =>  'Issued',
+    'not-issued'    =>  'Pending',
 
     /**
     *

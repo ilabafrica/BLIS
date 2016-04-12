@@ -463,5 +463,13 @@ Route::group(array("before" => "auth"), function()
             "as"   => "lot.update",
             "uses" => "StockController@lotUsage"
         ));
+        /*
+        *   Routes for requests
+        */
+        Route::resource('request', 'TopupController');
+        Route::get("/request/{id}/delete", array(
+            "as"   => "request.delete",
+            "uses" => "TopupController@delete"
+        ));
     });
 });
