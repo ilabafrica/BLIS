@@ -42,10 +42,10 @@ class SupplierController extends \BaseController {
 			// store
 			$supplier = new Supplier;
 			$supplier->name= Input::get('name');
-			$supplier->phone_no= Input::get('phone_no');
+			$supplier->phone= Input::get('phone');
 			$supplier->email= Input::get('email');
 			$supplier->address= Input::get('address');
-			$item->user_id = Auth::user()->id;
+			$supplier->user_id = Auth::user()->id;
 			try{
 				$supplier->save();
 				$url = Session::get('SOURCE_URL');
@@ -108,9 +108,9 @@ class SupplierController extends \BaseController {
 			$supplier = Supplier::find($id);
 			$supplier->name= Input::get('name');
 			$supplier->address= Input::get('address');
-			$supplier->phone_no= Input::get('phone_no');
+			$supplier->phone= Input::get('phone');
 			$supplier->email= Input::get('email');
-			$item->user_id = Auth::user()->id;
+			$supplier->user_id = Auth::user()->id;
 			$supplier->save();
 			try{
 				$supplier->save();

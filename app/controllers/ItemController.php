@@ -11,8 +11,10 @@ class ItemController extends \BaseController {
 	{
 		//List all items
 		$items =Item::orderBy('name', 'ASC')->get();
+		//	Barcode
+		$barcode = Barcode::first();
 		//Load the view and pass the items
-		return View::make('inventory.item.index')->with('items', $items);
+		return View::make('inventory.item.index')->with('items', $items)->with('barcode', $barcode);
 	}
 
 
@@ -36,7 +38,7 @@ class ItemController extends \BaseController {
 	public function store()
 	{
 		//Validation
-		$rules = array('name' => 'required|unique:inv_tems,name');
+		$rules = array('name' => 'required|unique:inv_items,name');
 		$validator = Validator::make(Input::all(), $rules);
 	
 		//process
@@ -47,7 +49,7 @@ class ItemController extends \BaseController {
 			$item = new Item;
 			$item->name = Input::get('name');
 	        $item->unit = Input::get('unit');
-	        $item->remarks = Input::get('description');
+	        $item->remarks = Input::get('remarks');
 	        $item->min_level = Input::get('min_level');
 	        $item->max_level = Input::get('max_level');
 	        $item->storage_req = Input::get('storage_req');
@@ -76,8 +78,10 @@ class ItemController extends \BaseController {
 	{
 		//show a Item
 		$item =Item::find($id);
+		//	Barcode
+		$barcode = Barcode::first();
 		//show the view and pass the $item to it
-		return View::make('inventory.item.show')->with('item', $item);
+		return View::make('inventory.item.show')->with('item', $item)->with('barcode', $barcode);
 	}
 
 
@@ -117,7 +121,7 @@ class ItemController extends \BaseController {
 			$item = Item::find($id);
 			$item->name = Input::get('name');
 	        $item->unit = Input::get('unit');
-	        $item->remarks = Input::get('description');
+	        $item->remarks = Input::get('remarks');
 	        $item->min_level = Input::get('min_level');
 	        $item->max_level = Input::get('max_level');
 	        $item->storage_req = Input::get('storage_req');

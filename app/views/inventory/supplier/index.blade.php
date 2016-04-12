@@ -16,7 +16,7 @@
 		<div class="panel-btn">
 			<a class="btn btn-sm btn-info" href="{{ URL::route('supplier.create') }}">
 				<span class="glyphicon glyphicon-plus-sign"></span>
-				{{ trans('messages.add-supplier') }}
+				{{ trans('messages.add').' '.Lang::choice('messages.supplier', 1) }}
 			</a>
 		</div>
 	</div>
@@ -33,13 +33,21 @@
 			</thead>
 			<tbody>
 			@foreach($suppliers as $key => $value)
-				<tr>
+				<tr @if(Session::has('activesupplier'))
+                            {{(Session::get('activesupplier') == $value->id)?"class='info'":""}}
+                        @endif
+                    >
                  	<td>{{ $value->name }}</td>
                  	<td>{{ $value->	phone }}</td>
                  	<td>{{ $value->address }}</td>
                  	<td>{{ $value->email }}</td>
                  	
-					<td> 
+					<td>
+					<!-- show the supplier (uses the show method found at GET /supplier/{id} -->
+						<a class="btn btn-sm btn-success" href="{{ URL::to("supplier/" . $value->id) }}" >
+							<span class="glyphicon glyphicon-eye-open"></span>
+							{{ trans('messages.view') }}
+						</a> 
 					<!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
 					<a class="btn btn-sm btn-info" href="{{ URL::route('supplier.edit', array($value->id)) }}" >
 							<span class="glyphicon glyphicon-edit"></span>

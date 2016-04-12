@@ -529,9 +529,12 @@ return array(
     /** 
      *   Inventory
      */
+    'inventory'     =>  'Inventory',
     'item'          =>  'Item|Items',
     'supplier'      =>  'Supplier|Suppliers',
     'top-up'        =>  'Request|Requests',
+    'stock-levels'  =>  'Stock Levels',
+    'stock'         =>  'Stock',
     'unit'          =>  'Unit',
     'min-level'     =>  'Min. Level',
     'max-level'     =>  'Max. Level',
@@ -558,6 +561,10 @@ return array(
     'phone'         =>  'Phone',
     'email'         =>  'Email Address',
     'address'       =>  'Address',
+    'remarks'       =>  'Remarks',
+    'storage'       =>  'Storage Req.',
+    'date-received' =>  'Date Received',
+    'id'            =>  'ID',
 
     /**
     *

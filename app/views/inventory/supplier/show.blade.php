@@ -15,7 +15,7 @@
 	<div class="panel panel-primary ">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-adjust"></span>
-			{{ trans('messages.supplier').' '.trans('messages.details') }}
+			{{ Lang::choice('messages.supplier', 1).' '.trans('messages.details') }}
 			<div class="panel-btn">
 				<a class="btn btn-sm btn-info" href="{{ URL::route('supplier.edit', array($supplier->id)) }}">
 					<span class="glyphicon glyphicon-edit"></span>
@@ -27,11 +27,11 @@
 			<div class="display-details">
 				<h3 class="view"><strong>{{ Lang::choice('messages.name', 1) }}:</strong>{{ $supplier->name }} </h3>
 				<p class="view-striped"><strong>{{ trans('messages.phone') }}:</strong>
-					{{ $drug->phone }}</p>
+					{{ $supplier->phone }}</p>
 				<p class="view-striped"><strong>{{ trans('messages.email') }}:</strong>
-					{{ $drug->email }}</p>
+					{{ $supplier->email }}</p>
 				<p class="view-striped"><strong>{{ trans('messages.address') }}:</strong>
-					{{ $drug->address }}</p>
+					{{ $supplier->address }}</p>
 				
 			</div>
 		</div>

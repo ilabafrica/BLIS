@@ -42,6 +42,7 @@
 		case 'supplier': 
 		case 'item': 
 		case 'topup':
+		case 'stock':
 			$active[7] = "active"; break;
 		case 'controlresults':
 		case 'control':
@@ -302,47 +303,29 @@
 		<li>
 			<div class="main-menu {{$active[7]}}">
 				<a href="#">
-					<span class="glyphicon glyphicon-download-alt"></span> {{ Lang::choice('messages.inventory', 2)}}</a>
+					<span class="glyphicon glyphicon-download-alt"></span> {{ Lang::choice('messages.inventory', 1)}}</a>
 			</div>
 			<div class="sub-menu {{$active[7]}}">
 				<ul class="sub-menu-items">
+					@if(Entrust::can('manage_inventory'))
+					<li>
+						<div>
+							<a href="{{ URL::route("supplier.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.supplier', 2)}}</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route("item.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.item', 2)}}</a>
+						</div>
+					</li>
+					@endif
 					@if(Entrust::can('request_topup'))
 					<li>
 						<div>
 							<a href="{{ URL::route("topup.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.topup', 2)}}</a>
-						</div>
-					</li>
-					@endif
-					@if(Entrust::can('manage_inventory'))
-					<li>
-						<div>
-							<a href="{{ URL::route("receipt.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.receipt', 2)}}</a>
-						</div>
-					</li>
-					<li>
-						<div>
-							<a href="{{ URL::route("issue.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.issue', 2)}}</a>
-						</div>
-					</li>
-					<li>
-						<div>
-							<a href="{{ URL::route("commodity.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.commodities')}}</a>
-						</div>
-					</li>
-					<li>
-						<div>
-							<a href="{{ URL::route("supplier.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{Lang::choice('messages.suppliers',2)}}</a>
-						</div>
-					</li>
-					<li>
-						<div>
-							<a href="{{ URL::route("metric.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.metrics')}}</a>
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.top-up', 2)}}</a>
 						</div>
 					</li>
 					@endif

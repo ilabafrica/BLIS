@@ -18,13 +18,13 @@
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
-		{{ Lang::choice('messages.suppliers',2) }}
+		{{ Lang::choice('messages.supplier',2) }}
 	</div>
 	<div class="panel-body">
 		   {{ Form::model($suppliers, array('route' => array('supplier.update', $suppliers->id), 'method' => 'PUT',
                'id' => 'form-edit-suppliers')) }}
             <div class="form-group">
-                {{ Form::label('name', trans('messages.name')) }}
+                {{ Form::label('name', Lang::choice('messages.name', 1)) }}
                 {{ Form::text('name', Input::old('name'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             
@@ -45,8 +45,6 @@
                         array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
             </div>
         {{ Form::close() }}
-
-		<?php Session::put('SOURCE_URL', URL::full());?>
 	</div>
 	
 </div>

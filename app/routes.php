@@ -427,6 +427,10 @@ Route::group(array("before" => "auth"), function()
         *   Routes for items
         */
         Route::resource('item', 'ItemController');
+        Route::get("/item/{id}/delete", array(
+            "as"   => "item.delete",
+            "uses" => "ItemController@delete"
+        ));
         /*
         *   Routes for stocks
         */

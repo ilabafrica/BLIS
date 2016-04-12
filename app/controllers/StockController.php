@@ -7,12 +7,12 @@ class StockController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($id)
 	{
-		//List all stocks
-		$stocks = Stock::orderBy('name', 'ASC')->get();
+		//	Get item
+		$item = Item::find($id);
 		//Load the view and pass the stocks
-		return View::make('inventory.stock.index')->with('stocks', $stocks);
+		return View::make('inventory.stock.index')->with('item', $item);
 	}
 
 
@@ -21,10 +21,14 @@ class StockController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create($id)
 	{
 		//Create stock
-		return View::make('inventory.stock.create');
+		//	Get item
+		$item = Item::find($id);
+		//	Get suppliers for select list
+		$suppliers = Supplier::lists('name', 'id');
+		return View::make('inventory.stock.create')->with('item', $item)->with('suppliers', $suppliers);
 	}
 
 
@@ -96,11 +100,15 @@ class StockController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//Get the stock
+		//	Get suppliers for select list
+		$suppliers = Supplier::lists('name', 'id');
+		//	Get stock
 		$stock = Stock::find($id);
+		//	Get initially saved supplier
+		$supplier = $stock->supplier_id;
 
 		//Open the Edit View and pass to it the $stock
-		return View::make('inventory.stock.edit')->with('stock', $stock);
+		return View::make('inventory.stock.edit')->with('stock', $stock)->with('supplier', $supplier)->with('suppliers', $suppliers);
 	}
 
 
@@ -195,7 +203,7 @@ class StockController extends \BaseController {
 	{
 		//Validate
 		$rules = array(
-			'stock_id'   => 'required:inv_usage,stock_id'
+			'stock_id'   => 'required:inv_usage,stock_id',
 			'request_id'   => 'required:inv_usage,request_id'
 		);
 		$validator = Validator::make(Input::all(), $rules);
