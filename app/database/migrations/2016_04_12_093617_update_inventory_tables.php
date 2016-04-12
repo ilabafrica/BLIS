@@ -39,7 +39,7 @@ class UpdateInventoryTables extends Migration {
         {
             $table->increments('id')->unsigned();
             $table->string('name', 100);
-            $table->string('phone_no', 100);
+            $table->string('phone', 100);
             $table->string('email', 100)->nullable();
             $table->string('address');
            
@@ -53,8 +53,8 @@ class UpdateInventoryTables extends Migration {
         {
             $table->increments('id')->unsigned();
             $table->integer('item_id')->unsigned();
-            $table->string('lot', 100);
-            $table->string('batch_no', 12);
+            $table->string('lot', 100)->nullable();
+            $table->string('batch_no', 12)->nullable();
             $table->dateTime('expiry_date');
             $table->string('manufacturer', 100)->nullable();
             $table->integer('supplier_id')->unsigned();
@@ -78,7 +78,7 @@ class UpdateInventoryTables extends Migration {
             $table->increments('id')->unsigned();
             $table->integer('item_id')->unsigned();
             $table->integer('test_category_id')->unsigned();
-            $table->integer('order_quantity')->unsigned();
+            $table->integer('quantity_ordered');
             $table->integer('user_id')->unsigned();
             $table->string('remarks', 100);
 
@@ -93,6 +93,7 @@ class UpdateInventoryTables extends Migration {
         {
             $table->increments('id')->unsigned();
             $table->integer('stock_id')->unsigned();
+            $table->integer('request_id')->unsigned();
             $table->integer('quantity_used')->default(0);
             $table->date('date_of_usage');
             $table->string('remarks', 250)->nullable();
@@ -101,6 +102,7 @@ class UpdateInventoryTables extends Migration {
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('stock_id')->references('id')->on('inv_supply');
+            $table->foreign('request_id')->references('id')->on('requests');
         });
 	}
 

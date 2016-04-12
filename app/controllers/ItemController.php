@@ -9,7 +9,10 @@ class ItemController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		//List all items
+		$items =Item::orderBy('name', 'ASC')->get();
+		//Load the view and pass the items
+		return View::make('inventory.item.index')->with('items', $items);
 	}
 
 
@@ -20,7 +23,8 @@ class ItemController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		//Create Item
+		return View::make('inventory.item.create');
 	}
 
 
@@ -31,7 +35,34 @@ class ItemController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		//Validation
+		$rules = array('name' => 'required|unique:inv_tems,name');
+		$validator = Validator::make(Input::all(), $rules);
+	
+		//process
+		if($validator->fails()){
+			return Redirect::back()->withErrors($validator);
+		}else{
+			//store
+			$item = new Item;
+			$item->name = Input::get('name');
+	        $item->unit = Input::get('unit');
+	        $item->remarks = Input::get('description');
+	        $item->min_level = Input::get('min_level');
+	        $item->max_level = Input::get('max_level');
+	        $item->storage_req = Input::get('storage_req');
+
+			$item->user_id = Auth::user()->id;
+			try{
+				$item->save();
+				$url = Session::get('SOURCE_URL');
+            
+            	return Redirect::to($url)
+					->with('message', trans('messages.record-successfully-saved')) ->with('activeitem', $item ->id);
+			}catch(QueryException $e){
+				Log::error($e);
+			}
+		}
 	}
 
 
@@ -43,7 +74,10 @@ class ItemController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		//show a Item
+		$item =Item::find($id);
+		//show the view and pass the $item to it
+		return View::make('inventory.item.show')->with('item', $item);
 	}
 
 
@@ -55,7 +89,11 @@ class ItemController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		//Get the Item
+		$item =Item::find($id);
+
+		//Open the Edit View and pass to it the $item
+		return View::make('inventory.item.edit')->with('item', $item);
 	}
 
 
@@ -67,7 +105,32 @@ class ItemController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		//Validate
+		$rules = array('name' => 'required');
+		$validator = Validator::make(Input::all(), $rules);
+
+		// process the login
+		if ($validator->fails()) {
+			return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
+		} else {
+			//store
+			$item = Item::find($id);
+			$item->name = Input::get('name');
+	        $item->unit = Input::get('unit');
+	        $item->remarks = Input::get('description');
+	        $item->min_level = Input::get('min_level');
+	        $item->max_level = Input::get('max_level');
+	        $item->storage_req = Input::get('storage_req');
+
+			$item->user_id = Auth::user()->id;
+			$item->save();
+
+			// redirect
+			$url = Session::get('SOURCE_URL');
+            
+            return Redirect::to($url)
+				->with('message', trans('messages.record-successfully-updated')) ->with('activeitem', $item ->id);
+		}
 	}
 
 
@@ -81,6 +144,19 @@ class ItemController extends \BaseController {
 	{
 		//
 	}
-
-
+	/**
+	 * Remove the specified resource from storage (soft delete).
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function delete($id)
+	{
+		//Soft delete the Item
+		$item =Item::find($id);
+		$url = Session::get('SOURCE_URL');
+        
+        return Redirect::to($url)
+		->with('message', trans('messages.record-successfully-deleted'));
+	}
 }

@@ -2,9 +2,9 @@
 @section("content")
 <div>
 	<ol class="breadcrumb">
-	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-       <li><a href="{{{URL::route('supplier.index')}}}">{{trans('messages.suppliersList')}}</a></li>
-	 	  <li class="active">{{ Lang::choice('messages.editSuppliers',2) }}</li>
+	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
+       <li><a href="{{{URL::route('supplier.index')}}}">{{ Lang::choice('messages.supplier', 2) }}</a></li>
+	 	  <li class="active">{{ trans('messages.edit').' '.Lang::choice('messages.supplier', 1) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -29,16 +29,16 @@
             </div>
             
             <div class="form-group">
-                {{ Form::label('phone_no', trans('messages.phone-number')) }}
-                {{ Form::text('phone_no', Input::old('phone_no'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('phone', trans('messages.phone-number')) }}
+                {{ Form::text('phone', Input::old('phone'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('email', trans('messages.email')) }}
                 {{ Form::text('email', Input::old('email'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('physical_address', trans('messages.physical-address')) }}
-                {{ Form::textarea('physical_address', Input::old('physical_address'), array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('address', trans('messages.physical-address')) }}
+                {{ Form::textarea('address', Input::old('address'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group actions-row">
                     {{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 

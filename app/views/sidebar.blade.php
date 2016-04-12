@@ -39,12 +39,9 @@
 		case 'user': 
 		case 'role': 
 			$active[6] = "active"; break;
-		case 'issue': 
-		case 'receipt': 
-		case 'topup': 
-		case 'metric':
-		case 'supplier':
-		case 'commodity':
+		case 'supplier': 
+		case 'item': 
+		case 'topup':
 			$active[7] = "active"; break;
 		case 'controlresults':
 		case 'control':

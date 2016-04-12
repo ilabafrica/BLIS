@@ -3,8 +3,8 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-       <li><a href="{{{URL::route('supplier.index')}}}">{{trans('messages.suppliersList')}}</a></li>
-	 	  <li class="active">{{ Lang::choice('messages.suppliers',2) }}</li>
+       <li><a href="{{{URL::route('supplier.index')}}}">{{ Lang::choice('messages.supplier', 2) }}</a></li>
+	 	  <li class="active">{{ trans('messages.new').' '.Lang::choice('messages.supplier', 1) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -18,38 +18,33 @@
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
-		{{ Lang::choice('messages.suppliers',2) }}
+		{{ Lang::choice('messages.supplier', 2) }}
 	</div>
 	<div class="panel-body">
 		   {{ Form::open(array('route' => 'supplier.store', 'id' => 'form-store_suppliers')) }}
 
             <div class="form-group">
                 {{ Form::label('name', Lang::choice('messages.name', 1)) }}
-                {{ Form::text('name', Input::old('suppliers-name'), array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::text('name', Input::old('name'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('phone_no', trans('messages.phone-number')) }}
-                {{ Form::text('phone_no', Input::old('phone_no'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('phone', trans('messages.phone')) }}
+                {{ Form::text('phone', Input::old('phone'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('email', trans('messages.email')) }}
                 {{ Form::text('email', Input::old('email'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
              <div class="form-group">
-                {{ Form::label('physical_address', trans('messages.physical-address')) }}
-                {{ Form::textarea('physical_address', Input::old('physical_address'), array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::label('address', trans('messages.address')) }}
+                {{ Form::textarea('address', Input::old('address'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
-            
-           
 
             <div class="form-group actions-row">
                     {{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 
                         array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
             </div>
         {{ Form::close() }}
-
-		<?php  
-		Session::put('SOURCE_URL', URL::full());?>
 	</div>
 	
 </div>
