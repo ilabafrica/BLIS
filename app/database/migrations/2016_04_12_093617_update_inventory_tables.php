@@ -13,7 +13,12 @@ class UpdateInventoryTables extends Migration {
 	public function up()
 	{
 		//	Drop existing tables
-		
+		Schema::dropIfExists('issues');
+        Schema::dropIfExists('topup_requests');
+        Schema::dropIfExists('receipts');
+        Schema::dropIfExists('suppliers');
+        Schema::dropIfExists('commodities');
+        Schema::dropIfExists('metrics');
         /* inventory table */
         Schema::create('inv_items', function(Blueprint $table)
         {
