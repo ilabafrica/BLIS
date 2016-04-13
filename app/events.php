@@ -3,7 +3,7 @@
 // Display all SQL executed in Eloquent
 Event::listen('illuminate.query', function($query)
 {
-        Log::info($query);
+        // Log::info($query);
 });
 
 Event::listen('test.saved', function($testId)
@@ -20,4 +20,10 @@ Event::listen('api.receivedLabRequest', function($labRequest)
 {
     //We instruct the interfacer to handle the request
     Interfacer::retrieve($labRequest);
+});
+
+DB::listen(function($sql, $bindings, $time) {
+    Log::info("Query => ".$sql);
+    Log::info("Bindings => ".json_encode($bindings));
+    Log::info("*************************************************************************************************\n");
 });

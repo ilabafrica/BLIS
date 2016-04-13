@@ -56,7 +56,7 @@ class TestController extends \BaseController {
 		}
 
 		// Pagination
-		$tests = $tests->paginate(Config::get('kblis.page-items'))->appends($input);
+		// $tests = $tests->paginate(Config::get('kblis.page-items'))->appends($input);
 
 		// Load the view and pass it the tests
 		return View::make('test.index')

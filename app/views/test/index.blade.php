@@ -101,28 +101,28 @@
                         @endif
                         >
                         <td>{{ date('d-m-Y H:i', strtotime($test->time_created));}}</td>  <!--Date Ordered-->
-                        <td>{{ empty($test->visit->patient->external_patient_number)?
-                                $test->visit->patient->patient_number:
-                                $test->visit->patient->external_patient_number
+                        <td>{{ $test->external_patient_number == null?
+                                $test->patient_number:
+                                $test->external_patient_number
                             }}</td> <!--Patient Number -->
-                        <td>{{ empty($test->visit->visit_number)?
-                                $test->visit->id:
-                                $test->visit->visit_number
+                        <td>{{ empty($test->visit_number)?
+                                $test->visit_id:
+                                $test->visit_number
                             }}</td> <!--Visit Number -->
-                        <td>{{ $test->visit->patient->name.' ('.($test->visit->patient->getGender(true)).',
-                            '.$test->visit->patient->getAge('Y'). ')'}}</td> <!--Patient Name -->
-                        <td>{{ $test->getSpecimenId() }}</td> <!--Specimen ID -->
-                        <td>{{ $test->testType->name }}</td> <!--Test-->
-                        <td>{{ $test->visit->visit_type }}</td> <!--Visit Type -->
-                        <td id="test-status-{{$test->id}}" class='test-status'>
+                        <td>{{ $test->patient_name.' ('.($test->gender).',
+                            '.$test->gender. ')'}}</td> <!--Patient Name -->
+                        <td>{{ $test->specimen_id }}</td> <!--Specimen ID -->
+                        <td>{{ $test->testtype_name }}</td> <!--Test-->
+                        <td>{{ $test->visit_type }}</td> <!--Visit Type -->
+                        <td id="test-status-{{$test->test_id}}" class='test-status'>
                             <!-- Test Statuses -->
                             <div class="container-fluid">
                             
                                 <div class="row">
 
                                     <div class="col-md-12">
-                                        @if($test->isNotReceived())
-                                            @if(!$test->isPaid())
+                                        @if($test->test_status_id == 1)
+                                            @if(!$test->isPaid)
                                                 <span class='label label-default'>
                                                     {{trans('messages.not-paid')}}</span>
                                             @else
@@ -272,7 +272,7 @@
                 </tbody>
             </table>
             
-            {{ $testSet->links() }}
+            
         {{ Session::put('SOURCE_URL', URL::full()) }}
         {{ Session::put('TESTS_FILTER_INPUT', Input::except('_token')); }}
         
