@@ -655,8 +655,9 @@ class ReportController extends \BaseController {
 	*	optional @var $from, $to, $labSection, $testType
 	*/
 	public static function rawTaT($from, $to, $labSection, $testType){
-		$rawTat = DB::table('tests')->select(DB::raw('UNIX_TIMESTAMP(time_created) as timeCreated, UNIX_TIMESTAMP(time_started) as timeStarted, UNIX_TIMESTAMP(time_completed) as timeCompleted, targetTAT'))
+		$rawTat = DB::table('tests')->select(DB::raw('UNIX_TIMESTAMP(time_created) as timeCreated, UNIX_TIMESTAMP(time_started) as timeStarted, UNIX_TIMESTAMP(time_entered) as timeCompleted, targetTAT'))->groupBy('tests.id')
 						->join('test_types', 'test_types.id', '=', 'tests.test_type_id')
+						->join('test_results', 'tests.id', '=', 'test_results.test_id')
 						->whereIn('test_status_id', [Test::COMPLETED, Test::VERIFIED]);
 						if($from && $to){
 							$rawTat = $rawTat->whereBetween('time_created', [$from, $to]);
@@ -878,7 +879,8 @@ class ReportController extends \BaseController {
 		$interval = Input::get('period');
 		$error = null;
 		$accredited = array();
-
+		if(!$testType)
+			$error = trans('messages.select-test-type');
 		if($testCategory)
 			$testTypes = TestCategory::find($testCategory)->testTypes->lists('name', 'id');
 		else
