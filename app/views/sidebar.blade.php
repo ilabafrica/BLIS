@@ -250,8 +250,8 @@
 						</div>
 					</li>
 				</ul>
-				<div class="sub-menu-title">{{trans('messages.inventory-reports')}}</div>
-				<ul class="sub-menu-items">
+				<div class="sub-menu-title" style="display:none;">{{trans('messages.inventory-reports')}}</div>
+				<ul class="sub-menu-items" style="display:none;">
 					<li>
 						<div><a href="{{ URL::route('reports.inventory')}}">
 							<span class="glyphicon glyphicon-tag"></span>
