@@ -9,7 +9,10 @@ class RegionTypeController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		//	Get all regiontypes
+		$regionTypes = RegionType::all();
+		
+		return View::make('regiontype.index', compact('regionTypes'));
 	}
 
 
@@ -21,6 +24,8 @@ class RegionTypeController extends \BaseController {
 	public function create()
 	{
 		//
+		
+		return View::make('regiontype.create');
 	}
 
 
@@ -32,6 +37,17 @@ class RegionTypeController extends \BaseController {
 	public function store()
 	{
 		//
+		$regionType = new RegionType;
+        $regionType->name =Input::get('name');
+        $regionType->user_id = Auth::user()->id;;
+        $regionType->save();
+
+       
+        $url = Session::get('SOURCE_URL');
+			
+			return Redirect::to($url)
+
+			->with('message', 'Region created successfully.');
 	}
 
 

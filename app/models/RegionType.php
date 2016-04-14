@@ -2,7 +2,7 @@
 
 class RegionType extends Eloquent
 {
-    protected $table = "region_type";
+    protected $table = "region_types";
 
     /*public function country()
     {

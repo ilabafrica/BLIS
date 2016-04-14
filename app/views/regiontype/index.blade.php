@@ -27,20 +27,19 @@
                     <thead>
                         <tr>
                             <th>{{ Lang::choice('messages.name', 1) }}</th>
-                            <th>{{ Lang::choice('messages.country', 1) }}</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($subCounties as $subCounty)
+                        @forelse($regionTypes as $regionType)
                         <tr>
-                            <td>{{ $subCounty->name }}</td>
-                            <td></td>
+                            <td>{{ $regionType->name }}</td>
+                           
                             <td>
-                              <a href="{{ URL::to("regiontype/" . $subCounty->id) }}" class="btn btn-success btn-sm"><i class="fa fa-eye"></i><span> View</span></a>
-                              @if(Auth::user()->can('manage-sub-county'))
-                              <a href="{{ URL::to("regiontype/" . $subCounty->id . "/edit") }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i><span> Edit</span></a>
-                              <a href="{{ URL::to("regiontype/" . $subCounty->id . "/delete") }}" class="btn btn-warning btn-sm"><i class="fa fa-trash-o"></i><span> Delete</span></a>
+                              <a href="{{ URL::to("regiontype/" . $regionType->id) }}" class="btn btn-success btn-sm"><i class="fa fa-eye"></i><span> View</span></a>
+                              @if(Auth::user()->can('manage'))
+                              <a href="{{ URL::to("regiontype/" . $regionType->id . "/edit") }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i><span> Edit</span></a>
+                              <a href="{{ URL::to("regiontype/" . $regiontype->id . "/delete") }}" class="btn btn-warning btn-sm"><i class="fa fa-trash-o"></i><span> Delete</span></a>
                               @endif
                             </td>
                         </tr>
