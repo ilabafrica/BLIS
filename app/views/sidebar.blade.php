@@ -11,7 +11,9 @@
 		case 'reportconfig':
 		case 'barcode':
 		case 'blisclient':
-		case 'facility': 
+		case 'facility':
+		case 'region':
+		case 'regiontype': 
 			$active[3] = "active"; break;
 		case 'testcategory': 
 		case 'testtype': 
@@ -93,6 +95,26 @@
 							<a href="{{ URL::route("facility.index") }}">
 								<span class="glyphicon glyphicon-tag"></span>
 									{{Lang::choice('messages.facility',2)}}
+							</a>
+						</div>
+					</li>
+				</ul>
+				<ul class="sub-menu-items">
+					<li>
+						<div>
+							<a href="{{ URL::route("region.index") }}">
+								<span class="glyphicon glyphicon-tag"></span>
+									{{Lang::choice('messages.region',2)}}
+							</a>
+						</div>
+					</li>
+				</ul>
+				<ul class="sub-menu-items">
+					<li>
+						<div>
+							<a href="{{ URL::route("regiontype.index") }}">
+								<span class="glyphicon glyphicon-tag"></span>
+									{{Lang::choice('messages.region-type',2)}}
 							</a>
 						</div>
 					</li>
