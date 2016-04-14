@@ -57,7 +57,7 @@
 					</a>
 
 					<!-- Update dtock button -->
-				    <a class="btn btn-sm btn-sun-flower" href="{{ URL::to("stock/" . $value->id."/usage") }}" >
+				    <a class="btn btn-sm btn-sun-flower" style="display:none;" href="{{ URL::to("stock/" . $value->id."/usage") }}" >
 						<span class="glyphicon glyphicon-info-sign"></span>
 						{{ trans('messages.update-stock') }}
 					</a>

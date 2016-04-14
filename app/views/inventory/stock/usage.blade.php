@@ -35,7 +35,14 @@
                 </div>
                 <div class="form-group">
                     {{ Form::label('request', Lang::choice('messages.top-up', 1)) }}
-                    {{ Form::select('request_id', $requests, '', array('class' => 'form-control')) }}
+                    @foreach($requests as $request)
+                    <div class="radio col-sm-offset-3">
+                        <label>
+                            <input type="radio" name="request_id" id="request_id" value="{{$request->id}}" {{ ($record == $request->id) ? 'checked' : ''}}>
+                            {{ $request->item->name.'('.$request->quantity_ordered.') - '.$request->testCategory->name.'('.$request->remarks.')' }}
+                        </label>
+                    </div>
+                    @endforeach
                 </div>
                  <div class="form-group">
                     {{ Form::label('remarks', trans("messages.remarks")) }}

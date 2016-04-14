@@ -11,8 +11,10 @@ class StockController extends \BaseController {
 	{
 		//	Get item
 		$item = Item::find($id);
+		//	Barcode
+		$barcode = Barcode::first();
 		//Load the view and pass the stocks
-		return View::make('inventory.stock.index')->with('item', $item);
+		return View::make('inventory.stock.index')->with('item', $item)->with('barcode', $barcode);
 	}
 
 
@@ -187,14 +189,18 @@ class StockController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function usage($id)
+	public function usage($id, $req = null)
 	{
 		//	Get stock
 		$stock = Stock::find($id);
 		//	Get Requests
-		$requests = Topup::lists('id', 'quantity_ordered');
+		$requests = Topup::all();
+		if($req)
+			$record = $req;
+		else
+			$record = 0;
 		//show the view and pass the $stock to it
-		return View::make('inventory.stock.usage')->with('stock', $stock)->with('requests', $requests);
+		return View::make('inventory.stock.usage')->with('stock', $stock)->with('requests', $requests)->with('record', $record);
 	}
 	/**
 	 * Store a newly created resource in storage.
@@ -240,7 +246,7 @@ class StockController extends \BaseController {
 		//	Get lot usage
 		$lot = Usage::find($id);
 		//	Get Requests
-		$requests = Topup::lists('id', 'quantity_ordered');
+		$requests = Topup::all();
 		//	Get request
 		$request = $lot->request_id;
 		//show the view and pass the $stock to it

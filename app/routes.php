@@ -443,7 +443,7 @@ Route::group(array("before" => "auth"), function()
             "as"   => "stocks.create",
             "uses" => "StockController@create"
         ));
-        Route::any("stock/{id}/usage", array(
+        Route::any("stock/{id}/usage/{req?}", array(
             "as"   => "stocks.usage",
             "uses" => "StockController@usage"
         ));

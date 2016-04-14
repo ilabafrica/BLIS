@@ -14,7 +14,7 @@
 		<span class="glyphicon glyphicon-user"></span>
 		{{ Lang::choice('messages.stock', 2) }}
 		<div class="panel-btn">
-			<a class="btn btn-sm btn-info" href="{{ URL::route('stock.create') }}">
+			<a class="btn btn-sm btn-info" href="{{ URL::to('stock/'.$item->id.'/create') }}">
 				<span class="glyphicon glyphicon-plus-sign"></span>
 				{{ trans('messages.add').' '.Lang::choice('messages.stock', 1) }}
 			</a>
@@ -77,7 +77,7 @@
 
 						<!-- show barcode generation button -->
 						{{--*/ $barcode_separator = '$' /*--}}
-						<a class="btn btn-sm btn-midnight-blue" href="#" onclick="print_barcode('{!! $value->id.$barcode_separator.$item->name.$barcode_separator.$value->lot !!}')">
+						<a class="btn btn-sm btn-midnight-blue" href="#" onclick="print_barcode({{ "'".$value->id.$barcode_separator.$item->id."'".', '."'".$barcode->encoding_format."'".', '."'".$barcode->barcode_width."'".', '."'".$barcode->barcode_height."'".', '."'".$barcode->text_size."'" }})">
 							<span class="glyphicon glyphicon-barcode"></span>
 							{{ trans('messages.barcode') }}
 						</a>
@@ -89,6 +89,10 @@
 		{{ Session::put('SOURCE_URL', URL::full()) }}
 	</div>
 </div>
+<!-- Barcode begins -->
+    
+<div id="count" style='display:none;'>0</div>
+<div id ="barcodeList" style="display:none;"></div>
 <!-- jQuery barcode script -->
 <script type="text/javascript" src="{{ asset('js/barcode.js') }} "></script>
 @stop
