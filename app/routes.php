@@ -251,6 +251,20 @@ Route::group(array("before" => "auth"), function()
             "as"   => "regiontype.delete",
             "uses" => "RegionTypeController@delete"
         ));
+        Route::get("/regiontype/{id}/view", array(
+            "as"   => "regiontype.tiers.view",
+            "uses" => "RegionTypeTierController@index"
+        ));
+        Route::get("/regiontype/{id}/create", array(
+            "as"   => "regiontype.tiers.create",
+            "uses" => "RegionTypeTierController@create"
+        ));
+
+        Route::resource("regiontypetier", "RegionTypeTierController");
+        Route::get("/regiontype/{id}/create", array(
+            "as"   => "regiontype.tier.create",
+            "uses" => "RegionTypeTierController@createTier"
+        ));
 
         Route::any("/reportconfig/surveillance", array(
             "as"   => "reportconfig.surveillance",

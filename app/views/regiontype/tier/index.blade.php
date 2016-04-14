@@ -13,7 +13,7 @@
 <div class="panel panel-primary">
     <div class="panel-heading"><i class="fa fa-tags"></i> {{ Lang::choice('messages.region-type', 2) }} <span class="panel-btn">
       
-      <a class="btn btn-sm btn-info" href="{{ URL::to("regiontype/create") }}" >
+      <a class="btn btn-sm btn-info" href="{{ URL::to("regiontype/".$regionType->id."/create") }}" >
         <span class="glyphicon glyphicon-plus-sign"></span>
             {{ trans('messages.create-region-type') }}
           </a>
@@ -31,17 +31,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($regionTypes as $regionType)
+                        @forelse($regionType->tiers as $tier)
                         <tr>
-                            <td>{{ $regionType->name }}</td>
+                            <td>{{ $tier->regionType->name }}</td>
                            
                             <td>
-                              <a href="{{ URL::to("regiontype/" . $regionType->id) }}" class="btn btn-success btn-sm"><i class="fa fa-eye"></i><span> View</span></a>
-                              <a href="{{ URL::to("regiontype/" . $regionType->id . "/create") }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i><span> Create Region Type</span></a>
-                              <a href="{{ URL::to("regiontype/" . $regionType->id . "/view") }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i><span> View Region Types</span></a>
+                              <a href="{{ URL::to("regiontypetier/" . $tier->id) }}" class="btn btn-success btn-sm"><i class="fa fa-eye"></i><span> View</span></a>
                               @if(Auth::user()->can('manage'))
-                              <a href="{{ URL::to("regiontype/" . $regionType->id . "/edit") }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i><span> Edit</span></a>
-                              <a href="{{ URL::to("regiontype/" . $regiontype->id . "/delete") }}" class="btn btn-warning btn-sm"><i class="fa fa-trash-o"></i><span> Delete</span></a>
+                              <a href="{{ URL::to("regiontypetier/" . $tier->id . "/edit") }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i><span> Edit</span></a>
+                              <a href="{{ URL::to("regiontypetier/" . $tier->id . "/delete") }}" class="btn btn-warning btn-sm"><i class="fa fa-trash-o"></i><span> Delete</span></a>
                               @endif
                             </td>
                         </tr>

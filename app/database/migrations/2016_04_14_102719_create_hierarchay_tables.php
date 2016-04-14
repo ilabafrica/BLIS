@@ -54,8 +54,20 @@ class CreateHierarchayTables extends Migration {
             $table->softDeletes();
             $table->timestamps();
         });
+		Schema::create('region_type_tiers', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->integer('region_type_id')->unsigned();
+            $table->integer('tier_id')->unsigned();
+            $table->integer('user_id')->unsigned();
 
-       
+
+            $table->foreign('region_type_id')->references('id')->on('region_types');
+            $table->foreign('tier_id')->references('id')->on('region_types');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->softDeletes();
+            $table->timestamps();
+        });
 
         Schema::table('facilities', function(Blueprint $table)
 		{
@@ -74,11 +86,13 @@ class CreateHierarchayTables extends Migration {
 	{
 		
 		Schema::table('facilities', function(Blueprint $table){
+			$table->dropForeign('facilities_region_id_foreign');
 			$table->dropColumn('region_id');
 		});
-		Schema::dropIfExists('region_types');
-		Schema::dropIfExists('regions');
+		Schema::dropIfExists('region_type_tiers');
 		Schema::dropIfExists('region-tiers');
+		Schema::dropIfExists('regions');
+		Schema::dropIfExists('region_types');
 	}
 
 }
