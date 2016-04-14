@@ -52,7 +52,14 @@ return array(
     'refer' => 'Refer',
     'in' => 'In',
     'out' => 'Out',
-
+    'region' => 'Region',
+    'region-type' => 'Region Type',
+    'country' => 'Country',
+    'create-region' => 'Create Region',
+    'create-region-type' => 'Create Region Types',
+    'select-country' => 'Select Country',
+    'select-region' =>'Select Region',
+    'select-region-type' =>'Select Region Type',
     /** 
      *   Generic phrases
      */

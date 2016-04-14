@@ -239,6 +239,19 @@ Route::group(array("before" => "auth"), function()
             "as"   => "facility.delete",
             "uses" => "FacilityController@delete"
         ));
+        
+        Route::resource("region", "RegionController");
+        Route::get("/region/{id}/delete", array(
+            "as"   => "region.delete",
+            "uses" => "RegionController@delete"
+        ));
+
+        Route::resource("regiontype", "RegionTypeController");
+        Route::get("/regiontype/{id}/delete", array(
+            "as"   => "regiontype.delete",
+            "uses" => "RegionTypeController@delete"
+        ));
+
         Route::any("/reportconfig/surveillance", array(
             "as"   => "reportconfig.surveillance",
             "uses" => "ReportController@surveillanceConfig"
