@@ -8,7 +8,10 @@ Event::listen('illuminate.query', function($query)
 
 Event::listen('test.saved', function($testId)
 {
-    Interfacer::send($testId);
+	$verification = RequireVerification::get()->first();
+	if ($verification->allowProbativeResults) {
+	    Interfacer::send($testId);
+	}
 });
 
 Event::listen('test.verified', function($testId)

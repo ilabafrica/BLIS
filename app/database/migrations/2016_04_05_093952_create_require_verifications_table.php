@@ -17,8 +17,8 @@ class CreateRequireVerificationsTable extends Migration {
 			// The need for verification to send test results
 			$table->increments('id')->unsigned();
 			$table->tinyInteger('verification_required')->default(0);
-			$table->time('verification_required_from');
-			$table->time('verification_required_to');
+			$table->time('verification_required_from')->default('00:00:00');
+			$table->time('verification_required_to')->default('00:00:00');
 		});
 	}
 

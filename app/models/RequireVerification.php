@@ -22,7 +22,7 @@ class RequireVerification extends Eloquent
 				// If the time prohibits sending probative results
 				return false;
 			}elseif ($timeNow->format('H:i:s') > $this->verification_required_from &&
-					$timeNow->format('H:i:s') < $this->verification_required_to) {
+				$timeNow->format('H:i:s') < $this->verification_required_to) {
 				// If the time prohibits sending probative results
 				return false;
 			}else{

@@ -15,7 +15,7 @@ class RequireVerificationController extends \BaseController {
 		$from = $requireVerification->verification_required_from;
 		$to = $requireVerification->verification_required_to;
 
-		$restrictVerification = ($from != $to) ? 1 : 0;
+		$restrictVerification = ($from != $to) ? true : false;
 
 		return View::make('requireverification.edit')
 			->with('restrictVerification', $restrictVerification)
@@ -33,22 +33,25 @@ class RequireVerificationController extends \BaseController {
 	{
 		$verificationRequired = Input::get('verify');
 		$alwaysVerify = Input::get('always');
-		if ($alwaysVerify) {
-
-			$from = '00:00:00';
-			$to = '00:00:00';
-		} else {
-
-			$from = date("H:i", strtotime(Input::get('time_from')));
-			$to = date("H:i", strtotime(Input::get('time_to')));
-		}
 		$requireVerification = RequireVerification::find(1);
+		if ($verificationRequired) {
+			if ($alwaysVerify) {
+
+				$from = '00:00:00';
+				$to = '00:00:00';
+			} else {
+
+				$from = date("H:i", strtotime(Input::get('time_from')));
+				$to = date("H:i", strtotime(Input::get('time_to')));
+			}
+			$requireVerification->verification_required_from = $from;
+			$requireVerification->verification_required_to = $to;
+		}
 		$requireVerification->verification_required = $verificationRequired;
-		$requireVerification->verification_required_from = $from;
-		$requireVerification->verification_required_to = $to;
 		$requireVerification->save();
 
-		return Redirect::back()->with('message', trans('messages.success-updating-verification-config'));
+		return Redirect::route('requireverification.edit')
+			->with('message', trans('messages.success-updating-verification-config'));
 	}
 
 }

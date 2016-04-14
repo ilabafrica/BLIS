@@ -484,6 +484,7 @@ return array(
     'successfully-updated-facility' => 'Facility was successfully updated!',
     'successfully-deleted-facility' => 'Facility was successfully deleted!',
     'require-verification' => 'Verification',
+    'success-updating-verification-config' => 'Verification Configuration Successfully Updated',
     'require-verification-to-send' => 'Verify to Send Results',
     'specify-period' => 'Verification Hours',
     'twenty-four-hours' => 'Always',
