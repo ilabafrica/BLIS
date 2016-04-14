@@ -9,7 +9,10 @@ class RegionController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		//Get all regions
+		$regions = Region::all();
+		
+		return View::make('region.index', compact('regions'));
 	}
 
 
@@ -20,7 +23,10 @@ class RegionController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		//	Get all regiontypes for select list
+		$regionTypes = RegionType::lists('name', 'id');
+
+		return View::make('region.create', compact('regionTypes'));
 	}
 
 
@@ -31,7 +37,18 @@ class RegionController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+	    $region = new Region;
+        $region->name =Input::get('name');
+        $region->region_type_id = Input::get('regiontype_id');
+        $region->user_id = Auth::user()->id;;
+        $region->save();
+
+       
+        $url = Session::get('SOURCE_URL');
+			
+			return Redirect::to($url)
+
+			->with('message', 'County created successfully.');
 	}
 
 
