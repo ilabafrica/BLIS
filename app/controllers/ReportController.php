@@ -3263,4 +3263,96 @@ class ReportController extends \BaseController {
 		}
 		return $accredited;
     }
+    /**
+	 * Display specimen rejection chart
+	 *
+	 * @return Response
+	 */
+	public static function specimenRejectionChart($testTypeID = 0){
+		$from = Input::get('start');
+		$to = Input::get('end');
+		$spec_type = Input::get('specimen_type');
+		$months = json_decode(self::getMonths($from, $to));
+
+		//	Get specimen rejection reasons available in the time period
+		$rr = Specimen::select(DB::raw('DISTINCT(reason) AS rr, rejection_reason_id'))
+						->join('rejection_reasons', 'rejection_reasons.id', '=', 'specimens.rejection_reason_id')
+						->whereBetween('time_rejected', [$from, $to])
+						->groupBy('rr')
+						->get();
+
+		$options = '{
+		    "chart": {
+		        "type": "spline"
+		    },
+		    "title": {
+		        "text":"Rejected Specimen per Reason Overtime"
+		    },
+		    "subtitle": {
+		        "text":'; 
+		        if($from==$to)
+		        	$options.='"'.trans('messages.for-the-year').' '.date('Y').'"';
+		        else
+		        	$options.='"'.trans('messages.from').' '.$from.' '.trans('messages.to').' '.$to.'"';
+		    $options.='},
+		    "credits": {
+		        "enabled": false
+		    },
+		    "navigation": {
+		        "buttonOptions": {
+		            "align": "right"
+		        }
+		    },
+		    "series": [';
+		    	$counts = count($rr);
+
+			    	foreach ($rr as $rrr) 
+			    	{
+		        		$options.= '{
+		        			"name": "'.$rrr->rr.'","data": [';
+	        				$counter = count($months);
+	            			foreach ($months as $month) 
+	            			{
+		            			$data = Specimen::where('rejection_reason_id', $rrr->rejection_reason_id)->whereRaw('MONTH(time_rejected)='.$month->months);
+		            			if($spec_type)
+		            				$data = $data->where('specimen_type_id', $spec_type);
+		            			$data = $data->count();		            				
+            					$options.= $data;
+            					if($counter==1)
+	            					$options.='';
+	            				else
+	            					$options.=',';
+		            			$counter--;
+				    		}
+				    		$options.=']';
+				    	if($counts==1)
+							$options.='}';
+						else
+							$options.='},';
+						$counts--;
+					}
+			$options.='],
+		    "xAxis": {
+		        "categories": [';
+		        $count = count($months);
+	            	foreach ($months as $month) {
+	    				$options.= '"'.$month->label." ".$month->annum;
+	    				if($count==1)
+	    					$options.='" ';
+	    				else
+	    					$options.='" ,';
+	    				$count--;
+	    			}
+	            $options.=']
+		    },
+		    "yAxis": {
+		        "title": {
+		            "text": "No. of Rejected Specimen"
+		        }
+		    }
+		}';
+	return View::make('reports.rejection.index')
+						->with('options', $options)
+						->withInput(Input::all());
+	}
 }

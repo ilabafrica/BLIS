@@ -33,6 +33,7 @@
 		case 'cd4':
 		case 'qualitycontrol':
 		case 'inventory':
+		case 'rejection':
 			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
@@ -247,6 +248,12 @@
 						<div><a href="{{ URL::route('reports.qualityControl')}}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{Lang::choice('messages.quality-control', 2)}}</a>
+						</div>
+					</li>
+					<li>
+						<div><a href="{{ URL::route('reports.aggregate.rejection')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{Lang::choice('messages.specimen-rejection', 2)}}</a>
 						</div>
 					</li>
 				</ul>
