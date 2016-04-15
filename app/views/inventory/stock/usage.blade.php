@@ -39,7 +39,7 @@
                     <div class="radio col-sm-offset-3">
                         <label>
                             <input type="radio" name="request_id" id="request_id" value="{{$request->id}}" {{ ($record == $request->id||Input::old('request_id')) ? 'checked' : ''}}>
-                            {{ $request->item->name.'('.$request->quantity_ordered.') - '.$request->testCategory->name.'('.$request->remarks.')' }}
+                            {{ $request->item->name.'('.(count($request->usage)>0?$request->quantity_ordered-$request->issued():$request->quantity_ordered).') - '.$request->testCategory->name.'('.$request->remarks.')' }}
                         </label>
                     </div>
                     @endforeach
