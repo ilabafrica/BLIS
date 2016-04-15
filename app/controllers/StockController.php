@@ -194,7 +194,7 @@ class StockController extends \BaseController {
 		//	Get stock
 		$stock = Stock::find($id);
 		//	Get Requests
-		$requests = Topup::all();
+		$requests = $stock->item->requests;
 		if($req)
 			$record = $req;
 		else

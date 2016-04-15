@@ -24,6 +24,14 @@ class Item extends Eloquent
     {
         return $this->hasMany('Stock');
     }
+
+    /*
+    *   Relationship with requests
+    */
+    public function requests()
+    {
+        return $this->hasMany('Topup');
+    }
     /*
     *   Get quantity for the specific item
     */
