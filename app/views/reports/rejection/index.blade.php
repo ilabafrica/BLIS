@@ -53,7 +53,7 @@
 					<span class="glyphicon glyphicon-user"></span>
 					Rejected Specimen per Reason Overtime
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4" style="display:none;">
 					<a class="btn btn-info pull-right" id="reveal" href="#" onclick="return false;"
                             alt="{{trans('messages.show-hide')}}" title="{{trans('messages.show-hide')}}">
                             <span class="glyphicon glyphicon-eye-open"></span> {{trans('messages.show-hide')}}</a>
