@@ -157,10 +157,16 @@ class ItemController extends \BaseController {
 	public function delete($id)
 	{
 		//Soft delete the Item
-		$item =Item::find($id);
-		$url = Session::get('SOURCE_URL');
-        
-        return Redirect::to($url)
-		->with('message', trans('messages.record-successfully-deleted'));
+		$item =Item::find($id);		
+		$url = Session::get('SOURCE_URL'); 
+		if(count($item->stocks)>0 || count($item->requests)>0)
+		{
+			return Redirect::to($url)->with('message', trans('messages.failure-delete-record'));
+		}
+		else
+		{
+			$item->delete();
+        	return Redirect::to($url)->with('message', trans('messages.record-successfully-deleted'));
+        }
 	}
 }
