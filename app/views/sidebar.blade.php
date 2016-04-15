@@ -41,7 +41,7 @@
 			$active[6] = "active"; break;
 		case 'supplier': 
 		case 'item': 
-		case 'topup':
+		case 'request':
 		case 'stock':
 			$active[7] = "active"; break;
 		case 'controlresults':
