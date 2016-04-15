@@ -11,7 +11,7 @@ class SupplierController extends \BaseController {
 	{
 		//
 		 $suppliers = Supplier::orderBy('name', 'ASC')->get();
-		return View::make('supplier.index')->with('suppliers', $suppliers);
+		return View::make('inventory.supplier.index')->with('suppliers', $suppliers);
 	}
 
 	/**
@@ -21,7 +21,7 @@ class SupplierController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('supplier.create');
+		return View::make('inventory.supplier.create');
 	}
 
 	/**
@@ -31,7 +31,6 @@ class SupplierController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
 		$rules = array(
 			'name' => 'required|unique:suppliers,name');
 		$validator = Validator::make(Input::all(), $rules);
@@ -43,13 +42,16 @@ class SupplierController extends \BaseController {
 			// store
 			$supplier = new Supplier;
 			$supplier->name= Input::get('name');
-			$supplier->phone_no= Input::get('phone_no');
+			$supplier->phone= Input::get('phone');
 			$supplier->email= Input::get('email');
-			$supplier->physical_address= Input::get('physical_address');
+			$supplier->address= Input::get('address');
+			$supplier->user_id = Auth::user()->id;
 			try{
 				$supplier->save();
-				return Redirect::route('supplier.index')
-					->with('message',  'Successifully added a new supplier');
+				$url = Session::get('SOURCE_URL');
+            
+            	return Redirect::to($url)
+					->with('message',  trans('messages.record-successfully-saved'));
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -65,7 +67,10 @@ class SupplierController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		//show a supplier
+		$supplier =Supplier::find($id);
+		//show the view and pass the $supplier to it
+		return View::make('inventory.supplier.show')->with('supplier', $supplier);
 	}
 
 
@@ -80,7 +85,7 @@ class SupplierController extends \BaseController {
 		$suppliers = Supplier::find($id);
 
 		//Open the Edit View and pass to it the $patient
-		return View::make('supplier.edit')->with('suppliers', $suppliers);
+		return View::make('inventory.supplier.edit')->with('suppliers', $suppliers);
 	}
 
 
@@ -95,21 +100,24 @@ class SupplierController extends \BaseController {
 		$rules = array('name' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
 
-		// process the login
+		// process the request
 		if ($validator->fails()) {
-			return Redirect::to('supplier.edit')->withErrors($validator)->withInput(Input::except('password'));
+			return Redirect::to('inventory.supplier.edit')->withErrors($validator)->withInput(Input::except('password'));
 		} else {
 		// Update
 			$supplier = Supplier::find($id);
 			$supplier->name= Input::get('name');
-			$supplier->physical_address= Input::get('physical_address');
-			$supplier->phone_no= Input::get('phone_no');
+			$supplier->address= Input::get('address');
+			$supplier->phone= Input::get('phone');
 			$supplier->email= Input::get('email');
+			$supplier->user_id = Auth::user()->id;
 			$supplier->save();
 			try{
 				$supplier->save();
-				return Redirect::route('supplier.index')
-				->with('message', trans('messages.success-updating-supplier')) ->with('activesupplier', $supplier ->id);
+				$url = Session::get('SOURCE_URL');
+            
+            	return Redirect::to($url)
+				->with('message', trans('messages.record-successfully-updated')) ->with('activesupplier', $supplier ->id);
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -126,11 +134,15 @@ class SupplierController extends \BaseController {
 	{
 		//Soft delete the item
 		$supplier = Supplier::find($id);
-		$supplier->delete();
-
-		// redirect
-		return Redirect::route('supplier.index')->with('message', trans('messages.supplier-succesfully-deleted'));
+		if(count($supplier->stocks)>0)
+		{
+			return Redirect::route('supplier.index')->with('message', trans('messages.failure-delete-record'));
+		}
+		else
+		{
+			$supplier->delete();
+			// redirect
+			return Redirect::route('supplier.index')->with('message', trans('messages.record-successfully-deleted'));
+		}
 	}
-
-
 }
