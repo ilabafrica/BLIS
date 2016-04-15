@@ -104,17 +104,87 @@ class BlisClientController extends \BaseController {
 		//
 		$equip_name = Input::get('equipment_name');
 		$client = BlisClient::find(BlisClient::getClientIdByName($equip_name));
-		foreach(Input::all() as $key => $value)
+		if(Input::has('update'))
 		{
-			if(stripos($key, 'prop') !==FALSE)
+			foreach(Input::all() as $key => $value)
 			{
-				$prop_id = self::strip($key);
-				DB::table('equip_config')->where('equip_id', $client->id)->where('prop_id', $prop_id)->update(array('prop_value' => $value));
+				if(stripos($key, 'prop') !==FALSE)
+				{
+					$prop_id = self::strip($key);
+					DB::table('equip_config')->where('equip_id', $client->id)->where('prop_id', $prop_id)->update(array('prop_value' => $value));
+				}
 			}
-		}
-		$url = Session::get('SOURCE_URL');
-            
-    	return Redirect::to($url)->with('message', trans('messages.config-successfully-updated'));
+			$url = Session::get('SOURCE_URL');
+	            
+	    	return Redirect::to($url)->with('message', trans('messages.config-successfully-updated'));
+	    }
+	    else
+	    {
+	    	$prop_name = array();
+			$prop_value = array();
+
+			foreach(Input::all() as $key => $value)
+			{
+				if(stripos($key, 'prop') !==FALSE)
+				{
+					$prop_id = self::strip($key);
+					$p = DB::table('ii_quickcodes')->where('id', $prop_id)->first();
+					array_push($prop_name, $p->config_prop);
+					array_push($prop_value, $value);
+				}
+			}
+			$source = $client->feed($client->feed_source);
+			// Part 1
+			$file = 'BLISInterfaceClient/part1.txt';
+			$current = file_get_contents($file);
+			$config_p1 = str_replace("--FS--", $source, $current);
+
+			//Part2
+			if ($source == "RS232"){
+				$file = 'BLISInterfaceClient/rs232.txt';
+			}
+			else if ($source == "TEXT"){
+				$file = 'BLISInterfaceClient/flatfile.txt';
+			}
+			else if ($source == "MSACCESS"){
+				$file = 'BLISInterfaceClient/msaccess.txt';
+			}
+			else if ($source == "HTTP"){
+				$file = 'BLISInterfaceClient/http.txt';
+			}
+			else if ($source == "TCP/IP"){
+				$file = 'BLISInterfaceClient/tcpip.txt';
+			}
+
+			$current = file_get_contents($file);
+			$config_p2 ="";
+			for($i = 0; $i < count($prop_name); $i++){
+				$config_p2 = str_replace("--".$prop_name[$i]."--",$prop_name[$i]." = ". $prop_value[$i], $current);
+				$current = $config_p2;
+			}
+			echo $config_p2;
+
+
+			//Part 3
+			$file = 'BLISInterfaceClient/part3.txt';
+			$current = file_get_contents($file);
+			$config_p3 = str_replace("--BLIS_URL--", 'http://'.$_SERVER['HTTP_HOST'], $current);
+
+
+			//Part 4
+			$file = 'BLISInterfaceClient/part4.txt';
+			$current = file_get_contents($file);
+			$config_p4 = str_replace("--EQUIP_NAME--", $client->equipment_name, $current);
+
+
+			//Concatenated file
+			$config_file_content = $config_p1."\n".$config_p2."\n".$config_p3."\n".$config_p4;
+			$file2 = 'BLISInterfaceClient/BLISInterfaceClient.ini';
+			file_put_contents($file2, $config_file_content);
+			$url = Session::get('SOURCE_URL');
+	            
+	    	return Redirect::to($url)->with('message', trans('messages.equip-config-saved'));
+	    }
 	}
 
 

@@ -749,6 +749,18 @@ $(function(){
 		$('#drugSusceptibilityForm_'+id).toggle(this.checked);
 	}
 	/*End toggle susceptibility*/
+	/* Generate equipment config file */
+	function generateICfile(id)
+	{
+		var equipment_id = id;
+	    $.ajax({
+			url : "ajax/createconfigfile.php?equipment_id="+equipment_id,
+			async: false,
+			success : function(data) {
+				alert("Equipment configuration has been saved in ../BLISInterfaceClient/BLISInterfaceClient.ini")
+			}	
+		});
+	}
 	/* Fetch equipment details without page reload */
 	function fetch_equipment_details()
     {
@@ -796,8 +808,8 @@ $(function(){
 									"</div>";
 							});
 							html += "<div class='form-group actions-row'>"+
-									"<button type='button' class='btn btn-default'><span class='glyphicon glyphicon-cog' aria-hidden='true'></span> Generate Config File</button>"+
-								    "<button type='submit' class='btn btn-primary'><span class='glyphicon glyphicon-ok' aria-hidden='true'></span> Update Fields</button>"+
+									"<button type='submit' class='btn btn-default'><span class='glyphicon glyphicon-cog' aria-hidden='true' name='generate' id='generate'></span> Generate Config File</button>"+
+								    "<button type='submit' class='btn btn-primary'><span class='glyphicon glyphicon-ok' aria-hidden='true' name='update' id='update'></span> Update Fields</button>"+
 								    "</div>";
                             $('#eq_con_details').html(html);
 						}
