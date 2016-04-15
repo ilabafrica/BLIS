@@ -557,7 +557,7 @@ return array(
     'export'        =>  'Export',
     'log-usage'     =>  'Log Stock Usage',
     'add-stock'     =>  'Add Stock',
-    'update-stock'  =>  'Update Stock',
+    'update-stock'  =>  'Issue Stock',
     'details'       =>  'Details',
     'phone'         =>  'Phone',
     'email'         =>  'Email Address',
