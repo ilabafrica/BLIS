@@ -229,10 +229,21 @@ class StockController extends \BaseController {
 	        $usage->date_of_usage = Input::get('date_of_usage');
 	        $usage->remarks = Input::get('remarks');
 	        $usage->user_id = Auth::user()->id;
-	        $usage->save();
+
 	        $url = Session::get('SOURCE_URL');
-        
-	        return Redirect::to($url)->with('message', trans('messages.record-successfully-updated'))->with('active_stock', $usage->stock->id);
+	        if($usage->quantity_used>Stock::find((int)$usage->stock_id)->quantity())
+	        {
+	        	return Redirect::back()->with('message', trans('messages.insufficient-stock'))->withInput(Input::all());
+	        }
+	        else if($usage->quantity_used>Topup::find((int)$usage->request_id)->quantity_ordered)
+	        {
+	        	return Redirect::back()->with('message', trans('messages.issued-greater-than-ordered'))->withInput(Input::all());
+	        }
+	        else
+	        {
+	        	$usage->save();        
+	        	return Redirect::to($url)->with('message', trans('messages.record-successfully-updated'))->with('active_stock', $usage->stock->id);
+	        }
 	    }
 	}
 	/**

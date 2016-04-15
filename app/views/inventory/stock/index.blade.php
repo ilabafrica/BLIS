@@ -63,12 +63,13 @@
 								<span class="glyphicon glyphicon-edit"></span>
 								{{ trans('messages.edit') }}
 						</a>
+						@if($value->quantity()>0)
 						<!-- Update dtock button -->
 					    <a class="btn btn-sm btn-sun-flower" href="{{ URL::to("stock/" . $value->id."/usage") }}" >
 							<span class="glyphicon glyphicon-info-sign"></span>
 							{{ trans('messages.update-stock') }}
 						</a>
-
+						@endif
 						<!-- Usage for this lot -->
 						<a class="btn btn-sm btn-wisteria" href="{{ URL::to("stock/" . $value->id . "/show") }}">
 							<span class="glyphicon glyphicon-bookmark"></span>
