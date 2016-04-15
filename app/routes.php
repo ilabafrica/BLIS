@@ -338,6 +338,10 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.inventory",
             "uses" => "ReportController@stockLevel"
         ));
+        Route::any("/rejection", array(
+            "as"   => "reports.aggregate.rejection",
+            "uses" => "ReportController@specimenRejectionChart"
+        ));
     });
     Route::group(array("before" => "checkPerms:manage_qc"), function()
     {
