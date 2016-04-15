@@ -137,6 +137,6 @@ class SupplierController extends \BaseController {
 		$supplier->delete();
 
 		// redirect
-		return Redirect::route('inventory.supplier.index')->with('message', trans('messages.record-successfully-deleted'));
+		return Redirect::route('supplier.index')->with('message', trans('messages.record-successfully-deleted'));
 	}
 }
