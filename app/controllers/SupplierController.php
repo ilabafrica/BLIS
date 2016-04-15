@@ -134,9 +134,15 @@ class SupplierController extends \BaseController {
 	{
 		//Soft delete the item
 		$supplier = Supplier::find($id);
-		$supplier->delete();
-
-		// redirect
-		return Redirect::route('supplier.index')->with('message', trans('messages.record-successfully-deleted'));
+		if(count($supplier->stocks)>0)
+		{
+			return Redirect::route('supplier.index')->with('message', trans('messages.failure-delete-record'));
+		}
+		else
+		{
+			$supplier->delete();
+			// redirect
+			return Redirect::route('supplier.index')->with('message', trans('messages.record-successfully-deleted'));
+		}
 	}
 }
