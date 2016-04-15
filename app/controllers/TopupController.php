@@ -134,8 +134,15 @@ class TopupController extends \BaseController {
 	{
 		//Soft delete the request
 		$request = Topup::find($id);
-		$request->delete();
-		// redirect
-		return Redirect::route('inventory.request.index')->with('message', trans('messages.record-successfully-deleted'));
+		if(count($request->usage)>0)
+		{
+			return Redirect::route('request.index')->with('message', trans('messages.failure-delete-record'));
+		}
+		else
+		{
+			$request->delete();
+			// redirect
+			return Redirect::route('request.index')->with('message', trans('messages.record-successfully-deleted'));
+		}
 	}
 }
