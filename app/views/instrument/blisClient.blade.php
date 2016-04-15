@@ -22,7 +22,7 @@
 				<div class="alert alert-info">{{ Session::get('message') }}</div>
 			@endif
 				<div class="col-md-7"> 
-				{{ Form::open(array('method' => 'PUT', 'id' => 'form-edit-client')) }}
+				{{ Form::open(array('route' => array('blisclient.update'), 'method' => 'PUT', 'id' => 'form-edit-client')) }}
 					<div class="form-group">
 						{{ Form::label('equipment', trans('messages.equipment')) }}
 						{{ Form::select('client', array(0 => ' - ')+$client,

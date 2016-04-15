@@ -687,6 +687,7 @@ return array(
     'uni'   =>  'Uni-directional',
     'bi'    =>  'Bi-directional',
     'select-equipment'  =>  'Select Equipment to be interfaced through BLISInterfaceClient',
+    'config-successfully-updated'    =>  'Configuration successfully updated.',
     /**
     * cd4 report
     */

@@ -61,4 +61,24 @@ class BlisClient extends Eloquent
 	  	else
 	  		return trans('messages.bi');
 	}
+
+	/**
+	* Given the Client name we return the Client ID
+	*
+	* @param $clientname the name of the Client
+	*/
+	public static function getClientIdByName($name)
+	{
+		try 
+		{
+			$name = trim($name);
+			$client = BlisClient::where('equipment_name', 'like', $name)->orderBy('equipment_name')->firstOrFail();
+			return $client->id;
+		} catch (ModelNotFoundException $e) 
+		{
+			Log::error("The Client ` $name ` does not exist:  ". $e->getMessage());
+			//TODO: send email?
+			return null;
+		}
+	}
 }

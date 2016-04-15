@@ -99,9 +99,22 @@ class BlisClientController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update()
 	{
 		//
+		$equip_name = Input::get('equipment_name');
+		$client = BlisClient::find(BlisClient::getClientIdByName($equip_name));
+		foreach(Input::all() as $key => $value)
+		{
+			if(stripos($key, 'prop') !==FALSE)
+			{
+				$prop_id = self::strip($key);
+				DB::table('equip_config')->where('equip_id', $client->id)->where('prop_id', $prop_id)->update(array('prop_value' => $value));
+			}
+		}
+		$url = Session::get('SOURCE_URL');
+            
+    	return Redirect::to($url)->with('message', trans('messages.config-successfully-updated'));
 	}
 
 
@@ -115,6 +128,15 @@ class BlisClientController extends \BaseController {
 	{
 		//
 	}
-
-
+	/**
+	 * Remove the specified begining of text to get Id alone.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function strip($field)
+	{
+		if(($pos = strpos($field, '_')) !== FALSE)
+		return substr($field, $pos+1);
+	}
 }

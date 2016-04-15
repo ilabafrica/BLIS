@@ -261,6 +261,10 @@ Route::group(array("before" => "auth"), function()
             "as"   => "blisclient.properties",
             "uses" => "BlisClientController@properties"
         ));
+        Route::any("/blisclient/update", array(
+            "as"   => "blisclient.update",
+            "uses" => "BlisClientController@update"
+        ));
     });
     
     //  Check if able to manage reports
