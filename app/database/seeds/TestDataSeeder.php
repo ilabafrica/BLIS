@@ -1396,7 +1396,8 @@ class TestDataSeeder extends DatabaseSeeder
                 "email" => "info@chem-labs.com",
                 "address" => "Human House, Ngara West Rd, Off Museum Hill. 23,
 P.o. Box 38779 – 00600,
-Nairobi, Kenya."
+Nairobi, Kenya.",
+                "user_id" => 1,
 
             )
         );
