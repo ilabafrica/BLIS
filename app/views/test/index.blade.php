@@ -7,7 +7,11 @@
         </ol>
     </div>
     @if (Session::has('message'))
-        <div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
+        @if(isset(Session::get('message')->danger))
+            <div class="alert alert-danger">{{ trans(Session::get('message')->danger) }}</div>
+        @elseif(isset(Session::get('message')->info))
+            <div class="alert alert-info">{{ trans(Session::get('message')->info) }}</div>
+        @endif
     @endif
 
     <div class='container-fluid'>
@@ -221,6 +225,10 @@
                                     title="{{trans('messages.reject-title')}}">
                                     <span class="glyphicon glyphicon-thumbs-down"></span>
                                     {{trans('messages.reject')}}
+                                </a>
+                                <a class="btn btn-sm btn-midnight-blue barcode-button" onclick="print_barcode({{ "'".$test->specimen->id."'".', '."'".$barcode->encoding_format."'".', '."'".$barcode->barcode_width."'".', '."'".$barcode->barcode_height."'".', '."'".$barcode->text_size."'" }})" title="{{trans('messages.barcode')}}">
+                                    <span class="glyphicon glyphicon-barcode"></span>
+                                    {{trans('messages.barcode')}}
                                 </a>
                             @endif
                             @if ($test->isPending())
@@ -437,4 +445,11 @@
             {{trans('messages.refer-sample')}}
         </a>
     </div> <!-- /. referral-button -->
+    <!-- Barcode begins -->
+    
+    <div id="count" style='display:none;'>0</div>
+    <div id ="barcodeList" style="display:none;"></div>
+
+    <!-- jQuery barcode script -->
+    <script type="text/javascript" src="{{ asset('js/barcode.js') }} "></script>
 @stop

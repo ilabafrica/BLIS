@@ -58,10 +58,14 @@ class TestController extends \BaseController {
 		// Pagination
 		$tests = $tests->paginate(Config::get('kblis.page-items'))->appends($input);
 
+		//	Barcode
+		$barcode = Barcode::first();
+
 		// Load the view and pass it the tests
 		return View::make('test.index')
 					->with('testSet', $tests)
 					->with('testStatus', $statuses)
+					->with('barcode', $barcode)
 					->withInput($input);
 	}
 
@@ -342,9 +346,18 @@ class TestController extends \BaseController {
 			}
 		}
 
+		$info =  new stdclass();
 		//Fire of entry saved/edited event
-		Event::fire('test.saved', array($testID));
-
+		$verification = RequireVerification::get()->first();
+		if ($verification->allowProbativeResults()) {
+			Event::fire('test.saved', array($testID));
+			$info->info = trans('messages.success-saving-results');
+		}
+		else {
+			//Alert user of the fact that results will not be sent 
+			//until they are verified.
+			$info->danger = trans('messages.verifification-warning');
+		}
 		$input = Session::get('TESTS_FILTER_INPUT');
 		Session::put('fromRedirect', 'true');
 
@@ -355,10 +368,10 @@ class TestController extends \BaseController {
 			$pageParts = explode('=', $urlParts['page']);
 			$input['page'] = $pageParts[1];
 		}
-
+		
 		// redirect
 		return Redirect::action('TestController@index')
-					->with('message', trans('messages.success-saving-results'))
+					->with('message', $info)
 					->with('activeTest', array($test->id))
 					->withInput($input);
 	}
@@ -403,8 +416,11 @@ class TestController extends \BaseController {
 
 		//Fire of entry verified event
 		Event::fire('test.verified', array($testID));
+		$url = Session::get('SOURCE_URL');
 
-		return View::make('test.viewDetails')->with('test', $test);
+		return Redirect::back()
+			->with('message', trans('messages.success-verifying-results'))
+			->with('test', $test);
 	}
 
 	/**

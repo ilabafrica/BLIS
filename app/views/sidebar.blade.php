@@ -1,6 +1,6 @@
 @section("sidebar")
 <?php
-	$active = array("","","","","","","","","");
+	$active = array("","","","","","", "", "", "");
 	$key = explode("?",str_replace("/", "?", Request::path()));
 	switch ($key[0]) {
 		case 'home': $active[0] = "active"; break;
@@ -9,6 +9,9 @@
 		case 'labconfig': 
 		case 'instrument':
 		case 'reportconfig':
+		case 'requireverification':
+		case 'barcode':
+		case 'blisclient':
 		case 'facility': 
 			$active[3] = "active"; break;
 		case 'testcategory': 
@@ -27,19 +30,21 @@
 		case 'tat':
 		case 'infection':
 		case 'userstatistics':
+		case 'moh706':
+		case 'cd4':
 		case 'qualitycontrol':
+		case 'inventory':
+		case 'rejection':
 			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
 		case 'user': 
 		case 'role': 
 			$active[6] = "active"; break;
-		case 'issue': 
-		case 'receipt': 
-		case 'topup': 
-		case 'metric':
-		case 'supplier':
-		case 'commodity':
+		case 'supplier': 
+		case 'item': 
+		case 'request':
+		case 'stock':
 			$active[7] = "active"; break;
 		case 'controlresults':
 		case 'control':
@@ -105,6 +110,22 @@
 						<div><a href="{{ URL::route("requireverification.edit") }}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{ trans('messages.require-verification')}}</a>
+							</div>
+					</li>
+				</ul>
+				<ul class="sub-menu-items">
+					<li>
+						<div><a href="{{ URL::route("barcode.index") }}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{ trans('messages.barcode-settings')}}</a>
+						</div>
+					</li>
+				</ul>
+				<ul class="sub-menu-items">
+					<li>
+						<div><a href="{{ URL::route("blisclient.index") }}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{ trans('messages.interfaced-equipment')}}</a>
 						</div>
 					</li>
 				</ul>
@@ -221,14 +242,32 @@
 						</div>
 					</li>
 					<li>
+						<div><a href="{{ URL::route('reports.aggregate.moh706')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.moh-706')}}</a>
+						</div>
+					</li>					
+					<li>
+						<div><a href="{{ URL::route('reports.aggregate.cd4')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.cd4-report')}}</a>
+						</div>
+					</li>
+					<li>
 						<div><a href="{{ URL::route('reports.qualityControl')}}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{Lang::choice('messages.quality-control', 2)}}</a>
 						</div>
 					</li>
+					<li>
+						<div><a href="{{ URL::route('reports.aggregate.rejection')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{Lang::choice('messages.specimen-rejection', 2)}}</a>
+						</div>
+					</li>
 				</ul>
-				<div class="sub-menu-title">{{trans('messages.inventory-reports')}}</div>
-				<ul class="sub-menu-items">
+				<div class="sub-menu-title" style="display:none;">{{trans('messages.inventory-reports')}}</div>
+				<ul class="sub-menu-items" style="display:none;">
 					<li>
 						<div><a href="{{ URL::route('reports.inventory')}}">
 							<span class="glyphicon glyphicon-tag"></span>
@@ -280,47 +319,29 @@
 		<li>
 			<div class="main-menu {{$active[7]}}">
 				<a href="#">
-					<span class="glyphicon glyphicon-download-alt"></span> {{ Lang::choice('messages.inventory', 2)}}</a>
+					<span class="glyphicon glyphicon-download-alt"></span> {{ Lang::choice('messages.inventory', 1)}}</a>
 			</div>
 			<div class="sub-menu {{$active[7]}}">
 				<ul class="sub-menu-items">
-					@if(Entrust::can('request_topup'))
-					<li>
-						<div>
-							<a href="{{ URL::route("topup.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.topup', 2)}}</a>
-						</div>
-					</li>
-					@endif
 					@if(Entrust::can('manage_inventory'))
 					<li>
 						<div>
-							<a href="{{ URL::route("receipt.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.receipt', 2)}}</a>
-						</div>
-					</li>
-					<li>
-						<div>
-							<a href="{{ URL::route("issue.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.issue', 2)}}</a>
-						</div>
-					</li>
-					<li>
-						<div>
-							<a href="{{ URL::route("commodity.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.commodities')}}</a>
-						</div>
-					</li>
-					<li>
-						<div>
 							<a href="{{ URL::route("supplier.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{Lang::choice('messages.suppliers',2)}}</a>
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.supplier', 2)}}</a>
 						</div>
 					</li>
 					<li>
 						<div>
-							<a href="{{ URL::route("metric.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.metrics')}}</a>
+							<a href="{{ URL::route("item.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.item', 2)}}</a>
+						</div>
+					</li>
+					@endif
+					@if(Entrust::can('request_topup'))
+					<li>
+						<div>
+							<a href="{{ URL::route("request.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.top-up', 2)}}</a>
 						</div>
 					</li>
 					@endif

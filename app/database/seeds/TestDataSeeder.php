@@ -1391,72 +1391,17 @@ class TestDataSeeder extends DatabaseSeeder
         //Seed for suppliers
         $supplier = Supplier::create(
             array(
-                "name" => "UNICEF",
-                "phone_no" => "0775112233",
-                "email" => "uni@unice.org",
-                "physical_address" => "un-hqtr"
+                "name" => "CHEM-LABS LTD",
+                "phone" => "+254 722 822 595",
+                "email" => "info@chem-labs.com",
+                "address" => "Human House, Ngara West Rd, Off Museum Hill. 23,
+P.o. Box 38779 – 00600,
+Nairobi, Kenya.",
+                "user_id" => 1,
 
             )
         );
         $this->command->info('Suppliers table seeded');
-
-        //Seed for metrics
-        $metric = Metric::create(
-            array(
-                "name" => "mg",
-                "description" => "milligram"
-            )
-        );
-        $this->command->info('Metrics table seeded');
-
-        //Seed for commodities
-        $commodity = Commodity::create(
-            array(
-                "name" => "Ampicillin",
-                "description" => "Capsule 250mg",
-                "metric_id" => $metric->id,
-                "unit_price" => "500",
-                "item_code" => "no clue",
-                "storage_req" => "no clue",
-                "min_level" => "100000",
-                "max_level" => "400000")
-        );
-        $this->command->info('Commodities table seeded');
-        
-        //Seed for receipts
-        $receipt = Receipt::create(
-            array(
-                "commodity_id" => $commodity->id,
-                "supplier_id" => $supplier->id, 
-                "quantity" => "130000",
-                "batch_no" => "002720",
-                "expiry_date" => "2018-10-14", 
-                "user_id" => "1")
-        );
-        $this->command->info('Receipts table seeded');
-        
-        //Seed for Top Up Request
-        $topUpRequest = TopupRequest::create(
-            array(
-                "commodity_id" => $commodity->id,
-                "test_category_id" => 1,
-                "order_quantity" => "1500",
-                "user_id" => 1,
-                "remarks" => "-")
-        );
-        $this->command->info('Top Up Requests table seeded');
-
-        //Seed for Issues
-        Issue::create(
-            array(
-                "receipt_id" => $receipt->id,
-                "topup_request_id" => $topUpRequest->id,
-                "quantity_issued" => "1700",
-                "issued_to" => 1,
-                "user_id" => 1,
-                "remarks" => "-")
-        );
-        $this->command->info('Issues table seeded');
 
         //Seed for diseases
         $malaria = Disease::create(array('name' => "Malaria"));
@@ -1655,7 +1600,7 @@ class TestDataSeeder extends DatabaseSeeder
         $this->command->info("Control results table seeded");
 
         /* Require Verifications table */
-        RequireVerification::create(["verification_required" => "1"]);
+        RequireVerification::create(["verification_required" => "1", "verification_required_from"=>'6:00 PM', 'verification_required_to' => '6:00 PM']);
         $this->command->info('Require Verifications table seeded');
 
     }
