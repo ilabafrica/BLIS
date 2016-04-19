@@ -126,9 +126,5 @@ class ConfigSettingSeeder extends DatabaseSeeder
             DB::table('equip_config')->insert($prop);
         }
         $this->command->info("Equipment config table seeded");
-
-        /* Require Verifications table */
-        RequireVerification::create(["verification_required" => "0", "verification_required_from"=>'6:00 PM', 'verification_required_to' => '6:00 PM']);
-        $this->command->info('Require Verifications table seeded');
     }
 }
