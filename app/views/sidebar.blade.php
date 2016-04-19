@@ -1,6 +1,6 @@
 @section("sidebar")
 <?php
-	$active = array("","","","","","", "", "", "");
+	$active = array("","","","","","", "", "", "", "");
 	$key = explode("?",str_replace("/", "?", Request::path()));
 	switch ($key[0]) {
 		case 'home': $active[0] = "active"; break;
@@ -51,22 +51,11 @@
 	}
 ?>
 	<ul class="nav nav-sidebar">
-	@if(Entrust::can('can_access_ccc_reports'))
+	@if(Entrust::can('can_access_ccc_reports') && Entrust::can('view_reports'))
 		<li>
 			<div class="main-menu {{$active[5]}}">
-				<a href="{{ URL::route('reports.patient.index')}}">
+				<a href="{{ URL::route('reports.daily.log')}}">
 					<span class="glyphicon glyphicon-stats"></span> {{ Lang::choice('messages.report', 2)}}</a>
-			</div>
-			<div class="sub-menu {{$active[5]}}">
-				<div class="sub-menu-title">{{trans('messages.daily-reports')}}</div>
-				<ul class="sub-menu-items">
-					<li>
-						<div><a href="{{ URL::route('reports.daily.log')}}">
-							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.daily-log')}}</a>
-						</div>
-					</li>
-				</ul>
 			</div>
 		</li>
 	@else
