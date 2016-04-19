@@ -667,4 +667,5 @@ return array(
     'failure-delete-record'         =>  'Encountered error while attempting to delete record. Record in use',
     'insufficient-stock'            =>  'Quantity in stock is less that quantity issued. Please add stock.',
     'issued-greater-than-ordered'   =>  'Attempting to issue more stock than ordered. Please check your values.',
+    'facility'                      =>  'Facility|Facilities',
 );
