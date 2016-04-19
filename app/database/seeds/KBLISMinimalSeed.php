@@ -113,6 +113,7 @@ class KBLISMinimalSeed extends Seeder
             Role::create($role);
         }
         $this->command->info('Roles table seeded');
+
     }
 
 }

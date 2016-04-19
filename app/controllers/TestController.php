@@ -346,18 +346,9 @@ class TestController extends \BaseController {
 			}
 		}
 
-		$info =  new stdclass();
 		//Fire of entry saved/edited event
-		$verification = RequireVerification::get()->first();
-		if ($verification->allowProbativeResults()) {
-			Event::fire('test.saved', array($testID));
-			$info->info = trans('messages.success-saving-results');
-		}
-		else {
-			//Alert user of the fact that results will not be sent 
-			//until they are verified.
-			$info->danger = trans('messages.verifification-warning');
-		}
+		Event::fire('test.saved', array($testID));
+
 		$input = Session::get('TESTS_FILTER_INPUT');
 		Session::put('fromRedirect', 'true');
 
@@ -368,10 +359,10 @@ class TestController extends \BaseController {
 			$pageParts = explode('=', $urlParts['page']);
 			$input['page'] = $pageParts[1];
 		}
-		
+
 		// redirect
 		return Redirect::action('TestController@index')
-					->with('message', $info)
+					->with('message', trans('messages.success-saving-results'))
 					->with('activeTest', array($test->id))
 					->withInput($input);
 	}
@@ -416,11 +407,8 @@ class TestController extends \BaseController {
 
 		//Fire of entry verified event
 		Event::fire('test.verified', array($testID));
-		$url = Session::get('SOURCE_URL');
 
-		return Redirect::back()
-			->with('message', trans('messages.success-verifying-results'))
-			->with('test', $test);
+		return View::make('test.viewDetails')->with('test', $test);
 	}
 
 	/**

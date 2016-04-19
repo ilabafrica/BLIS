@@ -7,11 +7,7 @@
         </ol>
     </div>
     @if (Session::has('message'))
-        @if(isset(Session::get('message')->danger))
-            <div class="alert alert-danger">{{ trans(Session::get('message')->danger) }}</div>
-        @elseif(isset(Session::get('message')->info))
-            <div class="alert alert-info">{{ trans(Session::get('message')->info) }}</div>
-        @endif
+        <div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
     @endif
 
     <div class='container-fluid'>
