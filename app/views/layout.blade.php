@@ -13,6 +13,7 @@
         <script type="text/javascript" src="{{ URL::asset('js/jquery-ui-min.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('js/jquery.dataTables.js') }}"></script>
+        <script type="text/javascript" src="{{ URL::asset('js/bootstrap-timepicker.min.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('js/dataTables.bootstrap.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('js/script.js') }} "></script>
         <!-- jQuery barcode script -->

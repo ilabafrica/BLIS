@@ -9,6 +9,7 @@
 		case 'labconfig': 
 		case 'instrument':
 		case 'reportconfig':
+		case 'requireverification':
 		case 'barcode':
 		case 'blisclient':
 		case 'facility': 
@@ -102,6 +103,14 @@
 							<span class="glyphicon glyphicon-tag"></span>
 							{{ trans('messages.surveillance')}}</a>
 						</div>
+					</li>
+				</ul>
+				<ul class="sub-menu-items">
+					<li>
+						<div><a href="{{ URL::route("requireverification.edit") }}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{ trans('messages.require-verification')}}</a>
+							</div>
 					</li>
 				</ul>
 				<ul class="sub-menu-items">

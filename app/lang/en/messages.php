@@ -343,6 +343,7 @@ return array(
     'enter-test-results' => 'Enter Test Results',
     'save-test-results' => 'Save Results',
     'success-saving-results' => 'The results successfully saved!',
+    'success-verifying-results' => 'The results has been successfully verified!',
     'test-results' => 'Results',
 
     /** 
@@ -486,6 +487,13 @@ return array(
     'new-disease' => 'New Disease',
     'successfully-updated-facility' => 'Facility was successfully updated!',
     'successfully-deleted-facility' => 'Facility was successfully deleted!',
+    'require-verification' => 'Verification',
+    'success-updating-verification-config' => 'Verification Configuration Successfully Updated',
+    'require-verification-to-send' => 'Verify to Send Results',
+    'specify-period' => 'Verification Hours',
+    'twenty-four-hours' => 'Always',
+
+
 
     /*
     *   Instrumentation
@@ -668,4 +676,6 @@ return array(
     'insufficient-stock'            =>  'Quantity in stock is less that quantity issued. Please add stock.',
     'issued-greater-than-ordered'   =>  'Attempting to issue more stock than ordered. Please check your values.',
     'facility'                      =>  'Facility|Facilities',
+
+    'verifification-warning'        =>  'Please note : The results  will not be sent to the HMIS until the results are verified!',
 );

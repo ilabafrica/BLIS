@@ -404,9 +404,16 @@ $(function(){
 				$('#summary').addClass('hidden');
 			}
 		});
-
-
-
+		$('#timepickerfrom').timepicker({
+			template: false,
+			showInputs: false,
+			minuteStep: 5
+		});
+		$('#timepickerto').timepicker({
+			template: false,
+			showInputs: false,
+			minuteStep: 5
+		});
 });
 	/**
 	 *-----------------------------------
@@ -743,11 +750,19 @@ $(function(){
 		else
 			$(className).hide();
 	}
+	function toggleInverse(className, obj){
+		var $input = $(obj);
+		if($input.prop('checked'))
+			$(className).hide();
+		else
+			$(className).show();
+	}
 	/*End toggle function*/
 	/*Toggle susceptibility tables*/
 	function showSusceptibility(id){
 		$('#drugSusceptibilityForm_'+id).toggle(this.checked);
 	}
+
 	/*End toggle susceptibility*/
 	/* Fetch equipment details without page reload */
 	function fetch_equipment_details()
