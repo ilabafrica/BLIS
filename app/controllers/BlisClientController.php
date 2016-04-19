@@ -135,25 +135,25 @@ class BlisClientController extends \BaseController {
 			}
 			$source = $client->feed($client->feed_source);
 			// Part 1
-			$file = 'BLISInterfaceClient/part1.txt';
+			$file = public_path().'/BLISInterfaceClient/part1.txt';
 			$current = file_get_contents($file);
 			$config_p1 = str_replace("--FS--", $source, $current);
 
 			//Part2
 			if ($source == "RS232"){
-				$file = 'BLISInterfaceClient/rs232.txt';
+				$file = public_path().'/BLISInterfaceClient/rs232.txt';
 			}
 			else if ($source == "TEXT"){
-				$file = 'BLISInterfaceClient/flatfile.txt';
+				$file = public_path().'/BLISInterfaceClient/flatfile.txt';
 			}
 			else if ($source == "MSACCESS"){
-				$file = 'BLISInterfaceClient/msaccess.txt';
+				$file = public_path().'/BLISInterfaceClient/msaccess.txt';
 			}
 			else if ($source == "HTTP"){
-				$file = 'BLISInterfaceClient/http.txt';
+				$file = public_path().'/BLISInterfaceClient/http.txt';
 			}
 			else if ($source == "TCP/IP"){
-				$file = 'BLISInterfaceClient/tcpip.txt';
+				$file = public_path().'/BLISInterfaceClient/tcpip.txt';
 			}
 
 			$current = file_get_contents($file);
@@ -166,20 +166,20 @@ class BlisClientController extends \BaseController {
 
 
 			//Part 3
-			$file = 'BLISInterfaceClient/part3.txt';
+			$file = public_path().'/BLISInterfaceClient/part3.txt';
 			$current = file_get_contents($file);
 			$config_p3 = str_replace("--BLIS_URL--", 'http://'.$_SERVER['HTTP_HOST'], $current);
 
 
 			//Part 4
-			$file = 'BLISInterfaceClient/part4.txt';
+			$file = public_path().'/BLISInterfaceClient/part4.txt';
 			$current = file_get_contents($file);
 			$config_p4 = str_replace("--EQUIP_NAME--", $client->equipment_name, $current);
 
 
 			//Concatenated file
 			$config_file_content = $config_p1."\n".$config_p2."\n".$config_p3."\n".$config_p4;
-			$file2 = 'BLISInterfaceClient/BLISInterfaceClient.ini';
+			$file2 = public_path().'/BLISInterfaceClient/BLISInterfaceClient.ini';
 			file_put_contents($file2, $config_file_content);
 			$url = Session::get('SOURCE_URL');
 	            
