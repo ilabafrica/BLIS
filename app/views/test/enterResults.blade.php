@@ -242,10 +242,10 @@
                                 </table>
                                 {{ Form::close() }}
                                 @endforeach
-                              </div>
-                            </div> <!-- ./ panel-body -->
+                            </div><!-- ./ panel-body -->
                         </div>
                         @endif
+                        </div>
                         <div class="col-md-6">
                             <div class="panel panel-info">  <!-- Patient Details -->
                                 <div class="panel-heading">
