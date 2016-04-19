@@ -14,5 +14,4 @@ class DatabaseSeeder extends Seeder {
 		$this->call('TestDataSeeder');
 		$this->call('ConfigSettingSeeder');
 	}
-
 }
