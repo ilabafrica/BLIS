@@ -5,6 +5,24 @@ class KBLISSeeder extends DatabaseSeeder
     public function run()
     {
 
+         /* Users table */
+        $usersData = array(
+            array(
+                "username" => "administrator", "password" => Hash::make("password"), "email" => "admin@kblis.org",
+                "name" => "kBLIS Administrator", "designation" => "Administrator"
+            ),
+            array(
+                "username" => "external", "password" => Hash::make("password"), "email" => "admin@kblis.org",
+                "name" => "External System User", "designation" => "Administrator", "image" => "/i/users/user-2.jpg"
+            ),
+        );
+
+        foreach ($usersData as $user)
+        {
+            $users[] = User::create($user);
+        }
+        $this->command->info('users seeded');
+
         /* Permissions table */
         $permissions = array(
             array("name" => "view_names", "display_name" => "Can view patient names"),
@@ -52,8 +70,8 @@ class KBLISSeeder extends DatabaseSeeder
         }
         //Assign role Administrator to administrators
         User::find(1)->attachRole($role1);
-        User::find(8)->attachRole($role1);
-        User::find(10)->attachRole($role1);
+        //User::find(8)->attachRole($role1);
+        //User::find(10)->attachRole($role1);
 
 
         $role2 = Role::find(2);//Technologist
@@ -76,7 +94,7 @@ class KBLISSeeder extends DatabaseSeeder
 
         //Assign role Technologist to the other users
         User::find(2)->attachRole($role2);
-        User::find(5)->attachRole($role2);
+       /* User::find(5)->attachRole($role2);
         User::find(12)->attachRole($role2);
         User::find(18)->attachRole($role2);
         User::find(23)->attachRole($role2);
@@ -90,21 +108,73 @@ class KBLISSeeder extends DatabaseSeeder
         User::find(161)->attachRole($role2);
         User::find(162)->attachRole($role2);
         User::find(163)->attachRole($role2);
-        User::find(164)->attachRole($role2);
+        User::find(164)->attachRole($role2);*/
 
-        /* Instruments table */
+        /* Instruments table 
         $instrumentsData = array(
             "name" => "Celltac F Mek 8222",
             "description" => "Automatic analyzer with 22 parameters and WBC 5 part diff Hematology Analyzer",
             "driver_name" => "KBLIS\\Plugins\\CelltacFMachine",
             "ip" => "192.168.1.12",
             "hostname" => "HEMASERVER"
+        );*/
+
+        //$instrument = Instrument::create($instrumentsData);
+        //$instrument->testTypes()->attach(array(176)); XXX ZEEK there is not test type can't attach due to foreign key constraint
+
+       // $this->command->info('Instruments table seeded');
+
+        /* Measure Types */
+        $measureTypes = array(
+            array("id" => "1", "name" => "Numeric Range"),
+            array("id" => "2", "name" => "Alphanumeric Values"),
+            array("id" => "3", "name" => "Autocomplete"),
+            array("id" => "4", "name" => "Free Text")
         );
 
-        $instrument = Instrument::create($instrumentsData);
-        $instrument->testTypes()->attach(array(176));
+        foreach ($measureTypes as $measureType)
+        {
+            MeasureType::create($measureType);
+        }
+        $this->command->info('measure_types seeded');
 
-        $this->command->info('Instruments table seeded');
+        /* Specimen Status table */
+        $specimen_statuses = array(
+          array("id" => "1", "name" => "specimen-not-collected"),
+          array("id" => "2", "name" => "specimen-accepted"),
+          array("id" => "3", "name" => "specimen-rejected")
+        );
+        foreach ($specimen_statuses as $specimen_status)
+        {
+            SpecimenStatus::create($specimen_status);
+        }
+        $this->command->info('specimen_statuses seeded');
+
+         /* Test Phase table */
+        $test_phases = array(
+          array("id" => "1", "name" => "Pre-Analytical"),
+          array("id" => "2", "name" => "Analytical"),
+          array("id" => "3", "name" => "Post-Analytical")
+        );
+        foreach ($test_phases as $test_phase)
+        {
+            TestPhase::create($test_phase);
+        }
+        $this->command->info('test_phases seeded');
+
+        /* Test Status table */
+        $test_statuses = array(
+          array("id" => "1","name" => "not-received","test_phase_id" => "1"),//Pre-Analytical
+          array("id" => "2","name" => "pending","test_phase_id" => "1"),//Pre-Analytical
+          array("id" => "3","name" => "started","test_phase_id" => "2"),//Analytical
+          array("id" => "4","name" => "completed","test_phase_id" => "3"),//Post-Analytical
+          array("id" => "5","name" => "verified","test_phase_id" => "3")//Post-Analytical
+        );
+        foreach ($test_statuses as $test_status)
+        {
+            TestStatus::create($test_status);
+        }
+        $this->command->info('test_statuses seeded');
     }
 
 }
