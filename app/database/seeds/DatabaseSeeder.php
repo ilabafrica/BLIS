@@ -13,5 +13,6 @@ class DatabaseSeeder extends Seeder {
 		// $this->call('KBLISSeeder');
 		$this->call('TestDataSeeder');
 		$this->call('ConfigSettingSeeder');
+		// $this->call('CCCSeeder');
 	}
 }

@@ -1,6 +1,6 @@
 @section("sidebar")
 <?php
-	$active = array("","","","","","", "", "", "");
+	$active = array("","","","","","", "", "", "", "");
 	$key = explode("?",str_replace("/", "?", Request::path()));
 	switch ($key[0]) {
 		case 'home': $active[0] = "active"; break;
@@ -52,6 +52,14 @@
 	}
 ?>
 	<ul class="nav nav-sidebar">
+	@if(Entrust::can('can_access_ccc_reports') && Entrust::can('view_reports'))
+		<li>
+			<div class="main-menu {{$active[5]}}">
+				<a href="{{ URL::route('reports.daily.log')}}">
+					<span class="glyphicon glyphicon-stats"></span> {{ Lang::choice('messages.report', 2)}}</a>
+			</div>
+		</li>
+	@else
 		<li>
 			<div class="main-menu {{$active[0]}}">
 				<a href="{{ URL::route('user.home')}}" title="{{trans('messages.home')}}">
@@ -357,27 +365,28 @@
 			</div>
 			<div class="sub-menu {{$active[8]}}">
 				<ul class="sub-menu-items">
-						<li>
-							<div>
-								<a href="{{ URL::route('control.resultsIndex') }}">
-									<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.controlresults', 2)}}</a>
-							</div>
-						</li>
-						<li>
-							<div>
-								<a href="{{ URL::route('control.index') }}">
-									<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.control', 2)}}</a>
-							</div>
-						</li>
-						<li>
-							<div>
-								<a href="{{ URL::route('lot.index')}}">
-									<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.lot', 2)}}</a>
-							</div>
-						</li>
+					<li>
+						<div>
+							<a href="{{ URL::route('control.resultsIndex') }}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.controlresults', 2)}}</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route('control.index') }}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.control', 2)}}</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route('lot.index')}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.lot', 2)}}</a>
+						</div>
+					</li>
 				</ul>
 			</div>
 		</li>
 		@endif
+	@endif
 	</ul>
 @show

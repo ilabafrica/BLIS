@@ -57,13 +57,13 @@
 				<div class="col-sm-2">
 				    <label class="radio-inline">
 						{{ Form::radio('records', 'patients', false, array('data-toggle' => 'radio',
-						  'id' => 'patients')) }} {{trans('messages.patient-records')}}
+						  'id' => 'patients', Entrust::can('can_access_ccc_reports')?'disabled':'' )) }} {{trans('messages.patient-records')}}
 					</label>
 				</div>
 				<div class="col-sm-2">
 				    <label class="radio-inline">
 						{{ Form::radio('records', 'rejections', false, array('data-toggle' => 'radio',
-						  'id' => 'specimens')) }} {{trans('messages.rejected-specimen')}}
+						  'id' => 'specimens', Entrust::can('can_access_ccc_reports')?'disabled':'' )) }} {{trans('messages.rejected-specimen')}}
 					</label>
 				</div>
 				<div class="col-sm-2">
@@ -87,6 +87,7 @@
 		  	</div>
 	  	</div>
   	</div>
+  	@if(!Entrust::can('can_access_ccc_reports'))
   	<div class='row spacer'>
 	  	<div class="col-sm-6">
 	    	<div class="row">
@@ -113,6 +114,10 @@
 			</div>
 		</div>
 	</div>
+	@else
+		{{ Form::hidden('section_id', TestCategory::getTestCatIdByName('VIROLOGY')) }}
+		{{ Form::hidden('test_type', TestType::getTestTypeIdByTestName('Viral Load')) }}
+	@endif
 	{{ Form::close() }}
 </div>
 <br />
