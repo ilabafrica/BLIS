@@ -10,9 +10,9 @@ class DatabaseSeeder extends Seeder {
 	public function run()
 	{
 		Eloquent::unguard();
-		$this->call('KBLISSeeder');
-		//$this->call('TestDataSeeder');
-		
+		//$this->call('KBLISSeeder');//for  itech's intitial setup. comment out the rest
+		$this->call('TestDataSeeder');
+		$this->call('ConfigSettingSeeder');
+		// $this->call('CCCSeeder');
 	}
-
 }

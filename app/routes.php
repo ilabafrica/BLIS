@@ -118,6 +118,15 @@ Route::group(array("before" => "auth"), function()
             "as"   => "instrument.importDriver",
             "uses" => "InstrumentController@importDriver"
         ));
+        Route::get("/requireverification", array(
+            "as"   => "requireverification.edit",
+            "uses" => "RequireVerificationController@edit"
+        ));
+
+        Route::put("/requireverification", array(
+            "as"   => "requireverification.update",
+            "uses" => "RequireVerificationController@update"
+        ));
     });
     Route::any("/test", array(
         "as"   => "test.index",
@@ -247,6 +256,20 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reportconfig.disease",
             "uses" => "ReportController@disease"
         ));
+
+        Route::resource("barcode", "BarcodeController");
+        Route::any("/blisclient", array(
+            "as"   => "blisclient.index",
+            "uses" => "BlisClientController@index"
+        ));
+        Route::any("/blisclient/details", array(
+            "as"   => "blisclient.details",
+            "uses" => "BlisClientController@details"
+        ));
+        Route::any("/blisclient/properties", array(
+            "as"   => "blisclient.properties",
+            "uses" => "BlisClientController@properties"
+        ));
     });
     
     //  Check if able to manage reports
@@ -297,6 +320,16 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.aggregate.userStatistics",
             "uses" => "ReportController@userStatistics"
         ));
+
+        Route::any("/moh706", array(
+            "as"   => "reports.aggregate.moh706",
+            "uses" => "ReportController@moh706"
+        ));
+
+        Route::any("/cd4", array(
+            "as"   => "reports.aggregate.cd4",
+            "uses" => "ReportController@cd4"
+        ));
         
         Route::get("/qualitycontrol", array(
             "as"   => "reports.qualityControl",
@@ -313,6 +346,10 @@ Route::group(array("before" => "auth"), function()
         Route::post("/inventory", array(
             "as"   => "reports.inventory",
             "uses" => "ReportController@stockLevel"
+        ));
+        Route::any("/rejection", array(
+            "as"   => "reports.aggregate.rejection",
+            "uses" => "ReportController@specimenRejectionChart"
         ));
     });
     Route::group(array("before" => "checkPerms:manage_qc"), function()
@@ -392,12 +429,6 @@ Route::group(array("before" => "auth"), function()
             "as"   => "issue.dispatch",
             "uses" => "IssueController@dispatch"
         ));
-        //Metrics
-        Route::resource('metric', 'MetricController');
-        Route::get("/metric/{id}/delete", array(
-            "as"   => "metric.delete",
-            "uses" => "MetricController@delete"
-        ));
         //Suppliers
         Route::resource('supplier', 'SupplierController');
         
@@ -405,11 +436,53 @@ Route::group(array("before" => "auth"), function()
             "as"   => "supplier.delete",
             "uses" => "SupplierController@delete"
         ));
-        //Receipts
-        Route::resource('receipt', 'ReceiptController');
-        Route::get("/receipt/{id}/delete", array(
-            "as"   => "receipt.delete",
-            "uses" => "ReceiptController@delete"
+        /*
+        *   Routes for items
+        */
+        Route::resource('item', 'ItemController');
+        Route::get("/item/{id}/delete", array(
+            "as"   => "item.delete",
+            "uses" => "ItemController@delete"
+        ));
+        /*
+        *   Routes for stocks
+        */
+        Route::resource('stock', 'StockController');
+        Route::any("stock/{id}/log", array(
+            "as"   => "stocks.log",
+            "uses" => "StockController@index"
+        ));
+        Route::any("stock/{id}/create", array(
+            "as"   => "stocks.create",
+            "uses" => "StockController@create"
+        ));
+        Route::any("stock/{id}/usage/{req?}", array(
+            "as"   => "stocks.usage",
+            "uses" => "StockController@usage"
+        ));
+        Route::post("stock/saveusage", array(
+            "as"   => "stock.saveUsage",
+            "uses" => "StockController@stockUsage"
+        ));
+        Route::any("stock/{id}/show", array(
+            "as"   => "stocks.show",
+            "uses" => "StockController@show"
+        ));
+        Route::any("stock/{id}/lot", array(
+            "as"   => "stocks.lot",
+            "uses" => "StockController@lot"
+        ));
+        Route::any("lot/usage", array(
+            "as"   => "lot.update",
+            "uses" => "StockController@lotUsage"
+        ));
+        /*
+        *   Routes for requests
+        */
+        Route::resource('request', 'TopupController');
+        Route::get("/request/{id}/delete", array(
+            "as"   => "request.delete",
+            "uses" => "TopupController@delete"
         ));
     });
 });
