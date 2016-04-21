@@ -28,6 +28,10 @@
                 {{ Form::select('item_id', $items, '', array('class' => 'form-control')) }}
             </div>
             <div class="form-group">
+                {{ Form::label('quantity-remaining', trans('messages.quantity-remaining')) }}
+                {{ Form::text('quantity_remaining', Input::old('quantity_remaining'), array('class' => 'form-control')) }}
+            </div>
+            <div class="form-group">
                 {{ Form::label('test-category', Lang::choice('messages.test-category', 1)) }}
                 {{ Form::select('test_category_id', $testCategories, '', array('class' => 'form-control')) }}
             </div>            

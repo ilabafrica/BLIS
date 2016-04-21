@@ -25,6 +25,7 @@
 			<thead>
 				<tr>
 					<th>{{ Lang::choice('messages.item', 1) }}</th>
+					<th>{{ trans('messages.quantity-remaining') }}</th>
 					<th>{{ Lang::choice('messages.test-category', 1) }}</th>
 					<th>{{ trans('messages.quantity') }}</th>
 					<th>{{ trans('messages.status') }}</th>
@@ -39,6 +40,7 @@
                         @endif
                     >
                  	<td>{{ $value->item->name }}</td>
+                 	<td>{{ $value->quantity_remaining }}</td>
                  	<td>{{ $value->testCategory->name }}</td>
                  	<td>{{ $value->quantity_ordered }}</td>
                  	<td>@if(!$value->usage->first())<span class="label label-default">{{ trans('messages.not-issued') }}</span>@else <button class="btn btn-success btn-sm" type="button"> {{ trans('messages.issued') }} <span class="badge">{{ $value->issued() }}</span></button> @endif</td>
