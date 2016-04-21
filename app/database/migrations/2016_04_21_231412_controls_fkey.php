@@ -14,7 +14,7 @@ class ControlsFkey extends Migration {
 	{
 		Schema::table('controls', function(Blueprint $table)
 		{
-			$table->integer('lot_id')->unsigned()->default(1);
+			$table->integer('lot_id')->unsigned();
 			$table->foreign('lot_id')->references('id')->on('lots');
 		});
 	}
