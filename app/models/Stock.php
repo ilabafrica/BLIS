@@ -31,8 +31,10 @@ class Stock extends Eloquent
     */
     public function quantity()
     {
+        $used = 0;
     	$available = $this->quantity_supplied;
-    	$used = $this->usage->sum('quantity_used');
+        if(count($this->usage)>0)
+    	   $used = $this->usage->sum('quantity_used');
     	return $available-$used;
     }
 }
