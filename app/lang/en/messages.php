@@ -342,8 +342,8 @@ return array(
     'enter-results-title' => 'Enter Test Results',
     'enter-test-results' => 'Enter Test Results',
     'save-test-results' => 'Save Results',
-    'success-saving-results' => 'The results successfully saved!',
-    'success-verifying-results' => 'The results has been successfully verified!',
+    'success-saving-results' => 'The results have been successfully saved!',
+    'success-verifying-results' => 'The results have been successfully verified!',
     'test-results' => 'Results',
 
     /** 
