@@ -162,7 +162,7 @@
 					@endif
 				</p>
 			</strong>
-			<table class="table table-bordered">
+			<table class="table table-bordered table-responsive">
 				<tbody>
 					<tr>
 						<th>{{ trans('messages.patient-id') }}</th>
@@ -177,6 +177,7 @@
 						<th>{{ trans('messages.test-remarks') }}</th>
 						<th>{{ trans('messages.results-entry-date') }}</th>
 						<th>{{ trans('messages.verified-by') }}</th>
+						<th>{{ trans('messages.turnaround-time') }}</th>
 					</tr>
 					@forelse($tests as $key => $test)
 					<tr>
@@ -196,9 +197,10 @@
 						<td>{{ $test->interpretation }}</td>
 						<td>{{ $test->time_completed or trans('messages.pending') }}</td>
 						<td>{{ $test->verifiedBy->name or trans('messages.verification-pending') }}</td>
+						<td>{{ $test->isCompleted()?$test->getFormattedTurnaroundTime():trans('messages.pending') }}</td>
 					</tr>
 					@empty
-					<tr><td colspan="12">{{trans('messages.no-records-found')}}</td></tr>
+					<tr><td colspan="13">{{trans('messages.no-records-found')}}</td></tr>
 					@endforelse
 				</tbody>
 			</table>
