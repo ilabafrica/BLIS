@@ -17,7 +17,6 @@ class QcTables extends Migration {
                 	$table->increments('id')->unsigned();
                 	$table->string('number', 100)->unique();
                 	$table->string('description', 400)->nullable();
-                        $table->date('expiry');
                         $table->integer('instrument_id')->unsigned();
 
                         $table->foreign('instrument_id')->references('id')->on('instruments');

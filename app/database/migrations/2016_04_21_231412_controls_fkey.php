@@ -14,8 +14,14 @@ class ControlsFkey extends Migration {
 	{
 		Schema::table('controls', function(Blueprint $table)
 		{
-			$table->integer('lot_id')->unsigned();
+			$table->integer('lot_id')->unsigned()->default(0);
 			$table->foreign('lot_id')->references('id')->on('lots');
+			$table->dropForeign('controls_instrument_id_foreign');
+			$table->dropColumn('instrument_id');
+		});
+		Schema::table('lots', function(Blueprint $table)
+		{
+            $table->date('expiry')->after('instrument_id');
 		});
 	}
 
@@ -26,10 +32,10 @@ class ControlsFkey extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('controls', function(Blueprint $table)
+		/*Schema::table('controls', function(Blueprint $table)
 		{
-			//
-		});
+			$table->dropForeign('controls_instrument_id_foreign');
+			$table->dropColumn('instrument_id');
+		});*/
 	}
-
 }
