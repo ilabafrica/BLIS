@@ -37,8 +37,10 @@ class Item extends Eloquent
     */
     public function quantity()
     {
+        $used = 0;
         $available = $this->stocks->sum('quantity_supplied');
-        $used = Usage::whereIn('stock_id', $this->stocks->lists('id'))->sum('quantity_used');
+        if(count($this->stocks)>0)
+            $used = Usage::whereIn('stock_id', $this->stocks->lists('id'))->sum('quantity_used');
         return $available-$used;
     }
 }
