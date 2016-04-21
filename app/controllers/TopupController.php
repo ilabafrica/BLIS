@@ -45,6 +45,7 @@ class TopupController extends \BaseController {
 			// store
 			$request = new Topup;
 			$request->item_id = Input::get('item_id');
+			$request->quantity_remaining = Input::get('quantity_remaining');
 			$request->test_category_id = Input::get('test_category_id');
 			$request->quantity_ordered = Input::get('quantity_ordered');
 			$request->remarks = Input::get('remarks');
@@ -109,6 +110,7 @@ class TopupController extends \BaseController {
 		// Update
 		$request = Topup::find($id);
 		$request->item_id = Input::get('item_id');
+		$request->quantity_remaining = Input::get('quantity_remaining');
 		$request->test_category_id = Input::get('test_category_id');
 		$request->quantity_ordered = Input::get('quantity_ordered');
 		$request->remarks = Input::get('remarks');

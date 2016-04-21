@@ -26,6 +26,8 @@
 		<div class="panel-body">
 			<div class="display-details">
 				<h3 class="view"><strong>{{ Lang::choice('messages.item', 1) }}:</strong>{{ $request->item->name }} </h3>
+				<p class="view-striped"><strong>{{ trans('messages.quantity-remaining') }}:</strong>
+					{{ $request->quantity_remaining }}</p>
 				<p class="view-striped"><strong>{{ Lang::choice('messages.test-category', 1) }}:</strong>
 					{{ $request->testCategory->name }}</p>
 				<p class="view-striped"><strong>{{ trans('messages.quantity') }}:</strong>

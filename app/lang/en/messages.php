@@ -678,4 +678,5 @@ return array(
     'facility'                      =>  'Facility|Facilities',
 
     'verifification-warning'        =>  'Please note : The results  will not be sent to the HMIS until the results are verified!',
+    'quantity-remaining'             =>  'Quantity Remaining',
 );
