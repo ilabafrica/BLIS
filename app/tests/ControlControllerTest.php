@@ -31,7 +31,7 @@ class ControlControllerTest extends TestCase {
 		$response = $this->action('GET', 'ControlController@create');
 		$this->assertTrue($response->isOk());
 		$this->assertViewHas('measureTypes');
-		$this->assertViewHas('lot_id');
+		$this->assertViewHas('lots');
 	}
 
 	/**
