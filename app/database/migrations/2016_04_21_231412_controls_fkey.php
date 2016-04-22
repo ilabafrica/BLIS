@@ -16,12 +16,10 @@ class ControlsFkey extends Migration {
 		{
 			$table->integer('lot_id')->unsigned()->default(0);
 			$table->foreign('lot_id')->references('id')->on('lots');
-			$table->dropForeign('controls_instrument_id_foreign');
-			$table->dropColumn('instrument_id');
 		});
 		Schema::table('lots', function(Blueprint $table)
 		{
-            $table->date('expiry')->after('instrument_id');
+			$table->date('expiry')->after('instrument_id')->default('00:00:00');;
 		});
 	}
 
