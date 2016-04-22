@@ -658,6 +658,8 @@ return array(
     'uni'   =>  'Uni-directional',
     'bi'    =>  'Bi-directional',
     'select-equipment'  =>  'Select Equipment to be interfaced through BLISInterfaceClient',
+    'config-successfully-updated'    =>  'Configuration successfully updated.',
+    'equip-config-saved'  =>  'Equipment configuration has been saved in ../BLISInterfaceClient/BLISInterfaceClient.ini',
     /**
     * cd4 report
     */
