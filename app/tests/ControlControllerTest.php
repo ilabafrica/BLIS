@@ -46,7 +46,7 @@ class ControlControllerTest extends TestCase {
 		$testControl = Control::orderBy('id', 'desc')->first();
 		$this->assertEquals($testControl->name, $this->inputStoreControls['name']);
 		$this->assertEquals($testControl->description, $this->inputStoreControls['description']);
-		$this->assertEquals($testControl->lot_id_id, $this->inputStoreControls['lot_id']);
+		$this->assertEquals($testControl->lot_id, $this->inputStoreControls['lot_id']);
 
 		$testControlMeasures = $testControl->controlMeasures;
 
@@ -69,7 +69,7 @@ class ControlControllerTest extends TestCase {
 		$testControl = Control::orderBy('id', 'desc')->first();
 		$this->assertEquals($testControl->name, $this->inputUpdateControls['name']);
 		$this->assertEquals($testControl->description, $this->inputUpdateControls['description']);
-		$this->assertEquals($testControl->lot_id_id, $this->inputUpdateControls['lot_id']);
+		$this->assertEquals($testControl->lot_id, $this->inputUpdateControls['lot_id']);
 
 		$testControlMeasures = $testControl->controlMeasures;
 

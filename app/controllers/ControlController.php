@@ -37,7 +37,7 @@ class ControlController extends \BaseController {
 	{
 		//Validation -checking that name is unique among the un soft-deleted ones
 		$rules = array('name' => 'required|unique:controls,name,NULL,id,deleted_at,null',
-		 			'lot' => 'required|non_zero_key',
+		 			'lot_id' => 'required|non_zero_key',
 		 			'new-measures' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -48,7 +48,7 @@ class ControlController extends \BaseController {
 			$control = new Control;
 			$control->name = Input::get('name');
 			$control->description = Input::get('description');
-			$control->lot_id = Input::get('lot');
+			$control->lot_id = Input::get('lot_id');
 
 			if (Input::get('new-measures')) {
 					$newMeasures = Input::get('new-measures');
@@ -114,7 +114,7 @@ class ControlController extends \BaseController {
 			$control = Control::find($id);
 			$control->name = Input::get('name');
 			$control->description = Input::get('description');
-			$control->lot_id = Input::get('lot');
+			$control->lot_id = Input::get('lot_id');
 
 			if (Input::get('new-measures')) {
 				$inputNewMeasures = Input::get('new-measures');
