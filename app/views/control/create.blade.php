@@ -31,8 +31,8 @@
 					array('class' => 'form-control', 'rows' => '3' )) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('lot', Lang::choice('messages.lot', 1)) }}
-				{{ Form::select('lot', array('') + $lots, Input::old('lot'), array('class' => 'form-control')) }}
+				{{ Form::label('lot-id', Lang::choice('messages.lot', 1)) }}
+				{{ Form::select('lot_id', array('') + $lots, Input::old('lot_id'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
 				{{ Form::label('measures', Lang::choice('messages.measure',2)) }}

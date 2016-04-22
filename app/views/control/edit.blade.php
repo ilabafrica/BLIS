@@ -36,8 +36,8 @@
 					array('class' => 'form-control', 'rows' => '2' )) }}
 			</div>
 			<div class="form-group">
-					{{ Form::label('lot', Lang::choice('messages.lot', 1)) }}
-					{{ Form::select('lot', $lots, Input::old('lot'), 
+					{{ Form::label('lot-id', Lang::choice('messages.lot', 1)) }}
+					{{ Form::select('lot_id', $lots, Input::old('lot_id'), 
 					array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
