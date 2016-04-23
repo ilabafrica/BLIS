@@ -227,6 +227,8 @@ class StockController extends \BaseController {
 	        $usage->request_id = Input::get('request_id');
 	        $usage->quantity_used = Input::get('quantity_used');
 	        $usage->date_of_usage = Input::get('date_of_usage');
+	        $usage->issued_by = Input::get('issued_by');
+	        $usage->received_by = Input::get('received_by');
 	        $usage->remarks = Input::get('remarks');
 	        $usage->user_id = Auth::user()->id;
 
@@ -275,11 +277,24 @@ class StockController extends \BaseController {
         $usage->stock_id = Input::get('stock_id');
         $usage->quantity_used = Input::get('quantity_used');
         $usage->date_of_usage = Input::get('date_of_usage');
+        $usage->issued_by = Input::get('issued_by');
+        $usage->received_by = Input::get('received_by');
         $usage->remarks = Input::get('remarks');
         $usage->user_id = Auth::user()->id;
-        $usage->save();
         $url = Session::get('SOURCE_URL');
-    
-        return Redirect::to($url)->with('message', trans('messages.record-successfully-updated'))->with('active_stock', $usage->stock->id);
+        if($usage->quantity_used>Stock::find((int)$usage->stock_id)->quantity())
+        {
+        	return Redirect::back()->with('message', trans('messages.insufficient-stock'))->withInput(Input::all());
+        }
+        else if($usage->quantity_used>Topup::find((int)$usage->request_id)->quantity_ordered)
+        {
+        	return Redirect::back()->with('message', trans('messages.issued-greater-than-ordered'))->withInput(Input::all());
+        }
+        else
+        {
+	        $usage->save();
+	    
+	        return Redirect::to($url)->with('message', trans('messages.record-successfully-updated'))->with('active_stock', $usage->stock->id);
+	    }
 	}
 }

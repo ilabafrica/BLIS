@@ -30,7 +30,9 @@
 					{{ $request->quantity_remaining }}</p>
 				<p class="view-striped"><strong>{{ Lang::choice('messages.test-category', 1) }}:</strong>
 					{{ $request->testCategory->name }}</p>
-				<p class="view-striped"><strong>{{ trans('messages.quantity') }}:</strong>
+				<p class="view-striped"><strong>{{ trans('messages.tests-done') }}:</strong>
+					{{ $request->tests_done }}</p>
+				<p class="view-striped"><strong>{{ trans('messages.order-quantity') }}:</strong>
 					{{ $request->quantity_ordered }}</p>
 				<p class="view-striped"><strong>{{ trans('messages.remarks') }}:</strong>
 					{{ $request->remarks }}</p>

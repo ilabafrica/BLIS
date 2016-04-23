@@ -45,7 +45,15 @@
                     </div>
                     @endforeach
                 </div>
-                 <div class="form-group">
+                <div class="form-group">
+                    {{ Form::label('issued-by', trans('messages.issued-by')) }}
+                    {{ Form::text('issued_by', Input::old('issued_by'), array('class' => 'form-control')) }}
+                </div>
+                <div class="form-group">
+                    {{ Form::label('received-by', trans('messages.received-by')) }}
+                    {{ Form::text('received_by', Input::old('received_by'), array('class' => 'form-control')) }}
+                </div>
+                <div class="form-group">
                     {{ Form::label('remarks', trans("messages.remarks")) }}
                     {{ Form::textarea('remarks', Input::old('remarks'), array('class' => 'form-control', 'rows' => '2')) }}
                 </div>

@@ -44,7 +44,15 @@
                     </div>
                     @endforeach
                 </div>
-                 <div class="form-group">
+                <div class="form-group">
+                    {{ Form::label('issued-by', trans('messages.issued-by')) }}
+                    {{ Form::text('issued_by', Input::old('issued_by'), array('class' => 'form-control')) }}
+                </div>
+                <div class="form-group">
+                    {{ Form::label('received-by', trans('messages.received-by')) }}
+                    {{ Form::text('received_by', Input::old('received_by'), array('class' => 'form-control')) }}
+                </div>
+                <div class="form-group">
                     {{ Form::label('remarks', trans("messages.remarks")) }}
                     {{ Form::textarea('remarks', Input::old('remarks'), array('class' => 'form-control', 'rows' => '2')) }}
                 </div>
@@ -58,9 +66,9 @@
         <div class="col-md-4">
             <ul class="list-group">
                 <li class="list-group-item"><strong>{{ Lang::choice('messages.item', 1).': '.$stock->item->name }}</strong></li>
-                <li class="list-group-item"><h6>{{ trans("messages.unit") }}<small> {{ $stock->item->unit }}</small></h6></li>
-                <li class="list-group-item"><h6>{{ trans('messages.lot-no') }}<small> {{ $stock->lot }}</small></h6></li>
-                <li class="list-group-item"><h6>{{ trans('messages.available-qty') }}<small> {{ $stock->quantity() }}</small></h6></li>                      
+                <li class="list-group-item"><h5>{{ trans("messages.unit").': '.$stock->item->unit }}</h5></li>
+                <li class="list-group-item"><h5>{{ trans('messages.lot-no').': '.$stock->lot }}</h5></li>
+                <li class="list-group-item"><h5>{{ trans('messages.available-qty').': '.$stock->quantity() }}</h5></li>                      
             </ul>
         </div>
     </div>	
