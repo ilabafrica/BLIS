@@ -36,7 +36,11 @@
                 {{ Form::select('test_category_id', $testCategories, Input::old('testCategory') ? Input::old('testCategory') : $testCategory, array('class' => 'form-control')) }}
             </div>            
             <div class="form-group">
-                {{ Form::label('quantity', trans('messages.quantity')) }}
+                {{ Form::label('tests', trans('messages.tests-done')) }}
+                {{ Form::text('tests_done', Input::old('tests_done'), array('class' => 'form-control')) }}
+            </div>           
+            <div class="form-group">
+                {{ Form::label('quantity', trans('messages.order-quantity')) }}
                 {{ Form::text('quantity_ordered', Input::old('quantity_ordered'), array('class' => 'form-control')) }}
             </div>
              <div class="form-group">

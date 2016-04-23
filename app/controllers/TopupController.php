@@ -47,6 +47,7 @@ class TopupController extends \BaseController {
 			$request->item_id = Input::get('item_id');
 			$request->quantity_remaining = Input::get('quantity_remaining');
 			$request->test_category_id = Input::get('test_category_id');
+			$request->tests_done = Input::get('tests_done');
 			$request->quantity_ordered = Input::get('quantity_ordered');
 			$request->remarks = Input::get('remarks');
 			$request->user_id = Auth::user()->id;
@@ -112,6 +113,7 @@ class TopupController extends \BaseController {
 		$request->item_id = Input::get('item_id');
 		$request->quantity_remaining = Input::get('quantity_remaining');
 		$request->test_category_id = Input::get('test_category_id');
+			$request->tests_done = Input::get('tests_done');
 		$request->quantity_ordered = Input::get('quantity_ordered');
 		$request->remarks = Input::get('remarks');
 		$request->user_id = Auth::user()->id;

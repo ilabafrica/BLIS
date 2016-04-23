@@ -16,23 +16,18 @@
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-adjust"></span>
 			{{ Lang::choice('messages.stock', 1).' '.trans('messages.details') }}
-			<div class="panel-btn">
-				<a class="btn btn-sm btn-info" href="{{ URL::route('stock.edit', array($stock->id)) }}">
-					<span class="glyphicon glyphicon-edit"></span>
-					{{ trans('messages.edit') }}
-				</a>
-			</div>
 		</div>
 		<div class="panel-body">
 			<div class="col-md-12">
 				<ul class="list-group" style="padding-bottom:5px;">
 				  	<li class="list-group-item"><strong>{{ $stock->item->name }}</strong></li>
 				  	<li class="list-group-item">
-				  		<h6>
-				  			<span>{{ trans("messages.lot-no") }}<small> {{ $stock->lot }}</small></span>
-				  			<span>{{ trans("messages.available-qty") }}<small> {{ $stock->quantity() }}</small></span>
-				  			<span>{{ trans("messages.min-level") }}<small> {{ $stock->item->min_level }}</small></span>
-				  		</h6>
+				  		<h5>
+				  			<span><strong>{{ trans("messages.lot-no").': ' }}</strong> {{ $stock->lot }}</span>
+				  			<span><strong>{{ trans("messages.available-qty").': ' }}</strong> {{ $stock->quantity() }}</span>
+				  			<span><strong>{{ trans("messages.min-level").': ' }}</strong> {{ $stock->item->min_level }}</span>
+				  			<span><strong>{{ trans("messages.max-level").': ' }}</strong> {{ $stock->item->max_level }}</span>
+				  		</h5>
 				  	</li>
 				</ul>
 			</div>
@@ -43,6 +38,9 @@
 							<th>{{ trans('messages.id') }}</th>
 							<th>{{ trans('messages.signed-out') }}</th>
 							<th>{{ trans('messages.date-of-usage') }}</th>
+							<th>{{ trans('messages.destination') }}</th>
+							<th>{{ trans('messages.issued-by') }}</th>
+							<th>{{ trans('messages.received-by') }}</th>
 							<th>{{ trans('messages.remarks') }}</th>
 							<th>{{ trans('messages.actions') }}</th>
 						</tr>
@@ -56,6 +54,9 @@
 		                 	<td>{{ $value->id }}</td>
 							<td>{{ $value->quantity_used }}</td>
 							<td>{{ $value->date_of_usage }}</td>
+							<td>{{ $value->request->testCategory->name }}</td>
+							<td>{{ $value->issued_by }}</td>
+							<td>{{ $value->received_by }}</td>
 							<td>{{ $value->remarks }}</td>
 		                 	
 							<td>
@@ -71,4 +72,5 @@
 			</div>
 		</div>
 	</div>
+	{{ Session::put('SOURCE_URL', URL::full()) }}
 @stop

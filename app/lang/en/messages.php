@@ -557,7 +557,7 @@ return array(
     'date-supplied' =>  'Date Supplied',
     'stock-usage'   =>  'Stock Usage',
     'available-qty' =>  'Available Quantity',
-    'date-of-usage' =>  'Date of Usage',
+    'date-of-usage' =>  'Date of Issue',
     'signed-out'    =>  'Quantity Signed Out',
     'lot'           =>  'Lot',
     'batch-no'      =>  'Batch No',
@@ -678,5 +678,11 @@ return array(
     'facility'                      =>  'Facility|Facilities',
 
     'verifification-warning'        =>  'Please note : The results  will not be sent to the HMIS until the results are verified!',
-    'quantity-remaining'             =>  'Quantity Remaining',
+    'quantity-remaining'            =>  'Current Balance',
+    'order-quantity'                =>  'Order Quantity',
+    'tests-done'                    =>  'Tests Done',
+    'ordered-by'                    =>  'Ordered By',
+    'issued-by'                     =>  'Issued By',
+    'received-by'                   =>  'Received By',
+    'destination'                   =>  'Destination',
 );
