@@ -34,7 +34,7 @@ class LotController extends \BaseController {
 	public function store()
 	{
 		//Validation
-		$rules = array('lot_no' => 'required|unique:lots,number',
+		$rules = array('lot_no' => 'required|unique:lots,lot_no',
 					'instrument' => 'required|non_zero_key');
 		$validator = Validator::make(Input::all(), $rules);
 
