@@ -212,7 +212,9 @@ class StockController extends \BaseController {
 		//Validate
 		$rules = array(
 			'stock_id'   => 'required:inv_usage,stock_id',
-			'request_id'   => 'required:inv_usage,request_id'
+			'request_id'   => 'required:inv_usage,request_id',
+			'issued_by'   => 'required:inv_usage,issued_by',
+			'received_by'   => 'required:inv_usage,received_by'
 		);
 		$validator = Validator::make(Input::all(), $rules);
 		//process
@@ -273,28 +275,43 @@ class StockController extends \BaseController {
 	public function lotUsage()
 	{
 		$id = Input::get('id');
-		$usage = Usage::findOrFail($id);
-        $usage->stock_id = Input::get('stock_id');
-        $usage->quantity_used = Input::get('quantity_used');
-        $usage->date_of_usage = Input::get('date_of_usage');
-        $usage->issued_by = Input::get('issued_by');
-        $usage->received_by = Input::get('received_by');
-        $usage->remarks = Input::get('remarks');
-        $usage->user_id = Auth::user()->id;
-        $url = Session::get('SOURCE_URL');
-        if($usage->quantity_used>Stock::find((int)$usage->stock_id)->quantity())
-        {
-        	return Redirect::back()->with('message', trans('messages.insufficient-stock'))->withInput(Input::all());
-        }
-        else if($usage->quantity_used>Topup::find((int)$usage->request_id)->quantity_ordered)
-        {
-        	return Redirect::back()->with('message', trans('messages.issued-greater-than-ordered'))->withInput(Input::all());
-        }
-        else
-        {
-	        $usage->save();
-	    
-	        return Redirect::to($url)->with('message', trans('messages.record-successfully-updated'))->with('active_stock', $usage->stock->id);
-	    }
+		$rules = array(
+			'stock_id'   => 'required:inv_usage,stock_id',
+			'request_id'   => 'required:inv_usage,request_id',
+			'issued_by'   => 'required:inv_usage,issued_by',
+			'received_by'   => 'required:inv_usage,received_by'
+		);
+		$validator = Validator::make(Input::all(), $rules);
+		//process
+		if($validator->fails())
+		{
+			return Redirect::back()->withErrors($validator);
+		}
+		else
+		{
+			$usage = Usage::findOrFail($id);
+	        $usage->stock_id = Input::get('stock_id');
+	        $usage->quantity_used = Input::get('quantity_used');
+	        $usage->date_of_usage = Input::get('date_of_usage');
+	        $usage->issued_by = Input::get('issued_by');
+	        $usage->received_by = Input::get('received_by');
+	        $usage->remarks = Input::get('remarks');
+	        $usage->user_id = Auth::user()->id;
+	        $url = Session::get('SOURCE_URL');
+	        if($usage->quantity_used>Stock::find((int)$usage->stock_id)->quantity())
+	        {
+	        	return Redirect::back()->with('message', trans('messages.insufficient-stock'))->withInput(Input::all());
+	        }
+	        else if($usage->quantity_used>Topup::find((int)$usage->request_id)->quantity_ordered)
+	        {
+	        	return Redirect::back()->with('message', trans('messages.issued-greater-than-ordered'))->withInput(Input::all());
+	        }
+	        else
+	        {
+		        $usage->save();
+		    
+		        return Redirect::to($url)->with('message', trans('messages.record-successfully-updated'))->with('active_stock', $usage->stock->id);
+		    }
+		}
 	}
 }
