@@ -165,7 +165,7 @@ class CelltacFMachine extends \KBLIS\Instrumentation\AbstractInstrumentor
 				print "Something went wrong: Strings in results\n";
 				return 0; 
 			}
-			$search = ['*', 'L', 'C'];
+			$search = ['*', 'L', 'C', 'H'];
 			$result =  str_replace($search, '', $result);
 		}
 
