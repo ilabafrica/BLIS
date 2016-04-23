@@ -1033,7 +1033,7 @@ class ReportController extends \BaseController {
 					'end_date' => 'date|required',
 					'control' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
-
+		$accredited = array();
 		if($validator->fails()){
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
@@ -1049,6 +1049,7 @@ class ReportController extends \BaseController {
 				->with('control', $control)
 				->with('controlTests', $controlTests)
 				->with('leveyJennings', $leveyJennings)
+				->with('accredited', $accredited)
 				->withInput(Input::all());
 		}
 	}
