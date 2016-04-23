@@ -34,7 +34,7 @@ class LotController extends \BaseController {
 	public function store()
 	{
 		//Validation
-		$rules = array('number' => 'required|unique:lots,number',
+		$rules = array('lot_no' => 'required|unique:lots,number',
 					'instrument' => 'required|non_zero_key');
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -43,7 +43,7 @@ class LotController extends \BaseController {
 		} else {
 			// Add
 			$lot = new Lot;
-			$lot->number = Input::get('number');
+			$lot->lot_no = Input::get('lot_no');
 			$lot->description = Input::get('description');
 			$lot->expiry = Input::get('expiry');
 			$lot->instrument_id = Input::get('instrument');
@@ -93,7 +93,7 @@ class LotController extends \BaseController {
 	public function update($id)
 	{
 		//Validation
-		$rules = array('number' => 'required',
+		$rules = array('lot_no' => 'required',
 					'instrument' => 'required|non_zero_key');
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -101,8 +101,8 @@ class LotController extends \BaseController {
 			return Redirect::to('lot/'.$id.'/edit')->withErrors($validator)->withInput();
 		} else {
 			// Add
-			$lot = Lot::find($id);
-			$lot->number = Input::get('number');
+			$lot = Lot::findOrFail($id);
+			$lot->lot_no = Input::get('lot_no');
 			$lot->description = Input::get('description');
 			$lot->expiry = Input::get('expiry');
 			$lot->instrument_id = Input::get('instrument');

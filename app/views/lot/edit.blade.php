@@ -25,7 +25,7 @@
 			{{ Form::model($lot, array('route' => array('lot.update', $lot->id), 'method' => 'PUT', 'id' => 'form-edit-lot')) }}
 				<div class="form-group">
 					{{ Form::label('number', trans('messages.lot-number')) }}
-					{{ Form::text('number', Input::old('number'), array('class' => 'form-control')) }}
+					{{ Form::text('lot_no', Input::old('lot_no'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">
 					{{ Form::label('description', trans('messages.description')) }}
