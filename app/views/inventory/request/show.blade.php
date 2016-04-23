@@ -34,6 +34,8 @@
 					{{ $request->tests_done }}</p>
 				<p class="view-striped"><strong>{{ trans('messages.order-quantity') }}:</strong>
 					{{ $request->quantity_ordered }}</p>
+				<p class="view-striped"><strong>{{ trans('messages.ordered-by') }}:</strong>
+					{{ $request->user->name }}</p>
 				<p class="view-striped"><strong>{{ trans('messages.remarks') }}:</strong>
 					{{ $request->remarks }}</p>
 			</div>

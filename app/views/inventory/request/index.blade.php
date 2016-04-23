@@ -30,6 +30,7 @@
 					<th>{{ trans('messages.tests-done') }}</th>
 					<th>{{ trans('messages.order-quantity') }}</th>
 					<th>{{ trans('messages.status') }}</th>
+					<th>{{ trans('messages.ordered-by') }}</th>
 					<th>{{ trans('messages.remarks') }}</th>
 					<th>{{ trans('messages.actions') }}</th>
 				</tr>
@@ -46,6 +47,7 @@
                  	<td>{{ $value->tests_done }}</td>
                  	<td>{{ $value->quantity_ordered }}</td>
                  	<td>@if(!$value->usage->first())<span class="label label-default">{{ trans('messages.not-issued') }}</span>@else <button class="btn btn-success btn-sm" type="button"> {{ trans('messages.issued') }} <span class="badge">{{ $value->issued() }}</span></button> @endif</td>
+                 	<td>{{ $value->user->name }}</td>
                  	<td>{{ $value->remarks }}</td>
                  	
 					<td>

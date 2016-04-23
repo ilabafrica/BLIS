@@ -476,8 +476,8 @@ Route::group(array("before" => "auth"), function()
             "as"   => "stocks.lot",
             "uses" => "StockController@lot"
         ));
-        Route::any("lot/usage", array(
-            "as"   => "lot.update",
+        Route::any("lt/usage", array(
+            "as"   => "lt.update",
             "uses" => "StockController@lotUsage"
         ));
         /*

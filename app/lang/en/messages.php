@@ -557,7 +557,7 @@ return array(
     'date-supplied' =>  'Date Supplied',
     'stock-usage'   =>  'Stock Usage',
     'available-qty' =>  'Available Quantity',
-    'date-of-usage' =>  'Date of Usage',
+    'date-of-usage' =>  'Date of Issue',
     'signed-out'    =>  'Quantity Signed Out',
     'lot'           =>  'Lot',
     'batch-no'      =>  'Batch No',
@@ -684,4 +684,5 @@ return array(
     'ordered-by'                    =>  'Ordered By',
     'issued-by'                     =>  'Issued By',
     'received-by'                   =>  'Received By',
+    'destination'                   =>  'Destination',
 );

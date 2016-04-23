@@ -259,13 +259,13 @@ class StockController extends \BaseController {
 	public function lot($id)
 	{
 		//	Get lot usage
-		$lot = Usage::find($id);
+		$lt = Usage::find($id);
 		//	Get Requests
 		$requests = Topup::all();
 		//	Get request
-		$request = $lot->request_id;
+		$request = $lt->request_id;
 		//show the view and pass the $stock to it
-		return View::make('inventory.stock.lot')->with('lot', $lot)->with('requests', $requests)->with('request', $request);
+		return View::make('inventory.stock.lot')->with('lt', $lt)->with('requests', $requests)->with('request', $request);
 	}
 	/**
 	 * Store a newly created resource in storage.

@@ -36,12 +36,14 @@
                 <div class="form-group">
                     {{ Form::label('request', Lang::choice('messages.top-up', 1)) }}
                     @foreach($requests as $request)
-                    <div class="radio col-sm-offset-3">
-                        <label>
-                            <input type="radio" name="request_id" id="request_id" value="{{$request->id}}" {{ ($record == $request->id||Input::old('request_id')) ? 'checked' : ''}}>
-                            {{ $request->item->name.'('.(count($request->usage)>0?$request->quantity_ordered-$request->issued():$request->quantity_ordered).') - '.$request->testCategory->name.'('.$request->remarks.')' }}
-                        </label>
-                    </div>
+                        @if( (count($request->usage)>0 && ($request->quantity_ordered-$request->issued())>0) || count($request->usage)==0)
+                        <div class="radio col-sm-offset-3">
+                            <label>
+                                <input type="radio" name="request_id" id="request_id" value="{{$request->id}}" {{ ($record == $request->id||Input::old('request_id')) ? 'checked' : ''}}>
+                                {{ $request->item->name.'('.(count($request->usage)>0?$request->quantity_ordered-$request->issued():$request->quantity_ordered).') - '.$request->testCategory->name.'('.($request->remarks?$request->remarks:$request->user->name).')' }}
+                            </label>
+                        </div>
+                        @endif
                     @endforeach
                 </div>
                 <div class="form-group">
@@ -66,9 +68,9 @@
         <div class="col-md-4">
             <ul class="list-group">
                 <li class="list-group-item"><strong>{{ Lang::choice('messages.item', 1).': '.$stock->item->name }}</strong></li>
-                <li class="list-group-item"><h5>{{ trans("messages.unit").': '.$stock->item->unit }}</h5></li>
-                <li class="list-group-item"><h5>{{ trans('messages.lot-no').': '.$stock->lot }}</h5></li>
-                <li class="list-group-item"><h5>{{ trans('messages.available-qty').': '.$stock->quantity() }}</h5></li>                      
+                <li class="list-group-item"><h5><strong>{{ trans("messages.unit").': ' }}</strong>{{ $stock->item->unit }}</h5></li>
+                <li class="list-group-item"><h5><strong>{{ trans('messages.lot-no').': ' }}</strong>{{ $stock->lot }}</h5></li>
+                <li class="list-group-item"><h5><strong>{{ trans('messages.available-qty').': ' }}</strong>{{ $stock->quantity() }}</h5></li>                      
             </ul>
         </div>
     </div>	
