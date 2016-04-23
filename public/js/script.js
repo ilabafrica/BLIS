@@ -764,18 +764,6 @@ $(function(){
 	}
 
 	/*End toggle susceptibility*/
-	/* Generate equipment config file */
-	function generateICfile(id)
-	{
-		var equipment_id = id;
-	    $.ajax({
-			url : "ajax/createconfigfile.php?equipment_id="+equipment_id,
-			async: false,
-			success : function(data) {
-				alert("Equipment configuration has been saved in ../BLISInterfaceClient/BLISInterfaceClient.ini")
-			}	
-		});
-	}
 	/* Fetch equipment details without page reload */
 	function fetch_equipment_details()
     {
@@ -789,27 +777,27 @@ $(function(){
 					var html = "<h4 class='text-center'>EQUIPMENT</h4>"+
 					"<div class='form-group'>"+
 					"<label for='equipment_name'>Equipment Name</label>"+
-					"<input type='text' class='form-control' name='equipment_name' value = '"+data.equipment_name+"' readonly><input type='hidden' id = 'equipment_id' value = '"+data.id+"'>"+
+					"<input type='text' class='form-control' id='equipment_name' value = '"+data.equipment_name+"'><input type='hidden' id = 'equipment_id' value = '"+data.id+"'>"+
 					"</div>"+
 					"<div class='form-group'>"+
 					"<label for='equipment_version'>Equipment Version</label>"+
-					"<input type='text' class='form-control' name='equipment_version' value = '"+data.equipment_version+"' readonly>"+
+					"<input type='text' class='form-control' id='equipment_version' value = '"+data.equipment_version+"'>"+
 					"</div>"+
 					"<div class='form-group'>"+
 					"<label for='lab_section'>Lab Section</label>"+
-					"<input type='text' class='form-control' name='lab_section' value = '"+data.lab+"' readonly>"+
+					"<input type='text' class='form-control' id='lab_section' value = '"+data.lab+"'>"+
 					"</div>"+
 					"<div class='form-group'>"+
 					"<label for='comm_type'>Communication Type</label>"+
-					"<input type='text' class='form-control' name='comm_type' value = '"+data.comm+"' readonly>"+
+					"<input type='text' class='form-control' id='comm_type' value = '"+data.comm+"'>"+
 					"</div>"+
 					"<div class='form-group'>"+
 					"<label for='feed_source'>Feed Source</label>"+
-					"<input type='text' class='form-control' name='feed_source' value = '"+data.feed+"' readonly>"+
+					"<input type='text' class='form-control' id='feed_source' value = '"+data.feed+"'>"+
 					"</div>"+
 					"<div class='form-group'>"+
 					"<label for='config_file'>Config File</label>"+
-					"<input type='text' class='form-control' name='config_file' value = '"+data.config_file+"' readonly>"+
+					"<input type='text' class='form-control' id='config_file' value = '"+data.config_file+"'>"+
 					"</div>"+
 					"<h4 class='text-center'>"+data.feed+" CONFIGURATIONS</h4>";
 			        $.getJSON('blisclient/properties', { client: id }, 
@@ -819,12 +807,12 @@ $(function(){
 							{
 								html +=  "<div class='form-group'>"+
 									"<label for='"+elem.config_prop+"'>"+elem.config_prop+"</label>"+
-									"<input type='text' class='form-control' name = 'prop_"+elem.prop_id+"' value = '"+elem.prop_value+"'>"+
+									"<input type='text' class='form-control' name = '"+elem.prop_id+"' value = '"+elem.prop_value+"'>"+
 									"</div>";
 							});
 							html += "<div class='form-group actions-row'>"+
-									"<button type='submit' class='btn btn-default'><span class='glyphicon glyphicon-cog' aria-hidden='true' name='generate' id='generate'></span> Generate Config File</button>"+
-								    "<button type='submit' class='btn btn-primary'><span class='glyphicon glyphicon-ok' aria-hidden='true' name='update' id='update'></span> Update Fields</button>"+
+									"<button type='button' class='btn btn-default'><span class='glyphicon glyphicon-cog' aria-hidden='true'></span> Generate Config File</button>"+
+								    "<button type='button' class='btn btn-primary'><span class='glyphicon glyphicon-ok' aria-hidden='true'></span> Update Fields</button>"+
 								    "</div>";
                             $('#eq_con_details').html(html);
 						}
