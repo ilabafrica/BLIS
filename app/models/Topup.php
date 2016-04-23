@@ -36,4 +36,11 @@ class Topup extends Eloquent
 	{
 		return $this->usage->sum('quantity_used');
 	}
+	/**
+	 * User relationship
+	 */
+	public function user()
+	{
+		return $this->belongsTo('User');
+	}
 }

@@ -270,10 +270,6 @@ Route::group(array("before" => "auth"), function()
             "as"   => "blisclient.properties",
             "uses" => "BlisClientController@properties"
         ));
-        Route::any("/blisclient/update", array(
-            "as"   => "blisclient.update",
-            "uses" => "BlisClientController@update"
-        ));
     });
     
     //  Check if able to manage reports
@@ -476,8 +472,8 @@ Route::group(array("before" => "auth"), function()
             "as"   => "stocks.lot",
             "uses" => "StockController@lot"
         ));
-        Route::any("lot/usage", array(
-            "as"   => "lot.update",
+        Route::any("lt/usage", array(
+            "as"   => "lt.update",
             "uses" => "StockController@lotUsage"
         ));
         /*

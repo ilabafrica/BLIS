@@ -13,10 +13,10 @@ class Usage extends Eloquent
         return $this->belongsTo('Stock');
     }
     /*
-    *   Relationship with requests
+    *   Relationship with request
     */
-    public function requests()
+    public function request()
     {
-        return $this->hasMany('Topup');
+        return $this->belongsTo('Topup');
     }
 }
