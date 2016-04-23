@@ -22,8 +22,8 @@
 				</div>
 			@endif
 			<div class="form-group">
-				{{ Form::label('number', Lang::choice('messages.lot-number',1)) }}
-                {{ Form::text('number', Input::old('number'), array('class' => 'form-control')) }}
+				{{ Form::label('number', trans('messages.lot-number')) }}
+                {{ Form::text('lot_no', Input::old('lot_no'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
 				{{ Form::label('description', trans('messages.description')) }}
@@ -34,11 +34,6 @@
 				{{ Form::label('expiry', trans('messages.expiry')) }}
 				{{ Form::text('expiry', Input::old('expiry'), 
 					array('class' => 'form-control standard-datepicker', 'rows' => '3' )) }}
-			</div>
-			<div class="form-group">
-				{{ Form::label('instruments', Lang::choice('messages.instrument', 2)) }}
-				{{ Form::select('instrument', array('') + $instruments, Input::old('instrument'), 
-					array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group" id="edit-control-ranges">
 			</div>

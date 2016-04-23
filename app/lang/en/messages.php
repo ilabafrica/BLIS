@@ -547,7 +547,7 @@ return array(
     'unit'          =>  'Unit',
     'min-level'     =>  'Min. Level',
     'max-level'     =>  'Max. Level',
-    'lot-no'        =>  'Lot Number',
+    'lot-no'        =>  'Lot No.',
     'quantity'      =>  'Quantity',
     'expiry'        =>  'Expiry Date',
     'manufacturer'  =>  'Manufacturer',
@@ -685,4 +685,5 @@ return array(
     'issued-by'                     =>  'Issued By',
     'received-by'                   =>  'Received By',
     'destination'                   =>  'Destination',
+    'performed-by'                  =>  'Performed By',
 );
