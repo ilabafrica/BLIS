@@ -49,7 +49,6 @@
 				<tr>
 					<th>{{trans('messages.patient-number')}}</th>
 					<th>{{Lang::choice('messages.name',1)}}</th>
-					<th>{{trans('messages.email')}}</th>
 					<th>{{trans('messages.gender')}}</th>
 					<th>{{trans('messages.date-of-birth')}}</th>
 					<th>{{trans('messages.actions')}}</th>
@@ -63,7 +62,6 @@
 				>
 					<td>{{ $patient->patient_number }}</td>
 					<td>{{ $patient->name }}</td>
-					<td>{{ $patient->email }}</td>
 					<td>{{ ($patient->gender==0?trans('messages.male'):trans('messages.female')) }}</td>
 					<td>{{ $patient->dob }}</td>
 
