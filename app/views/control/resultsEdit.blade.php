@@ -27,6 +27,14 @@
                 <div class="row">
                     <div class="col-md-7">
                     {{ Form::open(array('route' => array('controlresult.update', $controlTest->id), 'method' => 'POST', 'id' => 'form-edit-control')) }}
+                        <div class="form-group">
+                            {{ Form::label('performed-by', trans('messages.performed-by')) }}
+                            {{ Form::text('performed_by', $controlTest->performed_by, array('class' => 'form-control')) }}
+                        </div>
+                        <div class="form-group">
+                            {{ Form::label('lots', trans('messages.lot-number')) }}
+                            {{ Form::select('lot_id', array(''=>'')+$lots, Input::old('lot')?Input::old('lot'):$lot, array('class' => 'form-control')) }}
+                        </div>
                         @foreach($controlTest->control->controlMeasures as $key => $controlMeasure)
                             <div class="form-group">
                                 <?php
@@ -72,16 +80,12 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <p><strong>{{trans("messages.lot-number")}}</strong></p></div>
-                                        <div class="col-md-9">{{ $controlTest->control->lot->number }}</div></div>
-                                    <div class="row">
-                                        <div class="col-md-3">
                                             <p><strong>{{ Lang::choice('messages.control-name',1) }}</strong></p></div>
                                         <div class="col-md-9">{{ $controlTest->control->name }}</div></div>
                                     <div class="row">
                                         <div class="col-md-3">
                                             <p><strong>{{Lang::choice("messages.instrument",1)}}</strong></p></div>
-                                        <div class="col-md-9">{{ $controlTest->control->lot->instrument->name }}</div>
+                                        <div class="col-md-9">{{ $controlTest->control->instrument->name }}</div>
                                     </div>
                                 </div>
                             </div> <!-- ./ panel-body -->

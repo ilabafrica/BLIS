@@ -20,7 +20,7 @@ class ControlMeasureResult extends Eloquent {
 	*
 	* @return relationship
 	*/
-	public function controlTests()
+	public function controlTest()
 	{
 		return $this->belongsTo('controlTest', 'control_test_id');
 	}

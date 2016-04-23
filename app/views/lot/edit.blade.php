@@ -36,11 +36,6 @@
 				{{ Form::text('expiry', Input::old('expiry'), 
 					array('class' => 'form-control standard-datepicker', 'rows' => '3' )) }}
 				</div>
-				<div class="form-group">
-					{{ Form::label('instruments', Lang::choice('messages.instrument', 1)) }}
-					{{ Form::select('instrument', $instruments, Input::old('instrument'), 
-					array('class' => 'form-control')) }}
-				</div>
 				<div class="form-group actions-row">
 					{{ Form::button('<span class="glyphicon glyphicon-save"></span> '. trans('messages.save'),
 						['class' => 'btn btn-primary', 'onclick' => 'submit()']) }}

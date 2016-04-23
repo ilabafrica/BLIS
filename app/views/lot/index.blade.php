@@ -27,7 +27,6 @@
 					<th>{{ Lang::choice('messages.lot-number', 1) }}</th>
 					<th>{{ Lang::choice('messages.description', 1) }}</th>
 					<th>{{ Lang::choice('messages.expiry', 1) }}</th>
-					<th>{{ Lang::choice('messages.instrument', 1) }}</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -37,7 +36,6 @@
 					<td>{{ $lot->lot_no }}</td>
 					<td>{{ $lot->description }}</td>
 					<td>{{ $lot->expiry }}</td>
-					<td>{{ $lot->instrument->name }}</td>
 					<td>
 						<!-- show the instrument details -->
 						<a class="btn btn-sm btn-success" href="{{ URL::route('lot.show', array($lot->id)) }}">

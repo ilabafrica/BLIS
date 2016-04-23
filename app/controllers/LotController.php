@@ -22,8 +22,7 @@ class LotController extends \BaseController {
 	 */
 	public function create()
 	{
-		$instruments = Instrument::lists('name', 'id');
-		return View::make('lot.create')->with('instruments', $instruments);
+		return View::make('lot.create');
 	}
 
 	/**
@@ -34,8 +33,7 @@ class LotController extends \BaseController {
 	public function store()
 	{
 		//Validation
-		$rules = array('lot_no' => 'required|unique:lots,lot_no',
-					'instrument' => 'required|non_zero_key');
+		$rules = array('lot_no' => 'required|unique:lots,lot_no');
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
@@ -46,7 +44,6 @@ class LotController extends \BaseController {
 			$lot->lot_no = Input::get('lot_no');
 			$lot->description = Input::get('description');
 			$lot->expiry = Input::get('expiry');
-			$lot->instrument_id = Input::get('instrument');
 
 			$lot->save();
 
@@ -79,8 +76,7 @@ class LotController extends \BaseController {
 	public function edit($id)
 	{
 		$lot = Lot::find($id);
-		$instruments = Instrument::lists('name', 'id');
-		return View::make('lot.edit')->with('lot', $lot)->with('instruments', $instruments);
+		return View::make('lot.edit')->with('lot', $lot);
 	}
 
 
@@ -93,8 +89,7 @@ class LotController extends \BaseController {
 	public function update($id)
 	{
 		//Validation
-		$rules = array('lot_no' => 'required',
-					'instrument' => 'required|non_zero_key');
+		$rules = array('lot_no' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
@@ -105,7 +100,6 @@ class LotController extends \BaseController {
 			$lot->lot_no = Input::get('lot_no');
 			$lot->description = Input::get('description');
 			$lot->expiry = Input::get('expiry');
-			$lot->instrument_id = Input::get('instrument');
 
 			$lot->save();
 
