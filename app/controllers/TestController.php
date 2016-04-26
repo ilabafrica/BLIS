@@ -418,7 +418,7 @@ class TestController extends \BaseController {
 		Event::fire('test.verified', array($testID));
 		$url = Session::get('SOURCE_URL');
 
-		return Redirect::back()
+		return Redirect::route('test.viewDetails', array($testID))
 			->with('message', trans('messages.success-verifying-results'))
 			->with('test', $test);
 	}

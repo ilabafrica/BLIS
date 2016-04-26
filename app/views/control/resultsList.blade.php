@@ -19,7 +19,10 @@
         <table class="table table-striped table-hover table-condensed search-table">
             <thead>
                 <tr>
-                    <th> {{ Lang::choice('messages.test-id', 1) }} </th>
+                    <th> {{ trans('messages.lot-number') }} </th>
+                    <th> {{ Lang::choice('messages.control', 1) }} </th>
+                    <th> {{ trans('messages.test-results') }} </th>
+                    <th> {{ trans('messages.performed-by') }} </th>
                     <th>{{ Lang::choice('messages.created-at', 1) }}</th>
                     <th></th>
                 </tr>
@@ -27,7 +30,10 @@
             <tbody>
             @foreach($control->controlTests as $controlResult)
                 <tr>
-                    <td>{{$controlResult->id}}</td>
+                    <td>{{$controlResult->lot->lot_no}}</td>
+                    <td>{{$controlResult->control->name}}</td>
+                    <td>{{implode(', ', $controlResult->controlResults->lists('results'))}}</td>
+                    <td>{{$controlResult->performed_by}}</td>
                     <td>{{$controlResult->created_at}}</td>
                     <td>
                         <a class="btn btn-sm btn-info" href="{{ URL::to("controlresults/" . $controlResult->id . "/resultsEdit") }}" >

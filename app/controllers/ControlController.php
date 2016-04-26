@@ -21,10 +21,10 @@ class ControlController extends \BaseController {
 	 */
 	public function create()
 	{
-		$lots = Lot::lists('number', 'id');
+		$instruments = Instrument::lists('name', 'id');
 		$measureTypes = MeasureType::orderBy('id')->take(2)->get();
 
-		return View::make('control.create')->with('lots', $lots) ->with('measureTypes', $measureTypes);
+		return View::make('control.create')->with('instruments', $instruments) ->with('measureTypes', $measureTypes);
 	}
 
 
@@ -37,7 +37,7 @@ class ControlController extends \BaseController {
 	{
 		//Validation -checking that name is unique among the un soft-deleted ones
 		$rules = array('name' => 'required|unique:controls,name,NULL,id,deleted_at,null',
-		 			'lot' => 'required|non_zero_key',
+		 			'instrument_id' => 'required',
 		 			'new-measures' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -48,7 +48,7 @@ class ControlController extends \BaseController {
 			$control = new Control;
 			$control->name = Input::get('name');
 			$control->description = Input::get('description');
-			$control->lot_id = Input::get('lot');
+			$control->instrument_id = Input::get('instrument_id');
 
 			if (Input::get('new-measures')) {
 					$newMeasures = Input::get('new-measures');
@@ -83,11 +83,12 @@ class ControlController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$lots = Lot::lists('number', 'id');
+		$instruments = Instrument::lists('name', 'id');
 		$control = Control::find($id);
 		$measureTypes = MeasureType::all();
-		return View::make('control.edit')->with('control',$control)->with('lots', $lots)
-				->with('measureTypes', $measureTypes);
+		$instrument = $control->instrument_id;
+		return View::make('control.edit')->with('control', $control)->with('instruments', $instruments)
+				->with('measureTypes', $measureTypes)->with('instrument', $instrument);
 	}
 
 
@@ -101,7 +102,7 @@ class ControlController extends \BaseController {
 	{
 		$rules = array(
 			'name' => 'unique:controls,name,NULL,id,deleted_at,null',
-			'lot' => 'required|non_zero_key',
+			'instrument_id' => 'required',
 			'measures' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
@@ -114,7 +115,7 @@ class ControlController extends \BaseController {
 			$control = Control::find($id);
 			$control->name = Input::get('name');
 			$control->description = Input::get('description');
-			$control->lot_id = Input::get('lot');
+			$control->instrument_id = Input::get('instrument_id');
 
 			if (Input::get('new-measures')) {
 				$inputNewMeasures = Input::get('new-measures');
@@ -167,7 +168,8 @@ class ControlController extends \BaseController {
 	public function resultsEntry($controlId) 
 	{
 		$control = Control::find($controlId);
-		return View::make('control.resultsEntry')->with('control', $control);
+		$lots = Lot::lists('lot_no', 'id');
+		return View::make('control.resultsEntry')->with('control', $control)->with('lots', $lots);
 	}
 
 	/**
@@ -191,7 +193,9 @@ class ControlController extends \BaseController {
 	public function resultsEdit($controlTestId)
 	{
 		$controlTest = ControlTest::find($controlTestId);
-		return View::make('control.resultsEdit', compact('controlTest'));
+		$lots = Lot::lists('lot_no', 'id');
+		$lot = $controlTest->lot_id;
+		return View::make('control.resultsEdit', compact('controlTest'))->with('lots', $lots)->with('lot', $lot);
 	}
 
 	/** 
@@ -206,8 +210,10 @@ class ControlController extends \BaseController {
 		$control = Control::find($controlId);
 
 		$controlTest = new ControlTest();
-		$controlTest->entered_by = Auth::user()->id;
 		$controlTest->control_id = $controlId;
+		$controlTest->lot_id = Input::get('lot_id');
+		$controlTest->performed_by = Input::get('performed_by');
+		$controlTest->user_id = Auth::user()->id;
 		$controlTest->save();
 
 		foreach ($control->controlMeasures as $controlMeasure) {
@@ -215,6 +221,7 @@ class ControlController extends \BaseController {
 			$controlResult->results = Input::get('m_'.$controlMeasure->id);
 			$controlResult->control_measure_id = $controlMeasure->id;
 			$controlResult->control_test_id = $controlTest->id;
+			$controlResult->user_id = Auth::user()->id;
 			$controlResult->save();
 		}
 		return Redirect::route('control.resultsIndex')->with('message', trans('messages.success-adding-control-result'));

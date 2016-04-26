@@ -52,7 +52,7 @@
 	}
 ?>
 	<ul class="nav nav-sidebar">
-	@if(Entrust::can('can_access_ccc_reports') && Entrust::can('view_reports'))
+	@if(Entrust::can('can_access_ccc_reports'))
 		<li>
 			<div class="main-menu {{$active[5]}}">
 				<a href="{{ URL::route('reports.daily.log')}}">
@@ -326,7 +326,7 @@
 		@if(Entrust::can('manage_inventory') || Entrust::can('request_topup'))
 		<li>
 			<div class="main-menu {{$active[7]}}">
-				<a href="#">
+				<a href="{{ URL::route("item.index")}}">
 					<span class="glyphicon glyphicon-download-alt"></span> {{ Lang::choice('messages.inventory', 1)}}</a>
 			</div>
 			<div class="sub-menu {{$active[7]}}">

@@ -342,8 +342,8 @@ return array(
     'enter-results-title' => 'Enter Test Results',
     'enter-test-results' => 'Enter Test Results',
     'save-test-results' => 'Save Results',
-    'success-saving-results' => 'The results successfully saved!',
-    'success-verifying-results' => 'The results has been successfully verified!',
+    'success-saving-results' => 'The results have been successfully saved!',
+    'success-verifying-results' => 'The results have been successfully verified!',
     'test-results' => 'Results',
 
     /** 
@@ -547,7 +547,7 @@ return array(
     'unit'          =>  'Unit',
     'min-level'     =>  'Min. Level',
     'max-level'     =>  'Max. Level',
-    'lot-no'        =>  'Lot Number',
+    'lot-no'        =>  'Lot No.',
     'quantity'      =>  'Quantity',
     'expiry'        =>  'Expiry Date',
     'manufacturer'  =>  'Manufacturer',
@@ -557,7 +557,7 @@ return array(
     'date-supplied' =>  'Date Supplied',
     'stock-usage'   =>  'Stock Usage',
     'available-qty' =>  'Available Quantity',
-    'date-of-usage' =>  'Date of Usage',
+    'date-of-usage' =>  'Date of Issue',
     'signed-out'    =>  'Quantity Signed Out',
     'lot'           =>  'Lot',
     'batch-no'      =>  'Batch No',
@@ -678,4 +678,12 @@ return array(
     'facility'                      =>  'Facility|Facilities',
 
     'verifification-warning'        =>  'Please note : The results  will not be sent to the HMIS until the results are verified!',
+    'quantity-remaining'            =>  'Current Balance',
+    'order-quantity'                =>  'Order Quantity',
+    'tests-done'                    =>  'Tests Done',
+    'ordered-by'                    =>  'Ordered By',
+    'issued-by'                     =>  'Issued By',
+    'received-by'                   =>  'Received By',
+    'destination'                   =>  'Destination',
+    'performed-by'                  =>  'Performed By',
 );

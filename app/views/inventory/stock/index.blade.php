@@ -30,7 +30,7 @@
 					<th>{{ trans('messages.unit') }}</th>
 					<th>{{ trans('messages.expiry') }}</th>
 					<th>{{ trans('messages.manufacturer') }}</th>
-					<th>{{ Lang::choice('menu.supplier', 1) }}</th>
+					<th>{{ Lang::choice('messages.supplier', 1) }}</th>
 					<th>{{ trans('messages.date-received') }}</th>
 					<th>{{ trans('messages.remarks') }}</th>
 					<th>{{ trans('messages.actions') }}</th>
@@ -63,7 +63,7 @@
 								<span class="glyphicon glyphicon-edit"></span>
 								{{ trans('messages.edit') }}
 						</a>
-						@if($value->quantity()>0)
+						@if($item->quantity()>0 && count($item->requests)>0)
 						<!-- Update dtock button -->
 					    <a class="btn btn-sm btn-sun-flower" href="{{ URL::to("stock/" . $value->id."/usage") }}" >
 							<span class="glyphicon glyphicon-info-sign"></span>

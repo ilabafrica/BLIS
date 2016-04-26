@@ -58,6 +58,8 @@
 				<tbody>
 					<tr>
 						<th>{{ trans('messages.date-performed')}}</th>
+						<th>{{ trans('messages.lot-number')}}</th>
+						<th>{{ trans('messages.performed-by')}}</th>
 						@foreach($control->controlMeasures as $controlMeasure)
 							<th> {{ $controlMeasure->name . ' ('. $controlMeasure->controlMeasureRanges->first()->getRangeUnit() . ')' }} </th>
 						@endforeach
@@ -65,6 +67,8 @@
 					@forelse($controlTests as $key => $controlTest)
 						<tr>
 							<td>{{ $controlTest->created_at }} </td>
+							<td>{{ $controlTest->lot->lot_no }} </td>
+							<td>{{ $controlTest->performed_by }} </td>
 							@foreach($controlTest->controlResults as $controlResult)
 								<td>{{ $controlResult->results}}</td>
 							@endforeach
