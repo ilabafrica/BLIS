@@ -18,8 +18,8 @@ class UpdateInvRequestUsage extends Migration {
 		});
 		Schema::table('inv_usage', function(Blueprint $table)
 		{
-			$table->string('issued_by');
-			$table->string('received_by');
+			$table->string('issued_by')->nullable();
+			$table->string('received_by')->nullable();
 		});
 	}
 
