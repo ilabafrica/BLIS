@@ -24,13 +24,13 @@ class LotControllerTest extends TestCase
 		$this->be(User::find(4));
 
 		$this->input = array(
-			'number'=>'2015',
+			'lot_no'=>'2015',
 			'description' => 'kenya yao',
 			'expiry' => '12-12-2015',
 			);
 
 		$this->inputUpdate = array(
-			'number'=>'2015',
+			'lot_no'=>'2015',
 			'description' => 'Kenya yetu',
 			'expiry' => '12-05-2020',
 			);
