@@ -63,11 +63,10 @@ class LotControllerTest extends TestCase
 		$response = $this->action('POST', 'LotController@store', $this->input);
 		$this->assertTrue($response->isRedirection());
 		
-		$testLot = lot::orderBy('id', 'desc')->first();
-		$this->assertEquals($testLot->number, $this->input['number']);
+		$testLot = lot::orderBy('id')->first();
+		$this->assertEquals($testLot->lot_no, $this->input['lot_no']);
 		$this->assertEquals($testLot->description, $this->input['description']);
 		$this->assertEquals($testLot->expiry, $this->input['expiry']);
-		$this->assertEquals($testLot->instrument_id, $this->input['instrument']);
 		
 	}
 	/**
@@ -78,12 +77,10 @@ class LotControllerTest extends TestCase
 		$response = $this->action('POST', 'LotController@store', $this->inputUpdate);
 		$this->assertTrue($response->isRedirection());
 
-		$testLot = lot::orderBy('id', 'desc')->first();
-		$this->assertEquals($testLot->number, $this->inputUpdate['number']);
+		$testLot = lot::orderBy('id')->first();
+		$this->assertEquals($testLot->lot_no, $this->inputUpdate['lot_no']);
 		$this->assertEquals($testLot->description, $this->inputUpdate['description']);
 		$this->assertEquals($testLot->expiry, $this->inputUpdate['expiry']);
-		$this->assertEquals($testLot->instrument_id, $this->inputUpdate['instrument']);
-		
 	}
 
 	/**
@@ -121,4 +118,3 @@ class LotControllerTest extends TestCase
 		$lot = new lotController;
 		$lot->update($id);
 	}
-}
