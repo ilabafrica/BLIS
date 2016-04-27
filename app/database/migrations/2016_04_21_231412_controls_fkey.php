@@ -12,11 +12,6 @@ class ControlsFkey extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('controls', function(Blueprint $table)
-		{
-			$table->integer('lot_id')->unsigned();
-			$table->foreign('lot_id')->references('id')->on('lots');
-		});
 		Schema::table('lots', function(Blueprint $table)
 		{
 			$table->date('expiry')->after('instrument_id');;

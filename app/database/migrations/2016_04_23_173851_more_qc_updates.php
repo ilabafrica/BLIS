@@ -12,11 +12,6 @@ class MoreQcUpdates extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('controls', function(Blueprint $table)
-		{
-			$table->dropForeign('controls_lot_id_foreign');
-			$table->dropColumn('lot_id');
-		});
 		Schema::table('lots', function(Blueprint $table)
 		{
 			$table->dropForeign('lots_instrument_id_foreign');
