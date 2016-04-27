@@ -14,7 +14,7 @@ class ControlsFkey extends Migration {
 	{
 		Schema::table('lots', function(Blueprint $table)
 		{
-			$table->date('expiry')->after('instrument_id');;
+			$table->date('expiry')->nullable()->after('instrument_id');
 		});
 	}
 

@@ -27,14 +27,12 @@ class LotControllerTest extends TestCase
 			'number'=>'2015',
 			'description' => 'kenya yao',
 			'expiry' => '12-12-2015',
-			'instrument' => 1,
 			);
 
 		$this->inputUpdate = array(
 			'number'=>'2015',
 			'description' => 'Kenya yetu',
 			'expiry' => '12-05-2020',
-			'instrument' => 2,
 			);
 	}
 	/**
