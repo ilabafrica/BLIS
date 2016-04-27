@@ -16,7 +16,6 @@ class RenameNumberLotNo extends Migration {
 		{
 			$table->dropColumn('number');
 			$table->string('lot_no', 100)->nullable()->after('id');
-			$table->unique('lot_no');
 		});
 	}
 
