@@ -12,14 +12,6 @@ class ControlsFkey extends Migration {
 	 */
 	public function up()
 	{
-		DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-		DB::table('control_results')->truncate();
-		DB::table('control_tests')->truncate();
-		DB::table('control_measure_ranges')->truncate();
-		DB::table('control_measures')->truncate();
-		DB::table('controls')->truncate();
-		DB::table('lots')->truncate();
-		DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 		Schema::table('controls', function(Blueprint $table)
 		{
 			$table->integer('lot_id')->unsigned();

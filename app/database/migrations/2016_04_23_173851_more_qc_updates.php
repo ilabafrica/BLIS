@@ -12,15 +12,6 @@ class MoreQcUpdates extends Migration {
 	 */
 	public function up()
 	{
-		// Truncate tables
-		DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-		DB::table('control_results')->truncate();
-		DB::table('control_tests')->truncate();
-		DB::table('control_measure_ranges')->truncate();
-		DB::table('control_measures')->truncate();
-		DB::table('controls')->truncate();
-		DB::table('lots')->truncate();
-		DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 		Schema::table('controls', function(Blueprint $table)
 		{
 			$table->dropForeign('controls_lot_id_foreign');
