@@ -118,3 +118,4 @@ class LotControllerTest extends TestCase
 		$lot = new lotController;
 		$lot->update($id);
 	}
+}
