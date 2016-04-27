@@ -15,7 +15,7 @@ class RenameNumberLotNo extends Migration {
 		Schema::table('lots', function(Blueprint $table)
 		{
 			$table->dropColumn('number');
-			$table->string('lot_no', 100)->unique()->after('id');
+			$table->string('lot_no', 100)->unique()->nullable()->after('id');
 		});
 	}
 
