@@ -19,7 +19,7 @@ class ControlsFkey extends Migration {
 		});
 		Schema::table('lots', function(Blueprint $table)
 		{
-			$table->date('expiry')->after('instrument_id')->default('00:00:00');;
+			$table->date('expiry')->after('instrument_id');;
 		});
 	}
 
