@@ -1432,14 +1432,13 @@ Nairobi, Kenya.",
 
         //Seeding for QC
         $lots = array(
-            array('number'=> '0001',
+            array('lot_no'=> '0001',
                 'description' => 'First lot',
-                'expiry' => date('Y-m-d H:i:s', strtotime("+6 months")),
-                'instrument_id' => 1),
-            array('number'=> '0002',
+                'expiry' => date('Y-m-d H:i:s', strtotime("+6 months"))),
+            array('lot_no'=> '0002',
                 'description' => 'Second lot',
-                'expiry' => date('Y-m-d H:i:s', strtotime("+7 months")),
-                'instrument_id' => 1));
+                'expiry' => date('Y-m-d H:i:s', strtotime("+7 months")))
+        );
         foreach ($lots as $lot) {
             $lot = Lot::create($lot);
         }
@@ -1449,8 +1448,8 @@ Nairobi, Kenya.",
         $controls = array(
             array('name'=>'Humatrol P', 
                     'description' =>'HUMATROL P control serum has been designed to provide a suitable basis for the quality control (imprecision, inaccuracy) in the clinical chemical laboratory.', 
-                    'lot_id' => 1),
-            array('name'=>'Full Blood Count', 'description' => 'Né pas touchér', 'lot_id' => 1,)
+                    'instrument_id' => 1),
+            array('name'=>'Full Blood Count', 'description' => 'Né pas touchér', 'instrument_id' => 1,)
             );
         foreach ($controls as $control) {
             Control::create($control);
@@ -1507,15 +1506,15 @@ Nairobi, Kenya.",
 
         //Control Tests
         $controlTests = array(
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
-                array('entered_by'=> 1, 'control_id'=> 2, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
-                array('entered_by'=> 1, 'control_id'=> 2, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Msiska', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Katayi', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Msiska', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Kweyu', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Kweyu', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Tiwonge', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Mukulu', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Tiwonge', 'user_id'=> 2, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Tiwonge', 'user_id'=> 2, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
             );
         foreach ($controlTests as $controltest) {
             ControlTest::create($controltest);
