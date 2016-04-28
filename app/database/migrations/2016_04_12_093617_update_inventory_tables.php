@@ -77,8 +77,10 @@ class UpdateInventoryTables extends Migration {
         {
             $table->increments('id')->unsigned();
             $table->integer('item_id')->unsigned();
+            $table->string('quantity_remaining');
             $table->integer('test_category_id')->unsigned();
             $table->integer('quantity_ordered');
+            $table->integer('tests_done')->default(0);
             $table->integer('user_id')->unsigned();
             $table->string('remarks', 100);
 
@@ -96,6 +98,8 @@ class UpdateInventoryTables extends Migration {
             $table->integer('request_id')->unsigned();
             $table->integer('quantity_used')->default(0);
             $table->date('date_of_usage');
+            $table->string('issued_by')->nullable();
+            $table->string('received_by')->nullable();
             $table->string('remarks', 250)->nullable();
             $table->integer('user_id')->unsigned();
             $table->softDeletes();
