@@ -22,7 +22,7 @@ class MoreQcUpdates extends Migration {
 			$table->dropForeign('control_tests_entered_by_foreign');
 			$table->dropColumn('entered_by');
 
-			$table->integer('lot_id')->unsigned()->default(0)->after('control_id');
+			$table->integer('lot_id')->unsigned()->default(1)->after('control_id');
 			$table->foreign('lot_id')->references('id')->on('lots');
 
 			$table->string('performed_by', 100)->after('lot_id');
