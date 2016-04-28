@@ -25,7 +25,7 @@ class MoreQcUpdates extends Migration {
 			$table->integer('lot_id')->unsigned()->default(1)->after('control_id');
 			$table->foreign('lot_id')->references('id')->on('lots');
 
-			$table->string('performed_by', 100)->after('lot_id');
+			$table->string('performed_by', 100)->nullable()->after('lot_id');
 			
 			$table->integer('user_id')->unsigned()->default(1)->after('lot_id');
 			$table->foreign('user_id')->references('id')->on('users');
