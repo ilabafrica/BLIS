@@ -134,6 +134,8 @@ class ControlControllerTest extends TestCase {
 			);
 
 		$this->inputSaveResults = array(
+			'lot_id'=>1,
+			'performed_by'=>'Jon Snow',
 			'm_1' => '2.78',
 			'm_2' => '13.56',
 			'm_3' => '14.77',
