@@ -12,7 +12,8 @@
         "sofa/revisionable": "~1.0@dev",
         "jenssegers/date": "~3.0",
         "milon/barcode": "~1.0",
-        "intervention/image": "dev-master"
+        "intervention/image": "dev-master",
+        "fabpot/goutte": "^3.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
