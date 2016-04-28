@@ -6,11 +6,11 @@
 use App\Models\User;
 use App\Models\ControlTest;
 use App\Http\Controllers\ControlResultsController;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class ControlResultsControllerTest extends TestCase 
 {
 	
-	use WithoutMiddleware;
+	
 	public function setup()
 	{
 		parent::setUp();

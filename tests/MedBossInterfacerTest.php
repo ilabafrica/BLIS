@@ -3,17 +3,16 @@
  * Tests for SanitasInterfacer class in api folder
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
-use App\Api\MedbossInterfacer;
 use App\Api\Facades\Interfacer;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class MedbossInterfacerTest extends TestCase
 {
-    use WithoutMiddleware;
+    
     public function setup()
     {
         parent::setup();
-        $this->app->bind('Interfacer', 'MedbossInterfacer');
+        $this->app->bind('Interfacer', 'App\Api\MedbossInterfacer');
         Artisan::call('migrate');
         Artisan::call('db:seed');
     }

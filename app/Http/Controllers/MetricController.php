@@ -46,7 +46,7 @@ class MetricController extends Controller {
 			$metric->description= Input::get('description');
 			try{
 				$metric->save();
-				$url = Session::get('SOURCE_URL');
+				$url = session('SOURCE_URL');
 				return redirect()->to('metric.index') ->with('message', trans('messages.metric-succesfully-added'));
 			}catch(QueryException $e){
 				Log::error($e);

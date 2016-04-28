@@ -7,10 +7,10 @@ use App\Models\User;
 use App\Models\Control;
 use App\Models\ControlTest;
 use App\Http\Controllers\ControlController;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class ControlControllerTest extends TestCase {
 
-	use WithoutMiddleware;
+	
 	public function setup()
 	{
 		parent::setUp();
@@ -43,6 +43,8 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testStore()
 	{
+		$this->withoutMiddleware();
+
 		$response = $this->call('POST', '/control', $this->inputStoreControls);
 
 		$this->assertTrue($response->isRedirection());
@@ -67,6 +69,7 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testUpdate()
 	{
+		$this->withoutMiddleware();
 		$response = $this->call('POST', '/control', $this->inputUpdateControls);
 
 		$this->assertTrue($response->isRedirection());
@@ -90,6 +93,7 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testDestroy()
 	{
+		$this->withoutMiddleware();
 		$this->call('DELETE', '/control/1');
 		$control = Control::withTrashed()->find(1);
 		$this->assertNotNull($control->deleted_at);
@@ -100,6 +104,7 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testSaveResults()
 	{
+		$this->withoutMiddleware();
 		$this->call('POST', 'control/1/saveResults', $this->inputSaveResults);
 
 		$results = ControlTest::orderBy('id', 'desc')->first()->controlResults;

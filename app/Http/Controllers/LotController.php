@@ -55,8 +55,8 @@ class LotController extends Controller {
 
 			$lot->save();
 
-			$url = Session::get('SOURCE_URL');
-			return Redirect::to($url)
+			$url = session('SOURCE_URL');
+			return redirect()->to($url)
 					->with('message', trans('messages.successfully-created-lot'));
 		}
 	}
@@ -114,7 +114,7 @@ class LotController extends Controller {
 
 			$lot->save();
 
-			$url = Session::get('SOURCE_URL');
+			$url = session('SOURCE_URL');
 			return Redirect::to($url)
 					->with('message', trans('messages.successfully-updated-lot'));
 		}

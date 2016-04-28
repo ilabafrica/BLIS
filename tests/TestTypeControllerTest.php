@@ -7,10 +7,10 @@
 use App\Models\Test;
 use App\Models\TestType;
 use App\Http\Controllers\TestTypeController;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class TestTypeControllerTest extends TestCase 
 {
-	use WithoutMiddleware;
+	
 	/**
      * Initial setup function for tests
      *
@@ -150,6 +150,7 @@ class TestTypeControllerTest extends TestCase
   	{
   		echo "\n\nTEST TYPE CONTROLLER TEST\n\n";
   		 // Store the TestType Types
+		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeData);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
 
@@ -178,10 +179,12 @@ class TestTypeControllerTest extends TestCase
 	public function testUpdate()
 	{
 
+		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeData);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
 
 
+		$this->withoutMiddleware();
 		$this->call('PUT', '/testtype/'.$testTypestored[0]['id'], $this->testTypeDataUpdate);
 
 		$testTypeSavedUpdated = TestType::find($testTypestored[0]['id']);
@@ -207,6 +210,7 @@ class TestTypeControllerTest extends TestCase
      */
 	public function testDelete()
 	{
+		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeData);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
 
@@ -220,6 +224,7 @@ class TestTypeControllerTest extends TestCase
 
     public function testGetTestTypeIdByTestName()
     {
+		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeData);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testType = new TestType();
@@ -230,6 +235,7 @@ class TestTypeControllerTest extends TestCase
 
     public function testGetTestTypeIdByTestNameLeadingSpace()
     {
+		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeTrailingSpace);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testType = new TestType();
@@ -240,6 +246,7 @@ class TestTypeControllerTest extends TestCase
 
     public function testGetTestTypeIdByTestNameTrailingSpace()
     {
+		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeLeadingSpace);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testType = new TestType();
@@ -250,6 +257,7 @@ class TestTypeControllerTest extends TestCase
 
     public function testGetTestTypeIdByTestNameLeadingTrailingSpace()
     {
+		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeLeadingTrailingSpace);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testType = new TestType();
@@ -260,6 +268,7 @@ class TestTypeControllerTest extends TestCase
 
     public function testGetTestTypeIdByTestNameWithTrailingLeadingSpaces()
     {
+		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeNoTrailingLeadingSpace);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testType = new TestType();
@@ -271,6 +280,7 @@ class TestTypeControllerTest extends TestCase
     //	Test the countPerStatus method
     public function testCountPerStatus()
     {
+		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeData);
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
         $testTypeSaved = TestType::find($testTypestored[0]['id']);

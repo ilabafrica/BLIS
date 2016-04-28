@@ -6,11 +6,11 @@
 use App\Models\User;
 use App\Models\Supplier;
 use App\Http\Controllers\SupplierController;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class SupplierControllerTest extends TestCase 
 {
 	
-	use WithoutMiddleware;
+	
 	    public function setUp()
 	    {
 	    	parent::setUp();
@@ -115,6 +115,7 @@ class SupplierControllerTest extends TestCase
   	 */
 	public function runStore($input)
 	{
+		$this->withoutMiddleware();
 		$this->call('POST', '/supplier', $input);
 	}
     /**
@@ -124,6 +125,7 @@ class SupplierControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
+		$this->withoutMiddleware();
 		$this->call('PUT', '/supplier/'.$id, $input);
 	}
 }

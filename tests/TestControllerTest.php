@@ -9,11 +9,11 @@ use App\Models\Test;
 use App\Models\Patient;
 use App\Models\Specimen;
 use App\Http\Controllers\TestController;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class TestControllerTest extends TestCase 
 {
 
-  use WithoutMiddleware;
+  
     public function setUp(){
       parent::setUp();
       Artisan::call('migrate');
@@ -70,8 +70,12 @@ class TestControllerTest extends TestCase
     // Load the index page
     public function runIndex($searchValue, $formInput, $returnValue, $returnValue2 = null, $returnValue3 = null)
     {
+      $this->be(User::first());
+
+      // todo: the problem could be here just check
       $response = $this->action('POST', 'TestController@index', $formInput);
-      $tests = $view->getData()['testSet'];
+
+      $tests = $response->getData()['testSet'];
       if (isset($returnValue3)) {
         $field3 = $returnValue3;
         $field2 = $returnValue2;

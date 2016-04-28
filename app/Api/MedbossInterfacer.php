@@ -1,5 +1,14 @@
 <?php namespace App\Api;
 
+use App\Models\ExternalDump;
+use App\Models\TestType;
+use App\Models\Patient;
+use App\Models\Test;
+use App\Models\User;
+use App\Models\Visit;
+use DateTime;
+use DateInterval;
+
 class MedbossInterfacer implements InterfacerInterface {
 
     public function retrieve($patientId)

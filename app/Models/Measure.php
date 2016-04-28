@@ -1,5 +1,7 @@
 <?php namespace App\Models;
 
+use DateTime;
+use DateInterval;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

@@ -3,8 +3,12 @@
 use App\Models\ExternalDump;
 use App\Models\TestType;
 use App\Models\Measures;
+use App\Models\Specimen;
 use App\Models\Patient;
+use App\Models\Visit;
 use App\Models\Test;
+use App\Models\User;
+use DB;
 class SanitasInterfacer implements InterfacerInterface{
 
     public function retrieve($labRequest)

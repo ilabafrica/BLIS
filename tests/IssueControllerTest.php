@@ -8,11 +8,11 @@ use App\Models\TopupRequest;
 use App\Models\User;
 use App\Models\Issue;
 use App\Models\Receipt;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class IssueControllerTest extends TestCase 
 {
 	
-	use WithoutMiddleware;
+	
 	    public function setUp()
 	    {
 	    	parent::setUp();
@@ -118,6 +118,7 @@ class IssueControllerTest extends TestCase
   	 */
 	public function runStore($input)
 	{
+		$this->withoutMiddleware();
 		$this->call('POST', '/issue', $input);
 	}
     /**
@@ -127,6 +128,7 @@ class IssueControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
+		$this->withoutMiddleware();
 		$this->call('PUT', '/issue/'.$id, $input);
 	}
 }

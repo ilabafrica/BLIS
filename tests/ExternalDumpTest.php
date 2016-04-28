@@ -4,17 +4,18 @@
  * Tests for SanitasInterfacer class in api folder
  * @author  (c) @iLabAfrica, Emmanuel Kitsao, Brian Kiprop, Thomas Mapesa, Anthony Ereng
  */
-use App\Api\SanitasInterfacer;
 use App\Api\Facades\Interfacer;
+use App\Api\SanitasInterfacer;
+use App\Models\ExternalDump;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class ExternalDumpTest extends TestCase
 {
-    use WithoutMiddleware;
+    
     public function setup()
     {
         parent::setup();
-        $this->app->bind('Interfacer', 'SanitasInterfacer');
+        $this->app->bind('Interfacer', 'App\Api\SanitasInterfacer');
         Artisan::call('migrate');
         $this->setVariables();
     }
@@ -40,8 +41,9 @@ class ExternalDumpTest extends TestCase
     //BS for MPS
     public function testGetSimpleTestRequestTree()
     {
-        $this->call('POST', 'api/receiver', array(), 
-                array(), array(), $this->labRequestJsonSimpleTest);
+		$this->withoutMiddleware();
+        // $this->call($method, $uri, $parameters=[], $cookies=[], $files=[], $server=[], $content=null));
+        $this->call('POST', 'api/receiver', [], [], [], [], $this->labRequestJsonSimpleTest);
 
         $externalDump = new ExternalDump();
         $labR = json_decode($this->labRequestJsonSimpleTest);

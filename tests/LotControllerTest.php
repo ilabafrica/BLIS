@@ -7,11 +7,11 @@ use App\Http\Controllers\LotController;
 use App\Models\User;
 use App\Models\Lot;
 use App\Models\Instrument;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+
 class LotControllerTest extends TestCase 
 {
 	
-	use WithoutMiddleware;
+	
 	public function setup()
 	{
 		parent::setUp();
@@ -68,6 +68,7 @@ class LotControllerTest extends TestCase
 	{
 		echo "\n\nLOT CONTROLLER TEST\n\n";
 
+		$this->withoutMiddleware();
 		$response = $this->call('POST', '/lot', $this->input);
 		$this->assertTrue($response->isRedirection());
 
@@ -83,6 +84,7 @@ class LotControllerTest extends TestCase
 	*/
 	public function testUpdate()
 	{
+		$this->withoutMiddleware();
 		$response = $this->call('POST', '/lot', $this->inputUpdate);
 		$this->assertTrue($response->isRedirection());
 
@@ -113,6 +115,7 @@ class LotControllerTest extends TestCase
 	 */
 	public function runStore($input)
 	{
+		$this->withoutMiddleware();
 		$this->call('POST', '/lot', $input);
 	}
 
@@ -123,6 +126,7 @@ class LotControllerTest extends TestCase
   	 */
 	public function runUpdate($input, $id)
 	{
+		$this->withoutMiddleware();
 		$this->call('POST', '/lot/'.$id, $input);
 	}
 }
