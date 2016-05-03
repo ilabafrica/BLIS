@@ -1432,14 +1432,13 @@ Nairobi, Kenya.",
 
         //Seeding for QC
         $lots = array(
-            array('number'=> '0001',
+            array('lot_no'=> '0001',
                 'description' => 'First lot',
-                'expiry' => date('Y-m-d H:i:s', strtotime("+6 months")),
-                'instrument_id' => 1),
-            array('number'=> '0002',
+                'expiry' => date('Y-m-d H:i:s', strtotime("+6 months"))),
+            array('lot_no'=> '0002',
                 'description' => 'Second lot',
-                'expiry' => date('Y-m-d H:i:s', strtotime("+7 months")),
-                'instrument_id' => 1));
+                'expiry' => date('Y-m-d H:i:s', strtotime("+7 months")))
+        );
         foreach ($lots as $lot) {
             $lot = Lot::create($lot);
         }
@@ -1449,8 +1448,8 @@ Nairobi, Kenya.",
         $controls = array(
             array('name'=>'Humatrol P', 
                     'description' =>'HUMATROL P control serum has been designed to provide a suitable basis for the quality control (imprecision, inaccuracy) in the clinical chemical laboratory.', 
-                    'lot_id' => 1),
-            array('name'=>'Full Blood Count', 'description' => 'Né pas touchér', 'lot_id' => 1,)
+                    'instrument_id' => 1),
+            array('name'=>'Full Blood Count', 'description' => 'Né pas touchér', 'instrument_id' => 1,)
             );
         foreach ($controls as $control) {
             Control::create($control);
@@ -1507,15 +1506,15 @@ Nairobi, Kenya.",
 
         //Control Tests
         $controlTests = array(
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
-                array('entered_by'=> 1, 'control_id'=> 2, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
-                array('entered_by'=> 1, 'control_id'=> 2, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Msiska', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Katayi', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Msiska', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Kweyu', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Kweyu', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Tiwonge', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Mukulu', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Tiwonge', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Tiwonge', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
             );
         foreach ($controlTests as $controltest) {
             ControlTest::create($controltest);
@@ -1525,73 +1524,73 @@ Nairobi, Kenya.",
         //Control results
         $controlResults = array(
                 //Results fro Humatrol P
-                array('results' => '2.78', 'control_measure_id' => 1, 'control_test_id' => 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
-                array('results' => '13.56', 'control_measure_id' => 2, 'control_test_id' => 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
-                array('results' => '14.77', 'control_measure_id' => 3, 'control_test_id' => 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
-                array('results' => '25.92', 'control_measure_id' => 4, 'control_test_id' => 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
-                array('results' => '18.87', 'control_measure_id' => 5, 'control_test_id' => 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
+                array('results' => '2.78', 'control_measure_id' => 1, 'control_test_id' => 1, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
+                array('results' => '13.56', 'control_measure_id' => 2, 'control_test_id' => 1, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
+                array('results' => '14.77', 'control_measure_id' => 3, 'control_test_id' => 1, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
+                array('results' => '25.92', 'control_measure_id' => 4, 'control_test_id' => 1, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
+                array('results' => '18.87', 'control_measure_id' => 5, 'control_test_id' => 1, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
 
                  //Results fro Humatrol P
-                array('results' => '6.78', 'control_measure_id' => 1, 'control_test_id' => 2, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
-                array('results' => '15.56', 'control_measure_id' => 2, 'control_test_id' => 2, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
-                array('results' => '18.77', 'control_measure_id' => 3, 'control_test_id' => 2, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
-                array('results' => '30.92', 'control_measure_id' => 4, 'control_test_id' => 2, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
-                array('results' => '17.87', 'control_measure_id' => 5, 'control_test_id' => 2, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
+                array('results' => '6.78', 'control_measure_id' => 1, 'control_test_id' => 2, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
+                array('results' => '15.56', 'control_measure_id' => 2, 'control_test_id' => 2, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
+                array('results' => '18.77', 'control_measure_id' => 3, 'control_test_id' => 2, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
+                array('results' => '30.92', 'control_measure_id' => 4, 'control_test_id' => 2, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
+                array('results' => '17.87', 'control_measure_id' => 5, 'control_test_id' => 2, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
 
                  //Results fro Humatrol P
-                array('results' => '8.78', 'control_measure_id' => 1, 'control_test_id' => 3, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
-                array('results' => '17.56', 'control_measure_id' => 2, 'control_test_id' => 3, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
-                array('results' => '21.77', 'control_measure_id' => 3, 'control_test_id' => 3, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
-                array('results' => '27.92', 'control_measure_id' => 4, 'control_test_id' => 3, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
-                array('results' => '22.87', 'control_measure_id' => 5, 'control_test_id' => 3, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
+                array('results' => '8.78', 'control_measure_id' => 1, 'control_test_id' => 3, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
+                array('results' => '17.56', 'control_measure_id' => 2, 'control_test_id' => 3, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
+                array('results' => '21.77', 'control_measure_id' => 3, 'control_test_id' => 3, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
+                array('results' => '27.92', 'control_measure_id' => 4, 'control_test_id' => 3, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
+                array('results' => '22.87', 'control_measure_id' => 5, 'control_test_id' => 3, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
 
                  //Results fro Humatrol P
-                array('results' => '6.78', 'control_measure_id' => 1, 'control_test_id' => 4, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
-                array('results' => '18.56', 'control_measure_id' => 2, 'control_test_id' => 4, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
-                array('results' => '19.77', 'control_measure_id' => 3, 'control_test_id' => 4, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
-                array('results' => '12.92', 'control_measure_id' => 4, 'control_test_id' => 4, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
-                array('results' => '22.87', 'control_measure_id' => 5, 'control_test_id' => 4, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
+                array('results' => '6.78', 'control_measure_id' => 1, 'control_test_id' => 4, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
+                array('results' => '18.56', 'control_measure_id' => 2, 'control_test_id' => 4, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
+                array('results' => '19.77', 'control_measure_id' => 3, 'control_test_id' => 4, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
+                array('results' => '12.92', 'control_measure_id' => 4, 'control_test_id' => 4, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
+                array('results' => '22.87', 'control_measure_id' => 5, 'control_test_id' => 4, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
 
                  //Results fro Humatrol P
-                array('results' => '3.78', 'control_measure_id' => 1, 'control_test_id' => 5, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
-                array('results' => '16.56', 'control_measure_id' => 2, 'control_test_id' => 5, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
-                array('results' => '17.77', 'control_measure_id' => 3, 'control_test_id' => 5, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
-                array('results' => '28.92', 'control_measure_id' => 4, 'control_test_id' => 5, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
-                array('results' => '19.87', 'control_measure_id' => 5, 'control_test_id' => 5, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
+                array('results' => '3.78', 'control_measure_id' => 1, 'control_test_id' => 5, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
+                array('results' => '16.56', 'control_measure_id' => 2, 'control_test_id' => 5, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
+                array('results' => '17.77', 'control_measure_id' => 3, 'control_test_id' => 5, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
+                array('results' => '28.92', 'control_measure_id' => 4, 'control_test_id' => 5, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
+                array('results' => '19.87', 'control_measure_id' => 5, 'control_test_id' => 5, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
 
                  //Results fro Humatrol P
-                array('results' => '5.78', 'control_measure_id' => 1, 'control_test_id' => 6, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
-                array('results' => '15.56', 'control_measure_id' => 2, 'control_test_id' => 6, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
-                array('results' => '11.77', 'control_measure_id' => 3, 'control_test_id' => 6, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
-                array('results' => '29.92', 'control_measure_id' => 4, 'control_test_id' => 6, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
-                array('results' => '14.87', 'control_measure_id' => 5, 'control_test_id' => 6, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
+                array('results' => '5.78', 'control_measure_id' => 1, 'control_test_id' => 6, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
+                array('results' => '15.56', 'control_measure_id' => 2, 'control_test_id' => 6, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
+                array('results' => '11.77', 'control_measure_id' => 3, 'control_test_id' => 6, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
+                array('results' => '29.92', 'control_measure_id' => 4, 'control_test_id' => 6, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
+                array('results' => '14.87', 'control_measure_id' => 5, 'control_test_id' => 6, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
 
                  //Results fro Humatrol P
-                array('results' => '9.78', 'control_measure_id' => 1, 'control_test_id' => 7, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
-                array('results' => '11.56', 'control_measure_id' => 2, 'control_test_id' => 7, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
-                array('results' => '19.77', 'control_measure_id' => 3, 'control_test_id' => 7, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
-                array('results' => '32.92', 'control_measure_id' => 4, 'control_test_id' => 7, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
-                array('results' => '29.87', 'control_measure_id' => 5, 'control_test_id' => 7, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
+                array('results' => '9.78', 'control_measure_id' => 1, 'control_test_id' => 7, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
+                array('results' => '11.56', 'control_measure_id' => 2, 'control_test_id' => 7, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
+                array('results' => '19.77', 'control_measure_id' => 3, 'control_test_id' => 7, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
+                array('results' => '32.92', 'control_measure_id' => 4, 'control_test_id' => 7, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
+                array('results' => '29.87', 'control_measure_id' => 5, 'control_test_id' => 7, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
 
                 //Results for Full blood count
-                array('results' => '5.45', 'control_measure_id' => 6, 'control_test_id' => 8, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
-                array('results' => '5.01', 'control_measure_id' => 7, 'control_test_id' => 8, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
-                array('results' => '12.3', 'control_measure_id' => 8, 'control_test_id' => 8, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
-                array('results' => '89.7', 'control_measure_id' => 9, 'control_test_id' => 8, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
-                array('results' => '2.15', 'control_measure_id' => 10, 'control_test_id' => 8, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
-                array('results' => '34.0', 'control_measure_id' => 11, 'control_test_id' => 8, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
-                array('results' => '37.2', 'control_measure_id' => 12, 'control_test_id' => 8, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
-                array('results' => '141.5', 'control_measure_id' => 13, 'control_test_id' => 8, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('results' => '5.45', 'control_measure_id' => 6, 'control_test_id' => 8, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('results' => '5.01', 'control_measure_id' => 7, 'control_test_id' => 8, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('results' => '12.3', 'control_measure_id' => 8, 'control_test_id' => 8, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('results' => '89.7', 'control_measure_id' => 9, 'control_test_id' => 8, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('results' => '2.15', 'control_measure_id' => 10, 'control_test_id' => 8, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('results' => '34.0', 'control_measure_id' => 11, 'control_test_id' => 8, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('results' => '37.2', 'control_measure_id' => 12, 'control_test_id' => 8, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('results' => '141.5', 'control_measure_id' => 13, 'control_test_id' => 8, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
 
                 //Results for Full blood count
-                array('results' => '7.45', 'control_measure_id' => 6, 'control_test_id' => 9, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
-                array('results' => '9.01', 'control_measure_id' => 7, 'control_test_id' => 9, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
-                array('results' => '9.3',  'control_measure_id' => 8, 'control_test_id' => 9, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
-                array('results' => '94.7', 'control_measure_id' => 9, 'control_test_id' => 9, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
-                array('results' => '12.15','control_measure_id' => 10, 'control_test_id' => 9, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
-                array('results' => '37.0', 'control_measure_id' => 11, 'control_test_id' => 9, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
-                array('results' => '30.2', 'control_measure_id' => 12, 'control_test_id' => 9, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
-                array('results' => '121.5','control_measure_id' =>  13, 'control_test_id' => 9, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('results' => '7.45', 'control_measure_id' => 6, 'control_test_id' => 9, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('results' => '9.01', 'control_measure_id' => 7, 'control_test_id' => 9, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('results' => '9.3',  'control_measure_id' => 8, 'control_test_id' => 9, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('results' => '94.7', 'control_measure_id' => 9, 'control_test_id' => 9, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('results' => '12.15','control_measure_id' => 10, 'control_test_id' => 9, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('results' => '37.0', 'control_measure_id' => 11, 'control_test_id' => 9, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('results' => '30.2', 'control_measure_id' => 12, 'control_test_id' => 9, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('results' => '121.5','control_measure_id' =>  13, 'control_test_id' => 9, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
             );
         
         foreach ($controlResults as $controlResult) {
