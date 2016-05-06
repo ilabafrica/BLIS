@@ -27,8 +27,9 @@ Route::group(array("before" => "guest"), function()
         "as" => "user.login",
         "uses" => "UserController@loginAction"
     ));
-    
+    Route::get('/download/{file}', 'DownloadController@download');
 });
+
 /* Routes accessible AFTER logging in */
 Route::group(array("before" => "auth"), function()
 {
