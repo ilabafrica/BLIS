@@ -23,7 +23,7 @@
                             array('class' => 'form-control', 'placeholder' => 'Search')) }}
                 </div>
                 <div class='col-md-4'>
-                    <div class='col-md-4'>
+                    <div class='col-md-3'>
                         {{ Form::label('test_status', trans('messages.test-status')) }}
                     </div>
                     <div class='col-md-6'>
