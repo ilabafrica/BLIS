@@ -25,14 +25,14 @@
 			<thead>
 				<tr>
 					<th>{{ Lang::choice('messages.name', 1) }}</th>
-					<th>{{ Lang::choice('messages.lot', 1) }}</th>
+					<th>{{ Lang::choice('messages.instrument', 1) }}</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 			@foreach($controls as $control)
 					<td>{{ $control->name }}</td>
-					<td>{{ $control->lot->number }}</td>
+					<td>{{ $control->instrument->name }}</td>
 					<td>
 						<a class="btn btn-sm btn-info" href="{{ URL::to("control/" . $control->id . "/edit") }}" >
 							<span class="glyphicon glyphicon-edit"></span>

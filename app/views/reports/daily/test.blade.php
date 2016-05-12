@@ -57,13 +57,13 @@
 				<div class="col-sm-2">
 				    <label class="radio-inline">
 						{{ Form::radio('records', 'patients', false, array('data-toggle' => 'radio',
-						  'id' => 'patients')) }} {{trans('messages.patient-records')}}
+						  'id' => 'patients', Entrust::can('can_access_ccc_reports')?'disabled':'' )) }} {{trans('messages.patient-records')}}
 					</label>
 				</div>
 				<div class="col-sm-2">
 				    <label class="radio-inline">
 						{{ Form::radio('records', 'rejections', false, array('data-toggle' => 'radio',
-						  'id' => 'specimens')) }} {{trans('messages.rejected-specimen')}}
+						  'id' => 'specimens', Entrust::can('can_access_ccc_reports')?'disabled':'' )) }} {{trans('messages.rejected-specimen')}}
 					</label>
 				</div>
 				<div class="col-sm-2">
@@ -87,6 +87,7 @@
 		  	</div>
 	  	</div>
   	</div>
+  	@if(!Entrust::can('can_access_ccc_reports'))
   	<div class='row spacer'>
 	  	<div class="col-sm-6">
 	    	<div class="row">
@@ -113,6 +114,10 @@
 			</div>
 		</div>
 	</div>
+	@else
+		{{ Form::hidden('section_id', TestCategory::getTestCatIdByName('VIROLOGY')) }}
+		{{ Form::hidden('test_type', TestType::getTestTypeIdByTestName('Viral Load')) }}
+	@endif
 	{{ Form::close() }}
 </div>
 <br />
@@ -157,7 +162,7 @@
 					@endif
 				</p>
 			</strong>
-			<table class="table table-bordered">
+			<table class="table table-bordered table-responsive">
 				<tbody>
 					<tr>
 						<th>{{ trans('messages.patient-id') }}</th>
@@ -172,6 +177,7 @@
 						<th>{{ trans('messages.test-remarks') }}</th>
 						<th>{{ trans('messages.results-entry-date') }}</th>
 						<th>{{ trans('messages.verified-by') }}</th>
+						<th>{{ trans('messages.turnaround-time') }}</th>
 					</tr>
 					@forelse($tests as $key => $test)
 					<tr>
@@ -191,9 +197,10 @@
 						<td>{{ $test->interpretation }}</td>
 						<td>{{ $test->time_completed or trans('messages.pending') }}</td>
 						<td>{{ $test->verifiedBy->name or trans('messages.verification-pending') }}</td>
+						<td>{{ $test->isCompleted()?$test->getFormattedTurnaroundTime():trans('messages.pending') }}</td>
 					</tr>
 					@empty
-					<tr><td colspan="12">{{trans('messages.no-records-found')}}</td></tr>
+					<tr><td colspan="13">{{trans('messages.no-records-found')}}</td></tr>
 					@endforelse
 				</tbody>
 			</table>

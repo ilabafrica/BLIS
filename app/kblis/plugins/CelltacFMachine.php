@@ -5,38 +5,38 @@ class CelltacFMachine extends \KBLIS\Instrumentation\AbstractInstrumentor
 {   
 
 	protected $RESULTS_KEYS = array(
-		        'WBC',
-		        'UNIT-NE',
-		        'UNIT-LY',
-		        'UNIT-MO',
-		        'UNIT-EO',
-		        'UNIT-BA',
-		        'Neu#',
-		        'Lym#',
-		        'Mon#',
-		        'Eos#',
-		        'Baso#',
-		        'RBC',
-		        'HB',
-		        'HCT',
-		        'MCV',
-		        'MCH',
-		        'MCHC',
-		        'RDW',
-		        'PLATELET COUNT',
-		        'PCT',
-		        'MPV',
-		        'PDW'
-		        );
+				'WBC',
+				'UNIT-NE',
+				'UNIT-LY',
+				'UNIT-MO',
+				'UNIT-EO',
+				'UNIT-BA',
+				'Neu#',
+				'Lym#',
+				'Mon#',
+				'Eos#',
+				'Baso#',
+				'RBC',
+				'HB',
+				'HCT',
+				'MCV',
+				'MCH',
+				'MCHC',
+				'RDW',
+				'PLATELET COUNT',
+				'PCT',
+				'MPV',
+				'PDW'
+				);
 
 	protected $DATETIME_KEYS = array(
-		        'YEAR-CT',
-		        'MONTH-CT',
-		        'DATE-CT',
-		        'HH-CT',
-		        'MM-CT',
-		        'SS-CT'
-		        );
+				'YEAR-CT',
+				'MONTH-CT',
+				'DATE-CT',
+				'HH-CT',
+				'MM-CT',
+				'SS-CT'
+				);
 
 
 	/**
@@ -44,27 +44,27 @@ class CelltacFMachine extends \KBLIS\Instrumentation\AbstractInstrumentor
 	*
 	* @return array('name' => '', 'description' => '', 'testTypes' => array()) 
 	*/
-    public function getEquipmentInfo(){
-    	return array(
-    		'code' => 'CF8222', 
-    		'name' => 'Celltac F Mek 8222', 
-    		'description' => 'Automatic analyzer with 22 parameters and WBC 5 part diff Hematology Analyzer',
-    		'testTypes' => array("Full Haemogram", "WBC")
-    		);
-    }
+	public function getEquipmentInfo(){
+		return array(
+			'code' => 'CF8222', 
+			'name' => 'Celltac F Mek 8222', 
+			'description' => 'Automatic analyzer with 22 parameters and WBC 5 part diff Hematology Analyzer',
+			'testTypes' => array("Full Haemogram", "WBC")
+			);
+	}
 
 	/**
 	* Fetch Test Result from machine and format it as an array
 	*
 	* @return array
 	*/
-    public function getResult($testTypeID = 0) {
+	public function getResult($testTypeID = 0) {
 
-    	/*
-    	* 1. Read result file stored on the local machine (Use IP/host to verify that I'm on the correct host)
-    	* 2. Parse the data
-    	* 3. Return an array of key-value pairs: measure_name => value
-    	*/
+		/*
+		* 1. Read result file stored on the local machine (Use IP/host to verify that I'm on the correct host)
+		* 2. Parse the data
+		* 3. Return an array of key-value pairs: measure_name => value
+		*/
 
 		/*-------------
 		* Sample file output
@@ -113,38 +113,38 @@ class CelltacFMachine extends \KBLIS\Instrumentation\AbstractInstrumentor
 				return $this->match_results($COMPLETE_RESULT_ARRAY);
 			}
 
-		    else{
+			else{
 				print "Something went wrong, results string too short.";
 				return;
-		    }
+			}
 	}
 
-    public function match_results($COMPLETE_RESULT_ARRAY){
-        //Count 98
-        //TODO check array length if too small then invalid
-        //Validate also using PatientID
+	public function match_results($COMPLETE_RESULT_ARRAY){
+		//Count 98
+		//TODO check array length if too small then invalid
+		//Validate also using PatientID
 
-        $this_year = date('Y');
-        $EMPTY_FILE_URL = "http://".$this->ip."/celtac/emptyfile.php";
+		$this_year = date('Y');
+		$EMPTY_FILE_URL = "http://".$this->ip."/celtac/emptyfile.php";
 
-        //Search for occurences of MEK-8222 string
-        $ARR_COUNT = $this->count_needles_in_haystack('MEK-8222', $COMPLETE_RESULT_ARRAY);
-        if ($ARR_COUNT != 2){
-            //We DO NOT have a valid results with two parts, Results and static values
-            print "Something went wrong : Too many results in celltac log file";
-            file_get_contents($EMPTY_FILE_URL);
-            return;
-        }
+		//Search for occurences of MEK-8222 string
+		$ARR_COUNT = $this->count_needles_in_haystack('MEK-8222', $COMPLETE_RESULT_ARRAY);
+		if ($ARR_COUNT != 2){
+			//We DO NOT have a valid results with two parts, Results and static values
+			print "Something went wrong : Too many results in celltac log file";
+			file_get_contents($EMPTY_FILE_URL);
+			return;
+		}
 
-        //Find where date starts and begin recording results from here
-        $keyofyear = array_search(''.$this_year.'', $COMPLETE_RESULT_ARRAY);
-        $DATETIME_VALUES = array_slice($COMPLETE_RESULT_ARRAY, $keyofyear , 6);
-        $DATETIME_ARRAY = array_combine($this->DATETIME_KEYS, $DATETIME_VALUES);
+		//Find where date starts and begin recording results from here
+		$keyofyear = array_search(''.$this_year.'', $COMPLETE_RESULT_ARRAY);
+		$DATETIME_VALUES = array_slice($COMPLETE_RESULT_ARRAY, $keyofyear , 6);
+		$DATETIME_ARRAY = array_combine($this->DATETIME_KEYS, $DATETIME_VALUES);
 
-        //TODO Validate $datetime_array
-        //Search using using key of current patient in Results entry page
-        $idKey = $keyofyear + 6;
-        $patientID =  $COMPLETE_RESULT_ARRAY[$idKey];
+		//TODO Validate $datetime_array
+		//Search using using key of current patient in Results entry page
+		$idKey = $keyofyear + 6;
+		$patientID =  $COMPLETE_RESULT_ARRAY[$idKey];
 
 		//Assuming they have not put patientID in celltac we start reading results immediately
 		$resultsKey = $idKey;
@@ -154,13 +154,24 @@ class CelltacFMachine extends \KBLIS\Instrumentation\AbstractInstrumentor
 			//There could also be Age / comments inputs Between patient ID and Results
 			$resultsKey = $idKey+1;
 		}
-        //TODO Check if Patient ID from results matches with current patient
-        //After $idKey next 22 values are results
-        $RESULTS_VALUES = array_slice($COMPLETE_RESULT_ARRAY, $resultsKey , 22);
+		//TODO Check if Patient ID from results matches with current patient
+		//After $idKey next 22 values are results
+		$RESULTS_VALUES = array_slice($COMPLETE_RESULT_ARRAY, $resultsKey , 22);
 
-        //TODO Need to check if RESULTS Array is valid
-        //Map values to their corresponding keys i.e WBC, LY, MO
-        $RESULTS = array_combine($this->RESULTS_KEYS, $RESULTS_VALUES);
+		//Checking if there are string in the results meaning that we cannot reliably assign 
+		//Results to measure. Also removing Strings from the results
+		foreach ($RESULTS_VALUES as $key => &$result) {
+			if(is_numeric(substr($result, 0,1)) != 1){
+				print "Something went wrong: Strings in results\n";
+				return 0; 
+			}
+			$search = ['*', 'L', 'C', 'H'];
+			$result =  str_replace($search, '', $result);
+		}
+
+		//TODO Need to check if RESULTS Array is valid
+		//Map values to their corresponding keys i.e WBC, LY, MO
+		$RESULTS = array_combine($this->RESULTS_KEYS, $RESULTS_VALUES);
 		if (!$RESULTS) {
 		//Something wrong
 		print "Something went wrong : Keys not equal";
@@ -170,11 +181,11 @@ class CelltacFMachine extends \KBLIS\Instrumentation\AbstractInstrumentor
 		$DELETED_STATUS = file_get_contents($EMPTY_FILE_URL);
 
 		return $RESULTS;
-    }
+	}
 
-    public function count_needles_in_haystack($needle, $HayStack){
-        //Count number of times needle occurs in array haystack
-        $counts = array_count_values($HayStack);
-        return $counts[$needle];
-    }
+	public function count_needles_in_haystack($needle, $HayStack){
+		//Count number of times needle occurs in array haystack
+		$counts = array_count_values($HayStack);
+		return $counts[$needle];
+	}
 }
