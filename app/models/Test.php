@@ -424,24 +424,67 @@ class Test extends Eloquent
 	*/
 	public static function search($searchString = '', $testStatusId = 0, $dateFrom = NULL, $dateTo = NULL)
 	{
-		$tests = DB::select(DB::raw('select t.id as test_id, t.interpretation, t.test_status_id, t.verified_by, t.time_created, v.id as visit_id, v.visit_number, v.visit_type, p.patient_number, p.name as patient_name, p.dob, p.gender, p.external_patient_number, tt.name as testtype_name, sp.id as specimen_id, sp.referral_id, st.name, tst.name, ref.status from tests t 
+		$dbQuery = 'select t.id as test_id, t.interpretation, t.test_status_id, t.verified_by, t.tested_by, t.time_created, v.id as visit_id, v.visit_number, v.visit_type, p.patient_number, p.name as patient_name, p.dob, p.gender, p.external_patient_number, tt.name as testtype_name, sp.id as specimen_id, sp.referral_id, sp.specimen_status_id, st.name, tst.name, ref.status as ref_status, count(tsp.specimen_type_id) as specimenTypesCount, tc.name as testCategoryName from tests t 
 			inner join visits v on t.visit_id = v.id 
 			inner join patients p on v.patient_id = p.id  
-			inner join test_types tt on t.test_type_id = tt.id  
+			inner join test_types tt on t.test_type_id = tt.id 
+			inner join test_categories tc on tt.test_category_id = tc.id 
 			inner join specimens sp on t.specimen_id = sp.id 
 			inner join specimen_types st on sp.specimen_type_id = st.id 
 			inner join test_statuses tst on t.test_status_id = tst.id 
-			left join referrals ref on sp.referral_id = ref.id where 
-			(tt.name LIKE ? and tt.deleted_at is null or 
-			(p.name like ? or p.external_patient_number = ? or 
-			p.patient_number = ? and p.deleted_at is null) or 
-			(sp.id = ?) or 
-			(v.visit_number = ?))
-			order by t.time_created DESC'),
-			array("%".$searchString . "%", "%".$searchString . "%" , $searchString , $searchString , $searchString , $searchString) );
+			inner join testtype_specimentypes tsp on tt.id = tsp.test_type_id
+			left join referrals ref on sp.referral_id = ref.id 
+			where 
+				(tt.name LIKE ? and tt.deleted_at is null or 
+				(p.name like ? or p.external_patient_number = ? or 
+				p.patient_number = ? and p.deleted_at is null) or 
+				(sp.id = ?) or 
+				(v.visit_number = ?)) ';
+				if($testStatusId != 0){
+					$dbQuery .= ' and t.test_status_id = ? ';//Filter by test status
+				}
+			$dbQuery .= 
+			'group by t.id
+			order by t.time_created DESC';
+			// dd($dbQuery);
+
+		if($testStatusId != 0){
+			$tests = DB::select(DB::raw($dbQuery), array("%".$searchString . "%", "%".$searchString . "%" , $searchString , $searchString , $searchString , $searchString, $testStatusId) );
+		}
+		else {
+			$tests = DB::select(DB::raw($dbQuery), array("%".$searchString . "%", "%".$searchString . "%" , $searchString , $searchString , $searchString , $searchString) );
+		}
 
 		foreach ($tests as $key => $test) {
-			# code...
+			$at = new DateTime('now');
+			$dateOfBirth = new DateTime($test->dob);
+			$interval = $dateOfBirth->diff($at);
+
+			//Set patients age
+			$age = $interval->y;
+			$test->age = $age;
+			//Not from the external system
+			if($test->external_patient_number == null) {
+				$test->isPaid = true;
+			}
+			//Checking if the patient has paid
+			elseif( $test->$age >= 6
+				&& $externalDump->order_stage == "op" 
+				&& $externalDump->receipt_number == "" 
+				&& $externalDump->receipt_type == ""  )
+				$test->isPaid = false;
+			else 
+				$test->isPaid = true;
+
+			//Get gender of the patient
+			if ($test->gender == Patient::MALE){
+				$test->gender = 'M';
+			}
+			else if ($test->gender == Patient::FEMALE){
+				$test->gender = 'F';
+			}
+			//SpecimenID
+			$test->specimen_id = substr($test->testCategoryName, 0 , 3).'-'.$test->specimen_id;
 		}
 		// dd($results);
 		// (t.time_created >= "Ja" and t.time_created <= "Ja") 
