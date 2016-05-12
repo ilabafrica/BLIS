@@ -1372,15 +1372,41 @@ class TestDataSeeder extends DatabaseSeeder
         }
         $this->command->info('Test results seeded again');
         //  End prevalence rates seed
+        
+        //Seed for region-types
+        $regionTypesSeed = array(
+            array('name' => "County",'user_id' => 1),
+            array('name' => "Country",'user_id' => 1),
+            array('name' => "Ward",'user_id' => 1),
+            array('name' => "District",'user_id' => 1)
+        );
+
+        foreach ($regionTypesSeed as $regionType) {
+            RegionType::create($regionType);
+        }
+        $this->command->info('RegionTypes table seeded');
+
+        //Seed for region
+        $regionsSeed = array(
+            array('name' => "Machakos",'region_type_id' => 1,'user_id' => 1),
+            array('name' => "Kenya",'region_type_id' => 2,'user_id' => 1),
+            array('name' => "Nairobi",'region_type_id' => 1,'user_id' => 1),
+            array('name' => "Isreal",'region_type_id' => 2,'user_id' => 1)              
+        );
+
+        foreach ($regionsSeed as $region) {
+            Region::create($region);
+        }
+        $this->command->info('Regions table seeded');
 
         //Seed for facilities
         $facilitiesSeed = array(
-            array('name' => "WALTER REED"),
-            array('name' => "AGA KHAN UNIVERSITY HOSPITAL"),
-            array('name' => "TEL AVIV GENERAL HOSPITAL"),
-            array('name' => "GK PRISON DISPENSARY"),
-            array('name' => "KEMRI ALUPE"),
-            array('name' => "AMPATH")
+            array('name' => "WALTER REED",'region_id' => 1),
+            array('name' => "AGA KHAN UNIVERSITY HOSPITAL",'region_id' => 3),
+            array('name' => "TEL AVIV GENERAL HOSPITAL",'region_id' => 4),
+            array('name' => "GK PRISON DISPENSARY",'region_id' => 3),
+            array('name' => "KEMRI ALUPE",'region_id' => 3),
+            array('name' => "AMPATH",'region_id' => 3)
         );
 
         foreach ($facilitiesSeed as $facility) {
@@ -1395,8 +1421,8 @@ class TestDataSeeder extends DatabaseSeeder
                 "phone" => "+254 722 822 595",
                 "email" => "info@chem-labs.com",
                 "address" => "Human House, Ngara West Rd, Off Museum Hill. 23,
-P.o. Box 38779 – 00600,
-Nairobi, Kenya.",
+                P.o. Box 38779 – 00600,
+                Nairobi, Kenya.",
                 "user_id" => 1,
 
             )
