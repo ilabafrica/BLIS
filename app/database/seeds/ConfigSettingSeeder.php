@@ -133,5 +133,15 @@ class ConfigSettingSeeder extends DatabaseSeeder
         /* Billing table */
         Billing::create(['default_currency' => 'KES', 'currency_delimiter' => '.', 'user_id' => 1]);
         $this->command->info('Billing table seeded.');
+        /* Permissions table */
+        $permissions = array(
+            array("name" => "update_billing", "display_name" => "Can update billing settings"),
+            array("name" => "billing_report", "display_name" => "Can access billing report"),
+            array("name" => "generate_bill", "display_name" => "Can generate bill")
+        );
+        foreach ($permissions as $permission) {
+            Permission::create($permission);
+        }
+        $this->command->info('Billing permissions table seeded');
     }
 }
