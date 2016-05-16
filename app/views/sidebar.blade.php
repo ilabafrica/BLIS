@@ -11,6 +11,7 @@
 		case 'reportconfig':
 		case 'requireverification':
 		case 'barcode':
+		case 'billing':
 		case 'blisclient':
 		case 'facility': 
 			$active[3] = "active"; break;
@@ -126,6 +127,14 @@
 						<div><a href="{{ URL::route("barcode.index") }}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{ trans('messages.barcode-settings')}}</a>
+						</div>
+					</li>
+				</ul>
+				<ul class="sub-menu-items">
+					<li>
+						<div><a href="{{ URL::route("billing.index") }}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{ trans('messages.billing')}}</a>
 						</div>
 					</li>
 				</ul>

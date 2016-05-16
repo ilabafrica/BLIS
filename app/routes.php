@@ -271,6 +271,7 @@ Route::group(array("before" => "auth"), function()
             "as"   => "blisclient.properties",
             "uses" => "BlisClientController@properties"
         ));
+        Route::resource("billing", "BillingController");
     });
     
     //  Check if able to manage reports

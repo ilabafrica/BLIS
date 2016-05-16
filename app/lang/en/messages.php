@@ -690,7 +690,7 @@ return array(
     */
     'billing'               =>  'Billing',
     'enable-billing'        =>  'Enable Billing',
-    'default-currency'      =>  'Default Currency Name',
+    'default-currency'      =>  'Default Currency',
     'currency-delimiter'    =>  'Currency Delimiter',
     'currency-display'      =>  'Currency will display as: ',
     'currency-logo'         =>  'Logo being used',

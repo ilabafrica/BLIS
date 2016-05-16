@@ -18,8 +18,8 @@ class CreateBillingTable extends Migration {
             $table->increments('id')->unsigned();
             $table->string('default_currency', 50);
             $table->string('currency_delimiter', 50);
-            $table->string('image', 50);
-            $table->tinyInteger('enabled');
+            $table->string('image', 50)->nullable();
+            $table->tinyInteger('enabled')->default(0);
             $table->integer('user_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();
@@ -31,7 +31,7 @@ class CreateBillingTable extends Migration {
             $table->increments('id')->unsigned();
             $table->string('earliest_date_valid', 50);
             $table->integer('test_type_id')->unsigned();
-            $table->decimal('amount', 5, 2);
+            $table->decimal('amount', 5, 2)->nullable();
             $table->integer('user_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();

@@ -130,5 +130,8 @@ class ConfigSettingSeeder extends DatabaseSeeder
         /* Require Verifications table */
         RequireVerification::create(["verification_required" => "0", "verification_required_from"=>'6:00 PM', 'verification_required_to' => '6:00 PM']);
         $this->command->info('Require Verifications table seeded');
+        /* Billing table */
+        Billing::create(['default_currency' => 'KES', 'currency_delimiter' => '.', 'user_id' => 1]);
+        $this->command->info('Billing table seeded.');
     }
 }
