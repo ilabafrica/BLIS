@@ -158,6 +158,8 @@ class TestController extends \BaseController {
 					$test->test_type_id = $testTypeID;
 					$test->specimen_id = $specimen->id;
 					$test->test_status_id = Test::PENDING;
+					if(Billing::first()->isEnabled())
+						$test->test_status_id = Test::NOT_PAID;
 					$test->created_by = Auth::user()->id;
 					$test->requested_by = Input::get('physician');
 					$test->save();

@@ -47,6 +47,15 @@
 							@endif
 						</div>
 						@endif
+						@if(Billing::first()->isEnabled() && Entrust::can('generate_bill') && $test->isNotPaid())
+	                    <div class="panel-btn">
+							<a class="btn btn-sm btn-info" 
+			                    href="{{ URL::route('visit.bill', $test->visit->id) }}">
+			                    <span class="glyphicon glyphicon-info-sign"></span>
+			                    {{ trans('messages.billing-report') }}
+			                </a>
+	                    </div>
+	                    @endif
                     </div>
                     <div class="col-md-1">
                         <a class="btn btn-sm btn-primary pull-right" href="#" onclick="window.history.back();return false;"

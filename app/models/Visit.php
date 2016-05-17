@@ -26,5 +26,16 @@ class Visit extends Eloquent
 	{
 		return $this->belongsTo('Patient');
 	}
-
+	/**
+	 * Patient visit cost
+	 */
+	public function cost()
+	{
+		$total = 0;
+		foreach($this->tests as $test)
+		{
+			$total+=(double)$test->testType->cost();
+		}
+		return $total;
+	}
 }

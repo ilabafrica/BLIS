@@ -211,10 +211,22 @@ Route::group(array("before" => "auth"), function()
         "as"   => "test.viewDetails",
         "uses" => "TestController@viewDetails"
     ));
+    Route::get("/test/{id}/bill", array(
+        "as"   => "test.bill",
+        "uses" => "BillingController@testBill"
+    ));
     Route::any("/test/{test}/verify", array(
         "before" => "checkPerms:verify_test_results",
         "as"   => "test.verify",
         "uses" => "TestController@verify"
+    ));;
+    Route::get("/test/visit/{id}/bill", array(
+        "as"   => "visit.bill",
+        "uses" => "BillingController@visitBill"
+    ));
+    Route::get("/patient/{id}/bill", array(
+        "as"   => "patient.bill",
+        "uses" => "BillingController@patientBill"
     ));
     Route::any("/culture/storeObservation", array(
         "as"   => "culture.worksheet",

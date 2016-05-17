@@ -19,7 +19,7 @@ class Test extends Eloquent
 	const STARTED = 3;
 	const COMPLETED = 4;
 	const VERIFIED = 5;
-
+	const NOT_PAID = 6;
 	/**
 	 * Other constants
 	 */
@@ -627,5 +627,17 @@ class Test extends Eloquent
 	 */
 	public function external(){
 		return ExternalDump::where('lab_no', '=', $this->external_id)->get()->first();
+	}
+	/**
+	 * Check to see if test is not paid
+	 *
+	 * @return boolean
+	 */
+	public function isNotPaid()
+	{
+		if($this->test_status_id == Test::NOT_PAID)
+			return true;
+		else 
+			return false;
 	}
 }

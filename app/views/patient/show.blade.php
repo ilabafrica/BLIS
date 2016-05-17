@@ -23,6 +23,13 @@
                     {{ trans('messages.new-test') }}
                 </a>
                 @endif
+                @if(Billing::first()->isEnabled() && Entrust::can('billing_report'))
+                <a class="btn btn-sm btn-info" 
+                    href="{{ URL::route('patient.bill', $patient->id) }}">
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                    {{ trans('messages.billing-report') }}
+                </a>
+                @endif
             </div>
         </div>
         <div class="panel-body">

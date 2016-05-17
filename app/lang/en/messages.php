@@ -699,4 +699,5 @@ return array(
     'generate-bill'         =>  'Generate Bill',
     'select-for-billing'    =>  'Select for Billing',
     'view-associated-bill'  =>  'View Associated Bill',
+    'bill-for'              =>  'Bill for: ',
 );

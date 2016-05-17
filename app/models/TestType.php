@@ -426,22 +426,23 @@ class TestType extends Eloquent
 		return count(array_intersect(array_unique($qualifier), array_unique($results)));
 	}
 	/**
-	 * cost/billing relationship
+	 * Get the cost of a specific test-type
+	 *
 	 */
 	public function cost()
 	{
-	  return $this->hasOne('Billing', 'test_type_cost');
+		return DB::table('test_type_costs')->where('test_type_id', $this->id)->first()?DB::table('test_type_costs')->where('test_type_id', $this->id)->first()->amount:0;
 	}
 	/**
 	 * Set billing cost
 	 *
 	 */
-	public function setCost($cost, $user){
-
+	public function setCost($cost, $user)
+	{
 		// Delete existing test_type measure mappings
-		DB::table('test_type_cost')->where('test_type_id', '=', $this->id)->delete();
-
+		DB::table('test_type_costs')->where('test_type_id', '=', $this->id)->delete();
+		
 		// Add the new mapping
-		DB::table('test_type_cost')->insert(['test_type_id' => $this->id, 'amount' => $cost, 'created_at' => new DateTime('now'), 'updated_at' => new DateTime('now'), 'user_id' => $user]);
+		DB::table('test_type_costs')->insert(['test_type_id' => $this->id, 'amount' => $cost, 'created_at' => new DateTime('now'), 'updated_at' => new DateTime('now'), 'user_id' => $user]);
 	}
 }

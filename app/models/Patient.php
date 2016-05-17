@@ -90,4 +90,16 @@ class Patient extends Eloquent
 						->orWhere('name', 'LIKE', '%'.$searchText.'%')
 						->orWhere('external_patient_number', '=', $searchText);
 	}
+	/**
+	 * Patient bill
+	 */
+    public function bill()
+    {
+        $bill = 0;
+        foreach ($this->visits as $visit)
+        {
+        	$bill+=$visit->cost();
+        }
+        return $bill;
+    }
 }

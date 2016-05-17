@@ -145,6 +145,9 @@
                                         @elseif($test->isVerified())
                                             <span class='label label-success'>
                                                 {{trans('messages.verified')}}</span>
+                                        @elseif($test->isNotPaid())
+                                            <span class='label label-default'>
+                                                {{trans('messages.not-paid')}}</span>
                                         @endif
                                     </div>
     
@@ -184,7 +187,14 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 {{trans('messages.view-details')}}
                             </a>
-                            
+                        @if(Billing::first()->isEnabled() && Auth::user()->can('generate_bill') && $test->isNotPaid())
+                            <a class="btn btn-sm btn-default receive-test"
+                                href="{{ URL::route('test.bill', $test->id) }}"
+                                title="{{trans('messages.generate-bill')}}">
+                                <span class="glyphicon glyphicon-info-sign"></span>
+                                {{trans('messages.generate-bill')}}
+                            </a>
+                        @else
                         @if ($test->isNotReceived()) 
                             @if(Auth::user()->can('receive_external_test') && $test->isPaid())
                                 <a class="btn btn-sm btn-default receive-test" href="javascript:void(0)"
@@ -273,6 +283,7 @@
                                     </a>
                                 @endif
                             @endif
+                        @endif
                         @endif
                         </td>
                     </tr>

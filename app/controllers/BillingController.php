@@ -16,26 +16,35 @@ class BillingController extends \BaseController {
 
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Show the bill for a single test.
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function testBill($id)
 	{
-		//
+		$test = Test::find($id);
+		return View::make('test.bill')->with('test', $test);
 	}
-
-
 	/**
-	 * Store a newly created resource in storage.
+	 * Show bill for a visit - might comprise several tests.
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function visitBill($id)
 	{
-		//
+		$visit = Visit::find($id);
+		return View::make('patient.bill')->with('visit', $visit);
 	}
-
+	/**
+	 * Show bill for a patient - might comprise several visits.
+	 *
+	 * @return Response
+	 */
+	public function patientBill($id)
+	{
+		$patient = Patient::find($id);
+		return View::make('patient.bills')->with('patient', $patient);
+	}
 
 	/**
 	 * Display the specified resource.
