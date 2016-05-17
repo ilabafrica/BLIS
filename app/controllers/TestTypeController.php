@@ -84,6 +84,10 @@ class TestTypeController extends \BaseController {
 				$testtype->setMeasures($measureIds);
 				$testtype->setSpecimenTypes(Input::get('specimentypes'));
 				$testtype->setOrganisms(Input::get('organisms'));
+				if(Input::get('amount'))
+				{
+					$testtype->setCost(Input::get('amount'), Auth::user()->id);
+				}
 
 				return Redirect::route('testtype.index')
 					->with('message', trans('messages.success-creating-test-type'));
@@ -187,6 +191,10 @@ class TestTypeController extends \BaseController {
 						$measures->update($inputMeasures);
 					}
 					$testtype->setMeasures($measureIds);
+					if(Input::get('amount'))
+					{
+						$testtype->setCost(Input::get('amount'), Auth::user()->id);
+					}
 			}catch(QueryException $e){
 				Log::error($e);
 			}

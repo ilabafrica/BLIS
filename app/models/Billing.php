@@ -17,4 +17,22 @@ class Billing extends Eloquent
 	 * @var string
 	 */
 	protected $table = 'billing';
+	/**
+	 * Billing status
+	 *
+	 */
+	const ENABLED = 1;
+	const DISABLED = 0;
+	/**
+	 * Check billing status - enabled/disabled
+	 *
+	 */
+	public static function isEnabled()
+	{
+		$billing = Billing::first();
+		if($billing->enabled == Billing::ENABLED)
+			return true;
+		else 
+			return false;
+	}
 }

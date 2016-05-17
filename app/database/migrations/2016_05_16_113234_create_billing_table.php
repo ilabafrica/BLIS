@@ -29,12 +29,12 @@ class CreateBillingTable extends Migration {
         Schema::create('test_type_costs', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
-            $table->string('earliest_date_valid', 50);
             $table->integer('test_type_id')->unsigned();
             $table->decimal('amount', 5, 2)->nullable();
             $table->integer('user_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();
+            $table->foreign('test_type_id')->references('id')->on('test_types');
             $table->foreign('user_id')->references('id')->on('users');
         });
 	}
