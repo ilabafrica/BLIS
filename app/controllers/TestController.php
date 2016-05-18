@@ -33,19 +33,10 @@ class TestController extends \BaseController {
 		$dateFrom = isset($input['date_from'])?$input['date_from']:'';
 		$dateTo = isset($input['date_to'])?$input['date_to']:'';
 
-		// Search Conditions
-		if($searchString||$testStatusId||$dateFrom||$dateTo){
+		$tests = Test::search($searchString, $testStatusId, $dateFrom, $dateTo);
 
-			$tests = Test::search($searchString, $testStatusId, $dateFrom, $dateTo);
-
-			if (count($tests) == 0) {
-			 	Session::flash('message', trans('messages.empty-search'));
-			}
-		}
-		else
-		{
-		// List all the active tests
-			$tests = Test::orderBy('time_created', 'DESC');
+		if (count($tests) == 0) {
+			Session::flash('message', trans('messages.empty-search'));
 		}
 
 		// Create Test Statuses array. Include a first entry for ALL
@@ -54,9 +45,6 @@ class TestController extends \BaseController {
 		foreach ($statuses as $key => $value) {
 			$statuses[$key] = trans("messages.$value");
 		}
-
-		// Pagination
-		// $tests = $tests->paginate(Config::get('kblis.page-items'))->appends($input);
 
 		// Load the view and pass it the tests
 		return View::make('test.index')

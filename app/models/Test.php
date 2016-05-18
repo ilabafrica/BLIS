@@ -422,8 +422,7 @@ class Test extends Eloquent
 	* @param String $dateTo
 	* @return Collection 
 	*/
-	public static function search($searchString = '', $testStatusId = 0, $dateFrom = NULL, $dateTo = NULL)
-	{
+	public static function search($searchString = '', $testStatusId = 0, $dateFrom = NULL, $dateTo = NULL){
 		$dbQuery = 'select t.id as test_id, t.interpretation, t.test_status_id, t.verified_by, t.tested_by, t.time_created, v.id as visit_id, v.visit_number, v.visit_type, p.patient_number, p.name as patient_name, p.dob, p.gender, p.external_patient_number, tt.name as testtype_name, sp.id as specimen_id, sp.referral_id, sp.specimen_status_id, st.name, tst.name, ref.status as ref_status, count(tsp.specimen_type_id) as specimenTypesCount, tc.name as testCategoryName from tests t 
 			inner join visits v on t.visit_id = v.id 
 			inner join patients p on v.patient_id = p.id  
@@ -433,27 +432,69 @@ class Test extends Eloquent
 			inner join specimen_types st on sp.specimen_type_id = st.id 
 			inner join test_statuses tst on t.test_status_id = tst.id 
 			inner join testtype_specimentypes tsp on tt.id = tsp.test_type_id
-			left join referrals ref on sp.referral_id = ref.id 
-			where 
+			left join referrals ref on sp.referral_id = ref.id ';
+			if ($searchString != ''){
+				$dbQuery .= 'where 
 				(tt.name LIKE ? and tt.deleted_at is null or 
 				(p.name like ? or p.external_patient_number = ? or 
 				p.patient_number = ? and p.deleted_at is null) or 
 				(sp.id = ?) or 
 				(v.visit_number = ?)) ';
+			}
 				if($testStatusId != 0){
 					$dbQuery .= ' and t.test_status_id = ? ';//Filter by test status
 				}
+			if($dateFrom || $dateTo){
+				if ($dateFrom){
+					$dbQuery .= ' and t.time_created >= ? ';//Filter by test status
+				}
+				if ($dateTo){
+					$dateTo = $dateTo . ' 23:59:59';
+					$dbQuery .= ' and t.time_created <= ? ';//Filter by test status
+				}
+			}
 			$dbQuery .= 
 			'group by t.id
-			order by t.time_created DESC';
-			// dd($dbQuery);
+			order by t.time_created DESC LIMIT 50';
 
-		if($testStatusId != 0){
-			$tests = DB::select(DB::raw($dbQuery), array("%".$searchString . "%", "%".$searchString . "%" , $searchString , $searchString , $searchString , $searchString, $testStatusId) );
+
+		if($searchString != ''){
+			if($testStatusId != 0){
+				if($dateFrom || $dateTo){
+					if ($dateFrom && $dateTo){
+						$tests = DB::select(DB::raw($dbQuery), array("%".$searchString . "%", "%".$searchString . "%" , $searchString , $searchString , $searchString , $searchString, $testStatusId, $dateFrom, $dateTo) );
+					}
+					else if ($dateFrom){
+						$tests = DB::select(DB::raw($dbQuery), array("%".$searchString . "%", "%".$searchString . "%" , $searchString , $searchString , $searchString , $searchString, $testStatusId, $dateFrom) );
+					}
+					else if ($dateTo){
+						$tests = DB::select(DB::raw($dbQuery), array("%".$searchString . "%", "%".$searchString . "%" , $searchString , $searchString , $searchString , $searchString, $testStatusId, $dateTo) );
+					}
+				}
+				else {
+					$tests = DB::select(DB::raw($dbQuery), array("%".$searchString . "%", "%".$searchString . "%" , $searchString , $searchString , $searchString , $searchString, $testStatusId) );
+				}
+			}
+			else if($dateFrom || $dateTo){
+				if ($dateFrom  && $dateTo){
+						$tests = DB::select(DB::raw($dbQuery), array("%".$searchString . "%", "%".$searchString . "%" , $searchString , $searchString , $searchString , $searchString, $dateFrom, $dateTo) );
+				}
+				else if ($dateFrom){
+					$tests = DB::select(DB::raw($dbQuery), array("%".$searchString . "%", "%".$searchString . "%" , $searchString , $searchString , $searchString , $searchString, $dateFrom) );
+				}
+				else if ($dateTo){
+					$tests = DB::select(DB::raw($dbQuery), array("%".$searchString . "%", "%".$searchString . "%" , $searchString , $searchString , $searchString , $searchString, $dateTo) );
+				}
+			}
+			else {
+
+				$tests = DB::select(DB::raw($dbQuery), array("%".$searchString . "%", "%".$searchString . "%" , $searchString , $searchString , $searchString , $searchString) );
+			}
 		}
 		else {
-			$tests = DB::select(DB::raw($dbQuery), array("%".$searchString . "%", "%".$searchString . "%" , $searchString , $searchString , $searchString , $searchString) );
+			$tests = DB::select(DB::raw($dbQuery));
 		}
+
 
 		foreach ($tests as $key => $test) {
 			$at = new DateTime('now');
@@ -486,69 +527,6 @@ class Test extends Eloquent
 			//SpecimenID
 			$test->specimen_id = substr($test->testCategoryName, 0 , 3).'-'.$test->specimen_id;
 		}
-		// dd($results);
-		// (t.time_created >= "Ja" and t.time_created <= "Ja") 
-
-		// $test = Test::with('visit', 'visit.patient', 'testType', 'specimen', 'testStatus', 'testStatus.testPhase')
-		// 	->where(function($q) use ($searchString){
-
-		// 	$q->whereHas('visit', function($q) use ($searchString)
-		// 	{
-		// 		$q->whereHas('patient', function($q)  use ($searchString)
-		// 		{
-		// 			if(is_numeric($searchString))
-		// 			{
-		// 				$q->where(function($q) use ($searchString){
-		// 					$q->where('external_patient_number', '=', $searchString )
-		// 					  ->orWhere('patient_number', '=', $searchString );
-		// 				});
-		// 			}
-		// 			else
-		// 			{
-		// 				$q->where('name', 'like', '%' . $searchString . '%');
-		// 			}
-		// 		});
-		// 	})
-		// 	->orWhereHas('testType', function($q) use ($searchString)
-		// 	{
-		// 	    $q->where('name', 'like', '%' . $searchString . '%');//Search by test type
-		// 	})
-		// 	->orWhereHas('specimen', function($q) use ($searchString)
-		// 	{
-		// 	    $q->where('id', '=', $searchString );//Search by specimen number
-		// 	})
-		// 	->orWhereHas('visit',  function($q) use ($searchString)
-		// 	{
-		// 		$q->where(function($q) use ($searchString){
-		// 			$q->where('visit_number', '=', $searchString )//Search by visit number
-		// 			->orWhere('id', '=', $searchString);
-		// 		});
-		// 	});
-		// });
-
-		// if ($testStatusId > 0) {
-		// 	$tests = $tests->where(function($q) use ($testStatusId)
-		// 	{
-		// 		$q->whereHas('testStatus', function($q) use ($testStatusId){
-		// 		    $q->where('id','=', $testStatusId);//Filter by test status
-		// 		});
-		// 	});
-		// }
-
-		// if ($dateFrom||$dateTo) {
-		// 	$tests = $tests->where(function($q) use ($dateFrom, $dateTo)
-		// 	{
-		// 		if($dateFrom)$q->where('time_created', '>=', $dateFrom);
-
-		// 		if($dateTo){
-		// 			$dateTo = $dateTo . ' 23:59:59';
-		// 			$q->where('time_created', '<=', $dateTo);
-		// 		}
-		// 	});
-		// }
-
-		// $tests = $tests->orderBy('time_created', 'DESC');
-		// dd($tests);
 		return $tests;
 	}
 

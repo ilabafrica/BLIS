@@ -626,6 +626,7 @@ $(function(){
 
 	//DataTables search functionality
 	$(document).ready( function () {
+
 		$('.search-table').DataTable({
         	'bStateSave': true,
         	'fnStateSave': function (oSettings, oData) {
@@ -635,6 +636,9 @@ $(function(){
             	return JSON.parse(localStorage.getItem('.search-table'));
         	}
    		});
+		$('#testSearch').DataTable({
+			'bFilter': false
+		});
 	});
 
 	//Make sure all input fields are entered before submission
