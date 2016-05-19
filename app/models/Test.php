@@ -423,14 +423,15 @@ class Test extends Eloquent
 	* @return Collection 
 	*/
 	public static function search($searchString = '', $testStatusId = 0, $dateFrom = NULL, $dateTo = NULL){
-		$dbQuery = 'select t.id as test_id, t.interpretation, t.test_status_id, t.verified_by, t.tested_by, t.time_created, v.id as visit_id, v.visit_number, v.visit_type, p.patient_number, p.name as patient_name, p.dob, p.gender, p.external_patient_number, tt.name as testtype_name, sp.id as specimen_id, sp.referral_id, sp.specimen_status_id, st.name, tst.name, ref.status as ref_status, count(tsp.specimen_type_id) as specimenTypesCount, tc.name as testCategoryName from tests t 
+		$dbQuery = 'select t.id as test_id, t.interpretation, t.test_status_id, t.verified_by, t.tested_by, t.time_created, t.external_id, v.id as visit_id, v.visit_number, v.visit_type, p.patient_number, p.name as patient_name, p.dob, p.gender, p.external_patient_number, tt.name as testtype_name, sp.id as specimen_id, sp.referral_id, sp.specimen_status_id, st.name, tst.name, ref.status as ref_status, count(tsp.specimen_type_id) as specimenTypesCount, tc.name as testCategoryName, exd.order_stage, exd.receipt_number, exd.receipt_type from tests t 
 			inner join visits v on t.visit_id = v.id 
 			inner join patients p on v.patient_id = p.id  
 			inner join test_types tt on t.test_type_id = tt.id 
 			inner join test_categories tc on tt.test_category_id = tc.id 
 			inner join specimens sp on t.specimen_id = sp.id 
 			inner join specimen_types st on sp.specimen_type_id = st.id 
-			inner join test_statuses tst on t.test_status_id = tst.id 
+			inner join test_statuses tst on t.test_status_id = tst.id
+			inner join external_dump exd on t.id = exd.test_id
 			inner join testtype_specimentypes tsp on tt.id = tsp.test_type_id
 			left join referrals ref on sp.referral_id = ref.id ';
 			if ($searchString != ''){
@@ -509,10 +510,10 @@ class Test extends Eloquent
 				$test->isPaid = true;
 			}
 			//Checking if the patient has paid
-			elseif( $test->$age >= 6
-				&& $externalDump->order_stage == "op" 
-				&& $externalDump->receipt_number == "" 
-				&& $externalDump->receipt_type == ""  )
+			elseif( $test->age >= 6
+				&& $test->order_stage == "op"
+				&& $test->receipt_number == ""
+				&& $test->receipt_type == "")
 				$test->isPaid = false;
 			else 
 				$test->isPaid = true;
