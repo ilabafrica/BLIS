@@ -36,3 +36,6 @@ Quick Start
 7. If you are running the application on a webserver eg. apache, ensure that the webserver has write permissions to the /app/storage folder.
    Ideally the web-root should be the /public folder.
    The default login credentials are '*administrator*' '*password*'.
+Troubleshooting
+-----------
+If you have any errors during Login , ensure that mod_rewrite is enabled. This should solve the problem assuming that the credentials are correct.
