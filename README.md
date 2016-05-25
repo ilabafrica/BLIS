@@ -39,4 +39,4 @@ Quick Start
 
 Troubleshooting
 ----------------
-If you have errors during Login , ensure that mod_rewrite is enabled. This should solve the problem assuming that the credentials are correct.
+Ensure that you enable mod_rewrite, `sudo a2enmod rewrite` if you are using apache. This should solve the problem of routing failures.
