@@ -1,4 +1,4 @@
-<?php namespace App\Models;
+<?php namespace App\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -14,6 +14,7 @@ class InterfacerController extends Model {
         $labRequest = str_replace(['labRequest', '='], ['', ''], $labRequest);
 
         //Validate::ifValid()
+        // dd('in InterfacerController!');
 
         //Fire event with the received data
         Event::fire('api.receivedLabRequest', json_decode($labRequest));

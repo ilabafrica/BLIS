@@ -49,7 +49,6 @@ class ControlControllerTest extends TestCase {
 
 		$this->assertTrue($response->isRedirection());
 		$this->assertRedirectedToRoute('control.index');
-
 		$testControl = Control::orderBy('id', 'desc')->first();
 		$this->assertEquals($testControl->name, $this->inputStoreControls['name']);
 		$this->assertEquals($testControl->description, $this->inputStoreControls['description']);
@@ -58,8 +57,8 @@ class ControlControllerTest extends TestCase {
 		$testControlMeasures = $testControl->controlMeasures;
 
 		foreach ($testControlMeasures as $key => $testControlMeasure) {
-			$this->assertEquals($this->inputStoreControls['new-measures'][$key]['name'], $testControlMeasure->name);
-			$this->assertEquals($this->inputStoreControls['new-measures'][$key]['unit'], $testControlMeasure->unit);
+			$this->assertEquals($this->inputStoreControls['new_measures'][$key]['name'], $testControlMeasure->name);
+			$this->assertEquals($this->inputStoreControls['new_measures'][$key]['unit'], $testControlMeasure->unit);
 		}
 		//TODO: Test for rangemax and ragnemin. Not working currently due to sqlite rounding of the ranges
 	}
@@ -83,8 +82,8 @@ class ControlControllerTest extends TestCase {
 		$testControlMeasures = $testControl->controlMeasures;
 
 		foreach ($testControlMeasures as $key => $testControlMeasure) {
-			$this->assertEquals($this->inputUpdateControls['new-measures'][$key]['name'], $testControlMeasure->name);
-			$this->assertEquals($this->inputUpdateControls['new-measures'][$key]['unit'], $testControlMeasure->unit);
+			$this->assertEquals($this->inputUpdateControls['new_measures'][$key]['name'], $testControlMeasure->name);
+			$this->assertEquals($this->inputUpdateControls['new_measures'][$key]['unit'], $testControlMeasure->unit);
 		}
 	}
 

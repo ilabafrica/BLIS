@@ -68,7 +68,7 @@ class CommodityControllerTest extends TestCase
   		 // Store the Commodity
 		$this->runStore($this->input);
 
-		$commoditySaved = Commodity::orderBy('id','desc')->take(1)->get()->toArray();
+		$commoditySaved = Commodity::orderBy('id','desc')->first();
 				
 		$this->assertEquals($commoditySaved[0]['name'], $this->input['name']);
 		$this->assertEquals($commoditySaved[0]['description'], $this->input['description']);
@@ -90,11 +90,11 @@ class CommodityControllerTest extends TestCase
 	{
 		$this->be(User::first());
 		$this->runStore($this->input);
-		$commoditySaved = Commodity::orderBy('id','desc')->take(1)->get()->toArray();
+		$commoditySaved = Commodity::orderBy('id','desc')->first();
 		// Update the commodity
-		$this->runUpdate($this->inputUpdate, $commoditySaved[0]['id']);
+		$this->runUpdate($this->inputUpdate, $commoditySaved->id);
 
-		$commodityUpdated = Commodity::orderBy('id','desc')->take(1)->get()->toArray();
+		$commodityUpdated = Commodity::orderBy('id','desc')->first();
 
 
 		$this->assertEquals($commodityUpdated[0]['name'], $this->inputUpdate['name']);

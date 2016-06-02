@@ -12,7 +12,7 @@ use Lang;
  * Contains functions for managing specimen rejection  
  *
  */
-class RejectionController extends Controller {
+class ReasonController extends Controller {
     /**
      * Display a listing of the resource.
      *

@@ -5,17 +5,17 @@
             <div class="col-md-11 measure">
                 <div class="col-md-3">
                     <div class="form-group">
-                        {!! Form::label('new-measures[][name]', Lang::choice('messages.name',1)) !!}
-                       <input class="form-control name" name="new-measures[][name]" type="text">
+                        {!! Form::label('new_measures[][name]', Lang::choice('messages.name',1)) !!}
+                       <input class="form-control name" name="new_measures[][name]" type="text">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        {!! Form::label('new-measures[][measure_type_id]', trans('messages.measure-type')) !!}
+                        {!! Form::label('new_measures[][measure_type_id]', trans('messages.measure-type')) !!}
                             <select class="form-control measuretype-input-trigger measure_type_id" 
                                 data-measure-id="0" 
                                 data-new-measure-id="" 
-                                name="new-measures[][measure_type_id]" 
+                                name="new_measures[][measure_type_id]" 
                                 id="measure_type_id">
                                 <option value="0"></option>
                                 @foreach ($measureTypes as $measureType)
@@ -26,8 +26,8 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        {!! Form::label('new-measures[][unit]', trans('messages.unit')) !!}
-                        <input class="form-control unit" name="new-measures[][unit]" type="text">
+                        {!! Form::label('new_measures[][unit]', trans('messages.unit')) !!}
+                        <input class="form-control unit" name="new_measures[][unit]" type="text">
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -70,18 +70,18 @@
     <div class="hidden numericInputLoader">
         <div class="col-md-12 measure-input">
             <div class="col-md-3">
-                <input class="col-md-4 rangemin" name="new-measures[][rangemin][]" type="text" title="{!!trans('messages.lower-range')!!}">
+                <input class="col-md-4 rangemin" name="new_measures[][rangemin][]" type="text" title="{!!trans('messages.lower-range')!!}">
                 <span class="col-md-2">:</span>
-                <input class="col-md-4 rangemax" name="new-measures[][rangemax][]" type="text" title="{!!trans('messages.upper-range')!!}">
+                <input class="col-md-4 rangemax" name="new_measures[][rangemax][]" type="text" title="{!!trans('messages.upper-range')!!}">
                 <button class="col-md-2 close" aria-hidden="true" type="button" title="{!!trans('messages.delete')!!}">×</button>
-                <input class="measurerangeid" name="new-measures[][measurerangeid][]" type="hidden">
+                <input class="measurerangeid" name="new_measures[][measurerangeid][]" type="hidden">
             </div>
         </div>
     </div><!-- numericInput -->
     <div class="hidden alphanumericInputLoader">
         <div class="col-md-12 measure-input">
             <div class="col-md-5">
-                <input class="col-md-10 val" name="new-measures[][val][]" type="text">
+                <input class="col-md-10 val" name="new_measures[][val][]" type="text">
             </div>
         </div>
     </div><!-- alphanumericInput -->

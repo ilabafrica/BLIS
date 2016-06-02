@@ -46,7 +46,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-sm-offset-1">
-                            <form class="form-horizontal" role="form" method="POST" action="{!! url('auth/login') !!}">
+                            <form class="form-horizontal" role="form" method="POST" action="{!! url('/user/login') !!}">
                                 <!-- CSRF Token -->
                                 <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                                 <!-- ./ csrf token -->
@@ -76,6 +76,9 @@
                                 <div class="form-group row">
                                     <div class="col-sm-offset-2 col-sm-8">
                                         <button type="submit" class="btn btn-belize-hole">Sign in</button>
+                                    </div>
+                                    <div class="col-sm-offset-2 col-sm-8">
+                                        <a href="{{ url('/register') }}">Register</a>
                                     </div>
                                 </div>
                             </form>

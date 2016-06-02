@@ -20,6 +20,7 @@ class UserControllerTest extends TestCase
         parent::setUp();
         Artisan::call('migrate');
         $this->setVariables();
+        $this->withoutMiddleware();
     }
 
     /**
@@ -33,9 +34,9 @@ class UserControllerTest extends TestCase
 		$this->userData = array(
 			'username' => 'dotmatrix',
 			'email' => 'johxdoe@example.com',
-			'full_name' => 'John Dot',
+			'name' => 'John Dot',
+            'designation' => 'LabTechnikan',
 			'gender' => User::FEMALE,
-			'designation' => 'LabTechnikan',
             'password' => "goodpassword",
             'password_confirmation' => "goodpassword",
         );
@@ -43,7 +44,7 @@ class UserControllerTest extends TestCase
         // Edition sample data
         $this->userDataUpdate = array(
           'email' => 'johndoe@example.com',
-          'full_name' => 'John Doe',
+          'name' => 'John Doe',
           'gender' => User::MALE,
           'designation' => 'LabTechnician',
           'current_password' => 'goodpassword',
@@ -75,20 +76,18 @@ class UserControllerTest extends TestCase
 	 * Tests the store function in the UserController
 	 * @return int $testUserId ID of User stored; used in testUpdate() to identify test for update
 	 */    
- 	public function testStore() 
-	{
+	public function testRegister()
+    {
         echo "\n\nUSER CONTROLLER TEST\n\n";
         // Store the User
-        $this->call('POST', '/user', $this->userData);
-
-		$userSaved = User::find(1);
-
-		$this->assertEquals($userSaved->username , $this->userData['username']);
-		$this->assertEquals($userSaved->email , $this->userData['email']);
-		$this->assertEquals($userSaved->name , $this->userData['full_name']);
-		$this->assertEquals($userSaved->gender , $this->userData['gender']);
-		$this->assertEquals($userSaved->designation , $this->userData['designation']);
-	}
+        $this->call('POST', '/user/register', $this->userData);
+        $userSaved = User::find(1);
+        $this->assertEquals($userSaved->username , $this->userData['username']);
+        $this->assertEquals($userSaved->email , $this->userData['email']);
+        $this->assertEquals($userSaved->name , $this->userData['name']);
+        $this->assertEquals($userSaved->gender , $this->userData['gender']);
+        $this->assertEquals($userSaved->designation , $this->userData['designation']);
+    }
 
   /**
    * Tests the update function in the UserController
@@ -98,67 +97,45 @@ class UserControllerTest extends TestCase
     public function testUpdate()
     {
         // Update the User Types
-        $this->call('POST', '/user', $this->userData);
-        $this->call('PUT', '/user/1', $this->userDataUpdate);
-
+        $this->call('POST', '/user/register', $this->userData);
+        $this->call('PUT', '/user/1/update', $this->userDataUpdate);
         $userUpdated = User::find(1);
-        $this->assertEquals($userUpdated->email , $this->userDataUpdate['email']);
-        $this->assertEquals($userUpdated->name , $this->userDataUpdate['full_name']);
-        $this->assertEquals($userUpdated->gender , $this->userDataUpdate['gender']);
-        $this->assertEquals($userUpdated->designation , $this->userDataUpdate['designation']);
+
+        $this->assertEquals($this->userDataUpdate['email'], $userUpdated->email);
+        $this->assertEquals($this->userDataUpdate['name'], $userUpdated->name);
+        $this->assertEquals($this->userDataUpdate['gender'], $userUpdated->gender);
+        $this->assertEquals($this->userDataUpdate['designation'], $userUpdated->designation);
     }
 
     /**
-    * Tests the updateOwnPassword function in the UserController
-    * @param  void
-    * @return void
-    */
-    public function testUpdateOwnPassword()
+     * Tests the update function in the UserController
+     * @param  void
+     * @return void
+     */
+    public function testDelete()
     {
-        // Update the User Types
-        $this->call('POST', '/user', $this->userData);
-        $user->updateOwnPassword(1);
-
-        $userUpdated = User::find(1);
-
-        $this->assertTrue(Hash::check($this->userDataUpdate['new_password'], $userUpdated->password));
+        $this->call('POST', '/user/register', $this->userData);
+        $this->call('DELETE', '/user/1/delete', $this->userData);
+        $usersSaved = User::withTrashed()->find(1);
+        $this->assertNotNull($usersSaved->deleted_at);
     }
-
-	/**
-   * Tests the update function in the UserController
-	 * @param  void
-	 * @return void
-   */
-	public function testDelete()
-	{
-        $this->call('POST', '/user', $this->userData);
-        $user->delete(1);
-		$usersSaved = User::withTrashed()->find(1);
-
-		$this->assertNotNull($usersSaved->deleted_at);
-	}
 
     public function testHandlesFailedLogin()
     {
-        $this->call('POST', '/user', $this->userData);
-
-        $this->action('POST', 'UserController@loginAction', $this->userDataLoginBad);
-        $this->assertRedirectedToRoute('user.login');
+        $this->call('POST', '/user/login', $this->userData);
+        $this->assertRedirectedTo('/');
     }
 
     public function testHandlesValidLogin()
     {
-        $this->call('POST', '/user', $this->userData);
-
-        $this->action('POST', 'UserController@loginAction', $this->userDataLoginGood);
-        $this->assertRedirectedToRoute('user.home');
+        $this->call('POST', '/user/register', $this->userData);
+        $this->call('POST', '/user/login', $this->userData);
+        $this->assertRedirectedTo('home');
     }
 
     public function testHandlesLoginValidation()
     {
-        $this->call('POST', '/user', $this->userData);
-
-        $this->action('POST', 'UserController@loginAction', $this->userDataLoginFailsVerification);
-        $this->assertRedirectedToRoute('user.login');
+        $this->call('POST', '/user/login', $this->userData);
+        $this->assertRedirectedTo('/');
     }
 }

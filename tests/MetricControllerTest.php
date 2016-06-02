@@ -57,7 +57,7 @@ class MetricControllerTest extends TestCase
   		 // Store the metric
 		$this->runStore($this->input);
 
-		$metricSaved = Metric::orderBy('id','desc')->take(1)->get()->toArray();
+		$metricSaved = Metric::orderBy('id','desc')->first();
 				
 		$this->assertEquals($metricSaved[0]['name'], $this->input['unit-of-issue']);
 		$this->assertEquals($metricSaved[0]['description'], $this->input['description']);
@@ -74,11 +74,11 @@ class MetricControllerTest extends TestCase
 	{
 		$this->be(User::first());
 		$this->runStore($this->input);
-		$metricSaved = Metric::orderBy('id','desc')->take(1)->get()->toArray();
+		$metricSaved = Metric::orderBy('id','desc')->first();
 		// Update the metric
-		$this->runUpdate($this->inputUpdate, $metricSaved[0]['id']);
+		$this->runUpdate($this->inputUpdate, $metricSaved->id);
 
-		$metricUpdated = Metric::orderBy('id','desc')->take(1)->get()->toArray();
+		$metricUpdated = Metric::orderBy('id','desc')->first();
 
 
 		$this->assertEquals($metricUpdated[0]['name'], $this->inputUpdate['unit-of-issue']);

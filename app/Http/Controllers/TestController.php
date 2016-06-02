@@ -107,7 +107,7 @@ class TestController extends Controller {
 			$patientID = Input::get('patient_id');
 		}
 
-		$testtypes = TestType::where('orderable_test')-> orderBy('name', 'asc')->get();
+		$testtypes = TestType::where('orderable_test')->orderBy('name', 'asc')->get();
 		$patient = Patient::find($patientID);
 
 		//Load Test Create View

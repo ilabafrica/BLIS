@@ -33,6 +33,12 @@ class FacilityControllerTest extends TestCase
 		$this->assertEquals($facilityName, $facility->name);
 	}
 
+	// todo: not passing because of some redirect issues ... on hold for now... will be back!
+	/*--- Expected
+	+++ Actual
+	@@ @@
+	-'http://blis3.0.local/facility'
+	+'http://blis3.0.local'*/
 	public function testStoreFailValidation()
 	{
 		$this->withoutMiddleware();
@@ -61,20 +67,27 @@ class FacilityControllerTest extends TestCase
 		$this->assertEquals($facilityName, $faciltyNameUpdated);
 	}
 
+	// todo: not passing because of some redirect issues
+	/*--- Expected
+	+++ Actual
+	@@ @@
+	-'http://blis3.0.local/facility'
+	+'http://blis3.0.local'*/
 	public function testEditFailValidation()
 	{
 		//Prevents blank entries
 		$facilityName = "";
 		$idToUpdate = 1;
 		$this->withoutMiddleware();
-		$this->call('PUT', '/facility/'.$idToUpdate, ['id' => $idToUpdate, 'name' => $facilityName]);
+		$r = $this->call('PUT', '/facility/'.$idToUpdate, ['id' => $idToUpdate, 'name' => $facilityName]);
+		// dd($r);
 		$this->assertRedirectedToRoute('facility.index');
 		$this->assertSessionHasErrors('name');
 
 		//Prevents duplicate entries
 		$facilityName = Facility::find(2)->name;
 		$idToUpdate = 1;
-		$this->withoutMiddleware();
+		// $this->withoutMiddleware();
 		$this->call('PUT', '/facility/{id}', ['id' => $idToUpdate, 'name' => $facilityName]);
 		$this->assertRedirectedToRoute('facility.index');
 		$this->assertSessionHasErrors('name');

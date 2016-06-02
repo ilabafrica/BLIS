@@ -12,6 +12,7 @@ class DrugRequest extends Request {
 	 */
 	public function authorize()
 	{
+		// dd('am in request authorize');
 		return true;
 	}
 
@@ -22,7 +23,9 @@ class DrugRequest extends Request {
 	 */
 	public function rules()
 	{
+		// dd('am in request rules');
 		$id = $this->ingnoreId();
+		// dd($id);
 		return [
             'name'   => 'required|unique:drugs,name,'.$id,
         ];
@@ -31,6 +34,7 @@ class DrugRequest extends Request {
 	* @return \Illuminate\Routing\Route|null|string
 	*/
 	public function ingnoreId(){
+		// dd('am in request ingnoreId');
 		$id = $this->route('drug');
 		$name = $this->input('name');
 		return Drug::where(compact('id', 'name'))->exists() ? $id : '';

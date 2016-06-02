@@ -67,7 +67,7 @@ class ReceiptControllerTest extends TestCase
   		 // Store the receipt
 		$this->runStore($this->input);
 
-		$receiptSaved = receipt::orderBy('id','desc')->take(1)->get()->toArray();
+		$receiptSaved = receipt::orderBy('id','desc')->first();
 				
 		$this->assertEquals($receiptSaved[0]['commodity_id'], $this->input['commodity']);
 		$this->assertEquals($receiptSaved[0]['supplier_id'], $this->input['supplier']);
@@ -86,11 +86,11 @@ class ReceiptControllerTest extends TestCase
 	{
 		$this->be(User::first());
 		$this->runStore($this->input);
-		$receiptSaved = receipt::orderBy('id','desc')->take(1)->get()->toArray();
+		$receiptSaved = receipt::orderBy('id','desc')->first();
 		// Update the receipt
-		$this->runUpdate($this->inputUpdate, $receiptSaved[0]['id']);
+		$this->runUpdate($this->inputUpdate, $receiptSaved->id);
 
-		$receiptUpdated = receipt::orderBy('id','desc')->take(1)->get()->toArray();
+		$receiptUpdated = receipt::orderBy('id','desc')->first();
 
 
 		$this->assertEquals($receiptUpdated[0]['commodity_id'], $this->inputUpdate['commodity']);

@@ -57,6 +57,7 @@ class TestTypeController extends Controller {
 	 */
 	public function store(TestTypeRequest $request)
 	{
+
 		$testtype = new TestType;
 		$testtype->name = trim($request->name);
 		$testtype->description = $request->description;

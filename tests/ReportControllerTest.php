@@ -22,6 +22,7 @@ class ReportControllerTest extends TestCase
 		Artisan::call('migrate');
 		Artisan::call('db:seed');
 		$this->setVariables();
+		$this->withoutMiddleware();
 	}
 
 	/**
@@ -29,15 +30,17 @@ class ReportControllerTest extends TestCase
 	 *
 	 * @return void
 	 */    
+	// todo: test not dynamic enough... do that, suffers when seeding changes
  	public function testifSurveillanceConfigWorks() 
   	{
 		echo "\n\nREPORT CONTROLLER TEST\n\n";
 		
   		// add, edit and delete surveillance entry
-		$response = $this->action('POST', 'ReportController@surveillanceConfig', $this->inputSurveillance);
+		$this->call('POST', '/reportconfig/surveillance', $this->inputSurveillance);
+		// $this->action('POST', 'ReportController@surveillanceConfig', $this->inputSurveillance);
 
 		$surveillanceModel = ReportDisease::all();
-
+		// todo: make it more intelligible
 		//Check if entry was added
 		$this->assertEquals($surveillanceModel[2]->test_type_id, $this->inputSurveillance['new-surveillance']['1']['test-type']);
 		$this->assertEquals($surveillanceModel[2]->disease_id, $this->inputSurveillance['new-surveillance']['1']['disease']);
@@ -52,17 +55,18 @@ class ReportControllerTest extends TestCase
 	 * Tests the diseases CRUD
 	 *
 	 * @return void
-	 */    
+	 */
+	// todo: test not dynamic enough... do that, suffers when seeding changes
  	public function testifDiseaseCrudWorks() 
   	{
   		// add, edit and delete disease entry
-		$response = $this->action('POST', 'ReportController@disease', $this->inputDisease);
+		$this->call('POST', '/reportconfig/disease', $this->inputDisease);
+		// $this->action('POST', 'ReportController@disease', $this->inputDisease);
 
 		$diseaseModel = Disease::all();
-
 		//Check if entry was added
 		// todo: pick last entry and compare instead
-		$this->assertEquals($diseaseModel[3]->name, $this->inputDisease['new-diseases']['1']['disease']);
+		$this->assertEquals($diseaseModel[2]->name, $this->inputDisease['newDiseases']['1']['disease']);
 		//Check if entry was edited
 		$this->assertEquals($diseaseModel[0]->name, $this->inputDisease['diseases']['1']['disease']);
 
@@ -82,16 +86,16 @@ class ReportControllerTest extends TestCase
 			//by not puting the other one seed entry here, it should be deleted
 			'surveillance' => [
 				'1' => ['test-type' => '1','disease' => '1'],//BS => Malaria = as is
-				'2' => ['test-type' => '2','disease' => '2']//Stool for C/S => Dysentry to Typhoid = Edited
+				'2' => ['tests-type' => '2','disease' => '2']//Stool for C/S => Dysentry to Typhoid = Edited
 				//Salmonella Antigen Test => Typhoid = not in the input is deleted
 			],
-			'from-form' => 'from-form'
+			'fromForm' => 'fromForm'
 		);
 
 		//There are three seed entries being used
 		$this->inputDisease = array(
 			//adding a new entry
-			'new-diseases' => [
+			'newDiseases' => [
 				'1' => ['disease' => 'New Disease']// Added
 			],
 			//by not puting the other one seed entry here, it should be deleted
@@ -100,7 +104,7 @@ class ReportControllerTest extends TestCase
 				'1' => ['disease' => 'Edited Disease'],//BS edited,
 				// The rest Dysentry and Typhoid not deleted because they are in use
 			],
-			'from-form' => 'from-form'
+			'fromForm' => 'fromForm'
 		);
     }
 }

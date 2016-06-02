@@ -20,7 +20,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
-        $app->loadEnvironmentFrom('.env');
+        $app->loadEnvironmentFrom('.env.testing');
 
         $this->baseUrl = env('APP_URL', $this->baseUrl);
 

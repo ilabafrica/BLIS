@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Requests\TestCategoryRequest;
 use App\Models\TestCategory;
+use App\Models\TestType;
 use Response;
 use Auth;
 use Session;

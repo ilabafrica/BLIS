@@ -22,12 +22,11 @@ class UserRequest extends Request {
 	 */
 	public function rules()
 	{
+		// todo: what is the purpose of this thing ingnoreId
 		$id = $this->ingnoreId();
 		return [
             'name'   => 'required|unique:users,name,'.$id,
-            'gender'   => 'required:users,gender,'.$id,
             'email'   => 'unique:users,email,'.$id,
-            'phone'   => 'required|unique:users,phone,'.$id,
             'username'   => 'required|unique:users,username,'.$id,
         ];
 	}

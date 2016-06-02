@@ -37,12 +37,12 @@ $(function(){
 
 	 /* Add another surveillance */
 	$('.add-another-surveillance').click(function(){
-		newSurveillanceNo = $(this).data('new-surveillance');
+		newSurveillanceNo = $(this).data('newSurveillance');
 		var inputHtml = $('.addSurveillanceLoader').html();
 		//Count new measures on the new measure button
 		$('.surveillance-input').append(inputHtml);
 		$('.surveillance-input .new').addClass('new-surveillance-'+newSurveillanceNo).removeClass('new');
-		$(this).data('new-surveillance',  newSurveillanceNo+1).attr('data-new-surveillance',  newSurveillanceNo+1);
+		$(this).data('newSurveillance',  newSurveillanceNo+1).attr('data-new-surveillance',  newSurveillanceNo+1);
 		addNewSurveillanceAttributes(newSurveillanceNo);
 		delete newSurveillanceNo;
 	});
@@ -453,14 +453,14 @@ $(function(){
 	 */
 	function addNewSurveillanceAttributes (newSurveillanceNo) {
 		$('.new-surveillance-'+newSurveillanceNo).find('select.test-type').attr(
-			'name', 'new-surveillance['+newSurveillanceNo+'][test-type]');
+			'name', 'newSurveillance['+newSurveillanceNo+'][test-type]');
 		$('.new-surveillance-'+newSurveillanceNo).find('select.disease').attr(
-			'name', 'new-surveillance['+newSurveillanceNo+'][disease]');
+			'name', 'newSurveillance['+newSurveillanceNo+'][disease]');
 	}
 
 	function addNewDiseaseAttributes (newDiseaseNo) {
 		$('.new-disease-'+newDiseaseNo).find('input.disease').attr(
-			'name', 'new-diseases['+newDiseaseNo+'][disease]');
+			'name', 'newDiseases['+newDiseaseNo+'][disease]');
 	}
 
 	/**
@@ -514,40 +514,40 @@ $(function(){
 
 	function addNewMeasureAttributes (measureID) {
 		$('.measure-section.new-'+measureID+' input.name').attr(
-			'name', 'new-measures['+measureID+'][name]');
+			'name', 'new_measures['+measureID+'][name]');
 		$('.measure-section.new-'+measureID+' select.measure_type_id').attr(
-			'name', 'new-measures['+measureID+'][measure_type_id]');
+			'name', 'new_measures['+measureID+'][measure_type_id]');
 		$('.measure-section.new-'+measureID+' input.unit').attr(
-			'name', 'new-measures['+measureID+'][unit]');
+			'name', 'new_measures['+measureID+'][unit]');
 		$('.measure-section.new-'+measureID+' input.expected').attr(
-			'name', 'new-measures['+measureID+'][expected]');
+			'name', 'new_measures['+measureID+'][expected]');
 		$('.measure-section.new-'+measureID+' textarea.description').attr(
-			'name', 'new-measures['+measureID+'][description]');
+			'name', 'new_measures['+measureID+'][description]');
 	}
 
 	function addMeasureRangeAttributes (measureTypeId,measureID) {
 		if (measureTypeId == 0) {
 			$('.measurevalue.new-measure-'+measureID+' input.agemin').attr(
-				'name', 'new-measures['+measureID+'][agemin][]');
+				'name', 'new_measures['+measureID+'][agemin][]');
 			$('.measurevalue.new-measure-'+measureID+' input.agemax').attr(
-				'name', 'new-measures['+measureID+'][agemax][]');
+				'name', 'new_measures['+measureID+'][agemax][]');
 			$('.measurevalue.new-measure-'+measureID+' select.gender').attr(
-				'name', 'new-measures['+measureID+'][gender][]');
+				'name', 'new_measures['+measureID+'][gender][]');
 			$('.measurevalue.new-measure-'+measureID+' input.rangemin').attr(
-				'name', 'new-measures['+measureID+'][rangemin][]');
+				'name', 'new_measures['+measureID+'][rangemin][]');
 			$('.measurevalue.new-measure-'+measureID+' input.rangemax').attr(
-				'name', 'new-measures['+measureID+'][rangemax][]');
+				'name', 'new_measures['+measureID+'][rangemax][]');
 			$('.measurevalue.new-measure-'+measureID+' input.interpretation').attr(
-				'name', 'new-measures['+measureID+'][interpretation][]');
+				'name', 'new_measures['+measureID+'][interpretation][]');
 			$('.measurevalue.new-measure-'+measureID+' input.measurerangeid').attr(
-				'name', 'new-measures['+measureID+'][measurerangeid][]');
+				'name', 'new_measures['+measureID+'][measurerangeid][]');
 		} else{
 			$('.measurevalue.new-measure-'+measureID+' input.val').attr(
-				'name', 'new-measures['+measureID+'][val][]');
+				'name', 'new_measures['+measureID+'][val][]');
 			$('.measurevalue.new-measure-'+measureID+' input.interpretation').attr(
-				'name', 'new-measures['+measureID+'][interpretation][]');
+				'name', 'new_measures['+measureID+'][interpretation][]');
 			$('.measurevalue.new-measure-'+measureID+' input.measurerangeid').attr(
-				'name', 'new-measures['+measureID+'][measurerangeid][]');
+				'name', 'new_measures['+measureID+'][measurerangeid][]');
 		}
 	}
 

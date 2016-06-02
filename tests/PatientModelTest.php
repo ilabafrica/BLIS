@@ -44,8 +44,8 @@ class PatientModelTest extends TestCase {
         Patient::insert($data);
         $patientSaved = Patient::orderBy('id','desc')->take(2)->get()->toArray();
 
-        $patientfemale = Patient::find($patientSaved[1]['id']);
-        $patientmale = Patient::find($patientSaved[0]['id']);
+        $patientfemale = Patient::find($patientSaved[0]['id']);
+        $patientmale = Patient::find($patientSaved[1]['id']);
 
         $this->assertEquals('F', $patientfemale->getGender());
         $this->assertEquals('M', $patientmale->getGender());

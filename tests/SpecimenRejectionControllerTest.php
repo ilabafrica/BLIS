@@ -44,9 +44,9 @@ class SpecimenRejectionControllerTest extends TestCase
 		$this->withoutMiddleware();
 		// Store the Rejection Reason
 		$this->call('POST', '/specimenrejection', $this->rejectionReasonData);
-		$rejectionReasonstored = RejectionReason::orderBy('id','desc')->take(1)->get()->toArray();
+		$rejectionReasonstored = RejectionReason::orderBy('id','desc')->first();
 
-		$rejectionReasonSaved = RejectionReason::find($rejectionReasonstored[0]['id']);
+		$rejectionReasonSaved = RejectionReason::find($rejectionReasonstored->id);
 		$this->assertEquals($rejectionReasonSaved->reason , $this->rejectionReasonData['reason']);
 	}
 
@@ -59,12 +59,12 @@ class SpecimenRejectionControllerTest extends TestCase
 		$this->withoutMiddleware();
 		// Update the SpecimenRejection
 		$this->call('POST', '/specimenrejection', $this->rejectionReasonData);
-		$rejectionReasonstored = RejectionReason::orderBy('id','desc')->take(1)->get()->toArray();
+		$rejectionReasonstored = RejectionReason::orderBy('id','desc')->first();
 
 		$this->withoutMiddleware();
-		$this->call('PUT', '/specimenrejection/'.$rejectionReasonstored[0]['id'], $this->rejectionReasonUpdate);
-		$rejectionReasonSaved = RejectionReason::orderBy('id','desc')->take(1)->get()->toArray();
-		$this->assertEquals($rejectionReasonSaved[0]['reason'] , $this->rejectionReasonUpdate['reason']);
+		$this->call('PUT', '/specimenrejection/'.$rejectionReasonstored->id, $this->rejectionReasonUpdate);
+		$rejectionReasonSaved = RejectionReason::orderBy('id','desc')->first();
+		$this->assertEquals($rejectionReasonSaved->reason , $this->rejectionReasonUpdate['reason']);
 	}
 
 	/**
@@ -74,11 +74,11 @@ class SpecimenRejectionControllerTest extends TestCase
 	{
 		$this->withoutMiddleware();
 		$this->call('POST', '/specimenrejection', $this->rejectionReasonData);
-		$rejectionReasonstored = RejectionReason::orderBy('id','desc')->take(1)->get()->toArray();
+		$rejectionReasonstored = RejectionReason::orderBy('id','desc')->first();
 
-		$this->call('DELETE', '/specimenrejection/'.$rejectionReasonstored[0]['id'], $this->rejectionReasonData);
+		$this->call('DELETE', '/specimenrejection/'.$rejectionReasonstored->id, $this->rejectionReasonData);
 
-		$rejectionReasonDeleted = RejectionReason::withTrashed()->find($rejectionReasonstored[0]['id']);
+		$rejectionReasonDeleted = RejectionReason::withTrashed()->find($rejectionReasonstored->id);
 		$this->assertNotNull($rejectionReasonDeleted->deleted_at);
 	}
 }

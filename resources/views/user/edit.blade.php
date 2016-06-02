@@ -6,7 +6,7 @@
         <ul class="breadcrumb">
             <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
             <li class="active"><i class="fa fa-users"></i> {!! trans('menu.access-control') !!}</li>
-            <li><a href="{!! route('user.index') !!}"><i class="fa fa-cube"></i> {!! trans_choice('menu.user', 2) !!}</a></li>
+            <li><a href="{!! url('user.index') !!}"><i class="fa fa-cube"></i> {!! trans_choice('menu.user', 2) !!}</a></li>
             <li class="active">{!! trans('action.new').' '.trans_choice('menu.user', 1) !!}</li>
         </ul>
     </div>
@@ -34,7 +34,7 @@
 				{!! Form::model($user, array('route' => array('user.update', $user->id), 
         		'method' => 'PUT', 'enctype' => 'multipart/form-data', 'id' => 'form-edit-user', 'class' => 'form-horizontal', 'files' => 'true')) !!}
 				<!-- CSRF Token -->
-                <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
+				{!! csrf_field() !!}
                 <!-- ./ csrf token -->
 				<div class="col-md-8"> 
 					<div class="form-group row">

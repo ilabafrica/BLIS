@@ -2,11 +2,10 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\AuthRequest;
 use App\Models\User;
 use Hash;
-use Input;
 class UserController extends Controller {
 
 	/**
@@ -46,11 +45,12 @@ class UserController extends Controller {
         $user->phone = $request->phone;
         $user->username = $request->username;
         $user->address = $request->address;
+        $user->designation = $request->designation;
         if($request->default_password)
         	$user->password = Hash::make(User::DEFAULT_PASSWORD);
         else
         	$user->password = Hash::make($request->password);
-        if(Input::hasFile('photo'))
+        if($request->hasFile('photo'))
         	$user->image = $this->imageModifier($request, $request->all()['photo']);
         $user->save();
 
@@ -89,7 +89,7 @@ class UserController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(UserRequest $request, $id)
+	public function update(AuthRequest $request, $id)
 	{
 		//	Get user
 		$user = User::find($id);
@@ -98,16 +98,16 @@ class UserController extends Controller {
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->address = $request->address;
-        $user->username = $request->username;
+        $user->designation = $request->designation;
         if($request->default_password)
         	$user->password = Hash::make(User::DEFAULT_PASSWORD);
         else
         	$user->password = Hash::make($request->password);
-        if(Input::hasFile('photo'))
+        if($request->hasFile('photo'))
         	$user->image = $this->imageModifier($request, $request->all()['photo']);
         $user->save();
 
-        return redirect('user')->with('message', 'User updated successfully.');
+        return redirect('/')->with('message', 'User updated successfully.');
 	}
 
 	/**

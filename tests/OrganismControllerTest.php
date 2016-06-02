@@ -37,7 +37,7 @@ class OrganismControllerTest extends TestCase
 
 		// Edition sample data
 		$this->organismDataUpdate = array(
-			'name' => 'Enterococcus species',
+			'name' => 'Enterococcux species',
 			'description' => 'Gram identifiable',
 			'drugs' =>  ['12']
 		);
@@ -54,9 +54,9 @@ class OrganismControllerTest extends TestCase
   		 // Store the Organism Types
 		$this->withoutMiddleware();
 		$this->call('POST', '/organism', $this->organismData);
-		$organismStored = Organism::orderBy('id','desc')->take(1)->get()->toArray();
+		$organismStored = Organism::orderBy('id','desc')->first();
 
-		$organismSaved = Organism::find($organismStored[0]['id']);
+		$organismSaved = Organism::find($organismStored->id);
 
 		$this->assertEquals($organismSaved->name , $this->organismData['name']);
 		$this->assertEquals($organismSaved->description , $this->organismData['description']);
@@ -76,17 +76,17 @@ class OrganismControllerTest extends TestCase
 
 		$this->withoutMiddleware();
 		$this->call('POST', '/organism', $this->organismData);
-		$organismStored = Organism::orderBy('id','desc')->take(1)->get()->toArray();
+		$organismStored = Organism::orderBy('id','desc')->first();
 
 		$this->withoutMiddleware();
-		$this->call('PUT', '/organism/'.$organismStored[0]['id'], $this->organismDataUpdate);
+		$this->call('PUT', '/organism/'.$organismStored->id, $this->organismDataUpdate);
 
-		$organismSavedUpdated = Organism::find($organismStored[0]['id']);
+		$organismSavedUpdated = Organism::find($organismStored->id);
 		$this->assertEquals($organismSavedUpdated->name , $this->organismDataUpdate['name']);
 		$this->assertEquals($organismSavedUpdated->description , $this->organismDataUpdate['description']);
 
 		//Getting the drugs related to the organism
-		/*$organismDrugUpdated = Organism::find($organismStored[0]['id'])->drugs->toArray();
+		/*$organismDrugUpdated = Organism::find($organismStored->id)->drugs->toArray();
 		
 		$this->assertEquals(12, $this->organismDataUpdate['drugs'][0]);*/
 	}
@@ -96,16 +96,16 @@ class OrganismControllerTest extends TestCase
 	 * @param void
 	 * @return void
      */
+	// todo: before enabling this test, first enable OrganismController::delete - ereng
 	public function testDelete()
 	{
 		$this->withoutMiddleware();
 		$this->call('POST', '/organism', $this->organismData);
-		$organismStored = Organism::orderBy('id','desc')->take(1)->get()->toArray();
-
+		$organismStored = Organism::orderBy('id','desc')->first();
 		$organism = new OrganismController;
-    	$organism->delete($organismStored[0]['id']);
+    	$organism->delete($organismStored->id);
     	
-		$organismSaved = Organism::withTrashed()->find($organismStored[0]['id']);
+		$organismSaved = Organism::withTrashed()->find($organismStored->id);
 		$this->assertNotNull($organismSaved->deleted_at);
 	}
 }

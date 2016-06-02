@@ -59,6 +59,8 @@ class LotControllerTest extends TestCase
 	{
 		$response = $this->call('GET', '/lot');
 		$this->assertTrue($response->isOk());
+		// todo: failing with error below - ereng
+		/*Failed asserting that an array has the key 'instruments'.*/
 		$this->assertViewHas('instruments');
 	}
 	/**

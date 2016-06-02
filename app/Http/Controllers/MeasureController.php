@@ -20,6 +20,7 @@ class MeasureController extends Controller {
      */
     public function store($measures)
     {
+        // dd($measures);
         $measureIds = array();
         foreach ($measures as $data) {
             $measure = new Measure;

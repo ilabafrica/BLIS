@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call('Database\Seeds\TestDataSeeder');
         $this->call('Database\Seeds\KBLISSeeder');
         $this->call('Database\Seeds\CultureSensitivitySeeder');
+        Model::reguard();
     }
 }

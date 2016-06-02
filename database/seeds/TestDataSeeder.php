@@ -1325,7 +1325,7 @@ class TestDataSeeder extends Seeder
                 "phone_no" => "0775112233",
                 "user_id" => "1",
                 "email" => "uni@unice.org",
-                "physical_address" => "un-hqtr"
+                "address" => "un-hqtr"
 
             )
         );

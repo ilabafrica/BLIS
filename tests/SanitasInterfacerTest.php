@@ -22,12 +22,13 @@ class SanitasInterfacerTest extends TestCase
         $this->setVariables();
     }
 
+    // todo: check how l5 phpunit test works with sanitas and medboss json strings also how to handle in the controller and model
     public function testRetrieveSingleRequest()
     {
         echo "\n\nSANITAS INTERFACER TEST\n\n";
 		$this->withoutMiddleware();
         // Invoke API URL making a single test request (presumed successful)
-        $this->call('POST', 'api/receiver', [], [], [], [], $this->labRequestJsonSimpleTest);
+        $this->call('POST', 'api/receiver', $this->labRequestJsonSimpleTest);
 
         $labR = json_decode($this->labRequestJsonSimpleTest);
 

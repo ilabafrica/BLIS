@@ -125,6 +125,7 @@ class SpecimenTypeController extends Controller {
 		$specimentype = SpecimenType::find($id);
 		$inUseByTesttype = $specimentype->testTypes->toArray();
 		$inUseBySpecimen = $specimentype->specimen->toArray();
+		// dd($inUseBySpecimen);
 		if (empty($inUseByTesttype) && empty($inUseBySpecimen)) {
 		    // The specimen type is not in use
 			$specimentype->delete();

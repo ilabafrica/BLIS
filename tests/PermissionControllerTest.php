@@ -40,8 +40,10 @@ class PermissionControllerTest extends TestCase
         $this->assertTrue($permission1->hasRole($role1->name));
         $this->assertTrue($permission2->hasRole($role2->name));
         $this->assertTrue($permission3->hasRole($role2->name));
+        // todo: these two fail... somebody please clearify this dynamics, things fails below
         $this->assertFalse($permission3->hasRole($role1->name));
         $this->assertFalse($permission1->hasRole($role2->name));
+        // todo: another redirect problem
         $this->assertRedirectedToRoute('permission.index');
     }
 

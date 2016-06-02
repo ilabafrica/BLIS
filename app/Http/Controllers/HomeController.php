@@ -37,7 +37,8 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-		//	Get test stuses in an array
+		// todo: figure how to call Carbon in the view
+		/*//	Get test stuses in an array
 		$statuses = [Test::PENDING => 'Pending', Test::STARTED => 'Started', Test::COMPLETED => 'Completed', Test::VERIFIED => 'Verified'];
 		//	Fetch hours of the day - 24hrs
 		$today = Carbon::today();
@@ -127,6 +128,8 @@ class HomeController extends Controller {
 	        ]
 	    }";
 		$tests = Test::orderBy('id', 'desc')->take(5)->get();
-		return view('dashboard', compact('chart', 'tests'));
+		return view('dashboard', compact('chart', 'tests'));*/
+
+		return view('home');
 	}
 }

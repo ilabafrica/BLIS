@@ -64,7 +64,7 @@ class IssueControllerTest extends TestCase
   		 // Store the Issue
 		$this->runStore($this->input);
 
-		$issueSaved = Issue::orderBy('id','desc')->take(1)->get()->toArray();
+		$issueSaved = Issue::orderBy('id','desc')->first();
 				
 		$this->assertEquals($issueSaved[0]['receipt_id'], $this->input['batch_no']);
 		$this->assertEquals($issueSaved[0]['topup_request_id'], $this->input['topup_request_id']);
@@ -83,11 +83,11 @@ class IssueControllerTest extends TestCase
 	{
 		$this->be(User::first());
 		$this->runStore($this->input);
-		$issueSaved = Issue::orderBy('id','desc')->take(1)->get()->toArray();
+		$issueSaved = Issue::orderBy('id','desc')->first();
 		// Update the issue
-		$this->runUpdate($this->inputUpdate, $issueSaved[0]['id']);
+		$this->runUpdate($this->inputUpdate, $issueSaved->id);
 
-		$issueUpdated = Issue::orderBy('id','desc')->take(1)->get()->toArray();
+		$issueUpdated = Issue::orderBy('id','desc')->first();
 
 
 		$this->assertEquals($issueUpdated[0]['receipt_id'], $this->inputUpdate['batch_no']);

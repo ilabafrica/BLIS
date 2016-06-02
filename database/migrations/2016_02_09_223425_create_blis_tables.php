@@ -104,8 +104,10 @@ class CreateBlisTables extends Migration
             $table->string('description', 100)->nullable();
             $table->integer('test_category_id')->unsigned();
             $table->string('targetTAT', 50)->nullable();
+            $table->integer('orderable_test')->nullable();
             $table->string('prevalence_threshold', 50)->nullable();
-            
+            $table->tinyInteger('accredited')->nullable();
+
             $table->foreign('test_category_id')->references('id')->on('test_categories');
 
             $table->softDeletes();
@@ -451,7 +453,7 @@ class CreateBlisTables extends Migration
             $table->string('name', 100);
             $table->string('phone_no', 100);
             $table->string('email', 100)->nullable();
-            $table->string('physical_address');
+            $table->string('address')->nullable();
            
             $table->integer('user_id')->unsigned();
 

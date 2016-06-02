@@ -117,7 +117,7 @@ class MeasureControllerTest extends TestCase
 		$this->runUpdate($this->inputNumericUpdate, $measureUricAcid->id, $uricMeasureRanges);
 		$this->runUpdate($this->inputAlphanumericUpdate, $measurestored[2]['id'], $alphanumericRanges);
 		$this->runUpdate($this->inputAutocompleteUpdate, $measurestored[1]['id'], $autoCompleteRanges);
-		$this->runUpdate($this->inputFreetextUpdate, $measurestored[0]['id'], 0);
+		$this->runUpdate($this->inputFreetextUpdate, $measurestored->id, 0);
 		
 		$measureupdated = Measure::orderBy('id','desc')->take(4)->get()->toArray();
 		$measureNewUricAcid = Measure::find($measureUricAcid->id);
@@ -169,8 +169,8 @@ class MeasureControllerTest extends TestCase
 	{
 		//Save again because teardown() dropped the db :(
 		$this->runStore($this->inputNumeric);
-		$measurestored = Measure::orderBy('id','desc')->take(1)->get()->toArray();
-		$id = $measurestored[0]['id'];
+		$measurestored = Measure::orderBy('id','desc')->first();
+		$id = $measurestored->id;;
 
 		//To Do:: Delete for measureranges
 		$measureController = new MeasureController();

@@ -46,6 +46,7 @@ class DrugController extends Controller {
 	 */
 	public function store(DrugRequest $request)
 	{
+		// dd('we in');
 		$drug = new Drug;
 		$drug->name = $request->name;
 		$drug->description = $request->description;

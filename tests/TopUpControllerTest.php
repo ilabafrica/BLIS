@@ -63,7 +63,7 @@ class TopUpControllerTest extends TestCase
   		 // Store the TopUp
 		$this->runStore($this->input);
 
-		$topupSaved = TopUpRequest::orderBy('id','desc')->take(1)->get()->toArray();
+		$topupSaved = TopUpRequest::orderBy('id','desc')->first();
 				
 		$this->assertEquals($topupSaved[0]['test_category_id'], $this->input['lab_section']);
 		$this->assertEquals($topupSaved[0]['commodity_id'], $this->input['commodity']);
@@ -81,11 +81,11 @@ class TopUpControllerTest extends TestCase
 	{
 		$this->be(User::first());
 		$this->runStore($this->input);
-		$topupSaved = TopUpRequest::orderBy('id','desc')->take(1)->get()->toArray();
+		$topupSaved = TopUpRequest::orderBy('id','desc')->first();
 		// Update the topup
-		$this->runUpdate($this->inputUpdate, $topupSaved[0]['id']);
+		$this->runUpdate($this->inputUpdate, $topupSaved->id);
 
-		$topupUpdated = TopUpRequest::orderBy('id','desc')->take(1)->get()->toArray();
+		$topupUpdated = TopUpRequest::orderBy('id','desc')->first();
 
 
 		$this->assertEquals($topupUpdated[0]['test_category_id'], $this->inputUpdate['lab_section']);

@@ -1,5 +1,5 @@
 <?php namespace App\Http\Controllers;
-
+use App\Http\Requests\ReportRequest;
 use DB;
 use Input;
 use Config;
@@ -1070,7 +1070,7 @@ class ReportController extends Controller {
 		$surveillance = Test::getSurveillanceData($from, $to.' 23:59:59');
 		$accredited = array();
 		$tests = array();
-
+		$testTypes = TestType::all();
 		if(Input::has('word')){
 			$fileName = "surveillance_".$date.".doc";
 			$headers = array(
@@ -1088,6 +1088,7 @@ class ReportController extends Controller {
 					->with('accredited', $accredited)
 					->with('tests', $tests)
 					->with('surveillance', $surveillance)
+					->with('testTypes', $testTypes)
 					->withInput(Input::all());
 		}
 	}
@@ -1096,13 +1097,13 @@ class ReportController extends Controller {
 	 * Manage Surveillance Configurations
 	 * @param
 	 */
-	public function surveillanceConfig(){
-		
+	public function surveillanceConfig(ReportRequest $request){
+
         $allSurveillanceIds = array();
 		
 		//edit or leave surveillance entries as is
-		if (Input::get('surveillance')) {
-			$diseases = Input::get('surveillance');
+		if ($request->surveillance) {
+			$diseases = $request->surveillance;
 
 			foreach ($diseases as $id => $disease) {
                 $allSurveillanceIds[] = $id;
@@ -1114,8 +1115,8 @@ class ReportController extends Controller {
 		}
 		
 		//save new surveillance entries
-		if (Input::get('new-surveillance')) {
-			$diseases = Input::get('new-surveillance');
+		if ($request->newSurveillance) {
+			$diseases = $request->newSurveillance;
 
 			foreach ($diseases as $id => $disease) {
 				$surveillance = new ReportDisease;
@@ -1128,7 +1129,7 @@ class ReportController extends Controller {
 		}
 
         //check if action is from a form submission
-        if (Input::get('from-form')) {
+        if ($request->fromForm) {
 	     	// Delete any pre-existing surveillance entries
 	     	//that were not captured in any of the above save loops
 	        $allSurveillances = ReportDisease::all(array('id'));
@@ -1146,8 +1147,12 @@ class ReportController extends Controller {
         }
 
 		$diseaseTests = ReportDisease::all();
+		$diseases = Disease::all();
+		$testTypes = TestType::all();
 
 		return view('reportconfig.surveillance')
+					->with('testTypes', $testTypes)
+					->with('diseases', $diseases)
 					->with('diseaseTests', $diseaseTests);
 	}
 
@@ -1155,19 +1160,21 @@ class ReportController extends Controller {
 	 * Manage Diseases reported on
 	 * @param
 	 */
-	public function disease(){
-		if (Input::all()) {
+	public function disease(ReportRequest $request){
+		// todo: check the effectiveness of using $request
+		if ($request) {
 			$rules = array();
-			$newDiseases = Input::get('new-diseases');
 
-			if (Input::get('new-diseases')) {
+			$newDiseases = $request->newDiseases;
+
+			/*if ($request->newDiseases) {
 				// create an array that form the rules array
 				foreach ($newDiseases as $key => $value) {
 					
 					//Ensure no duplicate disease
-					$rules['new-diseases.'.$key.'.disease'] = 'unique:diseases,name';
+					$rules['newDiseases.'.$key.'.disease'] = 'unique:diseases,name';
 				}
-			}
+			}*/
 
 			$validator = Validator::make(Input::all(), $rules);
 
@@ -1178,8 +1185,8 @@ class ReportController extends Controller {
 		        $allDiseaseIds = array();
 				
 				//edit or leave disease entries as is
-				if (Input::get('diseases')) {
-					$diseases = Input::get('diseases');
+				if ($request->diseases) {
+					$diseases = $request->diseases;
 
 					foreach ($diseases as $id => $disease) {
 		                $allDiseaseIds[] = $id;
@@ -1190,8 +1197,8 @@ class ReportController extends Controller {
 				}
 				
 				//save new disease entries
-				if (Input::get('new-diseases')) {
-					$diseases = Input::get('new-diseases');
+				if ($request->newDiseases) {
+					$diseases = $request->newDiseases;
 
 					foreach ($diseases as $id => $disease) {
 						$diseases = new Disease;
@@ -1202,7 +1209,7 @@ class ReportController extends Controller {
 				}
 
 		        //check if action is from a form submission
-		        if (Input::get('from-form')) {
+		        if ($request->fromForm) {
 			     	// Delete any pre-existing disease entries
 			     	//that were not captured in any of the above save loops
 			        $allDiseases = Disease::all(array('id'));

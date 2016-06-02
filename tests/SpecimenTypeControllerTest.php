@@ -53,9 +53,9 @@ class SpecimenTypeControllerTest extends TestCase
 
 		$this->withoutMiddleware();
 		$this->call('POST', '/specimentype', $this->specimenData);
-		$specimenTypestored = SpecimenType::orderBy('id','desc')->take(1)->get()->toArray();
+		$specimenTypestored = SpecimenType::orderBy('id','desc')->first();
 
-		$specimenTypesSaved = SpecimenType::find($specimenTypestored[0]['id']);
+		$specimenTypesSaved = SpecimenType::find($specimenTypestored->id);
 		$this->assertEquals($specimenTypesSaved->name , $this->specimenData['name']);
 		$this->assertEquals($specimenTypesSaved->description ,$this->specimenData['description']);
   	}
@@ -69,12 +69,12 @@ class SpecimenTypeControllerTest extends TestCase
 	{
 		$this->withoutMiddleware();
 		$this->call('POST', '/specimentype', $this->specimenData);
-		$specimenTypestored = SpecimenType::orderBy('id','desc')->take(1)->get()->toArray();
+		$specimenTypestored = SpecimenType::orderBy('id','desc')->first();
 
 		$this->withoutMiddleware();
-		$this->call('PUT', '/specimentype/'.$specimenTypestored[0]['id'], $this->specimenDataUpdate);
+		$this->call('PUT', '/specimentype/'.$specimenTypestored->id, $this->specimenDataUpdate);
 
-		$specimenTypeUpdated = SpecimenType::find($specimenTypestored[0]['id']);
+		$specimenTypeUpdated = SpecimenType::find($specimenTypestored->id);
 		$this->assertEquals($specimenTypeUpdated->name , $this->specimenDataUpdate['name']);
 		$this->assertEquals($specimenTypeUpdated->description ,$this->specimenDataUpdate['description']);
 	}
@@ -88,11 +88,11 @@ class SpecimenTypeControllerTest extends TestCase
 	{
 		$this->withoutMiddleware();
 		$this->call('POST', '/specimentype', $this->specimenData);
-		$specimenTypestored = SpecimenType::orderBy('id','desc')->take(1)->get()->toArray();
+		$specimenTypestored = SpecimenType::orderBy('id','desc')->first();
+		// todo: use destroy and remove such : /specimentype/{id}/delete
+		$this->call('DELETE', '/specimentype/'.$specimenTypestored->id.'/delete', $this->specimenData);
 
-		$this->call('DELETE', '/specimentype/'.$specimenTypestored[0]['id'], $this->specimenData);
-
-		$specimenTypesDeleted = SpecimenType::withTrashed()->find($specimenTypestored[0]['id']);
+		$specimenTypesDeleted = SpecimenType::withTrashed()->find($specimenTypestored->id);
 		$this->assertNotNull($specimenTypesDeleted->deleted_at);
 	}
 	//	Test the countPerStatus method in Specimen Type
@@ -100,8 +100,8 @@ class SpecimenTypeControllerTest extends TestCase
     {
 		$this->withoutMiddleware();
 		$this->call('POST', '/specimentype', $this->specimenData);
-		$specimenTypeStored = SpecimenType::orderBy('id','desc')->take(1)->get()->toArray();
-        $specimenTypeSaved = SpecimenType::find($specimenTypeStored[0]['id']);
+		$specimenTypeStored = SpecimenType::orderBy('id','desc')->first();
+        $specimenTypeSaved = SpecimenType::find($specimenTypeStored->id);
         $count = $specimenTypeSaved->countPerStatus([Specimen::ACCEPTED, Specimen::REJECTED, Specimen::NOT_COLLECTED]);
 
         $this->assertEquals( $specimenTypeSaved->specimen->count(), $count);

@@ -61,7 +61,7 @@ class PatientControllerTest extends TestCase
   		 // Store the Patient Types
 		$this->runStore($this->input);
 
-		$patientSaved = Patient::orderBy('id','desc')->take(1)->get()->toArray();
+		$patientSaved = Patient::orderBy('id','desc')->first();
 		
 		$this->assertEquals($patientSaved[0]['patient_number'], $this->input['patient_number']);
 		$this->assertEquals($patientSaved[0]['name'], $this->input['name']);
@@ -83,11 +83,11 @@ class PatientControllerTest extends TestCase
 		$this->be(User::first());
 		
 		$this->runStore($this->input);
-		$patientSaved = Patient::orderBy('id','desc')->take(1)->get()->toArray();
+		$patientSaved = Patient::orderBy('id','desc')->first();
 		// Update the Patient Types
-		$this->runUpdate($this->inputUpdate, $patientSaved[0]['id']);
+		$this->runUpdate($this->inputUpdate, $patientSaved->id);
 
-		$patientUpdated = Patient::orderBy('id','desc')->take(1)->get()->toArray();
+		$patientUpdated = Patient::orderBy('id','desc')->first();
 
 		$this->assertEquals($patientUpdated[0]['patient_number'], $this->inputUpdate['patient_number']);
 		$this->assertEquals($patientUpdated[0]['name'], $this->inputUpdate['name']);
@@ -111,11 +111,11 @@ class PatientControllerTest extends TestCase
 		$this->be(User::first());
 		
 		$this->runStore($this->input);
-		$patientSaved = Patient::orderBy('id','desc')->take(1)->get()->toArray();
+		$patientSaved = Patient::orderBy('id','desc')->first();
 
 		$patient = new PatientController;
-    	$patient->delete($patientSaved[0]['id']);
-		$patientsDeleted = Patient::withTrashed()->find($patientSaved[0]['id']);
+    	$patient->delete($patientSaved->id);
+		$patientsDeleted = Patient::withTrashed()->find($patientSaved->id);
 		$this->assertNotNull($patientsDeleted->deleted_at);
 	}
 	

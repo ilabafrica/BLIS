@@ -6,7 +6,7 @@
             <div class=" col-md-12 card card-block">
                 <div class="col-md-3">
                     <div class="form-group row">
-                        {!! Form::label('new-measures[][name]', trans_choice('general-terms.name', 1).':', array('class' => 'col-sm-3 form-control-label')) !!}
+                        {!! Form::label('new_measures[][name]', trans_choice('general-terms.name', 1).':', array('class' => 'col-sm-3 form-control-label')) !!}
                         <div class="col-sm-9">
                             <input class="form-control name" name="" value="" type="text">
                         </div>
@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group row">
-                        {!! Form::label('new-measures[][measure_type_id]', trans('general-terms.type').':', array('class' => 'col-sm-2 form-control-label')) !!}
+                        {!! Form::label('new_measures[][measure_type_id]', trans('general-terms.type').':', array('class' => 'col-sm-2 form-control-label')) !!}
                         <div class="col-sm-10">
                             <select class="form-control c-select measuretype-input-trigger measure_type_id" 
                                 data-measure-id="0" 
@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-md-2">
                     <div class="form-group row">
-                        {!! Form::label('new-measures[][unit]', trans('general-terms.unit').':', array('class' => 'col-sm-3 form-control-label')) !!}
+                        {!! Form::label('new_measures[][unit]', trans('general-terms.unit').':', array('class' => 'col-sm-3 form-control-label')) !!}
                         <div class="col-sm-9">
                             <input class="form-control unit" name="" value="" type="text">
                         </div>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group row">
-                        {!! Form::label('new-measures[][description]', trans('general-terms.info').':', array('class' => 'col-sm-2 form-control-label')) !!}
+                        {!! Form::label('new_measures[][description]', trans('general-terms.info').':', array('class' => 'col-sm-2 form-control-label')) !!}
                         <div class="col-sm-8">
                             <textarea class="form-control description" value="" rows="2" name=""></textarea>
                         </div>

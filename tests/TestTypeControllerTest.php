@@ -39,7 +39,7 @@ class TestTypeControllerTest extends TestCase
 			'prevalence_threshold' => 'Whatisdis',
 			'specimentypes' =>  ['1'],
 			'orderable_test' => '1',
-			'new-measures' => [
+			'new_measures' => [
 				'1' => [
 					'name' => 'CSFforBiochemistry',
 					'measure_type_id' => '4',
@@ -58,7 +58,7 @@ class TestTypeControllerTest extends TestCase
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'specimentypes' =>  ['1'],
 			'orderable_test' => '1',
-			'new-measures' => [
+			'new_measures' => [
 				'1' => [
 					'name' => 'FreeText',
 					'measure_type_id' => '4',
@@ -76,7 +76,7 @@ class TestTypeControllerTest extends TestCase
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'specimentypes' =>  ['1'],
-			'new-measures' => [
+			'new_measures' => [
 				'1' => [
 					'name' => 'FreeText',
 					'measure_type_id' => '4',
@@ -94,7 +94,7 @@ class TestTypeControllerTest extends TestCase
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'specimentypes' =>  ['1'],
-			'new-measures' => [
+			'new_measures' => [
 				'1' => [
 					'name' => 'FreeText',
 					'measure_type_id' => '4',
@@ -112,7 +112,7 @@ class TestTypeControllerTest extends TestCase
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'specimentypes' =>  ['1'],
-			'new-measures' => [
+			'new_measures' => [
 				'1' => [
 					'name' => 'FreeText',
 					'measure_type_id' => '4',
@@ -130,7 +130,7 @@ class TestTypeControllerTest extends TestCase
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'specimentypes' =>  ['1'],
-			'new-measures' => [
+			'new_measures' => [
 				'1' => [
 					'name' => 'FreeText',
 					'measure_type_id' => '4',
@@ -152,9 +152,9 @@ class TestTypeControllerTest extends TestCase
   		 // Store the TestType Types
 		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeData);
-		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
+		$testTypestored = TestType::orderBy('id','desc')->first();
 
-		$testTypeSaved = TestType::find($testTypestored[0]['id']);
+		$testTypeSaved = TestType::find($testTypestored->id);
 
 		$this->assertEquals($testTypeSaved->name , $this->testTypeData['name']);
 		$this->assertEquals($testTypeSaved->description , $this->testTypeData['description']);
@@ -164,11 +164,12 @@ class TestTypeControllerTest extends TestCase
 
 		//Getting the Measure related to this test type
 		$testTypeMeasure = $testTypeSaved->measures->toArray();
-		$this->assertEquals($testTypeMeasure[0]['name'], $this->testTypeData['new-measures'][1]['name']);
+		$this->assertEquals($testTypeMeasure[0]['name'], $this->testTypeData['new_measures'][1]['name']);
 
 		//Getting the Specimen type related to this test type
-		$testTypeSpecimenType = $testTypeSaved->specimenTypes->toArray();
-		$this->assertEquals($testTypeSpecimenType[0]['id'], $this->testTypeData['specimentypes'][0]);
+		// $testTypeSpecimenType = $testTypeSaved->specimenTypes->toArray();
+		$testTypeSpecimenType = $testTypeSaved->specimenTypes->first();
+		$this->assertEquals($testTypeSpecimenType->id, $this->testTypeData['specimentypes'][0]);
   	}
 
   	/**
@@ -181,26 +182,26 @@ class TestTypeControllerTest extends TestCase
 
 		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeData);
-		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
+		$testTypestored = TestType::orderBy('id','desc')->first();
 
 
 		$this->withoutMiddleware();
-		$this->call('PUT', '/testtype/'.$testTypestored[0]['id'], $this->testTypeDataUpdate);
+		$this->call('PUT', '/testtype/'.$testTypestored->id, $this->testTypeDataUpdate);
 
-		$testTypeSavedUpdated = TestType::find($testTypestored[0]['id']);
+		$testTypeSavedUpdated = TestType::find($testTypestored->id);
 		$this->assertEquals($testTypeSavedUpdated->name , $this->testTypeDataUpdate['name']);
 		$this->assertEquals($testTypeSavedUpdated->description , $this->testTypeDataUpdate['description']);
 		$this->assertEquals($testTypeSavedUpdated->targetTAT , $this->testTypeDataUpdate['targetTAT']);
 		$this->assertEquals($testTypeSavedUpdated->prevalence_threshold , $this->testTypeDataUpdate['prevalence_threshold']);
 		$this->assertEquals($testTypeSavedUpdated->test_category_id , $this->testTypeDataUpdate['test_category_id']);
 		
-		$testTypeMeasureUpdated = TestType::find($testTypestored[0]['id'])->measures->toArray();
-		$this->assertEquals($testTypeMeasureUpdated[0]['name'], $this->testTypeDataUpdate['new-measures'][1]['name']);
+		$testTypeMeasureUpdated = TestType::find($testTypestored->id)->measures->toArray();
+		$this->assertEquals($testTypeMeasureUpdated[0]['name'], $this->testTypeDataUpdate['new_measures'][1]['name']);
 
 		//Getting the Specimen type related to this test type
-		$testTypeSpecimenTypeUpdated = TestType::find($testTypestored[0]['id'])->specimenTypes->toArray();
+		$testTypeSpecimenTypeUpdated = TestType::find($testTypestored->id)->specimenTypes->first();
 		
-		$this->assertEquals($testTypeSpecimenTypeUpdated[0]['id'], $this->testTypeDataUpdate['specimentypes'][0]);
+		$this->assertEquals($testTypeSpecimenTypeUpdated->id, $this->testTypeDataUpdate['specimentypes'][0]);
 	}
 	
 	/**
@@ -212,13 +213,13 @@ class TestTypeControllerTest extends TestCase
 	{
 		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeData);
-		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
+		$testTypestored = TestType::orderBy('id','desc')->first();
 
 
 		$testType = new TestTypeController;
-    	$testType->delete($testTypestored[0]['id']);
+    	$testType->delete($testTypestored->id);
     	
-		$testTypeSaved = TestType::withTrashed()->find($testTypestored[0]['id']);
+		$testTypeSaved = TestType::withTrashed()->find($testTypestored->id);
 		$this->assertNotNull($testTypeSaved->deleted_at);
 	}
 
@@ -226,55 +227,55 @@ class TestTypeControllerTest extends TestCase
     {
 		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeData);
-		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
+		$testTypestored = TestType::orderBy('id','desc')->first();
         $testType = new TestType();
-        $testTypeID = $testType->getTestTypeIdByTestName($testTypestored[0]['name']);
+        $testTypeID = $testType->getTestTypeIdByTestName($testTypestored->name);
 
-        $this->assertEquals( $testTypestored[0]['id'], $testTypeID);
+        $this->assertEquals( $testTypestored->id, $testTypeID);
     }
 
     public function testGetTestTypeIdByTestNameLeadingSpace()
     {
 		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeTrailingSpace);
-		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
+		$testTypestored = TestType::orderBy('id','desc')->first();
         $testType = new TestType();
         $testTypeID = $testType->getTestTypeIdByTestName('Culture for sensitivity');
 
-        $this->assertEquals( $testTypestored[0]['id'], $testTypeID);
+        $this->assertEquals( $testTypestored->id, $testTypeID);
     }
 
     public function testGetTestTypeIdByTestNameTrailingSpace()
     {
 		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeLeadingSpace);
-		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
+		$testTypestored = TestType::orderBy('id','desc')->first();
         $testType = new TestType();
         $testTypeID = $testType->getTestTypeIdByTestName('Culture for sensitivity');
 
-        $this->assertEquals( $testTypestored[0]['id'], $testTypeID);
+        $this->assertEquals( $testTypestored->id, $testTypeID);
     }
 
     public function testGetTestTypeIdByTestNameLeadingTrailingSpace()
     {
 		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeLeadingTrailingSpace);
-		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
+		$testTypestored = TestType::orderBy('id','desc')->first();
         $testType = new TestType();
         $testTypeID = $testType->getTestTypeIdByTestName('Culture for sensitivity');
 
-        $this->assertEquals( $testTypestored[0]['id'], $testTypeID);
+        $this->assertEquals( $testTypestored->id, $testTypeID);
     }
 
     public function testGetTestTypeIdByTestNameWithTrailingLeadingSpaces()
     {
 		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeNoTrailingLeadingSpace);
-		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
+		$testTypestored = TestType::orderBy('id','desc')->first();
         $testType = new TestType();
         $testTypeID = $testType->getTestTypeIdByTestName(' Culture for sensitivity ');
 
-        $this->assertEquals( $testTypestored[0]['id'], $testTypeID);
+        $this->assertEquals( $testTypestored->id, $testTypeID);
     }
 
     //	Test the countPerStatus method
@@ -282,8 +283,8 @@ class TestTypeControllerTest extends TestCase
     {
 		$this->withoutMiddleware();
 		$this->call('POST', '/testtype', $this->testTypeData);
-		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
-        $testTypeSaved = TestType::find($testTypestored[0]['id']);
+		$testTypestored = TestType::orderBy('id','desc')->first();
+        $testTypeSaved = TestType::find($testTypestored->id);
         $count = $testTypeSaved->countPerStatus([Test::NOT_RECEIVED, Test::STARTED, Test::PENDING, Test::COMPLETED, Test::VERIFIED]);
 
         $this->assertEquals( $testTypeSaved->tests->count(), $count);

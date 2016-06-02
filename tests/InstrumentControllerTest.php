@@ -45,8 +45,8 @@ class InstrumentControllerTest extends TestCase
         $crawler = $client->request('GET', $url);
 
         // todo: work on page first
-        /*$name = $crawler->filter('input#name')->attr('name');
-        $this->assertEquals("name", $name);*/
+        $name = $crawler->filter('input#name')->attr('name');
+        $this->assertEquals("name", $name);
     }
 
     /*

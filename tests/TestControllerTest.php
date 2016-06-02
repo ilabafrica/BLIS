@@ -9,6 +9,8 @@ use App\Models\Test;
 use App\Models\Patient;
 use App\Models\Specimen;
 use App\Http\Controllers\TestController;
+use Goutte\Client;
+
 
 class TestControllerTest extends TestCase 
 {
@@ -19,6 +21,7 @@ class TestControllerTest extends TestCase
       Artisan::call('migrate');
       Artisan::call('db:seed');
       Session::start();
+      $this->withoutMiddleware();
     }
 
 
@@ -27,29 +30,66 @@ class TestControllerTest extends TestCase
       * @param  
       * @return 
       */    
+    // TODO: Sort Out the crawling problem
     public function testifIndexWorks()
     {
- 
       echo "\n\nTEST CONTROLLER TEST\n\n";
-      $searchbyPending = array('search' => '', 'test_status' => Test::PENDING, 'date_from' => '', 'date_to' => '');
-      $searchbyStarted = array('search' => '', 'test_status' => Test::STARTED, 'date_from' => '', 'date_to' => '');
-      $searchbyCompleted = array('search' => '', 'test_status' => Test::COMPLETED, 'date_from' => '', 'date_to' => '');
-      $searchbyVerified = array('search' => '', 'test_status' => Test::VERIFIED, 'date_from' => '', 'date_to' => '');
+      $searchbyPending = [
+        'search' => '',
+        'test_status' => Test::PENDING,
+        'date_from' => '',
+        'date_to' => '',];
+      $searchbyStarted = [
+        'search' => '',
+        'test_status' => Test::STARTED,
+        'date_from' => '',
+        'date_to' => '',];
+      $searchbyCompleted = [
+        'search' => '',
+        'test_status' => Test::COMPLETED,
+        'date_from' => '',
+        'date_to' => '',];
+      $searchbyVerified = [
+        'search' => '',
+        'test_status' => Test::VERIFIED,
+        'date_from' => '',
+        'date_to' => '',];
 
       //Non existent search string - return nothing
-      $searchbyNonExistentString = array('search' => 'gaslfjkdre', 'test_status' => '', 'date_from' => '', 'date_to' => '');
+      $searchbyNonExistentString = ['search' => 'gaslfjkdre',
+        'test_status' => '',
+        'date_from' => '',
+        'date_to' => '',];
       //Between dates - empty
-      $searchBetweenDates = array('search' => '', 'test_status' => '', 'date_from' => '2014-09-26', 'date_to' => '2014-09-27');
+      $searchBetweenDates = ['search' => '',
+        'test_status' => '',
+        'date_from' => '2014-09-26',
+        'date_to' => '2014-09-27',];
       //Search by patient Name
-      $searchbyPatientName = array('search' => 'Lance Opiyo', 'test_status' => '', 'date_from' => '', 'date_to' => '');
+      $searchbyPatientName = ['search' => 'Lance Opiyo',
+        'test_status' => '',
+        'date_from' => '',
+        'date_to' => '',];
       //Search by patient Number
-      $searchbyPatientNumber = array('search' => '2150', 'test_status' => '', 'date_from' => '', 'date_to' => '');
+      $searchbyPatientNumber = ['search' => '2150',
+        'test_status' => '',
+        'date_from' => '',
+        'date_to' => '',];
       //Search by test Type
-      $searchbyTestType = array('search' => 'GXM', 'test_status' => '', 'date_from' => '', 'date_to' => '');
+      $searchbyTestType = ['search' => 'GXM',
+        'test_status' => '',
+        'date_from' => '',
+        'date_to' => '',];
       //Search by specimen Number
-      $searchbySpecimenNumber = array('search' => '4', 'test_status' => '', 'date_from' => '', 'date_to' => '');
+      $searchbySpecimenNumber = ['search' => '4',
+        'test_status' => '',
+        'date_from' => '',
+        'date_to' => '',];
       //Search by visit Number
-      $searchbyVisitNumber = array('search' => '7', 'test_status' => '', 'date_from' => '', 'date_to' => '');
+      $searchbyVisitNumber = ['search' => '7',
+        'test_status' => '',
+        'date_from' => '',
+        'date_to' => '',];
 
 
       $this->runIndex($searchbyPending['test_status'], $searchbyPending, 'test_status_id');
@@ -68,12 +108,17 @@ class TestControllerTest extends TestCase
     }
 
     // Load the index page
+    // TODO: Sort Out the crawling problem
     public function runIndex($searchValue, $formInput, $returnValue, $returnValue2 = null, $returnValue3 = null)
     {
       $this->be(User::first());
+      $client = new Client();
+      $crawler = $client->request('GET', '/test');
+      // $crawler = $client->click($crawler->selectLink('Search')->link());
+      $form = $crawler->selectButton('Search')->form();
+      $crawler = $client->submit($form, $formInput);
 
-      // todo: the problem could be here just check
-      $response = $this->action('POST', 'TestController@index', $formInput);
+      $response = $this->call('POST', '/test', $formInput);
 
       $tests = $response->getData()['testSet'];
       if (isset($returnValue3)) {
@@ -117,7 +162,9 @@ class TestControllerTest extends TestCase
       // Set the current user to admin
       $this->be(User::first());
 
-      $crawler = $this->client->request('GET', $url);
+      $client = new Client();
+      $crawler = $client->request('GET', $url);
+
 
       $visitType = $crawler->filter('select')->attr('name');
       $this->assertEquals("visit_type", $visitType);
@@ -141,7 +188,9 @@ class TestControllerTest extends TestCase
       // Set the current user to admin
       $this->be(User::first());
 
-      $crawler = $this->client->request('GET', $url);
+      $client = new Client();
+      $crawler = $client->request('GET', $url);
+
 
       // Get the form and set the form values
       $form = $crawler->selectButton(trans('messages.save-test'))->form();
@@ -170,7 +219,8 @@ class TestControllerTest extends TestCase
       // Set the current user to admin
       $this->be(User::first());
 
-      $crawler = $this->client->request('GET', $url);
+      $client = new Client();
+      $crawler = $client->request('GET', $url);
 
       // Get the form and set the form values
       $form = $crawler->selectButton(trans('messages.save-test'))->form();
@@ -191,7 +241,8 @@ class TestControllerTest extends TestCase
       // Set the current user to admin
       $this->be(User::first());
 
-      $crawler = $this->client->request('GET', $url);
+      $client = new Client();
+      $crawler = $client->request('GET', $url);
 
       $this->assertCount(1, $crawler->filter('div.panel.tests-log'));
     }
@@ -212,7 +263,8 @@ class TestControllerTest extends TestCase
 
         foreach ($testIDs as $id) {
             $url = URL::route('test.reject', array(Test::find($id)->specimen_id));
-            $crawler = $this->client->request('GET', $url);
+            $client = new Client();
+            $crawler = $client->request('GET', $url);
 
             $this->assertCount(1, $crawler->filter('#reject_explained_to'));
 
@@ -242,7 +294,9 @@ class TestControllerTest extends TestCase
 
             $specimenID = Test::find($id)->specimen_id;
             $url = URL::route('test.reject', array($specimenID));
-            $crawler = $this->client->request('GET', $url);
+            $client = new Client();
+            $crawler = $client->request('GET', $url);
+
 
             // Get the form and set the form values
             $form = $crawler->selectButton(trans('messages.reject'))->form();
@@ -280,7 +334,9 @@ class TestControllerTest extends TestCase
         $specimenID = Test::find($id)->specimen_id;
         $url = URL::route('test.reject', array($specimenID));
 
-        $crawler = $this->client->request('GET', $url);
+        $client = new Client();
+        $crawler = $client->request('GET', $url);
+
         // Get the form and set the form values
         $form = $crawler->selectButton(trans('messages.reject'))->form();
 
@@ -310,7 +366,9 @@ class TestControllerTest extends TestCase
 
         $url = URL::route('test.receive', array($id));
 
-        $crawler = $this->client->request('GET', $url);
+        $client = new Client();
+        $crawler = $client->request('GET', $url);
+
 
         $this->assertTrue(Test::find($id)->test_status_id == Test::PENDING);
 
@@ -352,8 +410,8 @@ class TestControllerTest extends TestCase
     */
     public function testStart(){
       //TODO: Incorporate a JS supporting client like casperjs or selenium
-    }
 
+    }
     /*
     * - enterResults
     *   + Required input: testid
@@ -374,7 +432,9 @@ class TestControllerTest extends TestCase
       // Set the current user to admin
       $this->be(User::first());
 
-      $crawler = $this->client->request('GET', $url);
+      $client = new Client();
+      $crawler = $client->request('GET', $url);
+
 
       $this->assertCount(1, $crawler->filter('textarea#interpretation'));
     }
@@ -404,7 +464,9 @@ class TestControllerTest extends TestCase
         if($test->specimen->specimen_status_id == Specimen::ACCEPTED){
           $url = URL::route('test.edit', array($test->id));
 
-          $crawler = $this->client->request('GET', $url);
+          $client = new Client();
+          $crawler = $client->request('GET', $url);
+
 
           $this->assertCount(1, $crawler->filter('textarea#interpretation'));
 
@@ -429,7 +491,9 @@ class TestControllerTest extends TestCase
         if($test->specimen->specimen_status_id == Specimen::ACCEPTED){
           $url = URL::route('test.verify', array($test->id));
 
-          $crawler = $this->client->request('GET', $url);
+          $client = new Client();
+          $crawler = $client->request('GET', $url);
+
 
           $this->assertTrue(Test::find($id)->test_status_id == Test::VERIFIED);
 
@@ -450,7 +514,9 @@ class TestControllerTest extends TestCase
       // Set the current user to admin
       $this->be(User::first());
 
-      $crawler = $this->client->request('GET', $url);
+      $client = new Client();
+      $crawler = $client->request('GET', $url);
+
 
       $this->assertCount(4, $crawler->filter('div.panel'));
     }
