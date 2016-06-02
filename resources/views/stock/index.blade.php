@@ -88,7 +88,8 @@
 									</a>
 
 								<!-- show barcode generation button -->
-									<a class="btn btn-sm btn-asbestos" href="{!! url("stock/" . $value->id . "/edit") !!}" >
+									{{--*/ $barcode_separator = '$' /*--}}
+									<a class="btn btn-sm btn-asbestos" href="#" onclick="get_barcode('{!! $item->id.$barcode_separator.$item->name.$barcode_separator.$value->lot !!}')">
 										<i class="fa fa-barcode"></i>
 										{!! trans('action.barcode') !!}
 									</a>
@@ -101,6 +102,10 @@
 			</div>
 		</div>
 	</div>
+	<div id="count" style='display:none;'>0</div>
+	<div id ="barcodeList" style="display:none;"></div>
+	<!-- jQuery barcode script -->
+	<script type="text/javascript" src="{{ asset('js/barcode.js') }} "></script>
 	{!! session(['SOURCE_URL' => URL::full()]) !!}
 </div>
 @endsection

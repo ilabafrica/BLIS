@@ -282,3 +282,8 @@
 .label-sub-flower{background-color:#F1C40F;color: #ffffff;}.label-sub-flower[href]:hover,.label-sub-flower[href]:focus{opacity: .8;}
 .label-nephritis{background-color:#27AE60;color: #ffffff;}.label-nephritis[href]:hover,.label-nephritis[href]:focus{opacity: .8;}
 .label-wet-asphalt{background-color:#34495E;color: #ffffff;}.label-wet-asphalt[href]:hover,.label-wet-asphalt[href]:focus{opacity: .8;}
+/*Stylish radiobutton*/
+#radioBtn .notActive{
+    color: #ffffff;
+    background-color: #BDC3C7;
+}

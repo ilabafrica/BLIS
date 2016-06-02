@@ -45,6 +45,11 @@ return [
 	'person'		=>	'Care Of',
 	'contacts'		=>	'Contacts',
 	'remarks'		=>	'Remarks',
+	'records'		=>	'Records',
+	'version'		=>	'Version',
+	'feed-source'	=>	'Feed Source',
+	'comm-type'		=>	'Communication Type',
+	'config-file'	=>	'Config File',
 	'prevalence-threshold'	=>	'Prevalence Threshold',
 	'culture-worksheet'		=>	'Culture Worksheet',
 	'specimen-referral'		=>	'Specimen Referral',
@@ -55,4 +60,5 @@ return [
     'record-successfully-updated' 	=>  'The record was successfully updated.',
     'record-successfully-deleted' 	=>  'The record was successfully deleted.',
     'failure-delete-record'			=>	'Encountered error while attempting to delete record',
+    'check-date-range'  			=>  'Please check your dates range and try again!',
 ];

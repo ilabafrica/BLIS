@@ -333,7 +333,8 @@ class TestType extends Model
 
 		$tests = Test::where('test_type_id', $this->id)->whereIn('test_status_id', $testStatusID);
 
-		if($to && $from){
+		if($to && $from)
+		{
 			$tests = $tests->whereBetween('time_created', [$from, $to]);
 		}
 
@@ -345,29 +346,31 @@ class TestType extends Model
 	*
 	* @param $testStatusID, $from, $to
 	*/
-	public function groupedTestCount($gender=null, $ageRange=null, $from=null, $to=null){
-			$tests = Test::where('test_type_id', $this->id)
-						 ->whereIn('test_status_id', [Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED]);
-			if($to && $from){
+	public function groupedTestCount($gender=null, $ageRange=null, $from=null, $to=null)
+	{
+			$tests = Test::where('test_type_id', $this->id)->whereIn('test_status_id', [Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED]);
+			if($to && $from)
+			{
 				$tests = $tests->whereBetween('time_created', [$from, $to]);
 			}
 			if($ageRange || $gender){
-				$tests = $tests->join('visits', 'tests.visit_id', '=', 'visits.id')
-							   ->join('patients', 'visits.patient_id', '=', 'patients.id');
-							   if($gender){
-							   		$tests = $tests->whereIn('gender', $gender);
-							   	}
-							   	if($ageRange){
-							   		$age = explode('-', $ageRange);
-									$ageStart = $age[0];
-									$ageEnd = $age[1];
-									$now = new DateTime('now');
-									$clonedDate = clone $now;
-									$finishDate = $clonedDate->sub(new DateInterval('P'.$ageStart.'Y'))->format('Y-m-d');
-									$clonedDate = clone $now;
-									$startDate = $clonedDate->sub(new DateInterval('P'.$ageEnd.'Y'))->format('Y-m-d');
-							   		$tests = $tests->whereBetween('dob', [$startDate, $finishDate]);
-							   	}
+				$tests = $tests->join('visits', 'tests.visit_id', '=', 'visits.id')->join('patients', 'visits.patient_id', '=', 'patients.id');
+			   	if($gender)
+			   	{
+			   		$tests = $tests->whereIn('gender', $gender);
+			   	}
+			   	if($ageRange)
+			   	{
+			   		$age = explode('-', $ageRange);
+					$ageStart = $age[0];
+					$ageEnd = $age[1];
+					$now = new DateTime('now');
+					$clonedDate = clone $now;
+					$finishDate = $clonedDate->sub(new DateInterval('P'.$ageStart.'Y'))->format('Y-m-d');
+					$clonedDate = clone $now;
+					$startDate = $clonedDate->sub(new DateInterval('P'.$ageEnd.'Y'))->format('Y-m-d');
+			   		$tests = $tests->whereBetween('dob', [$startDate, $finishDate]);
+			   	}
 			}
 
 		return $tests->count();

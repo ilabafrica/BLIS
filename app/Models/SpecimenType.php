@@ -61,29 +61,31 @@ class SpecimenType extends Model
 	*
 	* @param $gender, $ageRange, $from, $to
 	*/
-	public function groupedSpecimenCount($gender=null, $ageRange=null, $from=null, $to=null){
-			$specimens = Specimen::where('specimen_type_id', $this->id)->whereIn('specimen_status_id', [Specimen::ACCEPTED]);
-			if($to && $from){
-				$specimens = $specimens->whereBetween('time_accepted', [$from, $to]);
-			}
-			if($gender){
-				$specimens = $specimens->join('tests', 'specimens.id', '=', 'tests.specimen_id')
-									   ->join('visits', 'tests.visit_id', '=', 'visits.id')
-									   ->join('patients', 'visits.patient_id', '=', 'patients.id')
-									   ->whereIn('gender', $gender);
-			}
-			if($ageRange){
-				$ageRange = explode('-', $ageRange);
-				$ageStart = $ageRange[0];
-				$ageEnd = $ageRange[1];
-				
-				$now = new DateTime('now');
-				$finishDate = $now->sub(new DateInterval('P'.$ageStart.'Y'))->format('Y-m-d');
-				$startDate = $now->sub(new DateInterval('P'.$ageEnd.'Y'))->format('Y-m-d');
+	public function groupedSpecimenCount($gender=null, $ageRange=null, $from=null, $to=null)
+	{
+		$specimens = Specimen::where('specimen_type_id', $this->id)->whereIn('specimen_status_id', [Specimen::ACCEPTED]);
+		if($to && $from){
+			$specimens = $specimens->whereBetween('time_accepted', [$from, $to]);
+		}
+		if($gender)
+		{
+			$specimens = $specimens->join('tests', 'specimens.id', '=', 'tests.specimen_id')
+								   ->join('visits', 'tests.visit_id', '=', 'visits.id')
+								   ->join('patients', 'visits.patient_id', '=', 'patients.id')
+								   ->whereIn('gender', $gender);
+		}
+		if($ageRange)
+		{
+			$ageRange = explode('-', $ageRange);
+			$ageStart = $ageRange[0];
+			$ageEnd = $ageRange[1];
+			
+			$now = new DateTime('now');
+			$finishDate = $now->sub(new DateInterval('P'.$ageStart.'Y'))->format('Y-m-d');
+			$startDate = $now->sub(new DateInterval('P'.$ageEnd.'Y'))->format('Y-m-d');
 
-				$specimens = $specimens->whereBetween('dob', [$startDate, $finishDate]);
-			}
-
+			$specimens = $specimens->whereBetween('dob', [$startDate, $finishDate]);
+		}
 		return $specimens->count();
 	}
 }

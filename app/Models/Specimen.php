@@ -56,7 +56,7 @@ class Specimen extends Model
 	 */
 	public function rejectionReason()
 	{
-		return $this->belongsTo('App\Models\RejectionReason');
+		return $this->belongsTo('App\Models\Reason');
 	}
 
 	/**
@@ -153,5 +153,15 @@ class Specimen extends Model
         else {
             return false;
         }
+    }
+    /**
+    * Specimen barcode
+    *
+    * @return code
+    */
+    public function barcode()
+    {
+        $scode = $this->id;
+    	return $scode;
     }
 }

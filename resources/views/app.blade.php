@@ -75,7 +75,8 @@
 									<li class="{!! Request::segment(1)==strtolower(trans('menu.home'))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('user.home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
 									<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.patient', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('patient') !!}"><i class="fa fa-street-view"></i> {!! trans('menu.patient-register') !!}</a></li>
 									<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.test', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('test') !!}"><i class="fa fa-user-md"></i> {!! trans_choice('menu.test', 2) !!}</a></li>
-									<li class="sidenav-dropdown ">
+									<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.configurable', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('configurable') !!}"><i class="fa fa-google-wallet"></i> {!! trans_choice('menu.configurable', 2) !!}</a></li>
+									<li class="sidenav-dropdown{!! in_array(Request::segment(1), ['setting', 'analyser', 'registration', 'facility'])?' show-subnav':'' !!}">
 										<a class="subnav-toggle" href="javascript:;"><i class="fa fa-toggle-off"></i> {!! trans('menu.lab-config') !!} <i class="fa fa-angle-down  pull-right"></i></a>
 										<ul class="nav sidenav-sub-menu">
 											<li class="sidenav-dropdown ">
@@ -88,15 +89,17 @@
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.order-patient-fields') !!}</a></li>
 												</ul>
 											</li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.analyser', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('analyser') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.analyser', 2) !!}</a></li>
 											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.facility', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('facility') !!}"><i class="fa fa-tag"></i> {!! trans('menu.referral-facilities') !!}</a></li>
-											<li><a href="#"><i class="fa fa-tag"></i> {!! trans('menu.barcode-settings') !!}</a></li>
-											<li><a href="#"><i class="fa fa-tag"></i> {!! trans('menu.registration-fields') !!}</a></li>
+											<li class="{!! Request::segment(2)=='barcode'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('setting/barcode/edit') !!}"><i class="fa fa-tag"></i> {!! trans('menu.barcode-settings') !!}</a></li>
+											<li class="{!! Request::segment(2)=='lab'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('setting/lab/edit') !!}"><i class="fa fa-tag"></i> {!! trans('menu.lab-settings') !!}</a></li>
+											<li class="{!! Request::segment(1)=='registration'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('registration') !!}"><i class="fa fa-tag"></i> {!! trans('menu.registration-fields') !!}</a></li>
 											<li><a href="#"><i class="fa fa-tag"></i> {!! trans('menu.setup-network') !!}</a></li>
-											<li class="sidenav-dropdown ">
+											<li class="sidenav-dropdown{!! in_array(Request::segment(2), ['hmis', 'equipment'])?' show-subnav':'' !!}">
 												<a class="subnav-toggle" href="#"><i class="fa fa-external-link"></i> {!! trans('menu.external-interface') !!}<i class="fa fa-angle-down  pull-right"></i></a>
 												<ul class="nav sidenav-sub-menu">
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.hmis') !!}</a></li>
-													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.interfaced-equipment') !!}</a></li>
+													<li class="{!! Request::segment(2)=='equipment'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('setting/equipment/edit') !!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.interfaced-equipment') !!}</a></li>
 												</ul>
 											</li>
 										</ul>
@@ -112,22 +115,22 @@
 											<li class="{!! Request::segment(1)=='rejection'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('rejection') !!}"><i class="fa fa-tag"></i> {!! trans('menu.specimen-rejection') !!}</a></li>
 										</ul>
 									</li>
-									<li class="sidenav-dropdown ">
+									<li class="sidenav-dropdown{!! in_array(Request::segment(1), [strtolower('patientreport'), strtolower('log'), strtolower('count')])?' show-subnav':'' !!}">
 										<a class="subnav-toggle" href="#"><i class="fa fa-bar-chart"></i> {!! trans_choice('menu.report', 2) !!} <i class="fa fa-angle-down fa-angle-down  pull-right"></i></a>
 										<ul class="nav sidenav-sub-menu">
-											<li class="sidenav-dropdown ">
-												<a class="subnav-toggle" href="#"><i class="fa fa-clock-o"></i> {!! trans('menu.daily-reports') !!}<i class="fa fa-angle-down  pull-right"></i></a>
+											<li class="sidenav-dropdown{!! in_array(Request::segment(1), [strtolower('patientreport'), strtolower('log')])?' show-subnav':'' !!}">
+												<a class="subnav-toggle" href="#"><i class="fa fa-clock-o"></i> {!! trans('menu.daily-report') !!}<i class="fa fa-angle-down  pull-right"></i></a>
 												<ul class="nav sidenav-sub-menu">
-													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.patient-report') !!}</a></li>
-													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.daily-log') !!}</a></li>
+													<li class="{!! Request::segment(1)=='patientreport'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('patientreport') !!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.patient-report') !!}</a></li>
+													<li class="{!! Request::segment(1)=='log'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('log') !!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.daily-log') !!}</a></li>
 												</ul>
 											</li>
-											<li class="sidenav-dropdown ">
+											<li class="sidenav-dropdown{!! in_array(Request::segment(1), [strtolower('count')])?' show-subnav':'' !!}">
 												<a class="subnav-toggle" href="#"><i class="fa fa-file-archive-o"></i> {!! trans('menu.aggregate-reports') !!}<i class="fa fa-angle-down  pull-right"></i></a>
 												<ul class="nav sidenav-sub-menu">
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.prevalence-rates') !!}</a></li>
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.surveillance') !!}</a></li>
-													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.test-specimen-counts') !!}</a></li>
+													<li class="{!! Request::segment(1)=='count'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('count') !!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.test-specimen-counts') !!}</a></li>
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.turn-around-time') !!}</a></li>
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.infection-report') !!}</a></li>
 												</ul>
@@ -190,6 +193,8 @@
 	<!-- Datepicker -->
 	<script src="{!! URL::asset('js/bootstrap-datepicker.js') !!}"></script>
 	<!-- Custom script -->
-	<script type="text/javascript" src="{!! asset('js/script.js') !!} "></script>
+	<script type="text/javascript" src="{{ asset('js/script.js') }} "></script>
+	<!-- jQuery barcode script -->
+	<script type="text/javascript" src="{{ asset('js/jquery-barcode-2.0.2.js') }} "></script>
 </body>
 </html>

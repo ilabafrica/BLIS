@@ -83,7 +83,7 @@
 									</a>
 
 								<!-- sshow button for generating barcode -->
-									<a class="btn btn-sm btn-asbestos" href="{!! url("item/" . $value->id) !!}" >
+									<a class="btn btn-sm btn-asbestos" href="#" onclick="get_barcode('{!! $value->id.$value->name !!}')">
 										<i class="fa fa-barcode"></i>
 										{!! trans('action.barcode') !!}
 									</a>
@@ -110,6 +110,10 @@
 			</div>
 		</div>
 	</div>
+	<div id="count" style='display:none;'>0</div>
+	<div id ="barcodeList" style="display:none;"></div>
+	<!-- jQuery barcode script -->
+	<script type="text/javascript" src="{{ asset('js/barcode.js') }} "></script>
 	{!! session(['SOURCE_URL' => URL::full()]) !!}
 </div>
 @endsection

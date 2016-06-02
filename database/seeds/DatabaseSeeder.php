@@ -13,10 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        $this->call('Database\Seeds\KBLISMinimalSeed');
-        $this->call('Database\Seeds\TestDataSeeder');
-        $this->call('Database\Seeds\KBLISSeeder');
-        $this->call('Database\Seeds\CultureSensitivitySeeder');
+        $this->call(BlisSeeder::class);
         Model::reguard();
     }
 }

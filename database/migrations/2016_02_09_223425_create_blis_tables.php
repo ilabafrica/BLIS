@@ -540,12 +540,21 @@ class CreateBlisTables extends Migration
             $table->integer('quantity')->unsigned();
             $table->string('batch_no', 12);
             $table->date('expiry_date');
+            $table->foreign('commodity_id')->references('id')->on('commodities');
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
+        });
+
+        /* configurable modules */
+        Schema::create('configurables', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->string('name', 45);
+            $table->string('route', 25);
+            $table->string('description', 100)->nullable();
             $table->integer('user_id')->unsigned();
 
             $table->softDeletes();
             $table->timestamps();
-            $table->foreign('commodity_id')->references('id')->on('commodities');
-            $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->foreign('user_id')->references('id')->on('users');
         });
 
@@ -655,6 +664,83 @@ class CreateBlisTables extends Migration
             $table->timestamps();
         });
 
+        /* fields */
+        Schema::create('fields', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->string('field_name', 45);
+            $table->tinyInteger('field_type');
+            $table->string('options', 1000)->nullable();
+            $table->integer('user_id')->unsigned();
+
+            $table->softDeletes();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+        });
+        /* configurable fields */
+        Schema::create('configurable_fields', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->integer('configurable_id')->unsigned();
+            $table->integer('field_id')->unsigned();
+            $table->integer('user_id')->unsigned();
+
+            $table->softDeletes();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('field_id')->references('id')->on('fields');
+            $table->foreign('configurable_id')->references('id')->on('configurables');
+        });
+        /* config settings */
+        Schema::create('lab_config_settings', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->integer('key')->unsigned();
+            $table->string('value', 100);
+            $table->integer('user_id')->unsigned();
+
+            $table->softDeletes();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('key')->references('id')->on('configurable_fields');
+        });
+        /* custom values */
+        Schema::create('lab_custom_values', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->integer('reference')->nullable();
+            $table->integer('key')->unsigned();
+            $table->string('value', 100);
+            $table->integer('user_id')->unsigned();
+
+            $table->softDeletes();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('key')->references('id')->on('configurable_fields');
+        });
+        /* Analysers table */
+        Schema::create('analysers', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->string('name', 50);
+            $table->string('version', 25)->nullable();
+            $table->tinyInteger('comm_type');
+            $table->tinyInteger('feed_source');
+            $table->integer('test_category_id')->unsigned();
+            $table->string('description', 100)->nullable();
+            $table->string('config_file', 200);
+            $table->integer('user_id')->unsigned();
+
+            $table->softDeletes();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('test_category_id')->references('id')->on('test_categories');
+        });
     }
     /**
      * Reverse the migrations.

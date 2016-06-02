@@ -487,15 +487,10 @@ class TestController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function barcode($id)
+	public function barcode()
 	{
-		$spec = null;
-		if (($pos = strpos($id, "-")) !== FALSE)
-		{ 
-		    $spec = substr($id, $pos+1); 
-		}
-		//	show the view and pass the $item to it
-		/* for more formats, please check 1D barcodes on https://github.com/milon/barcode */
-		return DNS1D::getBarcodeHTML($spec, "C39", 3, 33, "green");
+		$id = Input::get('sId');
+		$spec = Specimen::find($id);
+		return $spec->barcode();
 	}
 }
