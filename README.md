@@ -39,4 +39,4 @@ Quick Start
 
 Troubleshooting
 ----------------
-   - Ensure that you enable mod_rewrite, `sudo a2enmod rewrite` if you are using apache. This should solve the problem of routing failures.
+Ensure that you enable mod_rewrite, `sudo a2enmod rewrite` if you are using apache. This should solve the problem of routing failures.
