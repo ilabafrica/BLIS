@@ -29,6 +29,7 @@ Route::group(array("before" => "guest"), function()
     ));
     
 });
+
 /* Routes accessible AFTER logging in */
 Route::group(array("before" => "auth"), function()
 {

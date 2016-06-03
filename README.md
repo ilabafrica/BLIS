@@ -36,3 +36,7 @@ Quick Start
 7. If you are running the application on a webserver eg. apache, ensure that the webserver has write permissions to the /app/storage folder.
    Ideally the web-root should be the /public folder.
    The default login credentials are '*administrator*' '*password*'.
+
+Troubleshooting
+----------------
+Ensure that you enable mod_rewrite, `sudo a2enmod rewrite` if you are using apache. This should solve the problem of routing failures.

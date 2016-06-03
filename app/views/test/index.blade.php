@@ -18,36 +18,36 @@
         {{ Form::open(array('route' => array('test.index'))) }}
             <div class='row'>
                 <div class='col-md-3'>
-                    <div class='col-md-2'>
-                        {{ Form::label('date_from', trans('messages.from')) }}
-                    </div>
-                    <div class='col-md-10'>
-                        {{ Form::text('date_from', Input::get('date_from'), 
-                            array('class' => 'form-control standard-datepicker')) }}
-                    </div>
+                        {{ Form::label('search', trans('messages.search'), array('class' => 'sr-only')) }}
+                        {{ Form::text('search', Input::get('search'),
+                            array('class' => 'form-control', 'placeholder' => 'Search')) }}
                 </div>
-                <div class='col-md-3'>
-                    <div class='col-md-2'>
-                        {{ Form::label('date_to', trans('messages.to')) }}
-                    </div>
-                    <div class='col-md-10'>
-                        {{ Form::text('date_to', Input::get('date_to'), 
-                            array('class' => 'form-control standard-datepicker')) }}
-                    </div>
-                </div>
-                <div class='col-md-3'>
-                    <div class='col-md-5'>
+                <div class='col-md-4'>
+                    <div class='col-md-3'>
                         {{ Form::label('test_status', trans('messages.test-status')) }}
                     </div>
-                    <div class='col-md-7'>
+                    <div class='col-md-6'>
                         {{ Form::select('test_status', $testStatus,
                             Input::get('test_status'), array('class' => 'form-control')) }}
                     </div>
                 </div>
                 <div class='col-md-2'>
-                        {{ Form::label('search', trans('messages.search'), array('class' => 'sr-only')) }}
-                        {{ Form::text('search', Input::get('search'),
-                            array('class' => 'form-control', 'placeholder' => 'Search')) }}
+                    <div class='col-md-3'>
+                        {{ Form::label('date_from', trans('messages.from')) }}
+                    </div>
+                    <div class='col-md-9'>
+                        {{ Form::text('date_from', Input::get('date_from'), 
+                            array('class' => 'form-control standard-datepicker')) }}
+                    </div>
+                </div>
+                <div class='col-md-2'>
+                    <div class='col-md-3'>
+                        {{ Form::label('date_to', trans('messages.to')) }}
+                    </div>
+                    <div class='col-md-9'>
+                        {{ Form::text('date_to', Input::get('date_to'), 
+                            array('class' => 'form-control standard-datepicker')) }}
+                    </div>
                 </div>
                 <div class='col-md-1'>
                         {{ Form::submit(trans('messages.search'), array('class'=>'btn btn-primary')) }}
