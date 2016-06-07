@@ -1,10 +1,12 @@
 ![image](https://travis-ci.org/ilabafrica/iBLIS.svg?branch=master)
 
-kBLIS
+BLIS
 =====
 
-kBLIS is a port of the Basic Laboratory Information System (<a href="https://github.com/C4G/BLIS">BLIS</a>) to the Laravel PHP Framework by iLabAfrica.
+BLIS is a port of the Basic Laboratory Information System (<a href="https://github.com/C4G/BLIS">BLIS</a>) to the Laravel PHP Framework by iLabAfrica.
 BLIS was originally developed by C4G. 
+
+You can test and view the application [here](blis.ilabafrica.ac.ke).
 
 Requirements
 ------------
