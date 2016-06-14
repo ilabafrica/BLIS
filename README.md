@@ -14,8 +14,13 @@ Requirements
 2. <a href='http://php.net/'>PHP</a> (>= 5.4).
 3. <a href='https://getcomposer.org/'>Composer</a> - Dependency manager for PHP.
 
-Quick Start
+Installation
 -----------
+##### DOCKER
+The easiest way to install is using docker, follow instruction [here](https://github.com/ilabafrica/iblis-contrib-docker) to install via docker. 
+
+##### FROM SOURCE
+
 1. Install the above mentioned requirements.
 2. Extract this git repository to a local folder
     <blockquote>git clone git@github.com:ilabafrica/iBLIS.git </blockquote>
