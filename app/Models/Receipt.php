@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Receipt extends Model
 {
 	use SoftDeletes;
+	protected $dates = ['deleted_at'];
 	protected $table = 'receipts';
 
 	public function getTotalReceipts()

@@ -366,9 +366,9 @@ Route::get("/role/{id}/delete", array(
         'uses' => 'ReceiptController@delete'
     ]);
 
-    Route::any('/reportconfig/surveillance', [
+    Route::post('/reportconfig/surveillance', [
         'as' => 'reportconfig.surveillance',
-        'before' => 'checkPerms:manage_lab_configurations',
+        // 'before' => 'checkPerms:manage_lab_configurations',
         'uses' => 'ReportController@surveillanceConfig'
     ]);
 

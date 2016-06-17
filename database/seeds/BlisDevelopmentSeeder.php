@@ -1,6 +1,12 @@
 <?php namespace Database\Seeds;
 
 use Illuminate\Database\Seeder;
+use App\Models\Configurable;
+use App\Models\Field;
+use App\Models\LabConfig;
+use App\Models\ConField;
+use App\Models\Analyser;
+
 use DB;
 use DateTime;
 use DateInterval;
@@ -12,7 +18,9 @@ use App\Models\MeasureType;
 use App\Models\MeasureRange;
 use App\Models\ExternalDump;
 use App\Models\RejectionReason;
+use App\Models\Drug;
 use App\Models\Role;
+use App\Models\Organism;
 use App\Models\Specimen;
 use App\Models\SpecimenType;
 use App\Models\Test;
@@ -41,16 +49,22 @@ use App\Models\ControlMeasure;
 use App\Models\ControlMeasureRange;
 use App\Models\ControlMeasureResult;
 
-class TestDataSeeder extends Seeder
+
+//	Carbon - for use with dates
+use Jenssegers\Date\Date as Carbon;
+
+class BlisDevelopmentSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
     public function run()
     {
+        $now = Carbon::today()->toDateTimeString();
         /* Users table */
         $usersData = array(
-            array(
-                "username" => "admin", "password" => bcrypt("password"), "email" => "administrator@kblis.org",
-                "name" => "kBLIS Administrator", "designation" => "Programmer"
-            ),
             array(
                 "username" => "lmorena", "password" => bcrypt("password"), "email" => "lmorena@kblis.org",
                 "name" => "L. Morena", "designation" => "Lab Technologist", "image" => "/i/users/user-3.png"
@@ -65,8 +79,8 @@ class TestDataSeeder extends Seeder
         {
             $users[] = User::create($user);
         }
-        $this->command->info('users seeded');
-        
+        $this->command->info('More users seeded');
+
 
         /* Specimen Types table */
         $specTypesData = array(
@@ -102,11 +116,11 @@ class TestDataSeeder extends Seeder
         $this->command->info('specimen_types seeded');
         
         /* Test Categories table - These map on to the lab sections */
-        $test_categories = TestCategory::create(array("name" => "PARASITOLOGY","description" => ""));
-        $lab_section_microbiology = TestCategory::create(array("name" => "MICROBIOLOGY","description" => ""));
+        $test_categories = TestCategory::create(array("name" => "PARASITOLOGY","description" => "", "created_at" => $now, "updated_at" => $now));
+        $lab_section_microbiology = TestCategory::create(array("name" => "MICROBIOLOGY","description" => "", "created_at" => $now, "updated_at" => $now));
 
-        $this->command->info('test_categories seeded');
-        
+        $this->command->info('Test categories seeded');
+
         /* Measures table */
         $measureBSforMPS = Measure::create(
             array("measure_type_id" => "2",
@@ -1356,13 +1370,14 @@ class TestDataSeeder extends Seeder
         
         //Seed for receipts
         $receipt = Receipt::create(
-            array(
+            [
                 "commodity_id" => $commodity->id,
                 "supplier_id" => $supplier->id, 
                 "quantity" => "130000",
                 "batch_no" => "002720",
-                "expiry_date" => "2018-10-14", 
-                "user_id" => "1")
+                // todo : is this entry neccesary, coz we need to add it to the db
+                // "user_id" => "1"
+                "expiry_date" => "2018-10-14", ]
         );
         $this->command->info('Receipts table seeded');
         
@@ -1585,6 +1600,560 @@ class TestDataSeeder extends Seeder
         }
         $this->command->info("Control results table seeded");
 
+        //Seed for drugs
+        $penicillin = Drug::create(array('name' => "PENICILLIN"));
+        $ampicillin = Drug::create(array('name' => "AMPICILLIN"));
+        $clindamycin = Drug::create(array('name' => "CLINDAMYCIN"));
+        $tetracycline = Drug::create(array('name' => "TETRACYCLINE"));
+        $ciprofloxacin = Drug::create(array('name' => "CIPROFLOXACIN"));
+        $trimeth = Drug::create(array('name' => "TRIMETHOPRIM/SULFA"));
+        $nitrofurantoin = Drug::create(array('name' => "NITROFURANTOIN"));
+        $chloramphenicol = Drug::create(array('name' => "CHLORAMPHENICOL"));
+        $cefazolin = Drug::create(array('name' => "CEFAZOLIN"));
+        $gentamicin = Drug::create(array('name' => "GENTAMICIN"));
+        $amoxicillin = Drug::create(array('name' => "AMOXICILLIN-CLAV"));
+        $cephalothin = Drug::create(array('name' => "CEPHALOTHIN"));
+        $cefuroxime = Drug::create(array('name' => "CEFUROXIME"));
+        $cefotaxime = Drug::create(array('name' => "CEFOTAXIME"));
+        $piperacillin = Drug::create(array('name' => "PIPERACILLIN"));
+        $cefixime = Drug::create(array('name' => "CEFIXIME"));
+        $ceftazidime = Drug::create(array('name' => "CEFTAZIDIME"));
+        $cefriaxone = Drug::create(array('name' => "CEFRIAXONE"));
+        $levofloxacin = Drug::create(array('name' => "LEVOFLOXACIN"));
+        $merodenem = Drug::create(array('name' => "MERODENEM"));
+        $tazo = Drug::create(array('name' => "PIPERACILLIN/TAZO"));
+        $imedenem = Drug::create(array('name' => "IMEDENEM"));
+        $oxacillin = Drug::create(array('name' => "OXACILLIN (CEFOXITIN)"));
+        $erythromycin = Drug::create(array('name' => "ERYTHROMYCIN"));
+        $vancomycin = Drug::create(array('name' => "VANCOMYCIN"));
+        $cefoxitin = Drug::create(array('name' => "CEFOXITIN"));
+        $tobramycin = Drug::create(array('name' => "TOBRAMYCIN"));
+        $sulbactam = Drug::create(array('name' => "AMPICILLIN-SULBACTAM"));
+        
+        $this->command->info('Drugs table seeded');
+        //Seed for organisims
+        $staphylococci = Organism::create(array('name' => "Staphylococci species"));
+        $gramnegative = Organism::create(array('name' => "Gram negative cocci"));
+        $pseudomonas = Organism::create(array('name' => "Pseudomonas aeruginosa"));
+        $enterococcus = Organism::create(array('name' => "Enterococcus species"));
+        $pneumoniae = Organism::create(array('name' => "Streptococcus pneumoniae"));
+        $streptococcus = Organism::create(array('name' => "Streptococcus species viridans group"));
+        $beta = Organism::create(array('name' => "Beta-haemolytic streptococci"));
+        $haemophilus = Organism::create(array('name' => "Haemophilus influenzae"));
+        $naisseria = Organism::create(array('name' => "Naisseria menengitidis"));
+        $salmonella = Organism::create(array('name' => "Salmonella species"));
+        $shigella = Organism::create(array('name' => "Shigella"));
+        $vibrio = Organism::create(array('name' => "Vibrio cholerae"));
+        $grampositive = Organism::create(array('name' => "Gram positive cocci"));
+
+        $this->command->info('Organisms table seeded');
+
+        // todo: keep kalm kitsao will sort this out ;)
+        //  Seed for organism_drugs
+        //  Staphylococci species
+      /*  DB::table('organism_drugs')->insert(
+            array("organism_id" => $staphylococci->id, "drug_id" => $penicillin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $staphylococci->id, "drug_id" => $oxacillin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $staphylococci->id, "drug_id" => $cefoxitin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $staphylococci->id, "drug_id" => $erythromycin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $staphylococci->id, "drug_id" => $clindamycin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $staphylococci->id, "drug_id" => $trimeth->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $staphylococci->id, "drug_id" => $cefazolin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $staphylococci->id, "drug_id" => $cephalothin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $staphylococci->id, "drug_id" => $chloramphenicol->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $staphylococci->id, "drug_id" => $nitrofurantoin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $staphylococci->id, "drug_id" => $tetracycline->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $staphylococci->id, "drug_id" => $vancomycin->id));
+        
+        $this->command->info('Staphylococci species seeded');
+
+        //  Gram negative cocci
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $gramnegative->id, "drug_id" => $ampicillin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $gramnegative->id, "drug_id" => $cefazolin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $gramnegative->id, "drug_id" => $gentamicin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $gramnegative->id, "drug_id" => $amoxicillin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $gramnegative->id, "drug_id" => $cephalothin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $gramnegative->id, "drug_id" => $cefuroxime->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $gramnegative->id, "drug_id" => $cefotaxime->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $gramnegative->id, "drug_id" => $ciprofloxacin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $gramnegative->id, "drug_id" => $trimeth->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $gramnegative->id, "drug_id" => $nitrofurantoin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $gramnegative->id, "drug_id" => $chloramphenicol->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $gramnegative->id, "drug_id" => $tetracycline->id));
+        
+        $this->command->info('Gram negative cocci seeded');
+
+        //  Pseudomonas aeruginosa
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $pseudomonas->id, "drug_id" => $ceftazidime->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $pseudomonas->id, "drug_id" => $gentamicin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $pseudomonas->id, "drug_id" => $tobramycin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $pseudomonas->id, "drug_id" => $piperacillin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $pseudomonas->id, "drug_id" => $ciprofloxacin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $pseudomonas->id, "drug_id" => $merodenem->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $pseudomonas->id, "drug_id" => $tazo->id));
+
+        $this->command->info('Pseudomonas aeruginosa seeded');
+
+        //  Enterococcus species
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $enterococcus->id, "drug_id" => $ampicillin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $enterococcus->id, "drug_id" => $gentamicin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $enterococcus->id, "drug_id" => $nitrofurantoin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $enterococcus->id, "drug_id" => $ciprofloxacin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $enterococcus->id, "drug_id" => $tetracycline->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $enterococcus->id, "drug_id" => $chloramphenicol->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $enterococcus->id, "drug_id" => $vancomycin->id));
+        
+        $this->command->info('Enterococcus species seeded');
+
+        //  Streptococcus pneumoniae
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $pneumoniae->id, "drug_id" => $penicillin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $pneumoniae->id, "drug_id" => $cefriaxone->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $pneumoniae->id, "drug_id" => $cefuroxime->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $pneumoniae->id, "drug_id" => $erythromycin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $pneumoniae->id, "drug_id" => $trimeth->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $pneumoniae->id, "drug_id" => $chloramphenicol->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $pneumoniae->id, "drug_id" => $tetracycline->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $pneumoniae->id, "drug_id" => $levofloxacin->id));
+        
+        $this->command->info('Streptococcus pneumoniae seeded');
+
+        //  Streptococcus species viridans group
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $streptococcus->id, "drug_id" => $penicillin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $streptococcus->id, "drug_id" => $cefriaxone->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $streptococcus->id, "drug_id" => $vancomycin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $streptococcus->id, "drug_id" => $chloramphenicol->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $streptococcus->id, "drug_id" => $clindamycin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $streptococcus->id, "drug_id" => $erythromycin->id));
+        
+        $this->command->info('Streptococcus species viridans group seeded');
+
+        //  Beta-haemolytic streptococci
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $beta->id, "drug_id" => $penicillin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $beta->id, "drug_id" => $erythromycin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $beta->id, "drug_id" => $clindamycin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $beta->id, "drug_id" => $cefriaxone->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $beta->id, "drug_id" => $chloramphenicol->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $beta->id, "drug_id" => $vancomycin->id));
+        
+        $this->command->info('Beta-haemolytic streptococci seeded');
+
+        //  Haemophilus influenzae
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $haemophilus->id, "drug_id" => $ampicillin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $haemophilus->id, "drug_id" => $trimeth->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $haemophilus->id, "drug_id" => $sulbactam->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $haemophilus->id, "drug_id" => $cefriaxone->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $haemophilus->id, "drug_id" => $chloramphenicol->id));
+        
+        $this->command->info('Haemophilus influenzae seeded');
+
+        //  Naisseria menengitidis
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $naisseria->id, "drug_id" => $penicillin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $naisseria->id, "drug_id" => $cefriaxone->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $naisseria->id, "drug_id" => $chloramphenicol->id));
+        
+        $this->command->info('Neisseria menengitidis seeded');
+
+        //  Salmonella species
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $salmonella->id, "drug_id" => $ampicillin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $salmonella->id, "drug_id" => $ciprofloxacin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $salmonella->id, "drug_id" => $trimeth->id));
+        
+        $this->command->info('Salmonella species seeded');
+
+        //  Shigella
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $shigella->id, "drug_id" => $ampicillin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $shigella->id, "drug_id" => $ciprofloxacin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $shigella->id, "drug_id" => $trimeth->id));
+        
+        $this->command->info('Shigella seeded');
+
+        //  Vibrio cholerae
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $vibrio->id, "drug_id" => $ampicillin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $vibrio->id, "drug_id" => $ciprofloxacin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $vibrio->id, "drug_id" => $trimeth->id));
+        
+        $this->command->info('Vibrio cholerae seeded');
+
+        //  Gram positive cocci
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $grampositive->id, "drug_id" => $cefoxitin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $grampositive->id, "drug_id" => $clindamycin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $grampositive->id, "drug_id" => $erythromycin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $grampositive->id, "drug_id" => $oxacillin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $grampositive->id, "drug_id" => $penicillin->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $grampositive->id, "drug_id" => $tetracycline->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $grampositive->id, "drug_id" => $trimeth->id));
+        DB::table('organism_drugs')->insert(
+            array("organism_id" => $grampositive->id, "drug_id" => $vancomycin->id));
+        
+      */  $this->command->info('Gram positive cocci seeded');
+
+        $role1 = Role::find(1);
+        $role2 = Role::find(2);//Technologist
+        $permissions = Permission::all();
+
+        //Assign all permissions to role administrator
+        foreach ($permissions as $permission) {
+            $role1->attachPermission($permission);
+        }
+        //Assign role Administrator to administrators
+        User::find(1)->attachRole($role1);
+        User::find(2)->attachRole($role2);
+        // User::find(8)->attachRole($role1);
+        // User::find(10)->attachRole($role1);
+
+
+
+        //Assign technologist's permissions to role technologist
+        $role2->attachPermission(Permission::find(1));
+        $role2->attachPermission(Permission::find(2));
+        $role2->attachPermission(Permission::find(3));
+        $role2->attachPermission(Permission::find(4));
+        $role2->attachPermission(Permission::find(5));
+        $role2->attachPermission(Permission::find(6));
+        $role2->attachPermission(Permission::find(7));
+        $role2->attachPermission(Permission::find(8));
+        $role2->attachPermission(Permission::find(9));
+        $role2->attachPermission(Permission::find(10));
+        $role2->attachPermission(Permission::find(11));
+        $role2->attachPermission(Permission::find(12));
+        $role2->attachPermission(Permission::find(13));
+        $role2->attachPermission(Permission::find(17));
+
+        //Assign role Technologist to the other users
+        // User::find(5)->attachRole($role2);
+        // User::find(12)->attachRole($role2);
+        // User::find(18)->attachRole($role2);
+        // User::find(23)->attachRole($role2);
+        // User::find(24)->attachRole($role2);
+        // User::find(26)->attachRole($role2);
+        // User::find(29)->attachRole($role2);
+        // User::find(43)->attachRole($role2);
+        // User::find(76)->attachRole($role2);
+        // User::find(136)->attachRole($role2);
+        // User::find(159)->attachRole($role2);
+        // User::find(161)->attachRole($role2);
+        // User::find(162)->attachRole($role2);
+        // User::find(163)->attachRole($role2);
+        // User::find(164)->attachRole($role2);
+
+
+        /* Configurables table */
+        $configurables = array(
+            array(
+                "name" => "Barcode Settings", "Description" => "", "route" => "barcode", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "Laboratory Settings", "Description" => "", "route" => "lab", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            )
+        );
+        /* fields table */
+        $fields = array(
+        	// Barcode fields
+            array(
+                "field_name" => "Encoding Format", "field_type" => "3", "user_id" => "1", "options" => "ean8,ean13,code11,code39,code128,codabar,std25,int25,code93", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "Barcode Width", "field_type" => "3", "user_id" => "1", "options" => "1,2,3,4,5,6,7,8,9,10", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "Barcode Height", "field_type" => "3", "user_id" => "1", "options" => "5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "Text Size", "field_type" => "3", "user_id" => "1", "options" => "5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39", "created_at" => $now, "updated_at" => $now
+            ),
+            // Lab settings fields
+            array(
+                "field_name" => "Laboratory Logo", "field_type" => "1", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "Laboratory Name", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "Telephone", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "Address", "field_type" => "5", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "Email", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "Website", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "Director", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "Manager", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "Quality Manager", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            )
+            // interfaced equipment
+            ,
+            array(
+                "field_name" => "PORT", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "MODE", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "CLIENT_RECONNECT", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "EQUIPMENT_IP", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "COMPORT", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "BAUD_RATE", "field_type" => "3", "user_id" => "1", "options" => "300,1200,2400,4800,9600,14400,19200,28800,38400,57600,115200,230400", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "PARITY", "field_type" => "3", "user_id" => "1", "options" => "None,Odd,Even", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "STOP_BITS", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "APPEND_NEWLINE", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "DATA_BITS", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "APPEND_CARRIAGE_RETURN", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "DATASOURCE", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "DAYS", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "BASE_DIRECTORY", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "USE_SUB_DIRECTORIES", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "SUB_DIRECTORY_FORMAT", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "FILE_NAME_FORMAT", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "FILE_EXTENSION", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "field_name" => "FILE_SEPERATOR", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            )
+        );
+		/* configurable-fields table */
+		$confields = array(
+			array(
+				"configurable_id" => 1, "field_id" => 1, "user_id" => "1", "created_at" => $now, "updated_at" => $now
+			),
+			array(
+				"configurable_id" => 1, "field_id" => 2, "user_id" => "1", "created_at" => $now, "updated_at" => $now
+			),
+			array(
+				"configurable_id" => 1, "field_id" => 3, "user_id" => "1", "created_at" => $now, "updated_at" => $now
+			),
+			array(
+				"configurable_id" => 1, "field_id" => 4, "user_id" => "1", "created_at" => $now, "updated_at" => $now
+			),
+			array(
+				"configurable_id" => 2, "field_id" => 5, "user_id" => "1", "created_at" => $now, "updated_at" => $now
+			),
+			array(
+				"configurable_id" => 2, "field_id" => 6, "user_id" => "1", "created_at" => $now, "updated_at" => $now
+			),
+			array(
+				"configurable_id" => 2, "field_id" => 7, "user_id" => "1", "created_at" => $now, "updated_at" => $now
+			),
+			array(
+				"configurable_id" => 2, "field_id" => 8, "user_id" => "1", "created_at" => $now, "updated_at" => $now
+			),
+			array(
+				"configurable_id" => 2, "field_id" => 9, "user_id" => "1", "created_at" => $now, "updated_at" => $now
+			),
+			array(
+				"configurable_id" => 2, "field_id" => 10, "user_id" => "1", "created_at" => $now, "updated_at" => $now
+			),
+			array(
+				"configurable_id" => 2, "field_id" => 11, "user_id" => "1", "created_at" => $now, "updated_at" => $now
+			),
+			array(
+				"configurable_id" => 2, "field_id" => 12, "user_id" => "1", "created_at" => $now, "updated_at" => $now
+			),
+			array(
+				"configurable_id" => 2, "field_id" => 13, "user_id" => "1", "created_at" => $now, "updated_at" => $now
+			)
+		);
+        /* lab-config-settings table */
+        $settings = array(
+            array(
+                "key" => "1", "value" => "code39", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "key" => "2", "value" => "2", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "key" => "3", "value" => "30", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "key" => "4", "value" => "11", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            )
+        );
+        /* lnterfaced-equipment table */
+        $analysers = array(
+            array(
+                "name" => "Mindray BS-200E", "version" => "01.00.07", "comm_type" => "1", "feed_source" => "2", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "ABX Pentra 60 C+", "version" => "", "comm_type" => "1", "feed_source" => "3", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "ABX MACROS 60", "version" => "", "comm_type" => "0", "feed_source" => "1", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "BT 3000 Plus", "version" => "", "comm_type" => "0", "feed_source" => "1", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "Sysmex SX 500i", "version" => "", "comm_type" => "0", "feed_source" => "2", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "BD FACSCalibur", "version" => "", "comm_type" => "1", "feed_source" => "5", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "Mindray BC 3600", "version" => "", "comm_type" => "0", "feed_source" => "1", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "Selectra Junior", "version" => "", "comm_type" => "0", "feed_source" => "1", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "GeneXpert", "version" => "", "comm_type" => "1", "feed_source" => "2", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "ABX Pentra 80", "version" => "", "comm_type" => "1", "feed_source" => "1", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "Sysmex XT 2000i", "version" => "", "comm_type" => "0", "feed_source" => "2", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            ),
+            array(
+                "name" => "Vitalex Flexor", "version" => "", "comm_type" => "0", "feed_source" => "2", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
+            )
+        );
+
+        $this->command->info('Users table seeded');
+        foreach ($configurables as $configurable)
+        {
+            $data[] = Configurable::create($configurable);
+        }
+        $this->command->info('Configurables table seeded');
+        foreach ($fields as $field)
+        {
+            $configs[] = Field::create($field);
+        }
+        $this->command->info('Fields table seeded');
+        foreach ($confields as $confield)
+        {
+            $conf[] = ConField::create($confield);
+        }
+        $this->command->info('Fields table seeded');
+        foreach ($settings as $setting)
+        {
+            $array[] = LabConfig::create($setting);
+        }
+        $this->command->info('Settings table seeded');
+
+        foreach ($analysers as $analyser)
+        {
+            $lyser[] = Analyser::create($analyser);
+        }
+        $this->command->info('Analysers table seeded');
     }
 
     public function createSpecimen(

@@ -63,7 +63,8 @@ class ReceiptController extends Controller {
 			$receipts->quantity = Input::get('quantity');
 			$receipts->batch_no = Input::get('batch_no');
 			$receipts->expiry_date= Input::get('expiry_date');
-			$receipts->user_id= Auth::user()->id;
+			// todo: is this column neccessary ... it's not in the migrations
+			// $receipts->user_id= Auth::user()->id;
 
 			$receipts->save();
 			return redirect()->to('receipt.index')

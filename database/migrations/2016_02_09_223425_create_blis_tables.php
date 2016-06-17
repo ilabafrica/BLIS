@@ -540,6 +540,9 @@ class CreateBlisTables extends Migration
             $table->integer('quantity')->unsigned();
             $table->string('batch_no', 12);
             $table->date('expiry_date');
+            
+            $table->softDeletes();
+            $table->timestamps();
             $table->foreign('commodity_id')->references('id')->on('commodities');
             $table->foreign('supplier_id')->references('id')->on('suppliers');
         });

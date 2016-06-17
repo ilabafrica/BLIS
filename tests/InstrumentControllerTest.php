@@ -31,6 +31,8 @@ class InstrumentControllerTest extends TestCase
     *    - Click 'New Equipment' button on 'instrument.index' page
     *    - Check for an expected field name: ip
     */
+ 
+    // todo: crawlers are having a pretty bad time right now... sort them out first
     public function testDisplayCreateForm(){
 
 

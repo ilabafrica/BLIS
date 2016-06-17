@@ -169,7 +169,8 @@ $(function(){
 	 */
 
 	$('.fetch-test-data').click(function(){
-		var testTypeID = $(this).data('test-type-id');
+		// var testTypeID = $(this).data('test-type-id');
+		var testTypeID = $(this).data('test_type_id');
 		var url = $(this).data('url');
 		$.post(url, { test_type_id: testTypeID}).done(function(data){
 			$.each($.parseJSON(data), function (index, obj) {
@@ -453,7 +454,7 @@ $(function(){
 	 */
 	function addNewSurveillanceAttributes (newSurveillanceNo) {
 		$('.new-surveillance-'+newSurveillanceNo).find('select.test-type').attr(
-			'name', 'newSurveillance['+newSurveillanceNo+'][test-type]');
+			'name', 'newSurveillance['+newSurveillanceNo+'][test_type]');
 		$('.new-surveillance-'+newSurveillanceNo).find('select.disease').attr(
 			'name', 'newSurveillance['+newSurveillanceNo+'][disease]');
 	}

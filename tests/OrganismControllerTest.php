@@ -96,7 +96,7 @@ class OrganismControllerTest extends TestCase
 	 * @param void
 	 * @return void
      */
-	// todo: before enabling this test, first enable OrganismController::delete - ereng
+	// todo: before enabling this test, first enable OrganismController::delete
 	public function testDelete()
 	{
 		$this->withoutMiddleware();

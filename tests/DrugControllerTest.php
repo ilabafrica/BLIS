@@ -92,7 +92,7 @@ class DrugControllerTest extends TestCase
 	 * @return void
      */
 	public function testDelete()
-	{	// to be done later
+	{	// todo: to be done later
 		/*
 		$this->withoutMiddleware();
 		$this->call('POST', '/drug', $this->drugData);

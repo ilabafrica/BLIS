@@ -29,7 +29,7 @@ class MetricControllerTest extends TestCase
 		// Initial sample storage data
 		$this->input = array(
 			
-			'unit-of-issue' => '100mgs',
+			'unit_of_issue' => '100mgs',
 			'description' => 'issued in 100mg sachets',
 			
 			
@@ -38,7 +38,7 @@ class MetricControllerTest extends TestCase
 		// Edition sample data
 		$this->inputUpdate = array(
 			
-			'unit-of-issue' => '100mgs',
+			'unit_of_issue' => '100mgs',
 			'description' => 'issued in 100mg sachets',
 						
 		);
@@ -59,8 +59,8 @@ class MetricControllerTest extends TestCase
 
 		$metricSaved = Metric::orderBy('id','desc')->first();
 				
-		$this->assertEquals($metricSaved[0]['name'], $this->input['unit-of-issue']);
-		$this->assertEquals($metricSaved[0]['description'], $this->input['description']);
+		$this->assertEquals($metricSaved->name, $this->input['unit_of_issue']);
+		$this->assertEquals($metricSaved->description, $this->input['description']);
 		
 		
   	}
@@ -81,8 +81,8 @@ class MetricControllerTest extends TestCase
 		$metricUpdated = Metric::orderBy('id','desc')->first();
 
 
-		$this->assertEquals($metricUpdated[0]['name'], $this->inputUpdate['unit-of-issue']);
-		$this->assertEquals($metricUpdated[0]['description'], $this->inputUpdate['description']);
+		$this->assertEquals($metricUpdated->name, $this->inputUpdate['unit_of_issue']);
+		$this->assertEquals($metricUpdated->description, $this->inputUpdate['description']);
 	}
 
 	/**

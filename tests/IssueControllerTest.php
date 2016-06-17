@@ -66,11 +66,11 @@ class IssueControllerTest extends TestCase
 
 		$issueSaved = Issue::orderBy('id','desc')->first();
 				
-		$this->assertEquals($issueSaved[0]['receipt_id'], $this->input['batch_no']);
-		$this->assertEquals($issueSaved[0]['topup_request_id'], $this->input['topup_request_id']);
-		$this->assertEquals($issueSaved[0]['quantity_issued'], $this->input['quantity_issued']);
-		$this->assertEquals($issueSaved[0]['issued_to'], $this->input['receivers_name']);
-		$this->assertEquals($issueSaved[0]['remarks'], $this->input['remarks']);
+		$this->assertEquals($issueSaved->receipt_id, $this->input['batch_no']);
+		$this->assertEquals($issueSaved->topup_request_id, $this->input['topup_request_id']);
+		$this->assertEquals($issueSaved->quantity_issued, $this->input['quantity_issued']);
+		$this->assertEquals($issueSaved->issued_to, $this->input['receivers_name']);
+		$this->assertEquals($issueSaved->remarks, $this->input['remarks']);
 		
   	}
   	/**
@@ -90,11 +90,11 @@ class IssueControllerTest extends TestCase
 		$issueUpdated = Issue::orderBy('id','desc')->first();
 
 
-		$this->assertEquals($issueUpdated[0]['receipt_id'], $this->inputUpdate['batch_no']);
-		$this->assertEquals($issueUpdated[0]['topup_request_id'], $this->inputUpdate['topup_request_id']);
-		$this->assertEquals($issueUpdated[0]['quantity_issued'], $this->inputUpdate['quantity_issued']);
-		$this->assertEquals($issueUpdated[0]['issued_to'], $this->inputUpdate['receivers_name']);
-		$this->assertEquals($issueUpdated[0]['remarks'], $this->inputUpdate['remarks']);
+		$this->assertEquals($issueUpdated->receipt_id, $this->inputUpdate['batch_no']);
+		$this->assertEquals($issueUpdated->topup_request_id, $this->inputUpdate['topup_request_id']);
+		$this->assertEquals($issueUpdated->quantity_issued, $this->inputUpdate['quantity_issued']);
+		$this->assertEquals($issueUpdated->issued_to, $this->inputUpdate['receivers_name']);
+		$this->assertEquals($issueUpdated->remarks, $this->inputUpdate['remarks']);
 	}
 	/**
   	 * Tests the update function in the IssueController

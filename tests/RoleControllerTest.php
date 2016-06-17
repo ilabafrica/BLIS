@@ -49,7 +49,7 @@ class RoleControllerTest extends TestCase
         $this->assertTrue($user3->hasRole($role2->name));
         $this->assertFalse($user3->hasRole($role1->name));
         $this->assertFalse($user1->hasRole($role2->name));
-        // todo: redirect is failing for some reason -ereng
+        // todo: redirect is failing for some reason
         $this->assertRedirectedToRoute('role.assign');
     }
 
@@ -62,16 +62,16 @@ class RoleControllerTest extends TestCase
 
         $this->withoutMiddleware();
         $this->call('POST', '/role', $this->systemRoleFailsValidationNoName);
-        // todo: redirect is failing for some reason -ereng
+        // todo: redirect is failing for some reason
         $this->assertRedirectedToRoute('role.create');
-        // todo: session don't seem to be working - ereng
+        // todo: session don't seem to be working
         $this->assertSessionHasErrors('name');
 
         $this->withoutMiddleware();
         $this->call('POST', '/role', $this->systemRoleFailsValidationSameRole);
-        // todo: redirect is failing for some reason -ereng
+        // todo: redirect is failing for some reason
         $this->assertRedirectedToRoute('role.create');
-        // todo: session don't seem to be working - ereng
+        // todo: session don't seem to be working
         $this->assertSessionHasErrors('name');
 
         $this->withoutMiddleware();
@@ -90,7 +90,7 @@ class RoleControllerTest extends TestCase
         $role1 = Role::find(1);
         $this->assertEquals($this->systemRoleUpdateWorks['name'], $role1->name);
         $this->assertEquals($this->systemRoleUpdateWorks['description'], $role1->description);
-        // todo: redirect is failing for some reason -ereng
+        // todo: redirect is failing for some reason
         $this->assertRedirectedToRoute('role.index');
 
         $this->withoutMiddleware();
@@ -98,16 +98,16 @@ class RoleControllerTest extends TestCase
         $role2 = Role::find(2);
         $this->assertEquals($this->systemRoleUpdateChecksForUniqNameExceptThisId['name'], $role2->name);
         $this->assertEquals($this->systemRoleUpdateChecksForUniqNameExceptThisId['description'], $role2->description);
-        // todo: redirect is failing for some reason -ereng
+        // todo: redirect is failing for some reason
         $this->assertRedirectedToRoute('role.index');
 
         $this->withoutMiddleware();
         $this->call('PUT', '/role/2', $this->systemRoleUpdateFailsUpdatingWithExistingName);
         $role2 = Role::find(2);
         $this->assertNotEquals($this->systemRoleUpdateFailsUpdatingWithExistingName['name'], $role2->name);
-        // todo: redirect is failing for some reason -ereng
+        // todo: redirect is failing for some reason
         $this->assertRedirectedToRoute('role.edit', array(2));
-        // todo: session don't seem to be working - ereng
+        // todo: session don't seem to be working
         $this->assertSessionHasErrors('name');
     }
 
@@ -119,7 +119,7 @@ class RoleControllerTest extends TestCase
         $this->call('GET', '/role/2/delete');
         $role2 = Role::find(2);
         $this->assertNull($role2);
-        // todo: redirect is failing for some reason -ereng
+        // todo: redirect is failing for some reason
         $this->assertRedirectedToRoute('role.index');
     }
 
@@ -140,7 +140,7 @@ class RoleControllerTest extends TestCase
         $this->systemRoleFailsValidationSameRole= array("name" => "Consigliere", "description" => "lll");
         $this->systemRoleFailsValidationShortRole= array("name" => "Co");
 
-        //Update user roles in seed KBLISSEEDER
+        //Update user roles in seed KBLISSEEDER - KBLISSEEDER dont exist no more find content in the new seeders
         $this->systemRoleUpdateWorks= array("id"=>"1", "name" => "Ma na ge rs", "description" => "the managers");
         $this->systemRoleUpdateChecksForUniqNameExceptThisId= array("id"=>"2", "name" => "technologist", "description" => "the managers");
         $this->systemRoleUpdateFailsUpdatingWithExistingName= array("id"=>"2", "name" => "Ma na ge rs", "description" => "the managers");

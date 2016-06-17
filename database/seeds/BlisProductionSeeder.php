@@ -9,15 +9,19 @@ use App\Models\SpecimenStatus;
 use App\Models\Permission;
 use App\Models\Role;
 
-class KBLISMinimalSeed extends Seeder
+//  Carbon - for use with dates
+use Jenssegers\Date\Date as Carbon;
+
+class BlisProductionSeeder extends Seeder
 {
     public function run()
     {
+        $now = Carbon::today()->toDateTimeString();
         /* Users table */
         $usersData = array(
             array(
-                "username" => "administrator", "password" => bcrypt("password"), "email" => "admin@kblis.org",
-                "name" => "kBLIS Administrator", "designation" => "Administrator"
+                "username" => "admin", "password" => bcrypt("password"), "email" => "admin@blis.org",
+                "name" => "BLIS Administrator", "designation" => "Programmer", "gender" => "1", "phone"=>"0722000000", "address" => "P.O. Box 59857-00200, Nairobi", "created_at" => $now, "updated_at" => $now
             ),
             array(
                 "username" => "external", "password" => bcrypt("password"), "email" => "admin2@kblis.org",
@@ -120,7 +124,6 @@ class KBLISMinimalSeed extends Seeder
             Role::create($role);
         }
         $this->command->info('Roles table seeded');
-
     }
 
 }

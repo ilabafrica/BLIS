@@ -9,7 +9,9 @@ use App\Models\Patient;
 use App\Models\ExternalDump;
 use App\Api\Facades\Interfacer;
 
-
+// todo: just kept this later! need abit of stuying... perhaps kip can remedy it
+/*TypeError: Argument 2 passed to Symfony\Component\HttpFoundation\Request::createRequestFromFactory() must be of the type array, string given, called in /var/www/blis3.0/vendor/symfony/http-foundation/Request.php on line 397
+*/
 class SanitasInterfacerTest extends TestCase
 {
     
