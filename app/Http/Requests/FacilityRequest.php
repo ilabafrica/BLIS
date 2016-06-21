@@ -35,4 +35,20 @@ class FacilityRequest extends Request {
 		$name = $this->input('name');
 		return Facility::where(compact('id', 'name'))->exists() ? $id : '';
 	}
+
+    /**
+     * Get the proper failed validation response for the request.
+     *
+     * @param  array  $errors
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function response(array $errors)
+    {
+        if (($this->ajax() && ! $this->pjax()) || $this->wantsJson()) {
+            return new JsonResponse($errors, 422);
+        }
+        return redirect()->route('facility.index')
+			->withInput($this->except($this->dontFlash))
+			->withErrors($errors, $this->errorBag);
+    }
 }

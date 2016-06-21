@@ -47,9 +47,8 @@ class ControlControllerTest extends TestCase {
 
 		$response = $this->call('POST', '/control', $this->inputStoreControls);
 
-		// todo: this redirection assertions failing
-		// $this->assertTrue($response->isRedirection());
-		// $this->assertRedirectedToRoute('control.index');
+		$this->assertTrue($response->isRedirection());
+		$this->assertRedirectedToRoute('control.index');
 		$testControl = Control::orderBy('id', 'desc')->first();
 		$this->assertEquals($testControl->name, $this->inputStoreControls['name']);
 		$this->assertEquals($testControl->description, $this->inputStoreControls['description']);

@@ -47,7 +47,7 @@ class FacilityController extends Controller {
 		$facility->save();
 		// $url = session('SOURCE_URL');
 		// dd($url);
-        return redirect('facility.index')->with('message', trans('general-terms.record-successfully-saved'))->with('active_facility', $facility->id);
+        return redirect()->route('facility.index')->with('message', trans('general-terms.record-successfully-saved'))->with('active_facility', $facility->id);
 	}
 
 
@@ -92,7 +92,7 @@ class FacilityController extends Controller {
 		$facility->save();
 		// $url = session('SOURCE_URL');
 
-        return redirect('facility.index')->with('message', trans('general-terms.record-successfully-saved'))->with('active_facility', $facility ->id);
+        return redirect()->route('facility.index')->with('message', trans('general-terms.record-successfully-saved'))->with('active_facility', $facility ->id);
 	}
 
 
