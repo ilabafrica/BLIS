@@ -1871,6 +1871,7 @@ class BlisDevelopmentSeeder extends Seeder
         $role1 = Role::find(1);
         $role2 = Role::find(2);//Technologist
         $permissions = Permission::all();
+        
 
         //Assign all permissions to role administrator
         foreach ($permissions as $permission) {

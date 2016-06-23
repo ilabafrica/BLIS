@@ -97,6 +97,7 @@ class OrganismControllerTest extends TestCase
 	 * @return void
      */
 	// todo: before enabling this test, first enable OrganismController::delete
+	/*	
 	public function testDelete()
 	{
 		$this->withoutMiddleware();
@@ -107,5 +108,5 @@ class OrganismControllerTest extends TestCase
     	
 		$organismSaved = Organism::withTrashed()->find($organismStored->id);
 		$this->assertNotNull($organismSaved->deleted_at);
-	}
+	}*/
 }

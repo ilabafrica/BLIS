@@ -28,7 +28,7 @@ class LotController extends Controller {
 	// todo: sort out, Failed asserting that an array has the key 'instruments'.
 	public function create()
 	{
-		// $instruments = Instrument::lists('name', 'id');
+		$instruments = Instrument::lists('name', 'id');
 		// dd($instruments);
 		return view('lot.create')->with('instruments', $instruments);
 	}

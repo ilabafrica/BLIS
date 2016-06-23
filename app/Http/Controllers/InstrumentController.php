@@ -12,6 +12,7 @@ use Lang;
  *Contains functions for managing instruments
  *
  */
+// todo: change Input to request form
 class InstrumentController extends Controller {
 
 	/**
@@ -22,7 +23,7 @@ class InstrumentController extends Controller {
 	public function index()
 	{
 		// List all the active instruments
-			$instruments = Instrument::paginate(Config::get('kblis.page-items'));
+			$instruments = Instrument::paginate(config('blis.page-items'));
 
 		// Load the view and pass the instruments
 		return view('instrument.index')->with('instruments', $instruments);

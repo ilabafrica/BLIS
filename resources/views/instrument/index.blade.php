@@ -72,7 +72,7 @@
 			@endforeach
 			</tbody>
 		</table>
-		{!!$instruments->links()!!}
+		{!!$instruments->render()!!}
 	</div>
 </div>
 

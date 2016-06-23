@@ -292,6 +292,11 @@ Route::get("/role/{id}/delete", array(
 
     Route::resource('instrument', 'InstrumentController');
 
+    Route::any("/instrument/importdriver", array(
+        "as"   => "instrument.importDriver",
+        "uses" => "InstrumentController@importDriver"
+    ));
+
     Route::get('/instrument/{id}/delete', [
         'as' => 'instrument.delete',
         'uses' => 'InstrumentController@delete'

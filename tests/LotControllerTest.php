@@ -57,11 +57,13 @@ class LotControllerTest extends TestCase
 	*/
 	public function testCreate()
 	{
-		$response = $this->call('GET', '/lot');
-		$this->assertTrue($response->isOk());
-		// todo: failing with error below, what todo?
-		/*Failed asserting that an array has the key 'instruments'.*/
-		$this->assertViewHas('instruments');
+
+        $url = URL::route('lot.create');
+
+        // Set the current user to admin
+        $this->be(User::first());
+
+        $this->visit($url)->see('instruments');
 	}
 	/**
 	* Testing Lot store function
