@@ -34,7 +34,7 @@ class MetricController extends Controller {
 	{
 		//
 		$rules = array(
-			'unit-of-issue' => 'required|unique:metrics,name');
+			'unit_of_issue' => 'required|unique:metrics,name');
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
@@ -42,7 +42,7 @@ class MetricController extends Controller {
 		} else {
 			// store
 			$metric = new Metric;
-			$metric->name= Input::get('unit-of-issue');
+			$metric->name= Input::get('unit_of_issue');
 			$metric->description= Input::get('description');
 			try{
 				$metric->save();
@@ -87,7 +87,7 @@ class MetricController extends Controller {
 		} else {
 		// Update
 			$metric = Metric::find($id);
-			$metric->name= Input::get('unit-of-issue');
+			$metric->name= Input::get('unit_of_issue');
 			$metric->description= Input::get('description');
 				
 		try{

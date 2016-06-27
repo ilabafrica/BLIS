@@ -53,7 +53,7 @@ class SanitasInterfacer implements InterfacerInterface{
         //if($comments==null or $comments==''){$comments = 'No Comments';
 
         //We use curl to send the requests
-        $httpCurl = curl_init(Config::get('kblis.sanitas-url'));
+        $httpCurl = curl_init(config('blis.sanitas-url'));
         curl_setopt($httpCurl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($httpCurl, CURLOPT_POST, true);
 

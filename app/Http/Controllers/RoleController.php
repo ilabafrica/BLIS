@@ -20,7 +20,7 @@ class RoleController extends Controller {
 	 */
 	public function index()
 	{
-		$roles = Role::paginate(Config::get('kblis.page-items'));
+		$roles = Role::paginate(config('blis.page-items'));
 		return view('role.index', compact('roles'));
 	}
 

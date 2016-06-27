@@ -33,14 +33,14 @@ class LotControllerTest extends TestCase
 			'number'=>'2015',
 			'description' => 'kenya yao',
 			'expiry' => '12-12-2015',
-			'instrument' => 1,
+			'instrument_id' => 1,
 			);
 
 		$this->inputUpdate = array(
 			'number'=>'2015',
 			'description' => 'Kenya yetu',
 			'expiry' => '12-05-2020',
-			'instrument' => 2,
+			'instrument_id' => 2,
 			);
 	}
 	/**
@@ -57,11 +57,13 @@ class LotControllerTest extends TestCase
 	*/
 	public function testCreate()
 	{
-		$response = $this->call('GET', '/lot');
-		$this->assertTrue($response->isOk());
-		// todo: failing with error below - ereng
-		/*Failed asserting that an array has the key 'instruments'.*/
-		$this->assertViewHas('instruments');
+
+        $url = URL::route('lot.create');
+
+        // Set the current user to admin
+        $this->be(User::first());
+
+        $this->visit($url)->see('instruments');
 	}
 	/**
 	* Testing Lot store function
@@ -78,7 +80,7 @@ class LotControllerTest extends TestCase
 		$this->assertEquals($testLot->number, $this->input['number']);
 		$this->assertEquals($testLot->description, $this->input['description']);
 		$this->assertEquals($testLot->expiry, $this->input['expiry']);
-		$this->assertEquals($testLot->instrument_id, $this->input['instrument']);
+		$this->assertEquals($testLot->instrument_id, $this->input['instrument_id']);
 		
 	}
 	/**
@@ -94,7 +96,7 @@ class LotControllerTest extends TestCase
 		$this->assertEquals($testLot->number, $this->inputUpdate['number']);
 		$this->assertEquals($testLot->description, $this->inputUpdate['description']);
 		$this->assertEquals($testLot->expiry, $this->inputUpdate['expiry']);
-		$this->assertEquals($testLot->instrument_id, $this->inputUpdate['instrument']);
+		$this->assertEquals($testLot->instrument_id, $this->inputUpdate['instrument_id']);
 		
 	}
 

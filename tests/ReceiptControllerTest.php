@@ -69,11 +69,11 @@ class ReceiptControllerTest extends TestCase
 
 		$receiptSaved = receipt::orderBy('id','desc')->first();
 				
-		$this->assertEquals($receiptSaved[0]['commodity_id'], $this->input['commodity']);
-		$this->assertEquals($receiptSaved[0]['supplier_id'], $this->input['supplier']);
-		$this->assertEquals($receiptSaved[0]['quantity'], $this->input['quantity']);
-		$this->assertEquals($receiptSaved[0]['batch_no'], $this->input['batch_no']);
-		$this->assertEquals($receiptSaved[0]['expiry_date'], $this->input['expiry_date']);
+		$this->assertEquals($receiptSaved->commodity_id, $this->input['commodity']);
+		$this->assertEquals($receiptSaved->supplier_id, $this->input['supplier']);
+		$this->assertEquals($receiptSaved->quantity, $this->input['quantity']);
+		$this->assertEquals($receiptSaved->batch_no, $this->input['batch_no']);
+		$this->assertEquals($receiptSaved->expiry_date, $this->input['expiry_date']);
 		
   	}
   	/**
@@ -93,11 +93,11 @@ class ReceiptControllerTest extends TestCase
 		$receiptUpdated = receipt::orderBy('id','desc')->first();
 
 
-		$this->assertEquals($receiptUpdated[0]['commodity_id'], $this->inputUpdate['commodity']);
-		$this->assertEquals($receiptUpdated[0]['supplier_id'], $this->inputUpdate['supplier']);
-		$this->assertEquals($receiptUpdated[0]['quantity'], $this->inputUpdate['quantity']);
-		$this->assertEquals($receiptUpdated[0]['batch_no'], $this->inputUpdate['batch_no']);
-		$this->assertEquals($receiptUpdated[0]['expiry_date'], $this->inputUpdate['expiry_date']);
+		$this->assertEquals($receiptUpdated->commodity_id, $this->inputUpdate['commodity']);
+		$this->assertEquals($receiptUpdated->supplier_id, $this->inputUpdate['supplier']);
+		$this->assertEquals($receiptUpdated->quantity, $this->inputUpdate['quantity']);
+		$this->assertEquals($receiptUpdated->batch_no, $this->inputUpdate['batch_no']);
+		$this->assertEquals($receiptUpdated->expiry_date, $this->inputUpdate['expiry_date']);
 		
 	}
 	/**

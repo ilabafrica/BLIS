@@ -1,31 +1,29 @@
 <?php namespace App\Http\Controllers;
 set_time_limit(0); //60 seconds = 1 minute
 
+use Validator;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReportRequest;
 use App\Http\Controllers\Controller;
 
-use Validator;
-use App\Models\Test;
-use App\Models\Patient;
-use App\Models\ControlTest;
 
-use App\Models\Patient;
-use App\Models\TestCategory;
+use App\Models\User;
 use App\Models\Test;
-use App\Models\ReportDisease;
-use App\Models\Disease;
 use App\Models\Visit;
+use App\Models\Patient;
+use App\Models\Disease;
+use App\Models\Control;
+use App\Models\Measure;
+use App\Models\Receipt;
 use App\Models\Specimen;
 use App\Models\TestType;
-use App\Models\TestTypeMeasure;
 use App\Models\TestResult;
-use App\Models\Measure;
+use App\Models\ControlTest;
 use App\Models\SpecimenType;
-use App\Models\Control;
-use App\Models\Receipt;
-use App\Models\User;
+use App\Models\TestCategory;
+use App\Models\ReportDisease;
+use App\Models\TestTypeMeasure;
 
 use Input;
 use Response;
@@ -1110,29 +1108,31 @@ class ReportController extends Controller
 	 * @param
 	 */
 	public function surveillanceConfig(ReportRequest $request){
-
+// dd('surveillanceConfig');
+// dd($request->all());
         $allSurveillanceIds = array();
 		
-		//edit or leave surveillance entries as is
-		if ($request->surveillance) {
-			$diseases = $request->surveillance;
+        //edit or leave surveillance entries as is
+        if ($request->surveillance) {
+            $diseases = $request->surveillance;
 
+        // dd($request->all());
 			foreach ($diseases as $id => $disease) {
                 $allSurveillanceIds[] = $id;
 				$surveillance = ReportDisease::find($id);
-				$surveillance->test_type_id = $disease['test-type'];
+				$surveillance->test_type_id = $disease['test_type'];
 				$surveillance->disease_id = $disease['disease'];
 				$surveillance->save();
 			}
 		}
 		
 		//save new surveillance entries
-		if ($request->newSurveillance) {
-			$diseases = $request->newSurveillance;
+		if ($request->new_surveillance) {
+			$diseases = $request->new_surveillance;
 
 			foreach ($diseases as $id => $disease) {
 				$surveillance = new ReportDisease;
-				$surveillance->test_type_id = $disease['test-type'];
+				$surveillance->test_type_id = $disease['test_type'];
 				$surveillance->disease_id = $disease['disease'];
 				$surveillance->save();
                 $allSurveillanceIds[] = $surveillance->id;
@@ -1172,8 +1172,9 @@ class ReportController extends Controller
 	 * Manage Diseases reported on
 	 * @param
 	 */
-	public function disease(ReportRequest $request){
-		// todo: check the effectiveness of using $request
+	// todo: using $request quite problematic not sure how
+    public function disease(ReportRequest $request){
+        dd($request->all());
 		if ($request) {
 			$rules = array();
 

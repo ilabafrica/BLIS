@@ -25,9 +25,11 @@ class LotController extends Controller {
 	 *
 	 * @return Response
 	 */
+	// todo: sort out, Failed asserting that an array has the key 'instruments'.
 	public function create()
 	{
 		$instruments = Instrument::lists('name', 'id');
+		// dd($instruments);
 		return view('lot.create')->with('instruments', $instruments);
 	}
 
@@ -38,9 +40,10 @@ class LotController extends Controller {
 	 */
 	public function store()
 	{
+// dd(Input::all());
 		//Validation
 		$rules = array('number' => 'required|unique:lots,number',
-					'instrument' => 'required|non_zero_key');
+					'instrument_id' => 'required|non_zero_key');
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
@@ -51,7 +54,7 @@ class LotController extends Controller {
 			$lot->number = Input::get('number');
 			$lot->description = Input::get('description');
 			$lot->expiry = Input::get('expiry');
-			$lot->instrument_id = Input::get('instrument');
+			$lot->instrument_id = Input::get('instrument_id');
 
 			$lot->save();
 

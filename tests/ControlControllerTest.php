@@ -123,7 +123,7 @@ class ControlControllerTest extends TestCase {
 			'name'=>'Lava hound',
 			'description' => 'Terrible creature',
 			'lot' => 1,
-			'new-measures' => array(
+			'new_measures' => array(
 				array('name' => 'xx', 'unit' => 'mmol', 'measure_type_id' => 1, 'rangemin' => '2.63', 'rangemax' => '7.19'),
 				array('name' => 'zz', 'unit' => 'mol', 'measure_type_id' => 1, 'rangemin' => '11.65', 'rangemax' => '15.43'),
 				)
@@ -133,7 +133,7 @@ class ControlControllerTest extends TestCase {
 			'name'=>'Minion',
 			'description' => 'Spits black fire',
 			'lot' => 1,
-			'new-measures' => array(
+			'new_measures' => array(
 				array('name' => 'DD', 'unit' => 'mmol', 'measure_type_id' => 1, 'rangemin' => '2.63', 'rangemax' => '7.19'),
 				array('name' => 'LYTHIUM', 'unit' => 'dol', 'measure_type_id' => 1, 'rangemin' => '15.73', 'rangemax' => '25.01'),
 				array('name' => 'STYROPROPENE', 'unit' => 'tol', 'measure_type_id' => 1, 'rangemin' => '17.63', 'rangemax' => '20.12'),

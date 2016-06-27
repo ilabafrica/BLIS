@@ -63,13 +63,13 @@ class PatientControllerTest extends TestCase
 
 		$patientSaved = Patient::orderBy('id','desc')->first();
 		
-		$this->assertEquals($patientSaved[0]['patient_number'], $this->input['patient_number']);
-		$this->assertEquals($patientSaved[0]['name'], $this->input['name']);
-		$this->assertEquals($patientSaved[0]['dob'], $this->input['dob']);
-		$this->assertEquals($patientSaved[0]['gender'], $this->input['gender']);
-		$this->assertEquals($patientSaved[0]['email'], $this->input['email']);
-		$this->assertEquals($patientSaved[0]['address'], $this->input['address']);
-		$this->assertEquals($patientSaved[0]['phone_number'], $this->input['phone_number']);
+		$this->assertEquals($patientSaved->patient_number, $this->input['patient_number']);
+		$this->assertEquals($patientSaved->name, $this->input['name']);
+		$this->assertEquals($patientSaved->dob, $this->input['dob']);
+		$this->assertEquals($patientSaved->gender, $this->input['gender']);
+		$this->assertEquals($patientSaved->email, $this->input['email']);
+		$this->assertEquals($patientSaved->address, $this->input['address']);
+		$this->assertEquals($patientSaved->phone_number, $this->input['phone_number']);
   	}
 
   	/**
@@ -89,13 +89,13 @@ class PatientControllerTest extends TestCase
 
 		$patientUpdated = Patient::orderBy('id','desc')->first();
 
-		$this->assertEquals($patientUpdated[0]['patient_number'], $this->inputUpdate['patient_number']);
-		$this->assertEquals($patientUpdated[0]['name'], $this->inputUpdate['name']);
-		$this->assertEquals($patientUpdated[0]['dob'], $this->inputUpdate['dob']);
-		$this->assertEquals($patientUpdated[0]['gender'], $this->inputUpdate['gender']);
-		$this->assertEquals($patientUpdated[0]['email'], $this->inputUpdate['email']);
-		$this->assertEquals($patientUpdated[0]['address'], $this->inputUpdate['address']);
-		$this->assertEquals($patientUpdated[0]['phone_number'], $this->inputUpdate['phone_number']);
+		$this->assertEquals($patientUpdated->patient_number, $this->inputUpdate['patient_number']);
+		$this->assertEquals($patientUpdated->name, $this->inputUpdate['name']);
+		$this->assertEquals($patientUpdated->dob, $this->inputUpdate['dob']);
+		$this->assertEquals($patientUpdated->gender, $this->inputUpdate['gender']);
+		$this->assertEquals($patientUpdated->email, $this->inputUpdate['email']);
+		$this->assertEquals($patientUpdated->address, $this->inputUpdate['address']);
+		$this->assertEquals($patientUpdated->phone_number, $this->inputUpdate['phone_number']);
 	}
 
 	

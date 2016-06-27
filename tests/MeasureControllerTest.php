@@ -117,7 +117,7 @@ class MeasureControllerTest extends TestCase
 		$this->runUpdate($this->inputNumericUpdate, $measureUricAcid->id, $uricMeasureRanges);
 		$this->runUpdate($this->inputAlphanumericUpdate, $measurestored[2]['id'], $alphanumericRanges);
 		$this->runUpdate($this->inputAutocompleteUpdate, $measurestored[1]['id'], $autoCompleteRanges);
-		$this->runUpdate($this->inputFreetextUpdate, $measurestored->id, 0);
+		$this->runUpdate($this->inputFreetextUpdate, $measurestored[0]['id'], 0);
 		
 		$measureupdated = Measure::orderBy('id','desc')->take(4)->get()->toArray();
 		$measureNewUricAcid = Measure::find($measureUricAcid->id);

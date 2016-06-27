@@ -65,10 +65,10 @@ class TopUpControllerTest extends TestCase
 
 		$topupSaved = TopUpRequest::orderBy('id','desc')->first();
 				
-		$this->assertEquals($topupSaved[0]['test_category_id'], $this->input['lab_section']);
-		$this->assertEquals($topupSaved[0]['commodity_id'], $this->input['commodity']);
-		$this->assertEquals($topupSaved[0]['order_quantity'], $this->input['order_quantity']);
-		$this->assertEquals($topupSaved[0]['remarks'], $this->input['remarks']);
+		$this->assertEquals($topupSaved->test_category_id, $this->input['lab_section']);
+		$this->assertEquals($topupSaved->commodity_id, $this->input['commodity']);
+		$this->assertEquals($topupSaved->order_quantity, $this->input['order_quantity']);
+		$this->assertEquals($topupSaved->remarks, $this->input['remarks']);
 		
   	}
   	/**
@@ -88,10 +88,10 @@ class TopUpControllerTest extends TestCase
 		$topupUpdated = TopUpRequest::orderBy('id','desc')->first();
 
 
-		$this->assertEquals($topupUpdated[0]['test_category_id'], $this->inputUpdate['lab_section']);
-		$this->assertEquals($topupUpdated[0]['commodity_id'], $this->inputUpdate['commodity']);
-		$this->assertEquals($topupUpdated[0]['order_quantity'], $this->inputUpdate['order_quantity']);
-		$this->assertEquals($topupUpdated[0]['remarks'], $this->inputUpdate['remarks']);
+		$this->assertEquals($topupUpdated->test_category_id, $this->inputUpdate['lab_section']);
+		$this->assertEquals($topupUpdated->commodity_id, $this->inputUpdate['commodity']);
+		$this->assertEquals($topupUpdated->order_quantity, $this->inputUpdate['order_quantity']);
+		$this->assertEquals($topupUpdated->remarks, $this->inputUpdate['remarks']);
 		
 	}
 	/**

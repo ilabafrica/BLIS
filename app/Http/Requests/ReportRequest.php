@@ -11,6 +11,7 @@ class ReportRequest extends Request {
 	 */
 	public function authorize()
 	{
+// dd('authorizing');
 		return true;
 	}
 

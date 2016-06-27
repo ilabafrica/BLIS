@@ -47,7 +47,7 @@ class ControlController extends Controller {
 		//Validation -checking that name is unique among the un soft-deleted ones
 		$rules = array('name' => 'required|unique:controls,name,NULL,id,deleted_at,null',
 		 			'lot' => 'required|non_zero_key',
-		 			'new-measures' => 'required');
+		 			'new_measures' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
@@ -59,8 +59,10 @@ class ControlController extends Controller {
 			$control->description = Input::get('description');
 			$control->lot_id = Input::get('lot');
 
-			if (Input::get('new-measures')) {
-					$newMeasures = Input::get('new-measures');
+			if (Input::get('new_measures')) {
+			// dd('controlcontrollerstore');
+			// dd(Input::get('new_measures'));
+					$newMeasures = Input::get('new_measures');
 					$controlMeasure = new ControlMeasureController;
 					$controlMeasure->saveMeasuresRanges($newMeasures, $control);
 			}
@@ -125,8 +127,8 @@ class ControlController extends Controller {
 			$control->description = Input::get('description');
 			$control->lot_id = Input::get('lot');
 
-			if (Input::get('new-measures')) {
-				$inputNewMeasures = Input::get('new-measures');
+			if (Input::get('new_measures')) {
+				$inputNewMeasures = Input::get('new_measures');
 				$measures = New ControlMeasureController;
 				$measureIds = $measures->saveMeasuresRanges($inputNewMeasures, $control);
 			}

@@ -292,6 +292,11 @@ Route::get("/role/{id}/delete", array(
 
     Route::resource('instrument', 'InstrumentController');
 
+    Route::any("/instrument/importdriver", array(
+        "as"   => "instrument.importDriver",
+        "uses" => "InstrumentController@importDriver"
+    ));
+
     Route::get('/instrument/{id}/delete', [
         'as' => 'instrument.delete',
         'uses' => 'InstrumentController@delete'
@@ -366,9 +371,9 @@ Route::get("/role/{id}/delete", array(
         'uses' => 'ReceiptController@delete'
     ]);
 
-    Route::any('/reportconfig/surveillance', [
+    Route::post('/reportconfig/surveillance', [
         'as' => 'reportconfig.surveillance',
-        'before' => 'checkPerms:manage_lab_configurations',
+        // 'before' => 'checkPerms:manage_lab_configurations',
         'uses' => 'ReportController@surveillanceConfig'
     ]);
 

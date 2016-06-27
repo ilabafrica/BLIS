@@ -37,7 +37,7 @@
 			<div class="form-group">
 				<div class="row">
 					<div class="col-sm-5 col-md-3">
-		                <select class="form-control" name="surveillance[{{ $diseaseTest->id }}][test-type]"> 
+		                <select class="form-control" name="surveillance[{{ $diseaseTest->id }}][test_type]"> 
 		                    <option value="0"></option>
 		                    @foreach ($testTypes as $testType)
 		                        <option value="{{ $testType->id }}"

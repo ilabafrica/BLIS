@@ -25,7 +25,7 @@ class PatientController extends Controller {
 		{
 		$search = Input::get('search');
 
-		$patients = Patient::search($search)->orderBy('id', 'desc')->paginate(Config::get('kblis.page-items'))->appends(Input::except('_token'));
+		$patients = Patient::search($search)->orderBy('id', 'desc')->paginate(config('blis.page-items'))->appends(Input::except('_token'));
 
 		if (count($patients) == 0) {
 		 	Session::flash('message', trans('general-terms.no-records-found'));
@@ -161,6 +161,6 @@ class PatientController extends Controller {
 	 */
 	public function search()
 	{
-        return Patient::search(Input::get('text'))->take(Config::get('kblis.limit-items'))->get()->toJson();
+        return Patient::search(Input::get('text'))->take(config('blis.limit-items'))->get()->toJson();
 	}
 }

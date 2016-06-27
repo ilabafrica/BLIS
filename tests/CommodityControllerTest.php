@@ -69,15 +69,15 @@ class CommodityControllerTest extends TestCase
 		$this->runStore($this->input);
 
 		$commoditySaved = Commodity::orderBy('id','desc')->first();
-				
-		$this->assertEquals($commoditySaved[0]['name'], $this->input['name']);
-		$this->assertEquals($commoditySaved[0]['description'], $this->input['description']);
-		$this->assertEquals($commoditySaved[0]['metric_id'], $this->input['unit_of_issue']);
-		$this->assertEquals($commoditySaved[0]['unit_price'], $this->input['unit_price']);
-		$this->assertEquals($commoditySaved[0]['item_code'], $this->input['item_code']);
-		$this->assertEquals($commoditySaved[0]['storage_req'], $this->input['storage_req']);
-		$this->assertEquals($commoditySaved[0]['min_level'], $this->input['min_level']);
-		$this->assertEquals($commoditySaved[0]['max_level'], $this->input['max_level']);
+// dd($commoditySaved);
+		$this->assertEquals($commoditySaved->name, $this->input['name']);
+		$this->assertEquals($commoditySaved->description, $this->input['description']);
+		$this->assertEquals($commoditySaved->metric_id, $this->input['unit_of_issue']);
+		$this->assertEquals($commoditySaved->unit_price, $this->input['unit_price']);
+		$this->assertEquals($commoditySaved->item_code, $this->input['item_code']);
+		$this->assertEquals($commoditySaved->storage_req, $this->input['storage_req']);
+		$this->assertEquals($commoditySaved->min_level, $this->input['min_level']);
+		$this->assertEquals($commoditySaved->max_level, $this->input['max_level']);
 		
   	}
   	/**
@@ -97,14 +97,14 @@ class CommodityControllerTest extends TestCase
 		$commodityUpdated = Commodity::orderBy('id','desc')->first();
 
 
-		$this->assertEquals($commodityUpdated[0]['name'], $this->inputUpdate['name']);
-		$this->assertEquals($commodityUpdated[0]['description'], $this->inputUpdate['description']);
-		$this->assertEquals($commodityUpdated[0]['metric_id'], $this->inputUpdate['unit_of_issue']);
-		$this->assertEquals($commodityUpdated[0]['unit_price'], $this->inputUpdate['unit_price']);
-		$this->assertEquals($commodityUpdated[0]['item_code'], $this->inputUpdate['item_code']);
-		$this->assertEquals($commodityUpdated[0]['storage_req'], $this->inputUpdate['storage_req']);
-		$this->assertEquals($commodityUpdated[0]['min_level'], $this->inputUpdate['min_level']);
-		$this->assertEquals($commodityUpdated[0]['max_level'], $this->inputUpdate['max_level']);
+		$this->assertEquals($commodityUpdated->name, $this->inputUpdate['name']);
+		$this->assertEquals($commodityUpdated->description, $this->inputUpdate['description']);
+		$this->assertEquals($commodityUpdated->metric_id, $this->inputUpdate['unit_of_issue']);
+		$this->assertEquals($commodityUpdated->unit_price, $this->inputUpdate['unit_price']);
+		$this->assertEquals($commodityUpdated->item_code, $this->inputUpdate['item_code']);
+		$this->assertEquals($commodityUpdated->storage_req, $this->inputUpdate['storage_req']);
+		$this->assertEquals($commodityUpdated->min_level, $this->inputUpdate['min_level']);
+		$this->assertEquals($commodityUpdated->max_level, $this->inputUpdate['max_level']);
 		
 	}
 	/**
