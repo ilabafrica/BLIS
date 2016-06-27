@@ -57,10 +57,13 @@ class TestTypeController extends \BaseController {
 			'test_category_id' => 'required|non_zero_key',
 			'specimentypes' => 'required',
 			'new-measures' => 'required',
+			'new-measures.name' => 'required',
+			'new-measures.measure_type_id' => 'required',
+			'new-measures.unit' => 'required',
 		);
 		$validator = Validator::make(Input::all(), $rules);
 			//array to be split here and sent to appropriate place! man! with ids and all possibilities
-
+		//dd(Input::get('new-measures'));
 		// process the login
 		if ($validator->fails()) {
 			return Redirect::route('testtype.create')->withErrors($validator);
