@@ -40,10 +40,10 @@
 				 	<table class="table table-bordered table-sm search-table">
 						<thead>
 							<tr>
-								<th>{!! trans('general-terms.name') !!}</th>
-								<th>{!! trans('general-terms.version') !!}</th>
+								<th>{!! trans('terms.name') !!}</th>
+								<th>{!! trans('terms.version') !!}</th>
 								<th>{!! trans_choice('menu.lab-section', 1) !!}</th>
-								<th>{!! trans('general-terms.description') !!}</th>
+								<th>{!! trans('terms.description') !!}</th>
 								<th></th>
 							</tr>
 						</thead>

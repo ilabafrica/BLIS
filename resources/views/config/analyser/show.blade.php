@@ -14,7 +14,7 @@
 <div class="conter-wrapper">
 	<div class="card">
 		<div class="card-header">
-		    <i class="fa fa-file-text"></i> <strong>{!! trans('general-terms.details-for').': '.$analyser->name !!}</strong>
+		    <i class="fa fa-file-text"></i> <strong>{!! trans('terms.details-for').': '.$analyser->name !!}</strong>
 		    <span>
 		    	<a class="btn btn-sm btn-belize-hole" href="{!! url("analyser/create") !!}" >
 					<i class="fa fa-plus-circle"></i>
@@ -38,10 +38,10 @@
 		@endif
 
 		<ul class="list-group list-group-flush">
-		    <li class="list-group-item"><h4>{!! trans('general-terms.name').': ' !!}<small>{!! $analyser->name !!}</small></h4></li>
-		    <li class="list-group-item"><h6>{!! trans('general-terms.version').': ' !!}<small>{!! $analyser->version !!}</small></h6></li>
+		    <li class="list-group-item"><h4>{!! trans('terms.name').': ' !!}<small>{!! $analyser->name !!}</small></h4></li>
+		    <li class="list-group-item"><h6>{!! trans('terms.version').': ' !!}<small>{!! $analyser->version !!}</small></h6></li>
 		    <li class="list-group-item"><h6>{!! trans_choice('menu.lab-section', 1).': ' !!}<small>{!! $analyser->testCategory->name !!}</small></h6></li>
-		    <li class="list-group-item"><h6>{!! trans('general-terms.description').': ' !!}<small>{!! $analyser->description !!}</small></h6></li>
+		    <li class="list-group-item"><h6>{!! trans('terms.description').': ' !!}<small>{!! $analyser->description !!}</small></h6></li>
 	  	</ul>
 	</div>
 </div>

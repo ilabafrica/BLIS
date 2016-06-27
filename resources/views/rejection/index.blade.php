@@ -19,7 +19,7 @@
 				    <span>
 					    <a class="btn btn-sm btn-belize-hole" href="{!! url("rejection/create") !!}" >
 							<i class="fa fa-plus-circle"></i>
-							{!! trans('action.new').' '.trans('general-terms.reject-reason') !!}
+							{!! trans('action.new').' '.trans('terms.reject-reason') !!}
 						</a>
 						<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
 							<i class="fa fa-step-backward"></i>
@@ -40,8 +40,8 @@
 				 	<table class="table table-bordered table-sm search-table">
 						<thead>
 							<tr>
-								<th>{!! trans('general-terms.name') !!}</th>
-								<th>{!! trans('general-terms.description') !!}</th>
+								<th>{!! trans('terms.name') !!}</th>
+								<th>{!! trans('terms.description') !!}</th>
 								<th></th>
 							</tr>
 						</thead>

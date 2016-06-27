@@ -14,7 +14,7 @@
 <div class="conter-wrapper">
 	<div class="card">
 		<div class="card-header">
-		    <i class="fa fa-file-text"></i> <strong>{!! trans('general-terms.details-for').': '.$supplier->name !!}</strong>
+		    <i class="fa fa-file-text"></i> <strong>{!! trans('terms.details-for').': '.$supplier->name !!}</strong>
 		    <span>
 		    	<a class="btn btn-sm btn-belize-hole" href="{!! url("supplier/create") !!}" >
 					<i class="fa fa-plus-circle"></i>
@@ -38,10 +38,10 @@
 		@endif
 
 		<ul class="list-group list-group-flush">
-		    <li class="list-group-item"><h4>{!! trans('general-terms.name').': ' !!}<small>{!! $supplier->name !!}</small></h4></li>
-		    <li class="list-group-item"><h6>{!! trans('specific-terms.phone').': ' !!}<small>{!! $supplier->phone_no !!}</small></h6></li>
-		    <li class="list-group-item"><h6>{!! trans('specific-terms.email-address').': ' !!}<small>{!! $supplier->email !!}</small></h6></li>
-		    <li class="list-group-item"><h6>{!! trans('specific-terms.address').': ' !!}<small>{!! $supplier->address !!}</small></h6></li>
+		    <li class="list-group-item"><h4>{!! trans('terms.name').': ' !!}<small>{!! $supplier->name !!}</small></h4></li>
+		    <li class="list-group-item"><h6>{!! trans('terms.phone').': ' !!}<small>{!! $supplier->phone_no !!}</small></h6></li>
+		    <li class="list-group-item"><h6>{!! trans('terms.email-address').': ' !!}<small>{!! $supplier->email !!}</small></h6></li>
+		    <li class="list-group-item"><h6>{!! trans('terms.address').': ' !!}<small>{!! $supplier->address !!}</small></h6></li>
 	  	</ul>
 	</div>
 </div>

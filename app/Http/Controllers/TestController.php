@@ -69,7 +69,7 @@ class TestController extends Controller {
 		$statuses = array('all')+TestStatus::all()->lists('name','id')->toArray();
 
 		foreach ($statuses as $key => $value) {
-			$statuses[$key] = trans("specific-terms.$value");
+			$statuses[$key] = trans("terms.$value");
 		}
 
 		// Pagination
@@ -209,7 +209,7 @@ class TestController extends Controller {
 			
 			$url = session('SOURCE_URL');
 			
-			return redirect()->to($url)->with('message', 'general-terms.success-rejecting-specimen')->with('activeTest', array($specimen->test->id));
+			return redirect()->to($url)->with('message', 'terms.success-rejecting-specimen')->with('activeTest', array($specimen->test->id));
 		}
 	}
 
@@ -350,7 +350,7 @@ class TestController extends Controller {
 
 		// redirect
 		return Redirect::action('TestController@index')
-					->with('message', trans('general-terms.record-successfully-saved'))
+					->with('message', trans('terms.record-successfully-saved'))
 					->with('activeTest', array($test->id))
 					->withInput($input);
 	}

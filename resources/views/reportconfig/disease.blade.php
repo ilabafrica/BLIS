@@ -3,13 +3,13 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-	  <li class="active">{{ Lang::choice('messages.disease',2) }}</li>
+	  <li class="active">{{ trans_choice('messages.disease',2) }}</li>
 	</ol>
 </div>
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-edit"></span>
-		{{ Lang::choice('messages.disease',2) }}
+		{{ trans_choice('messages.disease',2) }}
 	</div>
 	{{ Form::open(array('route' => 'reportconfig.disease', 'id' => 'form-edit-disease')) }}
 		<div class="panel-body disease-input">

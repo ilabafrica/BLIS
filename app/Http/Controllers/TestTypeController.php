@@ -78,7 +78,7 @@ class TestTypeController extends Controller {
 		$testtype->setOrganisms($request->organisms);
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_testtype', $testtype ->id);
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_testtype', $testtype ->id);
 	}
 
 	/**
@@ -158,7 +158,7 @@ class TestTypeController extends Controller {
 		$testtype->setMeasures($measureIds);
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_testtype', $testtype ->id);
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_testtype', $testtype ->id);
 	}
 
 	/**
@@ -189,11 +189,11 @@ class TestTypeController extends Controller {
 			$testtype->delete();
 		} else {
 		    // The test type is in use
-		    return view('testtype.index')->with('message', 'general-terms.failure-delete-record');
+		    return view('testtype.index')->with('message', 'terms.failure-delete-record');
 		}
 		// redirect
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-deleted'));
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-deleted'));
 	}
 }

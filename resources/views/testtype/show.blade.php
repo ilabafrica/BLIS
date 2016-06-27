@@ -14,7 +14,7 @@
 <div class="conter-wrapper">
 	<div class="card">
 		<div class="card-header">
-		    <i class="fa fa-file-text"></i> <strong>{!! trans('general-terms.details-for').': '.$testtype->name !!}</strong>
+		    <i class="fa fa-file-text"></i> <strong>{!! trans('terms.details-for').': '.$testtype->name !!}</strong>
 		    <span>
 		    	<a class="btn btn-sm btn-belize-hole" href="{!! url("testtype/create") !!}" >
 					<i class="fa fa-plus-circle"></i>
@@ -38,13 +38,13 @@
 		@endif
 
 		<ul class="list-group list-group-flush">
-		    <li class="list-group-item"><h4>{!! trans('general-terms.name').': ' !!}<small>{!! $testtype->name !!}</small></h4></li>
-		    <li class="list-group-item"><h5>{!! trans('general-terms.description').': ' !!}<small>{!! $testtype->description !!}</small></h5></li>
+		    <li class="list-group-item"><h4>{!! trans('terms.name').': ' !!}<small>{!! $testtype->name !!}</small></h4></li>
+		    <li class="list-group-item"><h5>{!! trans('terms.description').': ' !!}<small>{!! $testtype->description !!}</small></h5></li>
 		    <li class="list-group-item"><h6>{!! trans_choice('menu.lab-section', 1).': ' !!}<small>{!! $testtype->testCategory->name !!}</small></h6></li>
 		    <li class="list-group-item"><h6>{!! trans_choice('menu.specimen-type', 2).': ' !!}<small>{!! implode(", ", $testtype->specimenTypes->lists('name')->toArray()) !!}</small></h6></li>
 		    <li class="list-group-item"><h6>{!! trans_choice('menu.measure', 2).': ' !!}<small>{!! implode(", ", $testtype->measures->lists('name')->toArray()) !!}</small></h6></li>
-		    <li class="list-group-item"><h6>{!! trans('general-terms.target-tat').': ' !!}<small>{!! $testtype->targetTAT !!}</small></h6></li>
-		    <li class="list-group-item"><h6>{!! trans('general-terms.prevalence-threshold').': ' !!}<small>{!! $testtype->prevalence_threshold !!}</small></h6></li>
+		    <li class="list-group-item"><h6>{!! trans('terms.target-tat').': ' !!}<small>{!! $testtype->targetTAT !!}</small></h6></li>
+		    <li class="list-group-item"><h6>{!! trans('terms.prevalence-threshold').': ' !!}<small>{!! $testtype->prevalence_threshold !!}</small></h6></li>
 	  	</ul>
 	</div>
 </div>

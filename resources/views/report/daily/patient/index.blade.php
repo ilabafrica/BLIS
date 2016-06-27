@@ -42,7 +42,7 @@
 					            {!! Form::text('search', Input::get('search'), array('class' => 'form-control test-search')) !!}
 							</div>
 							<div class="form-group">
-								{!! Form::button("<i class='fa fa-search'></i> ".trans('general-terms.search'), 
+								{!! Form::button("<i class='fa fa-search'></i> ".trans('terms.search'), 
 							        array('class' => 'btn btn-sm btn-primary', 'type' => 'submit')) !!}
 							</div>
 						{!! Form::close() !!}
@@ -50,11 +50,11 @@
 				 	<table class="table table-bordered table-sm search-table">
 						<thead>
 							<tr>
-								<th>{!! trans('specific-terms.patient-no') !!}</th>
-								<th>{!! trans('specific-terms.patient-id') !!}</th>
-								<th>{!! trans('general-terms.name') !!}</th>
-								<th>{!! trans('general-terms.gender') !!}</th>
-								<th>{!! trans('general-terms.age') !!}</th>
+								<th>{!! trans('terms.patient-no') !!}</th>
+								<th>{!! trans('terms.patient-id') !!}</th>
+								<th>{!! trans('terms.name') !!}</th>
+								<th>{!! trans('terms.gender') !!}</th>
+								<th>{!! trans('terms.age') !!}</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -67,7 +67,7 @@
 								<td>{!! $patient->patient_number !!}</td>
 								<td>{!! $patient->external_patient_number !!}</td>
 								<td>{!! $patient->name !!}</td>
-								<td>{!! ($patient->gender==0?trans_choice('specific-terms.sex', 1):trans_choice('specific-terms.sex', 2)) !!}</td>
+								<td>{!! ($patient->gender==0?trans_choice('terms.sex', 1):trans_choice('terms.sex', 2)) !!}</td>
 								<td>{!! $patient->getAge() !!}</td>
 								
 								<td>

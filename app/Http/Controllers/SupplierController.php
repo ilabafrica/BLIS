@@ -48,7 +48,7 @@ class SupplierController extends Controller {
 		$supplier->save();
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_supplier', $supplier ->id);
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_supplier', $supplier ->id);
 	}
 
 
@@ -99,7 +99,7 @@ class SupplierController extends Controller {
 		$supplier->save();
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-updated'))->with('active_supplier', $supplier ->id);		
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-updated'))->with('active_supplier', $supplier ->id);		
 	}	
 	/**
 	 * Remove the specified resource from storage.
@@ -116,6 +116,6 @@ class SupplierController extends Controller {
 		// redirect
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-deleted'));
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-deleted'));
 	}
 }

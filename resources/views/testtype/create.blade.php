@@ -36,13 +36,13 @@
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
                 <!-- ./ csrf token -->
 				<div class="form-group row">
-					{!! Form::label('name', trans_choice('general-terms.name', 1), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('name', trans_choice('terms.name', 1), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::text('name', old('name'), array('class' => 'form-control')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('description', trans("general-terms.description"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
+					{!! Form::label('description', trans("terms.description"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
 					<div class="col-sm-6">
 						{!! Form::textarea('description', old('description'), array('class' => 'form-control', 'rows' => '2')) !!}
 					</div>
@@ -75,21 +75,21 @@
 				        	<i class="fa fa-plus-circle"></i></i> {!! trans('action.new').' '.trans_choice('menu.measure', 1) !!}</a>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('targetTAT', trans('general-terms.target-tat'), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('targetTAT', trans('terms.target-tat'), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::text('targetTAT', old('targetTAT'), array('class' => 'form-control')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('prevalence_threshold', trans('general-terms.prevalence-threshold'), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('prevalence_threshold', trans('terms.prevalence-threshold'), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::text('prevalence_threshold', old('prevalence_threshold'), array('class' => 'form-control')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('culture-worksheet', trans('general-terms.culture-worksheet'), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('culture-worksheet', trans('terms.culture-worksheet'), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
-						{!! Form::checkbox(trans('general-terms.culture-worksheet'), "1", '', array('onclick'=>'toggle(".organismsClass", this)')) !!}
+						{!! Form::checkbox(trans('terms.culture-worksheet'), "1", '', array('onclick'=>'toggle(".organismsClass", this)')) !!}
 					</div>
 				</div>
 				<div class="form-group row organismsClass" style="display:none;">
@@ -108,13 +108,13 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('orderable_test', trans('general-terms.lab-ordered'), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('orderable_test', trans('terms.lab-ordered'), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">	
 						{!! Form::checkbox('orderable_test', 1, '', array('class' => '')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('accredited', trans('general-terms.accredited'), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('accredited', trans('terms.accredited'), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::checkbox('accredited', "1", '', array('class' => '')) !!}
 					</div>

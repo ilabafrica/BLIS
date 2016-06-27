@@ -37,38 +37,38 @@
                 <!-- ./ csrf token -->
 				<div class="col-md-8"> 
 					<div class="form-group row">
-						{!! Form::label('name', trans_choice('general-terms.name',1), array('class' => 'col-sm-4 form-control-label')) !!}
+						{!! Form::label('name', trans_choice('terms.name',1), array('class' => 'col-sm-4 form-control-label')) !!}
 						<div class="col-sm-6">
 							{!! Form::text('name', old('name'), array('class' => 'form-control')) !!}
 						</div>
 					</div>
 					<div class="form-group row">
-						{!! Form::label('gender', trans('specific-terms.gender'), array('class' => 'col-sm-4 form-control-label')) !!}
+						{!! Form::label('gender', trans('terms.gender'), array('class' => 'col-sm-4 form-control-label')) !!}
 						<div class="col-sm-6">
-							<label class="radio-inline">{!! Form::radio('gender', App\Models\User::MALE, true) !!}{!! trans_choice('specific-terms.sex', 1) !!}</label>
-	                        <label class="radio-inline">{!! Form::radio("gender", App\Models\User::FEMALE, false) !!}{!! trans_choice('specific-terms.sex', 2) !!}</label>
+							<label class="radio-inline">{!! Form::radio('gender', App\Models\User::MALE, true) !!}{!! trans_choice('terms.sex', 1) !!}</label>
+	                        <label class="radio-inline">{!! Form::radio("gender", App\Models\User::FEMALE, false) !!}{!! trans_choice('terms.sex', 2) !!}</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						{!! Form::label('email', trans('specific-terms.email-address'), array('class' => 'col-sm-4 form-control-label')) !!}
+						{!! Form::label('email', trans('terms.email-address'), array('class' => 'col-sm-4 form-control-label')) !!}
 						<div class="col-sm-6">
 							{!! Form::text('email', old('email'), array('class' => 'form-control')) !!}
 						</div>
 					</div>
 	                <div class="form-group row">
-	                    {!! Form::label('phone', trans('specific-terms.phone'), array('class' => 'col-sm-4 form-control-label')) !!}
+	                    {!! Form::label('phone', trans('terms.phone'), array('class' => 'col-sm-4 form-control-label')) !!}
 	                    <div class="col-sm-6">
 	                        {!! Form::text('phone', old('phone'), array('class' => 'form-control')) !!}
 	                    </div>
 	                </div>
 	                <div class="form-group row">
-	                    {!! Form::label('address', trans('specific-terms.address'), array('class' => 'col-sm-4 form-control-label')) !!}
+	                    {!! Form::label('address', trans('terms.address'), array('class' => 'col-sm-4 form-control-label')) !!}
 	                    <div class="col-sm-6">
 	                        {!! Form::textarea('address', old('address'), array('class' => 'form-control', 'rows' => '3')) !!}
 	                    </div>
 	                </div>
 	                <div class="form-group row">
-	                    {!! Form::label('username', trans('specific-terms.username'), array('class' => 'col-sm-4 form-control-label')) !!}
+	                    {!! Form::label('username', trans('terms.username'), array('class' => 'col-sm-4 form-control-label')) !!}
 	                    <div class="col-sm-6">
 	                        {!! Form::text('username', old('username'), array('class' => 'form-control')) !!}
 	                    </div>
@@ -76,19 +76,19 @@
 	                <div class="form-group row">
 	                    <div class="col-sm-offset-4 col-sm-6">
 	                        <label class="checkbox-inline">
-	                            {!! Form::checkbox("default_password", '1', '', array('onclick' => 'toggle(".pword", this)')) !!}{!! trans('specific-terms.use-default') !!}
+	                            {!! Form::checkbox("default_password", '1', '', array('onclick' => 'toggle(".pword", this)')) !!}{!! trans('terms.use-default') !!}
 	                        </label>
 	                    </div>
 	                </div>
 	                <div class="pword">
 		                <div class="form-group row">
-		                    {!! Form::label('password', trans_choice('specific-terms.password', 1), array('class' => 'col-sm-4 form-control-label')) !!}
+		                    {!! Form::label('password', trans_choice('terms.password', 1), array('class' => 'col-sm-4 form-control-label')) !!}
 		                    <div class="col-sm-6">
 		                        {!! Form::password('password', array('class' => 'form-control')) !!}
 		                    </div>
 		                </div>
 		                <div class="form-group row">
-		                    {!! Form::label('password_confirmation', trans_choice('specific-terms.password', 2), array('class' => 'col-sm-4 form-control-label')) !!}
+		                    {!! Form::label('password_confirmation', trans_choice('terms.password', 2), array('class' => 'col-sm-4 form-control-label')) !!}
 		                    <div class="col-sm-6">
 		                        {!! Form::password('password_confirmation', array('class' => 'form-control')) !!}
 		                    </div>
@@ -104,12 +104,12 @@
 		            <div class="row">
 		                <div class="col-md-12">
 		                    <div class="thumbnail">
-		                        {!! HTML::image('images/profile1.jpg', trans('specific-terms.no-photo'), array('class'=>'img-responsive img-thumbnail user-image')) !!}
+		                        {!! HTML::image('images/profile1.jpg', trans('terms.no-photo'), array('class'=>'img-responsive img-thumbnail user-image')) !!}
 		                    </div>
 		                </div>
 		                <div class="col-md-8 col-sm-offset-1">
 		                    <div class="form-group">
-		                        <label>{!! trans('specific-terms.profile-photo') !!}</label>
+		                        <label>{!! trans('terms.profile-photo') !!}</label>
 		                        {!! Form::file('photo', null, ['class' => 'form-control']) !!}
 		                    </div>
 		                </div>

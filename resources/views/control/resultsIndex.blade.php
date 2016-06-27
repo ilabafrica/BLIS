@@ -2,8 +2,8 @@
 @section("content")
 <div>
 	<ol class="breadcrumb">
-	  <li><a href="{!! URL::route('user.home')!!}}">{!! trans('messages.home') !!}</a></li>
-	  <li class="active">{!!trans('messages.controlresults')!!}</li>
+	  <li><a href="{!! URL::route('user.home')!!}}">{!! trans('menu.home') !!}</a></li>
+	  <li class="active">{!!trans('menu.controlresults')!!}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -12,13 +12,13 @@
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-adjust"></span>
-		{!! trans('messages.list-controls') !!}
+		{!! trans('terms.list-controls') !!}
 	</div>
 	<div class="panel-body">
 		<table class="table table-striped table-hover table-condensed search-table">
 			<thead>
 				<tr>
-					<th>{!! Lang::choice('messages.name', 1) !!}</th>
+					<th>{!! trans_choice('terms.name', 1) !!}</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -28,11 +28,11 @@
 					<td>
 						<a class="btn btn-sm btn-info" href="{!! URL::to("controlresults/" . $control->id . "/resultsEntry") !!}" >
 							<span class="glyphicon glyphicon-edit"></span>
-							{!! trans('messages.enter-results') !!}
+							{!! trans('action.enter-results') !!}
 						</a>
 						<a class="btn btn-sm btn-success" href="{!! URL::to("controlresults/" . $control->id . "/resultsList") !!}">
 							<span class="glyphicon glyphicon-eye-open"></span>
-							{!!trans('messages.view')!!}
+							{!!trans('action.view')!!}
 						</a>
 					</td>
 				</tr>

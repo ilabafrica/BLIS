@@ -13,7 +13,7 @@
 <div class="conter-wrapper">
 	<div class="card">
 		<div class="card-header">
-		    <i class="fa fa-file-text"></i> <strong>{!! trans('general-terms.details-for').': '.$patient->name !!}</strong>
+		    <i class="fa fa-file-text"></i> <strong>{!! trans('terms.details-for').': '.$patient->name !!}</strong>
 		    <span>
 		    	<a class="btn btn-sm btn-belize-hole" href="{!! url("patient/create") !!}" >
 					<i class="fa fa-plus-circle"></i>
@@ -42,13 +42,13 @@
 		@endif
 
 		<ul class="list-group list-group-flush">
-		    <li class="list-group-item"><h4>{!! trans('general-terms.name').': ' !!}<small>{!! $patient->name !!}</small></h4></li>
-		    <li class="list-group-item"><h5>{!! trans('specific-terms.patient-no').': ' !!}<small>{!! $patient->patient_number !!}</small></h5></li>
-		    <li class="list-group-item"><h6>{!! trans('specific-terms.external-no').': ' !!}<small>{!! $patient->external_patient_number !!}</small></h6></li>
-		    <li class="list-group-item"><h6>{!! trans('specific-terms.date-of-birth').': ' !!}<small>{!! $patient->dob !!}</small></h6></li>
-		    <li class="list-group-item"><h6>{!! trans('general-terms.gender').': ' !!}<small>{!! ($patient->gender==0?trans_choice('specific-terms.sex', 1):trans_choice('specific-terms.sex', 2)) !!}</small></h6></li>
-		    <li class="list-group-item"><h6>{!! trans('specific-terms.phone').': ' !!}<small>{!! $patient->phone_number !!}</small></h6></li>
-		    <li class="list-group-item"><h6>{!! trans('specific-terms.address').': ' !!}<small>{!! $patient->address !!}</small></h6></li>
+		    <li class="list-group-item"><h4>{!! trans('terms.name').': ' !!}<small>{!! $patient->name !!}</small></h4></li>
+		    <li class="list-group-item"><h5>{!! trans('terms.patient-no').': ' !!}<small>{!! $patient->patient_number !!}</small></h5></li>
+		    <li class="list-group-item"><h6>{!! trans('terms.external-no').': ' !!}<small>{!! $patient->external_patient_number !!}</small></h6></li>
+		    <li class="list-group-item"><h6>{!! trans('terms.date-of-birth').': ' !!}<small>{!! $patient->dob !!}</small></h6></li>
+		    <li class="list-group-item"><h6>{!! trans('terms.gender').': ' !!}<small>{!! ($patient->gender==0?trans_choice('terms.sex', 1):trans_choice('terms.sex', 2)) !!}</small></h6></li>
+		    <li class="list-group-item"><h6>{!! trans('terms.phone').': ' !!}<small>{!! $patient->phone_number !!}</small></h6></li>
+		    <li class="list-group-item"><h6>{!! trans('terms.address').': ' !!}<small>{!! $patient->address !!}</small></h6></li>
 	  	</ul>
 	</div>
 </div>

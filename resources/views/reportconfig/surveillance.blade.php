@@ -27,10 +27,10 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-5 col-md-3">
-	                <label>{{ Lang::choice('messages.test-type',2) }}</label>
+	                <label>{{ trans_choice('messages.test-type',2) }}</label>
 				</div>
 				<div class="col-sm-5 col-md-3">
-	                <label>{{ Lang::choice('messages.disease',2) }}</label>
+	                <label>{{ trans_choice('messages.disease',2) }}</label>
 				</div>
 			</div>
 			@foreach($diseaseTests as $diseaseTest)

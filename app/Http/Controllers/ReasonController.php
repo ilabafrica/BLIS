@@ -49,7 +49,7 @@ class ReasonController extends Controller {
         $rejection->save();
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_rejection', $rejection ->id);
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_rejection', $rejection ->id);
     }
 
     /**
@@ -93,7 +93,7 @@ class ReasonController extends Controller {
         $rejection->save();
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_rejection', $rejection ->id);
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_rejection', $rejection ->id);
     }
 
     /**
@@ -114,11 +114,11 @@ class ReasonController extends Controller {
             // The rejection is in use
             $url = session('SOURCE_URL');
             
-            return redirect()->to($url)->with('message', trans('general-terms.failure-delete-record'));
+            return redirect()->to($url)->with('message', trans('terms.failure-delete-record'));
         }
         // redirect
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-deleted'));
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-deleted'));
     }
 }

@@ -38,20 +38,20 @@
 	                <!-- ./ csrf token -->
 	                {!! Form::hidden('item_id', $item->id) !!}
 					<div class="form-group row">
-						{!! Form::label('lot-no', trans('specific-terms.lot-no'), array('class' => 'col-sm-3 form-control-label')) !!}
+						{!! Form::label('lot-no', trans('terms.lot-no'), array('class' => 'col-sm-3 form-control-label')) !!}
 						<div class="col-sm-8">
 							{!! Form::text('lot', old('lot'), array('class' => 'form-control')) !!}
 						</div>
 					</div>
 	                <div class="form-group row">
-	                    {!! Form::label('expiry', trans('specific-terms.expiry'), array('class' => 'col-sm-3 form-control-label')) !!}
+	                    {!! Form::label('expiry', trans('terms.expiry'), array('class' => 'col-sm-3 form-control-label')) !!}
 	                    <div class="col-sm-8 input-group date datepicker"  style="padding-left:15px;">
 	                        {!! Form::text('expiry_date', old('expiry_date'), array('class' => 'form-control')) !!}
 	                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 	                    </div>
 	                </div>
 	                <div class="form-group row">
-						{!! Form::label('manufacturer', trans('specific-terms.manufacturer'), array('class' => 'col-sm-3 form-control-label')) !!}
+						{!! Form::label('manufacturer', trans('terms.manufacturer'), array('class' => 'col-sm-3 form-control-label')) !!}
 						<div class="col-sm-8">
 							{!! Form::text('manufacturer', old('manufacturer'), array('class' => 'form-control')) !!}
 						</div>
@@ -63,26 +63,26 @@
 						</div>
 					</div>
 	                <div class="form-group row">
-						{!! Form::label('quantity-supplied', trans('specific-terms.supplied'), array('class' => 'col-sm-3 form-control-label')) !!}
+						{!! Form::label('quantity-supplied', trans('terms.supplied'), array('class' => 'col-sm-3 form-control-label')) !!}
 						<div class="col-sm-8">
 							{!! Form::text('quantity_supplied', old('quantity_supplied'), array('class' => 'form-control')) !!}
 						</div>
 					</div>
 	                <div class="form-group row">
-						{!! Form::label('cost-per-unit', trans('specific-terms.cost-per-unit'), array('class' => 'col-sm-3 form-control-label')) !!}
+						{!! Form::label('cost-per-unit', trans('terms.cost-per-unit'), array('class' => 'col-sm-3 form-control-label')) !!}
 						<div class="col-sm-8">
 							{!! Form::text('cost_per_unit', old('cost_per_unit'), array('class' => 'form-control')) !!}
 						</div>
 					</div>
 	                <div class="form-group row">
-	                    {!! Form::label('date-received', trans('specific-terms.date-received'), array('class' => 'col-sm-3 form-control-label')) !!}
+	                    {!! Form::label('date-received', trans('terms.date-received'), array('class' => 'col-sm-3 form-control-label')) !!}
 	                    <div class="col-sm-8 input-group date datepicker"  style="padding-left:15px;">
 	                        {!! Form::text('date_of_reception', old('date_of_reception'), array('class' => 'form-control')) !!}
 	                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 	                    </div>
 	                </div>
 					<div class="form-group row">
-						{!! Form::label('remarks', trans("general-terms.remarks"), array('class' => 'col-sm-3 form-control-label')) !!}</label>
+						{!! Form::label('remarks', trans("terms.remarks"), array('class' => 'col-sm-3 form-control-label')) !!}</label>
 						<div class="col-sm-8">
 							{!! Form::textarea('remarks', old('remarks'), array('class' => 'form-control', 'rows' => '2')) !!}
 						</div>
@@ -98,9 +98,9 @@
 				<div class="col-md-4">
 					<ul class="list-group">
 						<li class="list-group-item"><strong>{!! trans_choice('menu.item', 1).': '.$item->name !!}</strong></li>
-						<li class="list-group-item"><h6>{!! trans("specific-terms.unit") !!}<small> {!! $item->unit !!}</small></h6></li>
-						<li class="list-group-item"><h6>{!! trans('specific-terms.min-level') !!}<small> {!! $item->min_level !!}</small></h6></li>
-						<li class="list-group-item"><h6>{!! trans('specific-terms.max-level') !!}<small> {!! $item->max_level !!}</small></h6></li>						
+						<li class="list-group-item"><h6>{!! trans("terms.unit") !!}<small> {!! $item->unit !!}</small></h6></li>
+						<li class="list-group-item"><h6>{!! trans('terms.min-level') !!}<small> {!! $item->min_level !!}</small></h6></li>
+						<li class="list-group-item"><h6>{!! trans('terms.max-level') !!}<small> {!! $item->max_level !!}</small></h6></li>						
 					</ul>
 				</div>
 			</div>

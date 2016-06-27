@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{!! URL::route('user.home')!!}}">{!!trans('messages.home')!!}</a></li>
-	  <li><a href="{!! URL::route('instrument.index') !!}">{!!Lang::choice('messages.instrument',2)!!}</a></li>
+	  <li><a href="{!! URL::route('instrument.index') !!}">{!!trans_choice('messages.instrument',2)!!}</a></li>
 	  <li class="active">{!!trans('messages.add-instrument')!!}</li>
 	</ol>
 </div>
@@ -22,7 +22,7 @@
 				</div>
 			@endif
 			<div class="form-group">
-				{!! Form::label('name', Lang::choice('messages.name',1)) !!}
+				{!! Form::label('name', trans_choice('messages.name',1)) !!}
                 {!! Form::text('name', Input::old('name'), array('class' => 'form-control')) !!}
 			</div>
 			<div class="form-group">

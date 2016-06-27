@@ -52,7 +52,7 @@ class TestCategoryController extends Controller {
 		$testCategory->save();
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', Lang::choice('messages.record-successfully-saved', 1))->with('active_testCategory', $testCategory ->id);
+        return redirect()->to($url)->with('message', trans_choice('messages.record-successfully-saved', 1))->with('active_testCategory', $testCategory ->id);
 	}
 
 	/**
@@ -98,7 +98,7 @@ class TestCategoryController extends Controller {
 		$testCategory->save();
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', Lang::choice('messages.record-successfully-saved', 1))->with('active_testCategory', $testCategory ->id);
+        return redirect()->to($url)->with('message', trans_choice('messages.record-successfully-saved', 1))->with('active_testCategory', $testCategory ->id);
 	}
 
 	/**
@@ -136,6 +136,6 @@ class TestCategoryController extends Controller {
 		// redirect
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', Lang::choice('messages.record-successfully-deleted', 1));
+        return redirect()->to($url)->with('message', trans_choice('messages.record-successfully-deleted', 1));
 	}
 }

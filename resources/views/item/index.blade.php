@@ -40,12 +40,12 @@
 				 	<table class="table table-bordered table-sm search-table">
 						<thead>
 							<tr>
-								<th>{!! trans('general-terms.name') !!}</th>
-								<th>{!! trans('specific-terms.unit') !!}</th>
-								<th>{!! trans('specific-terms.quantity') !!}</th>
-								<th>{!! trans('specific-terms.min-level') !!}</th>
-								<th>{!! trans('specific-terms.max-level') !!}</th>
-								<th>{!! trans('general-terms.remarks') !!}</th>
+								<th>{!! trans('terms.name') !!}</th>
+								<th>{!! trans('terms.unit') !!}</th>
+								<th>{!! trans('terms.quantity') !!}</th>
+								<th>{!! trans('terms.min-level') !!}</th>
+								<th>{!! trans('terms.max-level') !!}</th>
+								<th>{!! trans('terms.remarks') !!}</th>
 								<th></th>
 							</tr>
 						</thead>

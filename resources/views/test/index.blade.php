@@ -42,21 +42,21 @@
 				            <div class='row'>
 					            <div class='col-md-12'>
 					                <div class='col-md-3'>
-					                    {!! Form::label('date_from', trans('general-terms.from').':', array('class' => 'col-sm-3 form-control-label')) !!}
+					                    {!! Form::label('date_from', trans('terms.from').':', array('class' => 'col-sm-3 form-control-label')) !!}
 					                    <div class='col-md-9 input-group date datepicker'>
 					                        {!! Form::text('date_from', Input::get('date_from'), array('class' => 'form-control')) !!}
 					                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 					                    </div>
 					                </div>
 					                <div class='col-md-3'>
-					                    {!! Form::label('date_to', trans('general-terms.to').':', array('class' => 'col-sm-2 form-control-label')) !!}
+					                    {!! Form::label('date_to', trans('terms.to').':', array('class' => 'col-sm-2 form-control-label')) !!}
 					                    <div class='col-md-10 input-group date datepicker'>
 					                        {!! Form::text('date_to', Input::get('date_to'), array('class' => 'form-control')) !!}
 					                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 					                    </div>
 					                </div>
 					                <div class='col-md-3'>
-					                    {!! Form::label('test_status', trans('specific-terms.test-status').':', array('class' => 'col-sm-3 form-control-label')) !!}
+					                    {!! Form::label('test_status', trans('terms.test-status').':', array('class' => 'col-sm-3 form-control-label')) !!}
 					                    <div class='col-md-9'>
 					                        {!! Form::select('test_status', $statuses, Input::get('test_status'), array('class' => 'form-control')) !!}
 					                    </div>
@@ -65,7 +65,7 @@
 				                        {!! Form::text('search', Input::get('search'), array('class' => 'form-control', 'placeholder' => 'Keyword')) !!}
 					                </div>
 					                <div class='col-md-1'>
-										{!! Form::button("<i class='fa fa-search'></i> ".trans('general-terms.search'), array('class' => 'btn btn-sm btn-primary', 'type' => 'submit')) !!}									
+										{!! Form::button("<i class='fa fa-search'></i> ".trans('terms.search'), array('class' => 'btn btn-sm btn-primary', 'type' => 'submit')) !!}									
 					                </div>
 				                </div>
 				            </div>
@@ -74,14 +74,14 @@
 				 	<table class="table table-bordered table-sm search-table">
 						<thead>
 							<tr>
-								<th>{!! trans('specific-terms.date-ordered') !!}</th>
-		                        <th>{!! trans('specific-terms.test-id') !!}</th>
-		                        <th>{!! trans('specific-terms.visit-no') !!}</th>
-		                        <th class="col-md-2">{!! trans('general-terms.name') !!}</th>
-		                        <th class="col-md-1">{!! trans('specific-terms.specimen-id') !!}</th>
+								<th>{!! trans('terms.date-ordered') !!}</th>
+		                        <th>{!! trans('terms.test-id') !!}</th>
+		                        <th>{!! trans('terms.visit-no') !!}</th>
+		                        <th class="col-md-2">{!! trans('terms.name') !!}</th>
+		                        <th class="col-md-1">{!! trans('terms.specimen-id') !!}</th>
 		                        <th>{!! trans_choice('menu.test', 1) !!}</th>
-		                        <th>{!! trans('specific-terms.visit-type') !!}</th>
-		                        <th>{!! trans('specific-terms.test-status') !!}</th>
+		                        <th>{!! trans('terms.visit-type') !!}</th>
+		                        <th>{!! trans('terms.test-status') !!}</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -108,23 +108,23 @@
 		                                        @if($test->isNotReceived())
 		                                            @if(!$test->isPaid())
 		                                                <span class='label label-silver'>
-		                                                    {!! trans('specific-terms.not-paid') !!}</span>
+		                                                    {!! trans('terms.not-paid') !!}</span>
 		                                            @else
 		                                            <span class='label label-asbestos'>
-		                                                {!! trans('specific-terms.not-received') !!}</span>
+		                                                {!! trans('terms.not-received') !!}</span>
 		                                            @endif
 		                                        @elseif($test->isPending())
 		                                            <span class='label label-pumpkin'>
-		                                                {!! trans('specific-terms.pending') !!}</span>
+		                                                {!! trans('terms.pending') !!}</span>
 		                                        @elseif($test->isStarted())
 		                                            <span class='label label-sub-flower'>
-		                                                {!! trans('specific-terms.started') !!}</span>
+		                                                {!! trans('terms.started') !!}</span>
 		                                        @elseif($test->isCompleted())
 		                                            <span class='label label-nephritis'>
-		                                                {!! trans('specific-terms.completed') !!}</span>
+		                                                {!! trans('terms.completed') !!}</span>
 		                                        @elseif($test->isVerified())
 		                                            <span class='label label-wet-asphalt'>
-		                                                {!! trans('specific-terms.verified') !!}</span>
+		                                                {!! trans('terms.verified') !!}</span>
 		                                        @endif
 		                                    </div>
 		    
@@ -135,7 +135,7 @@
 		                                        @if($test->specimen->isNotCollected())
 		                                         @if(($test->isPaid()))
 		                                            <span class='label label-silver'>
-		                                                {!! trans('specific-terms.specimen-not-collected') !!}</span>
+		                                                {!! trans('terms.specimen-not-collected') !!}</span>
 		                                            @endif
 		                                        @elseif($test->specimen->isReferred())
 		                                            <span class='label label-asbestos'>
@@ -148,10 +148,10 @@
 		                                            </span>
 		                                        @elseif($test->specimen->isAccepted())
 		                                            <span class='label label-success'>
-		                                                {!! trans('specific-terms.specimen-accepted') !!}</span>
+		                                                {!! trans('terms.specimen-accepted') !!}</span>
 		                                        @elseif($test->specimen->isRejected())
 		                                            <span class='label label-danger'>
-		                                                {!! trans('specific-terms.specimen-rejected') !!}</span>
+		                                                {!! trans('terms.specimen-rejected') !!}</span>
 		                                        @endif
 		                                    </div>
 		                                </div>
@@ -173,7 +173,7 @@
 					                <!-- ./ csrf token -->
 		                            <a class="btn btn-sm btn-asbestos barcode-button" onclick="print_specimen_barcode('{!! $test->specimen->id !!}')">
                                         <i class="fa fa-barcode"></i>
-                                        {!! trans('general-terms.barcode') !!}
+                                        {!! trans('terms.barcode') !!}
                                     </a>
                                     {!! Form::close() !!}
 		                            
@@ -292,12 +292,12 @@
         <h4 class="modal-title">{!! trans('action.new').' '.trans_choice('menu.test', 1) !!}</h4>
       </div>
       <div class="modal-body">
-        <p>{!! trans('specific-terms.select-patient') !!}</p>
+        <p>{!! trans('terms.select-patient') !!}</p>
         <div class="row">
           <div class="col-lg-12">
             <div class="input-group">
               <input type="text" class="form-control search-text" 
-                placeholder="{!! trans('general-terms.keyword') !!}">
+                placeholder="{!! trans('terms.keyword') !!}">
 	              	<span class="input-group-btn">
 	                	<button class="btn btn-sm btn-wet-asphalt search-patient" type="button">{!! trans('action.find') !!}</button>
 	              	</span>
@@ -307,7 +307,7 @@
                   <thead>
                     <th> </th>
                     <th>{!! trans('action.patient-id') !!}</th>
-                    <th>{!! trans('general-terms.name') !!}</th>
+                    <th>{!! trans('terms.name') !!}</th>
                   </thead>
                   <tbody>
                   </tbody>

@@ -6,7 +6,7 @@
             <div class=" col-md-12 card card-block">
                 <div class="col-md-3">
                     <div class="form-group row">
-                        {!! Form::label('new_measures[][name]', trans_choice('general-terms.name', 1).':', array('class' => 'col-sm-3 form-control-label')) !!}
+                        {!! Form::label('new_measures[][name]', trans_choice('terms.name', 1).':', array('class' => 'col-sm-3 form-control-label')) !!}
                         <div class="col-sm-9">
                             <input class="form-control name" name="" value="" type="text">
                         </div>
@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group row">
-                        {!! Form::label('new_measures[][measure_type_id]', trans('general-terms.type').':', array('class' => 'col-sm-2 form-control-label')) !!}
+                        {!! Form::label('new_measures[][measure_type_id]', trans('terms.type').':', array('class' => 'col-sm-2 form-control-label')) !!}
                         <div class="col-sm-10">
                             <select class="form-control c-select measuretype-input-trigger measure_type_id" 
                                 data-measure-id="0" 
@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-md-2">
                     <div class="form-group row">
-                        {!! Form::label('new_measures[][unit]', trans('general-terms.unit').':', array('class' => 'col-sm-3 form-control-label')) !!}
+                        {!! Form::label('new_measures[][unit]', trans('terms.unit').':', array('class' => 'col-sm-3 form-control-label')) !!}
                         <div class="col-sm-9">
                             <input class="form-control unit" name="" value="" type="text">
                         </div>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group row">
-                        {!! Form::label('new_measures[][description]', trans('general-terms.info').':', array('class' => 'col-sm-2 form-control-label')) !!}
+                        {!! Form::label('new_measures[][description]', trans('terms.info').':', array('class' => 'col-sm-2 form-control-label')) !!}
                         <div class="col-sm-8">
                             <textarea class="form-control description" value="" rows="2" name=""></textarea>
                         </div>
@@ -51,12 +51,12 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <label for="measurerange" 'class'='form-group row col-sm-offset-2 form-control-label'>{!! trans('general-terms.range-values') !!}</label>
+                    <label for="measurerange" 'class'='form-group row col-sm-offset-2 form-control-label'>{!! trans('terms.range-values') !!}</label>
                 </div>
                 <div class="col-md-12 actions-row" style="padding-bottom:5px;">
                     <a class="btn btn-sm btn-wisteria add-another-range" href="javascript:void(0);" 
                         data-measure-id="">
-                    <i class="fa fa-plus-circle"></i> {!! trans('action.new').' '.trans_choice('general-terms.range', 1) !!}</a>
+                    <i class="fa fa-plus-circle"></i> {!! trans('action.new').' '.trans_choice('terms.range', 1) !!}</a>
                 </div>
             </div>
         </div>
@@ -64,14 +64,14 @@
             <!-- measureGeneric -->
             <div class="col-md-12 card card-block hidden numericHeaderLoader">
                 <div class="col-md-5">
-                    <span class="col-md-8 range-title">{!! trans('general-terms.age-range') !!}</span>
-                    <span class="col-md-4 range-title">{!! trans('general-terms.gender') !!}</span>
+                    <span class="col-md-8 range-title">{!! trans('terms.age-range') !!}</span>
+                    <span class="col-md-4 range-title">{!! trans('terms.gender') !!}</span>
                 </div>
                 <div class="col-md-4">
-                    <span class="col-md-12 range-title">{!! trans('specific-terms.measure-range') !!}</span>
+                    <span class="col-md-12 range-title">{!! trans('terms.measure-range') !!}</span>
                 </div>
                 <div class="col-md-2">
-                    <span class="col-md-12 interpretation-title">{!! trans('specific-terms.interpretation') !!}
+                    <span class="col-md-12 interpretation-title">{!! trans('terms.interpretation') !!}
                     </span>
                 </div>
             </div>
@@ -88,9 +88,9 @@
                     </div>
                     <div class="col-sm-4">
                         <select class="col-md-4 c-select form-control gender" name="">
-                            <option value="0">{!! trans_choice('specific-terms.sex', 1) !!}</option>
-                            <option value="1">{!! trans_choice('specific-terms.sex', 2) !!}</option>
-                            <option value="2">{!! trans('specific-terms.both') !!}</option>
+                            <option value="0">{!! trans_choice('terms.sex', 1) !!}</option>
+                            <option value="1">{!! trans_choice('terms.sex', 2) !!}</option>
+                            <option value="2">{!! trans('terms.both') !!}</option>
                         </select>
                     </div>
                 </div>
@@ -116,8 +116,8 @@
             </div>
             <!-- alphanumericHeader -->
             <div class="col-md-12 card card-block hidden alphanumericHeaderLoader">
-                <span class="col-md-5 val-title">{!! trans('specific-terms.value') !!}</span>
-                <span class="col-md-5 interpretation-title">{!! trans('specific-terms.interpretation') !!}</span>
+                <span class="col-md-5 val-title">{!! trans('terms.value') !!}</span>
+                <span class="col-md-5 interpretation-title">{!! trans('terms.interpretation') !!}</span>
             </div>
             <!-- numericHeader -->
             <div class="col-md-12 hidden card card-block alphanumericInputLoader">                
@@ -134,7 +134,7 @@
                 </div>
             </div>
             <div class="col-md-12 hidden freetextInputLoader">
-                <p class="freetextInput" >{!! trans('specific-terms.freetext-measure-config-input-message') !!}</p>
+                <p class="freetextInput" >{!! trans('terms.freetext-measure-config-input-message') !!}</p>
             </div>
         </div>
     </div>

@@ -14,7 +14,7 @@
 <div class="conter-wrapper">
 	<div class="card">
 		<div class="card-header">
-		    <i class="fa fa-file-text"></i> <strong>{!! trans('general-terms.details-for').': '.$field->name !!}</strong>
+		    <i class="fa fa-file-text"></i> <strong>{!! trans('terms.details-for').': '.$field->name !!}</strong>
 		    <span>
 		    	<a class="btn btn-sm btn-belize-hole" href="{!! url("field/create") !!}" >
 					<i class="fa fa-plus-circle"></i>
@@ -38,7 +38,7 @@
 		@endif
 
 		<ul class="list-group list-group-flush">
-		    <li class="list-group-item"><h4>{!! trans('general-terms.name').': ' !!}<small>{!! $field->name !!}</small></h4></li>
+		    <li class="list-group-item"><h4>{!! trans('terms.name').': ' !!}<small>{!! $field->name !!}</small></h4></li>
 		    <li class="list-group-item"><h5>{!! trans_choice('menu.module', 1).': ' !!}<small>{!! $field->configurable->name !!}</small></h5></li>
 		    <li class="list-group-item"><h6>{!! trans_choice('menu.field-type', 1).': ' !!}<small>{!! $field->field_type !!}</small></h6></li>
 		    <li class="list-group-item"><h6>{!! trans_choice("menu.options", 2).': ' !!}<small>{!! implode(',', $field->options) !!}</small></h6></li>

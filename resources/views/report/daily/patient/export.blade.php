@@ -39,9 +39,9 @@
 						  	<li class="list-group-item"><strong>{!! $patient->name !!}</strong></li>
 						  	<li class="list-group-item">
 						  		<h6>
-						  			<span>{!! trans("specific-terms.patient-id").':' !!}<small> {!! $patient->patient_number !!}</small></span>&nbsp;&nbsp;
-						  			<span>{!! trans("specific-terms.lab-no").':' !!}<small> {!! $patient->external_patient_number !!}</small></span>&nbsp;&nbsp;
-						  			<span>{!! trans("general-terms.age").'/'.trans("general-terms.gender").'/'.trans("specific-terms.dob").':' !!}<small> {!! $patient->getAge().'/'.($patient->gender==0?trans_choice('specific-terms.sex', 1):trans_choice('specific-terms.sex', 2)).'/'.Carbon::parse($patient->dob)->toDateString() !!}</small></span>
+						  			<span>{!! trans("terms.patient-id").':' !!}<small> {!! $patient->patient_number !!}</small></span>&nbsp;&nbsp;
+						  			<span>{!! trans("terms.lab-no").':' !!}<small> {!! $patient->external_patient_number !!}</small></span>&nbsp;&nbsp;
+						  			<span>{!! trans("terms.age").'/'.trans("terms.gender").'/'.trans("terms.dob").':' !!}<small> {!! $patient->getAge().'/'.($patient->gender==0?trans_choice('terms.sex', 1):trans_choice('terms.sex', 2)).'/'.Carbon::parse($patient->dob)->toDateString() !!}</small></span>
 						  		</h6>
 						  	</li>
 						</ul>
@@ -53,43 +53,43 @@
 						<ul class="list-group" style="padding-bottom:5px;">
 						  	<li class="list-group-item">
 						  		<h6>
-						  			<span>{!! trans("specific-terms.lab-ref").':' !!}<small> {!! $patient->id !!}</small></span>&nbsp;&nbsp;
-						  			<span>{!! trans("specific-terms.spec-id").':' !!}<small> {!! $test->specimen->id !!}</small></span>&nbsp;&nbsp;
+						  			<span>{!! trans("terms.lab-ref").':' !!}<small> {!! $patient->id !!}</small></span>&nbsp;&nbsp;
+						  			<span>{!! trans("terms.spec-id").':' !!}<small> {!! $test->specimen->id !!}</small></span>&nbsp;&nbsp;
 						  			<span>
-						  				{!! trans("specific-terms.test-status").':' !!}
+						  				{!! trans("terms.test-status").':' !!}
 						  				<small> 
 						  					@if($test->specimen->specimen_status_id == App\Models\Specimen::NOT_COLLECTED)
-						  						{!! trans('specific-terms.specimen-not-collected') !!}
+						  						{!! trans('terms.specimen-not-collected') !!}
 						  					@elseif($test->specimen->specimen_status_id == App\Models\Specimen::ACCEPTED)
-						  						{!! trans('specific-terms.specimen-accepted') !!}
+						  						{!! trans('terms.specimen-accepted') !!}
 						  					@elseif($test->specimen->specimen_status_id == App\Models\Specimen::REJECTED)
-						  						{!! trans('specific-terms.specimen-rejected') !!}
+						  						{!! trans('terms.specimen-rejected') !!}
 						  					@endif
 						  				</small>
 						  			</span>&nbsp;&nbsp;
 						  			@if($test->specimen->specimen_status_id == App\Models\Specimen::ACCEPTED)
-						  				<span>{!! trans("specific-terms.collect-date").':' !!}<small> {!! $test->specimen->time_accepted !!}</small></span>&nbsp;&nbsp;
-							  			<span>{!! trans("specific-terms.accepted-by").':' !!}<small> {!! $test->specimen->acceptedBy->name !!}</small></span>
+						  				<span>{!! trans("terms.collect-date").':' !!}<small> {!! $test->specimen->time_accepted !!}</small></span>&nbsp;&nbsp;
+							  			<span>{!! trans("terms.accepted-by").':' !!}<small> {!! $test->specimen->acceptedBy->name !!}</small></span>
 						  			@elseif($test->specimen->specimen_status_id == App\Models\Specimen::REJECTED)
-						  				<span>{!! trans("specific-terms.reject-date").':' !!}<small> {!! $test->specimen->time_rejected !!}</small></span>&nbsp;&nbsp;
-							  			<span>{!! trans("specific-terms.rejected-by").':' !!}<small> {!! $test->specimen->rejectedBy->name !!}</small></span>
+						  				<span>{!! trans("terms.reject-date").':' !!}<small> {!! $test->specimen->time_rejected !!}</small></span>&nbsp;&nbsp;
+							  			<span>{!! trans("terms.rejected-by").':' !!}<small> {!! $test->specimen->rejectedBy->name !!}</small></span>
 						  			@endif
 						  		</h6>
 						  	</li>
 						  	<li class="list-group-item">
 						  		<h6>
-						  			<span>{!! trans("specific-terms.requested").':' !!}<small> {!! $test->testType->name !!}</small></span>&nbsp;&nbsp;
-						  			<span>{!! trans("specific-terms.performed-by").':' !!}<small> {!! $test->testedBy->name or trans('specific-terms.pending') !!}</small></span>&nbsp;&nbsp;
-						  			<span>{!! trans("specific-terms.report-date").':' !!}<small> {!! $test->testResults->last()->time_entered !!}</small></span>&nbsp;&nbsp;
-						  			<span>{!! trans("specific-terms.verified-by").':' !!}<small> {!! $test->verifiedBy->name or trans('specific-terms.verification-pending') !!}</small></span>&nbsp;&nbsp;
-						  			<span>{!! trans("specific-terms.date-verified").':' !!}<small> {!! $test->time_verified or trans('specific-terms.verification-pending') !!}</small></span>
+						  			<span>{!! trans("terms.requested").':' !!}<small> {!! $test->testType->name !!}</small></span>&nbsp;&nbsp;
+						  			<span>{!! trans("terms.performed-by").':' !!}<small> {!! $test->testedBy->name or trans('terms.pending') !!}</small></span>&nbsp;&nbsp;
+						  			<span>{!! trans("terms.report-date").':' !!}<small> {!! $test->testResults->last()->time_entered !!}</small></span>&nbsp;&nbsp;
+						  			<span>{!! trans("terms.verified-by").':' !!}<small> {!! $test->verifiedBy->name or trans('terms.verification-pending') !!}</small></span>&nbsp;&nbsp;
+						  			<span>{!! trans("terms.date-verified").':' !!}<small> {!! $test->time_verified or trans('terms.verification-pending') !!}</small></span>
 						  		</h6>
 						  	</li>
 						</ul>
 					</div>
 					@empty
 	        			<div class="col-sm-12">
-	            			{!! trans('general-terms.no-records-found') !!}
+	            			{!! trans('terms.no-records-found') !!}
 	            		</div>
 	        		@endforelse
 	        	</div>
@@ -101,8 +101,8 @@
 								<strong>
 									<div class="col-md-12">
 										<div class="col-sm-4">{!! trans_choice('menu.test', 1) !!}</div>
-									  	<div class="col-sm-4">{!! trans('specific-terms.result') !!}</div>
-									  	<div class="col-sm-4">{!! trans('specific-terms.reference') !!}</div>
+									  	<div class="col-sm-4">{!! trans('terms.result') !!}</div>
+									  	<div class="col-sm-4">{!! trans('terms.reference') !!}</div>
 								  	</div>
 								</strong>
 							  	<div class="col-sm-12">
@@ -129,7 +129,7 @@
 	            	</div>
 	    		@empty
 	    			<div class="col-sm-12">
-	        			{!! trans('general-terms.no-records-found') !!}
+	        			{!! trans('terms.no-records-found') !!}
 	        		</div>
 				</div>
 	    		@endforelse

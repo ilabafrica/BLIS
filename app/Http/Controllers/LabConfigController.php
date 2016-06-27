@@ -132,7 +132,7 @@ class LabConfigController extends Controller
             }
         }
         $url = session('SOURCE_URL');
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-updated'));
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-updated'));
     }
 
     /**

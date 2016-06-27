@@ -2,9 +2,9 @@
 @section("content")
     <div>
         <ol class="breadcrumb">
-          <li><a href="{!! URL::route('user.home')!!}}">{!! trans('messages.home') !!}</a></li>
-          <li><a href="{!! URL::route('control.resultsIndex') !!}">{!! Lang::choice('messages.controlresults',2) !!}</a></li>
-          <li class="active">{!! trans('messages.enter-control-results') !!}</li>
+          <li><a href="{!! URL::route('user.home')!!}}">{!! trans('menu.home') !!}</a></li>
+          <li><a href="{!! URL::route('control.resultsIndex') !!}">{!! trans_choice('menu.controlresults',2) !!}</a></li>
+          <li class="active">{!! trans('terms.enter-control-results') !!}</li>
         </ol>
     </div>
     <div class="panel panel-primary">
@@ -12,11 +12,11 @@
             <div class="container-fluid">
                 <div class="row less-gutter">
                     <div class="col-md-11">
-                        <span class="glyphicon glyphicon-user"></span> {!! trans('messages.controlresults') !!}
+                        <span class="glyphicon glyphicon-user"></span> {!! trans('terms.controlresults') !!}
                     </div>
                     <div class="col-md-1">
                         <a class="btn btn-sm btn-primary pull-right"  href="#" onclick="window.history.back();return false;"
-                            alt="{!!trans('messages.back')!!}" title="{!!trans('messages.back')!!}">
+                            alt="{!!trans('terms.back')!!}" title="{!!trans('terms.back')!!}">
                             <span class="glyphicon glyphicon-backward"></span></a>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                         @endforeach
                         <div class="form-group actions-row">
                             {!! Form::button('<span class="glyphicon glyphicon-save">
-                                </span> '.trans('messages.save-test-results'),
+                                </span> '.trans('terms.save-test-results'),
                                 array('class' => 'btn btn-default', 'onclick' => 'submit()')) !!}
                         </div>
                     {!! Form::close() !!}
@@ -70,23 +70,23 @@
                     <div class="col-md-6">
                         <div class="panel panel-info">  <!-- Patient Details -->
                             <div class="panel-heading">
-                                <h3 class="panel-title">{!!trans("messages.control-details")!!}</h3>
+                                <h3 class="panel-title">{!!trans("terms.control-details")!!}</h3>
                             </div>
                             <div class="panel-body">
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <p><strong>{!!trans("messages.lot-number")!!}</strong></p></div>
+                                            <p><strong>{!!trans("terms.lot-number")!!}</strong></p></div>
                                         <div class="col-md-9">
                                             {!! $control->lot->number !!}</div></div>
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <p><strong>{!! Lang::choice('messages.control-name',1) !!}</strong></p></div>
+                                            <p><strong>{!! trans_choice('terms.control-name',1) !!}</strong></p></div>
                                         <div class="col-md-9">
                                             {!! $control->name !!}</div></div>
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <p><strong>{!!Lang::choice("messages.instrument",1)!!}</strong></p></div>
+                                            <p><strong>{!!trans_choice("terms.instrument",1)!!}</strong></p></div>
                                         <div class="col-md-9"> {!! $control->lot->instrument->name !!}</div>
                                     </div>
                                 </div>

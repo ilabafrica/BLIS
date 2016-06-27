@@ -36,25 +36,25 @@
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
                 <!-- ./ csrf token -->
 				<div class="form-group row">
-					{!! Form::label('name', trans_choice('general-terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('name', trans_choice('terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::text('name', old('name'), array('class' => 'form-control')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('phone-no', trans_choice('specific-terms.phone',1), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('phone-no', trans_choice('terms.phone',1), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::text('phone_no', old('phone_no'), array('class' => 'form-control')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('email', trans_choice('specific-terms.email-address',1), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('email', trans_choice('terms.email-address',1), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::text('email', old('email'), array('class' => 'form-control')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('address', trans("specific-terms.address"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
+					{!! Form::label('address', trans("terms.address"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
 					<div class="col-sm-6">
 						{!! Form::textarea('address', old('address'), array('class' => 'form-control', 'rows' => '2')) !!}
 					</div>

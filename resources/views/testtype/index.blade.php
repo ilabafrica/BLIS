@@ -40,10 +40,10 @@
 				 	<table class="table table-bordered table-sm search-table">
 						<thead>
 							<tr>
-								<th>{!! trans('general-terms.name') !!}</th>
-								<th>{!! trans('general-terms.description') !!}</th>
-								<th>{!! trans('general-terms.target-tat') !!}</th>
-								<th>{!! trans('general-terms.prevalence-threshold') !!}</th>
+								<th>{!! trans('terms.name') !!}</th>
+								<th>{!! trans('terms.description') !!}</th>
+								<th>{!! trans('terms.target-tat') !!}</th>
+								<th>{!! trans('terms.prevalence-threshold') !!}</th>
 								<th></th>
 							</tr>
 						</thead>

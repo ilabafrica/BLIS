@@ -7,14 +7,14 @@
             <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
             <li class="active"><i class="fa fa-database"></i> {!! trans('menu.test-catalog') !!}</li>
             <li><a href="{!! route('rejection.index') !!}"><i class="fa fa-cube"></i> {!! trans('menu.specimen-rejection') !!}</a></li>
-            <li class="active">{!! trans('action.edit').' '.trans('general-terms.reject-reason') !!}</li>
+            <li class="active">{!! trans('action.edit').' '.trans('terms.reject-reason') !!}</li>
         </ul>
     </div>
 </div>
 <div class="conter-wrapper">
 	<div class="card">
 		<div class="card-header">
-		    <i class="fa fa-edit"></i> {!! trans('action.edit').' '.trans('general-terms.reject-reason') !!} 
+		    <i class="fa fa-edit"></i> {!! trans('action.edit').' '.trans('terms.reject-reason') !!} 
 		    <span>
 				<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
 					<i class="fa fa-step-backward"></i>
@@ -37,13 +37,13 @@
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
                 <!-- ./ csrf token -->
 				<div class="form-group row">
-					{!! Form::label('name', trans_choice('general-terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('name', trans_choice('terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::text('name', old('reason'), array('class' => 'form-control')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('description', trans("general-terms.description"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
+					{!! Form::label('description', trans("terms.description"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
 					<div class="col-sm-6">
 						{!! Form::textarea('description', old('description'), array('class' => 'form-control', 'rows' => '2')) !!}
 					</div>

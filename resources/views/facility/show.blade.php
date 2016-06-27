@@ -14,7 +14,7 @@
 <div class="conter-wrapper">
 	<div class="card">
 		<div class="card-header">
-		    <i class="fa fa-file-text"></i> <strong>{!! trans('general-terms.details-for').': '.$facility->name !!}</strong>
+		    <i class="fa fa-file-text"></i> <strong>{!! trans('terms.details-for').': '.$facility->name !!}</strong>
 		    <span>
 		    	<a class="btn btn-sm btn-belize-hole" href="{!! url("facility/create") !!}" >
 					<i class="fa fa-plus-circle"></i>
@@ -38,8 +38,8 @@
 		@endif
 
 		<ul class="list-group list-group-flush">
-		    <li class="list-group-item"><h4>{!! trans('general-terms.name').': ' !!}<small>{!! $facility->name !!}</small></h4></li>
-		    <li class="list-group-item"><h5>{!! trans('general-terms.contacts').': ' !!}<small>{!! $facility->contacts !!}</small></h5></li>
+		    <li class="list-group-item"><h4>{!! trans('terms.name').': ' !!}<small>{!! $facility->name !!}</small></h4></li>
+		    <li class="list-group-item"><h5>{!! trans('terms.contacts').': ' !!}<small>{!! $facility->contacts !!}</small></h5></li>
 	  	</ul>
 	</div>
 </div>

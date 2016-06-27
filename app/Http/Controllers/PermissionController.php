@@ -62,7 +62,7 @@ class PermissionController extends Controller {
 		}
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', Lang::choice('messages.record-successfully-saved', 1))->with('active_permission', $permission ->id);
+        return redirect()->to($url)->with('message', trans_choice('messages.record-successfully-saved', 1))->with('active_permission', $permission ->id);
 	}
 
 

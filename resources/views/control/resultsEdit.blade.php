@@ -3,9 +3,9 @@
 
 	<div>
 		<ol class="breadcrumb">
-		<li><a href="{!! URL::route('user.home')!!}}">{!! trans('messages.home') !!}</a></li>
-		 <li><a href="{!! URL::route('control.resultsIndex') !!}">{!! Lang::choice('messages.controlresults',2) !!}</a></li>
-		<li class="active">{!!trans('messages.control-results-edit')!!}</li>
+		<li><a href="{!! URL::route('user.home')!!}}">{!! trans('menu.home') !!}</a></li>
+		 <li><a href="{!! URL::route('control.resultsIndex') !!}">{!! trans_choice('menu.controlresults',2) !!}</a></li>
+		<li class="active">{!!trans('terms.control-results-edit')!!}</li>
 		</ol>
 	</div>
 	@if (Session::has('message'))
@@ -14,7 +14,7 @@
 	<div class="panel panel-primary">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-edit"></span>
-			{!! trans('messages.edit-results') !!}
+			{!! trans('terms.edit-results') !!}
 		</div>
 		<div class="panel-body">
 			@if($errors->all())
@@ -58,7 +58,7 @@
                         @endforeach
                         <div class="form-group actions-row">
                             {!! Form::button('<span class="glyphicon glyphicon-save">
-                                </span> '.trans('messages.save-test-results'),
+                                </span> '.trans('action.save-test-results'),
                                 array('class' => 'btn btn-default', 'onclick' => 'submit()')) !!}
                         </div>
                     {!! Form::close() !!}
@@ -66,21 +66,21 @@
                     <div class="col-md-5">
                         <div class="panel panel-info">  <!-- Patient Details -->
                             <div class="panel-heading">
-                                <h3 class="panel-title">{!!trans("messages.control-details")!!}</h3>
+                                <h3 class="panel-title">{!!trans("terms.control-details")!!}</h3>
                             </div>
                             <div class="panel-body">
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <p><strong>{!!trans("messages.lot-number")!!}</strong></p></div>
+                                            <p><strong>{!!trans("terms.lot-number")!!}</strong></p></div>
                                         <div class="col-md-9">{!! $controlTest->control->lot->number !!}</div></div>
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <p><strong>{!! Lang::choice('messages.control-name',1) !!}</strong></p></div>
+                                            <p><strong>{!! trans_choice('terms.control-name',1) !!}</strong></p></div>
                                         <div class="col-md-9">{!! $controlTest->control->name !!}</div></div>
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <p><strong>{!!Lang::choice("messages.instrument",1)!!}</strong></p></div>
+                                            <p><strong>{!!trans_choice("terms.instrument",1)!!}</strong></p></div>
                                         <div class="col-md-9">{!! $controlTest->control->lot->instrument->name !!}</div>
                                     </div>
                                 </div>
