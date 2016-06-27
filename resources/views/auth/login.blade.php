@@ -77,9 +77,6 @@
                                     <div class="col-sm-offset-2 col-sm-8">
                                         <button type="submit" class="btn btn-belize-hole">Sign in</button>
                                     </div>
-                                    <div class="col-sm-offset-2 col-sm-8">
-                                        <a href="{{ url('/register') }}">Register</a>
-                                    </div>
                                 </div>
                             </form>
                         </div>
