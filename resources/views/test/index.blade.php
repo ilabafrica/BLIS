@@ -333,7 +333,7 @@
     <div class="modal-content">
     {!! Form::open(array('route' => 'test.updateSpecimenType')) !!}
     	<!-- CSRF Token -->
-        <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
+        <input type="hidden" name="_token" value="{!! csrf_token() !!}" />
         <!-- ./ csrf token -->
       	<div class="modal-header">
         	<button type="button" class="close" data-dismiss="modal">

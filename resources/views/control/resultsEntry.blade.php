@@ -2,7 +2,7 @@
 @section("content")
     <div>
         <ol class="breadcrumb">
-          <li><a href="{!! URL::route('user.home')!!}}">{!! trans('menu.home') !!}</a></li>
+          <li><a href="{!! URL::route('user.home')!!}">{!! trans('menu.home') !!}</a></li>
           <li><a href="{!! URL::route('control.resultsIndex') !!}">{!! trans_choice('menu.controlresults',2) !!}</a></li>
           <li class="active">{!! trans('terms.enter-control-results') !!}</li>
         </ol>

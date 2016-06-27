@@ -2,7 +2,7 @@
 @section("content")
 <div>
 	<ol class="breadcrumb">
-	  <li><a href="{!! URL::route('user.home')!!}}">{!! trans('menu.home') !!}</a></li>
+	  <li><a href="{!! URL::route('user.home')!!}">{!! trans('menu.home') !!}</a></li>
 	  <li class="active">{!!trans('menu.controlresults')!!}</li>
 	</ol>
 </div>

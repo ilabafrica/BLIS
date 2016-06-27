@@ -22,7 +22,7 @@
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<a class="sidenav-toggle" href="#"><span class="brandbar"><i class="fa fa-bars hidd"></i></a></span>
-					<a class="navbar-brand" href="http://dashy.strapui.com/laravel"><i class="fa fa-paper-plane"></i>&nbsp;{!! Config::get('blis.name') !!}</a> <div class="solution">&nbsp;{!! Config::get('blis.version') !!}</div>
+					<a class="navbar-brand" href="#"><i class="fa fa-paper-plane"></i>&nbsp;{!! Config::get('blis.name') !!}</a> <div class="solution">&nbsp;{!! Config::get('blis.version') !!}</div>
 				</div>
 				<div class="right-admin">
 					<ul>
@@ -72,7 +72,7 @@
 							<div role="tabpanel" class="tab-pane active" id="menu">
 								<div class="section-heading">{!! trans('menu.menu') !!}</div>
 								<ul class="nav sidebar-nav ">
-									<li class="{!! Request::segment(1)==strtolower(trans('menu.home'))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('user.home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
+									<li class="{!! Request::segment(1)==strtolower(trans('menu.home'))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
 									<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.patient', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('patient') !!}"><i class="fa fa-street-view"></i> {!! trans('menu.patient-register') !!}</a></li>
 									<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.test', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('test') !!}"><i class="fa fa-user-md"></i> {!! trans_choice('menu.test', 2) !!}</a></li>
 									<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.configurable', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('configurable') !!}"><i class="fa fa-google-wallet"></i> {!! trans_choice('menu.configurable', 2) !!}</a></li>
