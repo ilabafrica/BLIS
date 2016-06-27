@@ -4,7 +4,7 @@
 	<div>
 		<ol class="breadcrumb">
 		<li><a href="{!! URL::route('user.home')!!}}">{!! trans('menu.home') !!}</a></li>
-		 <li><a href="{!! URL::route('control.resultsIndex') !!}">{!! Lang::choice('menu.controlresults',2) !!}</a></li>
+		 <li><a href="{!! URL::route('control.resultsIndex') !!}">{!! trans_choice('menu.controlresults',2) !!}</a></li>
 		<li class="active">{!!trans('terms.control-results-edit')!!}</li>
 		</ol>
 	</div>
@@ -76,11 +76,11 @@
                                         <div class="col-md-9">{!! $controlTest->control->lot->number !!}</div></div>
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <p><strong>{!! Lang::choice('terms.control-name',1) !!}</strong></p></div>
+                                            <p><strong>{!! trans_choice('terms.control-name',1) !!}</strong></p></div>
                                         <div class="col-md-9">{!! $controlTest->control->name !!}</div></div>
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <p><strong>{!!Lang::choice("terms.instrument",1)!!}</strong></p></div>
+                                            <p><strong>{!!trans_choice("terms.instrument",1)!!}</strong></p></div>
                                         <div class="col-md-9">{!! $controlTest->control->lot->instrument->name !!}</div>
                                     </div>
                                 </div>

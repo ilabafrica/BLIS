@@ -18,7 +18,7 @@
 		<table class="table table-striped table-hover table-condensed search-table">
 			<thead>
 				<tr>
-					<th>{!! Lang::choice('terms.name', 1) !!}</th>
+					<th>{!! trans_choice('terms.name', 1) !!}</th>
 					<th></th>
 				</tr>
 			</thead>

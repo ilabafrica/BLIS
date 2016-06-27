@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{!! URL::route('user.home')!!}}">{!!trans('menu.home')!!}</a></li>
-	  <li><a href="{!! URL::route('control.index') !!}">{!! Lang::choice('menu.control',1) !!}</a></li>
+	  <li><a href="{!! URL::route('control.index') !!}">{!! trans_choice('menu.control',1) !!}</a></li>
 	  <li class="active">{!!trans('terms.edit-control')!!}</li>
 	</ol>
 </div>
@@ -27,7 +27,7 @@
 			@endif
 
 			<div class="form-group">
-				{!! Form::label('name', Lang::choice('terms.name',1)) !!}
+				{!! Form::label('name', trans_choice('terms.name',1)) !!}
 				{!! Form::text('name', Input::old('name'), array('class' => 'form-control')) !!}
 			</div>
 			<div class="form-group">
@@ -36,12 +36,12 @@
 					array('class' => 'form-control', 'rows' => '2' )) !!}
 			</div>
 			<div class="form-group">
-					{!! Form::label('lot', Lang::choice('terms.lot', 1)) !!}
+					{!! Form::label('lot', trans_choice('terms.lot', 1)) !!}
 					{!! Form::select('lot', $lots, Input::old('lot'), 
 					array('class' => 'form-control')) !!}
 			</div>
 			<div class="form-group">
-				{!! Form::label('measures', Lang::choice('terms.measure',2)) !!}
+				{!! Form::label('measures', trans_choice('terms.measure',2)) !!}
 				<div class="form-pane panel panel-default">
 					<div class="container-fluid measure-container">
 						@include("control.measureEdit")

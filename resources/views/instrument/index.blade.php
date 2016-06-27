@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{!! URL::route('user.home')!!}}">{!!trans('messages.home')!!}</a></li>
-	  <li class="active">{!!Lang::choice('messages.instrument',2)!!}</li>
+	  <li class="active">{!!trans_choice('messages.instrument',2)!!}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -33,7 +33,7 @@
 		<table class="table table-striped table-hover table-condensed search-table">
 			<thead>
 				<tr>
-					<th>{!!Lang::choice('messages.name',1)!!}</th>
+					<th>{!!trans_choice('messages.name',1)!!}</th>
 					<th>{!!trans('messages.ip')!!}</th>
 					<th>{!!trans('messages.host-name')!!}</th>
 					<th>{!!trans('messages.actions')!!}</th>

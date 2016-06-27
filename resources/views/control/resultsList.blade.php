@@ -3,7 +3,7 @@
 <div>
     <ol class="breadcrumb">
       <li><a href="{!! URL::route('user.home')!!}}">{!! trans('menu.home') !!}</a></li>
-      <li><a href="{!! URL::route('control.resultsIndex') !!}">{!! Lang::choice('terms.controlresults',2) !!}</a></li>
+      <li><a href="{!! URL::route('control.resultsIndex') !!}">{!! trans_choice('terms.controlresults',2) !!}</a></li>
       <li class="active">{!!trans('terms.show-results')!!}</li>
     </ol>
 </div>
@@ -19,8 +19,8 @@
         <table class="table table-striped table-hover table-condensed search-table">
             <thead>
                 <tr>
-                    <th> {!! Lang::choice('terms.test-id', 1) !!} </th>
-                    <th>{!! Lang::choice('terms.created-at', 1) !!}</th>
+                    <th> {!! trans_choice('terms.test-id', 1) !!} </th>
+                    <th>{!! trans_choice('terms.created-at', 1) !!}</th>
                     <th></th>
                 </tr>
             </thead>

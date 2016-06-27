@@ -983,23 +983,23 @@ class ReportController extends Controller
 		switch ($selectedReport) {
 			case '1':
 				$reportData = User::getPatientsRegistered($from, $to.' 23:59:59', Input::get('user'));
-				$reportTitle = Lang::choice('messages.user-statistics-patients-register-report-title',1);
+				$reportTitle = trans_choice('messages.user-statistics-patients-register-report-title',1);
 				break;
 			case '2':
 				$reportData = User::getSpecimensRegistered($from, $to.' 23:59:59', Input::get('user'));
-				$reportTitle = Lang::choice('messages.user-statistics-specimens-register-report-title',1);
+				$reportTitle = trans_choice('messages.user-statistics-specimens-register-report-title',1);
 				break;
 			case '3':
 				$reportData = User::getTestsRegistered($from, $to.' 23:59:59', Input::get('user'));
-				$reportTitle = Lang::choice('messages.user-statistics-tests-register-report-title',1);
+				$reportTitle = trans_choice('messages.user-statistics-tests-register-report-title',1);
 				break;
 			case '4':
 				$reportData = User::getTestsPerformed($from, $to.' 23:59:59', Input::get('user'));
-				$reportTitle = Lang::choice('messages.user-statistics-tests-performed-report-title',1);
+				$reportTitle = trans_choice('messages.user-statistics-tests-performed-report-title',1);
 				break;
 			default:
 				$reportData = User::getSummaryUserStatistics($from, $to.' 23:59:59', Input::get('user'));
-				$reportTitle = Lang::choice('messages.user-statistics-summary-report-title',1);
+				$reportTitle = trans_choice('messages.user-statistics-summary-report-title',1);
 				break;
 		}
 
@@ -1276,15 +1276,15 @@ class ReportController extends Controller
 			case '0':
 			
 				$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
-				$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
+				$reportTitle = trans_choice('messages.monthly-stock-level-report-title',1);
 				break;
 			case '1':
 				$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
-				$reportTitle = Lang::choice('messages.quarterly-stock-level-report-title',1);
+				$reportTitle = trans_choice('messages.quarterly-stock-level-report-title',1);
 				break;
 				default:
 				$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
-				$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
+				$reportTitle = trans_choice('messages.monthly-stock-level-report-title',1);
 				break;
 		}
 

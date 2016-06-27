@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{!! URL::route('user.home')!!}}">{!! trans('menu.home') !!}</a></li>
-	  <li class="active">{!!Lang::choice('menu.control',2)!!}</li>
+	  <li class="active">{!!trans_choice('menu.control',2)!!}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -24,8 +24,8 @@
 		<table class="table table-striped table-hover table-condensed search-table">
 			<thead>
 				<tr>
-					<th>{!! Lang::choice('terms.name', 1) !!}</th>
-					<th>{!! Lang::choice('terms.lot', 1) !!}</th>
+					<th>{!! trans_choice('terms.name', 1) !!}</th>
+					<th>{!! trans_choice('terms.lot', 1) !!}</th>
 					<th></th>
 				</tr>
 			</thead>

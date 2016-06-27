@@ -5,7 +5,7 @@
             <div class="col-md-11 measure">
                 <div class="col-md-3">
                     <div class="form-group">
-                        {!! Form::label('new_measures[][name]', Lang::choice('terms.name',1)) !!}
+                        {!! Form::label('new_measures[][name]', trans_choice('terms.name',1)) !!}
                        <input class="form-control name" name="new_measures[][name]" type="text">
                     </div>
                 </div>
