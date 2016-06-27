@@ -51,7 +51,7 @@
 		                    @forelse($roles as $role)
 		                        <td>{!!$role->name!!}</td>
 		                    @empty
-		                        <td>{!!trans('general-terms.no-records')!!}</td>
+		                        <td>{!!trans('terms.no-records')!!}</td>
 		                    @endforelse
 		                </tr>
 		                @forelse($permissions as $permissionKey => $permission)
@@ -74,7 +74,7 @@
 		                        @endforelse
 		                    </tr>
 		                @empty
-		                <tr><td colspan="2">{!!trans('general-terms.no-records')!!}</td></tr>
+		                <tr><td colspan="2">{!!trans('terms.no-records')!!}</td></tr>
 		                @endforelse 
 		                </tbody>
 					</table>

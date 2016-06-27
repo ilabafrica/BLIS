@@ -6,7 +6,7 @@
         <ul class="breadcrumb">
             <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
             <li class="active"><i class="fa fa-cubes"></i> {!! trans('menu.inventory') !!}</li>
-            <li class="active"><i class="fa fa-cube"></i> {!! trans('specific-terms.stock-usage') !!}</li>
+            <li class="active"><i class="fa fa-cube"></i> {!! trans('terms.stock-usage') !!}</li>
         </ul>
     </div>
 </div>
@@ -15,7 +15,7 @@
 		<div class="col-sm-12">
 			<div class="card">
 				<div class="card-header">
-				    <i class="fa fa-book"></i> <strong>{!! trans('specific-terms.stock-usage').':'.$item->name !!}</strong>
+				    <i class="fa fa-book"></i> <strong>{!! trans('terms.stock-usage').':'.$item->name !!}</strong>
 				    <span>
 						<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
 							<i class="fa fa-step-backward"></i>
@@ -36,14 +36,14 @@
 				 	<table class="table table-bordered table-sm search-table">
 						<thead>
 							<tr>
-								<th>{!! trans('specific-terms.lot-no') !!}</th>
-								<th>{!! trans('specific-terms.quantity') !!}</th>
-								<th>{!! trans('specific-terms.unit') !!}</th>
-								<th>{!! trans('specific-terms.expiry') !!}</th>
-								<th>{!! trans('specific-terms.manufacturer') !!}</th>
+								<th>{!! trans('terms.lot-no') !!}</th>
+								<th>{!! trans('terms.quantity') !!}</th>
+								<th>{!! trans('terms.unit') !!}</th>
+								<th>{!! trans('terms.expiry') !!}</th>
+								<th>{!! trans('terms.manufacturer') !!}</th>
 								<th>{!! trans_choice('menu.supplier', 1) !!}</th>
-								<th>{!! trans('specific-terms.date-received') !!}</th>
-								<th>{!! trans('general-terms.remarks') !!}</th>
+								<th>{!! trans('terms.date-received') !!}</th>
+								<th>{!! trans('terms.remarks') !!}</th>
 								<th></th>
 							</tr>
 						</thead>

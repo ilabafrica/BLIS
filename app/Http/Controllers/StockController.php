@@ -60,7 +60,7 @@ class StockController extends Controller {
         $stock->save();
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_stock', $stock ->id);
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_stock', $stock ->id);
 	}
 
 	/**
@@ -117,7 +117,7 @@ class StockController extends Controller {
         $stock->save();
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-updated'))->with('active_stock', $stock ->id);
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-updated'))->with('active_stock', $stock ->id);
 	}
 
 	/**
@@ -160,7 +160,7 @@ class StockController extends Controller {
         $usage->save();
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_stock', 1);
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_stock', 1);
 	}
 	/**
 	 * lot usage
@@ -192,6 +192,6 @@ class StockController extends Controller {
         $usage->save();
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_stock', 1);
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_stock', 1);
 	}
 }

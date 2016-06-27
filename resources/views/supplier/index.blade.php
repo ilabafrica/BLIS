@@ -40,10 +40,10 @@
 				 	<table class="table table-bordered table-sm search-table">
 						<thead>
 							<tr>
-								<th>{!! trans('general-terms.name') !!}</th>
-								<th>{!! trans('specific-terms.phone') !!}</th>
-								<th>{!! trans('specific-terms.email-address') !!}</th>
-								<th>{!! trans('specific-terms.address') !!}</th>
+								<th>{!! trans('terms.name') !!}</th>
+								<th>{!! trans('terms.phone') !!}</th>
+								<th>{!! trans('terms.email-address') !!}</th>
+								<th>{!! trans('terms.address') !!}</th>
 								<th></th>
 							</tr>
 						</thead>

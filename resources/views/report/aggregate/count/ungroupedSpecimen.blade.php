@@ -37,14 +37,14 @@
 			        {!! Form::open(array('route' => array('reports.aggregate.counts'), 'class' => 'form-inline', 'role' => 'form')) !!}
 			            <div class='col-md-12'>
 			            	<div class='col-md-4'>
-			                    {!! Form::label('date_from', trans('general-terms.from').':', array('class' => 'col-sm-3 form-control-label')) !!}
+			                    {!! Form::label('date_from', trans('terms.from').':', array('class' => 'col-sm-3 form-control-label')) !!}
 			                    <div class='col-md-9 input-group date datepicker'>
 			                        {!! Form::text('from', old('from') ? old('from') : $from, array('class' => 'form-control')) !!}
 			                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 			                    </div>
 			                </div>
 			                <div class='col-md-4'>
-			                    {!! Form::label('date_to', trans('general-terms.to').':', array('class' => 'col-sm-2 form-control-label')) !!}
+			                    {!! Form::label('date_to', trans('terms.to').':', array('class' => 'col-sm-2 form-control-label')) !!}
 			                    <div class='col-md-10 input-group date datepicker'>
 			                        {!! Form::text('to', old('to') ? old('to') : $to, array('class' => 'form-control')) !!}
 			                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -83,7 +83,7 @@
 						    	<td>{!! $value['total'] !!}</td>
 							</tr>
 						@empty
-						<tr><td colspan="4">{!! trans('general-terms.no-records') !!}</td></tr>
+						<tr><td colspan="4">{!! trans('terms.no-records') !!}</td></tr>
 						@endforelse
 						</tbody>
 					</table>

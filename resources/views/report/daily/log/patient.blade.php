@@ -37,14 +37,14 @@
 		            {!! Form::open(array('route' => array('reports.daily.log'))) !!}
 			            <div class='col-md-12'>
 			            	<div class='col-md-4'>
-			                    {!! Form::label('date_from', trans('general-terms.from').':', array('class' => 'col-sm-3 form-control-label')) !!}
+			                    {!! Form::label('date_from', trans('terms.from').':', array('class' => 'col-sm-3 form-control-label')) !!}
 			                    <div class='col-md-9 input-group date datepicker'>
 			                        {!! Form::text('from', old('from') ? old('from') : $from, array('class' => 'form-control')) !!}
 			                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 			                    </div>
 			                </div>
 			                <div class='col-md-4'>
-			                    {!! Form::label('date_to', trans('general-terms.to').':', array('class' => 'col-sm-2 form-control-label')) !!}
+			                    {!! Form::label('date_to', trans('terms.to').':', array('class' => 'col-sm-2 form-control-label')) !!}
 			                    <div class='col-md-10 input-group date datepicker'>
 			                        {!! Form::text('to', old('to') ? old('to') : $to, array('class' => 'form-control')) !!}
 			                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -72,12 +72,12 @@
 				 	<table class="table table-bordered table-sm search-table" style="font-size:13px;">
 						<thead>
 							<tr>
-								<th>{!! trans('specific-terms.patient-id') !!}</th>
-								<th>{!! trans('general-terms.name') !!}</th>
-								<th>{!! trans('general-terms.age') !!}</th>
-								<th>{!! trans('general-terms.gender') !!}</th>
-								<th>{!! trans('specific-terms.specimen-id') !!}</th>
-								<th>{!! trans('general-terms.type') !!}</th>
+								<th>{!! trans('terms.patient-id') !!}</th>
+								<th>{!! trans('terms.name') !!}</th>
+								<th>{!! trans('terms.age') !!}</th>
+								<th>{!! trans('terms.gender') !!}</th>
+								<th>{!! trans('terms.specimen-id') !!}</th>
+								<th>{!! trans('terms.type') !!}</th>
 								<th>{!! trans_choice('menu.test', 2) !!}</th>
 							</tr>
 						</thead>
@@ -105,7 +105,7 @@
 								</td>
 							</tr>
 						@empty
-						<tr><td colspan="7">{!! trans('general-terms.no-records') !!}</td></tr>
+						<tr><td colspan="7">{!! trans('terms.no-records') !!}</td></tr>
 						@endforelse
 						</tbody>
 					</table>

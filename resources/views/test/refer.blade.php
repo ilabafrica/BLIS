@@ -6,7 +6,7 @@
         <ul class="breadcrumb">
             <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
             <li><a href="{!! url('test') !!}"><i class="fa fa-user-md"></i> {!! trans_choice('menu.test', 2) !!}</a></li>
-            <li class="active">{!! trans('general-terms.specimen-referral') !!}</li>
+            <li class="active">{!! trans('terms.specimen-referral') !!}</li>
         </ul>
     </div>
 </div>
@@ -39,8 +39,8 @@
 	                <div class="form-group row">
 						{!! Form::label('refer', trans('action.refer-sample'), array('class' => 'col-sm-3 form-control-label')) !!}
 						<div class="col-sm-9">
-							<label class="radio-inline">{!! Form::radio('referral-status', 0, true) !!}{!! trans('general-terms.in') !!}</label>
-                        	<label class="radio-inline">{!! Form::radio("referral-status", 1, false) !!}{!! trans('general-terms.out') !!}</label>
+							<label class="radio-inline">{!! Form::radio('referral-status', 0, true) !!}{!! trans('terms.in') !!}</label>
+                        	<label class="radio-inline">{!! Form::radio("referral-status", 1, false) !!}{!! trans('terms.out') !!}</label>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -50,13 +50,13 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						{!! Form::label('person', trans("general-terms.person"), array('class' => 'col-sm-3 form-control-label')) !!}
+						{!! Form::label('person', trans("terms.person"), array('class' => 'col-sm-3 form-control-label')) !!}
 						<div class="col-sm-9">
 							{!!Form::text('person', old('person'), array('class' => 'form-control'))!!}
 						</div>
 					</div>
 					<div class="form-group row">
-						{!! Form::label('contacts', trans("general-terms.contacts"), array('class' => 'col-sm-3 form-control-label')) !!}
+						{!! Form::label('contacts', trans("terms.contacts"), array('class' => 'col-sm-3 form-control-label')) !!}
 						<div class="col-sm-9">
 							{!!Form::textarea('contacts', old('contacts'), array('class' => 'form-control', 'rows' => '2'))!!}
 						</div>
@@ -71,7 +71,7 @@
 				<div class="col-md-4">
 					<ul class="list-group">
 						<li class="list-group-item"><strong>{!! trans_choice('menu.specimen-type', 1).': '.$specimen->specimenType->name !!}</strong></li>
-						<li class="list-group-item"><h6>{!! trans("specific-terms.specimen-id") !!}<small> {!! $specimen->id !!}</small></h6></li>
+						<li class="list-group-item"><h6>{!! trans("terms.specimen-id") !!}<small> {!! $specimen->id !!}</small></h6></li>
 						<li class="list-group-item"><h6>{!! trans_choice('menu.test-type', 1) !!}<small> {!! $specimen->test->testType->name !!}</small></h6></li>
 					</ul>
 				</div>

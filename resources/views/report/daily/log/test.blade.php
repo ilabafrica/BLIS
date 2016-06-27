@@ -37,14 +37,14 @@
 			        {!! Form::open(array('route' => array('reports.daily.log'))) !!}
 			            <div class='col-md-12'>
 			            	<div class='col-md-4'>
-			                    {!! Form::label('date_from', trans('general-terms.from').':', array('class' => 'col-sm-3 form-control-label')) !!}
+			                    {!! Form::label('date_from', trans('terms.from').':', array('class' => 'col-sm-3 form-control-label')) !!}
 			                    <div class='col-md-9 input-group date datepicker'>
 			                        {!! Form::text('from', old('from') ? old('from') : $from, array('class' => 'form-control')) !!}
 			                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 			                    </div>
 			                </div>
 			                <div class='col-md-4'>
-			                    {!! Form::label('date_to', trans('general-terms.to').':', array('class' => 'col-sm-2 form-control-label')) !!}
+			                    {!! Form::label('date_to', trans('terms.to').':', array('class' => 'col-sm-2 form-control-label')) !!}
 			                    <div class='col-md-10 input-group date datepicker'>
 			                        {!! Form::text('to', old('to') ? old('to') : $to, array('class' => 'form-control')) !!}
 			                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -93,16 +93,16 @@
 		            <table class="table table-bordered table-sm search-table" style="font-size:13px;">
 						<thead>
 							<tr>
-								<th>{!! trans('specific-terms.patient-id') !!}</th>
-								<th>{!! trans('specific-terms.visit-no') !!}</th>
-								<th>{!! trans('specific-terms.specimen-id') !!}</th>
+								<th>{!! trans('terms.patient-id') !!}</th>
+								<th>{!! trans('terms.visit-no') !!}</th>
+								<th>{!! trans('terms.specimen-id') !!}</th>
 								<th>{!! trans_choice('menu.specimen-type', 1) !!}</th>
-								<th>{!! trans('specific-terms.date-received') !!}</th>
+								<th>{!! trans('terms.date-received') !!}</th>
 								<th>{!! trans_choice('menu.test-type', 1) !!}</th>
-								<th>{!! trans('specific-terms.performed-by') !!}</th>
-								<th>{!! trans('specific-terms.result') !!}</th>
-								<th>{!! trans('specific-terms.report-date') !!}</th>
-								<th>{!! trans('specific-terms.verified-by') !!}</th>
+								<th>{!! trans('terms.performed-by') !!}</th>
+								<th>{!! trans('terms.result') !!}</th>
+								<th>{!! trans('terms.report-date') !!}</th>
+								<th>{!! trans('terms.verified-by') !!}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -114,17 +114,17 @@
 								<td>{!! $test->specimen->specimentype->name !!}</td>
 								<td>{!! $test->specimen->time_accepted !!}</td>
 								<td>{!! $test->testType->name !!}</td>
-								<td>{!! $test->testedBy->name or trans('specific-terms.test-pending') !!}</td>
+								<td>{!! $test->testedBy->name or trans('terms.test-pending') !!}</td>
 								<td>
 									@foreach($test->testResults as $result)
 										<p>{!! App\Models\Measure::find($result->measure_id)->name !!}: {!! $result->result !!}</p>
 									@endforeach
 								</td>
 								<td>{!! $test->time_completed or trans('messages.pending') !!}</td>
-								<td>{!! $test->verifiedBy->name or trans('specific-terms.verification-pending') !!}</td>
+								<td>{!! $test->verifiedBy->name or trans('terms.verification-pending') !!}</td>
 							</tr>
 						@empty
-						<tr><td colspan="11">{!! trans('general-terms.no-records') !!}</td></tr>
+						<tr><td colspan="11">{!! trans('terms.no-records') !!}</td></tr>
 						@endforelse
 						</tbody>
 					</table>

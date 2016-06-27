@@ -35,39 +35,39 @@
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
                 <!-- ./ csrf token -->
                 <div class="form-group row">
-					{!! Form::label('patient_number', trans('specific-terms.patient-no'), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('patient_number', trans('terms.patient-no'), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::text('patient_number', $lastInsertId, array('class' => 'form-control')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('name', trans_choice('general-terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('name', trans_choice('terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::text('name', old('name'), array('class' => 'form-control')) !!}
 					</div>
 				</div>
                 <div class="form-group row">
-                    {!! Form::label('dob', trans('specific-terms.date-of-birth'), array('class' => 'col-sm-2 form-control-label')) !!}
+                    {!! Form::label('dob', trans('terms.date-of-birth'), array('class' => 'col-sm-2 form-control-label')) !!}
                     <div class="col-sm-6 input-group date datepicker"  style="padding-left:15px;">
                         {!! Form::text('dob', old('dob'), array('class' => 'form-control')) !!}
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     </div>
                 </div>
                 <div class="form-group row">
-                    {!! Form::label('gender', trans('general-terms.gender'), array('class' => 'col-sm-2 form-control-label')) !!}
+                    {!! Form::label('gender', trans('terms.gender'), array('class' => 'col-sm-2 form-control-label')) !!}
                     <div class="col-sm-6">
-                        <label class="radio-inline">{!! Form::radio('gender', App\Models\User::MALE, true) !!}{!! trans_choice('specific-terms.sex', 1) !!}</label>
-                        <label class="radio-inline">{!! Form::radio("gender", App\Models\User::FEMALE, false) !!}{!! trans_choice('specific-terms.sex', 2) !!}</label>
+                        <label class="radio-inline">{!! Form::radio('gender', App\Models\User::MALE, true) !!}{!! trans_choice('terms.sex', 1) !!}</label>
+                        <label class="radio-inline">{!! Form::radio("gender", App\Models\User::FEMALE, false) !!}{!! trans_choice('terms.sex', 2) !!}</label>
                     </div>
                 </div>
                 <div class="form-group row">
-                    {!! Form::label('phone', trans('specific-terms.phone'), array('class' => 'col-sm-2 form-control-label')) !!}
+                    {!! Form::label('phone', trans('terms.phone'), array('class' => 'col-sm-2 form-control-label')) !!}
                     <div class="col-sm-6">
                         {!! Form::text('phone', old('phone'), array('class' => 'form-control')) !!}
                     </div>
                 </div>
 				<div class="form-group row">
-					{!! Form::label('address', trans("specific-terms.address"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
+					{!! Form::label('address', trans("terms.address"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
 					<div class="col-sm-6">
 						{!! Form::textarea('address', old('address'), array('class' => 'form-control', 'rows' => '2')) !!}
 					</div>

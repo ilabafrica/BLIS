@@ -37,13 +37,13 @@
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
                 <!-- ./ csrf token -->
 				<div class="form-group row">
-					{!! Form::label('name', trans_choice('general-terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('name', trans_choice('terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::text('name', old('name'), array('class' => 'form-control')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('description', trans("general-terms.description"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
+					{!! Form::label('description', trans("terms.description"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
 					<div class="col-sm-6">
 						{!! Form::textarea('description', old('description'), array('class' => 'form-control', 'rows' => '2')) !!}
 					</div>

@@ -53,13 +53,13 @@
 						<div id="reloadable">
 		                @if(Request::segment(2)=='equipment')
 		                	<div class="form-group row">
-								{!! Form::label('name', trans_choice('general-terms.name',1), array('class' => 'col-sm-4 form-control-label')) !!}
+								{!! Form::label('name', trans_choice('terms.name',1), array('class' => 'col-sm-4 form-control-label')) !!}
 								<div class="col-sm-6">
 									<h6><small>{!! $analyser->name !!}</small></h6>
 								</div>
 							</div>
 							<div class="form-group row">
-								{!! Form::label('version', trans('general-terms.version'), array('class' => 'col-sm-4 form-control-label')) !!}
+								{!! Form::label('version', trans('terms.version'), array('class' => 'col-sm-4 form-control-label')) !!}
 								<div class="col-sm-6">
 									<h6><small>{!! $analyser->version !!}</small></h6>
 								</div>
@@ -71,19 +71,19 @@
 								</div>
 							</div>
 							<div class="form-group row">
-								{!! Form::label('comm-type', trans('general-terms.comm-type'), array('class' => 'col-sm-4 form-control-label')) !!}
+								{!! Form::label('comm-type', trans('terms.comm-type'), array('class' => 'col-sm-4 form-control-label')) !!}
 								<div class="col-sm-6">
 									<h6><small>{!! $analyser->commtype() !!}</small></h6>
 								</div>
 							</div>
 							<div class="form-group row">
-								{!! Form::label('feed-source', trans('general-terms.feed-source'), array('class' => 'col-sm-4 form-control-label')) !!}
+								{!! Form::label('feed-source', trans('terms.feed-source'), array('class' => 'col-sm-4 form-control-label')) !!}
 								<div class="col-sm-6">
 									<h6><small>{!! $analyser->feedsource() !!}</small></h6>
 								</div>
 							</div>
 							<div class="form-group row">
-								{!! Form::label('config-file', trans('general-terms.config-file'), array('class' => 'col-sm-4 form-control-label')) !!}
+								{!! Form::label('config-file', trans('terms.config-file'), array('class' => 'col-sm-4 form-control-label')) !!}
 								<div class="col-sm-6">
 				                	<h6><small>{!! $analyser->config_file !!}</small></h6>
 								</div>

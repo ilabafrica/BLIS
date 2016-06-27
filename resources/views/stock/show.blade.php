@@ -6,15 +6,15 @@
         <ul class="breadcrumb">
             <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
             <li class="active"><i class="fa fa-cubes"></i> {!! trans('menu.inventory') !!}</li>
-            <li><a href="{!! url('stock/'.$stock->item->id.'/log') !!}"><i class="fa fa-cube"></i> {!! trans('specific-terms.stock-usage') !!}</a></li>
-            <li class="active">{!! trans('action.view').' '.trans('specific-terms.lot') !!}</li>
+            <li><a href="{!! url('stock/'.$stock->item->id.'/log') !!}"><i class="fa fa-cube"></i> {!! trans('terms.stock-usage') !!}</a></li>
+            <li class="active">{!! trans('action.view').' '.trans('terms.lot') !!}</li>
         </ul>
     </div>
 </div>
 <div class="conter-wrapper">
 	<div class="card">
 		<div class="card-header">
-		    <i class="fa fa-file-text"></i> <strong>{!! trans('general-terms.details-for').': '.$stock->item->name.' '.trans('specific-terms.lot').' '.$stock->lot !!}</strong>
+		    <i class="fa fa-file-text"></i> <strong>{!! trans('terms.details-for').': '.$stock->item->name.' '.trans('terms.lot').' '.$stock->lot !!}</strong>
 		    <span>
 			    <a class="btn btn-sm btn-belize-hole" href="{!! url("stock/" . $stock->id."/usage") !!}" >
 					<i class="fa fa-lemon-o"></i>
@@ -36,12 +36,12 @@
 			<div class="row">
 				<div class="col-md-12">
 					<ul class="list-group" style="padding-bottom:5px;">
-					  	<li class="list-group-item"><strong>{!! trans('general-terms.details-for').': '.$stock->item->name !!}</strong></li>
+					  	<li class="list-group-item"><strong>{!! trans('terms.details-for').': '.$stock->item->name !!}</strong></li>
 					  	<li class="list-group-item">
 					  		<h6>
-					  			<span>{!! trans("specific-terms.lot-no") !!}<small> {!! $stock->lot !!}</small></span>
-					  			<span>{!! trans("specific-terms.available-qty") !!}<small> {!! $stock->quantity() !!}</small></span>
-					  			<span>{!! trans("specific-terms.min-level") !!}<small> {!! $stock->item->min_level !!}</small></span>
+					  			<span>{!! trans("terms.lot-no") !!}<small> {!! $stock->lot !!}</small></span>
+					  			<span>{!! trans("terms.available-qty") !!}<small> {!! $stock->quantity() !!}</small></span>
+					  			<span>{!! trans("terms.min-level") !!}<small> {!! $stock->item->min_level !!}</small></span>
 					  		</h6>
 					  	</li>
 					</ul>
@@ -50,10 +50,10 @@
 					<table class="table table-bordered table-sm search-table">
 						<thead>
 							<tr>
-								<th>{!! trans('general-terms.id') !!}</th>
-								<th>{!! trans('specific-terms.signed-out') !!}</th>
-								<th>{!! trans('specific-terms.date-of-usage') !!}</th>
-								<th>{!! trans('general-terms.remarks') !!}</th>
+								<th>{!! trans('terms.id') !!}</th>
+								<th>{!! trans('terms.signed-out') !!}</th>
+								<th>{!! trans('terms.date-of-usage') !!}</th>
+								<th>{!! trans('terms.remarks') !!}</th>
 								<th></th>
 							</tr>
 						</thead>

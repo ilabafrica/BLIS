@@ -42,7 +42,7 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('name', trans_choice('general-terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('name', trans_choice('terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::text('field_name', old('field_name'), array('class' => 'form-control')) !!}
 					</div>

@@ -14,7 +14,7 @@
 <div class="conter-wrapper">
 	<div class="card">
 		<div class="card-header">
-		    <i class="fa fa-file-text"></i> <strong>{!! trans('general-terms.details-for').': '.$item->name !!}</strong>
+		    <i class="fa fa-file-text"></i> <strong>{!! trans('terms.details-for').': '.$item->name !!}</strong>
 		    <span>
 		    	<a class="btn btn-sm btn-belize-hole" href="{!! url("item/create") !!}" >
 					<i class="fa fa-plus-circle"></i>
@@ -38,11 +38,11 @@
 		@endif
 
 		<ul class="list-group list-group-flush">
-		    <li class="list-group-item"><h4>{!! trans('general-terms.name').': ' !!}<small>{!! $item->name !!}</small></h4></li>
-		    <li class="list-group-item"><h6>{!! trans('specific-terms.unit').': ' !!}<small>{!! $item->unit !!}</small></h6></li>
-		    <li class="list-group-item"><h6>{!! trans('specific-terms.min-level').': ' !!}<small>{!! $item->min_level !!}</small></h6></li>
-		    <li class="list-group-item"><h6>{!! trans('specific-terms.max-level').': ' !!}<small>{!! $item->max_level !!}</small></h6></li>
-		    <li class="list-group-item"><h6>{!! trans('specific-terms.remarks').': ' !!}<small>{!! $item->remarks !!}</small></h6></li>
+		    <li class="list-group-item"><h4>{!! trans('terms.name').': ' !!}<small>{!! $item->name !!}</small></h4></li>
+		    <li class="list-group-item"><h6>{!! trans('terms.unit').': ' !!}<small>{!! $item->unit !!}</small></h6></li>
+		    <li class="list-group-item"><h6>{!! trans('terms.min-level').': ' !!}<small>{!! $item->min_level !!}</small></h6></li>
+		    <li class="list-group-item"><h6>{!! trans('terms.max-level').': ' !!}<small>{!! $item->max_level !!}</small></h6></li>
+		    <li class="list-group-item"><h6>{!! trans('terms.remarks').': ' !!}<small>{!! $item->remarks !!}</small></h6></li>
 	  	</ul>
 	</div>
 </div>

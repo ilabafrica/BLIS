@@ -40,10 +40,10 @@
 				 	<table class="table table-bordered table-sm search-table">
 						<thead>
 							<tr>
-								<th>{!! trans('specific-terms.full-name') !!}</th>
-								<th>{!! trans('specific-terms.username') !!}</th>
-								<th>{!! trans('specific-terms.gender') !!}</th>
-								<th>{!! trans('specific-terms.email-address') !!}</th>
+								<th>{!! trans('terms.full-name') !!}</th>
+								<th>{!! trans('terms.username') !!}</th>
+								<th>{!! trans('terms.gender') !!}</th>
+								<th>{!! trans('terms.email-address') !!}</th>
 								<th>{!! trans_choice('menu.role', 1) !!}</th>
 								<th></th>
 							</tr>

@@ -37,13 +37,13 @@
 	                <!-- ./ csrf token -->
 					{!! Form::hidden('specimen_id', $specimen->id) !!}
 	                <div class="form-group row">
-						{!! Form::label('rejectionReason', trans('general-terms.reject-reason'), array('class' => 'col-sm-3 form-control-label')) !!}
+						{!! Form::label('rejectionReason', trans('terms.reject-reason'), array('class' => 'col-sm-3 form-control-label')) !!}
 						<div class="col-sm-9">
 							{!! Form::select('rejectionReason', $reasons, old('rejectionReason'), array('class' => 'form-control c-select')) !!}
 						</div>
 					</div>
 					<div class="form-group row">
-						{!! Form::label('reject_explained_to', trans("general-terms.explained-to"), array('class' => 'col-sm-3 form-control-label')) !!}
+						{!! Form::label('reject_explained_to', trans("terms.explained-to"), array('class' => 'col-sm-3 form-control-label')) !!}
 						<div class="col-sm-9">
 							{!!Form::text('reject_explained_to', old('reject_explained_to'), array('class' => 'form-control'))!!}
 						</div>
@@ -58,7 +58,7 @@
 				<div class="col-md-4">
 					<ul class="list-group">
 						<li class="list-group-item"><strong>{!! trans_choice('menu.specimen-type', 1).': '.$specimen->specimenType->name !!}</strong></li>
-						<li class="list-group-item"><h6>{!! trans("specific-terms.specimen-id") !!}<small> {!! $specimen->id !!}</small></h6></li>
+						<li class="list-group-item"><h6>{!! trans("terms.specimen-id") !!}<small> {!! $specimen->id !!}</small></h6></li>
 						<li class="list-group-item"><h6>{!! trans_choice('menu.test-type', 1) !!}<small> {!! $specimen->test->testType->name !!}</small></h6></li>
 					</ul>
 				</div>

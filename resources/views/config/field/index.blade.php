@@ -40,7 +40,7 @@
 				 	<table class="table table-bordered table-sm search-table">
 						<thead>
 							<tr>
-								<th>{!! trans('general-terms.name') !!}</th>
+								<th>{!! trans('terms.name') !!}</th>
 								<th>{!! trans_choice('menu.module', 1) !!}</th>
 								<th>{!! trans_choice('menu.field-type', 1) !!}</th>
 								<th>{!! trans("menu.options") !!}</th>

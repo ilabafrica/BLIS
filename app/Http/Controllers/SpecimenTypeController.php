@@ -52,7 +52,7 @@ class SpecimenTypeController extends Controller {
 		$specimentype->save();
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_specimentype', $specimentype ->id);
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_specimentype', $specimentype ->id);
 	}
 
 	/**
@@ -99,7 +99,7 @@ class SpecimenTypeController extends Controller {
 		$specimentype->save();
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_specimentype', $specimentype ->id);
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_specimentype', $specimentype ->id);
 	}
 
 	/**
@@ -131,11 +131,11 @@ class SpecimenTypeController extends Controller {
 			$specimentype->delete();
 		} else {
 		    // The specimen type is in use
-		    return view('specimentype.index')->with('message', trans('general-terms.failure-delete-record'));
+		    return view('specimentype.index')->with('message', trans('terms.failure-delete-record'));
 		}
 		// redirect
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-deleted'));
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-deleted'));
 	}
 }

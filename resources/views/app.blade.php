@@ -72,10 +72,10 @@
 							<div role="tabpanel" class="tab-pane active" id="menu">
 								<div class="section-heading">{!! trans('menu.menu') !!}</div>
 								<ul class="nav sidebar-nav ">
-									<li class="{!! Request::segment(1)==strtolower(trans('menu.home'))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('user.home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
-									<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.patient', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('patient') !!}"><i class="fa fa-street-view"></i> {!! trans('menu.patient-register') !!}</a></li>
-									<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.test', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('test') !!}"><i class="fa fa-user-md"></i> {!! trans_choice('menu.test', 2) !!}</a></li>
-									<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.configurable', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('configurable') !!}"><i class="fa fa-google-wallet"></i> {!! trans_choice('menu.configurable', 2) !!}</a></li>
+									<li class="{!! Request::segment(1)==strtolower(trans('menu.home'))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('user.home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
+									<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.patient', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('patient') !!}"><i class="fa fa-street-view"></i> {!! trans('menu.patient-register') !!}</a></li>
+									<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.test', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('test') !!}"><i class="fa fa-user-md"></i> {!! trans_choice('menu.test', 2) !!}</a></li>
+									<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.configurable', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('configurable') !!}"><i class="fa fa-google-wallet"></i> {!! trans_choice('menu.configurable', 2) !!}</a></li>
 									<li class="sidenav-dropdown{!! in_array(Request::segment(1), ['setting', 'analyser', 'registration', 'facility'])?' show-subnav':'' !!}">
 										<a class="subnav-toggle" href="javascript:;"><i class="fa fa-toggle-off"></i> {!! trans('menu.lab-config') !!} <i class="fa fa-angle-down  pull-right"></i></a>
 										<ul class="nav sidenav-sub-menu">
@@ -89,17 +89,17 @@
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.order-patient-fields') !!}</a></li>
 												</ul>
 											</li>
-											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.analyser', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('analyser') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.analyser', 2) !!}</a></li>
-											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.facility', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('facility') !!}"><i class="fa fa-tag"></i> {!! trans('menu.referral-facilities') !!}</a></li>
-											<li class="{!! Request::segment(2)=='barcode'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('setting/barcode/edit') !!}"><i class="fa fa-tag"></i> {!! trans('menu.barcode-settings') !!}</a></li>
-											<li class="{!! Request::segment(2)=='lab'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('setting/lab/edit') !!}"><i class="fa fa-tag"></i> {!! trans('menu.lab-settings') !!}</a></li>
-											<li class="{!! Request::segment(1)=='registration'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('registration') !!}"><i class="fa fa-tag"></i> {!! trans('menu.registration-fields') !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.analyser', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('analyser') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.analyser', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.facility', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('facility') !!}"><i class="fa fa-tag"></i> {!! trans('menu.referral-facilities') !!}</a></li>
+											<li class="{!! Request::segment(2)=='barcode'?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('setting/barcode/edit') !!}"><i class="fa fa-tag"></i> {!! trans('menu.barcode-settings') !!}</a></li>
+											<li class="{!! Request::segment(2)=='lab'?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('setting/lab/edit') !!}"><i class="fa fa-tag"></i> {!! trans('menu.lab-settings') !!}</a></li>
+											<li class="{!! Request::segment(1)=='registration'?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('registration') !!}"><i class="fa fa-tag"></i> {!! trans('menu.registration-fields') !!}</a></li>
 											<li><a href="#"><i class="fa fa-tag"></i> {!! trans('menu.setup-network') !!}</a></li>
 											<li class="sidenav-dropdown{!! in_array(Request::segment(2), ['hmis', 'equipment'])?' show-subnav':'' !!}">
 												<a class="subnav-toggle" href="#"><i class="fa fa-external-link"></i> {!! trans('menu.external-interface') !!}<i class="fa fa-angle-down  pull-right"></i></a>
 												<ul class="nav sidenav-sub-menu">
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.hmis') !!}</a></li>
-													<li class="{!! Request::segment(2)=='equipment'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('setting/equipment/edit') !!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.interfaced-equipment') !!}</a></li>
+													<li class="{!! Request::segment(2)=='equipment'?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('setting/equipment/edit') !!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.interfaced-equipment') !!}</a></li>
 												</ul>
 											</li>
 										</ul>
@@ -107,12 +107,12 @@
 									<li class="sidenav-dropdown{!! in_array(Request::segment(1), ['testcategory', 'specimentype', 'testtype', strtolower(trans_choice('menu.drug', 1)), strtolower(trans_choice('menu.organism', 1)), 'rejection'])?' show-subnav':'' !!}">
 										<a class="subnav-toggle" href="#"><i class="fa fa-database"></i> {!! trans('menu.test-catalog') !!} <i class="fa fa-angle-down fa-angle-down  pull-right"></i></a>
 										<ul class="nav sidenav-sub-menu">
-											<li class="{!! Request::segment(1)=='testcategory'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('testcategory') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.lab-section', 2) !!}</a></li>
-											<li class="{!! Request::segment(1)=='specimentype'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('specimentype') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.specimen-type', 2) !!}</a></li>
-											<li class="{!! Request::segment(1)=='testtype'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('testtype') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.test-type', 2) !!}</a></li>
-											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.drug', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('drug') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.drug', 2) !!}</a></li>
-											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.organism', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('organism') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.organism', 2) !!}</a></li>
-											<li class="{!! Request::segment(1)=='rejection'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('rejection') !!}"><i class="fa fa-tag"></i> {!! trans('menu.specimen-rejection') !!}</a></li>
+											<li class="{!! Request::segment(1)=='testcategory'?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('testcategory') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.lab-section', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)=='specimentype'?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('specimentype') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.specimen-type', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)=='testtype'?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('testtype') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.test-type', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.drug', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('drug') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.drug', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.organism', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('organism') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.organism', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)=='rejection'?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('rejection') !!}"><i class="fa fa-tag"></i> {!! trans('menu.specimen-rejection') !!}</a></li>
 										</ul>
 									</li>
 									<li class="sidenav-dropdown{!! in_array(Request::segment(1), [strtolower('patientreport'), strtolower('log'), strtolower('count')])?' show-subnav':'' !!}">
@@ -121,8 +121,8 @@
 											<li class="sidenav-dropdown{!! in_array(Request::segment(1), [strtolower('patientreport'), strtolower('log')])?' show-subnav':'' !!}">
 												<a class="subnav-toggle" href="#"><i class="fa fa-clock-o"></i> {!! trans('menu.daily-report') !!}<i class="fa fa-angle-down  pull-right"></i></a>
 												<ul class="nav sidenav-sub-menu">
-													<li class="{!! Request::segment(1)=='patientreport'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('patientreport') !!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.patient-report') !!}</a></li>
-													<li class="{!! Request::segment(1)=='log'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('log') !!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.daily-log') !!}</a></li>
+													<li class="{!! Request::segment(1)=='patientreport'?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('patientreport') !!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.patient-report') !!}</a></li>
+													<li class="{!! Request::segment(1)=='log'?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('log') !!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.daily-log') !!}</a></li>
 												</ul>
 											</li>
 											<li class="sidenav-dropdown{!! in_array(Request::segment(1), [strtolower('count')])?' show-subnav':'' !!}">
@@ -130,7 +130,7 @@
 												<ul class="nav sidenav-sub-menu">
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.prevalence-rates') !!}</a></li>
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.surveillance') !!}</a></li>
-													<li class="{!! Request::segment(1)=='count'?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('count') !!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.test-specimen-counts') !!}</a></li>
+													<li class="{!! Request::segment(1)=='count'?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('count') !!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.test-specimen-counts') !!}</a></li>
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.turn-around-time') !!}</a></li>
 													<li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-tag"></i> {!! trans('menu.infection-report') !!}</a></li>
 												</ul>
@@ -153,20 +153,20 @@
 									<li class="sidenav-dropdown{!! in_array(Request::segment(1), [strtolower(trans_choice('menu.user', 1)), strtolower(trans_choice('menu.permission', 1)), strtolower(trans_choice('menu.role', 1)), strtolower(trans('menu.authorize'))])?' show-subnav':'' !!}">
 										<a class="subnav-toggle" href="#"><i class="fa fa-users"></i> {!! trans('menu.access-control') !!} <i class="fa fa-angle-down fa-angle-down  pull-right"></i></a>
 										<ul class="nav sidenav-sub-menu">
-											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.user', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('user') !!}"><i class="fa fa-tag"></i> {!! trans('menu.user-accounts') !!}</a></li>
-											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.permission', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('permission') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.permission', 2) !!}</a></li>
-											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.role', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('role') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.role', 2) !!}</a></li>
-											<li class="{!! Request::segment(1)==strtolower(trans('menu.authorize'))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('authorize') !!}"><i class="fa fa-tag"></i> {!! trans('menu.assign-roles') !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.user', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('user') !!}"><i class="fa fa-tag"></i> {!! trans('menu.user-accounts') !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.permission', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('permission') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.permission', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.role', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('role') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.role', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans('menu.authorize'))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('authorize') !!}"><i class="fa fa-tag"></i> {!! trans('menu.assign-roles') !!}</a></li>
 										</ul>
 									</li>
 									<li class="sidenav-dropdown{!! in_array(Request::segment(1), [strtolower(trans_choice('menu.item', 1)), strtolower(trans_choice('menu.supplier', 1)), strtolower(trans('menu.stock'))])?' show-subnav':'' !!}">
 										<a class="subnav-toggle" href="#"><i class="fa fa-cubes"></i> {!! trans('menu.inventory') !!} <i class="fa fa-angle-down fa-angle-down  pull-right"></i></a>
 										<ul class="nav sidenav-sub-menu">
-											<li class="{!! (Request::segment(1)==strtolower(trans_choice('menu.item', 1)) || Request::segment(1)==strtolower(trans('menu.stock')))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('item') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.item', 2) !!}</a></li>
-											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.supplier', 1))?strtolower(trans('general-terms.active')):'' !!}"><a href="{!! url('supplier') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.supplier', 2) !!}</a></li>
+											<li class="{!! (Request::segment(1)==strtolower(trans_choice('menu.item', 1)) || Request::segment(1)==strtolower(trans('menu.stock')))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('item') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.item', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.supplier', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('supplier') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.supplier', 2) !!}</a></li>
 										</ul>
 									</li>
-									<li class="{!! Request::segment(1)==strtolower(trans('menu.quality-control'))?strtolower(trans('general-terms.active')):'' !!}"><a href="#"><i class="fa fa-bookmark-o"></i> {!! trans('menu.quality-control') !!}</a></li>
+									<li class="{!! Request::segment(1)==strtolower(trans('menu.quality-control'))?strtolower(trans('terms.active')):'' !!}"><a href="#"><i class="fa fa-bookmark-o"></i> {!! trans('menu.quality-control') !!}</a></li>
 									<li><a href="#"><i class="fa fa-hdd-o"></i> {!! trans('menu.data-backup') !!}</a></li>
 								</ul>
 							</div>

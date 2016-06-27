@@ -40,8 +40,8 @@
 				 	<table class="table table-bordered table-sm search-table">
 						<thead>
 							<tr>
-								<th>{!! trans('general-terms.name') !!}</th>
-								<th>{!! trans('general-terms.contacts') !!}</th>
+								<th>{!! trans('terms.name') !!}</th>
+								<th>{!! trans('terms.contacts') !!}</th>
 								<th></th>
 							</tr>
 						</thead>

@@ -92,7 +92,7 @@ class ReportController extends Controller
             if(!$to) $to = $date;
 
             if($from->gt($to) || $from->gt($date) || $to->gt($date)){
-                    $error = trans('general-terms.check-date-range');
+                    $error = trans('terms.check-date-range');
             }
             else
             {
@@ -181,7 +181,7 @@ class ReportController extends Controller
             {
                 if($from->gt($to) || $from->gt($date) || $to->gt($date))
                 {
-                    $error = trans('general-terms.check-date-range');
+                    $error = trans('terms.check-date-range');
                 }
                 else{
                     $visits = Visit::whereBetween('created_at', [$from->toDateString(), $toPlusOne->toDateString()]);
@@ -236,7 +236,7 @@ class ReportController extends Controller
             {
                 if($from->gt($to) || $from->gt($date) || $to->gt($date))
                 {
-                    $error = trans('general-terms.check-date-range');
+                    $error = trans('terms.check-date-range');
                 }
                 else
                 {
@@ -294,7 +294,7 @@ class ReportController extends Controller
             {
                 if($from->gt($to) || $from->gt($date) || $to->gt($date))
                 {
-                    $error = trans('general-terms.check-date-range');
+                    $error = trans('terms.check-date-range');
                 }
                 else
                 {
@@ -357,7 +357,7 @@ class ReportController extends Controller
             $perTestType = array(); //  array for counts data per testype
             if($from->gt($to) || $from->gt($date) || $to->gt($date))
             {
-                Session::flash('message', trans('general-terms.check-date-range'));
+                Session::flash('message', trans('terms.check-date-range'));
             }
             foreach ($testTypes as $testType)
             {
@@ -380,7 +380,7 @@ class ReportController extends Controller
         {
             if($from->gt($to) || $from->gt($date) || $to->gt($date))
             {
-                Session::flash('message', trans('general-terms.check-date-range'));
+                Session::flash('message', trans('terms.check-date-range'));
             }
 
             $ungroupedSpecimen = array();
@@ -406,7 +406,7 @@ class ReportController extends Controller
             $perSpecimenType = array(); //  array for counts data per testype
             if($from->gt($to) || $from->gt($date) || $to->gt($date))
             {
-                Session::flash('message', trans('general-terms.check-date-range'));
+                Session::flash('message', trans('terms.check-date-range'));
             }
             $specimenTypes = SpecimenType::all();
             foreach ($specimenTypes as $specimenType)
@@ -430,7 +430,7 @@ class ReportController extends Controller
         {
             if($from->gt($to) || $from->gt($date) || $to->gt($date))
             {
-                Session::flash('message', trans('general-terms.check-date-range'));
+                Session::flash('message', trans('terms.check-date-range'));
             }
 
             $ungroupedTests = array();

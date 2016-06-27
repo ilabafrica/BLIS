@@ -37,7 +37,7 @@
 	                <!-- ./ csrf token -->
 					{!! Form::hidden('specimen_id', $specimen->id) !!}
 	                <div class="form-group row">
-						{!! Form::label('specimen', trans('general-terms.specimen'), array('class' => 'col-sm-3 form-control-label')) !!}
+						{!! Form::label('specimen', trans('terms.specimen'), array('class' => 'col-sm-3 form-control-label')) !!}
 						<div class="col-sm-9">
 							{!! Form::select('specimen', $specimentypes, old('specimentype'), array('class' => 'form-control c-select')) !!}
 						</div>
@@ -52,7 +52,7 @@
 				<div class="col-md-4">
 					<ul class="list-group">
 						<li class="list-group-item"><strong>{!! trans_choice('menu.specimen-type', 1).': '.$specimen->specimenType->name !!}</strong></li>
-						<li class="list-group-item"><h6>{!! trans("specific-terms.specimen-id") !!}<small> {!! $specimen->id !!}</small></h6></li>
+						<li class="list-group-item"><h6>{!! trans("terms.specimen-id") !!}<small> {!! $specimen->id !!}</small></h6></li>
 						<li class="list-group-item"><h6>{!! trans_choice('menu.test-type', 1) !!}<small> {!! $specimen->test->testType->name !!}</small></h6></li>
 					</ul>
 				</div>

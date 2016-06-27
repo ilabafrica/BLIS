@@ -11,7 +11,7 @@
 <div class="conter-wrapper">
 	<div class="card">
   		<div class="card-header">
-    		{!! trans('general-terms.daily-tests') !!}
+    		{!! trans('terms.daily-tests') !!}
   		</div>
   		<div class="card-block">
     		<div id="chart" style="height: 300px"></div>
@@ -22,7 +22,7 @@
 		<div class="col-sm-12">
 			<div class="card">
 				<div class="card-header">
-				    <i class="fa fa-book"></i> {!! trans('general-terms.latest-tests') !!}			    
+				    <i class="fa fa-book"></i> {!! trans('terms.latest-tests') !!}			    
 				</div>
 			  	<div class="card-block">	  		
 					@if (Session::has('message'))
@@ -31,14 +31,14 @@
 				 	<table class="table table-bordered table-sm search-table" style="font-size:13px;">
 						<thead>
 		                    <tr>
-		                        <th>{!! trans('specific-terms.date-ordered') !!}</th>
-		                        <th>{!! trans('specific-terms.patient-no') !!}</th>
-		                        <th>{!! trans('specific-terms.visit-no') !!}</th>
-		                        <th class="col-md-2">{!! trans('specific-terms.patient-name') !!}</th>
-		                        <th class="col-md-1">{!! trans('specific-terms.specimen-id') !!}</th>
+		                        <th>{!! trans('terms.date-ordered') !!}</th>
+		                        <th>{!! trans('terms.patient-no') !!}</th>
+		                        <th>{!! trans('terms.visit-no') !!}</th>
+		                        <th class="col-md-2">{!! trans('terms.patient-name') !!}</th>
+		                        <th class="col-md-1">{!! trans('terms.specimen-id') !!}</th>
 		                        <th>{!! trans_choice('menu.test',1) !!}</th>
-		                        <th>{!! trans('specific-terms.visit-type') !!}</th>
-		                        <th>{!! trans('specific-terms.test-status') !!}</th>
+		                        <th>{!! trans('terms.visit-type') !!}</th>
+		                        <th>{!! trans('terms.test-status') !!}</th>
 		                        <th></th>
 		                    </tr>
 		                </thead>
@@ -65,23 +65,23 @@
 		                                        @if($test->isNotReceived())
 		                                            @if(!$test->isPaid())
 		                                                <span class='label label-silver'>
-		                                                    {!! trans('specific-terms.test-not-paid') !!}</span>
+		                                                    {!! trans('terms.test-not-paid') !!}</span>
 		                                            @else
 		                                            <span class='label label-asbestos'>
-		                                                {!! trans('specific-terms.test-not-received') !!}</span>
+		                                                {!! trans('terms.test-not-received') !!}</span>
 		                                            @endif
 		                                        @elseif($test->isPending())
 		                                            <span class='label label-pumpkin'>
-		                                                {!! trans('specific-terms.test-pending') !!}</span>
+		                                                {!! trans('terms.test-pending') !!}</span>
 		                                        @elseif($test->isStarted())
 		                                            <span class='label label-sub-flower'>
-		                                                {!! trans('specific-terms.test-started') !!}</span>
+		                                                {!! trans('terms.test-started') !!}</span>
 		                                        @elseif($test->isCompleted())
 		                                            <span class='label label-nephritis'>
-		                                                {!! trans('specific-terms.test-completed') !!}</span>
+		                                                {!! trans('terms.test-completed') !!}</span>
 		                                        @elseif($test->isVerified())
 		                                            <span class='label label-wet-asphalt'>
-		                                                {!! trans('specific-terms.test-verified') !!}</span>
+		                                                {!! trans('terms.test-verified') !!}</span>
 		                                        @endif
 		                                    </div>
 		    
@@ -92,7 +92,7 @@
 		                                        @if($test->specimen->isNotCollected())
 		                                         @if(($test->isPaid()))
 		                                            <span class='label label-silver'>
-		                                                {!! trans('specific-terms.specimen-not-collected') !!}</span>
+		                                                {!! trans('terms.specimen-not-collected') !!}</span>
 		                                            @endif
 		                                        @elseif($test->specimen->isReferred())
 		                                            <span class='label label-asbestos'>
@@ -105,10 +105,10 @@
 		                                            </span>
 		                                        @elseif($test->specimen->isAccepted())
 		                                            <span class='label label-success'>
-		                                                {!! trans('specific-terms.specimen-accepted') !!}</span>
+		                                                {!! trans('terms.specimen-accepted') !!}</span>
 		                                        @elseif($test->specimen->isRejected())
 		                                            <span class='label label-danger'>
-		                                                {!! trans('specific-terms.specimen-rejected') !!}</span>
+		                                                {!! trans('terms.specimen-rejected') !!}</span>
 		                                        @endif
 		                                    </div>
 		                                </div>
@@ -211,7 +211,7 @@
 		                                <div class="">
 		                                    <a class="btn btn-sm btn-asbestos barcode-button" href="{!! url("specimen/" . $test->getSpecimenId() . "/barcode") !!}">
 		                                        <i class="fa fa-barcode"></i>
-		                                        {!! trans('general-terms.barcode') !!}
+		                                        {!! trans('terms.barcode') !!}
 		                                    </a>
 		                                </div> <!-- /. barcode-button -->
 		                            @endif

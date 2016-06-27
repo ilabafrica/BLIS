@@ -36,13 +36,13 @@
                 <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
                 <!-- ./ csrf token -->
 				<div class="form-group row">
-					{!! Form::label('name', trans_choice('general-terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('name', trans_choice('terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::text('name', old('name'), array('class' => 'form-control')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('version', trans('general-terms.version'), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('version', trans('terms.version'), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::text('version', old('version'), array('class' => 'form-control')) !!}
 					</div>
@@ -54,19 +54,19 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('comm-type', trans('general-terms.comm-type'), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('comm-type', trans('terms.comm-type'), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::select('comm_type', $commtypes, '', array('class' => 'form-control c-select')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('feed-source', trans('general-terms.feed-source'), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('feed-source', trans('terms.feed-source'), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::select('feed_source', $feedsources, '', array('class' => 'form-control c-select')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('config-file', trans('general-terms.config-file'), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('config-file', trans('terms.config-file'), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 	                	<label class="file">
 	  						{!! Form::file('config_file', '') !!}
@@ -75,7 +75,7 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('description', trans("general-terms.description"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
+					{!! Form::label('description', trans("terms.description"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
 					<div class="col-sm-6">
 						{!! Form::textarea('description', old('description'), array('class' => 'form-control', 'rows' => '2')) !!}
 					</div>

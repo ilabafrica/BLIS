@@ -37,14 +37,14 @@
 			        {!! Form::open(array('route' => array('reports.aggregate.counts'), 'class' => 'form-inline', 'role' => 'form')) !!}
 			            <div class='col-md-12'>
 			            	<div class='col-md-4'>
-			                    {!! Form::label('date_from', trans('general-terms.from').':', array('class' => 'col-sm-3 form-control-label')) !!}
+			                    {!! Form::label('date_from', trans('terms.from').':', array('class' => 'col-sm-3 form-control-label')) !!}
 			                    <div class='col-md-9 input-group date datepicker'>
 			                        {!! Form::text('from', old('from') ? old('from') : $from, array('class' => 'form-control')) !!}
 			                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 			                    </div>
 			                </div>
 			                <div class='col-md-4'>
-			                    {!! Form::label('date_to', trans('general-terms.to').':', array('class' => 'col-sm-2 form-control-label')) !!}
+			                    {!! Form::label('date_to', trans('terms.to').':', array('class' => 'col-sm-2 form-control-label')) !!}
 			                    <div class='col-md-10 input-group date datepicker'>
 			                        {!! Form::text('to', old('to') ? old('to') : $to, array('class' => 'form-control')) !!}
 			                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -71,7 +71,7 @@
 						<thead>
 							<tr>
 								<th rowspan="2">{!! trans_choice('menu.test-type', 1) !!}</th>
-								<th rowspan="2">{!! trans('general-terms.gender') !!}</th>
+								<th rowspan="2">{!! trans('terms.gender') !!}</th>
 								<th colspan="{!! count($ageRanges) !!}">{!! trans('menu.age-range') !!}</th>
 								<th rowspan="2">{!! trans('menu.m-f').' '.trans('menu.total') !!}</th>
 								<th rowspan="2">{!! trans('menu.total') !!}</th>
@@ -88,7 +88,7 @@
 					  		<td>{!! $testType->name !!}</td>
 					  		<td>
 					  			@foreach($gender as $sex)
-					  				{!! $sex==App\Models\Patient::MALE?trans_choice("specific-terms.sex", 1):trans_choice("specific-terms.sex", 2) !!}<br />
+					  				{!! $sex==App\Models\Patient::MALE?trans_choice("terms.sex", 1):trans_choice("terms.sex", 2) !!}<br />
 					  			@endforeach
 					  		</td>
 					  		@foreach($ageRanges as $ageRange)
@@ -112,7 +112,7 @@
 				  	<table class="table table-striped table-bordered">
 				  		<tbody>
 				  			<tr>
-				  				<td colspan="5">{!! trans('general-terms.no-records') !!}</td>
+				  				<td colspan="5">{!! trans('terms.no-records') !!}</td>
 				  			</tr>
 				  		</tbody>
 				  	</table>

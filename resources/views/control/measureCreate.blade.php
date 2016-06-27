@@ -5,13 +5,13 @@
             <div class="col-md-11 measure">
                 <div class="col-md-3">
                     <div class="form-group">
-                        {!! Form::label('new_measures[][name]', Lang::choice('messages.name',1)) !!}
+                        {!! Form::label('new_measures[][name]', Lang::choice('terms.name',1)) !!}
                        <input class="form-control name" name="new_measures[][name]" type="text">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        {!! Form::label('new_measures[][measure_type_id]', trans('messages.measure-type')) !!}
+                        {!! Form::label('new_measures[][measure_type_id]', trans('terms.measure-type')) !!}
                             <select class="form-control measuretype-input-trigger measure_type_id" 
                                 data-measure-id="0" 
                                 data-new-measure-id="" 
@@ -26,13 +26,13 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        {!! Form::label('new_measures[][unit]', trans('messages.unit')) !!}
+                        {!! Form::label('new_measures[][unit]', trans('terms.unit')) !!}
                         <input class="form-control unit" name="new_measures[][unit]" type="text">
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="measurerange">{!!trans('messages.measure-range-values')!!}</label>
+                        <label for="measurerange">{!!trans('terms.measure-range-values')!!}</label>
                         <div class="form-pane panel panel-default">
                             <div class="panel-body">
                             <div>
@@ -41,7 +41,7 @@
                                     <a class="btn btn-default add-another-range" href="javascript:void(0);" 
                                         data-measure-id="0"
                                         data-new-measure-id="">
-                                    <span class="glyphicon glyphicon-plus-sign"></span>{!!trans('messages.add-new-measure-range')!!}</a>
+                                    <span class="glyphicon glyphicon-plus-sign"></span>{!!trans('terms.add-new-measure-range')!!}</a>
                                 </div>
                             </div>
                             </div>
@@ -51,29 +51,29 @@
             </div>
             <div class="col-md-1">
                 <button class="col-md-12 close" aria-hidden="true" type="button" 
-                    title="{!!trans('messages.delete')!!}">×</button>
+                    title="{!!trans('action.delete')!!}">×</button>
             </div>
         </div>    
     </div><!-- measureGeneric -->
     <div class="hidden numericHeaderLoader">
         <div class="col-md-12">
             <div class="col-md-3">
-                <span class="col-md-12 range-title">{!!trans('messages.measure-range')!!}</span>
+                <span class="col-md-12 range-title">{!!trans('terms.measure-range')!!}</span>
             </div>
         </div>
     </div><!-- alphanumericHeader -->
     <div class="hidden alphanumericHeaderLoader">
         <div class="col-md-12">
-            <span class="col-md-5 interpretation-title">{!!trans('messages.value')!!}</span>
+            <span class="col-md-5 interpretation-title">{!!trans('terms.value')!!}</span>
         </div>
     </div><!-- numericHeader -->
     <div class="hidden numericInputLoader">
         <div class="col-md-12 measure-input">
             <div class="col-md-3">
-                <input class="col-md-4 rangemin" name="new_measures[][rangemin][]" type="text" title="{!!trans('messages.lower-range')!!}">
+                <input class="col-md-4 rangemin" name="new_measures[][rangemin][]" type="text" title="{!!trans('terms.lower-range')!!}">
                 <span class="col-md-2">:</span>
-                <input class="col-md-4 rangemax" name="new_measures[][rangemax][]" type="text" title="{!!trans('messages.upper-range')!!}">
-                <button class="col-md-2 close" aria-hidden="true" type="button" title="{!!trans('messages.delete')!!}">×</button>
+                <input class="col-md-4 rangemax" name="new_measures[][rangemax][]" type="text" title="{!!trans('terms.upper-range')!!}">
+                <button class="col-md-2 close" aria-hidden="true" type="button" title="{!!trans('terms.delete')!!}">×</button>
                 <input class="measurerangeid" name="new_measures[][measurerangeid][]" type="hidden">
             </div>
         </div>
@@ -86,6 +86,6 @@
         </div>
     </div><!-- alphanumericInput -->
     <div class="hidden freetextInputLoader">
-        <p class="freetextInput" >{!!trans('messages.freetext-measure-config-input-message')!!}</p>
+        <p class="freetextInput" >{!!trans('terms.freetext-measure-config-input-message')!!}</p>
     </div><!-- freetextInput -->
 @show

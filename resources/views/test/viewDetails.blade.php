@@ -54,15 +54,15 @@
             <div class="row">
 	            <div class="col-md-6">
 		            <ul class="list-group" style="padding-bottom:5px;">
-					  	<li class="list-group-item"><strong>{!! trans('general-terms.details-for').': '.$test->visit->patient->name.' - '.$test->testType->name !!}</strong></li>
+					  	<li class="list-group-item"><strong>{!! trans('terms.details-for').': '.$test->visit->patient->name.' - '.$test->testType->name !!}</strong></li>
 					  	<li class="list-group-item"><h6>{!! trans_choice("menu.test-type", 1) !!}<small> {!! $test->testType->name or trans('messages.unknown') !!}</small></h6></li>
-					  	<li class="list-group-item"><h6>{!! trans("specific-terms.visit-no") !!}<small> {!! $test->visit->visit_number or trans('messages.unknown') !!}</small></h6></li>
-					  	<li class="list-group-item"><h6>{!! trans("specific-terms.date-ordered") !!}<small> {!! $test->isExternal()?$test->external()->request_date:$test->time_created !!}</small></h6></li>
-					  	<li class="list-group-item"><h6>{!! trans("specific-terms.date-received") !!}<small> {!! $test->time_created !!}</small></h6></li>
-					  	<li class="list-group-item"><h6>{!! trans("specific-terms.test-status") !!}<small> {!! trans('specific-terms.'.$test->testStatus->name) !!}</small></h6></li>
-					  	<li class="list-group-item"><h6>{!! trans("general-terms.physician") !!}<small> {!! $test->requested_by or trans('messages.unknown') !!}</small></h6></li>
+					  	<li class="list-group-item"><h6>{!! trans("terms.visit-no") !!}<small> {!! $test->visit->visit_number or trans('messages.unknown') !!}</small></h6></li>
+					  	<li class="list-group-item"><h6>{!! trans("terms.date-ordered") !!}<small> {!! $test->isExternal()?$test->external()->request_date:$test->time_created !!}</small></h6></li>
+					  	<li class="list-group-item"><h6>{!! trans("terms.date-received") !!}<small> {!! $test->time_created !!}</small></h6></li>
+					  	<li class="list-group-item"><h6>{!! trans("terms.test-status") !!}<small> {!! trans('terms.'.$test->testStatus->name) !!}</small></h6></li>
+					  	<li class="list-group-item"><h6>{!! trans("terms.physician") !!}<small> {!! $test->requested_by or trans('messages.unknown') !!}</small></h6></li>
 					  	<li class="list-group-item">
-					  		<h6>{!! trans("specific-terms.origin") !!}
+					  		<h6>{!! trans("terms.origin") !!}
 				  				<small>
 				  					@if($test->specimen->isReferred() && $test->specimen->referral->status == Referral::REFERRED_IN)
 										{!! trans("messages.in") !!}
@@ -72,10 +72,10 @@
 				  				</small>
 					  		</h6>
 					  	</li>
-					  	<li class="list-group-item"><h6>{!! trans("specific-terms.registered-by") !!}<small> {!! $test->createdBy->name or trans('messages.unknown') !!}</small></h6></li>
-					  	<li class="list-group-item"><h6>{!! trans("specific-terms.performed-by") !!}<small> {!! $test->testedBy->name or trans('messages.unknown') !!}</small></h6></li>
+					  	<li class="list-group-item"><h6>{!! trans("terms.registered-by") !!}<small> {!! $test->createdBy->name or trans('messages.unknown') !!}</small></h6></li>
+					  	<li class="list-group-item"><h6>{!! trans("terms.performed-by") !!}<small> {!! $test->testedBy->name or trans('messages.unknown') !!}</small></h6></li>
 					  	@if($test->isVerified())
-					  		<li class="list-group-item"><h6>{!! trans("specific-terms.verified-by") !!}<small> {!! $test->verifiedBy->name or trans('messages.verification-pending') !!}</small></h6></li>
+					  		<li class="list-group-item"><h6>{!! trans("terms.verified-by") !!}<small> {!! $test->verifiedBy->name or trans('messages.verification-pending') !!}</small></h6></li>
 					  	@endif
 					  	@if((!$test->specimen->isRejected()) && ($test->isCompleted() || $test->isVerified()))
 					  		<li class="list-group-item"><h6>{!! trans("menu.turn-around-time") !!}<small> {!! $test->getFormattedTurnaroundTime() !!}</small></h6></li>
@@ -87,27 +87,27 @@
   						<li class="list-group-item"><strong>{!! trans_choice('menu.patient', 1) !!}</strong></li>
   						<li class="list-group-item">
   							<h6>
-					  			<span>{!! trans("specific-terms.patient-no") !!}<small> {!! $test->visit->patient->patient_number !!}</small></span>
-					  			<span>{!! trans("general-terms.age") !!}<small> {!! $test->visit->patient->getAge() !!}</small></span>
-					  			<span>{!! trans("general-terms.gender") !!}<small> {!! ($test->visit->patient->gender==0?trans_choice('specific-terms.sex', 1):trans_choice('specific-terms.sex', 2)) !!}</small></span>
+					  			<span>{!! trans("terms.patient-no") !!}<small> {!! $test->visit->patient->patient_number !!}</small></span>
+					  			<span>{!! trans("terms.age") !!}<small> {!! $test->visit->patient->getAge() !!}</small></span>
+					  			<span>{!! trans("terms.gender") !!}<small> {!! ($test->visit->patient->gender==0?trans_choice('terms.sex', 1):trans_choice('terms.sex', 2)) !!}</small></span>
 					  		</h6>
   						</li>
 					</ul>
 					<ul class="list-group" style="padding-bottom:5px">
-  						<li class="list-group-item"><strong>{!! trans('general-terms.specimen') !!}</strong></li>
+  						<li class="list-group-item"><strong>{!! trans('terms.specimen') !!}</strong></li>
   						<li class="list-group-item">
   							<h6>
-					  			<span>{!! trans("general-terms.type") !!}<small> {!! $test->specimen->specimenType->name or trans('messages.pending') !!}</small></span>
-					  			<span>{!! trans("specific-terms.specimen-id") !!}<small> {!! $test->getSpecimenId() !!}</small></span>
-					  			<span>{!! trans("specific-terms.test-status") !!}<small> {!! trans('specific-terms.'.$test->specimen->specimenStatus->name) !!}</small></span>
+					  			<span>{!! trans("terms.type") !!}<small> {!! $test->specimen->specimenType->name or trans('messages.pending') !!}</small></span>
+					  			<span>{!! trans("terms.specimen-id") !!}<small> {!! $test->getSpecimenId() !!}</small></span>
+					  			<span>{!! trans("terms.test-status") !!}<small> {!! trans('terms.'.$test->specimen->specimenStatus->name) !!}</small></span>
 
 								@if($test->specimen->isRejected())
 									<span>{!! trans("menu.reject-reason") !!}<small> {!! $test->specimen->rejectionReason->reason or trans('messages.pending') !!}</small></span>
-									<span>{!! trans("specific-terms.explained-to") !!}<small> {!! $test->specimen->reject_explained_to or trans('messages.pending') !!}</small></span>
+									<span>{!! trans("terms.explained-to") !!}<small> {!! $test->specimen->reject_explained_to or trans('messages.pending') !!}</small></span>
 								@endif
 								@if($test->specimen->isReferred())
 								<br>
-									<span>{!! trans("specific-terms.referred") !!}
+									<span>{!! trans("terms.referred") !!}
 										<small> 
 											@if($test->specimen->referral->status == Referral::REFERRED_IN)
 												{!! trans("messages.in") !!}
@@ -125,7 +125,7 @@
 										@endif
 										<small> {!! $test->specimen->referral->person !!}</small>
 									</span>
-									<span>{!! trans("general-terms.contacts") !!}<small> {!! $test->specimen->referral->contacts !!}</small></span>
+									<span>{!! trans("terms.contacts") !!}<small> {!! $test->specimen->referral->contacts !!}</small></span>
 									<span>
 										@if($test->specimen->referral->status == Referral::REFERRED_IN)
 											{!! trans("messages.recieved-by") !!}
@@ -134,13 +134,13 @@
 										@endif
 										<small> {!! $test->specimen->referral->user->name !!}</small>
 									</span>
-									<span>{!! trans("specific-terms.specimen-id") !!}<small> {!! $test->getSpecimenId() !!}</small></span>
+									<span>{!! trans("terms.specimen-id") !!}<small> {!! $test->getSpecimenId() !!}</small></span>
 								@endif
 					  		</h6>
   						</li>
 					</ul>
 					<ul class="list-group" style="padding-bottom:5px">
-						<li class="list-group-item"><strong>{!! trans_choice('general-terms.result', 2) !!}</strong></li>
+						<li class="list-group-item"><strong>{!! trans_choice('terms.result', 2) !!}</strong></li>
 						@foreach($test->testResults as $result)
 							<li class="list-group-item">
 								<h6>

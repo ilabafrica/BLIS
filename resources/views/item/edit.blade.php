@@ -37,31 +37,31 @@
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
                 <!-- ./ csrf token -->
 				<div class="form-group row">
-					{!! Form::label('name', trans_choice('general-terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('name', trans_choice('terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::text('name', old('name'), array('class' => 'form-control')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('unit', trans_choice('specific-terms.unit',1), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('unit', trans_choice('terms.unit',1), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::text('unit', old('unit'), array('class' => 'form-control')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('min-level', trans_choice('specific-terms.min-level',1), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('min-level', trans_choice('terms.min-level',1), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::text('min_level', old('min_level'), array('class' => 'form-control')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('max-level', trans_choice('specific-terms.max-level',1), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('max-level', trans_choice('terms.max-level',1), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!! Form::text('max_level', old('max_level'), array('class' => 'form-control')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('remarks', trans("general-terms.remarks"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
+					{!! Form::label('remarks', trans("terms.remarks"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
 					<div class="col-sm-6">
 						{!! Form::textarea('remarks', old('remarks'), array('class' => 'form-control', 'rows' => '2')) !!}
 					</div>

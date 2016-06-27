@@ -30,13 +30,13 @@
             </div>
             @endif
             <ul class="list-group" style="padding-bottom:5px;">
-			  	<li class="list-group-item"><strong>{!! trans('general-terms.details-for').': '.$patient->name !!}</strong></li>
+			  	<li class="list-group-item"><strong>{!! trans('terms.details-for').': '.$patient->name !!}</strong></li>
 			  	<li class="list-group-item">
 			  		<h6>
-			  			<span>{!! trans("specific-terms.patient-no") !!}<small> {!! $patient->patient_number !!}</small></span>
-			  			<span>{!! trans("general-terms.name") !!}<small> {!! $patient->name !!}</small></span>
-			  			<span>{!! trans("general-terms.age") !!}<small> {!! $patient->getAge() !!}</small></span>
-			  			<span>{!! trans("general-terms.gender") !!}<small> {!! ($patient->gender==0?trans_choice('specific-terms.sex', 1):trans_choice('specific-terms.sex', 2)) !!}</small></span>
+			  			<span>{!! trans("terms.patient-no") !!}<small> {!! $patient->patient_number !!}</small></span>
+			  			<span>{!! trans("terms.name") !!}<small> {!! $patient->name !!}</small></span>
+			  			<span>{!! trans("terms.age") !!}<small> {!! $patient->getAge() !!}</small></span>
+			  			<span>{!! trans("terms.gender") !!}<small> {!! ($patient->gender==0?trans_choice('terms.sex', 1):trans_choice('terms.sex', 2)) !!}</small></span>
 			  		</h6>
 			  	</li>
 			</ul>
@@ -46,13 +46,13 @@
                 <!-- ./ csrf token -->
                 {!! Form::hidden('patient_id', $patient->id) !!}
                 <div class="form-group row">
-					{!! Form::label('visit_type', trans('specific-terms.visit-type'), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('visit_type', trans('terms.visit-type'), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
-						{!! Form::select('visit_type', [' ' => '--- Select visit type ---','0' => trans("specific-terms.out-patient"),'1' => trans("specific-terms.in-patient")], null, array('class' => 'form-control c-select')) !!}
+						{!! Form::select('visit_type', [' ' => '--- Select visit type ---','0' => trans("terms.out-patient"),'1' => trans("terms.in-patient")], null, array('class' => 'form-control c-select')) !!}
 					</div>
 				</div>
 				<div class="form-group row">
-					{!! Form::label('physician', trans("general-terms.physician"), array('class' => 'col-sm-2 form-control-label')) !!}
+					{!! Form::label('physician', trans("terms.physician"), array('class' => 'col-sm-2 form-control-label')) !!}
 					<div class="col-sm-6">
 						{!!Form::text('physician', old('physician'), array('class' => 'form-control'))!!}
 					</div>

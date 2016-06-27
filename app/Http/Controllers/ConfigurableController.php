@@ -56,7 +56,7 @@ class ConfigurableController extends Controller {
         $configurable->save();
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_configurable', $configurable ->id);
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_configurable', $configurable ->id);
     }
 
 
@@ -107,7 +107,7 @@ class ConfigurableController extends Controller {
         $configurable->save();
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-saved'))->with('active_configurable', $configurable ->id);
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_configurable', $configurable ->id);
     }
 
 
@@ -141,11 +141,11 @@ class ConfigurableController extends Controller {
             $url = Session::get('SOURCE_URL');
             
             return Redirect::to($url)
-                ->with('message', trans('general-terms.failure-test-category-in-use'));
+                ->with('message', trans('terms.failure-test-category-in-use'));
         }*/
         // redirect
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('general-terms.record-successfully-deleted'));
+        return redirect()->to($url)->with('message', trans('terms.record-successfully-deleted'));
     }
 }
