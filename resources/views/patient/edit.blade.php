@@ -37,7 +37,7 @@
 
 			{!! Form::model($patient, array('route' => array('patient.update', $patient->id), 'method' => 'PUT', 'id' => 'form-edit-patient')) !!}
 				<!-- CSRF Token -->
-                <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
+                <input type="hidden" name="_token" value="{!! csrf_token() !!}" />
                 <!-- ./ csrf token -->
                 <div class="form-group row">
 					{!! Form::label('patient_number', trans('terms.patient-no'), array('class' => 'col-sm-2 form-control-label')) !!}

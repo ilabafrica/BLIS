@@ -34,7 +34,7 @@
 	            <div class="col-md-8">
 				{!! Form::open(array('route' => 'stock.store', 'id' => 'form-create-stock')) !!}
 					<!-- CSRF Token -->
-	                <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
+	                <input type="hidden" name="_token" value="{!! csrf_token() !!}" />
 	                <!-- ./ csrf token -->
 	                {!! Form::hidden('item_id', $item->id) !!}
 					<div class="form-group row">

@@ -42,7 +42,7 @@
 			</ul>
 			{!! Form::open(array('route' => 'test.saveNewTest', 'id' => 'form-new-test')) !!}
 				<!-- CSRF Token -->
-                <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
+                <input type="hidden" name="_token" value="{!! csrf_token() !!}" />
                 <!-- ./ csrf token -->
                 {!! Form::hidden('patient_id', $patient->id) !!}
                 <div class="form-group row">

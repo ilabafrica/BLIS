@@ -33,7 +33,7 @@
 
 			{!! Form::open(array('route' => 'item.store', 'id' => 'form-create-item')) !!}
 				<!-- CSRF Token -->
-                <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
+                <input type="hidden" name="_token" value="{!! csrf_token() !!}" />
                 <!-- ./ csrf token -->
 				<div class="form-group row">
 					{!! Form::label('name', trans_choice('terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}

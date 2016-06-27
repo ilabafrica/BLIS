@@ -33,7 +33,7 @@
 			<div class="row">
 				{!! Form::open(array('route' => 'user.store', 'id' => 'form-add-user', 'enctype' => 'multipart/form-data', 'class' => 'form-horizontal', 'files' => 'true')) !!}
 				<!-- CSRF Token -->
-                <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
+                <input type="hidden" name="_token" value="{!! csrf_token() !!}" />
                 <!-- ./ csrf token -->
 				<div class="col-md-8"> 
 					<div class="form-group row">

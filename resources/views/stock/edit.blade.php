@@ -34,7 +34,7 @@
 	            <div class="col-md-8">
 					{!! Form::model($stock, array('route' => array('stock.update', $stock->id), 'method' => 'PUT', 'id' => 'form-edit-stock')) !!}
 						<!-- CSRF Token -->
-		                <input type="hidden" name="_token" value="{!! csrf_token() !!}}" />
+		                <input type="hidden" name="_token" value="{!! csrf_token() !!}" />
 		                <!-- ./ csrf token -->
 		                {!! Form::hidden('item_id', $stock->item->id) !!}
 		                <div class="form-group row">
