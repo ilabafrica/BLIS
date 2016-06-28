@@ -57,10 +57,19 @@ class TestTypeController extends \BaseController {
 			'test_category_id' => 'required|non_zero_key',
 			'specimentypes' => 'required',
 			'new-measures' => 'required',
-			'new-measures.name' => 'required',
-			'new-measures.measure_type_id' => 'required',
-			'new-measures.unit' => 'required',
 		);
+		foreach(Input::get('new-measures') as $key => $value)
+		{
+			$rules['new-measures.'.$key.'.name'] = 'required';
+			$rules['new-measures.'.$key.'.measure_type_id'] = 'required';
+			if(Input::get('new-measures.'.$key.'.measure_type_id') == Measure::NUMERIC)
+			{
+				$rules['new-measures.'.$key.'.agemin'] = 'required';
+				$rules['new-measures.'.$key.'.agemax'] = 'required';
+				$rules['new-measures.'.$key.'.rangemin'] = 'required';
+				$rules['new-measures.'.$key.'.rangemax'] = 'required';
+			}
+		}
 		$validator = Validator::make(Input::all(), $rules);
 			//array to be split here and sent to appropriate place! man! with ids and all possibilities
 		//dd(Input::get('new-measures'));
