@@ -58,9 +58,21 @@ class TestTypeController extends \BaseController {
 			'specimentypes' => 'required',
 			'new-measures' => 'required',
 		);
+		foreach(Input::get('new-measures') as $key => $value)
+		{
+			$rules['new-measures.'.$key.'.name'] = 'required';
+			$rules['new-measures.'.$key.'.measure_type_id'] = 'required';
+			if(Input::get('new-measures.'.$key.'.measure_type_id') == Measure::NUMERIC)
+			{
+				$rules['new-measures.'.$key.'.agemin'] = 'required';
+				$rules['new-measures.'.$key.'.agemax'] = 'required';
+				$rules['new-measures.'.$key.'.rangemin'] = 'required';
+				$rules['new-measures.'.$key.'.rangemax'] = 'required';
+			}
+		}
 		$validator = Validator::make(Input::all(), $rules);
 			//array to be split here and sent to appropriate place! man! with ids and all possibilities
-
+		//dd(Input::get('new-measures'));
 		// process the login
 		if ($validator->fails()) {
 			return Redirect::route('testtype.create')->withErrors($validator);
