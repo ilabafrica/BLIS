@@ -167,6 +167,17 @@
 										</ul>
 									</li>
 									<li class="{!! Request::segment(1)==strtolower(trans('menu.quality-control'))?strtolower(trans('terms.active')):'' !!}"><a href="#"><i class="fa fa-bookmark-o"></i> {!! trans('menu.quality-control') !!}</a></li>
+									<li class="{!! Request::segment(1)==strtolower(trans('menu.sop'))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('sop') !!}"><i class="fa fa-sliders"></i> {!! trans_choice('menu.sop', 2) !!}</a></li>
+									<li class="sidenav-dropdown{!! in_array(Request::segment(1), [strtolower(trans_choice('menu.biosafety', 1)), strtolower(trans_choice('menu.victim', 1)), strtolower(trans_choice('menu.incident', 1)), strtolower(trans_choice('menu.followup', 1)), strtolower(trans_choice('menu.victimtype', 1)), strtolower(trans_choice('menu.incidenttype', 1))])?' show-subnav':'' !!}">
+										<a class="subnav-toggle" href="#"><i class="fa fa-shield"></i> {!! trans('menu.biosafety') !!} <i class="fa fa-angle-down fa-angle-down  pull-right"></i></a>
+										<ul class="nav sidenav-sub-menu">
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.victim', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('victim') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.victim', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.incident', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('incident') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.incident', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.incident', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('followup') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.follow-up', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.victim', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('victimtype') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.victim-type', 2) !!}</a></li>
+											<li class="{!! Request::segment(1)==strtolower(trans_choice('menu.incident', 1))?strtolower(trans('terms.active')):'' !!}"><a href="{!! url('incidenttype') !!}"><i class="fa fa-tag"></i> {!! trans_choice('menu.incident-type', 2) !!}</a></li>
+										</ul>
+									</li>
 									<li><a href="#"><i class="fa fa-hdd-o"></i> {!! trans('menu.data-backup') !!}</a></li>
 								</ul>
 							</div>

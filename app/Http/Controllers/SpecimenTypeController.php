@@ -52,7 +52,7 @@ class SpecimenTypeController extends Controller {
 		$specimentype->save();
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_specimentype', $specimentype ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_specimentype', $specimentype ->id);
 	}
 
 	/**
@@ -99,7 +99,7 @@ class SpecimenTypeController extends Controller {
 		$specimentype->save();
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_specimentype', $specimentype ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_specimentype', $specimentype ->id);
 	}
 
 	/**
@@ -136,6 +136,6 @@ class SpecimenTypeController extends Controller {
 		// redirect
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-deleted'));
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-deleted'));
 	}
 }

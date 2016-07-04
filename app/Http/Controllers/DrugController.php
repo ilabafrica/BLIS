@@ -53,7 +53,7 @@ class DrugController extends Controller {
 		$drug->save();
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_drug', $drug ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_drug', $drug ->id);
 	}
 
 
@@ -102,7 +102,7 @@ class DrugController extends Controller {
 		$drug->save();
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_drug', $drug ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_drug', $drug ->id);
 	}
 
 
@@ -141,6 +141,6 @@ class DrugController extends Controller {
 		// redirect
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-deleted'));
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-deleted'));
 	}
 }

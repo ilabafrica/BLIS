@@ -100,7 +100,7 @@ class AnalyserController extends Controller {
         }
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_analyser', $analyser ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_analyser', $analyser ->id);
     }
 
 
@@ -200,7 +200,7 @@ class AnalyserController extends Controller {
         }
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_analyser', $analyser ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_analyser', $analyser ->id);
     }
 
 
@@ -239,7 +239,7 @@ class AnalyserController extends Controller {
         // redirect
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-deleted'));
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-deleted'));
     }
     /**
      * Fetch details of the given analyzer id

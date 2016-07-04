@@ -75,7 +75,7 @@ class RoleController extends Controller {
 		}
 
 		$url = session('SOURCE_URL');
-		return redirect()->to($url)->with('message', trans('terms.record-successfully-updated'));
+		return redirect()->to($url)->with('message', trans('messages.record-successfully-updated'));
 	}
 
 	/**
@@ -91,7 +91,7 @@ class RoleController extends Controller {
 		$role->save();
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_role', $role ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_role', $role ->id);
 	}
 
 	/**
@@ -133,7 +133,7 @@ class RoleController extends Controller {
 		$role->save();
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-updated'))->with('active_role', $role ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-updated'))->with('active_role', $role ->id);
 	}
 
 	/**
@@ -150,7 +150,7 @@ class RoleController extends Controller {
         // redirect
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-deleted'));
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-deleted'));
 	}
 
 	/**

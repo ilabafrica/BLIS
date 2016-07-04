@@ -22,6 +22,8 @@ return [
 	'profile'				=>	'Profile',
 	'compiled-by'			=>	'Compiled By',
 	'facility'				=>	'Facility|Facilities',
+	'biosafety'				=>	'Biosafety',
+	'sop'					=>	'SOP|SOPs',
 	/*
 	*	Sub menus
 	*/
@@ -62,6 +64,11 @@ return [
 	'analyser'				=>	'Analyser|Analysers',
 	'field'					=>	'Field|Fields',
 	'route'					=>	'Route|Routes',
+	'victim'				=>	'Victim|Victims',
+	'incident'				=>	'Incident|Incidents',
+	'follow-up'				=>	'Follow Up',
+	'victim-type'			=>	'Victim Type|Victim Types',
+	'incident-type'			=>	'Incident Type|Incident Types',
 	/*
 	*	grand menus
 	*/

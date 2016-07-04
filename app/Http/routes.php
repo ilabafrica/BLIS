@@ -796,4 +796,15 @@ Route::get("/registration/{id}/delete", array(
     "as"   => "registration.delete",
     "uses" => "RegistrationController@delete"
 ));
-/*>>>>>>> ae2637dc622437b867a082dc5bf59e6515c2610c*/
+/*
+*   Routes for standard operating procedures
+*/
+Route::resource('sop', 'SopController');
+/*
+*   Routes for victim types
+*/
+Route::resource('victimtype', 'VictimTypeController');
+/*
+*   Routes for incident types
+*/
+Route::resource('incidenttype', 'IncidentTypeController');

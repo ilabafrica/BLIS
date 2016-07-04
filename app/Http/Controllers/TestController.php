@@ -350,7 +350,7 @@ class TestController extends Controller {
 
 		// redirect
 		return Redirect::action('TestController@index')
-					->with('message', trans('terms.record-successfully-saved'))
+					->with('message', trans('messages.record-successfully-saved'))
 					->with('activeTest', array($test->id))
 					->withInput($input);
 	}

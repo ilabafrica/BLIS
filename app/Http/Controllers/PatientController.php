@@ -67,7 +67,7 @@ class PatientController extends Controller {
 		$patient->save();
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_patient', $patient ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_patient', $patient ->id);
 	}
 
 	/**
@@ -121,7 +121,7 @@ class PatientController extends Controller {
 		$patient->save();
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-updated'))->with('active_patient', $patient ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-updated'))->with('active_patient', $patient ->id);
 	}
 
 	/**
@@ -151,7 +151,7 @@ class PatientController extends Controller {
 		// redirect
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-deleted'));
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-deleted'));
 	}
 
 	/**

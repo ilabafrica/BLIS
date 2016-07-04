@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        $this->call(Database\Seeds\BlisProductionSeeder::class);
+        //$this->call(Database\Seeds\BlisProductionSeeder::class);
         $this->call(Database\Seeds\BlisDevelopmentSeeder::class);
         Model::reguard();
     }

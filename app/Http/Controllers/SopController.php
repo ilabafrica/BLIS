@@ -1,20 +1,17 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Http\Requests\ConfigurableRequest;
-
-use App\Models\Configurable;
-use App\Models\Field;
-
+use App\Http\Requests\SopRequest;
+use App\Models\Sop;
 use Response;
 use Auth;
 use Session;
 use Lang;
 /**
- * Contains configurables resources  
+ * Contains sops resources  
  * 
  */
-class ConfigurableController extends Controller {
+class SopController extends Controller {
 
     /**
      * Display a listing of the resource.
@@ -23,10 +20,10 @@ class ConfigurableController extends Controller {
      */
     public function index()
     {
-        //List all configurables
-        $configurables = Configurable::orderBy('name', 'ASC')->get();
-        //Load the view and pass the configurables
-        return view('config.configurable.index', compact('configurables'));
+        //List all sops
+        $sops = Sop::orderBy('name', 'ASC')->get();
+        //Load the view and pass the sops
+        return view('sop.index', compact('sops'));
     }
 
 
@@ -37,8 +34,8 @@ class ConfigurableController extends Controller {
      */
     public function create()
     {
-        //Create Configurable
-        return view('config.configurable.create');
+        //Create sop
+        return view('sop.create');
     }
 
 
@@ -47,16 +44,16 @@ class ConfigurableController extends Controller {
      *
      * @return Response
      */
-    public function store(ConfigurableRequest $request)
+    public function store(SopRequest $request)
     {
-        $configurable = new Configurable;
-        $configurable->name = $request->name;
-        $configurable->description = $request->description;
-        $configurable->user_id = 1;
-        $configurable->save();
+        // dd('we in');
+        $sop = new Sop;
+        $sop->name = $request->name;
+        $sop->description = $request->description;
+        $sop->save();
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_configurable', $configurable ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_sop', $sop ->id);
     }
 
 
@@ -68,10 +65,10 @@ class ConfigurableController extends Controller {
      */
     public function show($id)
     {
-        //show a Configurable
-        $configurable = Configurable::find($id);
-        //show the view and pass the $configurable to it
-        return view('config.configurable.show', compact('configurable'));
+        //show a sop
+        $sop = Sop::find($id);
+        //show the view and pass the $sop to it
+        return view('sop.show', compact('sop'));
     }
 
 
@@ -83,12 +80,11 @@ class ConfigurableController extends Controller {
      */
     public function edit($id)
     {
-        $fields = Field::orderBy('field_name')->get();
-        //Get the Configurable
-        $configurable = Configurable::find($id);
+        //Get the sop
+        $sop = Sop::find($id);
 
-        //Open the Edit View and pass to it the $configurable
-        return view('config.configurable.edit', compact('configurable', 'fields'));
+        //Open the Edit View and pass to it the $sop
+        return view('sop.edit', compact('sop'));
     }
 
 
@@ -98,16 +94,15 @@ class ConfigurableController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update(ConfigurableRequest $request, $id)
+    public function update(SopRequest $request, $id)
     {
-        $configurable = Configurable::find($id);
-        $configurable->name = $request->name;
-        $configurable->description = $request->description;
-        $configurable->user_id = 1;
-        $configurable->save();
+        $sop = Sop::find($id);
+        $sop->name = $request->name;
+        $sop->description = $request->description;
+        $sop->save();
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_configurable', $configurable ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_sop', $sop ->id);
     }
 
 
@@ -129,8 +124,8 @@ class ConfigurableController extends Controller {
      */
     public function delete($id)
     {
-        //Soft delete the Configurable
-        $configurable = Configurable::find($id);
+        //Soft delete the sop
+        $sop = Sop::find($id);
 
         /*$testCategoryInUse = TestType::where('test_category_id', '=', $id)->first();
         if (empty($testCategoryInUse)) {
@@ -138,7 +133,7 @@ class ConfigurableController extends Controller {
             $testcategory->delete();
         } else {
             // The test category is in use
-            $url = Session::get('SOURCE_URL');
+            $url = session('SOURCE_URL');
             
             return Redirect::to($url)
                 ->with('message', trans('terms.failure-test-category-in-use'));

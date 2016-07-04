@@ -54,7 +54,7 @@ class OrganismController extends Controller {
 		}
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_organism', $organism ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_organism', $organism ->id);
 	}
 
 
@@ -107,7 +107,7 @@ class OrganismController extends Controller {
 		}
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_organism', $organism ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_organism', $organism ->id);
 	}
 
 
@@ -146,6 +146,6 @@ class OrganismController extends Controller {
 		// redirect
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-deleted'));
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-deleted'));
 	}
 }

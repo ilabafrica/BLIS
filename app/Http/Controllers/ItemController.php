@@ -48,7 +48,7 @@ class ItemController extends Controller {
         $item->save();
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_item', $item ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_item', $item ->id);
 	}
 
 	/**
@@ -98,7 +98,7 @@ class ItemController extends Controller {
         
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-updated'))->with('active_item', $item ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-updated'))->with('active_item', $item ->id);
 	}	
 	/**
 	 * Remove the specified resource from storage.

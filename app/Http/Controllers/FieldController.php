@@ -55,7 +55,7 @@ class FieldController extends Controller {
         $field->save();
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_field', $field ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_field', $field ->id);
     }
 
 
@@ -105,7 +105,7 @@ class FieldController extends Controller {
         $field->save();
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_field', $field ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_field', $field ->id);
     }
 
 
@@ -144,6 +144,6 @@ class FieldController extends Controller {
         // redirect
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-deleted'));
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-deleted'));
     }
 }
