@@ -2,7 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Requests\VictimTypeRequest;
-use App\Models\VictimType
+use App\Models\VictimType;
 use Response;
 use Auth;
 use Session;
