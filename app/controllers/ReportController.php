@@ -1572,17 +1572,6 @@ class ReportController extends \BaseController {
 								$table.='<td>'.$this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, [$range], 1).'</td>';
 							}
 						$table.='</tr>
-						<tr>
-							<td>PSA</td>';
-							$tMeasure = Measure::find(Measure::getMeasureIdByName('PSA'));
-							foreach ($sex as $gender) {
-								$table.='<td>'.$this->getTotalTestResults($tMeasure, [$gender], null, $from, $toPlusOne, null, null).'</td>';
-							}
-							$table.='<td>'.$this->getTotalTestResults($tMeasure, $sex, null, $from, $toPlusOne, null, 1).'</td>';
-							foreach ($ranges as $range) {
-								$table.='<td>'.$this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, [$range], 1).'</td>';
-							}
-						$table.='</tr>
 					</tbody>
 				</table>
 				<table class="table table-condensed report-table-border">

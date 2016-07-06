@@ -132,6 +132,8 @@
 			<table class="table table-bordered">
 				<tbody>
 					<tr>
+						<th>{{ trans('messages.patient-number') }}</th>
+						<th>{{ trans('messages.patient-name') }}</th>
 						<th>{{ trans('messages.specimen-number-title') }}</th>
 						<th>{{ trans('messages.specimen') }}</th>
 						<th>{{ trans('messages.lab-receipt-date') }}</th>
@@ -143,6 +145,8 @@
 					</tr>
 					@forelse($specimens as $specimen)
 					<tr>
+						<td>{{ $specimen->test->visit->patient->id }}</td>
+						<td>{{ $specimen->test->visit->patient->name }}</td>
 						<td>{{ $specimen->id }}</td>
 						<td>{{ $specimen->specimenType->name }}</td>
 						<td>{{ $specimen->test->time_created }}</td>
