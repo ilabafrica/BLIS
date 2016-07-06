@@ -1,5 +1,6 @@
 <?php namespace App\Api;
 
+use App\Api\InterfacerInterface;
 use App\Models\ExternalDump;
 use App\Models\TestType;
 use App\Models\Measures;
@@ -15,7 +16,6 @@ class SanitasInterfacer implements InterfacerInterface{
     {
         // todo: remove these dd();s
         // dd('in SanitasInterfacer::retrieve!');
-        dd($labrequest);
         //In sanitas case request are sent to us thus not much to do here
         //validate input
         //Check if json

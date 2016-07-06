@@ -1,5 +1,6 @@
 <?php namespace App\Api;
 
+use App\Api\InterfacerInterface as InterfacerInterface;
 use App\Models\ExternalDump;
 use App\Models\TestType;
 use App\Models\Patient;

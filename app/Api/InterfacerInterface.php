@@ -1,4 +1,6 @@
-<?php namespace App\Api;
+<?php
+
+namespace App\Api;
 
 interface InterfacerInterface {
     /*
