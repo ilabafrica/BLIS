@@ -64,7 +64,7 @@
 					@foreach($testtypes as $key=>$value)
 						<div class="col-md-3">
 							<label  class="checkbox">
-								<input type="checkbox" name="drugs[]" value="{!! $value->id!!}" />{!!$value->name!!}
+								<input type="checkbox" name="testtypes[]" value="{!! $value->id!!}" />{!!$value->name!!}
 							</label>
 						</div>
 					@endforeach
