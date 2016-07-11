@@ -107,6 +107,7 @@ return array(
     'patient-id' => 'Patient ID',
     'patient-search-button' => 'Go!',
     'patient-number' => 'Patient No.',
+    'patient-name' => 'Patient Name',
     'phone-number' => 'Phone Number',
     'physical-address' => 'Physical Address',
     
@@ -258,8 +259,8 @@ return array(
     'success-updating-organism' => 'The Organism was successfully updated!',
     'organism-details' => 'Organism Details',
     'list-organisms' => 'List Organisms',
-    'compatible-drugs' => 'Compatible Drugs',
-    'no-compatible-drugs' => 'No compatible drugs found for this organism.',
+    'compatible-drugs' => 'Sensitive Drugs',
+    'no-compatible-drugs' => 'No sensitive drugs found for this organism.',
     /* Culture worksheet */
     'culture-worksheet' =>  'CULTURE WORKSHEET',
     'culture-work-up' =>  'CULTURE OBSERVATIONS AND WORK-UP',
