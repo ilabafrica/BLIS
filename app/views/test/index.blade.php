@@ -220,12 +220,14 @@
                         @endif
                         @if ($test->specimen->isAccepted() && !($test->isVerified()))
                             @if(Auth::user()->can('reject_test_specimen') && !($test->specimen->isReferred()))
-                                <a class="btn btn-sm btn-danger" id="reject-{{$test->id}}-link"
+                                @if($test->isPending()) <!-- can only reject specimen if the test is still pending -->
+                                    <a class="btn btn-sm btn-danger" id="reject-{{$test->id}}-link"
                                     href="{{URL::route('test.reject', array($test->specimen_id))}}"
                                     title="{{trans('messages.reject-title')}}">
                                     <span class="glyphicon glyphicon-thumbs-down"></span>
                                     {{trans('messages.reject')}}
-                                </a>
+                                    </a>
+                                @endif
                                 <a class="btn btn-sm btn-midnight-blue barcode-button" onclick="print_barcode({{ "'".$test->specimen->id."'".', '."'".$barcode->encoding_format."'".', '."'".$barcode->barcode_width."'".', '."'".$barcode->barcode_height."'".', '."'".$barcode->text_size."'" }})" title="{{trans('messages.barcode')}}">
                                     <span class="glyphicon glyphicon-barcode"></span>
                                     {{trans('messages.barcode')}}
