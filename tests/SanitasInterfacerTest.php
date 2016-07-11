@@ -8,6 +8,7 @@ use App\Models\Visit;
 use App\Models\Patient;
 use App\Models\User;
 use App\Models\ExternalDump;
+use App\Api\Facades\Interfacer;
 
 class SanitasInterfacerTest extends TestCase
 {
@@ -15,27 +16,29 @@ class SanitasInterfacerTest extends TestCase
     public function setup()
     {
         parent::setup();
+        $this->app->bind('Interfacer', 'App\Api\SanitasInterfacer');
         Artisan::call('migrate');
         Artisan::call('db:seed');
         $this->setVariables();
     }
 
-    // todo: check how l5 phpunit test works with sanitas and medboss json strings also how to handle in the controller and model
     public function testRetrieveSingleRequest()
     {
-        // $this->app->bind('App\Api\InterfacerInterface', 'App\Api\SanitasInterfacer');
         echo "\n\nSANITAS INTERFACER TEST\n\n";
 		$this->withoutMiddleware();
         // Invoke API URL making a single test request (presumed successful)
-// dd($this->labRequestJsonSimpleTest);
 
 
         $this->json('POST', 'api/receiver', [$this->labRequestJsonSimpleTest]);
 
-        $labR = json_decode($this->labRequestJsonSimpleTest);
+        $labRequest = $this->labRequestJsonSimpleTest;
 
+        if (strpos($labRequest,'=') !== false && strpos($labRequest,'labRequest')  !== false) {
+            $labRequest = str_replace(['labRequest', '='], ['', ''], $labRequest);
+            $labRequest = json_decode($labRequest);
+        }
         // Was the data stored in the external dump?
-        $externalDump = ExternalDump::where('lab_no', '=', $labR->labNo)->get();
+        $externalDump = ExternalDump::where('lab_no', '=', $labRequest->labNo)->get();
         $this->assertTrue(count($externalDump) > 0);
 
         // Was a new patient created?
@@ -55,15 +58,19 @@ class SanitasInterfacerTest extends TestCase
         $this->assertTrue(count($specimen) > 0);
 
     }
-/*
+
     public function testRequestForTestNotFound()
     {
-		$this->withoutMiddleware();
+        $this->withoutMiddleware();
         // Invoke API URL to insert seed data
-        $this->call('POST', 'api/receiver', [], [], [],
-            [], $this->labRequestJsonSimpleTestNotFoundInSanitas);
+        $this->json('POST', 'api/receiver', [$this->labRequestJsonSimpleTestNotFoundInSanitas]);
 
-        $labRNF = json_decode($this->labRequestJsonSimpleTestNotFoundInSanitas);
+        $labRNF = $this->labRequestJsonSimpleTestNotFoundInSanitas;
+
+        if (strpos($labRNF,'=') !== false && strpos($labRNF,'labRequest')  !== false) {
+            $labRNF = str_replace(['labRequest', '='], ['', ''], $labRNF);
+            $labRNF = json_decode($labRNF);
+        }
 
         // Was the data stored in the external dump?
         $externalDump = ExternalDump::where('lab_no', '=', $labRNF->labNo)->get();
@@ -84,11 +91,17 @@ class SanitasInterfacerTest extends TestCase
     {
         //Sending requests for urinalysis
         for ($i=0; $i < count($this->labRequestUrinalysis); $i++) { 
-            InterfacerInterface::retrieve($this->labRequestUrinalysis[$i]);
+            App\Api\Facades\Interfacer::retrieve($this->labRequestUrinalysis[$i]);
         }
 
-        $labR = json_decode($this->labRequestJsonSimpleTest);
-        InterfacerInterface::retrieve($labR); //bs for mps
+        $labR = $this->labRequestJsonSimpleTest;
+
+        if (strpos($labR,'=') !== false && strpos($labR,'labRequest')  !== false) {
+            $labR = str_replace(['labRequest', '='], ['', ''], $labR);
+            $labR = json_decode($labR);
+        }
+
+        App\Api\Facades\Interfacer::retrieve($labR); //bs for mps
 
         // Check that all the 'urinalysis' data was stored
         // Was the data stored in the external dump?
@@ -139,9 +152,14 @@ class SanitasInterfacerTest extends TestCase
     {
 		$this->withoutMiddleware();
         // Invoke API URL making a single test request (presumed successful)
-        $this->call('POST', 'api/receiver', [], [], [], [], $this->labRequestJsonSimpleTest);
+        $this->json('POST', 'api/receiver', [$this->labRequestJsonSimpleTest]);
 
-        $labR = json_decode($this->labRequestJsonSimpleTest);
+        $labR = $this->labRequestJsonSimpleTest;
+
+        if (strpos($labR,'=') !== false && strpos($labR,'labRequest')  !== false) {
+            $labR = str_replace(['labRequest', '='], ['', ''], $labR);
+            $labR = json_decode($labR);
+        }
 
         // Was the data stored in the external dump?
         $externalDump = ExternalDump::where('lab_no', '=', $labR->labNo)->get();
@@ -166,7 +184,7 @@ class SanitasInterfacerTest extends TestCase
         $labRPR = json_decode($this->labRequestJsonSimpleTestPayMentRequest);
 
          //Second request similar to first but with payment details
-        InterfacerInterface::retrieve($labRPR);
+        App\Api\Facades\Interfacer::retrieve($labRPR);
 
         // Was the data stored in the external dump?
         // There should only be one record. The second only updates the first
@@ -178,7 +196,7 @@ class SanitasInterfacerTest extends TestCase
     public function rethinktestInterfacerSend()
     {
         //Curent method of testing not working
-        InterfacerInterface::send('13');
+        App\Api\Facades\Interfacer::send('13');
 
         $dump1 = ExternalDump::find(1);
 
@@ -194,11 +212,11 @@ class SanitasInterfacerTest extends TestCase
 
     public function testMultipleVisitTypes()
     {
-        InterfacerInterface::retrieve($this->labRequestJsonSimpleTestTwoVisits[0]);
-        InterfacerInterface::retrieve($this->labRequestJsonSimpleTestTwoVisits[1]);
-        InterfacerInterface::retrieve($this->labRequestJsonSimpleTestTwoVisits[2]);
-        InterfacerInterface::retrieve($this->labRequestJsonSimpleTestTwoVisits[3]);
-        InterfacerInterface::retrieve($this->labRequestJsonSimpleTestTwoVisits[4]);
+        App\Api\Facades\Interfacer::retrieve($this->labRequestJsonSimpleTestTwoVisits[0]);
+        App\Api\Facades\Interfacer::retrieve($this->labRequestJsonSimpleTestTwoVisits[1]);
+        App\Api\Facades\Interfacer::retrieve($this->labRequestJsonSimpleTestTwoVisits[2]);
+        App\Api\Facades\Interfacer::retrieve($this->labRequestJsonSimpleTestTwoVisits[3]);
+        App\Api\Facades\Interfacer::retrieve($this->labRequestJsonSimpleTestTwoVisits[4]);
 
         $externalDump = ExternalDump::where('lab_no', '=', $this->labRequestJsonSimpleTestTwoVisits[0]->labNo)->get();
         $this->assertTrue(count($externalDump) == 1);
@@ -233,12 +251,12 @@ class SanitasInterfacerTest extends TestCase
         $this->assertTrue($visit->first()->id != $visit[1]->id);
         //Check visit number is the same
         $this->assertEquals($visit->first()->visit_number, $visit[1]->visit_number);
-    }*/
+    }
 
     public function setVariables()
     {
         $this->labRequestJsonSimpleTest = 
-            '{"cost": null,
+            'labRequest={"cost": null,
                 "receiptNumber": null,
                 "receiptType": null,
                 "labNo": 596726,
@@ -288,7 +306,7 @@ class SanitasInterfacerTest extends TestCase
             }';
 
         $this->labRequestJsonSimpleTestNotFoundInSanitas = 
-            '{"cost": null,
+            'labRequest={"cost": null,
                 "receiptNumber": null,
                 "receiptType": null,
                 "labNo": 596726,

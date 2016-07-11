@@ -16,6 +16,7 @@ class SanitasInterfacer implements InterfacerInterface{
     {
         // todo: remove these dd();s
         // dd('in SanitasInterfacer::retrieve!');
+    // dd($labRequest);
         //In sanitas case request are sent to us thus not much to do here
         //validate input
         //Check if json
