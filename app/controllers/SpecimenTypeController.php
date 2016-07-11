@@ -46,7 +46,7 @@ class SpecimenTypeController extends \BaseController {
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator);
+			return Redirect::back()->withErrors($validator)->WithInput();
 		} else {
 			// store
 			$specimentype = new SpecimenType;

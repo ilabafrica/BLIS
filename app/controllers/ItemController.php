@@ -43,7 +43,7 @@ class ItemController extends \BaseController {
 	
 		//process
 		if($validator->fails()){
-			return Redirect::back()->withErrors($validator);
+			return Redirect::back()->withErrors($validator)->WithInput();
 		}else{
 			//store
 			$item = new Item;
