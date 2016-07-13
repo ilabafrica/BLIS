@@ -68,6 +68,10 @@ class CreateCustRegFieldsTables extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+        //  SQL to get table names as modules
+        SELECT TABLE_NAME
+FROM information_schema.TABLES 
+WHERE TABLE_SCHEMA = 'lis' AND TABLE_NAME NOT LIKE '%\_%';
     }
 
     /**
