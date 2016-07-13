@@ -43,9 +43,13 @@
 			                    array('class' => 'btn btn-primary', 'id' => 'filter', 'type' => 'submit')) }}
 		            </div>
 		            @if(count($verified) == count($tests))
-		            <div class="col-sm-1">
+		            <div class="col-sm-3">
 				        {{ Form::submit(trans('messages.export-to-word'), array('class' => 'btn btn-success', 
 				        	'id' => 'word', 'name' => 'word')) }}
+				    </div>
+				    <div class="col-sm-1">
+				        {{ Form::submit(trans('messages.export-to-excel'), array('class' => 'btn btn-success', 
+				        	'id' => 'excel', 'name' => 'excel')) }}
 				    </div>
 				    @endif
 			    </div>

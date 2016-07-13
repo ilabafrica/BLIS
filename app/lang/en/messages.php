@@ -379,6 +379,7 @@ return array(
     'date-verified' => 'Date Verified',
     'export-to-pdf' => 'Export to PDF',
     'export-to-word' => 'Export to Word',
+    'export-to-excel' => 'Export to Excel',
     'hospital-number'   =>  'Hospital number',
     'include-pending-tests' => 'Include Pending Tests',
     'include-range-visualization' => 'Include Range Visualization',

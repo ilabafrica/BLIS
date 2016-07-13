@@ -36,8 +36,8 @@
 		                array('class' => 'btn btn-info', 'id' => 'filter', 'type' => 'submit')) }}
 		        </div>
 		        <div class="col-sm-1">
-					{{Form::submit('Export to Excel', 
-			    		array('class' => 'btn btn-success', 'id'=>'excel', 'name'=>'excel'))}}
+					{{Form::submit(trans('messages.export-to-excel'), 
+				    		array('class' => 'btn btn-success', 'id'=>'excel', 'name'=>'excel'))}}
 				</div>
 			</div>
 		</div>
