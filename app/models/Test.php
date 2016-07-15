@@ -23,7 +23,7 @@ class Test extends Eloquent
 	/**
 	 * Other constants
 	 */
-	const POSITIVE = '+';
+	const POSITIVE = 'Positive';
 
 	/**
 	 * Visit relationship
@@ -543,6 +543,7 @@ class Test extends Eloquent
 			}
 			$idCount++;
 		}
+		//echo print_r($positiveRangesQuery);
 
 		// Query only if there are entries for surveillance
 		if (!empty($surveillances) && !empty($positiveRangesQuery)) {
@@ -579,6 +580,7 @@ class Test extends Eloquent
 			$data = json_decode(json_encode($data), true);
 			return $data[0];
 		}else{
+			
 			return null;
 		}
 	}
@@ -598,7 +600,6 @@ class Test extends Eloquent
 			$measureRanges = $measure->measureRanges;
 
 			foreach ($measureRanges as $measureRange) {
-
 				if ($measureRange->interpretation == Test::POSITIVE) {
 					$positiveRanges[] = $measureRange->alphanumeric;
 				}

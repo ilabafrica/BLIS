@@ -94,19 +94,12 @@
 						<?php if(empty(count($disease->reportDiseases))) continue; ?>
 						<tr>
 							<td>{{ $disease->name }}</td>
-							<td>{{ $surveillance[$disease->id.
-								'_less_five_total'] }}</td>
-							<td>{{ $surveillance[$disease->id.
-								'_less_five_positive'] }}</td>
-							<td>{{ $surveillance[$disease->id.
-								'_total'] - $surveillance[$disease->id.
-								'_less_five_total'] }}</td>
-							<td>{{ $surveillance[$disease->id.
-								'_positive'] - $surveillance[$disease->id.
-								'_less_five_positive'] }}</td>
-							<td>{{ $surveillance[$disease->id.
-								'_total'] }}</td>
-							<td>{{ $surveillance[$disease->id.'_positive'] }}</td>
+							<td>{{ $surveillance[$disease->id.'_less_five_total'] }}</td> <!-- less than five total tested -->
+							<td>{{ $surveillance[$disease->id.'_less_five_positive'] }}</td> <!-- less than five positive -->
+							<td>{{ $surveillance[$disease->id.'_total'] - $surveillance[$disease->id.'_less_five_total'] }}</td> <!-- greater than five total tested -->
+							<td>{{ $surveillance[$disease->id.'_positive'] - $surveillance[$disease->id.'_less_five_positive'] }}</td> <!-- greater than five positive -->
+							<td>{{ $surveillance[$disease->id.'_total'] }}</td> <!-- total tested-->
+							<td>{{ $surveillance[$disease->id.'_positive'] }}</td> <!-- total positive-->
 						</tr>
 					@endforeach
 				</tbody>
