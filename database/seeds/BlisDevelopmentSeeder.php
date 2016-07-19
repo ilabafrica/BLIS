@@ -12,7 +12,9 @@ use DateTime;
 use DateInterval;
 use App\Models\User;
 use App\Models\Visit;
+use App\Models\Charge;
 use App\Models\Measure;
+use App\Models\Payment;
 use App\Models\Patient;
 use App\Models\MeasureType;
 use App\Models\MeasureRange;
@@ -2155,6 +2157,20 @@ class BlisDevelopmentSeeder extends Seeder
             $lyser[] = Analyser::create($analyser);
         }
         $this->command->info('Analysers table seeded');
+
+        //Seed for charges
+        $charge = Charge::create(["test_id" => "1", "current_amount" => '3000',]);
+        $this->command->info('Charges table seeded');
+
+        //Seed for charges
+        $payment = Payment::create([
+            "patient_id" => "1",
+            "charge_id" => $charge->id,
+            "full_amount" => "3000",
+            "amount_paid" => "2500",
+        ]);
+        $this->command->info('Payments table seeded');
+
     }
 
     public function createSpecimen(

@@ -797,3 +797,6 @@ Route::get("/registration/{id}/delete", array(
     "uses" => "RegistrationController@delete"
 ));
 /*>>>>>>> ae2637dc622437b867a082dc5bf59e6515c2610c*/
+
+Route::resource('charge', 'ChargeController');
+Route::resource('payment', 'PaymentController');
