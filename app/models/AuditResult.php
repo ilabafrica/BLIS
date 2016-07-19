@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
-class Issue extends Eloquent
+class AuditResult extends Eloquent
 {
 	use SoftDeletingTrait;
 	protected $table = 'audit_results';
