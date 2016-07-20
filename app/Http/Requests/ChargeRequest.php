@@ -23,9 +23,10 @@ class ChargeRequest extends Request {
     public function rules()
     {
         $id = $this->ingnoreId();
+
         return [
-            'test_id'   => 'required|unique,'.$id,
-            'current_amount'   => 'required,',
+            'test_id'   => 'required|unique:charges,test_id,'.$id,
+            'current_amount'   => 'required:charges,test_id,',
         ];
     }
     /**

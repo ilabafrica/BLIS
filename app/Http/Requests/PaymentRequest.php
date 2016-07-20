@@ -25,9 +25,9 @@ class PaymentRequest extends Request {
 	{
 		$id = $this->ingnoreId();
 		return [
-            'patient_id'   => 'required,'.$id,
-            'charge_id'   => 'required,'.$id,
-            'full_amount'   => 'required,'.$id,
+            'patient_id'   => 'required:payments,patient_id,'.$id,
+            'charge_id'   => 'required:payments,charge_id,'.$id,
+            'full_amount'   => 'required:payments,full_amount,'.$id,
         ];
 	}
 	/**

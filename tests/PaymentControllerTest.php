@@ -31,8 +31,8 @@ class PaymentControllerTest extends TestCase
     {
     	// Initial sample storage data
 		$this->paymentData = array(
-			'patient_id' => '1',
-			'charge_id' => '1',
+			'patient_id' => '2',
+			'charge_id' => '2',
 			'full_amount' => '1000',
 			'amount_paid' => '500',
 		);
@@ -40,8 +40,8 @@ class PaymentControllerTest extends TestCase
 		
 		// Edition sample data
 		$this->paymentUpdate = array(
-			'patient_id' => '1',
-			'charge_id' => '1',
+			'patient_id' => '2',
+			'charge_id' => '2',
 			'full_amount' => '2000',
 			'amount_paid' => '1500',
 		);
@@ -54,7 +54,7 @@ class PaymentControllerTest extends TestCase
 	 */    
  	public function testStore() 
   	{
-		echo "\n\PAYMENT CONTROLLER TEST\n\n";
+		echo "\n\nPAYMENT CONTROLLER TEST\n\n";
   		 // Store the Payment
 		$this->withoutMiddleware();
       	$this->be(User::first());
@@ -82,9 +82,9 @@ class PaymentControllerTest extends TestCase
 		$paymentStored = Payment::orderBy('id','desc')->first();
 
 		$this->withoutMiddleware();
-		$this->call('PUT', '/payment/1', $this->paymentUpdate);
+		$this->call('PUT', '/payment/2', $this->paymentUpdate);
 
-		$paymentUpdated = Payment::find('1');
+		$paymentUpdated = Payment::find('2');
 		$this->assertEquals($paymentUpdated->patient_id , $this->paymentUpdate['patient_id']);
 		$this->assertEquals($paymentUpdated->charge_id , $this->paymentUpdate['charge_id']);
 		$this->assertEquals($paymentUpdated->full_amount , $this->paymentUpdate['full_amount']);
@@ -98,12 +98,9 @@ class PaymentControllerTest extends TestCase
      */
 	public function testDestroy()
 	{
-		
 		$this->withoutMiddleware();
-		$this->call('POST', '/payment', $this->paymentData);
 		$paymentStored = Payment::orderBy('id','desc')->first();
-        $payment->delete($paymentStored->id);
-		// todo: count and check that the total number has reduced by 1
-		$this->assertNotEquals($this->paymentData['charge_id'] ,$paymentStored->charge_id);
+        $paymentStored->delete($paymentStored->id);
+		$this->assertEquals(Payment::all()->count() ,0);
 	}
 }

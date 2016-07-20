@@ -13,7 +13,6 @@ abstract class Request extends FormRequest
 	protected function formatErrors(Validator $validator)
 	{
 		// Priceless for troublshooting failing store and update when tests fail. uncomment dd();
-		// see what it says
 		// dd($validator->errors()->all());
 		return $validator->errors()->all();
 	}

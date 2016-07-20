@@ -31,14 +31,14 @@ class ChargeControllerTest extends TestCase
     {
     	// Initial sample storage data
 		$this->chargeData = array(
-			'test_id' => '1',
+			'test_id' => '2',
 			'current_amount' => '1000',
 		);
 
 		
 		// Edition sample data
 		$this->chargeUpdate = array(
-			'test_id' => '1',
+			'test_id' => '2',
 			'current_amount' => '2000',
 		);
     }
@@ -76,9 +76,9 @@ class ChargeControllerTest extends TestCase
 		$chargeStored = Charge::orderBy('id','desc')->first();
 
 		$this->withoutMiddleware();
-		$this->call('PUT', '/charge/1', $this->chargeUpdate);
+		$this->call('PUT', '/charge/2', $this->chargeUpdate);
 
-		$chargeUpdated = Charge::find('1');
+		$chargeUpdated = Charge::find('2');
 		$this->assertEquals($chargeUpdated->test_id , $this->chargeUpdate['test_id']);
 		$this->assertEquals($chargeUpdated->current_amount ,$this->chargeUpdate['current_amount']);
 	}
@@ -90,12 +90,9 @@ class ChargeControllerTest extends TestCase
      */
 	public function testDestroy()
 	{
-		
 		$this->withoutMiddleware();
-		$this->call('POST', '/charge', $this->chargeData);
 		$chargeStored = Charge::orderBy('id','desc')->first();
-        $charge->delete($chargeStored->id);
-		// todo: count and check that the total number has reduced by 1
-		$this->assertNotEquals($this->chargeData['current_amount'] ,$chargeStored->current_amount);
+        $chargeStored->delete($chargeStored->id);
+		$this->assertEquals(Charge::all()->count() ,0);
 	}
 }
