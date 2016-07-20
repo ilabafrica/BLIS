@@ -323,6 +323,10 @@ return array(
     'patient-lab-number' => 'Lab No.',
     'visit-number' => 'Visit No.',
     'visit-type' => 'Visit Type',
+    'previous-results' => 'Previous results',
+    'current-result' => 'Current result',
+    'audit-report' => 'Audit Report',
+    'entered-by' => 'Entered by',
 
     /** 
      *   Tests search panel

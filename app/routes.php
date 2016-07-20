@@ -352,6 +352,10 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.aggregate.rejection",
             "uses" => "ReportController@specimenRejectionChart"
         ));
+        Route::any("/testaudit/{testid}", array(
+            "as"   => "reports.audit.test",
+            "uses" => "ReportController@viewTestAuditReport"
+        ));
     });
     Route::group(array("before" => "checkPerms:manage_qc"), function()
     {

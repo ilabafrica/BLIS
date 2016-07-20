@@ -23,6 +23,13 @@ class TestResult extends Eloquent
 	{
 		return $this->belongsTo('Test');
 	}
+	/**
+	 * Results Audit relationship
+	 */
+	public function auditResults()
+	{
+		return $this->hasMany('AuditResult');
+	}
 	/*
 	*	Counts for microbiology - count organisms per specimen type
 	*
