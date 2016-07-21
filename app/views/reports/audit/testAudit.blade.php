@@ -126,12 +126,18 @@
 											{{ Measure::find($result->measure_id)->unit }}</br>
 
 											<u>{{trans('messages.previous-results')}}</u> </br>
-											@foreach($result->auditResults as $auditResult)
-												{{trans('messages.result-name')}} : {{ $auditResult->previous_results }}
-												{{Measure::getRange($test->visit->patient, $result->measure_id) }} {{ Measure::find($result->measure_id)->unit }}
-												{{trans('messages.entered-by')}} : {{ $auditResult->user->username }}
-												{{trans('messages.created-at')}} : {{ $auditResult->created_at }} </br>
-											@endforeach
+											<table class="table">
+												<tbody>
+												@foreach($result->auditResults as $auditResult)
+													<tr>
+														<td>{{trans('messages.result-name')}} : {{ $auditResult->previous_results }}
+														{{Measure::getRange($test->visit->patient, $result->measure_id) }} {{ Measure::find($result->measure_id)->unit }}</td>
+														<td>{{trans('messages.entered-by')}} : {{ $auditResult->user->username }}</td>
+														<td>{{trans('messages.created-at')}} : {{ $auditResult->created_at }}</td>
+													</tr>
+												@endforeach
+												</tbody>
+											</table>
 										</p>
 									@endforeach
 								</td>

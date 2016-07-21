@@ -337,7 +337,7 @@ class TestController extends \BaseController {
 			if ($testResult->result != Input::get('m_'.$measure->id)){
 				$testResultAudit = new AuditResult();
 				$testResultAudit->previous_results = $testResult->result;
-				$testResultAudit->test_result_id = $testResult->test_id;
+				$testResultAudit->test_result_id = $testResult->id;
 				$testResultAudit->user_id = Auth::user()->id;
 				$audit = true;
 			}
