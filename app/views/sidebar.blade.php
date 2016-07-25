@@ -35,6 +35,7 @@
 		case 'qualitycontrol':
 		case 'inventory':
 		case 'rejection':
+		case 'testaudit':
 			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
