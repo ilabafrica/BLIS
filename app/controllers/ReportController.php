@@ -22,6 +22,19 @@ class ReportController extends \BaseController {
 	}
 
 	/**
+	 * Display test report and its audit
+	 *
+	 * @return Response
+	 */
+	public function viewTestAuditReport($testId){
+
+		$test = Test::find($testId);
+
+		return View::make('reports.audit.testAudit')
+						->with('test', $test);
+	}
+
+	/**
 	 * Display data after applying the filters on the report uses patient ID
 	 *
 	 * @return Response
