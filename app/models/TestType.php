@@ -41,7 +41,7 @@ class TestType extends Eloquent
 	 */
 	public function measures()
 	{
-	  return $this->belongsToMany('Measure', 'testtype_measures');
+	  return $this->belongsToMany('Measure', 'testtype_measures')->withPivot('ordering');
 	}
 
 	/**

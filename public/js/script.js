@@ -75,6 +75,14 @@ $(function(){
 	 *	MEASURES 
 	 */
 
+	 /*Sort measures */
+	 // sortable('.sortable');
+
+	sortable('.sortable')[0].addEventListener('sortupdate', function(e) {
+		
+    	console.log(e.detail);
+	});
+
 	 /* Add another measure */
 	$('.add-another-measure').click(function(){
 		newMeasureNo = $(this).data('new-measure');

@@ -51,6 +51,10 @@ class Measure extends Eloquent
 	{
 	  return $this->belongsToMany('TestType', 'testtype_measures');
 	}
+
+	/**
+	 * TestType relationship
+	 */
 	public function getResultInterpretation($result)
 	{
 		$measure = Measure::find($result['measureid']);
