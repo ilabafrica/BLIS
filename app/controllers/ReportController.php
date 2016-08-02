@@ -1217,7 +1217,7 @@ class ReportController extends \BaseController {
 
 		//	Referred out specimen
 		$referredSpecimens = DB::select(DB::raw("SELECT specimen_type_id, specimen_types.name as spec, count(specimens.id) as tot,".
-												" facility_id, facilities.name as facility FROM iblis.specimens".
+												" facility_id, facilities.name as facility FROM specimens".
 												" join referrals on specimens.referral_id=referrals.id".
 												" join specimen_types on specimen_type_id=specimen_types.id".
 												" join facilities on referrals.facility_id=facilities.id".

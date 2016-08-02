@@ -203,8 +203,7 @@ class Measure extends Eloquent
 				{
 					$mRange = null;
 					if($gender)
-						dd($gender[0]);
-						// $mRange = $this->measureRanges()->where('gender', $gender)->first();
+						$mRange = $this->measureRanges->first();
 					else
 						$mRange = $this->measureRanges->first();
 					$testResults = $testResults->whereRaw("result REGEXP '^[0-9]+\\.?[0-9]*$'");
