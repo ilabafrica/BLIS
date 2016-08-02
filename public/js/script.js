@@ -572,7 +572,11 @@ $(function(){
 
 	function UIComponents(){
 		/* Datepicker */
-		$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
+		$( '.standard-datepicker').datepicker({ 
+			dateFormat: "yy-mm-dd", 
+			changeMonth: true,
+      		changeYear: true
+		});
 	}
 
 	function editUserProfile()

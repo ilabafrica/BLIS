@@ -43,7 +43,10 @@ class KBLISSeeder extends DatabaseSeeder
             array("name" => "manage_users", "display_name" => "Can manage users"),
             array("name" => "manage_test_catalog", "display_name" => "Can manage test catalog"),
             array("name" => "manage_lab_configurations", "display_name" => "Can manage lab configurations"),
-            array("name" => "view_reports", "display_name" => "Can view reports")
+            array("name" => "view_reports", "display_name" => "Can view reports"),
+            array("name" => "manage_inventory", "display_name" => "Can manage inventory"),
+            array("name" => "request_topup", "display_name" => "Can request top-up"),
+            array("name" => "manage_qc", "display_name" => "Can manage Quality Control")
         );
         foreach ($permissions as $permission) {
             Permission::create($permission);
@@ -149,6 +152,49 @@ class KBLISSeeder extends DatabaseSeeder
             SpecimenStatus::create($specimen_status);
         }
         $this->command->info('specimen_statuses seeded');
+
+        /* Rejection Reasons table */
+        $rejection_reasons_array = array(
+          array("reason" => "Poorly labelled"),
+          array("reason" => "Over saturation"),
+          array("reason" => "Insufficient Sample"),
+          array("reason" => "Scattered"),
+          array("reason" => "Clotted Blood"),
+          array("reason" => "Two layered spots"),
+          array("reason" => "Serum rings"),
+          array("reason" => "Scratched"),
+          array("reason" => "Haemolysis"),
+          array("reason" => "Spots that cannot elute"),
+          array("reason" => "Leaking"),
+          array("reason" => "Broken Sample Container"),
+          array("reason" => "Mismatched sample and form labelling"),
+          array("reason" => "Missing Labels on container and tracking form"),
+          array("reason" => "Empty Container"),
+          array("reason" => "Samples without tracking forms"),
+          array("reason" => "Poor transport"),
+          array("reason" => "Lipaemic"),
+          array("reason" => "Wrong container/Anticoagulant"),
+          array("reason" => "Request form without samples"),
+          array("reason" => "Missing collection date on specimen / request form."),
+          array("reason" => "Name and signature of requester missing"),
+          array("reason" => "Mismatched information on request form and specimen container."),
+          array("reason" => "Request form contaminated with specimen"),
+          array("reason" => "Duplicate specimen received"),
+          array("reason" => "Delay between specimen collection and arrival in the laboratory"),
+          array("reason" => "Inappropriate specimen packing"),
+          array("reason" => "Inappropriate specimen for the test"),
+          array("reason" => "Inappropriate test for the clinical condition"),
+          array("reason" => "No Label"),
+          array("reason" => "Leaking"),
+          array("reason" => "No Sample in the Container"),
+          array("reason" => "No Request Form"),
+          array("reason" => "Missing Information Required"),
+        );
+        foreach ($rejection_reasons_array as $rejection_reason)
+        {
+            $rejection_reasons[] = RejectionReason::create($rejection_reason);
+        }
+        $this->command->info('rejection_reasons seeded');
 
          /* Test Phase table */
         $test_phases = array(
