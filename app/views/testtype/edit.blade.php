@@ -120,6 +120,7 @@
 									{{ ($counter%4==0)?"</div>":"" }}
 								@endforeach
 								</div>
+							</div>
 						</div>
 					</div>
 					<div class="form-group">
@@ -133,17 +134,18 @@
 				</div>
 				<div class="tab-pane col-md-6" id="reorder">
 					</br>
-					<ul class="list-group list-group-sm sortable">
+					<ul class="list-group list-group-sm sortable" data-test-id="{{$testtype->id}}">
 					@foreach($testtype->measures as $key=>$measure)
 						@if($measure->pivot->ordering == null)
-							<li class="list-group-item" value="{{$key}}">{{$key}}. {{$measure->name}}</li>
+							<li class="list-group-item" value="{{$key}}">{{$measure->name}}</li>
 						@else
-							<li class="list-group-item" value="{{$measure->pivot->ordering}}">{{$key+1}}. {{$measure->name}}</li>
+							<li class="list-group-item" value="{{$measure->pivot->ordering}}">{{$measure->name}}</li>
 						@endif
 					@endforeach
 					</ul>
 				</div>
 			</div>
+		</div>
 		<div class="panel-footer">
 			<div class="form-group actions-row">
 				{{ Form::button(
