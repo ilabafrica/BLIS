@@ -55,7 +55,6 @@ return array(
     'add'   =>  'Add',
     'new'   =>  'New',
     'edit'  =>  'Edit',
-
     /** 
      *   Generic phrases
      */
@@ -690,4 +689,15 @@ return array(
     'received-by'                   =>  'Received By',
     'destination'                   =>  'Destination',
     'performed-by'                  =>  'Performed By',
+    /*
+    *   Region hierarchy
+    */    
+    'region' => 'Region',
+    'region-type' => 'Region Type',
+    'country' => 'Country',
+    'create-region' => 'Create Region',
+    'create-region-type' => 'Create Region Types',
+    'select-country' => 'Select Country',
+    'select-region' =>'Select Region',
+    'select-region-type' =>'Select Region Type',
 );
