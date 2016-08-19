@@ -26,17 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // $this->app->bind('App\Api\InterfacerInterface', 'App\Api\SanitasInterfacer');
-
-/*        $this->app->singleton('App\Api\InterfacerInterface', function ($ext) {
-
-            $labRequest = json_decode(Request::getContent());
-            $labRequest = json_decode($labRequest[0]);
-            // $labRequest = str_replace(['labRequest', '='], ['', ''], $labRequest);
-
-            // return $ext['App\Api\SanitasInterfacer']->retrieve($labRequest);
-            return $ext['App\Api\SanitasInterfacer']->retrieve($labRequest);
-            // prepare for labRequest here
-        });
-*/    }
+        // 
+    }
 }

@@ -43,16 +43,23 @@ class PermissionController extends Controller {
 	 */
 	public function store(PermissionRequest $request)
 	{
+
+dd($request->all());
 		$arrayPermissionRoleMapping = $request->permissionRoles;
 		$permissions = Permission::all();
 		$roles = Role::all();
+
+		$url = session('SOURCE_URL');
 
 		foreach ($permissions as $permissionkey => $permission) {
 			foreach ($roles as $roleKey => $role) {
 				//If checkbox is clicked attach the permission
 				if(!empty($arrayPermissionRoleMapping[$permissionkey][$roleKey]))
 				{
-					$role->attachPermission($permission);
+					// check that this permission has not already been attached to a role before attempting it again! 
+					if (!$role->perms->find($permission->id)) {
+						$role->attachPermission($permission);
+					}
 				}
 				//If checkbox is NOT clicked detatch the permission
 				elseif (empty($arrayPermissionRoleMapping[$permissionkey][$roleKey])) {
@@ -60,9 +67,8 @@ class PermissionController extends Controller {
 				}
 			}
 		}
-		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans_choice('messages.record-successfully-saved', 1))->with('active_permission', $permission ->id);
+		return redirect()->to($url)->with('message', trans_choice('messages.record-successfully-saved', 1))->with('active_permission', $permission ->id);
 	}
 
 

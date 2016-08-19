@@ -65,24 +65,104 @@ class BlisDevelopmentSeeder extends Seeder
     public function run()
     {
         $now = Carbon::today()->toDateTimeString();
+
         /* Users table */
-        $usersData = array(
-            array(
-                "username" => "lmorena", "password" => bcrypt("password"), "email" => "lmorena@kblis.org",
-                "name" => "L. Morena", "designation" => "Lab Technologist", "image" => "/i/users/user-3.png"
-            ),
-            array(
-                "username" => "abumeyang", "password" => bcrypt("password"), "email" => "abumeyang@kblis.org",
-                "name" => "A. Abumeyang", "designation" => "Doctor"
-            ),
+        $userSuperAdmin = User::create([
+            "username" => "superadmin",
+            "password" => bcrypt("password"),
+            "email" => "admin@blis.org",
+            "name" => "BLIS Administrator",
+            "designation" => "Programmer",
+            "phone"=>"0722000000",
+            "address" => "P.O. Box 59857-00200, Nairobi",
+            "image" => "/i/users/user-2.jpg"
+        ]);
+
+        $userExternal = User::create([
+            "username" => "external",
+            "password" => bcrypt("password"),
+            "email" => "external@blis.org",
+            "name" => "External System User",
+            "designation" => "Administrator",
+        ]);
+
+        $userTechnologist = User::create([
+            "username" => "lmorena",
+            "password" => bcrypt("password"),
+            "email" => "lmorena@blis.org",
+            "name" => "L. Morena",
+            "designation" => "Lab Technologist",
+        ]);
+
+        $userReceptionist = User::create([
+            "username" => "radhiambo",
+            "password" => bcrypt("password"),
+            "email" => "radhiambo@blis.org",
+            "name" => "R. Adhiambo",
+            "designation" => "Receptionist",
+        ]);
+
+        $userAdministrator = User::create([
+            "username" => "abumeyang",
+            "password" => bcrypt("password"),
+            "email" => "abumeyang@blis.org",
+            "name" => "A. Abumeyang",
+            "designation" => "Lab Administrator",
+        ]);
+
+        $this->command->info('users seeded');
+
+        /* Measure Types */
+        $measureTypes = array(
+            array("id" => "1", "name" => "Numeric Range"),
+            array("id" => "2", "name" => "Alphanumeric Values"),
+            array("id" => "3", "name" => "Autocomplete"),
+            array("id" => "4", "name" => "Free Text")
         );
 
-        foreach ($usersData as $user)
+        foreach ($measureTypes as $measureType)
         {
-            $users[] = User::create($user);
+            MeasureType::create($measureType);
         }
-        $this->command->info('More users seeded');
+        $this->command->info('measure_types seeded');
+                
+        /* Test Phase table */
+        $test_phases = array(
+          array("id" => "1", "name" => "Pre-Analytical"),
+          array("id" => "2", "name" => "Analytical"),
+          array("id" => "3", "name" => "Post-Analytical")
+        );
+        foreach ($test_phases as $test_phase)
+        {
+            TestPhase::create($test_phase);
+        }
+        $this->command->info('test_phases seeded');
 
+        /* Test Status table */
+        $test_statuses = array(
+          array("id" => "1","name" => "not-received","test_phase_id" => "1"),//Pre-Analytical
+          array("id" => "2","name" => "pending","test_phase_id" => "1"),//Pre-Analytical
+          array("id" => "3","name" => "started","test_phase_id" => "2"),//Analytical
+          array("id" => "4","name" => "completed","test_phase_id" => "3"),//Post-Analytical
+          array("id" => "5","name" => "verified","test_phase_id" => "3")//Post-Analytical
+        );
+        foreach ($test_statuses as $test_status)
+        {
+            TestStatus::create($test_status);
+        }
+        $this->command->info('test_statuses seeded');
+
+        /* Specimen Status table */
+        $specimen_statuses = array(
+          array("id" => "1", "name" => "specimen-not-collected"),
+          array("id" => "2", "name" => "specimen-accepted"),
+          array("id" => "3", "name" => "specimen-rejected")
+        );
+        foreach ($specimen_statuses as $specimen_status)
+        {
+            SpecimenStatus::create($specimen_status);
+        }
+        $this->command->info('specimen_statuses seeded');
 
         /* Specimen Types table */
         $specTypesData = array(
@@ -387,10 +467,10 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::NOT_RECEIVED, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "test_status_id" => Test::NOT_RECEIVED,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
             )
         );        
         
@@ -401,10 +481,10 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
             )
         );        
         
@@ -415,10 +495,10 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
             )
         );        
         
@@ -429,9 +509,9 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::ACCEPTED,
                         SpecimenType::all()->last()->id,
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "test_status_id" => Test::PENDING,
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
                 "requested_by" => "Dr. Abou Meyang",
             )
         );        
@@ -443,11 +523,11 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "interpretation" => "Perfect match.",
                 "test_status_id" => Test::COMPLETED,
-                "created_by" => $users[rand(0, count($users)-1)]->id,
-                "tested_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
+                "tested_by" => $userTechnologist->id,
                 "requested_by" => "Dr. Abou Meyang",
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT12M8S'))->format('Y-m-d H:i:s'),
@@ -461,11 +541,11 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "interpretation" => "Do nothing!",
                 "test_status_id" => Test::COMPLETED,
-                "created_by" => $users[rand(0, count($users)-1)]->id,
-                "tested_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
+                "tested_by" => $userTechnologist->id,
                 "requested_by" => "Genghiz Khan",
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT5M23S'))->format('Y-m-d H:i:s'),
@@ -478,10 +558,10 @@ class BlisDevelopmentSeeder extends Seeder
                 "test_type_id" => $testTypeGXM->id,
                 "specimen_id" => $this->createSpecimen(
                     Test::STARTED, Specimen::ACCEPTED, SpecimenType::all()->last()->id, 
-                    $users[rand(0, count($users)-1)]->id),
+                    $userTechnologist->id),
                 "test_status_id" => Test::STARTED,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
                 "time_started" => $now->format('Y-m-d H:i:s'),
             )
         );
@@ -493,11 +573,11 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "interpretation" => "Positive",
                 "test_status_id" => Test::COMPLETED,
-                "created_by" => $users[rand(0, count($users)-1)]->id,
-                "tested_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
+                "tested_by" => $userTechnologist->id,
                 "requested_by" => "Ariel Smith",
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT7M34S'))->format('Y-m-d H:i:s'),
@@ -511,12 +591,12 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::VERIFIED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "interpretation" => "Very high concentration of parasites.",
                 "test_status_id" => Test::VERIFIED,
-                "created_by" => $users[rand(0, count($users)-1)]->id,
-                "tested_by" => $users[rand(0, count($users)-1)]->id,
-                "verified_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
+                "tested_by" => $userTechnologist->id,
+                "verified_by" => $userTechnologist->id,
                 "requested_by" => "Genghiz Khan",
                 "time_started" => $now,
                 "time_completed" => $now->add(new DateInterval('PT5M17S'))->format('Y-m-d H:i:s'),
@@ -531,12 +611,12 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::REJECTED, 
                         SpecimenType::all()->last()->id, 
-                        $users[rand(0, count($users)-1)]->id,
-                        $users[rand(0, count($users)-1)]->id,
+                        $userTechnologist->id,
+                        $userTechnologist->id,
                         $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
                 "time_started" => $now->format('Y-m-d H:i:s'),
             )
         );        
@@ -549,10 +629,10 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::STARTED, Specimen::ACCEPTED,
                         SpecimenType::all()->last()->id,
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Fred Astaire",
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
             )
         );        
         
@@ -563,11 +643,11 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::STARTED, Specimen::REJECTED, 
                         SpecimenType::all()->last()->id, 
-                        $users[rand(0, count($users)-1)]->id,
-                        $users[rand(0, count($users)-1)]->id,
+                        $userTechnologist->id,
+                        $userTechnologist->id,
                         $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id),
                 "test_status_id" => Test::STARTED,
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
                 "requested_by" => "Bony Em",
                 "time_started" => $now->format('Y-m-d H:i:s'),
             )
@@ -580,13 +660,13 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::REJECTED, 
                         SpecimenType::all()->last()->id, 
-                        $users[rand(0, count($users)-1)]->id,
-                        $users[rand(0, count($users)-1)]->id,
+                        $userTechnologist->id,
+                        $userTechnologist->id,
                         $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id),
                 "interpretation" => "Budda Boss",
                 "test_status_id" => Test::COMPLETED,
-                "created_by" => $users[rand(0, count($users)-1)]->id,
-                "tested_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
+                "tested_by" => $userTechnologist->id,
                 "requested_by" => "Ed Buttler",
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT30M4S'))->format('Y-m-d H:i:s'),
@@ -600,10 +680,10 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
             )
         );        
         
@@ -614,10 +694,10 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
             )
         );        
         
@@ -628,11 +708,11 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "interpretation" => "Whats this !!!! ###%%% ^ *() /",
                 "test_status_id" => Test::COMPLETED,
-                "created_by" => $users[rand(0, count($users)-1)]->id,
-                "tested_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
+                "tested_by" => $userTechnologist->id,
                 "requested_by" => "Dr. Abou Meyang",
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT12M8S'))->format('Y-m-d H:i:s'),
@@ -1870,56 +1950,111 @@ class BlisDevelopmentSeeder extends Seeder
         
       */  $this->command->info('Gram positive cocci seeded');
 
-        $role1 = Role::find(1);
-        $role2 = Role::find(2);//Technologist
+        /* Permissions table */
+        $permissionViewNames = Permission::create([
+            "name" => "view_names",
+            "display_name" => "Can view patient names"]);
+        $permissionManagePatients = Permission::create([
+            "name" => "manage_patients",
+            "display_name" => "Can add patients"]);
+        $permissionReceiveExternalTest = Permission::create([
+            "name" => "receive_external_test",
+            "display_name" => "Can receive test requests"]);
+        $permissionRequestTest = Permission::create([
+            "name" => "request_test",
+            "display_name" => "Can request new test"]);
+        $permissionAcceptTestSpecimen = Permission::create([
+            "name" => "accept_test_specimen",
+            "display_name" => "Can accept test specimen"]);
+        $permissionRejectTestSpecimen = Permission::create([
+            "name" => "reject_test_specimen",
+            "display_name" => "Can reject test specimen"]);
+        $permissionChangeTestSpecimen = Permission::create([
+            "name" => "change_test_specimen",
+            "display_name" => "Can change test specimen"]);
+        $permissionStartTest = Permission::create([
+            "name" => "start_test",
+            "display_name" => "Can start tests"]);
+        $permissionEnterTestResults = Permission::create([
+            "name" => "enter_test_results",
+            "display_name" => "Can enter tests results"]);
+        $permissionEditTestResults = Permission::create([
+            "name" => "edit_test_results",
+            "display_name" => "Can edit test results"]);
+        $permissionVerifyTestResults = Permission::create([
+            "name" => "verify_test_results",
+            "display_name" => "Can verify test results"]);
+        $permissionSendResultsToExternalSystem = Permission::create([
+            "name" => "send_results_to_external_system",
+            "display_name" => "Can send test results to external systems"]);
+        $permissionReferSpecimens = Permission::create([
+            "name" => "refer_specimens",
+            "display_name" => "Can refer specimens"]);
+        $permissionManageUsers = Permission::create([
+            "name" => "manage_users",
+            "display_name" => "Can manage users"]);
+        $permissionManageTestCatalog = Permission::create([
+            "name" => "manage_test_catalog",
+            "display_name" => "Can manage test catalog"]);
+        $permissionManageLabConfigurations = Permission::create([
+            "name" => "manage_lab_configurations",
+            "display_name" => "Can manage lab configurations"]);
+        $permissionViewReports = Permission::create([
+            "name" => "view_reports",
+            "display_name" => "Can view reports"]);
+        $permissionManageInventory = Permission::create([
+            "name" => "manage_inventory",
+            "display_name" => "Can manage inventory"]);
+        $permissionRequestTopup = Permission::create([
+            "name" => "request_topup",
+            "display_name" => "Can request top-up"]);
+        $permissionManageQc = Permission::create([
+            "name" => "manage_qc",
+            "display_name" => "Can manage Quality Control"]);
+
+        $this->command->info('Permissions table seeded');
+
+        /* Roles table */
+
+        $roleSuperadmin = Role::create(["name" => "Superadmin"]);
+        $roleTechnologist = Role::create(["name" => "Technologist"]);
+        $roleReceptionist = Role::create(["name" => "Receptionist"]);
+        $roleAdministrator = Role::create(["name" => "Administrator"]);
+
+        $this->command->info('Roles table seeded');
+
         $permissions = Permission::all();
-        
 
-        //Assign all permissions to role administrator
+        //Assign all permissions to role superadmin and administrator
         foreach ($permissions as $permission) {
-            $role1->attachPermission($permission);
+            $roleSuperadmin->attachPermission($permission);
+            $roleAdministrator->attachPermission($permission);
         }
+
         //Assign role Administrator to administrators
-        User::find(1)->attachRole($role1);
-        User::find(2)->attachRole($role2);
-        // User::find(8)->attachRole($role1);
-        // User::find(10)->attachRole($role1);
-
-
+        $userSuperAdmin->attachRole($roleSuperadmin);
+        $userAdministrator->attachRole($roleAdministrator);
+        $userTechnologist->attachRole($roleTechnologist);
+        $userReceptionist->attachRole($roleReceptionist);
 
         //Assign technologist's permissions to role technologist
-        $role2->attachPermission(Permission::find(1));
-        $role2->attachPermission(Permission::find(2));
-        $role2->attachPermission(Permission::find(3));
-        $role2->attachPermission(Permission::find(4));
-        $role2->attachPermission(Permission::find(5));
-        $role2->attachPermission(Permission::find(6));
-        $role2->attachPermission(Permission::find(7));
-        $role2->attachPermission(Permission::find(8));
-        $role2->attachPermission(Permission::find(9));
-        $role2->attachPermission(Permission::find(10));
-        $role2->attachPermission(Permission::find(11));
-        $role2->attachPermission(Permission::find(12));
-        $role2->attachPermission(Permission::find(13));
-        $role2->attachPermission(Permission::find(17));
+        $roleTechnologist->attachPermission($permissionViewNames);
+        $roleTechnologist->attachPermission($permissionReceiveExternalTest);
+        $roleTechnologist->attachPermission($permissionRequestTest);
+        $roleTechnologist->attachPermission($permissionAcceptTestSpecimen);
+        $roleTechnologist->attachPermission($permissionRejectTestSpecimen);
+        $roleTechnologist->attachPermission($permissionChangeTestSpecimen);
+        $roleTechnologist->attachPermission($permissionStartTest);
+        $roleTechnologist->attachPermission($permissionEnterTestResults);
+        $roleTechnologist->attachPermission($permissionEditTestResults);
+        $roleTechnologist->attachPermission($permissionSendResultsToExternalSystem);
+        $roleTechnologist->attachPermission($permissionReferSpecimens);
+        $roleTechnologist->attachPermission($permissionViewReports);
+        $roleTechnologist->attachPermission($permissionRequestTopup);
 
-        //Assign role Technologist to the other users
-        // User::find(5)->attachRole($role2);
-        // User::find(12)->attachRole($role2);
-        // User::find(18)->attachRole($role2);
-        // User::find(23)->attachRole($role2);
-        // User::find(24)->attachRole($role2);
-        // User::find(26)->attachRole($role2);
-        // User::find(29)->attachRole($role2);
-        // User::find(43)->attachRole($role2);
-        // User::find(76)->attachRole($role2);
-        // User::find(136)->attachRole($role2);
-        // User::find(159)->attachRole($role2);
-        // User::find(161)->attachRole($role2);
-        // User::find(162)->attachRole($role2);
-        // User::find(163)->attachRole($role2);
-        // User::find(164)->attachRole($role2);
-
+        //Assign receptionist's permissions to role receptionist
+        $roleReceptionist->attachPermission($permissionViewNames);
+        $roleReceptionist->attachPermission($permissionManagePatients);
 
         /* Configurables table */
         $configurables = array(

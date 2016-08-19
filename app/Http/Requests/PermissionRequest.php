@@ -4,7 +4,8 @@ use App\Models\Permission;
 class PermissionRequest extends Request {
 	/**
 	* Determine if the user is authorized to make this request.
-	*
+	* This accepts requests of permission to role mapping, the permmissions are created
+	* by seeding and is part of the code it is not created on the fly
 	* @return bool
 	*/
 	public function authorize() {
@@ -16,18 +17,9 @@ class PermissionRequest extends Request {
 	* @return array
 	*/
 	public function rules() {
-		$id = $this->ingnoreId();
-		return [ 'name' => 'required|unique:permissions,name,'.$id, ];
+		return [];
 	}
-	/**
-	* @return \Illuminate\Routing\Route|null|string
-	*/
-	public function ingnoreId(){
-		$id = $this->route('permission');
-		$name = $this->input('name');
-		$display_name = $this->input('display_name');
-		return Permission::where(compact('id', 'name', 'display_name'))->exists() ? $id : '';
-	}
+
     /**
      * Get the proper failed validation response for the request.
      *

@@ -22,7 +22,6 @@ class UserRequest extends Request {
 	 */
 	public function rules()
 	{
-		// todo: what is the purpose of this thing ingnoreId
 		$id = $this->ingnoreId();
 		return [
             'name'   => 'required|unique:users,name,'.$id,
