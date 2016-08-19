@@ -55,6 +55,7 @@ return array(
     'add'   =>  'Add',
     'new'   =>  'New',
     'edit'  =>  'Edit',
+    'reorder' => 'Reorder',
 
     /** 
      *   Generic phrases

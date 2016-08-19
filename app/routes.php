@@ -85,6 +85,10 @@ Route::group(array("before" => "auth"), function()
             "as"   => "measure.delete",
             "uses" => "MeasureController@delete"
         ));
+        Route::post("/measure/{id}/reorder", array(
+            "as"   => "measure.reorder",
+            "uses" => "MeasureController@reorder"
+        ));
         Route::resource('testtype', 'TestTypeController');
         Route::get("/testtype/{id}/delete", array(
             "as"   => "testtype.delete",
