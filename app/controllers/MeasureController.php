@@ -163,4 +163,22 @@ class MeasureController extends \BaseController {
         return Redirect::route('measure.index')
             ->with('message', trans('messages.success-deleting-measure'));
     }
+
+    /**
+     * Update the ordering of the measures
+     *
+     * @param  int json
+     * @return Response
+    */
+    public function reorder($testTypeId)
+    {
+        $order = Input::get('ordering');
+        $orderArr = json_decode($order, true);
+
+        $measures = TestType::find($testTypeId)->measures;
+
+        foreach ($measures as $key => $measure) {
+            TestType::find($testTypeId)->measures()->updateExistingPivot($measure->id, array('ordering' => $orderArr[$key]), false);
+        }
+    }
 }

@@ -54,6 +54,7 @@ class Measure extends Eloquent
 
 	/**
 	 * Get interpretion of measures, LOW or HIGH
+	 * TestType relationship
 	 */
 	public function getResultInterpretation($result)
 	{

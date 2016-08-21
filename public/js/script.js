@@ -72,8 +72,27 @@ $(function(){
 	});
 
 	/** 
-	 *	MEASURES 
+	 *	Ordering measures  
 	 */
+	if(typeof sortable('.sortable')[0] != 'undefined'){
+		sortable('.sortable')[0].addEventListener('sortupdate', function(e) {
+			var items = e.detail.startparent.children;
+			var start = 0;
+			var mOrder = [];
+			for (var i = 0; i < items.length; i++) {
+				mOrder[i] = items[i].value;
+			}
+			var actualOrder = [];
+			for (var i = 0; i < mOrder.length; i++) {
+				actualOrder.push(mOrder.indexOf(i));
+			}
+			var testID = $(e.detail.startparent).data('test-id');
+			var url = location.protocol+ "//"+location.host+ "/measure/" + testID+ "/reorder";
+			$.post(url, {'ordering': JSON.stringify(actualOrder)}).done(function(){
+				location.reload();
+			});
+		});
+	}
 
 	 /* Add another measure */
 	$('.add-another-measure').click(function(){
@@ -138,7 +157,7 @@ $(function(){
 	 *	Alert on irreversible delete
 	 */
 	$('.confirm-delete-modal').on('show.bs.modal', function(e) {
-	    $('#delete-url').val($(e.relatedTarget).data('id'));
+		$('#delete-url').val($(e.relatedTarget).data('id'));
 	});
 
 	$('.btn-delete').click(function(){
@@ -238,14 +257,14 @@ $(function(){
 	 *  - Display all in the modal.
 	 */
 	$('#change-specimen-modal').on('show.bs.modal', function(e) {
-	    //get data-id attribute of the clicked element
-	    var id = $(e.relatedTarget).data('test-id');
+		//get data-id attribute of the clicked element
+		var id = $(e.relatedTarget).data('test-id');
 		var url = $(e.relatedTarget).data('url');
 
-	    $.post(url, { id: id}).done(function(data){
-		    //Show it in the modal
-		    $(e.currentTarget).find('.modal-body').html(data);
-	    });
+		$.post(url, { id: id}).done(function(data){
+			//Show it in the modal
+			$(e.currentTarget).find('.modal-body').html(data);
+		});
 	});
   
 
@@ -390,8 +409,8 @@ $(function(){
 					test_type.empty();
 					test_type.append("<option value=''>Select Test Type</option>");
 					$.each(data, function(index, element) {
-			            test_type.append("<option value='"+ element.id +"'>" + element.name + "</option>");
-			        });
+						test_type.append("<option value='"+ element.id +"'>" + element.name + "</option>");
+					});
 				});
 		});
 		/*End dynamic select list options*/
@@ -586,85 +605,85 @@ $(function(){
 	function editUserProfile()
 	{
 		/*If Password-Change Validation*/
-	    var currpwd = $('#current_password').val();
-	    var newpwd1 = $('#new_password').val();
-	    var newpwd2= $('#new_password_confirmation').val();
-	    var newpwd1_len = newpwd1.length;
-	    var newpwd2_len = newpwd2.length;
-	    var error_flag = false;
-	    if(currpwd == '')
-	    {
-	        $('.curr-pwd-empty').removeClass('hidden');
-	        error_flag = true;
-	    }
-	    else
-	    {
-	        $('.curr-pwd-empty').addClass('hidden');
-	    }
+		var currpwd = $('#current_password').val();
+		var newpwd1 = $('#new_password').val();
+		var newpwd2= $('#new_password_confirmation').val();
+		var newpwd1_len = newpwd1.length;
+		var newpwd2_len = newpwd2.length;
+		var error_flag = false;
+		if(currpwd == '')
+		{
+			$('.curr-pwd-empty').removeClass('hidden');
+			error_flag = true;
+		}
+		else
+		{
+			$('.curr-pwd-empty').addClass('hidden');
+		}
 
-	    if(newpwd1 == '')
-	    {
-	        $('.new-pwd-empty').removeClass('hidden');
-	        error_flag = true;
-	    }
-	    else
-	    {
-	        $('.new-pwd-empty').addClass('hidden');
-	    }
-	    if(newpwd2 == '')
-	    {
-	        $('.new-pwdrepeat-empty').removeClass('hidden');
-	        error_flag = true;
-	    }
-	    else
-	    {
-	        $('.new-pwdrepeat-empty').addClass('hidden');
-	    }
-	    
-	    if(!error_flag)
-	    {
-	        if(newpwd1_len != newpwd2_len || newpwd1 != newpwd2)
-	        {
-	            $('.new-pwdmatch-error').removeClass('hidden');
-	            error_flag = true;
-	        }
-	        else
-	        {
-	            $('.new-pwdmatch-error').addClass('hidden');
-	        }
-	    }
-	    if(!error_flag)
-	    {
-	        $('#form-edit-password').submit();
-	    }
+		if(newpwd1 == '')
+		{
+			$('.new-pwd-empty').removeClass('hidden');
+			error_flag = true;
+		}
+		else
+		{
+			$('.new-pwd-empty').addClass('hidden');
+		}
+		if(newpwd2 == '')
+		{
+			$('.new-pwdrepeat-empty').removeClass('hidden');
+			error_flag = true;
+		}
+		else
+		{
+			$('.new-pwdrepeat-empty').addClass('hidden');
+		}
+		
+		if(!error_flag)
+		{
+			if(newpwd1_len != newpwd2_len || newpwd1 != newpwd2)
+			{
+				$('.new-pwdmatch-error').removeClass('hidden');
+				error_flag = true;
+			}
+			else
+			{
+				$('.new-pwdmatch-error').addClass('hidden');
+			}
+		}
+		if(!error_flag)
+		{
+			$('#form-edit-password').submit();
+		}
 	}
 
 	//DataTables search functionality
 	$(document).ready( function () {
 		$('.search-table').DataTable({
-        	'bStateSave': true,
-        	'fnStateSave': function (oSettings, oData) {
-            	localStorage.setItem('.search-table', JSON.stringify(oData));
-        	},
-        	'fnStateLoad': function (oSettings) {
-            	return JSON.parse(localStorage.getItem('.search-table'));
-        	}
-   		});
+			'bStateSave': true,
+			'fnStateSave': function (oSettings, oData) {
+				localStorage.setItem('.search-table', JSON.stringify(oData));
+			},
+			'fnStateLoad': function (oSettings) {
+				return JSON.parse(localStorage.getItem('.search-table'));
+			}
+		});
 	});
 
 	//Make sure all input fields are entered before submission
 	function authenticate (form) {
-    	var empty = false;
+		var empty = false;
 		$('form :input:not(button)').each(function() {
 
-            if ($(this).val() == '') {
-                empty = true;
-	            $('.error-div').removeClass('hidden');
-            }
-	        if (empty) return false;
-	    });
-        if (empty) return;
-	    $(form).submit();
+			if ($(this).val() == '') {
+				empty = true;
+				$('.error-div').removeClass('hidden');
+			}
+			if (empty) return false;
+		});
+		if (empty) return;
+		$(form).submit();
 	}
 
 	function saveObservation(tid, user, username){
@@ -774,12 +793,12 @@ $(function(){
 	/*End toggle susceptibility*/
 	/* Fetch equipment details without page reload */
 	function fetch_equipment_details()
-    {
-        $('#eq_con_details').html("");
-        id = $("#client").val();
-        if(id !='0')
-        {
-        	$.getJSON('blisclient/details', { equip: id }, 
+	{
+		$('#eq_con_details').html("");
+		id = $("#client").val();
+		if(id !='0')
+		{
+			$.getJSON('blisclient/details', { equip: id }, 
 				function(data)
 				{
 					var html = "<h4 class='text-center'>EQUIPMENT</h4>"+
@@ -808,7 +827,7 @@ $(function(){
 					"<input type='text' class='form-control' id='config_file' value = '"+data.config_file+"'>"+
 					"</div>"+
 					"<h4 class='text-center'>"+data.feed+" CONFIGURATIONS</h4>";
-			        $.getJSON('blisclient/properties', { client: id }, 
+					$.getJSON('blisclient/properties', { client: id }, 
 						function(data)
 						{
 							$.each(data, function(index, elem)
@@ -820,12 +839,12 @@ $(function(){
 							});
 							html += "<div class='form-group actions-row'>"+
 									"<button type='button' class='btn btn-default'><span class='glyphicon glyphicon-cog' aria-hidden='true'></span> Generate Config File</button>"+
-								    "<button type='button' class='btn btn-primary'><span class='glyphicon glyphicon-ok' aria-hidden='true'></span> Update Fields</button>"+
-								    "</div>";
-                            $('#eq_con_details').html(html);
+									"<button type='button' class='btn btn-primary'><span class='glyphicon glyphicon-ok' aria-hidden='true'></span> Update Fields</button>"+
+									"</div>";
+							$('#eq_con_details').html(html);
 						}
 					);
 				}
 			);                               
-        }                            
-    }
+		}
+	}
