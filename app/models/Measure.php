@@ -51,6 +51,10 @@ class Measure extends Eloquent
 	{
 	  return $this->belongsToMany('TestType', 'testtype_measures');
 	}
+
+	/**
+	 * Get interpretion of measures, LOW or HIGH
+	 */
 	public function getResultInterpretation($result)
 	{
 		$measure = Measure::find($result['measureid']);
@@ -58,23 +62,26 @@ class Measure extends Eloquent
 		try {
 			$measurerange = MeasureRange::where('measure_id', '=', $result['measureid']);
 			if ($measure->isNumeric()) {
-				$birthDate = new DateTime($result['birthdate']);
-				$now = new DateTime();
-				$interval = $birthDate->diff($now);
-				$seconds = ($interval->days * 24 * 3600) + ($interval->h * 3600) + ($interval->i * 60) + ($interval->s);
-				$age = $seconds/(365*24*60*60);
-				$measurerange = $measurerange->where('gender', '=', $result['gender'])
-					->where('age_min', '<=', $age)
-					->where('age_max', '>=', $age)
-					->where('range_lower', '<=', $result['measurevalue'])
-					->where('range_upper', '>=', $result['measurevalue']);
-			} else{
-				$measurerange = $measurerange->where('alphanumeric', '=', $result['measurevalue']);
+			// 	$birthDate = new DateTime($result['birthdate']);
+			// 	$now = new DateTime();
+			// 	$interval = $birthDate->diff($now);
+			// 	$seconds = ($interval->days * 24 * 3600) + ($interval->h * 3600) + ($interval->i * 60) + ($interval->s);
+			// 	$age = $seconds/(365*24*60*60);
+			// 	// $measurerange = $measurerange->where('age_min', '<=', $age)
+			// 	// 	->where('age_max', '>=', $age)
+			// 	// 	->where('range_lower', '<=', $result['measurevalue'])
+			// 	// 	->where('range_upper', '>=', $result['measurevalue'])
+			// 	// 	->whereIn('gender', array($result['gender'], 2));
+			// } else{
+			// 	$measurerange = $measurerange->where('alphanumeric', '=', $result['measurevalue']);
+			// }
+
+				$measurerange = $measurerange->first();
+				if($measurerange->range_upper < $result['measurevalue'] 
+					|| $measurerange->range_lower > $result['measurevalue']){
+					$interpretation = "critical";
+				}
 			}
-			$measurerange = $measurerange->get()->toArray();
-
-			$interpretation = $measurerange[0]['interpretation'];
-
 		} catch (Exception $e) {
 			$interpretation = null;
 		}
