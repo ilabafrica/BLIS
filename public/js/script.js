@@ -339,8 +339,8 @@ $(function(){
 	 * Automatic Results Interpretation
 	 * Updates the test  result via ajax call
 	 */
-	 /*UNSTABLE!---TO BE RE-THOUGHT
-	$(".result-interpretation-trigger").focusout(function() {
+
+	$(".result-interpretation-trigger").focusout(function(event) {
 		var interpretation = "";
 		var url = $(this).data('url');
 		var measureid = $(this).data('measureid');
@@ -353,10 +353,18 @@ $(function(){
 				measurevalue: measurevalue,
 				gender: gender
 			}).done( function( interpretation ){
-			$( ".result-interpretation" ).val( interpretation );
+				//check if critical
+				if(typeof interpretation === "string" && interpretation.toUpperCase() == "CRITICAL"){
+					event.target.style.color = "red"
+					//add to interpretation	
+					var comments = $( ".result-interpretation" ).val();
+					if(comments.search("CRITICAL VALUES DETECTED")){
+						$( ".result-interpretation" ).val("CRITICAL VALUES DETECTED! "+comments);
+					}
+
+				}
 		});
 	});
-	*/
 
 	/** Start Test button.
 	 *  - Updates the Test status via an AJAX call
