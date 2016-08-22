@@ -59,16 +59,25 @@ class Measure extends Eloquent
 	public function getResultInterpretation($result)
 	{
 		$measure = Measure::find($result['measureid']);
-
+		$interpretation = '';
 		try {
-			$measurerange = MeasureRange::where('measure_id', '=', $result['measureid']);
-			if ($measure->isNumeric()) {
-			// 	$birthDate = new DateTime($result['birthdate']);
-			// 	$now = new DateTime();
-			// 	$interval = $birthDate->diff($now);
-			// 	$seconds = ($interval->days * 24 * 3600) + ($interval->h * 3600) + ($interval->i * 60) + ($interval->s);
-			// 	$age = $seconds/(365*24*60*60);
-			// 	// $measurerange = $measurerange->where('age_min', '<=', $age)
+			
+			if ($measure->hasCritical()) {
+				$birthDate = new DateTime($result['birthdate']);
+				$now = new DateTime();
+				$interval = $birthDate->diff($now);
+				$seconds = ($interval->days * 24 * 3600) + ($interval->h * 3600) + ($interval->i * 60) + ($interval->s);
+				$age = $seconds/(365*24*60*60);
+				$gender = $result['gender'];
+				$critical = Critical::where('parameter', $measure->id)->where('age_min', '<=', $age)->where('age_max', '>=', $age);
+				$crit = clone $critical;
+				$first_check = $crit->where('gender', $gender)->first();
+				if($first_check)
+					$critical = $critical->where('gender', $gender);
+				else
+					$critical = $critical->where('gender', Patient::BOTH);
+				$critical = $critical->first();
+				// $measurerange = $measurerange->where('age_min', '<=', $age)
 			// 	// 	->where('age_max', '>=', $age)
 			// 	// 	->where('range_lower', '<=', $result['measurevalue'])
 			// 	// 	->where('range_upper', '>=', $result['measurevalue'])
@@ -76,10 +85,9 @@ class Measure extends Eloquent
 			// } else{
 			// 	$measurerange = $measurerange->where('alphanumeric', '=', $result['measurevalue']);
 			// }
-
-				$measurerange = $measurerange->first();
-				if($measurerange->range_upper < $result['measurevalue'] 
-					|| $measurerange->range_lower > $result['measurevalue']){
+				// var_dump($critical->critical_low. ' '.$critical->critical_high.' '.$result['measurevalue']);
+				if($result['measurevalue'] < $critical->critical_low 
+					|| $result['measurevalue'] > $critical->critical_high){
 					$interpretation = "critical";
 				}
 			}
@@ -256,5 +264,18 @@ class Measure extends Eloquent
 			//TODO: send email?
 			return null;
 		}
+	}
+	/**
+	 *  Check to if the Measure has critical values
+	 *
+	 * @return boolean
+	 */
+	public function hasCritical()
+	{
+		$counter = Critical::where('parameter', $this->id)->count();
+		if($counter > 0)
+			return true;
+		else 
+			return false;
 	}
 }

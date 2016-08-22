@@ -691,4 +691,17 @@ return array(
     'received-by'                   =>  'Received By',
     'destination'                   =>  'Destination',
     'performed-by'                  =>  'Performed By',
+    /**
+    * Critical Values
+    */
+    'parameter'     =>      'Parameter',
+    'age-min'       =>      'Lower Age Limit',
+    'age-max'       =>      'Upper Age Limit',
+    'normal-lower'  =>      'Lower Normal Limit',
+    'normal-upper'  =>      'Upper Normal Limit',
+    'critical-low'  =>      'Critical Low',
+    'critical-high' =>      'Critical High',
+    'critical'      =>      'Critical Value|Critical Values',
+    'microcritical' =>      'Microbiology Critical|Microbiology Critical',
+    'add-new'       =>      'Add New',
 );

@@ -361,7 +361,12 @@ $(function(){
 					if(comments.search("CRITICAL VALUES DETECTED")){
 						$( ".result-interpretation" ).val("CRITICAL VALUES DETECTED! "+comments);
 					}
-
+				}
+				else {
+					event.target.style.color = "black";
+					var comments = $( ".result-interpretation" ).val();
+					var res = comments.replace("CRITICAL VALUES DETECTED!", "");
+					$( ".result-interpretation" ).val(res);
 				}
 		});
 	});

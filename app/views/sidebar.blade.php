@@ -21,6 +21,8 @@
 		case 'specimenrejection': 
 		case 'drug':
 		case 'organism':
+		case 'critical':
+		case 'microcritical':
 			$active[4] = "active"; break;
 		case 'patientreport': 
 		case 'dailylog': 
@@ -183,6 +185,18 @@
 						<div>
 							<a href="{{ URL::route("organism.index")}}">
 								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.organism', 2)}}</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route("critical.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.critical', 2)}}</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route("microcritical.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.microcritical', 2)}}</a>
 						</div>
 					</li>
 				</ul>
