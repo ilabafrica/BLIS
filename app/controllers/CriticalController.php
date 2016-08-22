@@ -43,7 +43,7 @@ class CriticalController extends \BaseController {
 	public function store()
 	{
 		//Validation
-		$rules = array('measure_id' => 'required|unique:critical,parameter');
+		$rules = array('measure_id' => 'required:critical,parameter');
 		$validator = Validator::make(Input::all(), $rules);
 	
 		//process
@@ -97,11 +97,13 @@ class CriticalController extends \BaseController {
 	 */
 	public function edit($id)
 	{
+		// Get measures list
+		$measures = Measure::lists('name', 'id');
 		//Get the critical
 		$critical = Critical::find($id);
 
 		//Open the Edit View and pass to it the $critical
-		return View::make('critical.edit')->with('critical', $critical);
+		return View::make('critical.edit')->with('critical', $critical)->with('measures', $measures);
 	}
 
 

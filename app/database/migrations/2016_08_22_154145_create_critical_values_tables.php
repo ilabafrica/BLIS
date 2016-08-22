@@ -33,7 +33,7 @@ class CreateCriticalValuesTables extends Migration {
 		Schema::create('micro_critical', function(Blueprint $table)
 		{
 			$table->increments('id')->unsigned();
-			$table->integer('description');
+			$table->string('description', 250);
 
 			$table->timestamps();
 			$table->softDeletes();

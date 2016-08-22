@@ -104,7 +104,7 @@ class MicroCriticalController extends \BaseController {
 	public function update($id)
 	{
 		//Validate
-		$rules = array('name' => 'required');
+		$rules = array('description' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
 
 		// process the login

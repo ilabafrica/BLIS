@@ -111,6 +111,19 @@ Route::group(array("before" => "auth"), function()
             "as"   => "organism.delete",
             "uses" => "OrganismController@delete"
         ));
+        Route::resource('critical', 'CriticalController');
+        
+        Route::get("/critical/{id}/delete", array(
+            "as"   => "critical.delete",
+            "uses" => "CriticalController@delete"
+        ));
+
+        Route::resource('microcritical', 'MicroCriticalController');
+        
+        Route::get("/microcritical/{id}/delete", array(
+            "as"   => "microcritical.delete",
+            "uses" => "MicroCriticalController@delete"
+        ));
     });
     Route::group(array("before" => "checkPerms:manage_lab_configurations"), function()
     {
