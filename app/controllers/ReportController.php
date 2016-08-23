@@ -128,7 +128,7 @@ class ReportController extends \BaseController {
 						->with('patient', $patient)
 						->with('tests', $tests)
 						->with('pending', $pending)
-						->with('erro		r', $error)
+						->with('error', $error)
 						->with('visit', $visit)
 						->with('accredited', $accredited)
 						->with('verified', $verified)
