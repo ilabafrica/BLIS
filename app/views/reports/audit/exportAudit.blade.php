@@ -1,41 +1,21 @@
-@extends("layout")
-@section("content")
-	<div>
-		<ol class="breadcrumb">
-		  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-		  <li class="active"><a href="{{ URL::route('reports.patient.index') }}">{{ Lang::choice('messages.report', 2) }}</a></li>
-		  <li class="active">{{ trans('messages.patient-report') }}</li>
-		</ol>
-	</div>
-	
-	<div class='container-fluid'>
-	    {{ Form::open(array('url' => 'testaudit/'.$test->id, 'class' => 'form-inline', 'id' => 'form-patientreport-filter', 'method'=>'POST')) }}
-			<div class="row">
-				<div class="col-sm-3">
-				</div>
-				<div class="col-sm-3">
-					
-		        </div>
-		        <div class="col-sm-3">
-					
-	            </div>
-	            <div class="col-sm-3">
-					<div class="row">
-			            {{ Form::submit(trans('messages.export-to-word'), array('class' => 'btn btn-success', 
-					        	'id' => 'word', 'name' => 'word')) }}   
-				    </div>
-			    </div>
-		    </div>
-		{{ Form::close() }}
-	</div>
-	<br />
-	<div class="panel panel-primary" id="patientReport">
-		<div class="panel-heading ">
-			<span class="glyphicon glyphicon-user"></span>
-			{{ trans('messages.patient-report') }}
-		</div>
-		<div class="panel-body">
-			<div id="report_content">
+<html>
+<head>
+{{ HTML::style('css/bootstrap.min.css') }}
+{{ HTML::style('css/bootstrap-theme.min.css') }}
+<style type="text/css">
+	#content table, #content th, #content td {
+	   border: 1px solid black;
+	   font-size:12px;
+	}
+	#content p{
+		font-size:12px;
+	 }
+</style>
+</head>
+<body>
+<div id="wrap">
+    <div class="container-fluid">
+    	<div id="report_content">
 				<table width="100%" style="font-size:12px;">
 					<thead>
 						<tr>
@@ -141,11 +121,11 @@
 									@foreach($test->testResults as $result)
 										<p class="view">
 											<strong>{{ Measure::find($result->measure_id)->name }}</strong></br> 
-											<u>{{trans('messages.current-result')}}</u>
+											<u>{{trans('messages.current-result')}}
 												<table class="table">
 													<tbody>
 														<tr>
-															<td>{{trans('messages.current-result')}}: {{ $result->result }} 
+															<td>{{trans('messages.current-result')}}: {{ $result->result }}
 															{{ Measure::getRange($test->visit->patient, $result->measure_id) }}
 															{{ Measure::find($result->measure_id)->unit }}
 															</td>
@@ -182,8 +162,7 @@
 			</table>
 
 			</div>
-			</div>
-		</div>
-
-	</div>
-	@stop
+    </div>
+</div>
+</body>
+</html>
