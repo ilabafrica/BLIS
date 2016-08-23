@@ -29,9 +29,21 @@ class ReportController extends \BaseController {
 	public function viewTestAuditReport($testId){
 
 		$test = Test::find($testId);
-
-		return View::make('reports.audit.testAudit')
+		if(Input::has('word')){
+			$date = date("Ymdhi");
+			$fileName = "testauditreport_".$testId."_".$date.".doc";
+			$headers = array(
+			    "Content-type"=>"text/html",
+			    "Content-Disposition"=>"attachment;Filename=".$fileName
+			);
+			$content = View::make('reports.audit.exportAudit')
 						->with('test', $test);
+	    	return Response::make($content,200, $headers);
+		}
+		else{
+			return View::make('reports.audit.testAudit')
+						->with('test', $test);
+		}
 	}
 
 	/**
@@ -116,7 +128,7 @@ class ReportController extends \BaseController {
 						->with('patient', $patient)
 						->with('tests', $tests)
 						->with('pending', $pending)
-						->with('error', $error)
+						->with('erro		r', $error)
 						->with('visit', $visit)
 						->with('accredited', $accredited)
 						->with('verified', $verified)
