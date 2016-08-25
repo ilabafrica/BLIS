@@ -3383,6 +3383,34 @@ class ReportController extends \BaseController {
 	}
 	public function critical()
 	{
-
+		$ageRanges = array('0-5', '5-15', '15-120');	//	Age ranges - will definitely change in configurations
+		$gender = array(Patient::MALE, Patient::FEMALE); 	//	Array for gender - male/female
+		//	Get test categories with critical values
+		$tc = [];
+		foreach (Critical::all() as $critical)
+		{
+			$measure = $critical->parameter;
+			$tt = TestTypeMeasure::where('measure_id', $measure)->first()->test_type_id;
+			$cat = TestType::find($tt)->testCategory->id;
+			array_push($tc, $cat);
+		}
+		$tc = array_unique($tc);
+		$crit = [];
+		foreach ($tc as $key)
+		{
+			foreach (TestCategory::find($key)->testTypes as $value) 
+			{
+				foreach (TestType::find($value)->measures as $measure)
+				{
+					if($measure->hasCritical())
+						array_push($crit[$tc], $measure->id);
+				}
+			}
+		}
+		return View::make('reports.critical.critical')
+					->with('gender', $gender)
+					->with('ageRanges', $ageRanges)
+					->with('tc', $tc)
+					->with('crit', $crit);
 	}
 }

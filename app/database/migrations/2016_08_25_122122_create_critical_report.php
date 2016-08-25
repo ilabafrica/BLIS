@@ -16,7 +16,17 @@ class CreateCriticalReport extends Migration {
 			$table->increments('id')->unsigned();
 			$table->integer('test_id')->unsigned();
 			$table->integer('measure_id')->unsigned();
+			$table->integer('test_type_id')->unsigned();
+			$table->integer('test_category_id')->unsigned();
+			$table->tinyInteger('gender');
+			$table->double('age', 5, 2);
+
 			$table->timestamps();
+
+			$table->foreign('test_id')->references('id')->on('tests');
+			$table->foreign('measure_id')->references('id')->on('measures');
+			$table->foreign('test_type_id')->references('id')->on('test_types');
+			$table->foreign('test_category_id')->references('id')->on('test_categories');
 		});
 	}
 

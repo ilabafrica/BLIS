@@ -60,7 +60,8 @@ class Measure extends Eloquent
 	{
 		$measure = Measure::find($result['measureid']);
 		$interpretation = '';
-		$testId = $result['testId'];
+		$testId = $result['testId'];		
+		$testType = Test::find($testId)->testType;
 		try {
 			
 			if ($measure->hasCritical()) {
@@ -89,6 +90,27 @@ class Measure extends Eloquent
 				// var_dump($critical->critical_low. ' '.$critical->critical_high.' '.$result['measurevalue']);
 				if($result['measurevalue'] < $critical->critical_low || $result['measurevalue'] > $critical->critical_high){
 					$interpretation = "critical";
+					//	Check if corresponding record for critical value exists in table
+					$crit = CritVal::where('test_id', $testId)->where('measure_id', $measure->id)->where('test_type_id',$testType->id)->where('test_category_id', $testType->testCategory->id)->first();
+					if(!$crit)
+					{
+						$crit = new CritVal;
+						$crit->test_id = $testId;
+						$crit->measure_id = $measure->id;
+						$crit->gender = $gender;
+						$crit->age = $age;
+						$crit->test_type_id = $testType->id;
+						$crit->test_category_id = $testType->testCategory->id;
+						$crit->save();
+					}
+				}
+				else
+				{
+					$crit = CritVal::where('test_id', $testId)->where('measure_id', $measure->id)->where('test_type_id',$testType->id)->where('test_category_id', $testType->testCategory->id)->first();
+					if($crit)
+					{
+						$crit->delete();
+					}
 				}
 			}
 		} catch (Exception $e) {

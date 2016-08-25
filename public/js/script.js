@@ -352,7 +352,7 @@ $(function(){
 				measureid: measureid,
 				age: age,
 				measurevalue: measurevalue,
-				gender: gender
+				gender: gender,
 				testId: testId
 			}).done( function( interpretation ){
 				//check if critical
