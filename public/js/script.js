@@ -347,11 +347,13 @@ $(function(){
 		var age = $(this).data('age');
 		var gender = $(this).data('gender');
 		var measurevalue = $(this).val();
+		var testId = $(this).data('test_id');
 		$.post(url, { 
 				measureid: measureid,
 				age: age,
 				measurevalue: measurevalue,
 				gender: gender
+				testId: testId
 			}).done( function( interpretation ){
 				//check if critical
 				if(typeof interpretation === "string" && interpretation.toUpperCase() == "CRITICAL"){

@@ -3381,4 +3381,8 @@ class ReportController extends \BaseController {
 						->with('options', $options)
 						->withInput(Input::all());
 	}
+	public function critical()
+	{
+
+	}
 }

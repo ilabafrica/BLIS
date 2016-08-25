@@ -38,6 +38,7 @@
 		case 'inventory':
 		case 'rejection':
 		case 'testaudit':
+		case 'critval':
 			$active[5] = "active"; break;
 		case 'permission': 
 		case 'assign':
@@ -286,6 +287,12 @@
 						<div><a href="{{ URL::route('reports.aggregate.rejection')}}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{Lang::choice('messages.specimen-rejection', 2)}}</a>
+						</div>
+					</li>
+					<li>
+						<div><a href="{{ URL::route('reports.aggregate.critval')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{Lang::choice('messages.crit-val', 1)}}</a>
 						</div>
 					</li>
 				</ul>

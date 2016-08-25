@@ -60,6 +60,7 @@ class Measure extends Eloquent
 	{
 		$measure = Measure::find($result['measureid']);
 		$interpretation = '';
+		$testId = $result['testId'];
 		try {
 			
 			if ($measure->hasCritical()) {
@@ -86,8 +87,7 @@ class Measure extends Eloquent
 			// 	$measurerange = $measurerange->where('alphanumeric', '=', $result['measurevalue']);
 			// }
 				// var_dump($critical->critical_low. ' '.$critical->critical_high.' '.$result['measurevalue']);
-				if($result['measurevalue'] < $critical->critical_low 
-					|| $result['measurevalue'] > $critical->critical_high){
+				if($result['measurevalue'] < $critical->critical_low || $result['measurevalue'] > $critical->critical_high){
 					$interpretation = "critical";
 				}
 			}

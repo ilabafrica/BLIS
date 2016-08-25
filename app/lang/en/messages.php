@@ -704,4 +704,5 @@ return array(
     'critical'      =>      'Critical Value|Critical Values',
     'microcritical' =>      'Microbiology Critical|Microbiology Critical',
     'add-new'       =>      'Add New',
+    'crit-val'      =>      'Critical Values',
 );

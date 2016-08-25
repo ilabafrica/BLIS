@@ -373,6 +373,10 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.audit.test",
             "uses" => "ReportController@viewTestAuditReport"
         ));
+        Route::any("/critval", array(
+            "as"   => "reports.aggregate.critval",
+            "uses" => "ReportController@critical"
+        ));
     });
     Route::group(array("before" => "checkPerms:manage_qc"), function()
     {
