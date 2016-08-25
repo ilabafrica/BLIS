@@ -19,7 +19,7 @@ class CreateCriticalReport extends Migration {
 			$table->integer('test_type_id')->unsigned();
 			$table->integer('test_category_id')->unsigned();
 			$table->tinyInteger('gender');
-			$table->double('age', 5, 2);
+			$table->decimal('age', 5, 2);
 
 			$table->timestamps();
 
