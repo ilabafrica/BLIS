@@ -300,4 +300,35 @@ class Measure extends Eloquent
 		else 
 			return false;
 	}
+	/**
+	 *  Function to count critical values
+	 *
+	 * @return boolean
+	 */
+	public function criticals($tc, $ageRange = NULL, $gender = NULL, $from = NULL, $to = NULL)
+	{
+		if($ageRange)
+		{
+			$age = explode('-', $ageRange);
+			$ageStart = $age[0];
+			$ageEnd = $age[1];
+		}
+		$counter = CritVal::where('test_category_id', $tc)
+							->where('measure_id', $this->id);
+							if(!is_null($gender))
+							{
+								$counter = $counter->where('gender', $gender);
+							}
+							if($ageRange)
+							{
+								$counter = $counter->where('age', '>=', $ageStart)
+												   ->where('age', '<=', $ageEnd);
+							}
+							if($from && $to)
+							{
+								$counter = $counter->whereBetween('created_at', [$from, $to]);
+							}
+							$counter = $counter->count();
+		return $counter;
+	}
 }
