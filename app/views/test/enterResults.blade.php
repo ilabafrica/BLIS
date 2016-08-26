@@ -63,7 +63,8 @@
                                         'data-url' => URL::route('test.resultinterpretation'),
                                         'data-age' => $test->visit->patient->dob,
                                         'data-gender' => $test->visit->patient->gender,
-                                        'data-measureid' => $measure->id
+                                        'data-measureid' => $measure->id,
+                                        'data-test_id' => $test->id
                                         ))
                                     }}
                                     <span class='units'>

@@ -3381,4 +3381,47 @@ class ReportController extends \BaseController {
 						->with('options', $options)
 						->withInput(Input::all());
 	}
+	public function critical()
+	{
+		$date = date('Y-m-d');
+		$from = Input::get('start');
+		if(!$from) $from = date('Y-m-01');
+		$to = Input::get('end');
+		if(!$to) $to = $date;
+		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+
+		$ageRanges = array('0-5', '5-15', '15-120');	//	Age ranges - will definitely change in configurations
+		$gender = array(Patient::MALE, Patient::FEMALE); 	//	Array for gender - male/female
+		//	Get test categories with critical values
+		$tc = CritVal::lists('test_category_id');
+		$tc = array_unique($tc);
+
+		if(Input::has('word'))
+		{
+			$date = date("Ymdhi");
+			$fileName = "critical values report - ".$date.".doc";
+			$headers = array(
+			    "Content-type"=>"text/html",
+			    "Content-Disposition"=>"attachment;Filename=".$fileName
+			);
+			$content = View::make('reports.critical.exportCritical')
+						->with('gender', $gender)
+						->with('ageRanges', $ageRanges)
+						->with('tc', $tc)
+						->with('from', $from)
+						->with('to', $to)
+						->with('toPlusOne', $toPlusOne);
+	    	return Response::make($content,200, $headers);
+		}
+		else
+		{		
+			return View::make('reports.critical.critical')
+						->with('gender', $gender)
+						->with('ageRanges', $ageRanges)
+						->with('tc', $tc)
+						->with('from', $from)
+						->with('to', $to)
+						->with('toPlusOne', $toPlusOne);
+		}
+	}
 }

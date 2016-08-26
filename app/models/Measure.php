@@ -60,6 +60,8 @@ class Measure extends Eloquent
 	{
 		$measure = Measure::find($result['measureid']);
 		$interpretation = '';
+		$testId = $result['testId'];		
+		$testType = Test::find($testId)->testType;
 		try {
 			
 			if ($measure->hasCritical()) {
@@ -86,9 +88,29 @@ class Measure extends Eloquent
 			// 	$measurerange = $measurerange->where('alphanumeric', '=', $result['measurevalue']);
 			// }
 				// var_dump($critical->critical_low. ' '.$critical->critical_high.' '.$result['measurevalue']);
-				if($result['measurevalue'] < $critical->critical_low 
-					|| $result['measurevalue'] > $critical->critical_high){
+				if($result['measurevalue'] < $critical->critical_low || $result['measurevalue'] > $critical->critical_high){
 					$interpretation = "critical";
+					//	Check if corresponding record for critical value exists in table
+					$crit = CritVal::where('test_id', $testId)->where('measure_id', $measure->id)->where('test_type_id',$testType->id)->where('test_category_id', $testType->testCategory->id)->first();
+					if(!$crit)
+					{
+						$crit = new CritVal;
+						$crit->test_id = $testId;
+						$crit->measure_id = $measure->id;
+						$crit->gender = $gender;
+						$crit->age = $age;
+						$crit->test_type_id = $testType->id;
+						$crit->test_category_id = $testType->testCategory->id;
+						$crit->save();
+					}
+				}
+				else
+				{
+					$crit = CritVal::where('test_id', $testId)->where('measure_id', $measure->id)->where('test_type_id',$testType->id)->where('test_category_id', $testType->testCategory->id)->first();
+					if($crit)
+					{
+						$crit->delete();
+					}
 				}
 			}
 		} catch (Exception $e) {
@@ -277,5 +299,36 @@ class Measure extends Eloquent
 			return true;
 		else 
 			return false;
+	}
+	/**
+	 *  Function to count critical values
+	 *
+	 * @return boolean
+	 */
+	public function criticals($tc, $ageRange = NULL, $gender = NULL, $from = NULL, $to = NULL)
+	{
+		if($ageRange)
+		{
+			$age = explode('-', $ageRange);
+			$ageStart = $age[0];
+			$ageEnd = $age[1];
+		}
+		$counter = CritVal::where('test_category_id', $tc)
+							->where('measure_id', $this->id);
+							if(!is_null($gender))
+							{
+								$counter = $counter->where('gender', $gender);
+							}
+							if($ageRange)
+							{
+								$counter = $counter->where('age', '>=', $ageStart)
+												   ->where('age', '<=', $ageEnd);
+							}
+							if($from && $to)
+							{
+								$counter = $counter->whereBetween('created_at', [$from, $to]);
+							}
+							$counter = $counter->count();
+		return $counter;
 	}
 }

@@ -310,6 +310,7 @@ class TestController extends \BaseController {
 		}
 		$result['measureid'] = Input::get('measureid');
 		$result['measurevalue'] = Input::get('measurevalue');
+		$result['testId'] = Input::get('testId');
 
 		$measure = new Measure;
 		return $measure->getResultInterpretation($result);

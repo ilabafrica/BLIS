@@ -43,4 +43,12 @@ class TestCategory extends Eloquent
 			return null;
 		}
 	}
+	/**
+	 * critical values relationship
+	 *
+	 */
+	public function criticals()
+	{
+        return $this->hasMany('CritVal', 'test_category_id');
+    }
 }
