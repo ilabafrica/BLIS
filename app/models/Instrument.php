@@ -206,7 +206,7 @@ class Instrument extends Eloquent
 	 * @param $controlType
 	 * @return Response json
 	 */
-	public function fetchControlResult($controlType){
+	public function fetchControlResult($control){
 
  		// Invoke the Instrument Class to get the results
 		$result = (new $this->driver_name($this->ip))->getResult();

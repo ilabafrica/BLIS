@@ -211,6 +211,21 @@ $(function(){
 		});
 	});
 
+
+	/** 
+	 * Fetch Test results
+	 */
+
+	$('.fetch-control-data').click(function(){
+		var controlID = $(this).data('control-id');
+		var url = $(this).data('url');
+		$.post(url, { control_id: controlID}).done(function(data){
+			$.each($.parseJSON(data), function (index, obj) {
+				$('#'+index).val(obj);
+			});
+		});
+	});
+
 	/** 
 	 * Search for patient from new test modal
 	 * UI Rendering Logic here

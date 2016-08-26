@@ -13,10 +13,10 @@
                 <div class="row less-gutter">
                     <div class="col-md-11">
                         <span class="glyphicon glyphicon-user"></span> {{ trans('messages.controlresults') }}
-                        @if($control->name == "Full Blood Count")
+                        @if($control->name == "Full Haemogram")
                         <div class="panel-btn">
                             <a class="btn btn-sm btn-info fetch-test-data" href="javascript:void(0)"
-                                data-control-type-id="{{$control->id}}"
+                                data-control-id="{{$control->id}}"
                                 title="{{trans('messages.fetch-test-data-title')}}"
                                 data-url="{{URL::route('instrument.getControlResult')}}">
                                 <span class="glyphicon glyphicon-plus-sign"></span>

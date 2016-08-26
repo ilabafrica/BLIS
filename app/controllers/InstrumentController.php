@@ -186,11 +186,11 @@ class InstrumentController extends \BaseController {
 	 */
 	public function getControlResult()
 	{
-		$controlTypeID = Input::get("control_type_id");
-		$controlType = Control::find($controlTypeID);
+		$controlID = Input::get("control_id");
+		$control = Control::find($controlID);
 		$instrument = Instrument::where('name','Celltac F Mek 8222')->first();
  		// Fetch the results
-		return $instrument->fetchResult($controlType);
+		return $instrument->fetchControlResult($control);
 	}
 
 	/**
