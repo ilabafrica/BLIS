@@ -13,6 +13,17 @@
                 <div class="row less-gutter">
                     <div class="col-md-11">
                         <span class="glyphicon glyphicon-user"></span> {{ trans('messages.controlresults') }}
+                        @if($control->name == "Full Blood Count")
+                        <div class="panel-btn">
+                            <a class="btn btn-sm btn-info fetch-test-data" href="javascript:void(0)"
+                                data-control-type-id="{{$control->id}}"
+                                title="{{trans('messages.fetch-test-data-title')}}"
+                                data-url="{{URL::route('instrument.getControlResult')}}">
+                                <span class="glyphicon glyphicon-plus-sign"></span>
+                                {{trans('messages.fetch-test-data')}}
+                            </a>
+                        </div>
+                        @endif
                     </div>
                     <div class="col-md-1">
                         <a class="btn btn-sm btn-primary pull-right"  href="#" onclick="window.history.back();return false;"
