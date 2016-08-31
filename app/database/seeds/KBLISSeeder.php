@@ -185,7 +185,6 @@ class KBLISSeeder extends DatabaseSeeder
           array("reason" => "Inappropriate specimen for the test"),
           array("reason" => "Inappropriate test for the clinical condition"),
           array("reason" => "No Label"),
-          array("reason" => "Leaking"),
           array("reason" => "No Sample in the Container"),
           array("reason" => "No Request Form"),
           array("reason" => "Missing Information Required"),

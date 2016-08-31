@@ -258,8 +258,6 @@ class ReportController extends \BaseController {
 				    "Content-Disposition"=>"attachment;Filename=".$fileName
 				);
 				$content = View::make('reports.daily.exportSpecimenLog')
-								->with('id', $specimens->tests->visits->patient->id)//zeek stopped
-								->with('patient', $specimens->tests->visits->patient->name)//zeek stopped
 								->with('specimens', $specimens)
 								->with('testCategory', $testCategory)
 								->with('testType', $testType)
@@ -275,8 +273,6 @@ class ReportController extends \BaseController {
 				    "Content-Disposition"=>"attachment;Filename=".$fileName
 				);
 				$content = View::make('reports.daily.exportSpecimenLog')
-								->with('id', $specimens->tests->visits->patient->id)//zeek stopped
-								->with('patient', $specimens->tests->visits->patient->name)//zeek stopped
 								->with('specimens', $specimens)
 								->with('testCategory', $testCategory)
 								->with('testType', $testType)
@@ -1935,17 +1931,17 @@ class ReportController extends \BaseController {
 						</tr>
 						<tr>
 							<td>Total</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>L. donovani</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>';
 				$stool = TestType::getTestTypeIdByTestName('Stool for O/C');
@@ -2366,75 +2362,75 @@ class ReportController extends \BaseController {
 						</tr>
 						<tr>
 							<td>Pap Smear</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Tissue Impressions</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td colspan="9">TISSUE ASPIRATES (FNA)</td>
 						</tr>
 						<tr>
 							<td></td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td colspan="9">FLUID CYTOLOGY</td>
 						</tr>
 						<tr>
 							<td>Ascitic fluid</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>CSF</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Pleural fluid</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Others</td>
@@ -2452,69 +2448,69 @@ class ReportController extends \BaseController {
 						</tr>
 						<tr>
 							<td>Cervix</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Prostrate</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Breast</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Ovarian cyst</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Fibroids</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Lymph nodes</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Others</td>
@@ -2915,14 +2911,14 @@ class ReportController extends \BaseController {
 							$table.='</tr>
 						<tr>
 							<td>Formal Gel Test</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Other Tests</td>

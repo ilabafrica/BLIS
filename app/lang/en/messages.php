@@ -434,7 +434,7 @@ return array(
     'laboratory'    =>  'Laboratory',
     'tested'    =>  'Tested',
     'less-five'    =>  '< 5 Years',
-    'greater-five'    =>  '≥ 5 Years',
+    'greater-five'    =>  '>=5 Years',
     'laboratory-report' => 'LABORATORY REPORT',
 
     /* Infection Report*/

@@ -308,7 +308,7 @@
               <div class="col-lg-12">
                 <div class="input-group">
                   <input type="text" class="form-control search-text" 
-                    placeholder="{{ trans('messages.search-patient-placeholder') }}">
+                         placeholder="{{ trans('messages.search-patient-placeholder') }}" autofocus="TRUE">
                   <span class="input-group-btn">
                     <button class="btn btn-default search-patient" type="button">
                         {{ trans('messages.patient-search-button') }}</button>

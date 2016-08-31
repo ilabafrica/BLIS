@@ -91,13 +91,13 @@
 				</tr>
 				<tr>
 					<th>{{ trans('messages.patient-id')}}</th>
-					<td>{{ $patient->patient_number}}</td>
+					<td>{{ $patient->id}}</td>
 					<th>{{ trans('messages.age')}}</th>
 					<td>{{ $patient->getAge()}}</td>
 				</tr>
 				<tr>
-					<th>{{ trans('messages.patient-lab-number')}}</th>
-					<td>{{ $patient->external_patient_number }}</td>
+					<th>{{ trans('messages.patient-number')}}</th>
+					<td>{{ $patient->patient_number }}</td>
 					<th>{{ trans('messages.requesting-facility-department')}}</th>
 					<td>{{ Config::get('kblis.organization') }}</td>
 				</tr>
@@ -173,7 +173,7 @@
 								@endforeach</td>
 							<td>{{ $test->interpretation == '' ? 'N/A' : $test->interpretation }}</td>
 							<td>{{ $test->testedBy->name or trans('messages.pending')}}</td>
-							<td>{{ $test->testResults->last()->time_entered }}</td>
+							<td>{{ $test->testResults->last()->time_entered or trans('messages.pending') }}</td>
 							<td>{{ $test->time_completed }}</td>
 							<td>{{ $test->verifiedBy->name or trans('messages.verification-pending')}}</td>
 							<td>{{ $test->time_verified }}</td>
