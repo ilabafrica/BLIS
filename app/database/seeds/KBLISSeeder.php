@@ -123,7 +123,7 @@ class KBLISSeeder extends DatabaseSeeder
         );*/
 
         //$instrument = Instrument::create($instrumentsData);
-        //$instrument->testTypes()->attach(array(176)); XXX ZEEK there is not test type can't attach due to foreign key constraint
+        //$instrument->testTypes()->attach(array(176)); XXX ZEEK there is no test type can't attach due to foreign key constraint
 
        // $this->command->info('Instruments table seeded');
 
