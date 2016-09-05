@@ -546,7 +546,11 @@ class Test extends Eloquent
 		}*/
                 if (count($positiveRanges) > 0)
                 { 
-                    $positiveRangesQuery = "tr.result='Positive'";
+                    /*Stool culture organims results are neither positive or negative.
+                     * Since they are free text like 'Shingella isolated', it is complicated using a standard query
+                     * due to the possiblity of user typing wide range of non standard text. The reason why querying for non negatives
+                    */
+                    $positiveRangesQuery = "tr.result='Positive' or tr.result<>'Negative'";
                 }
 		//echo print_r($positiveRangesQuery);
 
@@ -577,7 +581,7 @@ class Test extends Eloquent
 					"COUNT(DISTINCT if(((".$surveillance['test_type_id'].") and (".$positiveRangesQuery.
 						")),".$t_id." ,NULL)) as ".$surveillance['disease_id']."_positive,".
 					"COUNT(DISTINCT if(((".$surveillance['test_type_id'].") and (".$positiveRangesQuery.
-						") and DATE_SUB(NOW(), INTERVAL 5 YEAR)<p.dob),t.id,NULL)) as ".$surveillance['disease_id'].
+						") and DATE_SUB(NOW(), INTERVAL 5 YEAR)<p.dob),".$t_id.",NULL)) as ".$surveillance['disease_id'].
 							"_less_five_positive";
 
 			    $query = $query." FROM tests t ".
@@ -598,7 +602,7 @@ class Test extends Eloquent
 			    }
                                                         
 			}
-
+                        //echo $query;
 			$data = DB::select($query);
 			$data = json_decode(json_encode($data), true);
 			return $data[0];
