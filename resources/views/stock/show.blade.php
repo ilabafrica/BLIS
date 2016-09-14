@@ -1,28 +1,28 @@
-@extends("app")
+@extends("layout")
 
 @section("content")
 <div class="row">
     <div class="col-sm-12">
         <ul class="breadcrumb">
-            <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
-            <li class="active"><i class="fa fa-cubes"></i> {!! trans('menu.inventory') !!}</li>
-            <li><a href="{!! url('stock/'.$stock->item->id.'/log') !!}"><i class="fa fa-cube"></i> {!! trans('terms.stock-usage') !!}</a></li>
-            <li class="active">{!! trans('action.view').' '.trans('terms.lot') !!}</li>
+            <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('messages.home') !!}</a></li>
+            <li class="active"><i class="fa fa-cubes"></i> {!! trans('messages.inventory') !!}</li>
+            <li><a href="{!! url('stock/'.$stock->item->id.'/log') !!}"><i class="fa fa-cube"></i> {!! trans('messages.stock-usage') !!}</a></li>
+            <li class="active">{!! trans('messages.view').' '.trans('messages.lot') !!}</li>
         </ul>
     </div>
 </div>
 <div class="conter-wrapper">
 	<div class="card">
 		<div class="card-header">
-		    <i class="fa fa-file-text"></i> <strong>{!! trans('terms.details-for').': '.$stock->item->name.' '.trans('terms.lot').' '.$stock->lot !!}</strong>
+		    <i class="fa fa-file-text"></i> <strong>{!! trans('messages.details-for').': '.$stock->item->name.' '.trans('messages.lot').' '.$stock->lot !!}</strong>
 		    <span>
 			    <a class="btn btn-sm btn-belize-hole" href="{!! url("stock/" . $stock->id."/usage") !!}" >
 					<i class="fa fa-lemon-o"></i>
-					{!! trans('action.update-stock') !!}
+					{!! trans('messages.update-stock') !!}
 				</a>
 				<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
 					<i class="fa fa-step-backward"></i>
-					{!! trans('action.back') !!}
+					{!! trans('messages.back') !!}
 				</a>				
 			</span>
 		</div>	  		
@@ -36,7 +36,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<ul class="list-group" style="padding-bottom:5px;">
-					  	<li class="list-group-item"><strong>{!! trans('terms.details-for').': '.$stock->item->name !!}</strong></li>
+					  	<li class="list-group-item"><strong>{!! trans('messages.details-for').': '.$stock->item->name !!}</strong></li>
 					  	<li class="list-group-item">
 					  		<h6>
 					  			<span>{!! trans("terms.lot-no") !!}<small> {!! $stock->lot !!}</small></span>
@@ -50,10 +50,10 @@
 					<table class="table table-bordered table-sm search-table">
 						<thead>
 							<tr>
-								<th>{!! trans('terms.id') !!}</th>
-								<th>{!! trans('terms.signed-out') !!}</th>
-								<th>{!! trans('terms.date-of-usage') !!}</th>
-								<th>{!! trans('terms.remarks') !!}</th>
+								<th>{!! trans('messages.id') !!}</th>
+								<th>{!! trans('messages.signed-out') !!}</th>
+								<th>{!! trans('messages.date-of-usage') !!}</th>
+								<th>{!! trans('messages.remarks') !!}</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -73,7 +73,7 @@
 								<!-- edit this test category (uses edit method found at GET /stock/{id}/edit -->
 									<a class="btn btn-sm btn-info" href="{!! url("stock/" . $value->id . "/lot") !!}">
 										<i class="fa fa-edit"></i>
-										{!! trans('action.edit') !!}
+										{!! trans('messages.edit') !!}
 									</a>
 								</td>
 							</tr>

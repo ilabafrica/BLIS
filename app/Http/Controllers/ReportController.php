@@ -52,7 +52,7 @@ class ReportController extends Controller
         }
 
         // Load the view and pass the patients
-        return view('report.daily.patient.index', compact('patients'))->withInput(Input::all());
+        return view('reports.patient.index', compact('patients'))->withInput(Input::all());
     }
 
     /**

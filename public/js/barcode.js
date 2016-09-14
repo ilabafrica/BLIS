@@ -44,7 +44,7 @@ function Popup(data, code)
     return true;
 }
 
-function get_barcode(code)
+function print_barcode(code, encoding_format, barcode_width, barcode_height, text_size)
 {
     if(code == '')
     {
@@ -57,23 +57,9 @@ function get_barcode(code)
     var div = "bar"+count;
     var content = "<br><br><div id='"+div+"'></div>";
     $('#barcodeList').html(content);
-        $("#"+div).barcode(code, 'code39',{barWidth:2, barHeight:30, fontSize:11, output:'css'});
+        $("#"+div).barcode(code, encoding_format,{barWidth:barcode_width, barHeight:barcode_height, fontSize:text_size, output:'css'});
     var data = $('#barcodeList').html();
     Popup(data); 
-}
-function print_specimen_barcode(code)
-{
-    var count = parseInt($('#count').html()); 
-    count = count + 1;
-    $('#count').html(count);  
-    var div = "bar"+count;
-    var content = "<br><br><div id='"+div+"'></div>";
-    $('#specimenBarcodeDiv').html(content);
-
-    console.log(code);
-    $("#"+div).barcode(code, 'code39',{barWidth:2, barHeight:30, fontSize:11, output:'css'});
-    var data = $('#specimenBarcodeDiv').html();
-    Popup(data);
 }
 function Popup(data) 
 {

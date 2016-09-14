@@ -60,7 +60,7 @@ return array(
 	|
 	*/
 
-	'organization-logo' => '../img/iLabAfrica_Logo.png',
+	'organization-logo' => '../i/iLabAfrica_Logo.png',
 	
 	/*
 	|--------------------------------------------------------------------------

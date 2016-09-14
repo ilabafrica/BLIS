@@ -1,112 +1,96 @@
-@extends("app")
-
+@extends("layout")
 @section("content")
-<div class="row">
-    <div class="col-sm-12">
-        <ul class="breadcrumb">
-            <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
-            <li class="active"><i class="fa fa-street-view"></i> {!! trans('menu.patient-register') !!}</li>
-        </ul>
-    </div>
+<div>
+	<ol class="breadcrumb">
+	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
+	  <li class="active">{{ trans_choice('messages.patient',2) }}</li>
+	</ol>
 </div>
-<div class="conter-wrapper">
-	<div class="row">
-		<div class="col-sm-12">
-			<div class="card">
-				<div class="card-header">
-				    <i class="fa fa-book"></i> {!! trans('menu.patient-register') !!} 
-				    <span>
-					    <a class="btn btn-sm btn-belize-hole" href="{!! url("patient/create") !!}" >
-							<i class="fa fa-plus-circle"></i>
-							{!! trans('action.new').' '.trans_choice('menu.patient', 1) !!}
-						</a>
-						<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
-							<i class="fa fa-step-backward"></i>
-							{!! trans('action.back') !!}
-						</a>				
-					</span>
+
+<div class='container-fluid'>
+	<div class='row'>
+		<div class='col-md-12'>
+			{{ Form::open(array('route' => array('patient.index'), 'class'=>'form-inline',
+				'role'=>'form', 'method'=>'GET')) }}
+				<div class="form-group">
+
+				    {{ Form::label('search', "search", array('class' => 'sr-only')) }}
+		            {{ Form::text('search', Input::get('search'), array('class' => 'form-control test-search')) }}
 				</div>
-			  	<div class="card-block">	  		
-					@if (Session::has('message'))
-						<div class="alert alert-info">{!! Session::get('message') !!}</div>
-					@endif
-					@if($errors->all())
-		            <div class="alert alert-danger alert-dismissible" role="alert">
-		                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">{!! trans('action.close') !!}</span></button>
-		                {!! HTML::ul($errors->all(), array('class'=>'list-unstyled')) !!}
-		            </div>
-		            @endif
-		            <div class='col-md-12' style="padding-bottom:5px;">
-						{!! Form::open(array('route' => array('patient.index'), 'class'=>'form-inline',
-							'role'=>'form', 'method'=>'GET')) !!}
-							<div class="form-group">
-
-							    {!! Form::label('search', "search", array('class' => 'sr-only')) !!}
-					            {!! Form::text('search', Input::get('search'), array('class' => 'form-control test-search')) !!}
-							</div>
-							<div class="form-group">
-								{!! Form::button("<i class='fa fa-search'></i> ".trans('terms.search'), 
-							        array('class' => 'btn btn-sm btn-primary', 'type' => 'submit')) !!}
-							</div>
-						{!! Form::close() !!}
-					</div>
-				 	<table class="table table-bordered table-sm search-table">
-						<thead>
-							<tr>
-								<th>{!! trans('terms.patient-no') !!}</th>
-								<th>{!! trans('terms.name') !!}</th>
-								<th>{!! trans('terms.phone') !!}</th>
-								<th>{!! trans('terms.gender') !!}</th>
-								<th>{!! trans('terms.date-of-birth') !!}</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-						@foreach($patients as $patient)
-							<tr @if(session()->has('active_patient'))
-				                    {!! (session('active_patient') == $value->id)?"class='warning'":"" !!}
-				                @endif
-				                >
-								<td>{!! $patient->patient_number !!}</td>
-								<td>{!! $patient->name !!}</td>
-								<td>{!! $patient->phone_number !!}</td>
-								<td>{!! ($patient->gender==0?trans_choice('terms.sex', 1):trans_choice('terms.sex', 2)) !!}</td>
-								<td>{!! $patient->dob !!}</td>
-								
-								<td>
-									<a class="btn btn-sm btn-wet-asphalt" 
-										href="{!! route('test.create', array('patient_id' => $patient->id)) !!}">
-										<i class="fa fa-eyedropper"></i>
-										{!! trans('action.new').' '.trans_choice('menu.test', 1) !!}
-									</a>
-								<!-- show the test category (uses the show method found at GET /patient/{id} -->
-									<a class="btn btn-sm btn-success" href="{!! url("patient/" . $patient->id) !!}" >
-										<i class="fa fa-folder-open-o"></i>
-										{!! trans('action.view') !!}
-									</a>
-
-								<!-- edit this test category (uses edit method found at GET /patient/{id}/edit -->
-									<a class="btn btn-sm btn-info" href="{!! url("patient/" . $patient->id . "/edit") !!}" >
-										<i class="fa fa-edit"></i>
-										{!! trans('action.edit') !!}
-									</a>
-									
-								<!-- delete this test category (uses delete method found at GET /patient/{id}/delete -->
-									<button class="btn btn-sm btn-danger delete-item-link"
-										data-toggle="modal" data-target=".confirm-delete-modal"	
-										data-id='{!! url("patient/" . $patient->id . "/delete") !!}'>
-										<i class="fa fa-trash-o"></i>
-										{!! trans('action.delete') !!}
-									</button>
-								</td>
-							</tr>
-						@endforeach
-						</tbody>
-					</table>
-			  	</div>
-			</div>
+				<div class="form-group">
+					{{ Form::button("<span class='glyphicon glyphicon-search'></span> ".trans('messages.search'), 
+				        array('class' => 'btn btn-primary', 'type' => 'submit')) }}
+				</div>
+			{{ Form::close() }}
 		</div>
 	</div>
-	{!! session(['SOURCE_URL' => URL::full()]) !!}
 </div>
-@endsection
+
+	<br>
+
+@if (Session::has('message'))
+	<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
+@endif
+
+<div class="panel panel-primary">
+	<div class="panel-heading ">
+		<span class="glyphicon glyphicon-user"></span>
+		{{trans('messages.list-patients')}}
+		<div class="panel-btn">
+			<a class="btn btn-sm btn-info" href="{{ URL::route('patient.create') }}">
+				<span class="glyphicon glyphicon-plus-sign"></span>
+				{{trans('messages.new-patient')}}
+			</a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-striped table-hover table-condensed">
+			<thead>
+				<tr>
+					<th>{{trans('messages.patient-number')}}</th>
+					<th>{{trans_choice('messages.name',1)}}</th>
+					<th>{{trans('messages.gender')}}</th>
+					<th>{{trans('messages.date-of-birth')}}</th>
+					<th>{{trans('messages.actions')}}</th>
+				</tr>
+			</thead>
+			<tbody>
+			@foreach($patients as $key => $patient)
+				<tr  @if(Session::has('activepatient'))
+						{{(Session::get('activepatient') == $patient->id)?"class='info'":""}}
+					@endif
+				>
+					<td>{{ $patient->patient_number }}</td>
+					<td>{{ $patient->name }}</td>
+					<td>{{ ($patient->gender==0?trans('messages.male'):trans('messages.female')) }}</td>
+					<td>{{ $patient->dob }}</td>
+
+					<td>
+						@if(Auth::user()->can('request_test'))
+						<a class="btn btn-sm btn-info" 
+							href="{{ URL::route('test.create', array('patient_id' => $patient->id)) }}">
+							<span class="glyphicon glyphicon-edit"></span>
+							{{ trans('messages.new-test') }}
+						</a>
+						@endif
+						<!-- show the patient (uses the show method found at GET /patient/{id} -->
+						<a class="btn btn-sm btn-success" href="{{ URL::route('patient.show', array($patient->id)) }}" >
+							<span class="glyphicon glyphicon-eye-open"></span>
+							{{trans('messages.view')}}
+						</a>
+
+						<!-- edit this patient (uses the edit method found at GET /patient/{id}/edit -->
+						<a class="btn btn-sm btn-info" href="{{ URL::route('patient.edit', array($patient->id)) }}" >
+							<span class="glyphicon glyphicon-edit"></span>
+							{{trans('messages.edit')}}
+						</a>
+					</td>
+				</tr>
+			@endforeach
+			</tbody>
+		</table>
+		<?php echo $patients->render(); 
+		Session::put('SOURCE_URL', URL::full());?>
+	</div>
+</div>
+@stop

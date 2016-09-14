@@ -1,46 +1,42 @@
-@extends("app")
-
+@extends("layout")
 @section("content")
-<div class="row">
-    <div class="col-sm-12">
-        <ul class="breadcrumb">
-            <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
-            <li class="active"><i class="fa fa-users"></i> {!! trans('menu.access-control') !!}</li>
-            <li><a href="{!! route('user.index') !!}"><i class="fa fa-cube"></i> {!! trans_choice('menu.user', 2) !!}</a></li>
-            <li class="active">{!! trans('action.view').' '.trans_choice('menu.user', 1) !!}</li>
-        </ul>
-    </div>
-</div>
-<div class="conter-wrapper">
-	<div class="card">
-		<div class="card-header">
-		    <i class="fa fa-file-text"></i> <strong>{!! trans('terms.details-for').': '.$user->name !!}</strong>
-		    <span>
-		    	<a class="btn btn-sm btn-belize-hole" href="{!! url("user/create") !!}" >
-					<i class="fa fa-plus-circle"></i>
-					{!! trans('action.new').' '.trans_choice('menu.user', 1) !!}
-				</a>
-				<a class="btn btn-sm btn-info" href="{!! url("user/" . $user->id . "/edit") !!}" >
-					<i class="fa fa-edit"></i>
-					{!! trans('action.edit') !!}
-				</a>
-				<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
-					<i class="fa fa-step-backward"></i>
-					{!! trans('action.back') !!}
-				</a>				
-			</span>
-		</div>	  		
-		<!-- if there are creation errors, they will show here -->
-		@if($errors->all())
-			<div class="alert alert-danger">
-				{!! HTML::ul($errors->all()) !!}
-			</div>
-		@endif
-
-		<ul class="list-group list-group-flush">
-		    <li class="list-group-item"><h4>{!! trans('terms.name').': ' !!}<small>{!! $user->name !!}</small></h4></li>
-		    <li class="list-group-item"><h5>{!! trans('terms.description').': ' !!}<small>{!! $user->description !!}</small></h5></li>
-	  	</ul>
+	<div>
+		<ol class="breadcrumb">
+		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
+		  <li><a href="{{ URL::route('user.index') }}">{{ trans_choice('messages.user', 2)}}</a></li>
+		  <li class="active">{{trans('messages.user-details')}}</li>
+		</ol>
 	</div>
-</div>
-@endsection	
+	<div class="panel panel-primary">
+		<div class="panel-heading ">
+			<span class="glyphicon glyphicon-user"></span>
+			{{trans('messages.user-details')}}
+			<div class="panel-btn">
+				<a class="btn btn-sm btn-info" href="{{ URL::to("user/". $user->id ."/edit") }}">
+					<span class="glyphicon glyphicon-edit"></span>
+					{{trans('messages.edit')}}
+				</a>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="display-details">
+							<h3><strong>{{trans('messages.full-name')}}</strong>{{ $user->name }} </h3>
+							<p><strong>{{trans('messages.username')}}</strong>{{ $user->username }}</p>
+							<p><strong>{{trans('messages.email-address')}}</strong>{{ $user->email }}</p>
+							<p><strong>{{trans('messages.designation')}}</strong>{{ $user->designation }}</p>
+							<p><strong>{{trans('messages.gender')}}</strong>{{ ($user->gender==0?"Male":"Female") }}</p>
+							<p><strong>{{trans('messages.date-created')}}</strong>{{ $user->created_at }}</p>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<img class="img-responsive img-thumbnail user-image" src="{{ $user->image }}" 
+							alt="{{trans('messages.image-alternative')}}"></img>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+@stop

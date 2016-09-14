@@ -1,12 +1,12 @@
-@extends("app")
+@extends("layout")
 
 @section("content")
 <div class="row">
     <div class="col-sm-12">
         <ul class="breadcrumb">
-            <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
-            <li class="active"><i class="fa fa-toggle-off"></i> {!! trans('menu.lab-config') !!}</li>
-            <li class="active"><i class="fa fa-cube"></i> {!! trans_choice('menu.barcode', 2) !!}</li>
+            <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('messages.home') !!}</a></li>
+            <li class="active"><i class="fa fa-toggle-off"></i> {!! trans('messages.lab-configuration') !!}</li>
+            <li class="active"><i class="fa fa-cube"></i> {!! trans_choice('messages.barcode', 2) !!}</li>
         </ul>
     </div>
 </div>
@@ -15,15 +15,15 @@
 		<div class="col-sm-12">
 			<div class="card">
 				<div class="card-header">
-				    <i class="fa fa-book"></i> {!! trans_choice('menu.barcode', 2) !!} 
+				    <i class="fa fa-book"></i> {!! trans_choice('messages.barcode', 2) !!} 
 				    <span>
 					    <a class="btn btn-sm btn-belize-hole" href="{!! url("barcode/create") !!}" >
 							<i class="fa fa-plus-circle"></i>
-							{!! trans('action.new').' '.trans_choice('menu.barcode', 1) !!}
+							{!! trans('messages.new').' '.trans_choice('messages.barcode', 1) !!}
 						</a>
 						<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
 							<i class="fa fa-step-backward"></i>
-							{!! trans('action.back') !!}
+							{!! trans('messages.back') !!}
 						</a>				
 					</span>
 				</div>
@@ -33,15 +33,15 @@
 					@endif
 					@if($errors->all())
 		            <div class="alert alert-danger alert-dismissible" role="alert">
-		                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">{!! trans('action.close') !!}</span></button>
+		                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">{!! trans('messages.close') !!}</span></button>
 		                {!! HTML::ul($errors->all(), array('class'=>'list-unstyled')) !!}
 		            </div>
 		            @endif
 				 	<table class="table table-bordered table-sm search-table">
 						<thead>
 							<tr>
-								<th>{!! trans('terms.name') !!}</th>
-								<th>{!! trans('terms.description') !!}</th>
+								<th>{!! trans('messages.name') !!}</th>
+								<th>{!! trans('messages.description') !!}</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -59,13 +59,13 @@
 								<!-- show the test category (uses the show method found at GET /barcode/{id} -->
 									<a class="btn btn-sm btn-success" href="{!! url("barcode/" . $value->id) !!}" >
 										<i class="fa fa-folder-open-o"></i>
-										{!! trans('action.view') !!}
+										{!! trans('messages.view') !!}
 									</a>
 
 								<!-- edit this test category (uses edit method found at GET /barcode/{id}/edit -->
 									<a class="btn btn-sm btn-info" href="{!! url("barcode/" . $value->id . "/edit") !!}" >
 										<i class="fa fa-edit"></i>
-										{!! trans('action.edit') !!}
+										{!! trans('messages.edit') !!}
 									</a>
 									
 								<!-- delete this test category (uses delete method found at GET /barcode/{id}/delete -->
@@ -73,7 +73,7 @@
 										data-toggle="modal" data-target=".confirm-delete-modal"	
 										data-id='{!! url("barcode/" . $value->id . "/delete") !!}'>
 										<i class="fa fa-trash-o"></i>
-										{!! trans('action.delete') !!}
+										{!! trans('messages.delete') !!}
 									</button>
 								</td>
 							</tr>

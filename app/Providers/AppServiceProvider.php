@@ -26,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // 
+        \Blade::setRawTags('{{', '}}');
+        \Blade::setContentTags('{{{', '}}}');
+        \Blade::setEscapedContentTags('{{{', '}}}');
     }
 }

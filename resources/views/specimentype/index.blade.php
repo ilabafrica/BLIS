@@ -1,89 +1,75 @@
-@extends("app")
 
+@extends("layout")
 @section("content")
-<div class="row">
-    <div class="col-sm-12">
-        <ul class="breadcrumb">
-            <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
-            <li class="active"><i class="fa fa-database"></i> {!! trans('menu.test-catalog') !!}</li>
-            <li class="active"><i class="fa fa-cube"></i> {!! trans_choice('menu.specimen-type', 2) !!}</li>
-        </ul>
-    </div>
+<div>
+
+	<ol class="breadcrumb">
+	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
+	  <li class="active">{{ trans_choice('messages.specimen-type',2) }}</li>
+	</ol>
 </div>
-<div class="conter-wrapper">
-	<div class="row">
-		<div class="col-sm-12">
-			<div class="card">
-				<div class="card-header">
-				    <i class="fa fa-book"></i> {!! trans_choice('menu.specimen-type', 2) !!} 
-				    <span>
-					    <a class="btn btn-sm btn-belize-hole" href="{!! url("specimentype/create") !!}" >
-							<i class="fa fa-plus-circle"></i>
-							{!! trans('action.new').' '.trans_choice('menu.specimen-type', 1) !!}
-						</a>
-						<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
-							<i class="fa fa-step-backward"></i>
-							{!! trans('action.back') !!}
-						</a>				
-					</span>
-				</div>
-			  	<div class="card-block">	  		
-					@if (Session::has('message'))
-						<div class="alert alert-info">{!! Session::get('message') !!}</div>
-					@endif
-					@if($errors->all())
-		            <div class="alert alert-danger alert-dismissible" role="alert">
-		                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">{!! trans('action.close') !!}</span></button>
-		                {!! HTML::ul($errors->all(), array('class'=>'list-unstyled')) !!}
-		            </div>
-		            @endif
-				 	<table class="table table-bordered table-sm search-table">
-						<thead>
-							<tr>
-								<th>{!! trans('terms.name') !!}</th>
-								<th>{!! trans('terms.description') !!}</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-						@foreach($specimentypes as $key => $value)
-							<tr @if(session()->has('active_specimentype'))
-				                    {!! (session('active_specimentype') == $value->id)?"class='warning'":"" !!}
-				                @endif
-				                >
-								<td>{!! $value->name !!}</td>
-								<td>{!! $value->description !!}</td>
-								
-								<td>
-
-								<!-- show the test category (uses the show method found at GET /specimen-type/{id} -->
-									<a class="btn btn-sm btn-success" href="{!! url("specimentype/" . $value->id) !!}" >
-										<i class="fa fa-folder-open-o"></i>
-										{!! trans('action.view') !!}
-									</a>
-
-								<!-- edit this test category (uses edit method found at GET /specimen-type/{id}/edit -->
-									<a class="btn btn-sm btn-info" href="{!! url("specimentype/" . $value->id . "/edit") !!}" >
-										<i class="fa fa-edit"></i>
-										{!! trans('action.edit') !!}
-									</a>
-									
-								<!-- delete this test category (uses delete method found at GET /specimen-type/{id}/delete -->
-									<button class="btn btn-sm btn-danger delete-item-link"
-										data-toggle="modal" data-target=".confirm-delete-modal"	
-										data-id='{!! url("specimentype/" . $value->id . "/delete") !!}'>
-										<i class="fa fa-trash-o"></i>
-										{!! trans('action.delete') !!}
-									</button>
-								</td>
-							</tr>
-						@endforeach
-						</tbody>
-					</table>
-			  	</div>
-			</div>
+@if (Session::has('message'))
+	<div class="alert alert-info">{{ Session::get('message') }}</div>
+@endif
+<div class="panel panel-primary">
+	<div class="panel-heading ">
+		<span class="glyphicon glyphicon-user"></span>
+		{{trans('messages.list-specimen-types')}}
+		<div class="panel-btn">
+			<a class="btn btn-sm btn-info" href="{{ URL::to("specimentype/create") }}" >
+				<span class="glyphicon glyphicon-plus-sign"></span>
+				{{trans('messages.new-specimen-type')}}
+			</a>
 		</div>
 	</div>
-	{!! session(['SOURCE_URL' => URL::full()]) !!}
+	<div class="panel-body">
+		<table class="table table-striped table-hover table-condensed search-table">
+			<thead>
+				<tr>
+					<th>{{ trans_choice('messages.name',2) }}</th>
+					<th>{{trans('messages.description')}}</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+			@foreach($specimentypes as $key => $value)
+				<tr @if(Session::has('activespecimentype'))
+                            {{(Session::get('activespecimentype') == $value->id)?"class='info'":""}}
+                        @endif
+                        >
+
+					<td>{{ $value->name }}</td>
+					<td>{{ $value->description }}</td>
+
+					<td>
+
+					<!-- show the specimentype (uses the show method found at GET /specimentype/{id} -->
+						<a class="btn btn-sm btn-success" href="{{ URL::to("specimentype/" . $value->id) }}" >
+							<span class="glyphicon glyphicon-eye-open"></span>
+							{{trans('messages.view')}}
+						</a>
+
+					<!-- edit this specimentype (uses the edit method found at GET /specimentype/{id}/edit -->
+						<a class="btn btn-sm btn-info" href="{{ URL::to("specimentype/" . $value->id . "/edit") }}" >
+							<span class="glyphicon glyphicon-edit"></span>
+
+							{{trans('messages.edit')}}
+
+						</a>
+					<!-- delete this specimentype (uses delete method found at GET /specimentype/{id}/delete -->
+						<button class="btn btn-sm btn-danger delete-item-link" 
+							data-toggle="modal" data-target=".confirm-delete-modal"	
+							data-id='{{ URL::to("specimentype/" . $value->id . "/delete") }}'>
+							<span class="glyphicon glyphicon-trash"></span>
+							{{trans('messages.delete')}}
+						</button>
+
+					</td>
+				</tr>
+			@endforeach
+			</tbody>
+		</table>
+		{{ Session::put('SOURCE_URL', URL::full()) }}
+	</div>
 </div>
-@endsection
+@stop

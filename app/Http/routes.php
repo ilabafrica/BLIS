@@ -34,16 +34,6 @@
         'uses' => 'UserController@store'
     ]);
 
-    Route::get('/user/{id}/edit', [
-        'as' => 'user.edit',
-        'uses' => 'UserController@edit'
-    ]);
-
-    Route::put('/user/{id}/update', [
-        'as' => 'user.update',
-        'uses' => 'UserController@update'
-    ]);
-
 /*<<<<<<< HEAD*/
     Route::delete('/user/{id}/delete', [
         'as' => 'user.delete',
@@ -185,9 +175,11 @@ Route::get("/role/{id}/delete", array(
     Route::post('/password/reset', [
         'uses' => 'Auth\PasswordController@postReset'
     ]);
+*/
 
     Route::resource('user', 'UserController');
 
+/*
     Route::get('/user/{id}/delete', [
         'as' => 'user.delete',
         'before' => 'checkPerms:manage_users',
@@ -282,6 +274,21 @@ Route::get("/role/{id}/delete", array(
         'uses' => 'DrugController@delete'
     ]);
 
+    Route::resource("permission", "PermissionController");
+    Route::get("role/assign", array(
+        "as"   => "role.assign",
+        "uses" => "RoleController@assign"
+    ));
+    Route::post("role/assign", array(
+        "as"   => "role.assign",
+        "uses" => "RoleController@saveUserRoleAssignment"
+    ));
+    Route::resource("role", "RoleController");
+    Route::get("/role/{id}/delete", array(
+        "as"   => "role.delete",
+        "uses" => "RoleController@delete"
+    ));
+
     Route::resource('facility', 'FacilityController');
 
     Route::get('/facility/{id}/delete', [
@@ -301,6 +308,16 @@ Route::get("/role/{id}/delete", array(
         'as' => 'instrument.delete',
         'uses' => 'InstrumentController@delete'
     ]);
+
+    Route::get("/requireverification", array(
+        "as"   => "requireverification.edit",
+        "uses" => "RequireVerificationController@edit"
+    ));
+
+    Route::put("/requireverification", array(
+        "as"   => "requireverification.update",
+        "uses" => "RequireVerificationController@update"
+    ));
 
     Route::resource('issue', 'IssueController');
 
@@ -344,6 +361,21 @@ Route::get("/role/{id}/delete", array(
         'uses' => 'OrganismController@delete'
     ]);
 
+    Route::resource('critical', 'CriticalController');
+    
+    Route::get("/critical/{id}/delete", array(
+        "as"   => "critical.delete",
+        "uses" => "CriticalController@delete"
+    ));
+
+    Route::resource('microcritical', 'MicroCriticalController');
+    
+    Route::get("/microcritical/{id}/delete", array(
+        "as"   => "microcritical.delete",
+        "uses" => "MicroCriticalController@delete"
+    ));
+
+
     Route::resource('patient', 'PatientController');
 
     Route::get('/patient/{id}/delete', [
@@ -376,6 +408,13 @@ Route::get("/role/{id}/delete", array(
         // 'before' => 'checkPerms:manage_lab_configurations',
         'uses' => 'ReportController@surveillanceConfig'
     ]);
+
+    Route::resource("barcode", "BarcodeController");
+    Route::any("/blisclient", array(
+        "as"   => "blisclient.index",
+        "uses" => "BlisClientController@index"
+    ));
+
 
     Route::any('/reportconfig/disease', [
         'as' => 'reportconfig.disease',
@@ -449,6 +488,16 @@ Route::get("/role/{id}/delete", array(
         'uses' => 'ReportController@userStatistics'
     ]);
 
+    Route::any("/moh706", array(
+        "as"   => "reports.aggregate.moh706",
+        "uses" => "ReportController@moh706"
+    ));
+
+    Route::any("/cd4", array(
+        "as"   => "reports.aggregate.cd4",
+        "uses" => "ReportController@cd4"
+    ));
+
     Route::get('/qualitycontrol', [
         'as' => 'reports.qualityControl',
         'before' => 'checkPerms:view_reports',
@@ -472,6 +521,19 @@ Route::get("/role/{id}/delete", array(
         'before' => 'checkPerms:view_reports',
         'uses' => 'ReportController@stockLevel'
     ]);
+
+    Route::any("/rejection", array(
+        "as"   => "reports.aggregate.rejection",
+        "uses" => "ReportController@specimenRejectionChart"
+    ));
+    Route::any("/testaudit/{testid}", array(
+        "as"   => "reports.audit.test",
+        "uses" => "ReportController@viewTestAuditReport"
+    ));
+    Route::any("/critval", array(
+        "as"   => "reports.aggregate.critval",
+        "uses" => "ReportController@critical"
+    ));
 
     Route::any('/patientreport/{id}/{visit}', [
         'as' => 'reports.patient.report',
@@ -515,6 +577,16 @@ Route::get("/role/{id}/delete", array(
         'before' => 'checkPerms:manage_test_catalog',
         'uses' => 'SpecimenRejectionController@delete'
     ]);
+
+    Route::any("/testaudit/{testid}", array(
+        "as"   => "reports.audit.test",
+        "uses" => "ReportController@viewTestAuditReport"
+    ));
+
+    Route::any("/critval", array(
+        "as"   => "reports.aggregate.critval",
+        "uses" => "ReportController@critical"
+    ));
 
     Route::resource('specimentype', 'SpecimenTypeController');
 

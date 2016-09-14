@@ -1,85 +1,66 @@
-@extends("app")
-
+@extends("layout")
 @section("content")
-<div class="row">
-    <div class="col-sm-12">
-        <ul class="breadcrumb">
-            <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
-            <li><a href="{!! url('patient') !!}"><i class="fa fa-street-view"></i> {!! trans('menu.patient-register') !!}</a></li>
-            <li class="active">{!! trans('action.new').' '.trans_choice('menu.patient', 1) !!}</li>
-        </ul>
-    </div>
-</div>
-<div class="conter-wrapper">
-	<div class="card">
-		<div class="card-header">
-		    <i class="fa fa-pencil"></i> {!! trans('action.new').' '.trans_choice('menu.patient', 1) !!} 
-		    <span>
-				<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
-					<i class="fa fa-step-backward"></i>
-					{!! trans('action.back') !!}
-				</a>				
-			</span>
-		</div>
-	  	<div class="card-block">	  		
-			<!-- if there are creation errors, they will show here -->
-			@if($errors->all())
-            <div class="alert alert-danger alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">{!! trans('action.close') !!}</span></button>
-                {!! HTML::ul($errors->all(), array('class'=>'list-unstyled')) !!}
-            </div>
-            @endif
-
-			{!! Form::open(array('route' => 'patient.store', 'id' => 'form-create-patient')) !!}
-				<!-- CSRF Token -->
-                <input type="hidden" name="_token" value="{!! csrf_token() !!}" />
-                <!-- ./ csrf token -->
-                <div class="form-group row">
-					{!! Form::label('patient_number', trans('terms.patient-no'), array('class' => 'col-sm-2 form-control-label')) !!}
-					<div class="col-sm-6">
-						{!! Form::text('patient_number', $lastInsertId, array('class' => 'form-control')) !!}
-					</div>
-				</div>
-				<div class="form-group row">
-					{!! Form::label('name', trans_choice('terms.name',1), array('class' => 'col-sm-2 form-control-label')) !!}
-					<div class="col-sm-6">
-						{!! Form::text('name', old('name'), array('class' => 'form-control')) !!}
-					</div>
-				</div>
-                <div class="form-group row">
-                    {!! Form::label('dob', trans('terms.date-of-birth'), array('class' => 'col-sm-2 form-control-label')) !!}
-                    <div class="col-sm-6 input-group date datepicker"  style="padding-left:15px;">
-                        {!! Form::text('dob', old('dob'), array('class' => 'form-control')) !!}
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    {!! Form::label('gender', trans('terms.gender'), array('class' => 'col-sm-2 form-control-label')) !!}
-                    <div class="col-sm-6">
-                        <label class="radio-inline">{!! Form::radio('gender', App\Models\User::MALE, true) !!}{!! trans_choice('terms.sex', 1) !!}</label>
-                        <label class="radio-inline">{!! Form::radio("gender", App\Models\User::FEMALE, false) !!}{!! trans_choice('terms.sex', 2) !!}</label>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    {!! Form::label('phone', trans('terms.phone'), array('class' => 'col-sm-2 form-control-label')) !!}
-                    <div class="col-sm-6">
-                        {!! Form::text('phone', old('phone'), array('class' => 'form-control')) !!}
-                    </div>
-                </div>
-				<div class="form-group row">
-					{!! Form::label('address', trans("terms.address"), array('class' => 'col-sm-2 form-control-label')) !!}</label>
-					<div class="col-sm-6">
-						{!! Form::textarea('address', old('address'), array('class' => 'form-control', 'rows' => '2')) !!}
-					</div>
-				</div>
-				<div class="form-group row col-sm-offset-2">
-					{!! Form::button("<i class='fa fa-plus-circle'></i> ".trans('action.save'), 
-						array('class' => 'btn btn-primary btn-sm', 'onclick' => 'submit()')) !!}
-					<a href="#" class="btn btn-sm btn-silver"><i class="fa fa-times-circle"></i> {!! trans('action.cancel') !!}</a>
-				</div>
-
-			{!! Form::close() !!}
-	  	</div>
+	<div>
+		<ol class="breadcrumb">
+		  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
+		  <li><a href="{{ URL::route('patient.index') }}">{{ trans_choice('messages.patient',2) }}</a></li>
+		  <li class="active">{{trans('messages.create-patient')}}</li>
+		</ol>
 	</div>
-</div>
-@endsection	
+	<div class="panel panel-primary">
+		<div class="panel-heading ">
+			<span class="glyphicon glyphicon-user"></span>
+			{{trans('messages.create-patient')}}
+		</div>
+		<div class="panel-body">
+		<!-- if there are creation errors, they will show here -->
+			
+			@if($errors->all())
+				<div class="alert alert-danger">
+					{{ HTML::ul($errors->all()) }}
+				</div>
+			@endif
+
+			{{ Form::open(array('url' => 'patient', 'id' => 'form-create-patient')) }}
+				<div class="form-group">
+					{{ Form::label('patient_number', trans('messages.patient-number')) }}
+					{{ Form::text('patient_number', $lastInsertId,
+						array('class' => 'form-control')) }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('name', trans('messages.names')) }}
+					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('dob', trans('messages.date-of-birth')) }}
+					{{ Form::text('dob', Input::old('dob'), 
+						array('class' => 'form-control standard-datepicker')) }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('gender', trans('messages.gender')) }}
+					<div>{{ Form::radio('gender', '0', true) }}
+					<span class="input-tag">{{trans('messages.male')}}</span></div>
+					<div>{{ Form::radio("gender", '1', false) }}
+					<span class="input-tag">{{trans('messages.female')}}</span></div>
+				</div>
+				<div class="form-group">
+					{{ Form::label('address', trans('messages.physical-address')) }}
+					{{ Form::text('address', Input::old('address'), array('class' => 'form-control')) }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('phone_number', trans('messages.phone-number')) }}
+					{{ Form::text('phone_number', Input::old('phone_number'), array('class' => 'form-control')) }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('email', trans('messages.email-address')) }}
+					{{ Form::email('email', Input::old('email'), array('class' => 'form-control')) }}
+				</div>
+				<div class="form-group actions-row">
+					{{ Form::button('<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'), 
+						['class' => 'btn btn-primary', 'onclick' => 'submit()']) }}
+				</div>
+
+			{{ Form::close() }}
+		</div>
+	</div>
+@stop	

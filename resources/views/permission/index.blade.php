@@ -1,12 +1,12 @@
-@extends("app")
+@extends("layout")
 
 @section("content")
 <div class="row">
     <div class="col-sm-12">
         <ul class="breadcrumb">
-            <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
-            <li class="active"><i class="fa fa-users"></i> {!! trans('menu.access-control') !!}</li>
-            <li class="active"><i class="fa fa-cube"></i> {!! trans_choice('menu.permission', 2) !!}</li>
+            <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('messages.home') !!}</a></li>
+            <li class="active"><i class="fa fa-users"></i> {!! trans('messages.access-control') !!}</li>
+            <li class="active"><i class="fa fa-cube"></i> {!! trans_choice('messages.permission', 2) !!}</li>
         </ul>
     </div>
 </div>
@@ -15,15 +15,15 @@
 		<div class="col-sm-12">
 			<div class="card">
 				<div class="card-header">
-				    <i class="fa fa-book"></i> {!! trans_choice('menu.permission', 2) !!} 
+				    <i class="fa fa-book"></i> {!! trans_choice('messages.permission', 2) !!} 
 				    <span>
 					    <a class="btn btn-sm btn-belize-hole" href="{!! url("role/create") !!}">
 							<i class="fa fa-plus-circle"></i>
-							{!! trans('action.new').' '.trans_choice('menu.role', 1) !!}
+							{!! trans('messages.new').' '.trans_choice('messages.role', 1) !!}
 						</a>
 						<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
 							<i class="fa fa-step-backward"></i>
-							{!! trans('action.back') !!}
+							{!! trans('messages.back') !!}
 						</a>				
 					</span>
 				</div>
@@ -33,7 +33,7 @@
 					@endif
 					@if($errors->all())
 		            <div class="alert alert-danger alert-dismissible" role="alert">
-		                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">{!! trans('action.close') !!}</span></button>
+		                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">{!! trans('messages.close') !!}</span></button>
 		                {!! HTML::ul($errors->all(), array('class'=>'list-unstyled')) !!}
 		            </div>
 		            @endif
@@ -41,8 +41,8 @@
 				 	<table class="table table-bordered table-sm">
 						<thead>
 		                    <tr>
-		                        <th>{!! trans_choice('menu.permission', 2) !!}</th>
-		                        <th colspan="{!! count($roles)!!}">{!! trans_choice('menu.role', 2) !!}</th>
+		                        <th>{!! trans_choice('messages.permission', 2) !!}</th>
+		                        <th colspan="{!! count($roles)!!}">{!! trans_choice('messages.role', 2) !!}</th>
 		                    </tr>
 		                </thead>
 		                <tbody>
@@ -51,7 +51,7 @@
 		                    @forelse($roles as $role)
 		                        <td>{!!$role->name!!}</td>
 		                    @empty
-		                        <td>{!!trans('terms.no-records')!!}</td>
+		                        <td>{!!trans('messages.no-records')!!}</td>
 		                    @endforelse
 		                </tr>
 		                @forelse($permissions as $permissionKey => $permission)
@@ -74,12 +74,12 @@
 		                        @endforelse
 		                    </tr>
 		                @empty
-		                <tr><td colspan="2">{!!trans('terms.no-records')!!}</td></tr>
+		                <tr><td colspan="2">{!!trans('messages.no-records')!!}</td></tr>
 		                @endforelse 
 		                </tbody>
 					</table>
 					<div class="form-group actions-row" align="right">
-                    {!! Form::button("<i class='fa fa-check-circle'></i> ".trans('action.update'), 
+                    {!! Form::button("<i class='fa fa-check-circle'></i> ".trans('messages.update'), 
 						array('class' => 'btn btn-primary btn-sm', 'onclick' => 'submit()')) !!}
 		            </div>
 		            {!!Form::close()!!}

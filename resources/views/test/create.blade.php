@@ -1,81 +1,98 @@
-@extends("app")
-
+@extends("layout")
 @section("content")
-<div class="row">
-    <div class="col-sm-12">
-        <ul class="breadcrumb">
-            <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
-            <li><a href="{!! url('test') !!}"><i class="fa fa-user-md"></i> {!! trans_choice('menu.test', 2) !!}</a></li>
-            <li class="active">{!! trans('action.new').' '.trans_choice('menu.test', 1) !!}</li>
-        </ul>
-    </div>
-</div>
-<div class="conter-wrapper">
-	<div class="card">
-		<div class="card-header">
-		    <i class="fa fa-pencil"></i> {!! trans('action.new').' '.trans_choice('menu.test', 1) !!} 
-		    <span>
-				<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
-					<i class="fa fa-step-backward"></i>
-					{!! trans('action.back') !!}
-				</a>				
-			</span>
-		</div>
-	  	<div class="card-block">	  		
-			<!-- if there are creation errors, they will show here -->
-			@if($errors->all())
-            <div class="alert alert-danger alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">{!! trans('action.close') !!}</span></button>
-                {!! HTML::ul($errors->all(), array('class'=>'list-unstyled')) !!}
-            </div>
-            @endif
-            <ul class="list-group" style="padding-bottom:5px;">
-			  	<li class="list-group-item"><strong>{!! trans('terms.details-for').': '.$patient->name !!}</strong></li>
-			  	<li class="list-group-item">
-			  		<h6>
-			  			<span>{!! trans("terms.patient-no") !!}<small> {!! $patient->patient_number !!}</small></span>
-			  			<span>{!! trans("terms.name") !!}<small> {!! $patient->name !!}</small></span>
-			  			<span>{!! trans("terms.age") !!}<small> {!! $patient->getAge() !!}</small></span>
-			  			<span>{!! trans("terms.gender") !!}<small> {!! ($patient->gender==0?trans_choice('terms.sex', 1):trans_choice('terms.sex', 2)) !!}</small></span>
-			  		</h6>
-			  	</li>
-			</ul>
-			{!! Form::open(array('route' => 'test.saveNewTest', 'id' => 'form-new-test')) !!}
-				<!-- CSRF Token -->
-                <input type="hidden" name="_token" value="{!! csrf_token() !!}" />
-                <!-- ./ csrf token -->
-                {!! Form::hidden('patient_id', $patient->id) !!}
-                <div class="form-group row">
-					{!! Form::label('visit_type', trans('terms.visit-type'), array('class' => 'col-sm-2 form-control-label')) !!}
-					<div class="col-sm-6">
-						{!! Form::select('visit_type', [' ' => '--- Select visit type ---','0' => trans("terms.out-patient"),'1' => trans("terms.in-patient")], null, array('class' => 'form-control c-select')) !!}
-					</div>
-				</div>
-				<div class="form-group row">
-					{!! Form::label('physician', trans("terms.physician"), array('class' => 'col-sm-2 form-control-label')) !!}
-					<div class="col-sm-6">
-						{!!Form::text('physician', old('physician'), array('class' => 'form-control'))!!}
-					</div>
-				</div>
-				<div class="form-group row">
-					{!! Form::label('tests', trans_choice("menu.test", 2),  array('class' => 'col-sm-2 form-control-label')) !!}
-				</div>					
-				<div class="col-sm-12 card card-block">	
-					@foreach($testtypes as $key=>$value)
-						<div class="col-md-3">
-							<label  class="checkbox">
-								<input type="checkbox" name="testtypes[]" value="{!! $value->id!!}" />{!!$value->name!!}
-							</label>
-						</div>
-					@endforeach
-				</div>
-				<div class="form-group row" align="right">
-					{!! Form::button("<i class='fa fa-plus-circle'></i> ".trans('action.save'), 
-						array('class' => 'btn btn-primary btn-sm', 'onclick' => 'submit()')) !!}
-					<a href="#" class="btn btn-sm btn-silver"><i class="fa fa-times-circle"></i> {!! trans('action.cancel') !!}</a>
-				</div>
-			{!! Form::close() !!}
-	  	</div>
+
+	<div>
+		<ol class="breadcrumb">
+		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
+		  <li>
+		  	<a href="{{ URL::route('test.index') }}">{{ trans_choice('messages.test',2) }}</a>
+		  </li>
+		  <li class="active">{{trans('messages.new-test')}}</li>
+		</ol>
 	</div>
-</div>
-@endsection	
+	<div class="panel panel-primary">
+		<div class="panel-heading ">
+            <div class="container-fluid">
+                <div class="row less-gutter">
+                    <div class="col-md-11">
+						<span class="glyphicon glyphicon-adjust"></span>{{trans('messages.new-test')}}
+                    </div>
+                    <div class="col-md-1">
+                        <a class="btn btn-sm btn-primary pull-right" href="#" onclick="window.history.back();return false;"
+                            alt="{{trans('messages.back')}}" title="{{trans('messages.back')}}">
+                            <span class="glyphicon glyphicon-backward"></span></a>
+                    </div>
+                </div>
+            </div>
+		</div>
+		<div class="panel-body">
+		<!-- if there are creation errors, they will show here -->
+			@if($errors->all())
+				<div class="alert alert-danger">
+					{{ HTML::ul($errors->all()) }}
+				</div>
+			@endif
+
+			{{ Form::open(array('route' => 'test.saveNewTest', 'id' => 'form-new-test')) }}
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									<h3 class="panel-title">{{trans("menu.patient-details")}}</h3>
+								</div>
+								<div class="panel-body inline-display-details">
+									<span><strong>{{trans("menu.patient-number")}}</strong> {{ $patient->patient_number }}</span>
+									<span><strong>{{ trans_choice('messages.name',1) }}</strong> {{ $patient->name }}</span>
+									<span><strong>{{trans("messages.age")}}</strong> {{ $patient->getAge() }}</span>
+									<span><strong>{{trans("messages.gender")}}</strong>
+										{{ $patient->gender==0?trans("messages.male"):trans("messages.female") }}</span>
+								</div>
+							</div>
+							<div class="form-group">
+								{{ Form::hidden('patient_id', $patient->id) }}
+								{{ Form::label('visit_type', trans("messages.visit-type")) }}
+								{{ Form::select('visit_type', [' ' => '--- Select visit type ---','0' => trans("messages.out-patient"),'1' => trans("messages.in-patient")], null,
+									 array('class' => 'form-control')) }}
+							</div>
+							<div class="form-group">
+								{{ Form::label('physician', trans("messages.physician")) }}
+								{{Form::text('physician', Input::old('physician'), array('class' => 'form-control'))}}
+							</div>
+							<div class="form-group">
+								{{ Form::label('tests', trans("messages.select-tests")) }}
+								<div class="form-pane">
+
+									<table class="table table-striped table-hover table-condensed search-table">
+									<thead>
+										<tr>
+											<th>{{ trans_choice('messages.test',2) }}</th>
+											<th>{{ trans('messages.actions') }}</th>
+														
+										</tr>
+									</thead>
+									<tbody>
+									@foreach($testtypes as $key => $value)
+										<tr>
+											<td>{{ $value->name }}</td>
+											<td><label  class="editor-active">
+												<input type="checkbox" name="testtypes[]" value="{{ $value->id}}" />
+												</label>
+											</td>
+										</tr>
+									@endforeach
+									</tbody>
+						            </table>
+				
+								<div class="form-group actions-row">
+								{{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save-test'), 
+									array('class' => 'btn btn-primary', 'onclick' => 'submit()', 'alt' => 'save_new_test')) }}
+								</div>
+						</div>
+					</div>
+				</div>
+
+			{{ Form::close() }}
+		</div>
+	</div>
+@stop	

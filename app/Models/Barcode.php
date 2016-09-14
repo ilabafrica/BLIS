@@ -1,9 +1,9 @@
 <?php namespace App\Models;
-// todo: create tests for this class
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Barcode extends Eloquent
+class Barcode extends Model
 {
 	/**
 	 * Enabling soft deletes for barcode settings.

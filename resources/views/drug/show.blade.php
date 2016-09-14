@@ -1,46 +1,35 @@
-@extends("app")
-
+@extends("layout")
 @section("content")
-<div class="row">
-    <div class="col-sm-12">
-        <ul class="breadcrumb">
-            <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
-            <li class="active"><i class="fa fa-database"></i> {!! trans('menu.test-catalog') !!}</li>
-            <li><a href="{!! route('drug.index') !!}"><i class="fa fa-cube"></i> {!! trans_choice('menu.drug', 2) !!}</a></li>
-            <li class="active">{!! trans('action.view').' '.trans_choice('menu.drug', 1) !!}</li>
-        </ul>
-    </div>
-</div>
-<div class="conter-wrapper">
-	<div class="card">
-		<div class="card-header">
-		    <i class="fa fa-file-text"></i> <strong>{!! trans('terms.details-for').': '.$drug->name !!}</strong>
-		    <span>
-		    	<a class="btn btn-sm btn-belize-hole" href="{!! url("drug/create") !!}" >
-					<i class="fa fa-plus-circle"></i>
-					{!! trans('action.new').' '.trans_choice('menu.drug', 1) !!}
-				</a>
-				<a class="btn btn-sm btn-info" href="{!! url("drug/" . $drug->id . "/edit") !!}" >
-					<i class="fa fa-edit"></i>
-					{!! trans('action.edit') !!}
-				</a>
-				<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
-					<i class="fa fa-step-backward"></i>
-					{!! trans('action.back') !!}
-				</a>				
-			</span>
-		</div>	  		
-		<!-- if there are creation errors, they will show here -->
-		@if($errors->all())
-			<div class="alert alert-danger">
-				{!! HTML::ul($errors->all()) !!}
-			</div>
-		@endif
 
-		<ul class="list-group list-group-flush">
-		    <li class="list-group-item"><h4>{!! trans('terms.name').': ' !!}<small>{!! $drug->name !!}</small></h4></li>
-		    <li class="list-group-item"><h5>{!! trans('terms.description').': ' !!}<small>{!! $drug->description !!}</small></h5></li>
-	  	</ul>
+@if (Session::has('message'))
+	<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
+@endif
+
+	<div>
+		<ol class="breadcrumb">
+		  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
+		  <li><a href="{{ URL::route('drug.index') }}">{{ trans_choice('messages.drug',1) }}</a></li>
+		  <li class="active">{{ trans('messages.drug-details') }}</li>
+		</ol>
 	</div>
-</div>
-@endsection	
+	<div class="panel panel-primary ">
+		<div class="panel-heading ">
+			<span class="glyphicon glyphicon-adjust"></span>
+			{{ trans('messages.drug-details') }}
+			<div class="panel-btn">
+				<a class="btn btn-sm btn-info" href="{{ URL::route('drug.edit', array($drug->id)) }}">
+					<span class="glyphicon glyphicon-edit"></span>
+					{{ trans('messages.edit') }}
+				</a>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="display-details">
+				<h3 class="view"><strong>{{ trans_choice('messages.name',1) }}:</strong>{{ $drug->name }} </h3>
+				<p class="view-striped"><strong>{{ trans('messages.description') }}:</strong>
+					{{ $drug->description }}</p>
+				
+			</div>
+		</div>
+	</div>
+@stop

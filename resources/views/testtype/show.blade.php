@@ -1,51 +1,41 @@
-@extends("app")
-
+@extends("layout")
 @section("content")
-<div class="row">
-    <div class="col-sm-12">
-        <ul class="breadcrumb">
-            <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
-            <li class="active"><i class="fa fa-database"></i> {!! trans('menu.test-catalog') !!}</li>
-            <li><a href="{!! route('testtype.index') !!}"><i class="fa fa-cube"></i> {!! trans_choice('menu.test-type', 2) !!}</a></li>
-            <li class="active">{!! trans('action.view').' '.trans_choice('menu.test-type', 1) !!}</li>
-        </ul>
-    </div>
-</div>
-<div class="conter-wrapper">
-	<div class="card">
-		<div class="card-header">
-		    <i class="fa fa-file-text"></i> <strong>{!! trans('terms.details-for').': '.$testtype->name !!}</strong>
-		    <span>
-		    	<a class="btn btn-sm btn-belize-hole" href="{!! url("testtype/create") !!}" >
-					<i class="fa fa-plus-circle"></i>
-					{!! trans('action.new').' '.trans_choice('menu.test-type', 1) !!}
-				</a>
-				<a class="btn btn-sm btn-info" href="{!! url("testtype/" . $testtype->id . "/edit") !!}" >
-					<i class="fa fa-edit"></i>
-					{!! trans('action.edit') !!}
-				</a>
-				<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
-					<i class="fa fa-step-backward"></i>
-					{!! trans('action.back') !!}
-				</a>				
-			</span>
-		</div>	  		
-		<!-- if there are creation errors, they will show here -->
-		@if($errors->all())
-			<div class="alert alert-danger">
-				{!! HTML::ul($errors->all()) !!}
-			</div>
-		@endif
-
-		<ul class="list-group list-group-flush">
-		    <li class="list-group-item"><h4>{!! trans('terms.name').': ' !!}<small>{!! $testtype->name !!}</small></h4></li>
-		    <li class="list-group-item"><h5>{!! trans('terms.description').': ' !!}<small>{!! $testtype->description !!}</small></h5></li>
-		    <li class="list-group-item"><h6>{!! trans_choice('menu.lab-section', 1).': ' !!}<small>{!! $testtype->testCategory->name !!}</small></h6></li>
-		    <li class="list-group-item"><h6>{!! trans_choice('menu.specimen-type', 2).': ' !!}<small>{!! implode(", ", $testtype->specimenTypes->lists('name')->toArray()) !!}</small></h6></li>
-		    <li class="list-group-item"><h6>{!! trans_choice('menu.measure', 2).': ' !!}<small>{!! implode(", ", $testtype->measures->lists('name')->toArray()) !!}</small></h6></li>
-		    <li class="list-group-item"><h6>{!! trans('terms.target-tat').': ' !!}<small>{!! $testtype->targetTAT !!}</small></h6></li>
-		    <li class="list-group-item"><h6>{!! trans('terms.prevalence-threshold').': ' !!}<small>{!! $testtype->prevalence_threshold !!}</small></h6></li>
-	  	</ul>
+	<div>
+		<ol class="breadcrumb">
+		  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
+		  <li><a href="{{ URL::route('testtype.index') }}">{{ trans_choice('messages.test-type',1) }}</a></li>
+		  <li class="active">{{trans('messages.test-type-details')}}</li>
+		</ol>
 	</div>
-</div>
-@endsection	
+	<div class="panel panel-primary">
+		<div class="panel-heading ">
+			<span class="glyphicon glyphicon-cog"></span>
+			{{trans('messages.test-type-details')}}
+			<div class="panel-btn">
+				<a class="btn btn-sm btn-info" href="{{ URL::to("testtype/". $testtype->id ."/edit") }}">
+					<span class="glyphicon glyphicon-edit"></span>
+					{{trans('messages.edit')}}
+				</a>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="display-details">
+				<h3 class="view"><strong>{{ trans_choice('messages.name',1) }}</strong>{{ $testtype->name }} </h3>
+				<p class="view-striped"><strong>{{trans('messages.description')}}</strong>
+					{{ $testtype->description }}</p>
+				<p class="view"><strong>{{ trans_choice('messages.test-category',1) }}</strong>
+					{{ $testtype->testCategory->name }}</p>
+				<p class="view-striped"><strong>{{trans('messages.compatible-specimen')}}</strong>
+					{{ implode(", ", $testtype->specimenTypes->lists('name')) }}</p>
+				<p class="view"><strong>{{ trans_choice('messages.measure',1) }}</strong>
+					{{ implode(", ", $testtype->measures->lists('name')) }}</p>
+				<p class="view-striped"><strong>{{trans('messages.turnaround-time')}}</strong>
+					{{ $testtype->targetTAT }}</p>
+				<p class="view"><strong>{{trans('messages.prevalence-threshold')}}</strong>
+					{{ $testtype->prevalence_threshold }}</p>
+				<p class="view-striped"><strong>{{trans('messages.date-created')}}</strong>
+					{{ $testtype->created_at }}</p>
+			</div>
+		</div>
+	</div>
+@stop

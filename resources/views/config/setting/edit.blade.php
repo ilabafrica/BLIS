@@ -1,23 +1,23 @@
-@extends("app")
+@extends("layout")
 
 @section("content")
 <div class="row">
     <div class="col-sm-12">
         <ul class="breadcrumb">
-            <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
-            <li class="active"><i class="fa fa-toggle-off"></i> {!! trans('menu.lab-config') !!}</li>
-            <li class="active">{!! trans('action.edit').' '.$setting->name !!}</li>
+            <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('messages.home') !!}</a></li>
+            <li class="active"><i class="fa fa-toggle-off"></i> {!! trans('messages.lab-configuration') !!}</li>
+            <li class="active">{!! trans('messages.edit').' '.$setting->name !!}</li>
         </ul>
     </div>
 </div>
 <div class="conter-wrapper">
 	<div class="card">
 		<div class="card-header">
-		    <i class="fa fa-edit"></i> {!! trans('action.edit').' <span id="setting">'.$setting->name.'</span>' !!} 
+		    <i class="fa fa-edit"></i> {!! trans('messages.edit').' <span id="setting">'.$setting->name.'</span>' !!} 
 		    <span>
 				<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
 					<i class="fa fa-step-backward"></i>
-					{!! trans('action.back') !!}
+					{!! trans('messages.back') !!}
 				</a>				
 			</span>
 		</div>
@@ -25,7 +25,7 @@
 			<!-- if there are creation errors, they will show here -->
 			@if($errors->all())
             <div class="alert alert-danger alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">{!! trans('action.close') !!}</span></button>
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">{!! trans('messages.close') !!}</span></button>
                 {!! HTML::ul($errors->all(), array('class'=>'list-unstyled')) !!}
             </div>
             @endif
@@ -53,37 +53,37 @@
 						<div id="reloadable">
 		                @if(Request::segment(2)=='equipment')
 		                	<div class="form-group row">
-								{!! Form::label('name', trans_choice('terms.name',1), array('class' => 'col-sm-4 form-control-label')) !!}
+								{!! Form::label('name', trans_choice('messages.name',1), array('class' => 'col-sm-4 form-control-label')) !!}
 								<div class="col-sm-6">
 									<h6><small>{!! $analyser->name !!}</small></h6>
 								</div>
 							</div>
 							<div class="form-group row">
-								{!! Form::label('version', trans('terms.version'), array('class' => 'col-sm-4 form-control-label')) !!}
+								{!! Form::label('version', trans('messages.version'), array('class' => 'col-sm-4 form-control-label')) !!}
 								<div class="col-sm-6">
 									<h6><small>{!! $analyser->version !!}</small></h6>
 								</div>
 							</div>
 							<div class="form-group row">
-								{!! Form::label('test_category_id', trans_choice('menu.lab-section', 1), array('class' => 'col-sm-4 form-control-label')) !!}
+								{!! Form::label('test_category_id', trans_choice('messages.lab-section', 1), array('class' => 'col-sm-4 form-control-label')) !!}
 								<div class="col-sm-6">
 									<h6><small>{!! $analyser->testCategory->name !!}</small></h6>
 								</div>
 							</div>
 							<div class="form-group row">
-								{!! Form::label('comm-type', trans('terms.comm-type'), array('class' => 'col-sm-4 form-control-label')) !!}
+								{!! Form::label('comm-type', trans('messages.comm-type'), array('class' => 'col-sm-4 form-control-label')) !!}
 								<div class="col-sm-6">
 									<h6><small>{!! $analyser->commtype() !!}</small></h6>
 								</div>
 							</div>
 							<div class="form-group row">
-								{!! Form::label('feed-source', trans('terms.feed-source'), array('class' => 'col-sm-4 form-control-label')) !!}
+								{!! Form::label('feed-source', trans('messages.feed-source'), array('class' => 'col-sm-4 form-control-label')) !!}
 								<div class="col-sm-6">
 									<h6><small>{!! $analyser->feedsource() !!}</small></h6>
 								</div>
 							</div>
 							<div class="form-group row">
-								{!! Form::label('config-file', trans('terms.config-file'), array('class' => 'col-sm-4 form-control-label')) !!}
+								{!! Form::label('config-file', trans('messages.config-file'), array('class' => 'col-sm-4 form-control-label')) !!}
 								<div class="col-sm-6">
 				                	<h6><small>{!! $analyser->config_file !!}</small></h6>
 								</div>
@@ -150,18 +150,18 @@
 		                @endforeach
 		                </div>
 						<div class="form-group row col-sm-offset-4">
-							{!! Form::button("<i class='fa fa-check-circle'></i> ".trans('action.update'), 
+							{!! Form::button("<i class='fa fa-check-circle'></i> ".trans('messages.update'), 
 								array('class' => 'btn btn-primary btn-sm', 'onclick' => 'submit()')) !!}
-							<a href="#" class="btn btn-sm btn-silver"><i class="fa fa-times-circle"></i> {!! trans('action.cancel') !!}</a>
+							<a href="#" class="btn btn-sm btn-silver"><i class="fa fa-times-circle"></i> {!! trans('messages.cancel') !!}</a>
 							@if(Request::segment(2)=='equipment')
-								<a href="#" class="btn btn-sm btn-pomegranate" onclick="generateICfile()"><i class="fa fa-cog"></i> {!! trans('action.generate-config') !!}</a>
+								<a href="#" class="btn btn-sm btn-pomegranate" onclick="generateICfile()"><i class="fa fa-cog"></i> {!! trans('messages.generate-config') !!}</a>
 							@endif
 						</div>
 					{!! Form::close() !!}
 				</div>
 				<div class="col-md-4" id="equipment">
 					<ul class="list-group">
-						<li class="list-group-item"><strong>{!! '<span id="setting_2">'.$setting->name.'</span> '.trans('menu.summary') !!}</strong></li>
+						<li class="list-group-item"><strong>{!! '<span id="setting_2">'.$setting->name.'</span> '.trans('messages.summary') !!}</strong></li>
 						<div id="conf">
 						@foreach($fields as $field)
 							<li class="list-group-item">

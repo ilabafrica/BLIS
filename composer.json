@@ -13,7 +13,8 @@
         "jenssegers/date": "~3.0",
         "milon/barcode": "~1.0",
         "intervention/image": "dev-master",
-        "fabpot/goutte": "^3.1"
+        "fabpot/goutte": "^3.1",
+        "laravelcollective/html": "~5.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

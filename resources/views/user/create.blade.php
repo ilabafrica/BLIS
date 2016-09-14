@@ -1,123 +1,74 @@
-@extends("app")
-
+@extends("layout")
 @section("content")
-<div class="row">
-    <div class="col-sm-12">
-        <ul class="breadcrumb">
-            <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
-            <li class="active"><i class="fa fa-users"></i> {!! trans('menu.access-control') !!}</li>
-            <li><a href="{!! route('user.index') !!}"><i class="fa fa-cube"></i> {!! trans_choice('menu.user', 2) !!}</a></li>
-            <li class="active">{!! trans('action.new').' '.trans_choice('menu.user', 1) !!}</li>
-        </ul>
-    </div>
-</div>
-<div class="conter-wrapper">
-	<div class="card">
-		<div class="card-header">
-		    <i class="fa fa-pencil"></i> {!! trans('action.new').' '.trans_choice('menu.user', 1) !!} 
-		    <span>
-				<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
-					<i class="fa fa-step-backward"></i>
-					{!! trans('action.back') !!}
-				</a>				
-			</span>
-		</div>
-	  	<div class="card-block">	  		  		
-			<!-- if there are creation errors, they will show here -->
-			@if($errors->all())
-            <div class="alert alert-danger alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">{!! trans('action.close') !!}</span></button>
-                {!! HTML::ul($errors->all(), array('class'=>'list-unstyled')) !!}
-            </div>
-            @endif
-			<div class="row">
-				{!! Form::open(array('route' => 'user.store', 'id' => 'form-add-user', 'enctype' => 'multipart/form-data', 'class' => 'form-horizontal', 'files' => 'true')) !!}
-				<!-- CSRF Token -->
-                <input type="hidden" name="_token" value="{!! csrf_token() !!}" />
-                <!-- ./ csrf token -->
-				<div class="col-md-8"> 
-					<div class="form-group row">
-						{!! Form::label('name', trans_choice('terms.name',1), array('class' => 'col-sm-4 form-control-label')) !!}
-						<div class="col-sm-6">
-							{!! Form::text('name', old('name'), array('class' => 'form-control')) !!}
-						</div>
-					</div>
-					<div class="form-group row">
-						{!! Form::label('gender', trans('terms.gender'), array('class' => 'col-sm-4 form-control-label')) !!}
-						<div class="col-sm-6">
-							<label class="radio-inline">{!! Form::radio('gender', App\Models\User::MALE, true) !!}{!! trans_choice('terms.sex', 1) !!}</label>
-	                        <label class="radio-inline">{!! Form::radio("gender", App\Models\User::FEMALE, false) !!}{!! trans_choice('terms.sex', 2) !!}</label>
-						</div>
-					</div>
-					<div class="form-group row">
-						{!! Form::label('email', trans('terms.email-address'), array('class' => 'col-sm-4 form-control-label')) !!}
-						<div class="col-sm-6">
-							{!! Form::text('email', old('email'), array('class' => 'form-control')) !!}
-						</div>
-					</div>
-	                <div class="form-group row">
-	                    {!! Form::label('phone', trans('terms.phone'), array('class' => 'col-sm-4 form-control-label')) !!}
-	                    <div class="col-sm-6">
-	                        {!! Form::text('phone', old('phone'), array('class' => 'form-control')) !!}
-	                    </div>
-	                </div>
-	                <div class="form-group row">
-	                    {!! Form::label('address', trans('terms.address'), array('class' => 'col-sm-4 form-control-label')) !!}
-	                    <div class="col-sm-6">
-	                        {!! Form::textarea('address', old('address'), array('class' => 'form-control', 'rows' => '3')) !!}
-	                    </div>
-	                </div>
-	                <div class="form-group row">
-	                    {!! Form::label('username', trans('terms.username'), array('class' => 'col-sm-4 form-control-label')) !!}
-	                    <div class="col-sm-6">
-	                        {!! Form::text('username', old('username'), array('class' => 'form-control')) !!}
-	                    </div>
-	                </div>
-	                <div class="form-group row">
-	                    <div class="col-sm-offset-4 col-sm-6">
-	                        <label class="checkbox-inline">
-	                            {!! Form::checkbox("default_password", '1', '', array('onclick' => 'toggle(".pword", this)')) !!}{!! trans('terms.use-default') !!}
-	                        </label>
-	                    </div>
-	                </div>
-	                <div class="pword">
-		                <div class="form-group row">
-		                    {!! Form::label('password', trans_choice('terms.password', 1), array('class' => 'col-sm-4 form-control-label')) !!}
-		                    <div class="col-sm-6">
-		                        {!! Form::password('password', array('class' => 'form-control')) !!}
-		                    </div>
-		                </div>
-		                <div class="form-group row">
-		                    {!! Form::label('password_confirmation', trans_choice('terms.password', 2), array('class' => 'col-sm-4 form-control-label')) !!}
-		                    <div class="col-sm-6">
-		                        {!! Form::password('password_confirmation', array('class' => 'form-control')) !!}
-		                    </div>
-		                </div>
-	                </div>
-					<div class="form-group row col-sm-offset-4 col-sm-8">
-						{!! Form::button("<i class='fa fa-plus-circle'></i> ".trans('action.save'), 
-							array('class' => 'btn btn-primary btn-sm', 'onclick' => 'submit()')) !!}
-						<a href="#" class="btn btn-sm btn-silver"><i class="fa fa-times-circle"></i> {!! trans('action.cancel') !!}</a>
-					</div>
-				</div>				
-		        <div class="col-md-4">
-		            <div class="row">
-		                <div class="col-md-12">
-		                    <div class="thumbnail">
-		                        {!! HTML::image('images/profile1.jpg', trans('terms.no-photo'), array('class'=>'img-responsive img-thumbnail user-image')) !!}
-		                    </div>
-		                </div>
-		                <div class="col-md-8 col-sm-offset-1">
-		                    <div class="form-group">
-		                        <label>{!! trans('terms.profile-photo') !!}</label>
-		                        {!! Form::file('photo', null, ['class' => 'form-control']) !!}
-		                    </div>
-		                </div>
-		            </div>
-		        </div>
-				{!! Form::close() !!}
-			</div>
-	  	</div>
+	<div>
+		<ol class="breadcrumb">
+		  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
+		  <li><a href="{{ URL::route('user.index') }}">{{ trans_choice('messages.user', 1) }}</a></li>
+		  <li class="active">{{ trans('messages.create-user') }}</li>
+		</ol>
 	</div>
-</div>
-@endsection	
+	<div class="panel panel-primary">
+		<div class="panel-heading ">
+			<span class="glyphicon glyphicon-user"></span>
+			{{ trans('messages.create-user') }}
+		</div>
+		<div class="panel-body">
+		<!-- if there are creation errors, they will show here -->
+			
+			@if($errors->all())
+				<div class="alert alert-danger">
+					{{ HTML::ul($errors->all()) }}
+				</div>
+			@endif
+
+			{{ Form::open(array('route' => array('user.index'), 'id' => 'form-create-user', 'files' => true)) }}
+
+				<div class="form-group">
+					{{ Form::label('username', trans('messages.username')) }}
+					{{ Form::text('username', Input::old('username'), ["placeholder" => "jsiku",
+						'class' => 'form-control']) }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('password', trans_choice('messages.password',1)) }}
+					{{ Form::password('password', ['class' => 'form-control']) }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('password_confirmation', trans('messages.repeat-password')) }}
+					{{ Form::password('password_confirmation', ['class' => 'form-control']) }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('full_name', trans('messages.full-name')) }}
+					{{ Form::text('full_name', Input::old('full_name'), ["placeholder" => "Jay Siku", 
+						'class' => 'form-control']) }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('email', trans('messages.email-address')) }}
+					{{ Form::email('email', Input::old('email'), ["placeholder" => "j.siku@ilabafrica.ac.ke", 
+						'class' => 'form-control']) }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('designation', trans('messages.designation')) }}
+					{{ Form::text('designation', Input::old('designation'), ["placeholder" => "Lab Technologist", 
+						'class' => 'form-control']) }}
+				</div>
+                <div class="form-group">
+                    {{ Form::label('gender', trans('messages.gender')) }}
+                    <div>{{ Form::radio('gender', Patient::MALE, true) }}
+                    	<span class='input-tag'>{{trans('messages.male')}}</span></div>
+                    <div>{{ Form::radio("gender", Patient::FEMALE, false) }}
+                    	<span class='input-tag'>{{trans('messages.female')}}</span></div>
+                </div>
+                <div class="form-group">
+                	{{ Form::label('image', trans('messages.photo')) }}
+                    {{ Form::file("image") }}
+                </div>
+				<div class="form-group actions-row">
+					{{ Form::button('<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'), 
+						['class' => 'btn btn-primary', 'onclick' => 'submit()']
+					) }}
+				</div>
+
+			{{ Form::close() }}
+		</div>
+	</div>
+@stop

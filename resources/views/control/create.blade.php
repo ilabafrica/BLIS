@@ -1,59 +1,62 @@
-@extends("app")
+@extends("layout")
 @section("content")
 <div>
 	<ol class="breadcrumb">
-	  <li><a href="{!! URL::route('user.home')!!}">{!!trans('menu.home')!!}</a></li>
-	  <li><a href="{!! URL::route('instrument.index') !!}">{!!trans_choice('menu.control',2)!!}</a></li>
-	  <li class="active">{!!trans('terms.add-control')!!}</li>
+	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
+	  <li><a href="{{ URL::route('instrument.index') }}">{{trans_choice('messages.control',2)}}</a></li>
+	  <li class="active">{{trans('messages.add-control')}}</li>
 	</ol>
 </div>
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-cog"></span>
-		{!!trans('terms.add-control')!!}
+		{{trans('messages.add-control')}}
 	</div>
-	{!! Form::open(array('route' => array('control.index'), 'id' => 'form-add-control')) !!}
+	{{ Form::open(array('route' => array('control.index'), 'id' => 'form-add-control')) }}
 		<div class="panel-body">
 		<!-- if there are creation errors, they will show here -->
+			
 			@if($errors->all())
 				<div class="alert alert-danger">
 					{{ HTML::ul($errors->all()) }}
 				</div>
 			@endif
 			<div class="form-group">
-				{!! Form::label('name', trans_choice('terms.name',1)) !!}
-                {!! Form::text('name', '', array('class' => 'form-control')) !!}
+				{{ Form::label('name', trans_choice('messages.name',1)) }}
+                {{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
-				{!! Form::label('description', trans('terms.description')) !!}
-				{!! Form::textarea('description', '', array('class' => 'form-control', 'rows' => '3' )) !!}
+				{{ Form::label('description', trans('messages.description')) }}
+				{{ Form::textarea('description', Input::old('description'), 
+					array('class' => 'form-control', 'rows' => '3' )) }}
 			</div>
 			<div class="form-group">
-				{!! Form::label('lot', trans_choice('terms.lot', 1)) !!}
-				{!! Form::select('lot', $lots, array('class' => 'form-control')) !!}
+				{{ Form::label('instruments', trans_choice('messages.instrument', 2)) }}
+				{{ Form::select('instrument_id', array('') + $instruments, Input::old('instrument'), 
+					array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
-				{!! Form::label('measures', trans_choice('terms.measure',2)) !!}
+				{{ Form::label('measures', trans_choice('messages.measure',2)) }}
 				<div class="form-pane panel panel-default">
 					<div class="container-fluid measure-container">
 					</div>
 					<a class="btn btn-default add-another-measure" href="javascript:void(0);" data-new-measure="1">
-					<span class="glyphicon glyphicon-plus-sign"></span>{!!trans('terms.add-new-measure')!!}</a>
+					<span class="glyphicon glyphicon-plus-sign"></span>{{trans('messages.add-new-measure')}}</a>
 				</div>
 			</div>
 		</div>
 		<div class="panel-footer">
 			<div class="form-group actions-row">
-				{!! Form::button(
-					'<span class="glyphicon glyphicon-save"></span> '.trans('action.save'),
+				{{ Form::button(
+					'<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'),
 					[
 						'class' => 'btn btn-primary', 
 						'onclick' => 'submit()'
 					] 
-				) !!}
+				) }}
 			</div>
 		</div>
-	{!! Form::close() !!}
+	{{ Form::close() }}
 </div>
 @include("control.measureCreate")
 @stop

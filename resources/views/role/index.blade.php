@@ -1,89 +1,62 @@
-@extends("app")
-
+@extends("layout")
 @section("content")
-<div class="row">
-    <div class="col-sm-12">
-        <ul class="breadcrumb">
-            <li><a href="{!! url('home') !!}"><i class="fa fa-home"></i> {!! trans('menu.home') !!}</a></li>
-            <li class="active"><i class="fa fa-users"></i> {!! trans('menu.access-control') !!}</li>
-            <li class="active"><i class="fa fa-cube"></i> {!! trans_choice('menu.role', 2) !!}</li>
-        </ul>
+<div>
+    <ol class="breadcrumb">
+      <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
+      <li class="active">{{ trans_choice('messages.role', 2) }}</li>
+    </ol>
+</div>
+@if (Session::has('message'))
+    <div class="alert alert-info">{{ Session::get('message') }}</div>
+@endif
+<div class="panel panel-primary">
+    <div class="panel-heading ">
+        <span class="glyphicon glyphicon-user"></span>
+        {{ trans_choice('messages.role', 2) }}
+        <div class="panel-btn">
+            <a class="btn btn-sm btn-info" href="{{ URL::to("role/create") }}" >
+                <span class="glyphicon glyphicon-plus-sign"></span>
+                {{trans('messages.new-role')}}
+            </a>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>{{ trans_choice('messages.name', 1 ) }}</th>
+                    <th>{{trans('messages.description')}}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @forelse($roles as $role)
+                <tr @if(Session::has('activerole'))
+                            {{(Session::get('activerole') == $role->id)?"class='info'":""}}
+                        @endif>
+                    <td>{{ $role->name }}</td>
+                    <td>{{ $role->description }}</td>
+                    <td>
+                        <a class="btn btn-sm btn-info {{($role == App\Models\Role::getAdminRole()) ? 'disabled': ''}}" 
+                            href="{{ URL::to("role/" . $role->id . "/edit") }}" >
+                            <span class="glyphicon glyphicon-edit"></span>
+                            {{ trans('messages.edit') }}
+                        </a>
+                        <button class="btn btn-sm btn-danger delete-item-link {{($role == App\Models\Role::getAdminRole()) ? 'disabled': ''}}" 
+                            data-toggle="modal" data-target=".confirm-delete-modal" 
+                            data-id='{{ URL::to("role/" . $role->id . "/delete") }}'>
+                            <span class="glyphicon glyphicon-trash"></span>
+                            {{ trans('messages.delete') }}
+                        </button>
+                    </td>
+                </tr>
+            @empty
+                <tr><td colspan="2">{{ trans('messages.no-roles-found') }}</td></tr>
+            @endforelse
+            </tbody>
+        </table>
+        <?php echo $roles->render(); 
+        Session::put('SOURCE_URL', URL::full());?>
     </div>
 </div>
-<div class="conter-wrapper">
-	<div class="row">
-		<div class="col-sm-12">
-			<div class="card">
-				<div class="card-header">
-				    <i class="fa fa-book"></i> {!! trans_choice('menu.role', 2) !!} 
-				    <span>
-					    <a class="btn btn-sm btn-belize-hole" href="{!! url("role/create") !!}" >
-							<i class="fa fa-plus-circle"></i>
-							{!! trans('action.new').' '.trans_choice('menu.role', 1) !!}
-						</a>
-						<a class="btn btn-sm btn-carrot" href="#" onclick="window.history.back();return false;" alt="{!! trans('messages.back') !!}" title="{!! trans('messages.back') !!}">
-							<i class="fa fa-step-backward"></i>
-							{!! trans('action.back') !!}
-						</a>				
-					</span>
-				</div>
-			  	<div class="card-block">	  		
-					@if (Session::has('message'))
-						<div class="alert alert-info">{!! Session::get('message') !!}</div>
-					@endif
-					@if($errors->all())
-		            <div class="alert alert-danger alert-dismissible" role="alert">
-		                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">{!! trans('action.close') !!}</span></button>
-		                {!! HTML::ul($errors->all(), array('class'=>'list-unstyled')) !!}
-		            </div>
-		            @endif
-				 	<table class="table table-bordered table-sm search-table">
-						<thead>
-							<tr>
-								<th>{!! trans('terms.name') !!}</th>
-								<th>{!! trans('terms.description') !!}</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-						@foreach($roles as $key => $value)
-							<tr @if(session()->has('active_role'))
-				                    {!! (session('active_role') == $value->id)?"class='warning'":"" !!}
-				                @endif
-				                >
-								<td>{!! $value->name !!}</td>
-								<td>{!! $value->description !!}</td>
-								
-								<td>
-
-								<!-- show the test category (uses the show method found at GET /role/{id} -->
-									<a class="btn btn-sm btn-success" href="{!! url("role/" . $value->id) !!}" >
-										<i class="fa fa-folder-open-o"></i>
-										{!! trans('action.view') !!}
-									</a>
-
-								<!-- edit this test category (uses edit method found at GET /role/{id}/edit -->
-									<a class="btn btn-sm btn-info" href="{!! url("role/" . $value->id . "/edit") !!}" >
-										<i class="fa fa-edit"></i>
-										{!! trans('action.edit') !!}
-									</a>
-									
-								<!-- delete this test category (uses delete method found at GET /role/{id}/delete -->
-									<button class="btn btn-sm btn-danger delete-item-link"
-										data-toggle="modal" data-target=".confirm-delete-modal"	
-										data-id='{!! url("role/" . $value->id . "/delete") !!}'>
-										<i class="fa fa-trash-o"></i>
-										{!! trans('action.delete') !!}
-									</button>
-								</td>
-							</tr>
-						@endforeach
-						</tbody>
-					</table>
-			  	</div>
-			</div>
-		</div>
-	</div>
-	{!! session(['SOURCE_URL' => URL::full()]) !!}
-</div>
-@endsection
+@stop

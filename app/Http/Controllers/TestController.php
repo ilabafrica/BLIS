@@ -12,6 +12,7 @@ use App\Models\Patient;
 use App\Models\Specimen;
 use App\Models\RejectionReason;
 use App\Models\Facility;
+use App\Models\Barcode;
 use Input;
 use Response;
 use Auth;
@@ -53,7 +54,7 @@ class TestController extends Controller {
 		// Search Conditions
 		if($searchString||$testStatusId||$dateFrom||$dateTo){
 
-			$tests = Test::search($searchString, $testStatusId, $dateFrom, $dateTo);
+			$testSet = Test::search($searchString, $testStatusId, $dateFrom, $dateTo);
 
 			if (count($tests) == 0) {
 			 	Session::flash('message', trans('messages.empty-search'));
@@ -62,21 +63,25 @@ class TestController extends Controller {
 		else
 		{
 		// List all the active tests
-			$tests = Test::orderBy('time_created', 'DESC');
+			$testSet = Test::orderBy('time_created', 'DESC');
 		}
 
 		// Create Test Statuses array. Include a first entry for ALL
-		$statuses = array('all')+TestStatus::all()->lists('name','id')->toArray();
+		$testStatus = array('all')+TestStatus::all()->lists('name','id')->toArray();
 
-		foreach ($statuses as $key => $value) {
-			$statuses[$key] = trans("terms.$value");
+		foreach ($testStatus as $key => $value) {
+			$testStatus[$key] = trans("terms.$value");
 		}
 
+
 		// Pagination
-		$tests = $tests->paginate(config('blis.page-items'))->appends($input);
+		$testSet = $testSet->paginate(config('blis.page-items'))->appends($input);
+
+		//	Barcode
+		$barcode = Barcode::first();
 
 		// Load the view and pass it the tests
-		return view('test.index', compact('tests', 'statuses'))->withInput($input);
+		return view('test.index', compact('testSet', 'testStatus', 'barcode'))->withInput($input);
 	}
 
 	/**

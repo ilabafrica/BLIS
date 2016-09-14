@@ -14,6 +14,18 @@ $(function(){
 		$('.user-settings').toggle();
 	});
 
+	/*	LEFT SIDEBAR FUNCTIONS	*/
+	
+	/*  Click main menu */
+	$('.main-menu').click(function(){
+
+		$('.main-menu').removeClass('active');
+		$(this).addClass('active');
+
+		$('.main-menu').siblings().hide();
+		$(this).siblings().show();
+	});
+
 	/**  USER 
 	 *-  Load password reset input field
 	 */
@@ -37,12 +49,12 @@ $(function(){
 
 	 /* Add another surveillance */
 	$('.add-another-surveillance').click(function(){
-		newSurveillanceNo = $(this).data('newSurveillance');
+		newSurveillanceNo = $(this).data('new-surveillance');
 		var inputHtml = $('.addSurveillanceLoader').html();
 		//Count new measures on the new measure button
 		$('.surveillance-input').append(inputHtml);
 		$('.surveillance-input .new').addClass('new-surveillance-'+newSurveillanceNo).removeClass('new');
-		$(this).data('newSurveillance',  newSurveillanceNo+1).attr('data-new-surveillance',  newSurveillanceNo+1);
+		$(this).data('new-surveillance',  newSurveillanceNo+1).attr('data-new-surveillance',  newSurveillanceNo+1);
 		addNewSurveillanceAttributes(newSurveillanceNo);
 		delete newSurveillanceNo;
 	});
@@ -60,8 +72,27 @@ $(function(){
 	});
 
 	/** 
-	 *	MEASURES 
+	 *	Ordering measures  
 	 */
+	if(typeof sortable('.sortable')[0] != 'undefined'){
+		sortable('.sortable')[0].addEventListener('sortupdate', function(e) {
+			var items = e.detail.startparent.children;
+			var start = 0;
+			var mOrder = [];
+			for (var i = 0; i < items.length; i++) {
+				mOrder[i] = items[i].value;
+			}
+			var actualOrder = [];
+			for (var i = 0; i < mOrder.length; i++) {
+				actualOrder.push(mOrder.indexOf(i));
+			}
+			var testID = $(e.detail.startparent).data('test-id');
+			var url = location.protocol+ "//"+location.host+ "/measure/" + testID+ "/reorder";
+			$.post(url, {'ordering': JSON.stringify(actualOrder)}).done(function(){
+				location.reload();
+			});
+		});
+	}
 
 	 /* Add another measure */
 	$('.add-another-measure').click(function(){
@@ -126,7 +157,7 @@ $(function(){
 	 *	Alert on irreversible delete
 	 */
 	$('.confirm-delete-modal').on('show.bs.modal', function(e) {
-	    $('#delete-url').val($(e.relatedTarget).data('id'));
+		$('#delete-url').val($(e.relatedTarget).data('id'));
 	});
 
 	$('.btn-delete').click(function(){
@@ -134,7 +165,8 @@ $(function(){
 		window.location.href = $('#delete-url').val();
 	});
 
-	
+	UIComponents();
+
 	/* Clicking the label of an radio/checkbox, checks the control*/
 	$('span.input-tag').click(function(){
 		$(this).siblings('input').trigger('click');
@@ -169,12 +201,26 @@ $(function(){
 	 */
 
 	$('.fetch-test-data').click(function(){
-		// var testTypeID = $(this).data('test-type-id');
-		var testTypeID = $(this).data('test_type_id');
+		var testTypeID = $(this).data('test-type-id');
 		var url = $(this).data('url');
 		$.post(url, { test_type_id: testTypeID}).done(function(data){
 			$.each($.parseJSON(data), function (index, obj) {
 				console.log(index + " " + obj);
+				$('#'+index).val(obj);
+			});
+		});
+	});
+
+
+	/** 
+	 * Fetch Test results
+	 */
+
+	$('.fetch-control-data').click(function(){
+		var controlID = $(this).data('control-id');
+		var url = $(this).data('url');
+		$.post(url, { control_id: controlID}).done(function(data){
+			$.each($.parseJSON(data), function (index, obj) {
 				$('#'+index).val(obj);
 			});
 		});
@@ -187,10 +233,10 @@ $(function(){
 
 	$('#new-test-modal .search-patient').click(function(){
 		var searchText = $('#new-test-modal .search-text').val();
-		var url = location.protocol+ "//"+location.host+ "/lis/public/patient/search";
+		var url = location.protocol+ "//"+location.host+ "/patient/search";
 		var output = "";
 		var cnt = 0;
-		$.post(url, { text: searchText, '_token': $('input[name=_token]').val()}).done(function(data){
+		$.post(url, { text: searchText}).done(function(data){
 			$.each($.parseJSON(data), function (index, obj) {
 				output += "<tr>";
 				output += "<td><input type='radio' value='" + obj.id + "' name='pat_id'></td>";
@@ -226,14 +272,14 @@ $(function(){
 	 *  - Display all in the modal.
 	 */
 	$('#change-specimen-modal').on('show.bs.modal', function(e) {
-	    //get data-id attribute of the clicked element
-	    var id = $(e.relatedTarget).data('test-id');
+		//get data-id attribute of the clicked element
+		var id = $(e.relatedTarget).data('test-id');
 		var url = $(e.relatedTarget).data('url');
 
-	    $.post(url, { id: id}).done(function(data){
-		    //Show it in the modal
-		    $(e.currentTarget).find('.modal-body').html(data);
-	    });
+		$.post(url, { id: id}).done(function(data){
+			//Show it in the modal
+			$(e.currentTarget).find('.modal-body').html(data);
+		});
 	});
   
 
@@ -308,24 +354,39 @@ $(function(){
 	 * Automatic Results Interpretation
 	 * Updates the test  result via ajax call
 	 */
-	 /*UNSTABLE!---TO BE RE-THOUGHT
-	$(".result-interpretation-trigger").focusout(function() {
+
+	$(".result-interpretation-trigger").focusout(function(event) {
 		var interpretation = "";
 		var url = $(this).data('url');
 		var measureid = $(this).data('measureid');
 		var age = $(this).data('age');
 		var gender = $(this).data('gender');
 		var measurevalue = $(this).val();
+		var testId = $(this).data('test_id');
 		$.post(url, { 
 				measureid: measureid,
 				age: age,
 				measurevalue: measurevalue,
-				gender: gender
+				gender: gender,
+				testId: testId
 			}).done( function( interpretation ){
-			$( ".result-interpretation" ).val( interpretation );
+				//check if critical
+				if(typeof interpretation === "string" && interpretation.toUpperCase() == "CRITICAL"){
+					event.target.style.color = "red"
+					//add to interpretation	
+					var comments = $( ".result-interpretation" ).val();
+					if(comments.search("CRITICAL VALUES DETECTED")){
+						$( ".result-interpretation" ).val("CRITICAL VALUES DETECTED! "+comments);
+					}
+				}
+				else {
+					event.target.style.color = "black";
+					var comments = $( ".result-interpretation" ).val();
+					var res = comments.replace("CRITICAL VALUES DETECTED!", "");
+					$( ".result-interpretation" ).val(res);
+				}
 		});
 	});
-	*/
 
 	/** Start Test button.
 	 *  - Updates the Test status via an AJAX call
@@ -370,8 +431,8 @@ $(function(){
 					test_type.empty();
 					test_type.append("<option value=''>Select Test Type</option>");
 					$.each(data, function(index, element) {
-			            test_type.append("<option value='"+ element.id +"'>" + element.name + "</option>");
-			        });
+						test_type.append("<option value='"+ element.id +"'>" + element.name + "</option>");
+					});
 				});
 		});
 		/*End dynamic select list options*/
@@ -392,36 +453,16 @@ $(function(){
 				$('#summary').addClass('hidden');
 			}
 		});
-		// Sidebar Tabs
-		$('#navTabs .sidebar-top-nav a').click(function (e) {
-			e.preventDefault()
-			$(this).tab('show');
-
-			setTimeout(function(){
-				$('.tab-content-scroller').perfectScrollbar('update');		 		
-			}, 10);
-
+		$('#timepickerfrom').timepicker({
+			template: false,
+			showInputs: false,
+			minuteStep: 5
 		});
-
-		$('.subnav-toggle').click(function() {
-			$(this).parent('.sidenav-dropdown').toggleClass('show-subnav');
-			$(this).find('.fa-angle-down').toggleClass('fa-flip-vertical');
-
-			setTimeout(function(){
-			$('.tab-content-scroller').perfectScrollbar('update');		 		
-			}, 500);
+		$('#timepickerto').timepicker({
+			template: false,
+			showInputs: false,
+			minuteStep: 5
 		});
-
-		$('.sidenav-toggle').click(function() {
-			$('#app-container').toggleClass('push-right');
-
-			setTimeout(function(){
-			$('.tab-content-scroller').perfectScrollbar('update');		 		
-			}, 500);
-
-		});
-
-		$('.tab-content-scroller').perfectScrollbar();
 });
 	/**
 	 *-----------------------------------
@@ -454,14 +495,14 @@ $(function(){
 	 */
 	function addNewSurveillanceAttributes (newSurveillanceNo) {
 		$('.new-surveillance-'+newSurveillanceNo).find('select.test-type').attr(
-			'name', 'newSurveillance['+newSurveillanceNo+'][test_type]');
+			'name', 'new-surveillance['+newSurveillanceNo+'][test-type]');
 		$('.new-surveillance-'+newSurveillanceNo).find('select.disease').attr(
-			'name', 'newSurveillance['+newSurveillanceNo+'][disease]');
+			'name', 'new-surveillance['+newSurveillanceNo+'][disease]');
 	}
 
 	function addNewDiseaseAttributes (newDiseaseNo) {
 		$('.new-disease-'+newDiseaseNo).find('input.disease').attr(
-			'name', 'newDiseases['+newDiseaseNo+'][disease]');
+			'name', 'new-diseases['+newDiseaseNo+'][disease]');
 	}
 
 	/**
@@ -515,40 +556,40 @@ $(function(){
 
 	function addNewMeasureAttributes (measureID) {
 		$('.measure-section.new-'+measureID+' input.name').attr(
-			'name', 'new_measures['+measureID+'][name]');
+			'name', 'new-measures['+measureID+'][name]');
 		$('.measure-section.new-'+measureID+' select.measure_type_id').attr(
-			'name', 'new_measures['+measureID+'][measure_type_id]');
+			'name', 'new-measures['+measureID+'][measure_type_id]');
 		$('.measure-section.new-'+measureID+' input.unit').attr(
-			'name', 'new_measures['+measureID+'][unit]');
+			'name', 'new-measures['+measureID+'][unit]');
 		$('.measure-section.new-'+measureID+' input.expected').attr(
-			'name', 'new_measures['+measureID+'][expected]');
+			'name', 'new-measures['+measureID+'][expected]');
 		$('.measure-section.new-'+measureID+' textarea.description').attr(
-			'name', 'new_measures['+measureID+'][description]');
+			'name', 'new-measures['+measureID+'][description]');
 	}
 
 	function addMeasureRangeAttributes (measureTypeId,measureID) {
 		if (measureTypeId == 0) {
 			$('.measurevalue.new-measure-'+measureID+' input.agemin').attr(
-				'name', 'new_measures['+measureID+'][agemin][]');
+				'name', 'new-measures['+measureID+'][agemin][]');
 			$('.measurevalue.new-measure-'+measureID+' input.agemax').attr(
-				'name', 'new_measures['+measureID+'][agemax][]');
+				'name', 'new-measures['+measureID+'][agemax][]');
 			$('.measurevalue.new-measure-'+measureID+' select.gender').attr(
-				'name', 'new_measures['+measureID+'][gender][]');
+				'name', 'new-measures['+measureID+'][gender][]');
 			$('.measurevalue.new-measure-'+measureID+' input.rangemin').attr(
-				'name', 'new_measures['+measureID+'][rangemin][]');
+				'name', 'new-measures['+measureID+'][rangemin][]');
 			$('.measurevalue.new-measure-'+measureID+' input.rangemax').attr(
-				'name', 'new_measures['+measureID+'][rangemax][]');
+				'name', 'new-measures['+measureID+'][rangemax][]');
 			$('.measurevalue.new-measure-'+measureID+' input.interpretation').attr(
-				'name', 'new_measures['+measureID+'][interpretation][]');
+				'name', 'new-measures['+measureID+'][interpretation][]');
 			$('.measurevalue.new-measure-'+measureID+' input.measurerangeid').attr(
-				'name', 'new_measures['+measureID+'][measurerangeid][]');
+				'name', 'new-measures['+measureID+'][measurerangeid][]');
 		} else{
 			$('.measurevalue.new-measure-'+measureID+' input.val').attr(
-				'name', 'new_measures['+measureID+'][val][]');
+				'name', 'new-measures['+measureID+'][val][]');
 			$('.measurevalue.new-measure-'+measureID+' input.interpretation').attr(
-				'name', 'new_measures['+measureID+'][interpretation][]');
+				'name', 'new-measures['+measureID+'][interpretation][]');
 			$('.measurevalue.new-measure-'+measureID+' input.measurerangeid').attr(
-				'name', 'new_measures['+measureID+'][measurerangeid][]');
+				'name', 'new-measures['+measureID+'][measurerangeid][]');
 		}
 	}
 
@@ -578,88 +619,93 @@ $(function(){
 		}
 	}
 
+	function UIComponents(){
+		/* Datepicker */
+		$( '.standard-datepicker').datepicker({ dateFormat: "yy-mm-dd" });
+	}
+
 	function editUserProfile()
 	{
 		/*If Password-Change Validation*/
-	    var currpwd = $('#current_password').val();
-	    var newpwd1 = $('#new_password').val();
-	    var newpwd2= $('#new_password_confirmation').val();
-	    var newpwd1_len = newpwd1.length;
-	    var newpwd2_len = newpwd2.length;
-	    var error_flag = false;
-	    if(currpwd == '')
-	    {
-	        $('.curr-pwd-empty').removeClass('hidden');
-	        error_flag = true;
-	    }
-	    else
-	    {
-	        $('.curr-pwd-empty').addClass('hidden');
-	    }
+		var currpwd = $('#current_password').val();
+		var newpwd1 = $('#new_password').val();
+		var newpwd2= $('#new_password_confirmation').val();
+		var newpwd1_len = newpwd1.length;
+		var newpwd2_len = newpwd2.length;
+		var error_flag = false;
+		if(currpwd == '')
+		{
+			$('.curr-pwd-empty').removeClass('hidden');
+			error_flag = true;
+		}
+		else
+		{
+			$('.curr-pwd-empty').addClass('hidden');
+		}
 
-	    if(newpwd1 == '')
-	    {
-	        $('.new-pwd-empty').removeClass('hidden');
-	        error_flag = true;
-	    }
-	    else
-	    {
-	        $('.new-pwd-empty').addClass('hidden');
-	    }
-	    if(newpwd2 == '')
-	    {
-	        $('.new-pwdrepeat-empty').removeClass('hidden');
-	        error_flag = true;
-	    }
-	    else
-	    {
-	        $('.new-pwdrepeat-empty').addClass('hidden');
-	    }
-	    
-	    if(!error_flag)
-	    {
-	        if(newpwd1_len != newpwd2_len || newpwd1 != newpwd2)
-	        {
-	            $('.new-pwdmatch-error').removeClass('hidden');
-	            error_flag = true;
-	        }
-	        else
-	        {
-	            $('.new-pwdmatch-error').addClass('hidden');
-	        }
-	    }
-	    if(!error_flag)
-	    {
-	        $('#form-edit-password').submit();
-	    }
+		if(newpwd1 == '')
+		{
+			$('.new-pwd-empty').removeClass('hidden');
+			error_flag = true;
+		}
+		else
+		{
+			$('.new-pwd-empty').addClass('hidden');
+		}
+		if(newpwd2 == '')
+		{
+			$('.new-pwdrepeat-empty').removeClass('hidden');
+			error_flag = true;
+		}
+		else
+		{
+			$('.new-pwdrepeat-empty').addClass('hidden');
+		}
+		
+		if(!error_flag)
+		{
+			if(newpwd1_len != newpwd2_len || newpwd1 != newpwd2)
+			{
+				$('.new-pwdmatch-error').removeClass('hidden');
+				error_flag = true;
+			}
+			else
+			{
+				$('.new-pwdmatch-error').addClass('hidden');
+			}
+		}
+		if(!error_flag)
+		{
+			$('#form-edit-password').submit();
+		}
 	}
 
 	//DataTables search functionality
 	$(document).ready( function () {
 		$('.search-table').DataTable({
-        	'bStateSave': true,
-        	'fnStateSave': function (oSettings, oData) {
-            	localStorage.setItem('.search-table', JSON.stringify(oData));
-        	},
-        	'fnStateLoad': function (oSettings) {
-            	return JSON.parse(localStorage.getItem('.search-table'));
-        	}
-   		});
+			'bStateSave': true,
+			'fnStateSave': function (oSettings, oData) {
+				localStorage.setItem('.search-table', JSON.stringify(oData));
+			},
+			'fnStateLoad': function (oSettings) {
+				return JSON.parse(localStorage.getItem('.search-table'));
+			}
+		});
 	});
 
 	//Make sure all input fields are entered before submission
 	function authenticate (form) {
-    	var empty = false;
+		var empty = false;
 		$('form :input:not(button)').each(function() {
 
-            if ($(this).val() == '') {
-                empty = true;
-	            $('.error-div').removeClass('hidden');
-            }
-	        if (empty) return false;
-	    });
-        if (empty) return;
-	    $(form).submit();
+			if ($(this).val() == '') {
+				empty = true;
+				$('.error-div').removeClass('hidden');
+			}
+			if (empty) return false;
+		});
+		if (empty) return;
+		$(form).submit();
 	}
 
 	function saveObservation(tid, user, username){
@@ -721,19 +767,23 @@ $(function(){
 	}
 	/*End save drug susceptibility*/
 	/*Function to render drug susceptibility table after successfully saving the results*/
-	 function drawSusceptibility(tid, oid){
+	function drawSusceptibility(tid, oid){
 		$.getJSON('/susceptibility/saveSusceptibility', { testId: tid, organismId: oid, action: "results"}, 
 			function(data){
 				var tableRow ="";
 				var tableBody ="";
+				var suscept = "";
 				$.each(data, function(index, elem){
 					tableRow += "<tr>"
 					+" <td>"+elem.drugName+" </td>"
 					+" <td>"+elem.zone+"</td>"
 					+" <td>"+elem.interpretation+"</td>"
 					+"</tr>";
-					$(".sense"+tid).val($(".sense"+tid).val()+elem.drugName+" - "+elem.sensitivity+", ");
+					suscept+=elem.drugName+" - "+elem.sensitivity+", ";
 				});
+
+				//$(".sense"+tid).val($(".sense"+tid).val()+elem.drugName+" - "+elem.sensitivity+", ");
+				$(".sense"+tid).val(suscept);
 				//tableBody +="<tbody>"+tableRow+"</tbody>";
 				$( "#enteredResults_"+oid).html(tableRow);
 				$("#submit_drug_susceptibility_"+oid).hide();
@@ -749,183 +799,74 @@ $(function(){
 		else
 			$(className).hide();
 	}
+	function toggleInverse(className, obj){
+		var $input = $(obj);
+		if($input.prop('checked'))
+			$(className).hide();
+		else
+			$(className).show();
+	}
 	/*End toggle function*/
 	/*Toggle susceptibility tables*/
 	function showSusceptibility(id){
 		$('#drugSusceptibilityForm_'+id).toggle(this.checked);
 	}
+
 	/*End toggle susceptibility*/
-
-//  Toggle password fields
-/*Function to toggle password fields*/
-function toggle(className, obj){
-    var $input = $(obj);
-    if($input.prop('checked'))
-        $(className).hide();
-    else
-        $(className).show();
-}
-/*End toggle function*/
-/* Bootstrap 3 datepicker */
-$(function () {
-    $('.datepicker').datepicker({
-        format: 'yyyy-mm-dd'
-    });
-});
-/* End datepicker */
-/*Dynamic loading of select list options for counties-sub-counties*/
-function testTypes()
-{
-    cId = $('#test_category_id').val();
-    var URL_ROOT = 'http://127.0.0.1/lis/public/';
-    _token: JSON.stringify($('input[name=_token]').val());
-    $.ajax({
-        dataType: 'json',
-        type: 'POST',
-        url:  URL_ROOT+'select/list',
-        data: {test_category_id: cId, '_token': $('input[name=_token]').val()},
-        success: function(data){
-            var select_list = $('#test_type_id');
-            select_list.empty();
-            select_list.append("<option value=''>Select Test Type</option>");
-            $.each(data, function(index, element) {
-                select_list.append("<option value='"+ element.id +"'>" + element.name + "</option>");
-            });
-        }
-    });
-}
-$('#patients').on('click', function()
-{
-	alert();
-	$('#dismissable').toggleClass("hide");
-});
-/*Sexy radio buttons*/
-$('#radioBtn a').on('click', function(){
-    var sel = $(this).data('title');
-    var tog = $(this).data('toggle');
-    $('#'+tog).prop('value', sel);
-    
-    $('a[data-toggle="'+tog+'"]').not('[data-title="'+sel+'"]').removeClass('active').addClass('notActive');
-    $('a[data-toggle="'+tog+'"][data-title="'+sel+'"]').removeClass('notActive').addClass('active');
-    if(sel == 'Patient Records' || sel == 'Specimen Rejection Records')
-    	$('#hideable').hide();
-    else
-    	$('#hideable').show();
-});
-/**
-*	Function to change content of analyzer div without page reload
-*/
-function reloadable()
-{
-    aId = $('#analyser_id').val();
-    var equi = $('#equi');
-    equi.val(aId);
-    var URL_ROOT = 'http://127.0.0.1/lis/public/';
-    $.ajax({
-        dataType: 'json',
-        type: 'POST',
-        url:  URL_ROOT+'analyser/fetch',
-        data: {analyzer_id: aId, '_token': $('input[name=_token]').val()},
-        success: function(data){
-        	/* set name */
-            var setting_name = $('#setting');
-            var setting_name_2 = $('#setting_2');
-            setting_name.empty();
-            setting_name_2.empty();
-            setting_name.html(data.name);
-            setting_name_2.html(data.name);
-            /* set rest of the details */
-            var reloadable = $('#reloadable');
-            reloadable.empty();
-            var html = "<div class='form-group row'>"+
-					"<label class='col-sm-4 form-control-label'>Name</label>"+
-					"<div class='col-sm-6'>"+
-					"<h6><small>"+data.name+"</small></h6>"+
+	/* Fetch equipment details without page reload */
+	function fetch_equipment_details()
+	{
+		$('#eq_con_details').html("");
+		id = $("#client").val();
+		if(id !='0')
+		{
+			$.getJSON('blisclient/details', { equip: id }, 
+				function(data)
+				{
+					var html = "<h4 class='text-center'>EQUIPMENT</h4>"+
+					"<div class='form-group'>"+
+					"<label for='equipment_name'>Equipment Name</label>"+
+					"<input type='text' class='form-control' id='equipment_name' value = '"+data.equipment_name+"'><input type='hidden' id = 'equipment_id' value = '"+data.id+"'>"+
 					"</div>"+
+					"<div class='form-group'>"+
+					"<label for='equipment_version'>Equipment Version</label>"+
+					"<input type='text' class='form-control' id='equipment_version' value = '"+data.equipment_version+"'>"+
 					"</div>"+
-
-					"<div class='form-group row'>"+
-					"<label class='col-sm-4 form-control-label'>Version</label>"+
-					"<div class='col-sm-6'>"+
-					"<h6><small>"+data.version+"</small></h6>"+
+					"<div class='form-group'>"+
+					"<label for='lab_section'>Lab Section</label>"+
+					"<input type='text' class='form-control' id='lab_section' value = '"+data.lab+"'>"+
 					"</div>"+
+					"<div class='form-group'>"+
+					"<label for='comm_type'>Communication Type</label>"+
+					"<input type='text' class='form-control' id='comm_type' value = '"+data.comm+"'>"+
 					"</div>"+
-
-					"<div class='form-group row'>"+
-					"<label class='col-sm-4 form-control-label'>Lab Section</label>"+
-					"<div class='col-sm-6'>"+
-					"<h6><small>"+data.labSection+"</small></h6>"+
+					"<div class='form-group'>"+
+					"<label for='feed_source'>Feed Source</label>"+
+					"<input type='text' class='form-control' id='feed_source' value = '"+data.feed+"'>"+
 					"</div>"+
+					"<div class='form-group'>"+
+					"<label for='config_file'>Config File</label>"+
+					"<input type='text' class='form-control' id='config_file' value = '"+data.config_file+"'>"+
 					"</div>"+
-
-					"<div class='form-group row'>"+
-					"<label class='col-sm-4 form-control-label'>Communication Type</label>"+
-					"<div class='col-sm-6'>"+
-					"<h6><small>"+data.commtype+"</small></h6>"+
-					"</div>"+
-					"</div>"+
-
-					"<div class='form-group row'>"+
-					"<label class='col-sm-4 form-control-label'>Feed Source</label>"+
-					"<div class='col-sm-6'>"+
-					"<h6><small>"+data.feedsource+"</small></h6>"+
-					"</div>"+
-					"</div>"+
-
-					"<div class='form-group row'>"+
-					"<label class='col-sm-4 form-control-label'>Config File</label>"+
-					"<div class='col-sm-6'>"+
-					"<h6><small>"+data.config_file+"</small></h6>"+
-					"</div>"+
-					"</div>";
-			$.ajax({
-		        dataType: 'json',
-		        type: 'POST',
-		        url:  URL_ROOT+'fields/fetch',
-		        data: {analyzer_id: aId, '_token': $('input[name=_token]').val()},
-		        success: function(data){
-		        	console.log(data);
-		        	var container = $('#conf');
-		        	container.empty();
-		        	var data_input = $('#dataInput');
-		        	data_input.empty();
-		        	var values = "";
-		        	var d_input = "";
-		        	$.each(data, function(index, element) {
-		        		values+="<li class='list-group-item'>"+
-								"<h6>"+element.field_name+"<small>"+element.data+
-								"</small></h6>"+
-								"</li>";
-						d_input+="<div class='form-group row'>"+
-								"<label class='col-sm-4 form-control-label'>"+element.field_name+"</label>"+
-								"<div class='col-sm-8'>"+
-								"<input class = 'form-control' name = 'field_"+element.id+"' type='text' id = 'field_"+element.id+"' value = '"+element.data+"'>"+
-								"</div>"+
-								"</div>";
-		            });
-		            data_input.html(d_input);
-		        	container.html(values);
-		        }
-		    });
-            reloadable.html(html);
-        }
-    });
-}
-/* Function to generate instrument config file */
-function generateICfile()
-{
-	aId = $('#analyser_id').val();
-	var URL_ROOT = 'http://127.0.0.1/lis/public/';
-	$.ajax({
-        dataType: 'json',
-        type: 'POST',
-        url:  URL_ROOT+'conf/generate',
-        data: {analyzer_id: aId, '_token': $('input[name=_token]').val()},
-        success: function(data)
-        {
-        	console.log(data);
-        	alert("Equipment configuration has been saved in BLISInterfaceClient/BLISInterfaceClient.ini");
-        	// console.log(data);
-        }
-    });
-}
+					"<h4 class='text-center'>"+data.feed+" CONFIGURATIONS</h4>";
+					$.getJSON('blisclient/properties', { client: id }, 
+						function(data)
+						{
+							$.each(data, function(index, elem)
+							{
+								html +=  "<div class='form-group'>"+
+									"<label for='"+elem.config_prop+"'>"+elem.config_prop+"</label>"+
+									"<input type='text' class='form-control' name = '"+elem.prop_id+"' value = '"+elem.prop_value+"'>"+
+									"</div>";
+							});
+							html += "<div class='form-group actions-row'>"+
+									"<button type='button' class='btn btn-default'><span class='glyphicon glyphicon-cog' aria-hidden='true'></span> Generate Config File</button>"+
+									"<button type='button' class='btn btn-primary'><span class='glyphicon glyphicon-ok' aria-hidden='true'></span> Update Fields</button>"+
+									"</div>";
+							$('#eq_con_details').html(html);
+						}
+					);
+				}
+			);                               
+		}
+	}

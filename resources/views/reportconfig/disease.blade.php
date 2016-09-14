@@ -1,4 +1,4 @@
-@extends("app")
+@extends("layout")
 @section("content")
 <div>
 	<ol class="breadcrumb">
@@ -33,7 +33,7 @@
 		</div>
 		<div class="panel-footer">
 			<div class="form-group actions-row">
-				<input class="hidden" name="fromForm" type="text" value="fromForm">
+				<input class="hidden" name="from-form" type="text" value="from-form">
 				{{ Form::button(
 					'<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'), 
 					['class' => 'btn btn-primary', 'onclick' => 'authenticate("#form-edit-disease")']

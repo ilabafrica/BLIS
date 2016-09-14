@@ -1,4 +1,4 @@
-@extends("app")
+@extends("layout")
 @section("content")
 <div>
 	<ol class="breadcrumb">
@@ -37,9 +37,9 @@
 			<div class="form-group">
 				<div class="row">
 					<div class="col-sm-5 col-md-3">
-		                <select class="form-control" name="surveillance[{{ $diseaseTest->id }}][test_type]"> 
+		                <select class="form-control" name="surveillance[{{ $diseaseTest->id }}][test-type]"> 
 		                    <option value="0"></option>
-		                    @foreach ($testTypes as $testType)
+		                    @foreach (TestType::all() as $testType)
 		                        <option value="{{ $testType->id }}"
 		                        	{{($testType->id == $diseaseTest->test_type_id) ? 'selected="selected"' : '' }}>
 		                        	{{ $testType->name }}</option>
@@ -49,7 +49,7 @@
 					<div class="col-sm-5 col-md-3">
 					    <select class="form-control" name="surveillance[{{ $diseaseTest->id }}][disease]"> 
 					        <option value="0"></option>
-					        @foreach ($diseases as $disease)
+					        @foreach (App\Models\Disease::all() as $disease)
 					            <option value="{{ $disease->id }}"
 					            	{{($disease->id == $diseaseTest->disease_id) ? 'selected="selected"' : '' }}>
 					            	{{ $disease->name }}</option>
@@ -66,7 +66,7 @@
 		</div>
 		<div class="panel-footer">
 			<div class="form-group actions-row">
-				<input class="hidden" name="fromForm" type="text" value="fromForm">
+				<input class="hidden" name="from-form" type="text" value="from-form">
 				{{ Form::button(
 					'<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'), 
 					['class' => 'btn btn-primary', 'onclick' => 'authenticate("#form-edit-surveillance")']
@@ -87,7 +87,7 @@
 			<div class="col-sm-5 col-md-3">
                 <select class="form-control test-type" name=""> 
 					<option value="0"></option>
-					@foreach ($testTypes as $testType)
+					@foreach (TestType::all() as $testType)
 					    <option value="{{ $testType->id }}">{{ $testType->name }}</option>
 					@endforeach
             	</select>
@@ -95,7 +95,7 @@
 			<div class="col-sm-5 col-md-3">
 			    <select class="form-control disease" name=""> 
 			        <option value="0"></option>
-			        @foreach ($diseases as $disease)
+			        @foreach (App\Models\Disease::all() as $disease)
 			            <option value="{{ $disease->id }}">{{ $disease->name }}</option>
 			        @endforeach
 			    </select>
