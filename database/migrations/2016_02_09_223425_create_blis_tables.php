@@ -181,8 +181,6 @@ class CreateBlisTables extends Migration
         {
             $table->increments('id')->unsigned();
             $table->string("reason", 100);
-            $table->string('description', 150)->nullable();
-            $table->softDeletes();
         });
 
         Schema::create('facilities', function(Blueprint $table)
@@ -437,13 +435,11 @@ class CreateBlisTables extends Migration
             $table->string('unit', 100)->nullable();
             $table->decimal('min_level', 8, 2);
             $table->decimal('max_level', 8, 2)->nullable();
+            $table->string('storage_req', 100);
             $table->string('remarks', 250)->nullable();
-
             $table->integer('user_id')->unsigned();
-
             $table->softDeletes();
             $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users');
         });
         /* supplier table */
@@ -451,15 +447,13 @@ class CreateBlisTables extends Migration
         {
             $table->increments('id')->unsigned();
             $table->string('name', 100);
-            $table->string('phone_no', 100);
+            $table->string('phone', 100);
             $table->string('email', 100)->nullable();
-            $table->string('address')->nullable();
+            $table->string('address');
            
             $table->integer('user_id')->unsigned();
-
             $table->softDeletes();
             $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users');
         });
         /* inventory-supply table */
@@ -467,7 +461,8 @@ class CreateBlisTables extends Migration
         {
             $table->increments('id')->unsigned();
             $table->integer('item_id')->unsigned();
-            $table->string('lot', 100);
+            $table->string('lot', 100)->nullable();
+            $table->string('batch_no', 12)->nullable();
             $table->dateTime('expiry_date');
             $table->string('manufacturer', 100)->nullable();
             $table->integer('supplier_id')->unsigned();
@@ -478,132 +473,57 @@ class CreateBlisTables extends Migration
             $table->date('date_of_supply')->nullable();
             $table->date('date_of_reception');
             $table->string('remarks', 250)->nullable();
-
             $table->integer('user_id')->unsigned();
-
             $table->softDeletes();
             $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('item_id')->references('id')->on('inv_items');
             $table->foreign('supplier_id')->references('id')->on('suppliers');
         });
-        /* inventory-usage table */
-        Schema::create('inv_usage', function(Blueprint $table)
+        /* inventory top up requests */
+        Schema::create('requests', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
-            $table->integer('stock_id')->unsigned();
-            $table->integer('quantity_used')->default(0);
-            $table->date('date_of_usage');
-            $table->string('remarks', 250)->nullable();
-
-            $table->integer('user_id')->unsigned();
-
-            $table->softDeletes();
-            $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('stock_id')->references('id')->on('inv_supply');
-        });
-        Schema::create('metrics', function(Blueprint $table)
-        {
-            $table->increments('id')->unsigned();
-            $table->string('name', 100);
-            $table->string('description', 100);
-              
-            $table->softDeletes();
-            $table->timestamps();
-        });
-
-        Schema::create('commodities', function(Blueprint $table)
-        {
-            $table->increments('id')->unsigned();
-            $table->string('name', 100);
-            $table->string('description', 100);
-            $table->integer('metric_id')->unsigned();
-            $table->decimal('unit_price', 8,2);
-            $table->string('item_code', 100);
-            $table->string('storage_req', 100);
-            $table->integer('min_level');
-            $table->integer('max_level');
-
-            $table->softDeletes();
-            $table->timestamps();
-            $table->foreign('metric_id')->references('id')->on('metrics');
-        });
-
-        Schema::create('receipts', function(Blueprint $table)
-        {
-            $table->increments('id')->unsigned();
-            $table->integer('commodity_id')->unsigned();
-            $table->integer('supplier_id')->unsigned();
-            $table->integer('quantity')->unsigned();
-            $table->string('batch_no', 12);
-            $table->date('expiry_date');
-            
-            $table->softDeletes();
-            $table->timestamps();
-            $table->foreign('commodity_id')->references('id')->on('commodities');
-            $table->foreign('supplier_id')->references('id')->on('suppliers');
-        });
-
-        /* configurable modules */
-        Schema::create('configurables', function(Blueprint $table)
-        {
-            $table->increments('id');
-            $table->string('name', 45);
-            $table->string('route', 25);
-            $table->string('description', 100)->nullable();
-            $table->integer('user_id')->unsigned();
-
-            $table->softDeletes();
-            $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
-        });
-
-        Schema::create('topup_requests', function(Blueprint $table)
-        {
-            $table->increments('id')->unsigned();
-            $table->integer('commodity_id')->unsigned();
+            $table->integer('item_id')->unsigned();
+            $table->string('quantity_remaining');
             $table->integer('test_category_id')->unsigned();
-            $table->integer('order_quantity')->unsigned();
+            $table->integer('quantity_ordered');
+            $table->integer('tests_done')->default(0);
             $table->integer('user_id')->unsigned();
             $table->string('remarks', 100);
 
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('test_category_id')->references('id')->on('test_categories');
-            $table->foreign('commodity_id')->references('id')->on('commodities');
+            $table->foreign('item_id')->references('id')->on('inv_items');
             $table->foreign('user_id')->references('id')->on('users');
         });
-        
-        Schema::create('issues', function(Blueprint $table)
+        /* inventory-usage table */
+        Schema::create('inv_usage', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
-            $table->integer('receipt_id')->unsigned();
-            $table->integer('topup_request_id')->unsigned();
-            $table->integer('quantity_issued');
-            $table->integer('issued_to')->unsigned();
+            $table->integer('stock_id')->unsigned();
+            $table->integer('request_id')->unsigned();
+            $table->integer('quantity_used')->default(0);
+            $table->date('date_of_usage');
+            $table->string('issued_by')->nullable();
+            $table->string('received_by')->nullable();
+            $table->string('remarks', 250)->nullable();
             $table->integer('user_id')->unsigned();
-            $table->string('remarks', 400)->nullable();
-
             $table->softDeletes();
             $table->timestamps();
-            $table->foreign('topup_request_id')->references('id')->on('topup_requests');
-            $table->foreign('receipt_id')->references('id')->on('receipts');
-            $table->foreign('issued_to')->references('id')->on('users');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('stock_id')->references('id')->on('inv_supply');
+            $table->foreign('request_id')->references('id')->on('requests');
         });
 
         Schema::create('lots', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
-            $table->string('number', 100)->unique();
+            $table->string('lot_no', 100)->unique();
             $table->string('description', 400)->nullable();
-            $table->date('expiry');
-            $table->integer('instrument_id')->unsigned();
+            $table->date('expiry')->nullable();
 
-            $table->foreign('instrument_id')->references('id')->on('instruments');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -613,11 +533,12 @@ class CreateBlisTables extends Migration
             $table->increments('id')->unsigned();
             $table->string('name', 100)->unique();
             $table->string('description', 400)->nullable();
-            $table->integer('lot_id')->unsigned();
+            $table->integer('instrument_id')->unsigned();
 
-            $table->foreign('lot_id')->references('id')->on('lots');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('instrument_id')->references('id')->on('instruments');
         });
 
         Schema::create('control_measures', function(Blueprint $table)
@@ -628,10 +549,11 @@ class CreateBlisTables extends Migration
             $table->integer('control_id')->unsigned();
             $table->integer('control_measure_type_id')->unsigned();
 
-            $table->foreign('control_measure_type_id')->references('id')->on('measure_types');
-            $table->foreign('control_id')->references('id')->on('controls');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('control_measure_type_id')->references('id')->on('measure_types');
+            $table->foreign('control_id')->references('id')->on('controls');
         });
 
         Schema::create('control_measure_ranges', function(Blueprint $table){
@@ -640,20 +562,25 @@ class CreateBlisTables extends Migration
             $table->decimal('lower_range', 6, 2)->nullable();
             $table->string('alphanumeric', '100')->nullable();
             $table->integer('control_measure_id')->unsigned();
-
-            $table->foreign('control_measure_id')->references('id')->on('control_measures');
+            
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('control_measure_id')->references('id')->on('control_measures');
         });
 
         Schema::create('control_tests', function(Blueprint $table){
             $table->increments('id');
-            $table->integer('entered_by')->unsigned();
             $table->integer('control_id')->unsigned();
+            $table->integer('lot_id')->unsigned();
+            $table->string('performed_by', 100)->nullable();
+            $table->integer('user_id')->unsigned();
+
+            $table->timestamps();
 
             $table->foreign('control_id')->references('id')->on('controls');
-            $table->foreign('entered_by')->references('id')->on('users');
-            $table->timestamps();
+            $table->foreign('lot_id')->references('id')->on('lots');
+            $table->foreign('user_id')->references('id')->on('users');
         });
 
         Schema::create('control_results', function(Blueprint $table){
@@ -661,89 +588,15 @@ class CreateBlisTables extends Migration
             $table->string('results');
             $table->integer('control_measure_id')->unsigned();
             $table->integer('control_test_id')->unsigned();
+            $table->integer('user_id')->unsigned();
+
+            $table->timestamps();
 
             $table->foreign('control_test_id')->references('id')->on('control_tests');
             $table->foreign('control_measure_id')->references('id')->on('control_measures');
-            $table->timestamps();
-        });
-
-        /* fields */
-        Schema::create('fields', function(Blueprint $table)
-        {
-            $table->increments('id');
-            $table->string('field_name', 45);
-            $table->tinyInteger('field_type');
-            $table->string('options', 1000)->nullable();
-            $table->integer('user_id')->unsigned();
-
-            $table->softDeletes();
-            $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users');
         });
-        /* configurable fields */
-        Schema::create('configurable_fields', function(Blueprint $table)
-        {
-            $table->increments('id');
-            $table->integer('configurable_id')->unsigned();
-            $table->integer('field_id')->unsigned();
-            $table->integer('user_id')->unsigned();
 
-            $table->softDeletes();
-            $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('field_id')->references('id')->on('fields');
-            $table->foreign('configurable_id')->references('id')->on('configurables');
-        });
-        /* config settings */
-        Schema::create('lab_config_settings', function(Blueprint $table)
-        {
-            $table->increments('id');
-            $table->integer('key')->unsigned();
-            $table->string('value', 100);
-            $table->integer('user_id')->unsigned();
-
-            $table->softDeletes();
-            $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('key')->references('id')->on('configurable_fields');
-        });
-        /* custom values */
-        Schema::create('lab_custom_values', function(Blueprint $table)
-        {
-            $table->increments('id');
-            $table->integer('reference')->nullable();
-            $table->integer('key')->unsigned();
-            $table->string('value', 100);
-            $table->integer('user_id')->unsigned();
-
-            $table->softDeletes();
-            $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('key')->references('id')->on('configurable_fields');
-        });
-        /* Analysers table */
-        Schema::create('analysers', function(Blueprint $table)
-        {
-            $table->increments('id');
-            $table->string('name', 50);
-            $table->string('version', 25)->nullable();
-            $table->tinyInteger('comm_type');
-            $table->tinyInteger('feed_source');
-            $table->integer('test_category_id')->unsigned();
-            $table->string('description', 100)->nullable();
-            $table->string('config_file', 200);
-            $table->integer('user_id')->unsigned();
-
-            $table->softDeletes();
-            $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('test_category_id')->references('id')->on('test_categories');
-        });
     }
     /**
      * Reverse the migrations.

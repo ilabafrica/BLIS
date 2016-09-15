@@ -1,168 +1,74 @@
 <?php namespace Database\Seeds;
 
 use Illuminate\Database\Seeder;
-use App\Models\Configurable;
-use App\Models\Field;
-use App\Models\LabConfig;
-use App\Models\ConField;
-use App\Models\Analyser;
 
 use DB;
+use Hash;
 use DateTime;
 use DateInterval;
-use App\Models\User;
-use App\Models\Visit;
-use App\Models\Charge;
-use App\Models\Measure;
-use App\Models\Payment;
-use App\Models\Patient;
-use App\Models\MeasureType;
-use App\Models\MeasureRange;
-use App\Models\ExternalDump;
-use App\Models\RejectionReason;
-use App\Models\Drug;
-use App\Models\Role;
-use App\Models\Organism;
-use App\Models\Specimen;
-use App\Models\SpecimenType;
-use App\Models\Test;
-use App\Models\TestType;
-use App\Models\TestPhase;
-use App\Models\TestStatus;
-use App\Models\TestResult;
-use App\Models\TestCategory;
-use App\Models\SpecimenStatus;
-use App\Models\TestTypeMeasure;
-use App\Models\Metric;
-use App\Models\Receipt;
-use App\Models\Supplier;
-use App\Models\Facility;
-use App\Models\Commodity;
-use App\Models\Permission;
-use App\Models\Instrument;
-use App\Models\Lot;
-use App\Models\Issue;
+use Jenssegers\Date\Date as Carbon;
+
 use App\Models\Control;
-use App\Models\Disease;
-use App\Models\ControlTest;
-use App\Models\TopupRequest;
-use App\Models\ReportDisease;
 use App\Models\ControlMeasure;
 use App\Models\ControlMeasureRange;
 use App\Models\ControlMeasureResult;
+use App\Models\ControlTest;
+use App\Models\Disease;
+use App\Models\Facility;
+use App\Models\Instrument;
+use App\Models\Lot;
+use App\Models\Measure;
+use App\Models\MeasureRange;
+use App\Models\MeasureType;
+use App\Models\Patient;
+use App\Models\Permission;
+use App\Models\RejectionReason;
+use App\Models\ReportDisease;
+use App\Models\Role;
+use App\Models\Specimen;
+use App\Models\SpecimenStatus;
+use App\Models\SpecimenType;
+use App\Models\Supplier;
+use App\Models\Test;
+use App\Models\TestCategory;
+use App\Models\TestPhase;
+use App\Models\TestResult;
+use App\Models\TestStatus;
+use App\Models\TestType;
+use App\Models\TestTypeMeasure;
+use App\Models\User;
+use App\Models\Visit;
 
-
-//	Carbon - for use with dates
-use Jenssegers\Date\Date as Carbon;
-
-class BlisDevelopmentSeeder extends Seeder
+class TestDataSeeder  extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        $now = Carbon::today()->toDateTimeString();
-
         /* Users table */
-        $userSuperAdmin = User::create([
-            "username" => "superadmin",
-            "password" => bcrypt("password"),
-            "email" => "admin@blis.org",
-            "name" => "BLIS Administrator",
-            "designation" => "Programmer",
-            "phone"=>"0722000000",
-            "address" => "P.O. Box 59857-00200, Nairobi",
-            "image" => "/i/users/user-2.jpg"
-        ]);
+        $usersData = array(
+            array(
+                "username" => "administrator", "password" => Hash::make("password"), "email" => "admin@kblis.org",
+                "name" => "kBLIS Administrator", "designation" => "Programmer"
+            ),
+            array(
+                "username" => "external", "password" => Hash::make("password"), "email" => "admin@kblis.org",
+                "name" => "External System User", "designation" => "Administrator", "image" => "/i/users/user-2.jpg"
+            ),
+            array(
+                "username" => "lmorena", "password" => Hash::make("password"), "email" => "lmorena@kblis.org",
+                "name" => "L. Morena", "designation" => "Lab Technologist", "image" => "/i/users/user-3.png"
+            ),
+            array(
+                "username" => "abumeyang", "password" => Hash::make("password"), "email" => "abumeyang@kblis.org",
+                "name" => "A. Abumeyang", "designation" => "Doctor"
+            ),
+        );
 
-        $userExternal = User::create([
-            "username" => "external",
-            "password" => bcrypt("password"),
-            "email" => "external@blis.org",
-            "name" => "External System User",
-            "designation" => "Administrator",
-        ]);
-
-        $userTechnologist = User::create([
-            "username" => "lmorena",
-            "password" => bcrypt("password"),
-            "email" => "lmorena@blis.org",
-            "name" => "L. Morena",
-            "designation" => "Lab Technologist",
-        ]);
-
-        $userReceptionist = User::create([
-            "username" => "radhiambo",
-            "password" => bcrypt("password"),
-            "email" => "radhiambo@blis.org",
-            "name" => "R. Adhiambo",
-            "designation" => "Receptionist",
-        ]);
-
-        $userAdministrator = User::create([
-            "username" => "abumeyang",
-            "password" => bcrypt("password"),
-            "email" => "abumeyang@blis.org",
-            "name" => "A. Abumeyang",
-            "designation" => "Lab Administrator",
-        ]);
-
+        foreach ($usersData as $user)
+        {
+            $users[] = User::create($user);
+        }
         $this->command->info('users seeded');
-
-        /* Measure Types */
-        $measureTypes = array(
-            array("id" => "1", "name" => "Numeric Range"),
-            array("id" => "2", "name" => "Alphanumeric Values"),
-            array("id" => "3", "name" => "Autocomplete"),
-            array("id" => "4", "name" => "Free Text")
-        );
-
-        foreach ($measureTypes as $measureType)
-        {
-            MeasureType::create($measureType);
-        }
-        $this->command->info('measure_types seeded');
-                
-        /* Test Phase table */
-        $test_phases = array(
-          array("id" => "1", "name" => "Pre-Analytical"),
-          array("id" => "2", "name" => "Analytical"),
-          array("id" => "3", "name" => "Post-Analytical")
-        );
-        foreach ($test_phases as $test_phase)
-        {
-            TestPhase::create($test_phase);
-        }
-        $this->command->info('test_phases seeded');
-
-        /* Test Status table */
-        $test_statuses = array(
-          array("id" => "1","name" => "not-received","test_phase_id" => "1"),//Pre-Analytical
-          array("id" => "2","name" => "pending","test_phase_id" => "1"),//Pre-Analytical
-          array("id" => "3","name" => "started","test_phase_id" => "2"),//Analytical
-          array("id" => "4","name" => "completed","test_phase_id" => "3"),//Post-Analytical
-          array("id" => "5","name" => "verified","test_phase_id" => "3")//Post-Analytical
-        );
-        foreach ($test_statuses as $test_status)
-        {
-            TestStatus::create($test_status);
-        }
-        $this->command->info('test_statuses seeded');
-
-        /* Specimen Status table */
-        $specimen_statuses = array(
-          array("id" => "1", "name" => "specimen-not-collected"),
-          array("id" => "2", "name" => "specimen-accepted"),
-          array("id" => "3", "name" => "specimen-rejected")
-        );
-        foreach ($specimen_statuses as $specimen_status)
-        {
-            SpecimenStatus::create($specimen_status);
-        }
-        $this->command->info('specimen_statuses seeded');
+        
 
         /* Specimen Types table */
         $specTypesData = array(
@@ -198,11 +104,26 @@ class BlisDevelopmentSeeder extends Seeder
         $this->command->info('specimen_types seeded');
         
         /* Test Categories table - These map on to the lab sections */
-        $test_categories = TestCategory::create(array("name" => "PARASITOLOGY","description" => "", "created_at" => $now, "updated_at" => $now));
-        $lab_section_microbiology = TestCategory::create(array("name" => "MICROBIOLOGY","description" => "", "created_at" => $now, "updated_at" => $now));
+        $test_categories = TestCategory::create(array("name" => "PARASITOLOGY","description" => ""));
+        $lab_section_microbiology = TestCategory::create(array("name" => "MICROBIOLOGY","description" => ""));
 
-        $this->command->info('Test categories seeded');
+        $this->command->info('test_categories seeded');
+        
+        
+        /* Measure Types */
+        $measureTypes = array(
+            array("id" => "1", "name" => "Numeric Range"),
+            array("id" => "2", "name" => "Alphanumeric Values"),
+            array("id" => "3", "name" => "Autocomplete"),
+            array("id" => "4", "name" => "Free Text")
+        );
 
+        foreach ($measureTypes as $measureType)
+        {
+            MeasureType::create($measureType);
+        }
+        $this->command->info('measure_types seeded');
+                
         /* Measures table */
         $measureBSforMPS = Measure::create(
             array("measure_type_id" => "2",
@@ -344,10 +265,10 @@ class BlisDevelopmentSeeder extends Seeder
         $this->command->info('measures seeded');
         
         /* Test Types table */
-        $testTypeBS = TestType::create(array("name" => "BS for mps", "test_category_id" => $test_categories->id));
+        $testTypeBS = TestType::create(array("name" => "BS for mps", "test_category_id" => $test_categories->id, "orderable_test" => 1));
         $testTypeStoolCS = TestType::create(array("name" => "Stool for C/S", "test_category_id" => $lab_section_microbiology->id));
         $testTypeGXM = TestType::create(array("name" => "GXM", "test_category_id" => $test_categories->id));
-        $testTypeHB = TestType::create(array("name" => "HB", "test_category_id" => $test_categories->id));
+        $testTypeHB = TestType::create(array("name" => "HB", "test_category_id" => $test_categories->id, "orderable_test" => 1));
         $testTypeUrinalysis = TestType::create(array("name" => "Urinalysis", "test_category_id" => $test_categories->id));
         $testTypeWBC = TestType::create(array("name" => "WBC", "test_category_id" => $test_categories->id));
 
@@ -403,6 +324,44 @@ class BlisDevelopmentSeeder extends Seeder
         }
 
         $this->command->info('patients seeded');
+
+        /* Test Phase table */
+        $test_phases = array(
+          array("id" => "1", "name" => "Pre-Analytical"),
+          array("id" => "2", "name" => "Analytical"),
+          array("id" => "3", "name" => "Post-Analytical")
+        );
+        foreach ($test_phases as $test_phase)
+        {
+            TestPhase::create($test_phase);
+        }
+        $this->command->info('test_phases seeded');
+
+        /* Test Status table */
+        $test_statuses = array(
+          array("id" => "1","name" => "not-received","test_phase_id" => "1"),//Pre-Analytical
+          array("id" => "2","name" => "pending","test_phase_id" => "1"),//Pre-Analytical
+          array("id" => "3","name" => "started","test_phase_id" => "2"),//Analytical
+          array("id" => "4","name" => "completed","test_phase_id" => "3"),//Post-Analytical
+          array("id" => "5","name" => "verified","test_phase_id" => "3")//Post-Analytical
+        );
+        foreach ($test_statuses as $test_status)
+        {
+            TestStatus::create($test_status);
+        }
+        $this->command->info('test_statuses seeded');
+
+        /* Specimen Status table */
+        $specimen_statuses = array(
+          array("id" => "1", "name" => "specimen-not-collected"),
+          array("id" => "2", "name" => "specimen-accepted"),
+          array("id" => "3", "name" => "specimen-rejected")
+        );
+        foreach ($specimen_statuses as $specimen_status)
+        {
+            SpecimenStatus::create($specimen_status);
+        }
+        $this->command->info('specimen_statuses seeded');
 
         /* Visits table */
         
@@ -467,10 +426,10 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::NOT_RECEIVED, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
-                        $userTechnologist->id),
+                        $users[rand(0, count($users)-1)]->id),
                 "test_status_id" => Test::NOT_RECEIVED,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $userTechnologist->id,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
             )
         );        
         
@@ -481,10 +440,10 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
-                        $userTechnologist->id),
+                        $users[rand(0, count($users)-1)]->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $userTechnologist->id,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
             )
         );        
         
@@ -495,10 +454,10 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
-                        $userTechnologist->id),
+                        $users[rand(0, count($users)-1)]->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $userTechnologist->id,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
             )
         );        
         
@@ -509,9 +468,9 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::ACCEPTED,
                         SpecimenType::all()->last()->id,
-                        $userTechnologist->id),
+                        $users[rand(0, count($users)-1)]->id),
                 "test_status_id" => Test::PENDING,
-                "created_by" => $userTechnologist->id,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
                 "requested_by" => "Dr. Abou Meyang",
             )
         );        
@@ -523,11 +482,11 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
-                        $userTechnologist->id),
+                        $users[rand(0, count($users)-1)]->id),
                 "interpretation" => "Perfect match.",
                 "test_status_id" => Test::COMPLETED,
-                "created_by" => $userTechnologist->id,
-                "tested_by" => $userTechnologist->id,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "tested_by" => $users[rand(0, count($users)-1)]->id,
                 "requested_by" => "Dr. Abou Meyang",
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT12M8S'))->format('Y-m-d H:i:s'),
@@ -541,11 +500,11 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
-                        $userTechnologist->id),
+                        $users[rand(0, count($users)-1)]->id),
                 "interpretation" => "Do nothing!",
                 "test_status_id" => Test::COMPLETED,
-                "created_by" => $userTechnologist->id,
-                "tested_by" => $userTechnologist->id,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "tested_by" => $users[rand(0, count($users)-1)]->id,
                 "requested_by" => "Genghiz Khan",
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT5M23S'))->format('Y-m-d H:i:s'),
@@ -558,10 +517,10 @@ class BlisDevelopmentSeeder extends Seeder
                 "test_type_id" => $testTypeGXM->id,
                 "specimen_id" => $this->createSpecimen(
                     Test::STARTED, Specimen::ACCEPTED, SpecimenType::all()->last()->id, 
-                    $userTechnologist->id),
+                    $users[rand(0, count($users)-1)]->id),
                 "test_status_id" => Test::STARTED,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $userTechnologist->id,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
                 "time_started" => $now->format('Y-m-d H:i:s'),
             )
         );
@@ -573,11 +532,11 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
-                        $userTechnologist->id),
+                        $users[rand(0, count($users)-1)]->id),
                 "interpretation" => "Positive",
                 "test_status_id" => Test::COMPLETED,
-                "created_by" => $userTechnologist->id,
-                "tested_by" => $userTechnologist->id,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "tested_by" => $users[rand(0, count($users)-1)]->id,
                 "requested_by" => "Ariel Smith",
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT7M34S'))->format('Y-m-d H:i:s'),
@@ -591,12 +550,12 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::VERIFIED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
-                        $userTechnologist->id),
+                        $users[rand(0, count($users)-1)]->id),
                 "interpretation" => "Very high concentration of parasites.",
                 "test_status_id" => Test::VERIFIED,
-                "created_by" => $userTechnologist->id,
-                "tested_by" => $userTechnologist->id,
-                "verified_by" => $userTechnologist->id,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "tested_by" => $users[rand(0, count($users)-1)]->id,
+                "verified_by" => $users[rand(0, count($users)-1)]->id,
                 "requested_by" => "Genghiz Khan",
                 "time_started" => $now,
                 "time_completed" => $now->add(new DateInterval('PT5M17S'))->format('Y-m-d H:i:s'),
@@ -611,12 +570,12 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::REJECTED, 
                         SpecimenType::all()->last()->id, 
-                        $userTechnologist->id,
-                        $userTechnologist->id,
+                        $users[rand(0, count($users)-1)]->id,
+                        $users[rand(0, count($users)-1)]->id,
                         $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $userTechnologist->id,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
                 "time_started" => $now->format('Y-m-d H:i:s'),
             )
         );        
@@ -629,10 +588,10 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::STARTED, Specimen::ACCEPTED,
                         SpecimenType::all()->last()->id,
-                        $userTechnologist->id),
+                        $users[rand(0, count($users)-1)]->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Fred Astaire",
-                "created_by" => $userTechnologist->id,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
             )
         );        
         
@@ -643,11 +602,11 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::STARTED, Specimen::REJECTED, 
                         SpecimenType::all()->last()->id, 
-                        $userTechnologist->id,
-                        $userTechnologist->id,
+                        $users[rand(0, count($users)-1)]->id,
+                        $users[rand(0, count($users)-1)]->id,
                         $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id),
                 "test_status_id" => Test::STARTED,
-                "created_by" => $userTechnologist->id,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
                 "requested_by" => "Bony Em",
                 "time_started" => $now->format('Y-m-d H:i:s'),
             )
@@ -660,13 +619,13 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::REJECTED, 
                         SpecimenType::all()->last()->id, 
-                        $userTechnologist->id,
-                        $userTechnologist->id,
+                        $users[rand(0, count($users)-1)]->id,
+                        $users[rand(0, count($users)-1)]->id,
                         $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id),
                 "interpretation" => "Budda Boss",
                 "test_status_id" => Test::COMPLETED,
-                "created_by" => $userTechnologist->id,
-                "tested_by" => $userTechnologist->id,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "tested_by" => $users[rand(0, count($users)-1)]->id,
                 "requested_by" => "Ed Buttler",
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT30M4S'))->format('Y-m-d H:i:s'),
@@ -680,10 +639,10 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
-                        $userTechnologist->id),
+                        $users[rand(0, count($users)-1)]->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $userTechnologist->id,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
             )
         );        
         
@@ -694,10 +653,10 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
-                        $userTechnologist->id),
+                        $users[rand(0, count($users)-1)]->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $userTechnologist->id,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
             )
         );        
         
@@ -708,11 +667,11 @@ class BlisDevelopmentSeeder extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
-                        $userTechnologist->id),
+                        $users[rand(0, count($users)-1)]->id),
                 "interpretation" => "Whats this !!!! ###%%% ^ *() /",
                 "test_status_id" => Test::COMPLETED,
-                "created_by" => $userTechnologist->id,
-                "tested_by" => $userTechnologist->id,
+                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "tested_by" => $users[rand(0, count($users)-1)]->id,
                 "requested_by" => "Dr. Abou Meyang",
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT12M8S'))->format('Y-m-d H:i:s'),
@@ -768,6 +727,60 @@ class BlisDevelopmentSeeder extends Seeder
             TestResult::create($testResult);
         }
         $this->command->info('test results seeded');
+
+        
+        /* Permissions table */
+        $permissions = array(
+            array("name" => "view_names", "display_name" => "Can view patient names"),
+            array("name" => "manage_patients", "display_name" => "Can add patients"),
+
+            array("name" => "receive_external_test", "display_name" => "Can receive test requests"),
+            array("name" => "request_test", "display_name" => "Can request new test"),
+            array("name" => "accept_test_specimen", "display_name" => "Can accept test specimen"),
+            array("name" => "reject_test_specimen", "display_name" => "Can reject test specimen"),
+            array("name" => "change_test_specimen", "display_name" => "Can change test specimen"),
+            array("name" => "start_test", "display_name" => "Can start tests"),
+            array("name" => "enter_test_results", "display_name" => "Can enter tests results"),
+            array("name" => "edit_test_results", "display_name" => "Can edit test results"),
+            array("name" => "verify_test_results", "display_name" => "Can verify test results"),
+            array("name" => "send_results_to_external_system", "display_name" => "Can send test results to external systems"),
+            array("name" => "refer_specimens", "display_name" => "Can refer specimens"),
+
+            array("name" => "manage_users", "display_name" => "Can manage users"),
+            array("name" => "manage_test_catalog", "display_name" => "Can manage test catalog"),
+            array("name" => "manage_lab_configurations", "display_name" => "Can manage lab configurations"),
+            array("name" => "view_reports", "display_name" => "Can view reports"),
+            array("name" => "manage_inventory", "display_name" => "Can manage inventory"),
+            array("name" => "request_topup", "display_name" => "Can request top-up"),
+            array("name" => "manage_qc", "display_name" => "Can manage Quality Control")
+        );
+
+        foreach ($permissions as $permission) {
+            Permission::create($permission);
+        }
+        $this->command->info('Permissions table seeded');
+
+        /* Roles table */
+        $roles = array(
+            array("name" => "Superadmin"),
+            array("name" => "Technologist"),
+            array("name" => "Receptionist")
+        );
+        foreach ($roles as $role) {
+            Role::create($role);
+        }
+        $this->command->info('Roles table seeded');
+
+        $user1 = User::find(1);
+        $role1 = Role::find(1);
+        $permissions = Permission::all();
+
+        //Assign all permissions to role administrator
+        foreach ($permissions as $permission) {
+            $role1->attachPermission($permission);
+        }
+        //Assign role Administrator to user 1 administrator
+        $user1->attachRole($role1);
 
         /* Instruments table */
         $instrumentsData = array(
@@ -1417,74 +1430,17 @@ class BlisDevelopmentSeeder extends Seeder
         //Seed for suppliers
         $supplier = Supplier::create(
             array(
-                "name" => "UNICEF",
-                "phone_no" => "0775112233",
-                "user_id" => "1",
-                "email" => "uni@unice.org",
-                "address" => "un-hqtr"
+                "name" => "CHEM-LABS LTD",
+                "phone" => "+254 722 822 595",
+                "email" => "info@chem-labs.com",
+                "address" => "Human House, Ngara West Rd, Off Museum Hill. 23,
+P.o. Box 38779 – 00600,
+Nairobi, Kenya.",
+                "user_id" => 1,
 
             )
         );
         $this->command->info('Suppliers table seeded');
-
-        //Seed for metrics
-        $metric = Metric::create(
-            array(
-                "name" => "mg",
-                "description" => "milligram"
-            )
-        );
-        $this->command->info('Metrics table seeded');
-
-        //Seed for commodities
-        $commodity = Commodity::create(
-            array(
-                "name" => "Ampicillin",
-                "description" => "Capsule 250mg",
-                "metric_id" => $metric->id,
-                "unit_price" => "500",
-                "item_code" => "no clue",
-                "storage_req" => "no clue",
-                "min_level" => "100000",
-                "max_level" => "400000")
-        );
-        $this->command->info('Commodities table seeded');
-        
-        //Seed for receipts
-        $receipt = Receipt::create(
-            [
-                "commodity_id" => $commodity->id,
-                "supplier_id" => $supplier->id, 
-                "quantity" => "130000",
-                "batch_no" => "002720",
-                // todo : is this entry neccesary, coz we need to add it to the db
-                // "user_id" => "1"
-                "expiry_date" => "2018-10-14", ]
-        );
-        $this->command->info('Receipts table seeded');
-        
-        //Seed for Top Up Request
-        $topUpRequest = TopupRequest::create(
-            array(
-                "commodity_id" => $commodity->id,
-                "test_category_id" => 1,
-                "order_quantity" => "1500",
-                "user_id" => 1,
-                "remarks" => "-")
-        );
-        $this->command->info('Top Up Requests table seeded');
-
-        //Seed for Issues
-        Issue::create(
-            array(
-                "receipt_id" => $receipt->id,
-                "topup_request_id" => $topUpRequest->id,
-                "quantity_issued" => "1700",
-                "issued_to" => 1,
-                "user_id" => 1,
-                "remarks" => "-")
-        );
-        $this->command->info('Issues table seeded');
 
         //Seed for diseases
         $malaria = Disease::create(array('name' => "Malaria"));
@@ -1515,14 +1471,13 @@ class BlisDevelopmentSeeder extends Seeder
 
         //Seeding for QC
         $lots = array(
-            array('number'=> '0001',
+            array('lot_no'=> '0001',
                 'description' => 'First lot',
-                'expiry' => date('Y-m-d H:i:s', strtotime("+6 months")),
-                'instrument_id' => 1),
-            array('number'=> '0002',
+                'expiry' => date('Y-m-d H:i:s', strtotime("+6 months"))),
+            array('lot_no'=> '0002',
                 'description' => 'Second lot',
-                'expiry' => date('Y-m-d H:i:s', strtotime("+7 months")),
-                'instrument_id' => 1));
+                'expiry' => date('Y-m-d H:i:s', strtotime("+7 months")))
+        );
         foreach ($lots as $lot) {
             $lot = Lot::create($lot);
         }
@@ -1532,8 +1487,8 @@ class BlisDevelopmentSeeder extends Seeder
         $controls = array(
             array('name'=>'Humatrol P', 
                     'description' =>'HUMATROL P control serum has been designed to provide a suitable basis for the quality control (imprecision, inaccuracy) in the clinical chemical laboratory.', 
-                    'lot_id' => 1),
-            array('name'=>'Full Blood Count', 'description' => 'Né pas touchér', 'lot_id' => 1,)
+                    'instrument_id' => 1),
+            array('name'=>'Full Blood Count', 'description' => 'Né pas touchér', 'instrument_id' => 1,)
             );
         foreach ($controls as $control) {
             Control::create($control);
@@ -1590,15 +1545,15 @@ class BlisDevelopmentSeeder extends Seeder
 
         //Control Tests
         $controlTests = array(
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
-                array('entered_by'=> 3, 'control_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
-                array('entered_by'=> 1, 'control_id'=> 2, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
-                array('entered_by'=> 1, 'control_id'=> 2, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Msiska', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Katayi', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Msiska', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Kweyu', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Kweyu', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Tiwonge', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Mukulu', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Tiwonge', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('control_id'=> 1, 'lot_id'=> 1, 'performed_by'=> 'Tiwonge', 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
             );
         foreach ($controlTests as $controltest) {
             ControlTest::create($controltest);
@@ -1608,703 +1563,79 @@ class BlisDevelopmentSeeder extends Seeder
         //Control results
         $controlResults = array(
                 //Results fro Humatrol P
-                array('results' => '2.78', 'control_measure_id' => 1, 'control_test_id' => 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
-                array('results' => '13.56', 'control_measure_id' => 2, 'control_test_id' => 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
-                array('results' => '14.77', 'control_measure_id' => 3, 'control_test_id' => 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
-                array('results' => '25.92', 'control_measure_id' => 4, 'control_test_id' => 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
-                array('results' => '18.87', 'control_measure_id' => 5, 'control_test_id' => 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
+                array('results' => '2.78', 'control_measure_id' => 1, 'control_test_id' => 1, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
+                array('results' => '13.56', 'control_measure_id' => 2, 'control_test_id' => 1, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
+                array('results' => '14.77', 'control_measure_id' => 3, 'control_test_id' => 1, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
+                array('results' => '25.92', 'control_measure_id' => 4, 'control_test_id' => 1, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
+                array('results' => '18.87', 'control_measure_id' => 5, 'control_test_id' => 1, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-10 days'))),
 
                  //Results fro Humatrol P
-                array('results' => '6.78', 'control_measure_id' => 1, 'control_test_id' => 2, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
-                array('results' => '15.56', 'control_measure_id' => 2, 'control_test_id' => 2, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
-                array('results' => '18.77', 'control_measure_id' => 3, 'control_test_id' => 2, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
-                array('results' => '30.92', 'control_measure_id' => 4, 'control_test_id' => 2, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
-                array('results' => '17.87', 'control_measure_id' => 5, 'control_test_id' => 2, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
+                array('results' => '6.78', 'control_measure_id' => 1, 'control_test_id' => 2, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
+                array('results' => '15.56', 'control_measure_id' => 2, 'control_test_id' => 2, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
+                array('results' => '18.77', 'control_measure_id' => 3, 'control_test_id' => 2, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
+                array('results' => '30.92', 'control_measure_id' => 4, 'control_test_id' => 2, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
+                array('results' => '17.87', 'control_measure_id' => 5, 'control_test_id' => 2, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-9 days'))),
 
                  //Results fro Humatrol P
-                array('results' => '8.78', 'control_measure_id' => 1, 'control_test_id' => 3, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
-                array('results' => '17.56', 'control_measure_id' => 2, 'control_test_id' => 3, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
-                array('results' => '21.77', 'control_measure_id' => 3, 'control_test_id' => 3, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
-                array('results' => '27.92', 'control_measure_id' => 4, 'control_test_id' => 3, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
-                array('results' => '22.87', 'control_measure_id' => 5, 'control_test_id' => 3, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
+                array('results' => '8.78', 'control_measure_id' => 1, 'control_test_id' => 3, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
+                array('results' => '17.56', 'control_measure_id' => 2, 'control_test_id' => 3, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
+                array('results' => '21.77', 'control_measure_id' => 3, 'control_test_id' => 3, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
+                array('results' => '27.92', 'control_measure_id' => 4, 'control_test_id' => 3, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
+                array('results' => '22.87', 'control_measure_id' => 5, 'control_test_id' => 3, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-8 days'))),
 
                  //Results fro Humatrol P
-                array('results' => '6.78', 'control_measure_id' => 1, 'control_test_id' => 4, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
-                array('results' => '18.56', 'control_measure_id' => 2, 'control_test_id' => 4, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
-                array('results' => '19.77', 'control_measure_id' => 3, 'control_test_id' => 4, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
-                array('results' => '12.92', 'control_measure_id' => 4, 'control_test_id' => 4, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
-                array('results' => '22.87', 'control_measure_id' => 5, 'control_test_id' => 4, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
+                array('results' => '6.78', 'control_measure_id' => 1, 'control_test_id' => 4, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
+                array('results' => '18.56', 'control_measure_id' => 2, 'control_test_id' => 4, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
+                array('results' => '19.77', 'control_measure_id' => 3, 'control_test_id' => 4, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
+                array('results' => '12.92', 'control_measure_id' => 4, 'control_test_id' => 4, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
+                array('results' => '22.87', 'control_measure_id' => 5, 'control_test_id' => 4, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-7 days'))),
 
                  //Results fro Humatrol P
-                array('results' => '3.78', 'control_measure_id' => 1, 'control_test_id' => 5, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
-                array('results' => '16.56', 'control_measure_id' => 2, 'control_test_id' => 5, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
-                array('results' => '17.77', 'control_measure_id' => 3, 'control_test_id' => 5, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
-                array('results' => '28.92', 'control_measure_id' => 4, 'control_test_id' => 5, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
-                array('results' => '19.87', 'control_measure_id' => 5, 'control_test_id' => 5, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
+                array('results' => '3.78', 'control_measure_id' => 1, 'control_test_id' => 5, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
+                array('results' => '16.56', 'control_measure_id' => 2, 'control_test_id' => 5, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
+                array('results' => '17.77', 'control_measure_id' => 3, 'control_test_id' => 5, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
+                array('results' => '28.92', 'control_measure_id' => 4, 'control_test_id' => 5, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
+                array('results' => '19.87', 'control_measure_id' => 5, 'control_test_id' => 5, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-6 days'))),
 
                  //Results fro Humatrol P
-                array('results' => '5.78', 'control_measure_id' => 1, 'control_test_id' => 6, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
-                array('results' => '15.56', 'control_measure_id' => 2, 'control_test_id' => 6, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
-                array('results' => '11.77', 'control_measure_id' => 3, 'control_test_id' => 6, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
-                array('results' => '29.92', 'control_measure_id' => 4, 'control_test_id' => 6, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
-                array('results' => '14.87', 'control_measure_id' => 5, 'control_test_id' => 6, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
+                array('results' => '5.78', 'control_measure_id' => 1, 'control_test_id' => 6, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
+                array('results' => '15.56', 'control_measure_id' => 2, 'control_test_id' => 6, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
+                array('results' => '11.77', 'control_measure_id' => 3, 'control_test_id' => 6, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
+                array('results' => '29.92', 'control_measure_id' => 4, 'control_test_id' => 6, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
+                array('results' => '14.87', 'control_measure_id' => 5, 'control_test_id' => 6, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-5 days'))),
 
                  //Results fro Humatrol P
-                array('results' => '9.78', 'control_measure_id' => 1, 'control_test_id' => 7, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
-                array('results' => '11.56', 'control_measure_id' => 2, 'control_test_id' => 7, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
-                array('results' => '19.77', 'control_measure_id' => 3, 'control_test_id' => 7, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
-                array('results' => '32.92', 'control_measure_id' => 4, 'control_test_id' => 7, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
-                array('results' => '29.87', 'control_measure_id' => 5, 'control_test_id' => 7, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
+                array('results' => '9.78', 'control_measure_id' => 1, 'control_test_id' => 7, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
+                array('results' => '11.56', 'control_measure_id' => 2, 'control_test_id' => 7, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
+                array('results' => '19.77', 'control_measure_id' => 3, 'control_test_id' => 7, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
+                array('results' => '32.92', 'control_measure_id' => 4, 'control_test_id' => 7, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
+                array('results' => '29.87', 'control_measure_id' => 5, 'control_test_id' => 7, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-4 days'))),
 
                 //Results for Full blood count
-                array('results' => '5.45', 'control_measure_id' => 6, 'control_test_id' => 8, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
-                array('results' => '5.01', 'control_measure_id' => 7, 'control_test_id' => 8, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
-                array('results' => '12.3', 'control_measure_id' => 8, 'control_test_id' => 8, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
-                array('results' => '89.7', 'control_measure_id' => 9, 'control_test_id' => 8, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
-                array('results' => '2.15', 'control_measure_id' => 10, 'control_test_id' => 8, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
-                array('results' => '34.0', 'control_measure_id' => 11, 'control_test_id' => 8, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
-                array('results' => '37.2', 'control_measure_id' => 12, 'control_test_id' => 8, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
-                array('results' => '141.5', 'control_measure_id' => 13, 'control_test_id' => 8, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('results' => '5.45', 'control_measure_id' => 6, 'control_test_id' => 8, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('results' => '5.01', 'control_measure_id' => 7, 'control_test_id' => 8, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('results' => '12.3', 'control_measure_id' => 8, 'control_test_id' => 8, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('results' => '89.7', 'control_measure_id' => 9, 'control_test_id' => 8, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('results' => '2.15', 'control_measure_id' => 10, 'control_test_id' => 8, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('results' => '34.0', 'control_measure_id' => 11, 'control_test_id' => 8, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('results' => '37.2', 'control_measure_id' => 12, 'control_test_id' => 8, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
+                array('results' => '141.5', 'control_measure_id' => 13, 'control_test_id' => 8, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-3 days'))),
 
                 //Results for Full blood count
-                array('results' => '7.45', 'control_measure_id' => 6, 'control_test_id' => 9, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
-                array('results' => '9.01', 'control_measure_id' => 7, 'control_test_id' => 9, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
-                array('results' => '9.3',  'control_measure_id' => 8, 'control_test_id' => 9, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
-                array('results' => '94.7', 'control_measure_id' => 9, 'control_test_id' => 9, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
-                array('results' => '12.15','control_measure_id' => 10, 'control_test_id' => 9, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
-                array('results' => '37.0', 'control_measure_id' => 11, 'control_test_id' => 9, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
-                array('results' => '30.2', 'control_measure_id' => 12, 'control_test_id' => 9, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
-                array('results' => '121.5','control_measure_id' =>  13, 'control_test_id' => 9, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('results' => '7.45', 'control_measure_id' => 6, 'control_test_id' => 9, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('results' => '9.01', 'control_measure_id' => 7, 'control_test_id' => 9, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('results' => '9.3',  'control_measure_id' => 8, 'control_test_id' => 9, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('results' => '94.7', 'control_measure_id' => 9, 'control_test_id' => 9, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('results' => '12.15','control_measure_id' => 10, 'control_test_id' => 9, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('results' => '37.0', 'control_measure_id' => 11, 'control_test_id' => 9, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('results' => '30.2', 'control_measure_id' => 12, 'control_test_id' => 9, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
+                array('results' => '121.5','control_measure_id' =>  13, 'control_test_id' => 9, 'user_id'=> 1, 'created_at'=>date('Y-m-d', strtotime('-2 days'))),
             );
         
         foreach ($controlResults as $controlResult) {
             ControlMeasureResult::create($controlResult);
         }
         $this->command->info("Control results table seeded");
-
-        //Seed for drugs
-        $penicillin = Drug::create(array('name' => "PENICILLIN"));
-        $ampicillin = Drug::create(array('name' => "AMPICILLIN"));
-        $clindamycin = Drug::create(array('name' => "CLINDAMYCIN"));
-        $tetracycline = Drug::create(array('name' => "TETRACYCLINE"));
-        $ciprofloxacin = Drug::create(array('name' => "CIPROFLOXACIN"));
-        $trimeth = Drug::create(array('name' => "TRIMETHOPRIM/SULFA"));
-        $nitrofurantoin = Drug::create(array('name' => "NITROFURANTOIN"));
-        $chloramphenicol = Drug::create(array('name' => "CHLORAMPHENICOL"));
-        $cefazolin = Drug::create(array('name' => "CEFAZOLIN"));
-        $gentamicin = Drug::create(array('name' => "GENTAMICIN"));
-        $amoxicillin = Drug::create(array('name' => "AMOXICILLIN-CLAV"));
-        $cephalothin = Drug::create(array('name' => "CEPHALOTHIN"));
-        $cefuroxime = Drug::create(array('name' => "CEFUROXIME"));
-        $cefotaxime = Drug::create(array('name' => "CEFOTAXIME"));
-        $piperacillin = Drug::create(array('name' => "PIPERACILLIN"));
-        $cefixime = Drug::create(array('name' => "CEFIXIME"));
-        $ceftazidime = Drug::create(array('name' => "CEFTAZIDIME"));
-        $cefriaxone = Drug::create(array('name' => "CEFRIAXONE"));
-        $levofloxacin = Drug::create(array('name' => "LEVOFLOXACIN"));
-        $merodenem = Drug::create(array('name' => "MERODENEM"));
-        $tazo = Drug::create(array('name' => "PIPERACILLIN/TAZO"));
-        $imedenem = Drug::create(array('name' => "IMEDENEM"));
-        $oxacillin = Drug::create(array('name' => "OXACILLIN (CEFOXITIN)"));
-        $erythromycin = Drug::create(array('name' => "ERYTHROMYCIN"));
-        $vancomycin = Drug::create(array('name' => "VANCOMYCIN"));
-        $cefoxitin = Drug::create(array('name' => "CEFOXITIN"));
-        $tobramycin = Drug::create(array('name' => "TOBRAMYCIN"));
-        $sulbactam = Drug::create(array('name' => "AMPICILLIN-SULBACTAM"));
-        
-        $this->command->info('Drugs table seeded');
-        //Seed for organisims
-        $staphylococci = Organism::create(array('name' => "Staphylococci species"));
-        $gramnegative = Organism::create(array('name' => "Gram negative cocci"));
-        $pseudomonas = Organism::create(array('name' => "Pseudomonas aeruginosa"));
-        $enterococcus = Organism::create(array('name' => "Enterococcus species"));
-        $pneumoniae = Organism::create(array('name' => "Streptococcus pneumoniae"));
-        $streptococcus = Organism::create(array('name' => "Streptococcus species viridans group"));
-        $beta = Organism::create(array('name' => "Beta-haemolytic streptococci"));
-        $haemophilus = Organism::create(array('name' => "Haemophilus influenzae"));
-        $naisseria = Organism::create(array('name' => "Naisseria menengitidis"));
-        $salmonella = Organism::create(array('name' => "Salmonella species"));
-        $shigella = Organism::create(array('name' => "Shigella"));
-        $vibrio = Organism::create(array('name' => "Vibrio cholerae"));
-        $grampositive = Organism::create(array('name' => "Gram positive cocci"));
-
-        $this->command->info('Organisms table seeded');
-
-        // todo: keep kalm kitsao will sort this out ;)
-        //  Seed for organism_drugs
-        //  Staphylococci species
-      /*  DB::table('organism_drugs')->insert(
-            array("organism_id" => $staphylococci->id, "drug_id" => $penicillin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $staphylococci->id, "drug_id" => $oxacillin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $staphylococci->id, "drug_id" => $cefoxitin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $staphylococci->id, "drug_id" => $erythromycin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $staphylococci->id, "drug_id" => $clindamycin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $staphylococci->id, "drug_id" => $trimeth->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $staphylococci->id, "drug_id" => $cefazolin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $staphylococci->id, "drug_id" => $cephalothin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $staphylococci->id, "drug_id" => $chloramphenicol->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $staphylococci->id, "drug_id" => $nitrofurantoin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $staphylococci->id, "drug_id" => $tetracycline->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $staphylococci->id, "drug_id" => $vancomycin->id));
-        
-        $this->command->info('Staphylococci species seeded');
-
-        //  Gram negative cocci
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $gramnegative->id, "drug_id" => $ampicillin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $gramnegative->id, "drug_id" => $cefazolin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $gramnegative->id, "drug_id" => $gentamicin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $gramnegative->id, "drug_id" => $amoxicillin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $gramnegative->id, "drug_id" => $cephalothin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $gramnegative->id, "drug_id" => $cefuroxime->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $gramnegative->id, "drug_id" => $cefotaxime->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $gramnegative->id, "drug_id" => $ciprofloxacin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $gramnegative->id, "drug_id" => $trimeth->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $gramnegative->id, "drug_id" => $nitrofurantoin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $gramnegative->id, "drug_id" => $chloramphenicol->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $gramnegative->id, "drug_id" => $tetracycline->id));
-        
-        $this->command->info('Gram negative cocci seeded');
-
-        //  Pseudomonas aeruginosa
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $pseudomonas->id, "drug_id" => $ceftazidime->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $pseudomonas->id, "drug_id" => $gentamicin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $pseudomonas->id, "drug_id" => $tobramycin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $pseudomonas->id, "drug_id" => $piperacillin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $pseudomonas->id, "drug_id" => $ciprofloxacin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $pseudomonas->id, "drug_id" => $merodenem->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $pseudomonas->id, "drug_id" => $tazo->id));
-
-        $this->command->info('Pseudomonas aeruginosa seeded');
-
-        //  Enterococcus species
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $enterococcus->id, "drug_id" => $ampicillin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $enterococcus->id, "drug_id" => $gentamicin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $enterococcus->id, "drug_id" => $nitrofurantoin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $enterococcus->id, "drug_id" => $ciprofloxacin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $enterococcus->id, "drug_id" => $tetracycline->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $enterococcus->id, "drug_id" => $chloramphenicol->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $enterococcus->id, "drug_id" => $vancomycin->id));
-        
-        $this->command->info('Enterococcus species seeded');
-
-        //  Streptococcus pneumoniae
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $pneumoniae->id, "drug_id" => $penicillin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $pneumoniae->id, "drug_id" => $cefriaxone->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $pneumoniae->id, "drug_id" => $cefuroxime->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $pneumoniae->id, "drug_id" => $erythromycin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $pneumoniae->id, "drug_id" => $trimeth->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $pneumoniae->id, "drug_id" => $chloramphenicol->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $pneumoniae->id, "drug_id" => $tetracycline->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $pneumoniae->id, "drug_id" => $levofloxacin->id));
-        
-        $this->command->info('Streptococcus pneumoniae seeded');
-
-        //  Streptococcus species viridans group
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $streptococcus->id, "drug_id" => $penicillin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $streptococcus->id, "drug_id" => $cefriaxone->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $streptococcus->id, "drug_id" => $vancomycin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $streptococcus->id, "drug_id" => $chloramphenicol->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $streptococcus->id, "drug_id" => $clindamycin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $streptococcus->id, "drug_id" => $erythromycin->id));
-        
-        $this->command->info('Streptococcus species viridans group seeded');
-
-        //  Beta-haemolytic streptococci
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $beta->id, "drug_id" => $penicillin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $beta->id, "drug_id" => $erythromycin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $beta->id, "drug_id" => $clindamycin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $beta->id, "drug_id" => $cefriaxone->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $beta->id, "drug_id" => $chloramphenicol->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $beta->id, "drug_id" => $vancomycin->id));
-        
-        $this->command->info('Beta-haemolytic streptococci seeded');
-
-        //  Haemophilus influenzae
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $haemophilus->id, "drug_id" => $ampicillin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $haemophilus->id, "drug_id" => $trimeth->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $haemophilus->id, "drug_id" => $sulbactam->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $haemophilus->id, "drug_id" => $cefriaxone->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $haemophilus->id, "drug_id" => $chloramphenicol->id));
-        
-        $this->command->info('Haemophilus influenzae seeded');
-
-        //  Naisseria menengitidis
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $naisseria->id, "drug_id" => $penicillin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $naisseria->id, "drug_id" => $cefriaxone->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $naisseria->id, "drug_id" => $chloramphenicol->id));
-        
-        $this->command->info('Neisseria menengitidis seeded');
-
-        //  Salmonella species
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $salmonella->id, "drug_id" => $ampicillin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $salmonella->id, "drug_id" => $ciprofloxacin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $salmonella->id, "drug_id" => $trimeth->id));
-        
-        $this->command->info('Salmonella species seeded');
-
-        //  Shigella
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $shigella->id, "drug_id" => $ampicillin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $shigella->id, "drug_id" => $ciprofloxacin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $shigella->id, "drug_id" => $trimeth->id));
-        
-        $this->command->info('Shigella seeded');
-
-        //  Vibrio cholerae
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $vibrio->id, "drug_id" => $ampicillin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $vibrio->id, "drug_id" => $ciprofloxacin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $vibrio->id, "drug_id" => $trimeth->id));
-        
-        $this->command->info('Vibrio cholerae seeded');
-
-        //  Gram positive cocci
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $grampositive->id, "drug_id" => $cefoxitin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $grampositive->id, "drug_id" => $clindamycin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $grampositive->id, "drug_id" => $erythromycin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $grampositive->id, "drug_id" => $oxacillin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $grampositive->id, "drug_id" => $penicillin->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $grampositive->id, "drug_id" => $tetracycline->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $grampositive->id, "drug_id" => $trimeth->id));
-        DB::table('organism_drugs')->insert(
-            array("organism_id" => $grampositive->id, "drug_id" => $vancomycin->id));
-        
-      */  $this->command->info('Gram positive cocci seeded');
-
-        /* Permissions table */
-        $permissionViewNames = Permission::create([
-            "name" => "view_names",
-            "display_name" => "Can view patient names"]);
-        $permissionManagePatients = Permission::create([
-            "name" => "manage_patients",
-            "display_name" => "Can add patients"]);
-        $permissionReceiveExternalTest = Permission::create([
-            "name" => "receive_external_test",
-            "display_name" => "Can receive test requests"]);
-        $permissionRequestTest = Permission::create([
-            "name" => "request_test",
-            "display_name" => "Can request new test"]);
-        $permissionAcceptTestSpecimen = Permission::create([
-            "name" => "accept_test_specimen",
-            "display_name" => "Can accept test specimen"]);
-        $permissionRejectTestSpecimen = Permission::create([
-            "name" => "reject_test_specimen",
-            "display_name" => "Can reject test specimen"]);
-        $permissionChangeTestSpecimen = Permission::create([
-            "name" => "change_test_specimen",
-            "display_name" => "Can change test specimen"]);
-        $permissionStartTest = Permission::create([
-            "name" => "start_test",
-            "display_name" => "Can start tests"]);
-        $permissionEnterTestResults = Permission::create([
-            "name" => "enter_test_results",
-            "display_name" => "Can enter tests results"]);
-        $permissionEditTestResults = Permission::create([
-            "name" => "edit_test_results",
-            "display_name" => "Can edit test results"]);
-        $permissionVerifyTestResults = Permission::create([
-            "name" => "verify_test_results",
-            "display_name" => "Can verify test results"]);
-        $permissionSendResultsToExternalSystem = Permission::create([
-            "name" => "send_results_to_external_system",
-            "display_name" => "Can send test results to external systems"]);
-        $permissionReferSpecimens = Permission::create([
-            "name" => "refer_specimens",
-            "display_name" => "Can refer specimens"]);
-        $permissionManageUsers = Permission::create([
-            "name" => "manage_users",
-            "display_name" => "Can manage users"]);
-        $permissionManageTestCatalog = Permission::create([
-            "name" => "manage_test_catalog",
-            "display_name" => "Can manage test catalog"]);
-        $permissionManageLabConfigurations = Permission::create([
-            "name" => "manage_lab_configurations",
-            "display_name" => "Can manage lab configurations"]);
-        $permissionViewReports = Permission::create([
-            "name" => "view_reports",
-            "display_name" => "Can view reports"]);
-        $permissionManageInventory = Permission::create([
-            "name" => "manage_inventory",
-            "display_name" => "Can manage inventory"]);
-        $permissionRequestTopup = Permission::create([
-            "name" => "request_topup",
-            "display_name" => "Can request top-up"]);
-        $permissionManageQc = Permission::create([
-            "name" => "manage_qc",
-            "display_name" => "Can manage Quality Control"]);
-
-        $this->command->info('Permissions table seeded');
-
-        /* Roles table */
-
-        $roleSuperadmin = Role::create(["name" => "Superadmin"]);
-        $roleTechnologist = Role::create(["name" => "Technologist"]);
-        $roleReceptionist = Role::create(["name" => "Receptionist"]);
-        $roleAdministrator = Role::create(["name" => "Administrator"]);
-
-        $this->command->info('Roles table seeded');
-
-        $permissions = Permission::all();
-
-        //Assign all permissions to role superadmin and administrator
-        foreach ($permissions as $permission) {
-            $roleSuperadmin->attachPermission($permission);
-            $roleAdministrator->attachPermission($permission);
-        }
-
-        //Assign role Administrator to administrators
-        $userSuperAdmin->attachRole($roleSuperadmin);
-        $userAdministrator->attachRole($roleAdministrator);
-        $userTechnologist->attachRole($roleTechnologist);
-        $userReceptionist->attachRole($roleReceptionist);
-
-        //Assign technologist's permissions to role technologist
-        $roleTechnologist->attachPermission($permissionViewNames);
-        $roleTechnologist->attachPermission($permissionReceiveExternalTest);
-        $roleTechnologist->attachPermission($permissionRequestTest);
-        $roleTechnologist->attachPermission($permissionAcceptTestSpecimen);
-        $roleTechnologist->attachPermission($permissionRejectTestSpecimen);
-        $roleTechnologist->attachPermission($permissionChangeTestSpecimen);
-        $roleTechnologist->attachPermission($permissionStartTest);
-        $roleTechnologist->attachPermission($permissionEnterTestResults);
-        $roleTechnologist->attachPermission($permissionEditTestResults);
-        $roleTechnologist->attachPermission($permissionSendResultsToExternalSystem);
-        $roleTechnologist->attachPermission($permissionReferSpecimens);
-        $roleTechnologist->attachPermission($permissionViewReports);
-        $roleTechnologist->attachPermission($permissionRequestTopup);
-
-        //Assign receptionist's permissions to role receptionist
-        $roleReceptionist->attachPermission($permissionViewNames);
-        $roleReceptionist->attachPermission($permissionManagePatients);
-
-        /* Configurables table */
-        $configurables = array(
-            array(
-                "name" => "Barcode Settings", "Description" => "", "route" => "barcode", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "name" => "Laboratory Settings", "Description" => "", "route" => "lab", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            )
-        );
-        /* fields table */
-        $fields = array(
-        	// Barcode fields
-            array(
-                "field_name" => "Encoding Format", "field_type" => "3", "user_id" => "1", "options" => "ean8,ean13,code11,code39,code128,codabar,std25,int25,code93", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "Barcode Width", "field_type" => "3", "user_id" => "1", "options" => "1,2,3,4,5,6,7,8,9,10", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "Barcode Height", "field_type" => "3", "user_id" => "1", "options" => "5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "Text Size", "field_type" => "3", "user_id" => "1", "options" => "5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39", "created_at" => $now, "updated_at" => $now
-            ),
-            // Lab settings fields
-            array(
-                "field_name" => "Laboratory Logo", "field_type" => "1", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "Laboratory Name", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "Telephone", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "Address", "field_type" => "5", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "Email", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "Website", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "Director", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "Manager", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "Quality Manager", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            )
-            // interfaced equipment
-            ,
-            array(
-                "field_name" => "PORT", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "MODE", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "CLIENT_RECONNECT", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "EQUIPMENT_IP", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "COMPORT", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "BAUD_RATE", "field_type" => "3", "user_id" => "1", "options" => "300,1200,2400,4800,9600,14400,19200,28800,38400,57600,115200,230400", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "PARITY", "field_type" => "3", "user_id" => "1", "options" => "None,Odd,Even", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "STOP_BITS", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "APPEND_NEWLINE", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "DATA_BITS", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "APPEND_CARRIAGE_RETURN", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "DATASOURCE", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "DAYS", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "BASE_DIRECTORY", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "USE_SUB_DIRECTORIES", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "SUB_DIRECTORY_FORMAT", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "FILE_NAME_FORMAT", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "FILE_EXTENSION", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "field_name" => "FILE_SEPERATOR", "field_type" => "4", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            )
-        );
-		/* configurable-fields table */
-		$confields = array(
-			array(
-				"configurable_id" => 1, "field_id" => 1, "user_id" => "1", "created_at" => $now, "updated_at" => $now
-			),
-			array(
-				"configurable_id" => 1, "field_id" => 2, "user_id" => "1", "created_at" => $now, "updated_at" => $now
-			),
-			array(
-				"configurable_id" => 1, "field_id" => 3, "user_id" => "1", "created_at" => $now, "updated_at" => $now
-			),
-			array(
-				"configurable_id" => 1, "field_id" => 4, "user_id" => "1", "created_at" => $now, "updated_at" => $now
-			),
-			array(
-				"configurable_id" => 2, "field_id" => 5, "user_id" => "1", "created_at" => $now, "updated_at" => $now
-			),
-			array(
-				"configurable_id" => 2, "field_id" => 6, "user_id" => "1", "created_at" => $now, "updated_at" => $now
-			),
-			array(
-				"configurable_id" => 2, "field_id" => 7, "user_id" => "1", "created_at" => $now, "updated_at" => $now
-			),
-			array(
-				"configurable_id" => 2, "field_id" => 8, "user_id" => "1", "created_at" => $now, "updated_at" => $now
-			),
-			array(
-				"configurable_id" => 2, "field_id" => 9, "user_id" => "1", "created_at" => $now, "updated_at" => $now
-			),
-			array(
-				"configurable_id" => 2, "field_id" => 10, "user_id" => "1", "created_at" => $now, "updated_at" => $now
-			),
-			array(
-				"configurable_id" => 2, "field_id" => 11, "user_id" => "1", "created_at" => $now, "updated_at" => $now
-			),
-			array(
-				"configurable_id" => 2, "field_id" => 12, "user_id" => "1", "created_at" => $now, "updated_at" => $now
-			),
-			array(
-				"configurable_id" => 2, "field_id" => 13, "user_id" => "1", "created_at" => $now, "updated_at" => $now
-			)
-		);
-        /* lab-config-settings table */
-        $settings = array(
-            array(
-                "key" => "1", "value" => "code39", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "key" => "2", "value" => "2", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "key" => "3", "value" => "30", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "key" => "4", "value" => "11", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            )
-        );
-        /* lnterfaced-equipment table */
-        $analysers = array(
-            array(
-                "name" => "Mindray BS-200E", "version" => "01.00.07", "comm_type" => "1", "feed_source" => "2", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "name" => "ABX Pentra 60 C+", "version" => "", "comm_type" => "1", "feed_source" => "3", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "name" => "ABX MACROS 60", "version" => "", "comm_type" => "0", "feed_source" => "1", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "name" => "BT 3000 Plus", "version" => "", "comm_type" => "0", "feed_source" => "1", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "name" => "Sysmex SX 500i", "version" => "", "comm_type" => "0", "feed_source" => "2", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "name" => "BD FACSCalibur", "version" => "", "comm_type" => "1", "feed_source" => "5", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "name" => "Mindray BC 3600", "version" => "", "comm_type" => "0", "feed_source" => "1", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "name" => "Selectra Junior", "version" => "", "comm_type" => "0", "feed_source" => "1", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "name" => "GeneXpert", "version" => "", "comm_type" => "1", "feed_source" => "2", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "name" => "ABX Pentra 80", "version" => "", "comm_type" => "1", "feed_source" => "1", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "name" => "Sysmex XT 2000i", "version" => "", "comm_type" => "0", "feed_source" => "2", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            ),
-            array(
-                "name" => "Vitalex Flexor", "version" => "", "comm_type" => "0", "feed_source" => "2", "test_category_id" => "1", "config_file" => "", "user_id" => "1", "created_at" => $now, "updated_at" => $now
-            )
-        );
-
-        $this->command->info('Users table seeded');
-        foreach ($configurables as $configurable)
-        {
-            $data[] = Configurable::create($configurable);
-        }
-        $this->command->info('Configurables table seeded');
-        foreach ($fields as $field)
-        {
-            $configs[] = Field::create($field);
-        }
-        $this->command->info('Fields table seeded');
-        foreach ($confields as $confield)
-        {
-            $conf[] = ConField::create($confield);
-        }
-        $this->command->info('Fields table seeded');
-        foreach ($settings as $setting)
-        {
-            $array[] = LabConfig::create($setting);
-        }
-        $this->command->info('Settings table seeded');
-
-        foreach ($analysers as $analyser)
-        {
-            $lyser[] = Analyser::create($analyser);
-        }
-        $this->command->info('Analysers table seeded');
-
-        //Seed for charges
-        $charge = Charge::create(["test_id" => "1", "current_amount" => '3000',]);
-        $this->command->info('Charges table seeded');
-
-        //Seed for charges
-        $payment = Payment::create([
-            "patient_id" => "1",
-            "charge_id" => $charge->id,
-            "full_amount" => "3000",
-            "amount_paid" => "2500",
-        ]);
-        $this->command->info('Payments table seeded');
 
     }
 
