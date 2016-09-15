@@ -1,8 +1,13 @@
 <?php namespace App\Http\Controllers;
+use App\Http\Requests;
+use App\Http\Requests\BlisClientRequest;
 use App\Models\BlisClient;
-use Input;
+use Response;
+use Auth;
+use Session;
+use Lang;
 
-// todo: create tests for this class
+
 class BlisClientController extends Controller {
 
 	/**
@@ -14,7 +19,7 @@ class BlisClientController extends Controller {
 	{
 		//	Get available equipment
 		$client = BlisClient::lists('equipment_name', 'id');
-		return view('instrument.blisClient')->with('client', $client);
+		return View::make('instrument.blisClient')->with('client', $client);
 	}
 
 	/**
@@ -22,9 +27,9 @@ class BlisClientController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function details()
+	public function details(BlisClient $request)
 	{
-		$id = Input::get('equip');
+		$id = $request->equip;
 		$client = BlisClient::find($id);
 		$client->feed = $client->feed($client->feed_source);
 		$client->comm = $client->comm($client->comm_type);
@@ -37,9 +42,9 @@ class BlisClientController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function properties()
+	public function properties(BlisClient $request)
 	{
-		$id = Input::get('client');
+		$id = $request->client;
 		$client = BlisClient::find($id);
 		$properties = DB::table('equip_config')->where('equip_id', $client->id)->get();
 		foreach ($properties as $property)

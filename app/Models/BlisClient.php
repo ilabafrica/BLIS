@@ -1,10 +1,9 @@
 <?php namespace App\Models;
-// todo: create tests for this class
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
-class BlisClient extends Eloquent
+class BlisClient extends Model
 {
 	/**
 	 * Enabling soft deletes for interfaced equipment.
