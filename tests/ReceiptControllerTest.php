@@ -1,0 +1,138 @@
+<?php
+/**
+ * Tests the SupplierController functions that store, edit and delete receipt infomation 
+ * @author
+ */
+use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\SupplierController;
+use App\Models\Commodity;
+use App\Models\Supplier;
+use App\Models\Receipt;
+use App\Models\User;
+
+class ReceiptControllerTest extends TestCase 
+{
+	
+	
+	public function setUp()
+	{
+		parent::setUp();
+		Artisan::call('migrate');
+		Artisan::call('db:seed');
+		$this->setVariables();
+	}
+	
+	/**
+	 * Contains the testing sample data for the ReceiptController.
+	 *
+	 * @return void
+	 */
+
+	public function setVariables(){
+		// Initial sample storage data
+		$this->input = array(
+						
+			'commodity' => Commodity::find(1)->id,
+			'supplier' => Supplier::find(1)->id,
+			'quantity' => '200',
+			'batch_no' => '4535',
+			'expiry_date' => '2015-07-17',
+			
+
+			
+		);
+
+		// Edition sample data
+		$this->inputUpdate = array(
+			
+			'commodity' => Commodity::find(1)->id,
+			'supplier' => Supplier::find(1)->id,
+			'quantity' => '200',
+			'batch_no' => '4535',
+			'expiry_date' => '2015-07-17',
+						
+		);
+	}
+	/**
+	 * Tests the store function in the ReceiptController
+	 * @param  void
+	 * @return int $testReceiptId ID of receipt stored; used in testUpdate() to identify test for update
+	 */  
+	public function testStore() 
+  	{
+		echo "\n\nRECEIPT CONTROLLER TEST\n\n";
+
+		$this->be(User::first());
+
+  		 // Store the receipt
+		$this->runStore($this->input);
+
+		$receiptSaved = receipt::orderBy('id','desc')->first();
+				
+		$this->assertEquals($receiptSaved->commodity_id, $this->input['commodity']);
+		$this->assertEquals($receiptSaved->supplier_id, $this->input['supplier']);
+		$this->assertEquals($receiptSaved->quantity, $this->input['quantity']);
+		$this->assertEquals($receiptSaved->batch_no, $this->input['batch_no']);
+		$this->assertEquals($receiptSaved->expiry_date, $this->input['expiry_date']);
+		
+  	}
+  	/**
+  	 * Tests the update function in the ReceiptController
+     * @depends testStore
+	 * @param void
+	 * @return void
+     */
+  	public function testUpdate()
+	{
+		$this->be(User::first());
+		$this->runStore($this->input);
+		$receiptSaved = receipt::orderBy('id','desc')->first();
+		// Update the receipt
+		$this->runUpdate($this->inputUpdate, $receiptSaved->id);
+
+		$receiptUpdated = receipt::orderBy('id','desc')->first();
+
+
+		$this->assertEquals($receiptUpdated->commodity_id, $this->inputUpdate['commodity']);
+		$this->assertEquals($receiptUpdated->supplier_id, $this->inputUpdate['supplier']);
+		$this->assertEquals($receiptUpdated->quantity, $this->inputUpdate['quantity']);
+		$this->assertEquals($receiptUpdated->batch_no, $this->inputUpdate['batch_no']);
+		$this->assertEquals($receiptUpdated->expiry_date, $this->inputUpdate['expiry_date']);
+		
+	}
+	/**
+  	 * Tests the update function in the ReceiptController
+     * @depends testStore
+	 * @param void
+	 * @return void
+     */
+   public function testDelete()
+	{
+		$this->be(User::first());
+		$this->runStore($this->input);
+		$receipt = new ReceiptController;
+    	$receipt->delete(1);
+		$receiptDeleted = Receipt::withTrashed()->find(1);
+		$this->assertNotNull($receiptDeleted->deleted_at);
+	}
+ 	/**
+  	 *Executes the store function in the ReceiptController
+  	 * @param  array $input receipt details
+	 * @return void
+  	 */
+	public function runStore($input)
+	{
+		$this->withoutMiddleware();
+		$this->call('POST', '/receipt', $input);
+	}
+    /**
+  	 * Executes the update function in the ReceiptController
+  	 * @param  array $input receipt details, int $id ID of the receipt stored
+	 * @return void
+  	 */
+	public function runUpdate($input, $id)
+	{
+		$this->withoutMiddleware();
+		$this->call('PUT', '/supplier/'.$id, $input);
+	}
+}
