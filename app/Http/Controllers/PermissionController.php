@@ -44,7 +44,6 @@ class PermissionController extends Controller {
 	public function store(PermissionRequest $request)
 	{
 
-dd($request->all());
 		$arrayPermissionRoleMapping = $request->permissionRoles;
 		$permissions = Permission::all();
 		$roles = Role::all();
