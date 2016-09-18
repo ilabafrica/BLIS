@@ -30,7 +30,7 @@ class SupplierControllerTest extends TestCase
 		$this->input = array(
 			
 			'name' => 'Bob Tzhebuilder',
-			'phone_no' => '0728765432',
+			'phone' => '0728765432',
 			'email' => 'builderone@concretejungle.com',
 			'address' => '788347 W3-x2 Down.croncrete',
 			
@@ -40,7 +40,7 @@ class SupplierControllerTest extends TestCase
 		$this->inputUpdate = array(
 			
 			'name' => 'Bob Thebuilder',
-			'phone_no' => '0728765432',
+			'phone' => '0728765432',
 			'email' => 'buildandt@concretejungle.com',
 			'address' => '788347 W3-x2 Down.croncrete',
 						
@@ -63,7 +63,7 @@ class SupplierControllerTest extends TestCase
 		$supplierSaved = Supplier::orderBy('id','desc')->first();
 				
 		$this->assertEquals($this->input['name'], $supplierSaved->name);
-		$this->assertEquals($this->input['phone_no'], $supplierSaved->phone_no);
+		$this->assertEquals($this->input['phone'], $supplierSaved->phone);
 		$this->assertEquals($this->input['email'], $supplierSaved->email);
 		$this->assertEquals($this->input['address'], $supplierSaved->address);
 		
@@ -86,7 +86,7 @@ class SupplierControllerTest extends TestCase
 
 
 		$this->assertEquals($this->inputUpdate['name'], $supplierUpdated->name);
-		$this->assertEquals($this->inputUpdate['phone_no'], $supplierUpdated->phone_no);
+		$this->assertEquals($this->inputUpdate['phone'], $supplierUpdated->phone);
 		$this->assertEquals($this->inputUpdate['email'], $supplierUpdated->email);
 		$this->assertEquals($this->inputUpdate['address'], $supplierUpdated->address);
 		

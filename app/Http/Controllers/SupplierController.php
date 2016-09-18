@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Requests\SupplierRequest;
 use App\Models\Supplier;
 use Response;
+use Redirect;
 use Auth;
 use Session;
 use Lang;
@@ -19,7 +20,7 @@ class SupplierController extends Controller {
 	{
 		//
 		$suppliers = Supplier::orderBy('name', 'ASC')->get();
-		return view('supplier.index', compact('suppliers'));
+		return view('supplier.index', compact('suppliers'))->with('suppliers', $suppliers);
 	}
 
 	/**
@@ -29,7 +30,7 @@ class SupplierController extends Controller {
 	 */
 	public function create()
 	{
-		return view('supplier.create');
+		return view('inventory.supplier.create');
 	}
 
 	/**
@@ -41,14 +42,19 @@ class SupplierController extends Controller {
 	{
 		$supplier = new Supplier;
 		$supplier->name = $request->name;
-		$supplier->phone_no = $request->phone_no;
+		$supplier->phone = $request->phone;
 		$supplier->email = $request->email;
 		$supplier->address = $request->address;
-		$supplier->user_id = 1;
-		$supplier->save();
-		$url = session('SOURCE_URL');
+		$supplier->user_id = Auth::user()->id;
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_supplier', $supplier ->id);
+		try{
+			$supplier->save();
+			$url = session('SOURCE_URL');
+
+	        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'));
+		}catch(QueryException $e){
+			Log::error($e);
+		}
 	}
 
 
@@ -60,10 +66,10 @@ class SupplierController extends Controller {
 	 */
 	public function show($id)
 	{
-		$supplier = Supplier::find($id);
-
-		//Open the Edit View and pass to it the $patient
-		return view('supplier.show', compact('supplier'));
+		//show a supplier
+		$supplier =Supplier::find($id);
+		//show the view and pass the $supplier to it
+		return view('inventory.supplier.show')->with('supplier', $supplier);
 	}
 
 
@@ -75,10 +81,10 @@ class SupplierController extends Controller {
 	 */
 	public function edit($id)
 	{
-		$supplier = Supplier::find($id);
+		$suppliers = Supplier::find($id);
 
 		//Open the Edit View and pass to it the $patient
-		return view('supplier.edit', compact('supplier'));
+		return view('inventory.supplier.edit')->with('suppliers', $suppliers);
 	}
 
 
@@ -92,14 +98,20 @@ class SupplierController extends Controller {
 	{
 		$supplier = Supplier::find($id);
 		$supplier->name = $request->name;
-		$supplier->phone_no = $request->phone_no;
+		$supplier->phone = $request->phone;
 		$supplier->email = $request->email;
 		$supplier->address = $request->address;
-		$supplier->user_id = 1;
-		$supplier->save();
-		$url = session('SOURCE_URL');
+		$supplier->user_id = Auth::user()->id;
+		try{
+			$supplier->save();
+			$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-updated'))->with('active_supplier', $supplier ->id);		
+			return redirect()->to($url)
+				->with('message', trans('terms.record-successfully-updated'))
+				->with('activesupplier', $supplier->id);
+		}catch(QueryException $e){
+			Log::error($e);
+		}
 	}	
 	/**
 	 * Remove the specified resource from storage.
@@ -111,11 +123,15 @@ class SupplierController extends Controller {
 	{
 		//Soft delete the item
 		$supplier = Supplier::find($id);
-		$supplier->delete();
-
-		// redirect
-		$url = session('SOURCE_URL');
-
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-deleted'));
+		if(count($supplier->stocks)>0)
+		{
+			return Redirect::route('supplier.index')->with('message', trans('messages.failure-delete-record'));
+		}
+		else
+		{
+			$supplier->delete();
+			// redirect
+			return Redirect::route('supplier.index')->with('message', trans('messages.record-successfully-deleted'));
+		}
 	}
 }

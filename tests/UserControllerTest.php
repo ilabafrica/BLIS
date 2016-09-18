@@ -98,7 +98,7 @@ class UserControllerTest extends TestCase
     {
         // Update the User Types
         $this->call('POST', '/user/register', $this->userData);
-        $this->call('PUT', '/user/1/update', $this->userDataUpdate);
+        $this->call('PUT', '/user/1', $this->userDataUpdate);
         $userUpdated = User::find(1);
 
         $this->assertEquals($this->userDataUpdate['email'], $userUpdated->email);

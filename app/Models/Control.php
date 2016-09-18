@@ -33,10 +33,10 @@ class Control extends Model {
 	}
 
 	/**
-	* Relationship between control and lots
+	* Relationship between lot and instrument
 	*/
-	public function lot()
+	public function instrument()
 	{
-		return $this->belongsTo('App\Models\Lot');
+		return $this->belongsTo('App\Models\Instrument');
 	}
 }

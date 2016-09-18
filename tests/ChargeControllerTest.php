@@ -76,9 +76,9 @@ class ChargeControllerTest extends TestCase
 		$chargeStored = Charge::orderBy('id','desc')->first();
 
 		$this->withoutMiddleware();
-		$this->call('PUT', '/charge/2', $this->chargeUpdate);
+		$this->call('PUT', '/charge/1', $this->chargeUpdate);
 
-		$chargeUpdated = Charge::find('2');
+		$chargeUpdated = Charge::find('1');
 		$this->assertEquals($chargeUpdated->test_id , $this->chargeUpdate['test_id']);
 		$this->assertEquals($chargeUpdated->current_amount ,$this->chargeUpdate['current_amount']);
 	}
@@ -91,6 +91,7 @@ class ChargeControllerTest extends TestCase
 	public function testDestroy()
 	{
 		$this->withoutMiddleware();
+		$this->call('POST', '/charge', $this->chargeData);
 		$chargeStored = Charge::orderBy('id','desc')->first();
         $chargeStored->delete($chargeStored->id);
 		$this->assertEquals(Charge::all()->count() ,0);

@@ -44,12 +44,14 @@ class Field extends Model
 	/*
 	*	Constants for fields given the feed source
 	*/
+	// todo: PHP Fatal error:  Arrays are not allowed in class constants in /home/travis/build/ilabafrica/iBLIS/app/Models/Field.php on line 47
+/*
 	const RS232 = ['COMPORT', 'BAUD_RATE', 'PARITY', 'STOP_BITS', 'APPEND_NEWLINE', 'DATA_BITS', 'APPEND_CARRIAGE_RETURN'];
 	const TCPIP = ['PORT', 'MODE', 'CLIENT_RECONNECT', 'EQUIPMENT_IP'];
 	const MSACCESS = ['DATASOURCE', 'DAYS'];
 	const HTTP = [];
 	const TEXT = ['BASE_DIRECTORY', 'USE_SUB_DIRECTORIES', 'SUB_DIRECTORY_FORMAT', 'FILE_NAME_FORMAT', 'FILE_EXTENSION', 'FILE_SEPERATOR'];
-
+*/
 	/**
 	* Return field ID given the name
 	* @param $name the name of the field

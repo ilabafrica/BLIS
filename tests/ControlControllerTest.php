@@ -35,7 +35,7 @@ class ControlControllerTest extends TestCase {
 	{
 		$this->call('GET', '/control/create');
 		$this->assertViewHas('measureTypes');
-		$this->assertViewHas('lots');
+		$this->assertViewHas('instruments');
 	}
 
 	/**
@@ -52,7 +52,7 @@ class ControlControllerTest extends TestCase {
 		$testControl = Control::orderBy('id', 'desc')->first();
 		$this->assertEquals($testControl->name, $this->inputStoreControls['name']);
 		$this->assertEquals($testControl->description, $this->inputStoreControls['description']);
-		$this->assertEquals($testControl->lot_id, $this->inputStoreControls['lot']);
+		$this->assertEquals($testControl->instrument_id, $this->inputStoreControls['instrument_id']);
 
 		$testControlMeasures = $testControl->controlMeasures;
 
@@ -77,7 +77,7 @@ class ControlControllerTest extends TestCase {
 		$testControl = Control::orderBy('id', 'desc')->first();
 		$this->assertEquals($testControl->name, $this->inputUpdateControls['name']);
 		$this->assertEquals($testControl->description, $this->inputUpdateControls['description']);
-		$this->assertEquals($testControl->lot_id, $this->inputUpdateControls['lot']);
+		$this->assertEquals($testControl->instrument_id, $this->inputUpdateControls['instrument_id']);
 
 		$testControlMeasures = $testControl->controlMeasures;
 
@@ -107,7 +107,6 @@ class ControlControllerTest extends TestCase {
 		$this->call('POST', 'control/1/saveResults', $this->inputSaveResults);
 
 		$results = ControlTest::orderBy('id', 'desc')->first()->controlResults;
-
 		foreach ($results as $result) {
 			$key = 'm_'.$result->control_measure_id;
 			$this->assertEquals($this->inputSaveResults[$key], $result->results);
@@ -122,7 +121,7 @@ class ControlControllerTest extends TestCase {
 		$this->inputStoreControls = array(
 			'name'=>'Lava hound',
 			'description' => 'Terrible creature',
-			'lot' => 1,
+			'instrument_id' => 1,
 			'new_measures' => array(
 				array('name' => 'xx', 'unit' => 'mmol', 'measure_type_id' => 1, 'rangemin' => '2.63', 'rangemax' => '7.19'),
 				array('name' => 'zz', 'unit' => 'mol', 'measure_type_id' => 1, 'rangemin' => '11.65', 'rangemax' => '15.43'),
@@ -132,7 +131,7 @@ class ControlControllerTest extends TestCase {
 		$this->inputUpdateControls = array(
 			'name'=>'Minion',
 			'description' => 'Spits black fire',
-			'lot' => 1,
+			'instrument_id' => 1,
 			'new_measures' => array(
 				array('name' => 'DD', 'unit' => 'mmol', 'measure_type_id' => 1, 'rangemin' => '2.63', 'rangemax' => '7.19'),
 				array('name' => 'LYTHIUM', 'unit' => 'dol', 'measure_type_id' => 1, 'rangemin' => '15.73', 'rangemax' => '25.01'),
@@ -141,6 +140,8 @@ class ControlControllerTest extends TestCase {
 			);
 
 		$this->inputSaveResults = array(
+			'lot_id'=>1,
+			'performed_by'=>'Jon Snow',
 			'm_1' => '2.78',
 			'm_2' => '13.56',
 			'm_3' => '14.77',

@@ -80,8 +80,7 @@ class FacilityControllerTest extends TestCase
 		$facilityName = "";
 		$idToUpdate = 1;
 		$this->withoutMiddleware();
-		$r = $this->call('PUT', '/facility/'.$idToUpdate, ['id' => $idToUpdate, 'name' => $facilityName]);
-		// dd($r);
+		$this->call('PUT', '/facility/'.$idToUpdate, ['id' => $idToUpdate, 'name' => $facilityName]);
 		$this->assertRedirectedToRoute('facility.index');
 		// $this->assertSessionHasErrors('name');
 		// todo: the above just won't do, below is the best I can do for now

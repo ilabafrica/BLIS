@@ -204,13 +204,80 @@ Route::get("/role/{id}/delete", array(
     ]);
 */
 
-    Route::resource('commodity', 'CommodityController');
 
-    Route::get('/commodity/{id}/delete', [
-        'as' => 'commodity.delete',
-        'before' => 'checkPerms:manage_inventory',
-        'uses' => 'CommodityController@delete'
-    ]);
+    //Commodities
+    Route::resource('commodity', 'CommodityController');
+    Route::get("/commodity/{id}/delete", array(
+        "as"   => "commodity.delete",
+        "uses" => "CommodityController@delete"
+    ));
+    //issues
+    Route::resource('issue', 'IssueController');
+    Route::get("/issue/{id}/delete", array(
+        "as"   => "issue.delete",
+        "uses" => "IssueController@delete"
+    ));
+    Route::get("/issue/{id}/dispatch", array(
+        "as"   => "issue.dispatch",
+        "uses" => "IssueController@dispatch"
+    ));
+    //Suppliers
+    Route::resource('supplier', 'SupplierController');
+
+    Route::get("/supplier/{id}/delete", array(
+        "as"   => "supplier.delete",
+        "uses" => "SupplierController@delete"
+    ));
+    /*
+    *   Routes for items
+    */
+    Route::resource('item', 'ItemController');
+    Route::get("/item/{id}/delete", array(
+        "as"   => "item.delete",
+        "uses" => "ItemController@delete"
+    ));
+    /*
+    *   Routes for stocks
+    */
+    Route::resource('stock', 'StockController');
+    Route::any("stock/{id}/log", array(
+        "as"   => "stocks.log",
+        "uses" => "StockController@index"
+    ));
+    Route::any("stock/{id}/create", array(
+        "as"   => "stocks.create",
+        "uses" => "StockController@create"
+    ));
+    Route::any("stock/{id}/usage/{req?}", array(
+        "as"   => "stocks.usage",
+        "uses" => "StockController@usage"
+    ));
+    Route::post("stock/saveusage", array(
+        "as"   => "stock.saveUsage",
+        "uses" => "StockController@stockUsage"
+    ));
+    Route::any("stock/{id}/show", array(
+        "as"   => "stocks.show",
+        "uses" => "StockController@show"
+    ));
+    Route::any("stock/{id}/lot", array(
+        "as"   => "stocks.lot",
+        "uses" => "StockController@lot"
+    ));
+    Route::any("lt/usage", array(
+        "as"   => "lt.update",
+        "uses" => "StockController@lotUsage"
+    ));
+    /*
+    *   Routes for requests
+    */
+    Route::resource('request', 'TopupController');
+    Route::get("/request/{id}/delete", array(
+        "as"   => "request.delete",
+        "uses" => "TopupController@delete"
+    ));
+
+
 
     Route::resource('control', 'ControlController');
 
@@ -388,14 +455,6 @@ Route::get("/role/{id}/delete", array(
         'uses' => 'PatientController@search'
     ]);
 
-    Route::resource('permission', 'PermissionController');
-
-/*    Route::any('/rejection/{id}/delete', [
-        'as' => 'rejection.delete',
-        'uses' => 'ReasonController@delete'
-    ]);
-*/
-/*<<<<<<< HEAD*/
     Route::resource('receipt', 'ReceiptController');
 
     Route::get('/receipt/{id}/delete', [

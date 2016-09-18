@@ -30,17 +30,15 @@ class LotControllerTest extends TestCase
 		$this->be(User::find(4));
 
 		$this->input = array(
-			'number'=>'2015',
+			'lot_no'=>'2015',
 			'description' => 'kenya yao',
 			'expiry' => '12-12-2015',
-			'instrument_id' => 1,
 			);
 
 		$this->inputUpdate = array(
-			'number'=>'2015',
+			'lot_no'=>'2015',
 			'description' => 'Kenya yetu',
 			'expiry' => '12-05-2020',
-			'instrument_id' => 2,
 			);
 	}
 	/**
@@ -77,11 +75,9 @@ class LotControllerTest extends TestCase
 		$this->assertTrue($response->isRedirection());
 
 		$testLot = Lot::orderBy('id', 'desc')->first();
-		$this->assertEquals($testLot->number, $this->input['number']);
+		$this->assertEquals($testLot->lot_no, $this->input['lot_no']);
 		$this->assertEquals($testLot->description, $this->input['description']);
 		$this->assertEquals($testLot->expiry, $this->input['expiry']);
-		$this->assertEquals($testLot->instrument_id, $this->input['instrument_id']);
-		
 	}
 	/**
 	* Testing Lot Update function
@@ -93,11 +89,9 @@ class LotControllerTest extends TestCase
 		$this->assertTrue($response->isRedirection());
 
 		$testLot = Lot::orderBy('id', 'desc')->first();
-		$this->assertEquals($testLot->number, $this->inputUpdate['number']);
+		$this->assertEquals($testLot->lot_no, $this->inputUpdate['lot_no']);
 		$this->assertEquals($testLot->description, $this->inputUpdate['description']);
 		$this->assertEquals($testLot->expiry, $this->inputUpdate['expiry']);
-		$this->assertEquals($testLot->instrument_id, $this->inputUpdate['instrument_id']);
-		
 	}
 
 	/**

@@ -44,12 +44,9 @@ class PermissionController extends Controller {
 	public function store(PermissionRequest $request)
 	{
 
-dd($request->all());
 		$arrayPermissionRoleMapping = $request->permissionRoles;
 		$permissions = Permission::all();
 		$roles = Role::all();
-
-		$url = session('SOURCE_URL');
 
 		foreach ($permissions as $permissionkey => $permission) {
 			foreach ($roles as $roleKey => $role) {
@@ -68,7 +65,7 @@ dd($request->all());
 			}
 		}
 
-		return redirect()->to($url)->with('message', trans_choice('messages.record-successfully-saved', 1))->with('active_permission', $permission ->id);
+		return redirect()->to('permission.index')->with('message', trans_choice('messages.record-successfully-saved', 1))->with('active_permission', $permission ->id);
 	}
 
 
