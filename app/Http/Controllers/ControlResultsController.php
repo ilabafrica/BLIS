@@ -21,8 +21,10 @@ class ControlResultsController extends Controller {
 	{
 		$control = Control::find($controlTestId);
 		$controlTest = ControlTest::find($controlTestId);    
-		$controlTest->entered_by = Auth::user()->id;
 		$controlTest->control_id = $controlTest->control->id;
+		$controlTest->lot_id = Input::get('lot_id');
+		$controlTest->performed_by = Input::get('performed_by');    
+		$controlTest->user_id = Auth::user()->id;
 		$controlTest->save();
 
 		foreach ($controlTest->control->controlMeasures as $controlMeasure) {

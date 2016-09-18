@@ -6,8 +6,6 @@
 
 use App\Models\User;
 use App\Models\Instrument;
-// todo: remove this guy, use native crawler
-use Goutte\Client;
 class InstrumentControllerTest extends TestCase 
 {
 
@@ -43,7 +41,6 @@ class InstrumentControllerTest extends TestCase
 
         // Set the current user to admin
         $this->be(User::first());
-
         $this->visit($url)->see('name');
     }
 

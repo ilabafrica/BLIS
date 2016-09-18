@@ -32,7 +32,7 @@
 			</div>
 			<div class="form-group">
 				{{ Form::label('instruments', trans_choice('messages.instrument', 2)) }}
-				{{ Form::select('instrument_id', array('') + $instruments, Input::old('instrument'), 
+				{{ Form::select('instrument_id', $instruments, Input::old('instrument'), 
 					array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">

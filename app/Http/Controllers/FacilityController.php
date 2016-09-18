@@ -45,8 +45,6 @@ class FacilityController extends Controller {
 		$facility = new Facility;
 		$facility->name = $request->name;
 		$facility->save();
-		// $url = session('SOURCE_URL');
-		// dd($url);
         return redirect()->route('facility.index')->with('message', trans('terms.record-successfully-saved'))->with('active_facility', $facility->id);
 	}
 

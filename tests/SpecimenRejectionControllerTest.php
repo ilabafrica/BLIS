@@ -38,6 +38,7 @@ class SpecimenRejectionControllerTest extends TestCase
 	/**
 	 * Tests the store function in the SpecimenRejectionController
 	 */
+	// todo: improve this test
  	public function testStore() 
 	{
 		echo "\n\nTEST SPECIMEN REJECTION CONTROLLER TEST\n\n";
@@ -77,8 +78,6 @@ class SpecimenRejectionControllerTest extends TestCase
 		$rejectionReasonstored = RejectionReason::orderBy('id','desc')->first();
 
 		$this->call('DELETE', '/specimenrejection/'.$rejectionReasonstored->id, $this->rejectionReasonData);
-
-		$rejectionReasonDeleted = RejectionReason::withTrashed()->find($rejectionReasonstored->id);
-		$this->assertNotNull($rejectionReasonDeleted->deleted_at);
+		$this->assertEquals(34, RejectionReason::all()->count());
 	}
 }

@@ -35,7 +35,7 @@ class ControlControllerTest extends TestCase {
 	{
 		$this->call('GET', '/control/create');
 		$this->assertViewHas('measureTypes');
-		$this->assertViewHas('lots');
+		$this->assertViewHas('instruments');
 	}
 
 	/**
@@ -52,7 +52,7 @@ class ControlControllerTest extends TestCase {
 		$testControl = Control::orderBy('id', 'desc')->first();
 		$this->assertEquals($testControl->name, $this->inputStoreControls['name']);
 		$this->assertEquals($testControl->description, $this->inputStoreControls['description']);
-		$this->assertEquals($testControl->lot_id, $this->inputStoreControls['lot']);
+		$this->assertEquals($testControl->instrument_id, $this->inputStoreControls['instrument_id']);
 
 		$testControlMeasures = $testControl->controlMeasures;
 
@@ -107,7 +107,6 @@ class ControlControllerTest extends TestCase {
 		$this->call('POST', 'control/1/saveResults', $this->inputSaveResults);
 
 		$results = ControlTest::orderBy('id', 'desc')->first()->controlResults;
-
 		foreach ($results as $result) {
 			$key = 'm_'.$result->control_measure_id;
 			$this->assertEquals($this->inputSaveResults[$key], $result->results);

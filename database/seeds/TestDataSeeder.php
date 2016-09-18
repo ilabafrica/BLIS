@@ -14,6 +14,7 @@ use App\Models\ControlMeasureRange;
 use App\Models\ControlMeasureResult;
 use App\Models\ControlTest;
 use App\Models\Disease;
+use App\Models\ExternalDump;
 use App\Models\Facility;
 use App\Models\Instrument;
 use App\Models\Lot;
@@ -44,30 +45,48 @@ class TestDataSeeder  extends Seeder
     public function run()
     {
         /* Users table */
-        $usersData = array(
-            array(
-                "username" => "administrator", "password" => Hash::make("password"), "email" => "admin@kblis.org",
-                "name" => "kBLIS Administrator", "designation" => "Programmer"
-            ),
-            array(
-                "username" => "external", "password" => Hash::make("password"), "email" => "admin@kblis.org",
-                "name" => "External System User", "designation" => "Administrator", "image" => "/i/users/user-2.jpg"
-            ),
-            array(
-                "username" => "lmorena", "password" => Hash::make("password"), "email" => "lmorena@kblis.org",
-                "name" => "L. Morena", "designation" => "Lab Technologist", "image" => "/i/users/user-3.png"
-            ),
-            array(
-                "username" => "abumeyang", "password" => Hash::make("password"), "email" => "abumeyang@kblis.org",
-                "name" => "A. Abumeyang", "designation" => "Doctor"
-            ),
-        );
+        $userSuperAdmin = User::create([
+            "username" => "superadmin",
+            "password" => bcrypt("password"),
+            "email" => "admin@blis.org",
+            "name" => "BLIS Administrator",
+            "designation" => "Programmer",
+            "phone"=>"0722000000",
+            "address" => "P.O. Box 59857-00200, Nairobi",
+            "image" => "/i/users/user-2.jpg"
+        ]);
 
-        foreach ($usersData as $user)
-        {
-            $users[] = User::create($user);
-        }
-        $this->command->info('users seeded');
+        $userExternal = User::create([
+            "username" => "external",
+            "password" => bcrypt("password"),
+            "email" => "external@blis.org",
+            "name" => "External System User",
+            "designation" => "Administrator",
+        ]);
+
+        $userTechnologist = User::create([
+            "username" => "lmorena",
+            "password" => bcrypt("password"),
+            "email" => "lmorena@blis.org",
+            "name" => "L. Morena",
+            "designation" => "Lab Technologist",
+        ]);
+
+        $userReceptionist = User::create([
+            "username" => "radhiambo",
+            "password" => bcrypt("password"),
+            "email" => "radhiambo@blis.org",
+            "name" => "R. Adhiambo",
+            "designation" => "Receptionist",
+        ]);
+
+        $userAdministrator = User::create([
+            "username" => "abumeyang",
+            "password" => bcrypt("password"),
+            "email" => "abumeyang@blis.org",
+            "name" => "A. Abumeyang",
+            "designation" => "Lab Administrator",
+        ]);
         
 
         /* Specimen Types table */
@@ -426,10 +445,10 @@ class TestDataSeeder  extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::NOT_RECEIVED, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "test_status_id" => Test::NOT_RECEIVED,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
             )
         );        
         
@@ -440,10 +459,10 @@ class TestDataSeeder  extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
             )
         );        
         
@@ -454,10 +473,10 @@ class TestDataSeeder  extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
             )
         );        
         
@@ -468,9 +487,9 @@ class TestDataSeeder  extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::ACCEPTED,
                         SpecimenType::all()->last()->id,
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "test_status_id" => Test::PENDING,
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
                 "requested_by" => "Dr. Abou Meyang",
             )
         );        
@@ -482,11 +501,11 @@ class TestDataSeeder  extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "interpretation" => "Perfect match.",
                 "test_status_id" => Test::COMPLETED,
-                "created_by" => $users[rand(0, count($users)-1)]->id,
-                "tested_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
+                "tested_by" => $userTechnologist->id,
                 "requested_by" => "Dr. Abou Meyang",
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT12M8S'))->format('Y-m-d H:i:s'),
@@ -500,11 +519,11 @@ class TestDataSeeder  extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "interpretation" => "Do nothing!",
                 "test_status_id" => Test::COMPLETED,
-                "created_by" => $users[rand(0, count($users)-1)]->id,
-                "tested_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
+                "tested_by" => $userTechnologist->id,
                 "requested_by" => "Genghiz Khan",
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT5M23S'))->format('Y-m-d H:i:s'),
@@ -517,10 +536,10 @@ class TestDataSeeder  extends Seeder
                 "test_type_id" => $testTypeGXM->id,
                 "specimen_id" => $this->createSpecimen(
                     Test::STARTED, Specimen::ACCEPTED, SpecimenType::all()->last()->id, 
-                    $users[rand(0, count($users)-1)]->id),
+                    $userTechnologist->id),
                 "test_status_id" => Test::STARTED,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
                 "time_started" => $now->format('Y-m-d H:i:s'),
             )
         );
@@ -532,11 +551,11 @@ class TestDataSeeder  extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "interpretation" => "Positive",
                 "test_status_id" => Test::COMPLETED,
-                "created_by" => $users[rand(0, count($users)-1)]->id,
-                "tested_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
+                "tested_by" => $userTechnologist->id,
                 "requested_by" => "Ariel Smith",
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT7M34S'))->format('Y-m-d H:i:s'),
@@ -550,12 +569,12 @@ class TestDataSeeder  extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::VERIFIED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "interpretation" => "Very high concentration of parasites.",
                 "test_status_id" => Test::VERIFIED,
-                "created_by" => $users[rand(0, count($users)-1)]->id,
-                "tested_by" => $users[rand(0, count($users)-1)]->id,
-                "verified_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
+                "tested_by" => $userTechnologist->id,
+                "verified_by" => $userTechnologist->id,
                 "requested_by" => "Genghiz Khan",
                 "time_started" => $now,
                 "time_completed" => $now->add(new DateInterval('PT5M17S'))->format('Y-m-d H:i:s'),
@@ -570,12 +589,12 @@ class TestDataSeeder  extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::REJECTED, 
                         SpecimenType::all()->last()->id, 
-                        $users[rand(0, count($users)-1)]->id,
-                        $users[rand(0, count($users)-1)]->id,
+                        $userTechnologist->id,
+                        $userTechnologist->id,
                         $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
                 "time_started" => $now->format('Y-m-d H:i:s'),
             )
         );        
@@ -588,10 +607,10 @@ class TestDataSeeder  extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::STARTED, Specimen::ACCEPTED,
                         SpecimenType::all()->last()->id,
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Fred Astaire",
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
             )
         );        
         
@@ -602,11 +621,11 @@ class TestDataSeeder  extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::STARTED, Specimen::REJECTED, 
                         SpecimenType::all()->last()->id, 
-                        $users[rand(0, count($users)-1)]->id,
-                        $users[rand(0, count($users)-1)]->id,
+                        $userTechnologist->id,
+                        $userTechnologist->id,
                         $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id),
                 "test_status_id" => Test::STARTED,
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
                 "requested_by" => "Bony Em",
                 "time_started" => $now->format('Y-m-d H:i:s'),
             )
@@ -619,13 +638,13 @@ class TestDataSeeder  extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::REJECTED, 
                         SpecimenType::all()->last()->id, 
-                        $users[rand(0, count($users)-1)]->id,
-                        $users[rand(0, count($users)-1)]->id,
+                        $userTechnologist->id,
+                        $userTechnologist->id,
                         $rejection_reasons[rand(0,count($rejection_reasons)-1)]->id),
                 "interpretation" => "Budda Boss",
                 "test_status_id" => Test::COMPLETED,
-                "created_by" => $users[rand(0, count($users)-1)]->id,
-                "tested_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
+                "tested_by" => $userTechnologist->id,
                 "requested_by" => "Ed Buttler",
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT30M4S'))->format('Y-m-d H:i:s'),
@@ -639,10 +658,10 @@ class TestDataSeeder  extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
             )
         );        
         
@@ -653,10 +672,10 @@ class TestDataSeeder  extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::PENDING, Specimen::NOT_COLLECTED,
                         SpecimenType::all()->last()->id,
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "test_status_id" => Test::PENDING,
                 "requested_by" => "Dr. Abou Meyang",
-                "created_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
             )
         );        
         
@@ -667,11 +686,11 @@ class TestDataSeeder  extends Seeder
                 "specimen_id" => $this->createSpecimen(
                         Test::COMPLETED, Specimen::ACCEPTED, 
                         SpecimenType::all()->last()->id, 
-                        $users[rand(0, count($users)-1)]->id),
+                        $userTechnologist->id),
                 "interpretation" => "Whats this !!!! ###%%% ^ *() /",
                 "test_status_id" => Test::COMPLETED,
-                "created_by" => $users[rand(0, count($users)-1)]->id,
-                "tested_by" => $users[rand(0, count($users)-1)]->id,
+                "created_by" => $userTechnologist->id,
+                "tested_by" => $userTechnologist->id,
                 "requested_by" => "Dr. Abou Meyang",
                 "time_started" => $now->format('Y-m-d H:i:s'),
                 "time_completed" => $now->add(new DateInterval('PT12M8S'))->format('Y-m-d H:i:s'),

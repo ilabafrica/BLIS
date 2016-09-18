@@ -46,6 +46,8 @@ class ControlResultsControllerTest extends TestCase
 		$this->be(User::find(4));
 
 		$this->inputUpdateResults = array(
+			'lot_id'=>1,
+			'performed_by'=>'Jon Snow',
 			'm_1' => '3.70',
 			'm_2' => '15.50',
 			'm_3' => '19.70',

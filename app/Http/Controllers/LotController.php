@@ -25,12 +25,9 @@ class LotController extends Controller {
 	 *
 	 * @return Response
 	 */
-	// todo: sort out, Failed asserting that an array has the key 'instruments'.
 	public function create()
 	{
-		$instruments = Instrument::lists('name', 'id');
-		// dd($instruments);
-		return view('lot.create')->with('instruments', $instruments);
+		return view('lot.create');
 	}
 
 	/**
@@ -40,10 +37,8 @@ class LotController extends Controller {
 	 */
 	public function store()
 	{
-// dd(Input::all());
 		//Validation
-		$rules = array('number' => 'required|unique:lots,number',
-					'instrument_id' => 'required|non_zero_key');
+		$rules = array('lot_no' => 'required|unique:lots,lot_no');
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
@@ -51,10 +46,9 @@ class LotController extends Controller {
 		} else {
 			// Add
 			$lot = new Lot;
-			$lot->number = Input::get('number');
+			$lot->lot_no = Input::get('lot_no');
 			$lot->description = Input::get('description');
 			$lot->expiry = Input::get('expiry');
-			$lot->instrument_id = Input::get('instrument_id');
 
 			$lot->save();
 
@@ -87,8 +81,7 @@ class LotController extends Controller {
 	public function edit($id)
 	{
 		$lot = Lot::find($id);
-		$instruments = Instrument::lists('name', 'id');
-		return view('lot.edit')->with('lot', $lot)->with('instruments', $instruments);
+		return view('lot.edit')->with('lot', $lot);
 	}
 
 
@@ -101,19 +94,17 @@ class LotController extends Controller {
 	public function update($id)
 	{
 		//Validation
-		$rules = array('number' => 'required',
-					'instrument' => 'required|non_zero_key');
+		$rules = array('lot_no' => 'required');
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
 			return Redirect::to('lot/'.$id.'/edit')->withErrors($validator)->withInput();
 		} else {
 			// Add
-			$lot = Lot::find($id);
-			$lot->number = Input::get('number');
+			$lot = Lot::findOrFail($id);
+			$lot->lot_no = Input::get('lot_no');
 			$lot->description = Input::get('description');
 			$lot->expiry = Input::get('expiry');
-			$lot->instrument_id = Input::get('instrument');
 
 			$lot->save();
 

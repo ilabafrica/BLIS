@@ -82,9 +82,9 @@ class PaymentControllerTest extends TestCase
 		$paymentStored = Payment::orderBy('id','desc')->first();
 
 		$this->withoutMiddleware();
-		$this->call('PUT', '/payment/2', $this->paymentUpdate);
+		$this->call('PUT', '/payment/1', $this->paymentUpdate);
 
-		$paymentUpdated = Payment::find('2');
+		$paymentUpdated = Payment::find('1');
 		$this->assertEquals($paymentUpdated->patient_id , $this->paymentUpdate['patient_id']);
 		$this->assertEquals($paymentUpdated->charge_id , $this->paymentUpdate['charge_id']);
 		$this->assertEquals($paymentUpdated->full_amount , $this->paymentUpdate['full_amount']);
@@ -99,6 +99,7 @@ class PaymentControllerTest extends TestCase
 	public function testDestroy()
 	{
 		$this->withoutMiddleware();
+		$this->call('POST', '/payment', $this->paymentData);
 		$paymentStored = Payment::orderBy('id','desc')->first();
         $paymentStored->delete($paymentStored->id);
 		$this->assertEquals(Payment::all()->count() ,0);
