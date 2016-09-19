@@ -1,4 +1,25 @@
 <?php
+/*
+|--------------------------------------------------------------------------
+| Application Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register all of the routes for an application.
+| It's a breeze. Simply tell Laravel the URIs it should respond to
+| and give it the Closure to execute when that URI is requested.
+|
+*/
+/* Routes accessible before logging in */
+Route::group(array("before" => "guest"), function()
+{
+    /*
+    |-----------------------------------------
+    | API route
+    |-----------------------------------------
+    | Proposed route for the BLIS api, we will receive api calls 
+    | from other systems from this route.
+    */
+
     Route::get('/', [
         'as' => 'login',
         'uses' => 'Auth\AuthController@login'
@@ -34,900 +55,495 @@
         'uses' => 'UserController@store'
     ]);
 
-/*<<<<<<< HEAD*/
-    Route::delete('/user/{id}/delete', [
-        'as' => 'user.delete',
-        'uses' => 'UserController@delete'
-    ]);
-
     Route::post('/api/receiver', array(
-        'as' => 'api.receiver',
-        'uses' => 'InterfacerController@receiveLabRequest'
+        "as" => "api.receiver",
+        "uses" => "InterfacerController@receiveLabRequest"
     ));
+    
+});
 
+/* Routes accessible AFTER logging in */
+Route::group(array("before" => "auth"), function()
+{
+    Route::any('/home', array(
+        "as" => "user.home",
+        "uses" => "UserController@index"
+        ));
+    Route::group(array("before" => "checkPerms:manage_users"), function() {
+        Route::resource('user', 'UserController');
+        Route::delete("/user/{id}/delete", array(
+            "as"   => "user.delete",
+            "uses" => "UserController@delete"
+        ));
+    });
+    
+    Route::any('/user/{id}/updateown', array(
+        "as" => "user.updateOwnPassword",
+        "uses" => "UserController@updateOwnPassword"
+        ));
+    Route::resource('patient', 'PatientController');
+    Route::get("/patient/{id}/delete", array(
+        "as"   => "patient.delete",
+        "uses" => "PatientController@delete"
+    ));
+    Route::post("/patient/search", array(
+        "as"   => "patient.search",
+        "uses" => "PatientController@search"
+    ));
+    Route::any("/instrument/getresult", array(
+        "as"   => "instrument.getResult",
+        "uses" => "InstrumentController@getTestResult"
+    ));
+    Route::any("/instrument/getcontrolresult", array(
+        "as"   => "instrument.getControlResult",
+        "uses" => "InstrumentController@getControlResult"
+    ));
+    Route::group(array("before" => "checkPerms:manage_test_catalog"), function()
+    {
+        Route::resource('specimentype', 'SpecimenTypeController');
+        Route::delete("/specimentype/{id}/delete", array(
+            "as"   => "specimentype.delete",
+            "uses" => "SpecimenTypeController@delete"
+        ));
+        Route::resource('testcategory', 'TestCategoryController');
+        
+        Route::delete("/testcategory/{id}/delete", array(
+            "as"   => "testcategory.delete",
+            "uses" => "TestCategoryController@delete"
+        ));
+        Route::resource('measure', 'MeasureController');
+    
+        Route::get("/measure/{id}/delete", array(
+            "as"   => "measure.delete",
+            "uses" => "MeasureController@delete"
+        ));
+        Route::post("/measure/{id}/reorder", array(
+            "as"   => "measure.reorder",
+            "uses" => "MeasureController@reorder"
+        ));
+        Route::resource('testtype', 'TestTypeController');
+        Route::get("/testtype/{id}/delete", array(
+            "as"   => "testtype.delete",
+            "uses" => "TestTypeController@delete"
+        ));
+        Route::resource('specimenrejection', 'SpecimenRejectionController');
+        Route::any("/specimenrejection/{id}/delete", array(
+            "as"   => "specimenrejection.delete",
+            "uses" => "SpecimenRejectionController@delete"
+        ));
+        Route::resource('drug', 'DrugController');
+        
+        Route::get("/drug/{id}/delete", array(
+            "as"   => "drug.delete",
+            "uses" => "DrugController@delete"
+        ));
+        Route::resource('organism', 'OrganismController');
+        
+        Route::get("/organism/{id}/delete", array(
+            "as"   => "organism.delete",
+            "uses" => "OrganismController@delete"
+        ));
+        Route::resource('critical', 'CriticalController');
+        
+        Route::get("/critical/{id}/delete", array(
+            "as"   => "critical.delete",
+            "uses" => "CriticalController@delete"
+        ));
 
-/*=======*/
-Route::get("/organism/{id}/delete", array(
-    "as"   => "organism.delete",
-    "uses" => "OrganismController@delete"
-));
-/*
-*	Routes for tests activities
-*/
-Route::any("/test", array(
-    "as"   => "test.index",
-    "uses" => "TestController@index"
-));
-Route::post("/test/resultinterpretation", array(
+        Route::resource('microcritical', 'MicroCriticalController');
+        
+        Route::get("/microcritical/{id}/delete", array(
+            "as"   => "microcritical.delete",
+            "uses" => "MicroCriticalController@delete"
+        ));
+    });
+    Route::group(array("before" => "checkPerms:manage_lab_configurations"), function()
+    {
+        Route::resource('instrument', 'InstrumentController');
+        Route::get("/instrument/{id}/delete", array(
+            "as"   => "instrument.delete",
+            "uses" => "InstrumentController@delete"
+        ));
+        Route::any("/instrument/importdriver", array(
+            "as"   => "instrument.importDriver",
+            "uses" => "InstrumentController@importDriver"
+        ));
+        Route::get("/requireverification", array(
+            "as"   => "requireverification.edit",
+            "uses" => "RequireVerificationController@edit"
+        ));
+
+        Route::put("/requireverification", array(
+            "as"   => "requireverification.update",
+            "uses" => "RequireVerificationController@update"
+        ));
+    });
+    Route::any("/test", array(
+        "as"   => "test.index",
+        "uses" => "TestController@index"
+    ));
+    Route::post("/test/resultinterpretation", array(
     "as"   => "test.resultinterpretation",
     "uses" => "TestController@getResultInterpretation"
-));
- Route::any("/test/{id}/receive", array(
-    "before" => "checkPerms:receive_external_test",
-    "as"   => "test.receive",
-    "uses" => "TestController@receive"
-));
-Route::any("/test/create/{patient?}", array(
-    "before" => "checkPerms:request_test",
-    "as"   => "test.create",
-    "uses" => "TestController@create"
-));
-Route::post("/test/savenewtest", array(
-    "before" => "checkPerms:request_test",
-    "as"   => "test.saveNewTest",
-    "uses" => "TestController@saveNewTest"
-));
-Route::post("/test/acceptspecimen", array(
-    "before" => "checkPerms:accept_test_specimen",
-    "as"   => "test.acceptSpecimen",
-    "uses" => "TestController@accept"
-));
-Route::get("/test/{id}/refer", array(
-    "before" => "checkPerms:refer_specimens",
-    "as"   => "test.refer",
-    "uses" => "TestController@showRefer"
-));
-Route::post("/test/referaction", array(
-    "before" => "checkPerms:refer_specimens",
-    "as"   => "test.referAction",
-    "uses" => "TestController@referAction"
-));
-Route::get("/test/{id}/reject", array(
-    "before" => "checkPerms:reject_test_specimen",
-    "as"   => "test.reject",
-    "uses" => "TestController@reject"
-));
-Route::post("/test/rejectaction", array(
-    "before" => "checkPerms:reject_test_specimen",
-    "as"   => "test.rejectAction",
-    "uses" => "TestController@rejectAction"
-));
- Route::post("/test/changespecimen", array(
-    "before" => "checkPerms:change_test_specimen",
-    "as"   => "test.changeSpecimenType",
-    "uses" => "TestController@changeSpecimenType"
-));
- Route::post("/test/updatespecimentype", array(
-    "before" => "checkPerms:change_test_specimen",
-    "as"   => "test.updateSpecimenType",
-    "uses" => "TestController@updateSpecimenType"
-));
-Route::post("/test/start", array(
-    "before" => "checkPerms:start_test",
-    "as"   => "test.start",
-    "uses" => "TestController@start"
-));
- Route::get("/test/{test}/enterresults", array(
-    "before" => "checkPerms:enter_test_results",
-    "as"   => "test.enterResults",
-    "uses" => "TestController@enterResults"
-));
-Route::get("/test/{test}/edit", array(
-    "before" => "checkPerms:edit_test_results",
-    "as"   => "test.edit",
-    "uses" => "TestController@edit"
-));
- Route::post("/test/{test}/saveresults", array(
-    "before" => "checkPerms:edit_test_results",
-    "as"   => "test.saveResults",
-    "uses" => "TestController@saveResults"
-));
-Route::get("/test/{test}/viewdetails", array(
-    "as"   => "test.viewDetails",
-    "uses" => "TestController@viewDetails"
-));
-Route::any("/test/{test}/verify", array(
-    "before" => "checkPerms:verify_test_results",
-    "as"   => "test.verify",
-    "uses" => "TestController@verify"
-));
-Route::any("specimen/barcode", array(
-    "as"   => "specimen.barcode",
-    "uses" => "TestController@barcode"
-));
-/*
-*	Routes for role
-*/
-Route::get("authorize", array(
-    "as"   => "authorize",
-    "uses" => "RoleController@assign"
-));
-Route::post("authorize", array(
-    "as"   => "authorize",
-    "uses" => "RoleController@saveUserRoleAssignment"
-));
-Route::resource("role", "RoleController");
-Route::get("/role/{id}/delete", array(
-    "as"   => "role.delete",
-    "uses" => "RoleController@delete"
-));
-/*>>>>>>> ae2637dc622437b867a082dc5bf59e6515c2610c*/
-
-/*
-    Route::get('/password/email', [
-        'uses' => 'Auth\PasswordController@getEmail'
-    ]);
-
-    Route::post('/password/email', [
-        'uses' => 'Auth\PasswordController@postEmail'
-    ]);
-
-    Route::post('/password/reset', [
-        'uses' => 'Auth\PasswordController@postReset'
-    ]);
-*/
-
-    Route::resource('user', 'UserController');
-
-/*
-    Route::get('/user/{id}/delete', [
-        'as' => 'user.delete',
-        'before' => 'checkPerms:manage_users',
-        'uses' => 'UserController@delete'
-    ]);
-
-
-    Route::any('/user/{id}/updateown', [
-        'as' => 'user.updateOwnPassword',
-        'uses' => 'UserController@updateOwnPassword'
-    ]);
-    Route::get('/user/{id}/edit', [
-        'as' => 'user.edit',
-        // 'before' => 'checkPerms:manage_users',
-        'uses' => 'UserController@edit'
-    ]);
-
-    Route::post('/user/{id}/update', [
-        'as' => 'user.update',
-        // 'before' => 'checkPerms:manage_users',
-        'uses' => 'UserController@update'
-    ]);
-*/
-
-
-    //Commodities
-    Route::resource('commodity', 'CommodityController');
-    Route::get("/commodity/{id}/delete", array(
-        "as"   => "commodity.delete",
-        "uses" => "CommodityController@delete"
     ));
-    //issues
-    Route::resource('issue', 'IssueController');
-    Route::get("/issue/{id}/delete", array(
-        "as"   => "issue.delete",
-        "uses" => "IssueController@delete"
+     Route::any("/test/{id}/receive", array(
+        "before" => "checkPerms:receive_external_test",
+        "as"   => "test.receive",
+        "uses" => "TestController@receive"
     ));
-    Route::get("/issue/{id}/dispatch", array(
-        "as"   => "issue.dispatch",
-        "uses" => "IssueController@dispatch"
+    Route::any("/test/create/{patient?}", array(
+        "before" => "checkPerms:request_test",
+        "as"   => "test.create",
+        "uses" => "TestController@create"
     ));
-    //Suppliers
-    Route::resource('supplier', 'SupplierController');
-
-    Route::get("/supplier/{id}/delete", array(
-        "as"   => "supplier.delete",
-        "uses" => "SupplierController@delete"
+     Route::post("/test/savenewtest", array(
+        "before" => "checkPerms:request_test",
+        "as"   => "test.saveNewTest",
+        "uses" => "TestController@saveNewTest"
     ));
-    /*
-    *   Routes for items
-    */
-    Route::resource('item', 'ItemController');
-    Route::get("/item/{id}/delete", array(
-        "as"   => "item.delete",
-        "uses" => "ItemController@delete"
+     Route::post("/test/acceptspecimen", array(
+        "before" => "checkPerms:accept_test_specimen",
+        "as"   => "test.acceptSpecimen",
+        "uses" => "TestController@accept"
     ));
-    /*
-    *   Routes for stocks
-    */
-    Route::resource('stock', 'StockController');
-    Route::any("stock/{id}/log", array(
-        "as"   => "stocks.log",
-        "uses" => "StockController@index"
+     Route::get("/test/{id}/refer", array(
+        "before" => "checkPerms:refer_specimens",
+        "as"   => "test.refer",
+        "uses" => "TestController@showRefer"
     ));
-    Route::any("stock/{id}/create", array(
-        "as"   => "stocks.create",
-        "uses" => "StockController@create"
+    Route::post("/test/referaction", array(
+        "before" => "checkPerms:refer_specimens",
+        "as"   => "test.referAction",
+        "uses" => "TestController@referAction"
     ));
-    Route::any("stock/{id}/usage/{req?}", array(
-        "as"   => "stocks.usage",
-        "uses" => "StockController@usage"
+    Route::get("/test/{id}/reject", array(
+        "before" => "checkPerms:reject_test_specimen",
+        "as"   => "test.reject",
+        "uses" => "TestController@reject"
     ));
-    Route::post("stock/saveusage", array(
-        "as"   => "stock.saveUsage",
-        "uses" => "StockController@stockUsage"
+    Route::post("/test/rejectaction", array(
+        "before" => "checkPerms:reject_test_specimen",
+        "as"   => "test.rejectAction",
+        "uses" => "TestController@rejectAction"
     ));
-    Route::any("stock/{id}/show", array(
-        "as"   => "stocks.show",
-        "uses" => "StockController@show"
+     Route::post("/test/changespecimen", array(
+        "before" => "checkPerms:change_test_specimen",
+        "as"   => "test.changeSpecimenType",
+        "uses" => "TestController@changeSpecimenType"
     ));
-    Route::any("stock/{id}/lot", array(
-        "as"   => "stocks.lot",
-        "uses" => "StockController@lot"
+     Route::post("/test/updatespecimentype", array(
+        "before" => "checkPerms:change_test_specimen",
+        "as"   => "test.updateSpecimenType",
+        "uses" => "TestController@updateSpecimenType"
     ));
-    Route::any("lt/usage", array(
-        "as"   => "lt.update",
-        "uses" => "StockController@lotUsage"
+    Route::post("/test/start", array(
+        "before" => "checkPerms:start_test",
+        "as"   => "test.start",
+        "uses" => "TestController@start"
     ));
-    /*
-    *   Routes for requests
-    */
-    Route::resource('request', 'TopupController');
-    Route::get("/request/{id}/delete", array(
-        "as"   => "request.delete",
-        "uses" => "TopupController@delete"
+     Route::get("/test/{test}/enterresults", array(
+        "before" => "checkPerms:enter_test_results",
+        "as"   => "test.enterResults",
+        "uses" => "TestController@enterResults"
     ));
-
-
-
-    Route::resource('control', 'ControlController');
-
-    Route::get('controlresults', [
-        'as' => 'control.resultsIndex',
-        'before' => 'checkPerms:manage_qc',
-        'uses' => 'ControlController@resultsIndex'
-    ]);
-
-    Route::get('controlresults/{controlId}/resultsEntry', [
-        'as' => 'control.resultsEntry',
-        'before' => 'checkPerms:manage_qc',
-        'uses' => 'ControlController@resultsEntry'
-    ]);
-
-    Route::get('controlresults/{controlId}/resultsEdit', [
-        'as' => 'control.resultsEdit',
-        'before' => 'checkPerms:manage_qc',
-        'uses' => 'ControlController@resultsEdit'
-    ]);
-
-    Route::get('controlresults/{controlId}/resultsList', [
-        'as' => 'control.resultsList',
-        'before' => 'checkPerms:manage_qc',
-        'uses' => 'ControlController@resultsList'
-    ]);
-
-    Route::get('control/{controlId}/delete', [
-        'before' => 'checkPerms:manage_qc',
-        'uses' => 'ControlController@destroy'
-    ]);
-
-    Route::post('control/{controlId}/saveResults', [
-        'as' => 'control.saveResults',
-        'before' => 'checkPerms:manage_qc',
-        'uses' => 'ControlController@saveResults'
-    ]);
-
-    Route::post('control/{controlId}/resultsUpdate', [
-        'as' => 'control.resultsUpdate',
-        'before' => 'checkPerms:manage_qc',
-        'uses' => 'ControlController@resultsUpdate'
-    ]);
-
-    Route::any('controlresult/{id}/update', [
-        'as' => 'controlresult.update',
-        'before' => 'checkPerms:manage_qc',
-        'uses' => 'ControlResultsController@update'
-    ]);
-
-    Route::get('controlresult/{controlTestId}/delete', [
-        'before' => 'checkPerms:manage_qc',
-        'uses' => 'ControlResultsController@delete'
-    ]);
-
-    Route::resource('drug', 'DrugController');
-
-    Route::get('/drug/{id}/delete', [
-        'as' => 'drug.delete',
-        'before' => 'checkPerms:manage_test_catalog',
-        'uses' => 'DrugController@delete'
-    ]);
-
-    Route::resource("permission", "PermissionController");
-    Route::get("role/assign", array(
-        "as"   => "role.assign",
-        "uses" => "RoleController@assign"
+    Route::get("/test/{test}/edit", array(
+        "before" => "checkPerms:edit_test_results",
+        "as"   => "test.edit",
+        "uses" => "TestController@edit"
     ));
-    Route::post("role/assign", array(
-        "as"   => "role.assign",
-        "uses" => "RoleController@saveUserRoleAssignment"
+     Route::post("/test/{test}/saveresults", array(
+        "before" => "checkPerms:edit_test_results",
+        "as"   => "test.saveResults",
+        "uses" => "TestController@saveResults"
     ));
-    Route::resource("role", "RoleController");
-    Route::get("/role/{id}/delete", array(
-        "as"   => "role.delete",
-        "uses" => "RoleController@delete"
+    Route::get("/test/{test}/viewdetails", array(
+        "as"   => "test.viewDetails",
+        "uses" => "TestController@viewDetails"
     ));
-
-    Route::resource('facility', 'FacilityController');
-
-    Route::get('/facility/{id}/delete', [
-        'as' => 'facility.delete',
-        'before' => 'checkPerms:manage_lab_configurations',
-        'uses' => 'FacilityController@delete'
-    ]);
-
-    Route::resource('instrument', 'InstrumentController');
-
-    Route::any("/instrument/importdriver", array(
-        "as"   => "instrument.importDriver",
-        "uses" => "InstrumentController@importDriver"
+    Route::any("/test/{test}/verify", array(
+        "before" => "checkPerms:verify_test_results",
+        "as"   => "test.verify",
+        "uses" => "TestController@verify"
     ));
-
-    Route::get('/instrument/{id}/delete', [
-        'as' => 'instrument.delete',
-        'uses' => 'InstrumentController@delete'
-    ]);
-
-    Route::get("/requireverification", array(
-        "as"   => "requireverification.edit",
-        "uses" => "RequireVerificationController@edit"
+    Route::any("/culture/storeObservation", array(
+        "as"   => "culture.worksheet",
+        "uses" => "CultureController@store"
     ));
-
-    Route::put("/requireverification", array(
-        "as"   => "requireverification.update",
-        "uses" => "RequireVerificationController@update"
+    Route::any("/susceptibility/saveSusceptibility", array(
+        "as"   => "drug.susceptibility",
+        "uses" => "SusceptibilityController@store"
     ));
+    Route::group(array("before" => "admin"), function()
+    {
+        Route::resource("permission", "PermissionController");
+        Route::get("role/assign", array(
+            "as"   => "role.assign",
+            "uses" => "RoleController@assign"
+        ));
+        Route::post("role/assign", array(
+            "as"   => "role.assign",
+            "uses" => "RoleController@saveUserRoleAssignment"
+        ));
+        Route::resource("role", "RoleController");
+        Route::get("/role/{id}/delete", array(
+            "as"   => "role.delete",
+            "uses" => "RoleController@delete"
+        ));
+    });
+    // Check if able to manage lab configuration
+    Route::group(array("before" => "checkPerms:manage_lab_configurations"), function()
+    {
+        Route::resource("facility", "FacilityController");
+        Route::get("/facility/{id}/delete", array(
+            "as"   => "facility.delete",
+            "uses" => "FacilityController@delete"
+        ));
+        Route::any("/reportconfig/surveillance", array(
+            "as"   => "reportconfig.surveillance",
+            "uses" => "ReportController@surveillanceConfig"
+        ));
+        Route::any("/reportconfig/disease", array(
+            "as"   => "reportconfig.disease",
+            "uses" => "ReportController@disease"
+        ));
 
-    Route::resource('issue', 'IssueController');
-
-    Route::get('/issue/{id}/delete', [
-        'as' => 'issue.delete',
-        'uses' => 'IssueController@delete'
-    ]);
-
-    Route::get('/issue/{id}/dispatch', [
-        'as' => 'issue.dispatch',
-        'uses' => 'IssueController@dispatch'
-    ]);
-
-    Route::resource('lot', 'LotController');
-
-    Route::get('lot/{lotId}/delete', [
-        'before' => 'checkPerms:manage_qc',
-        'uses' => 'LotController@delete'
-    ]);
-
-    Route::resource('measure', 'MeasureController');
-
-    Route::get('/measure/{id}/delete', [
-        'as' => 'measure.delete',
-        'before' => 'checkPerms:manage_test_catalog',
-        'uses' => 'MeasureController@delete'
-    ]);
-
-    Route::resource('metric', 'MetricController');
-
-    Route::get('/metric/{id}/delete', [
-        'as' => 'metric.delete',
-        'uses' => 'MetricController@delete'
-    ]);
-
-    Route::resource('organism', 'OrganismController');
-
-    Route::get('/organism/{id}/delete', [
-        'as' => 'organism.delete',
-        'before' => 'checkPerms:manage_test_catalog',
-        'uses' => 'OrganismController@delete'
-    ]);
-
-    Route::resource('critical', 'CriticalController');
+        Route::resource("barcode", "BarcodeController");
+        Route::any("/blisclient", array(
+            "as"   => "blisclient.index",
+            "uses" => "BlisClientController@index"
+        ));
+        Route::any("/blisclient/details", array(
+            "as"   => "blisclient.details",
+            "uses" => "BlisClientController@details"
+        ));
+        Route::any("/blisclient/properties", array(
+            "as"   => "blisclient.properties",
+            "uses" => "BlisClientController@properties"
+        ));
+    });
     
-    Route::get("/critical/{id}/delete", array(
-        "as"   => "critical.delete",
-        "uses" => "CriticalController@delete"
-    ));
+    //  Check if able to manage reports
+    Route::group(array("before" => "checkPerms:view_reports"), function()
+    {
+        Route::any("/patientreport", array(
+            "as"   => "reports.patient.index",
+            "uses" => "ReportController@loadPatients"
+        ));
+        Route::any("/patientreport/{id}", array(
+            "as" => "reports.patient.report", 
+            "uses" => "ReportController@viewPatientReport"
+        ));
+        Route::any("/patientreport/{id}/{visit}/{testId?}", array(
+            "as" => "reports.patient.report", 
+            "uses" => "ReportController@viewPatientReport"
+        ));
+        Route::any("/dailylog", array(
+            "as"   => "reports.daily.log",
+            "uses" => "ReportController@dailyLog"
+        ));
+        Route::get('reports/dropdown', array(
+            "as"    =>  "reports.dropdown",
+            "uses"  =>  "ReportController@reportsDropdown"
+        ));
+        Route::any("/prevalence", array(
+            "as"   => "reports.aggregate.prevalence",
+            "uses" => "ReportController@prevalenceRates"
+        ));
+        Route::any("/surveillance", array(
+            "as"   => "reports.aggregate.surveillance",
+            "uses" => "ReportController@surveillance"
+        ));
+        Route::any("/counts", array(
+            "as"   => "reports.aggregate.counts",
+            "uses" => "ReportController@countReports"
+        ));
+        Route::any("/tat", array(
+            "as"   => "reports.aggregate.tat",
+            "uses" => "ReportController@turnaroundTime"
+        ));
+        Route::any("/infection", array(
+            "as"   => "reports.aggregate.infection",
+            "uses" => "ReportController@infectionReport"
+        ));
+        
+        Route::any("/userstatistics", array(
+            "as"   => "reports.aggregate.userStatistics",
+            "uses" => "ReportController@userStatistics"
+        ));
 
-    Route::resource('microcritical', 'MicroCriticalController');
+        Route::any("/moh706", array(
+            "as"   => "reports.aggregate.moh706",
+            "uses" => "ReportController@moh706"
+        ));
+
+        Route::any("/cd4", array(
+            "as"   => "reports.aggregate.cd4",
+            "uses" => "ReportController@cd4"
+        ));
+        
+        Route::get("/qualitycontrol", array(
+            "as"   => "reports.qualityControl",
+            "uses" => "ReportController@qualityControl"
+        ));
+        Route::post("/qualitycontrol", array(
+            "as"   => "reports.qualityControl",
+            "uses" => "ReportController@qualityControlResults"
+        ));
+        Route::get("/inventory", array(
+            "as"   => "reports.inventory",
+            "uses" => "ReportController@stockLevel"
+        ));
+        Route::post("/inventory", array(
+            "as"   => "reports.inventory",
+            "uses" => "ReportController@stockLevel"
+        ));
+        Route::any("/rejection", array(
+            "as"   => "reports.aggregate.rejection",
+            "uses" => "ReportController@specimenRejectionChart"
+        ));
+        Route::any("/testaudit/{testid}", array(
+            "as"   => "reports.audit.test",
+            "uses" => "ReportController@viewTestAuditReport"
+        ));
+        Route::any("/critval", array(
+            "as"   => "reports.aggregate.critval",
+            "uses" => "ReportController@critical"
+        ));
+    });
+    Route::group(array("before" => "checkPerms:manage_qc"), function()
+    {
+        Route::resource("lot", "LotController");
+        Route::get('lot/{lotId}/delete', array(
+            'uses' => 'LotController@delete'
+        ));
+        Route::any("controlresult/{id}/update",array(
+            "as" => "controlresult.update",
+            "uses" => "ControlResultsController@update"
+            )
+        );
+
+        Route::get('controlresult/{controlTestId}/delete', array(
+            'uses' => 'ControlResultsController@delete'
+        ));
+        Route::resource("control", "ControlController");
+        Route::get("controlresults", array(
+            "as"   => "control.resultsIndex",
+            "uses" => "ControlController@resultsIndex"
+        ));
+        Route::get("controlresults/{controlId}/resultsEntry", array(
+            "as" => "control.resultsEntry",
+            "uses" => "ControlController@resultsEntry"
+        ));
+        Route::get("controlresults/{controlId}/resultsEdit", array(
+            "as" => "control.resultsEdit",
+            "uses" => "ControlController@resultsEdit"
+        ));
     
-    Route::get("/microcritical/{id}/delete", array(
-        "as"   => "microcritical.delete",
-        "uses" => "MicroCriticalController@delete"
-    ));
-
-
-    Route::resource('patient', 'PatientController');
-
-    Route::get('/patient/{id}/delete', [
-        'as' => 'patient.delete',
-        'uses' => 'PatientController@delete'
-    ]);
-
-    Route::post('/patient/search', [
-        'as' => 'patient.search',
-        'uses' => 'PatientController@search'
-    ]);
-
-    Route::resource('receipt', 'ReceiptController');
-
-    Route::get('/receipt/{id}/delete', [
-        'as' => 'receipt.delete',
-        'uses' => 'ReceiptController@delete'
-    ]);
-
-    Route::post('/reportconfig/surveillance', [
-        'as' => 'reportconfig.surveillance',
-        // 'before' => 'checkPerms:manage_lab_configurations',
-        'uses' => 'ReportController@surveillanceConfig'
-    ]);
-
-    Route::resource("barcode", "BarcodeController");
-    Route::any("/blisclient", array(
-        "as"   => "blisclient.index",
-        "uses" => "BlisClientController@index"
-    ));
-
-
-    Route::any('/reportconfig/disease', [
-        'as' => 'reportconfig.disease',
-        'before' => 'checkPerms:manage_lab_configurations',
-        'uses' => 'ReportController@disease'
-    ]);
-
-    Route::any('/patientreport', [
-        'as' => 'reports.patient.index',
-        'before' => 'checkPerms:view_reports',
-        'uses' => 'ReportController@loadPatients'
-    ]);
-
-    Route::any('/patientreport/{id}', [
-        'as' => 'reports.patient.report',
-        'before' => 'checkPerms:view_reports',
-        'uses' => 'ReportController@viewPatientReport'
-    ]);
-
-    Route::any('/patientreport/{id}/{visit}/{testId?}', [
-        'as' => 'reports.patient.report',
-        'before' => 'checkPerms:view_reports',
-        'uses' => 'ReportController@viewPatientReport'
-    ]);
-
-    Route::any('/dailylog', [
-        'as' => 'reports.daily.log',
-        'before' => 'checkPerms:view_reports',
-        'uses' => 'ReportController@dailyLog'
-    ]);
-
-    Route::get('reports/dropdown', [
-        'as' => 'reports.dropdown',
-        'before' => 'checkPerms:view_reports',
-        'uses' => 'ReportController@reportsDropdown'
-    ]);
-
-    Route::any('/prevalence', [
-        'as' => 'reports.aggregate.prevalence',
-        'before' => 'checkPerms:view_reports',
-        'uses' => 'ReportController@prevalenceRates'
-    ]);
-
-    Route::any('/surveillance', [
-        'as' => 'reports.aggregate.surveillance',
-        'before' => 'checkPerms:view_reports',
-        'uses' => 'ReportController@surveillance'
-    ]);
-
-    Route::any('/counts', [
-        'as' => 'reports.aggregate.counts',
-        'before' => 'checkPerms:view_reports',
-        'uses' => 'ReportController@countReports'
-    ]);
-
-    Route::any('/tat', [
-        'as' => 'reports.aggregate.tat',
-        'before' => 'checkPerms:view_reports',
-        'uses' => 'ReportController@turnaroundTime'
-    ]);
-
-    Route::any('/infection', [
-        'as' => 'reports.aggregate.infection',
-        'before' => 'checkPerms:view_reports',
-        'uses' => 'ReportController@infectionReport'
-    ]);
-
-    Route::any('/userstatistics', [
-        'as' => 'reports.aggregate.userStatistics',
-        'before' => 'checkPerms:view_reports',
-        'uses' => 'ReportController@userStatistics'
-    ]);
-
-    Route::any("/moh706", array(
-        "as"   => "reports.aggregate.moh706",
-        "uses" => "ReportController@moh706"
-    ));
-
-    Route::any("/cd4", array(
-        "as"   => "reports.aggregate.cd4",
-        "uses" => "ReportController@cd4"
-    ));
-
-    Route::get('/qualitycontrol', [
-        'as' => 'reports.qualityControl',
-        'before' => 'checkPerms:view_reports',
-        'uses' => 'ReportController@qualityControl'
-    ]);
-
-    Route::post('/qualitycontrol', [
-        'as' => 'reports.qualityControl',
-        'before' => 'checkPerms:view_reports',
-        'uses' => 'ReportController@qualityControlResults'
-    ]);
-
-    Route::get('/inventory', [
-        'as' => 'reports.inventory',
-        'before' => 'checkPerms:view_reports',
-        'uses' => 'ReportController@stockLevel'
-    ]);
-
-    Route::post('/inventory', [
-        'as' => 'reports.inventory',
-        'before' => 'checkPerms:view_reports',
-        'uses' => 'ReportController@stockLevel'
-    ]);
-
-    Route::any("/rejection", array(
-        "as"   => "reports.aggregate.rejection",
-        "uses" => "ReportController@specimenRejectionChart"
-    ));
-    Route::any("/testaudit/{testid}", array(
-        "as"   => "reports.audit.test",
-        "uses" => "ReportController@viewTestAuditReport"
-    ));
-    Route::any("/critval", array(
-        "as"   => "reports.aggregate.critval",
-        "uses" => "ReportController@critical"
-    ));
-
-    Route::any('/patientreport/{id}/{visit}', [
-        'as' => 'reports.patient.report',
-        'uses' => 'ReportController@viewPatientReport'
-    ]);
-
-    Route::get('role/assign', [
-        'as' => 'role.assign',
-        'before' => 'admin',
-        'uses' => 'RoleController@assign'
-    ]);
-
-    Route::post('role/assign', [
-        'as' => 'role.assign',
-        'before' => 'admin',
-        'uses' => 'RoleController@saveUserRoleAssignment'
-    ]);
-
-    Route::resource('role', 'RoleController');
-
-    Route::get('/role/{id}/delete', [
-        'as' => 'role.delete',
-        'before' => 'admin',
-        'uses' => 'RoleController@delete'
-    ]);
-
-    Route::get('authorize', [
-        'as' => 'authorize',
-        'uses' => 'RoleController@assign'
-    ]);
-
-    Route::post('authorize', [
-        'as' => 'authorize',
-        'uses' => 'RoleController@saveUserRoleAssignment'
-    ]);
-
-    Route::resource('specimenrejection', 'SpecimenRejectionController');
-
-    Route::any('/specimenrejection/{id}/delete', [
-        'as' => 'specimenrejection.delete',
-        'before' => 'checkPerms:manage_test_catalog',
-        'uses' => 'SpecimenRejectionController@delete'
-    ]);
-
-    Route::any("/testaudit/{testid}", array(
-        "as"   => "reports.audit.test",
-        "uses" => "ReportController@viewTestAuditReport"
-    ));
-
-    Route::any("/critval", array(
-        "as"   => "reports.aggregate.critval",
-        "uses" => "ReportController@critical"
-    ));
-
-    Route::resource('specimentype', 'SpecimenTypeController');
-
-    Route::delete('/specimentype/{id}/delete', [
-        'as' => 'specimentype.delete',
-        'before' => 'checkPerms:manage_test_catalog',
-        'uses' => 'SpecimenTypeController@delete'
-    ]);
-
-    Route::any('stock/{id}/log', [
-        'as' => 'stocks.log',
-        'uses' => 'StockController@index'
-    ]);
-
-    Route::any('stock/{id}/create', [
-        'as' => 'stocks.create',
-        'uses' => 'StockController@create'
-    ]);
-
-    Route::any('stock/{id}/usage', [
-        'as' => 'stocks.usage',
-        'uses' => 'StockController@usage'
-    ]);
-
-    Route::post('stock/saveusage', [
-        'as' => 'stock.saveUsage',
-        'uses' => 'StockController@stockUsage'
-    ]);
-
-    Route::any('stock/{id}/show', [
-        'as' => 'stocks.show',
-        'uses' => 'StockController@show'
-    ]);
-
-    Route::any('stock/{id}/lot', [
-        'as' => 'stocks.lot',
-        'uses' => 'StockController@lot'
-    ]);
-
-    Route::any('lot/usage', [
-        'as' => 'lot.update',
-        'uses' => 'StockController@lotUsage'
-    ]);
-
-    Route::resource('supplier', 'SupplierController');
-
-    Route::get('/supplier/{id}/delete', [
-        'as' => 'supplier.delete',
-        'uses' => 'SupplierController@delete'
-    ]);
-
-    Route::resource('testcategory', 'TestCategoryController');
-
-    Route::delete('/testcategory/{id}/delete', [
-        'as' => 'testcategory.delete',
-        'before' => 'checkPerms:manage_test_catalog',
-        'uses' => 'TestCategoryController@delete'
-    ]);
-
-    Route::any('/test', [
-        'as' => 'test.index',
-        'uses' => 'TestController@index'
-    ]);
-
-    Route::post('/test/resultinterpretation', [
-        'as' => 'test.resultinterpretation',
-        'uses' => 'TestController@getResultInterpretation'
-    ]);
-
-    Route::any('/test/{id}/receive', [
-        'as' => 'test.receive',
-        'before' => 'checkPerms:receive_external_test',
-        'uses' => 'TestController@receive'
-    ]);
-
-    Route::any('/test/create/{patient?}', [
-        'as' => 'test.create',
-        'before' => 'checkPerms:request_test',
-        'uses' => 'TestController@create'
-    ]);
-
-    Route::post('/test/savenewtest', [
-        'as' => 'test.saveNewTest',
-        'before' => 'checkPerms:request_test',
-        'uses' => 'TestController@saveNewTest'
-    ]);
-
-    Route::post('/test/acceptspecimen', [
-        'as' => 'test.acceptSpecimen',
-        'before' => 'checkPerms:accept_test_specimen',
-        'uses' => 'TestController@accept'
-    ]);
-
-    Route::get('/test/{id}/refer', [
-        'as' => 'test.refer',
-        'before' => 'checkPerms:refer_specimens',
-        'uses' => 'TestController@showRefer'
-    ]);
-
-    Route::post('/test/referaction', [
-        'as' => 'test.referAction',
-        'before' => 'checkPerms:refer_specimens',
-        'uses' => 'TestController@referAction'
-    ]);
-
-    Route::get('/test/{id}/reject', [
-        'as' => 'test.reject',
-        'before' => 'checkPerms:reject_test_specimen',
-        'uses' => 'TestController@reject'
-    ]);
-
-    Route::post('/test/rejectaction', [
-        'as' => 'test.rejectAction',
-        'before' => 'checkPerms:reject_test_specimen',
-        'uses' => 'TestController@rejectAction'
-    ]);
-
-    Route::post('/test/changespecimen', [
-        'as' => 'test.changeSpecimenType',
-        'before' => 'checkPerms:change_test_specimen',
-        'uses' => 'TestController@changeSpecimenType'
-    ]);
-
-    Route::post('/test/updatespecimentype', [
-        'as' => 'test.updateSpecimenType',
-        'before' => 'checkPerms:change_test_specimen',
-        'uses' => 'TestController@updateSpecimenType'
-    ]);
-
-    Route::post('/test/start', [
-        'as' => 'test.start',
-        'before' => 'checkPerms:start_test',
-        'uses' => 'TestController@start'
-    ]);
-
-    Route::get('/test/{test}/enterresults', [
-        'as' => 'test.enterResults',
-        'before' => 'checkPerms:enter_test_results',
-        'uses' => 'TestController@enterResults'
-    ]);
-
-    Route::get('/test/{test}/edit', [
-        'as' => 'test.edit',
-        'before' => 'checkPerms:edit_test_results',
-        'uses' => 'TestController@edit'
-    ]);
-
-    Route::post('/test/{test}/saveresults', [
-        'as' => 'test.saveResults',
-        'before' => 'checkPerms:edit_test_results',
-        'uses' => 'TestController@saveResults'
-    ]);
-
-    Route::get('/test/{test}/viewdetails', [
-        'as' => 'test.viewDetails',
-        'uses' => 'TestController@viewDetails'
-    ]);
-
-    Route::any('/test/{test}/verify', [
-        'as' => 'test.verify',
-        'before' => 'checkPerms:verify_test_results',
-        'uses' => 'TestController@verify'
-    ]);
-
-    Route::resource('testtype', 'TestTypeController');
-
-    Route::get('/testtype/{id}/delete', [
-        'as' => 'testtype.delete',
-        'before' => 'checkPerms:manage_test_catalog',
-        'uses' => 'TestTypeController@delete'
-    ]);
-
-    Route::resource('topup', 'TopUpController');
-
-    Route::get('/topup/{id}/delete', [
-        'as' => 'topup.delete',
-        'before' => 'checkPerms:request_topup',
-        'uses' => 'TopUpController@delete'
-    ]);
-
-    Route::get('topup/{id}/availableStock', [
-        'as' => 'issue.dropdown',
-        'before' => 'checkPerms:request_topup',
-        'uses' => 'TopUpController@availableStock'
-    ]);
-/*=======*/
-Route::resource('stock', 'StockController');
-Route::any("stock/{id}/log", array(
-    "as"   => "stocks.log",
-    "uses" => "StockController@index"
-));
-Route::any("stock/{id}/create", array(
-    "as"   => "stocks.create",
-    "uses" => "StockController@create"
-));
-Route::any("stock/{id}/usage", array(
-    "as"   => "stocks.usage",
-    "uses" => "StockController@usage"
-));
-Route::post("stock/saveusage", array(
-    "as"   => "stock.saveUsage",
-    "uses" => "StockController@stockUsage"
-));
-Route::any("stock/{id}/show", array(
-    "as"   => "stocks.show",
-    "uses" => "StockController@show"
-));
-Route::any("stock/{id}/lot", array(
-    "as"   => "stocks.lot",
-    "uses" => "StockController@lot"
-));
-Route::any("lot/usage", array(
-    "as"   => "lot.update",
-    "uses" => "StockController@lotUsage"
-));
-/*
-*   Routes for analyser
-*/
-Route::resource('analyser', 'AnalyserController');
-Route::any("analyser/fetch", array(
-    "as"   => "analyser.fetch",
-    "uses" => "AnalyserController@fetch"
-));
-/*
-*   Routes for configurable settings
-*/
-Route::resource('configurable', 'ConfigurableController');
+        Route::get("controlresults/{controlId}/resultsList", array(
+            "as" => "control.resultsList",
+            "uses" => "ControlController@resultsList"
+        ));
+        Route::get('control/{controlId}/delete', array(
+            'uses' => 'ControlController@destroy'
+        ));
+        Route::post('control/{controlId}/saveResults', array(
+            "as" => "control.saveResults",
+            'uses' => 'ControlController@saveResults'
+        ));
+        Route::post('control/{controlId}/resultsUpdate', array(
+            "as" => "control.resultsUpdate",
+            'uses' => 'ControlController@resultsUpdate'
+        ));
+    });
+    
+    Route::group(array("before" => "checkPerms:request_topup"), function()
+    {
+        //top-ups
+        Route::resource('topup', 'TopUpController');
+        Route::get("/topup/{id}/delete", array(
+            "as"   => "topup.delete",
+            "uses" => "TopUpController@delete"
+        ));
+        Route::get('topup/{id}/availableStock', array(
+            "as"    =>  "issue.dropdown",
+            "uses"  =>  "TopUpController@availableStock"
+        ));
+    });
+    Route::group(array("before" => "checkPerms:manage_inventory"), function()
+    {
+        //Commodities
+        Route::resource('commodity', 'CommodityController');
+        Route::get("/commodity/{id}/delete", array(
+            "as"   => "commodity.delete",
+            "uses" => "CommodityController@delete"
+        ));
+        //issues
+        Route::resource('issue', 'IssueController');
+        Route::get("/issue/{id}/delete", array(
+            "as"   => "issue.delete",
+            "uses" => "IssueController@delete"
+        ));
+        Route::get("/issue/{id}/dispatch", array(
+            "as"   => "issue.dispatch",
+            "uses" => "IssueController@dispatch"
+        ));
+        //Suppliers
+        Route::resource('supplier', 'SupplierController');
         
-Route::get("/configurable/{id}/delete", array(
-    "as"   => "configurable.delete",
-    "uses" => "ConfigurableController@delete"
-));
-/*
-*   Routes for lab-config-settings
-*/
-Route::resource('setting', 'LabConfigController');
-Route::get("setting/{id}", array(
-    "as"   => "setting.config",
-    "uses" => "LabConfigController@edit"
-));
-Route::any("fields/fetch", array(
-    "as"   => "fields.fetch",
-    "uses" => "LabConfigController@fetch"
-));
-Route::any("conf/generate", array(
-    "as"   => "conf.generate",
-    "uses" => "LabConfigController@configFile"
-));
-Route::any("/patientreport", array(
-    "as"   => "reports.patient.index",
-    "uses" => "ReportController@loadPatients"
-));
-Route::any("/patientreport/{id}", array(
-    "as" => "reports.patient.report", 
-    "uses" => "ReportController@viewPatientReport"
-));
-Route::any("/patientreport/{id}/{visit}", array(
-    "as" => "reports.patient.report", 
-    "uses" => "ReportController@viewPatientReport"
-));
-Route::any("log", array(
-    "as"   => "reports.daily.log",
-    "uses" => "ReportController@log"
-));
-Route::any('select/list', array(
-    "as"    =>  "select.list",
-    "uses"  =>  "ReportController@dropdown"
-));
-Route::any("count", array(
-    "as"   => "reports.aggregate.counts",
-    "uses" => "ReportController@count"
-));
-/*
-*   Routes for registration fields settings
-*/
-Route::resource('registration', 'RegistrationController');
-        
-Route::get("/registration/{id}/delete", array(
-    "as"   => "registration.delete",
-    "uses" => "RegistrationController@delete"
-));
-/*>>>>>>> ae2637dc622437b867a082dc5bf59e6515c2610c*/
-
-Route::resource('charge', 'ChargeController');
-Route::resource('payment', 'PaymentController');
+        Route::get("/supplier/{id}/delete", array(
+            "as"   => "supplier.delete",
+            "uses" => "SupplierController@delete"
+        ));
+        /*
+        *   Routes for items
+        */
+        Route::resource('item', 'ItemController');
+        Route::get("/item/{id}/delete", array(
+            "as"   => "item.delete",
+            "uses" => "ItemController@delete"
+        ));
+        /*
+        *   Routes for stocks
+        */
+        Route::resource('stock', 'StockController');
+        Route::any("stock/{id}/log", array(
+            "as"   => "stocks.log",
+            "uses" => "StockController@index"
+        ));
+        Route::any("stock/{id}/create", array(
+            "as"   => "stocks.create",
+            "uses" => "StockController@create"
+        ));
+        Route::any("stock/{id}/usage/{req?}", array(
+            "as"   => "stocks.usage",
+            "uses" => "StockController@usage"
+        ));
+        Route::post("stock/saveusage", array(
+            "as"   => "stock.saveUsage",
+            "uses" => "StockController@stockUsage"
+        ));
+        Route::any("stock/{id}/show", array(
+            "as"   => "stocks.show",
+            "uses" => "StockController@show"
+        ));
+        Route::any("stock/{id}/lot", array(
+            "as"   => "stocks.lot",
+            "uses" => "StockController@lot"
+        ));
+        Route::any("lt/usage", array(
+            "as"   => "lt.update",
+            "uses" => "StockController@lotUsage"
+        ));
+        /*
+        *   Routes for requests
+        */
+        Route::resource('request', 'TopupController');
+        Route::get("/request/{id}/delete", array(
+            "as"   => "request.delete",
+            "uses" => "TopupController@delete"
+        ));
+    });
+    // Billing
+    Route::resource('charge', 'ChargeController');
+    Route::resource('payment', 'PaymentController');
+});
