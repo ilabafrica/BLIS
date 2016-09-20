@@ -35,26 +35,6 @@ Route::group(array("before" => "guest"), function()
         'uses' => 'Auth\AuthController@logout'
     ]);
 
-    Route::get('/home', [
-        'as' => 'user.home',
-        'uses' => 'UserController@index'
-    ]);
-
-    Route::get('/user/{id}/show', [
-        'as' => 'user.show',
-        'uses' => 'UserController@show'
-    ]);
-
-    Route::get('/user/register', [
-        'as' => 'user.create',
-        'uses' => 'UserController@create'
-    ]);
-
-    Route::post('/user/register', [
-        'as' => 'user.store',
-        'uses' => 'UserController@store'
-    ]);
-
     Route::post('/api/receiver', array(
         "as" => "api.receiver",
         "uses" => "InterfacerController@receiveLabRequest"
@@ -63,13 +43,14 @@ Route::group(array("before" => "guest"), function()
 });
 
 /* Routes accessible AFTER logging in */
-Route::group(array("before" => "auth"), function()
+Route::group(array('middleware' => ['auth']), function()
 {
     Route::any('/home', array(
         "as" => "user.home",
         "uses" => "UserController@index"
         ));
-    Route::group(array("before" => "checkPerms:manage_users"), function() {
+    Route::group(array('middleware' => ['permission:manage_users']), function() {
+
         Route::resource('user', 'UserController');
         Route::delete("/user/{id}/delete", array(
             "as"   => "user.delete",
@@ -98,7 +79,9 @@ Route::group(array("before" => "auth"), function()
         "as"   => "instrument.getControlResult",
         "uses" => "InstrumentController@getControlResult"
     ));
-    Route::group(array("before" => "checkPerms:manage_test_catalog"), function()
+
+
+    Route::group(array('middleware' => ['permission:manage_test_catalog']), function()
     {
         Route::resource('specimentype', 'SpecimenTypeController');
         Route::delete("/specimentype/{id}/delete", array(
@@ -157,7 +140,7 @@ Route::group(array("before" => "auth"), function()
             "uses" => "MicroCriticalController@delete"
         ));
     });
-    Route::group(array("before" => "checkPerms:manage_lab_configurations"), function()
+    Route::group(array('middleware' => ['permission:manage_lab_configurations']), function()
     {
         Route::resource('instrument', 'InstrumentController');
         Route::get("/instrument/{id}/delete", array(
@@ -291,7 +274,7 @@ Route::group(array("before" => "auth"), function()
         ));
     });
     // Check if able to manage lab configuration
-    Route::group(array("before" => "checkPerms:manage_lab_configurations"), function()
+    Route::group(array('middleware' => ['permission:manage_lab_configurations']), function()
     {
         Route::resource("facility", "FacilityController");
         Route::get("/facility/{id}/delete", array(
@@ -323,7 +306,7 @@ Route::group(array("before" => "auth"), function()
     });
     
     //  Check if able to manage reports
-    Route::group(array("before" => "checkPerms:view_reports"), function()
+    Route::group(array('middleware' => ['permission:view_reports']), function()
     {
         Route::any("/patientreport", array(
             "as"   => "reports.patient.index",
@@ -410,7 +393,7 @@ Route::group(array("before" => "auth"), function()
             "uses" => "ReportController@critical"
         ));
     });
-    Route::group(array("before" => "checkPerms:manage_qc"), function()
+    Route::group(array('middleware' => ['permission:manage_qc']), function()
     {
         Route::resource("lot", "LotController");
         Route::get('lot/{lotId}/delete', array(
@@ -456,7 +439,7 @@ Route::group(array("before" => "auth"), function()
         ));
     });
     
-    Route::group(array("before" => "checkPerms:request_topup"), function()
+    Route::group(array('middleware' => ['permission:request_topup']), function()
     {
         //top-ups
         Route::resource('topup', 'TopUpController');
@@ -469,7 +452,7 @@ Route::group(array("before" => "auth"), function()
             "uses"  =>  "TopUpController@availableStock"
         ));
     });
-    Route::group(array("before" => "checkPerms:manage_inventory"), function()
+    Route::group(array('middleware' => ['permission:manage_inventory']), function()
     {
         //Commodities
         Route::resource('commodity', 'CommodityController');

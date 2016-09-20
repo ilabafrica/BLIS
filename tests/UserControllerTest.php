@@ -80,7 +80,7 @@ class UserControllerTest extends TestCase
     {
         echo "\n\nUSER CONTROLLER TEST\n\n";
         // Store the User
-        $this->call('POST', '/user/register', $this->userData);
+        $this->call('POST', '/user', $this->userData);
         $userSaved = User::find(1);
         $this->assertEquals($userSaved->username , $this->userData['username']);
         $this->assertEquals($userSaved->email , $this->userData['email']);
@@ -97,7 +97,7 @@ class UserControllerTest extends TestCase
     public function testUpdate()
     {
         // Update the User Types
-        $this->call('POST', '/user/register', $this->userData);
+        $this->call('POST', '/user', $this->userData);
         $this->call('PUT', '/user/1', $this->userDataUpdate);
         $userUpdated = User::find(1);
 
@@ -114,7 +114,7 @@ class UserControllerTest extends TestCase
      */
     public function testDelete()
     {
-        $this->call('POST', '/user/register', $this->userData);
+        $this->call('POST', '/user', $this->userData);
         $this->call('DELETE', '/user/1/delete', $this->userData);
         $usersSaved = User::withTrashed()->find(1);
         $this->assertNotNull($usersSaved->deleted_at);
@@ -128,7 +128,7 @@ class UserControllerTest extends TestCase
 
     public function testHandlesValidLogin()
     {
-        $this->call('POST', '/user/register', $this->userData);
+        $this->call('POST', '/user', $this->userData);
         $this->call('POST', '/user/login', $this->userData);
         $this->assertRedirectedTo('home');
     }

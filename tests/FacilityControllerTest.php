@@ -100,6 +100,7 @@ class FacilityControllerTest extends TestCase
 	public function testStoreDelete()
 	{
 
+        $this->be(User::find(1));
 		$this->call('GET', '/facility/1/delete');
 
 		$facilityDeleted = Facility::find(1);

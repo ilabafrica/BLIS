@@ -112,6 +112,8 @@ class RoleControllerTest extends TestCase
     {
         // Set SOURCE URL - the index page for roles
         // Session::put('SOURCE_URL', URL::route('role.index'));
+        $this->be(User::find(1));
+
         $this->withSession(['SOURCE_URL' => URL::route('role.index')]);
         
         $this->call('GET', '/role/2/delete');
