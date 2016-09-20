@@ -161,6 +161,7 @@ return [
         /*
          * Vendor...
          */
+
         Zizaco\Entrust\EntrustServiceProvider::class,
         // todo: deal with the bindshare error it is causing
         // Milon\Barcode\BarcodeServiceProvider::class,
@@ -219,7 +220,7 @@ return [
          */
         'Form'      => 'Collective\Html\FormFacade',
         'HTML'      => 'Collective\Html\HtmlFacade',
-        'Entrust' => 'Zizaco\Entrust\EntrustFacade',
+        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'Carbon'  =>  Jenssegers\Date\Date::class,
     ],
 
