@@ -5,6 +5,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Supplier extends Model {
     use SoftDeletes;
-	protected $dates = ['deleted_at'];
 	protected $table = 'suppliers';
+	protected $dates = ['deleted_at'];
+
+	/**
+	 * Stock relationship
+	 */
+	public function stocks()
+	{
+	  return $this->hasMany('App\Models\Stock', 'supplier_id');
+	}
+
 }

@@ -27,7 +27,7 @@ class CriticalController extends Controller {
 		//List all criticals
 		$criticals = Critical::orderBy('id', 'ASC')->get();
 		//Load the view and pass the criticals
-		return View::make('critical.index')->with('criticals', $criticals);
+		return view('critical.index')->with('criticals', $criticals);
 	}
 
 
@@ -41,7 +41,7 @@ class CriticalController extends Controller {
 		// Get measures list
 		$measures = Measure::lists('name', 'id');
 		// Create critical
-		return View::make('critical.create')->with('measures', $measures);
+		return view('critical.create')->with('measures', $measures);
 	}
 
 
@@ -86,7 +86,7 @@ class CriticalController extends Controller {
 		//show a critical
 		$critical = Critical::find($id);
 		//show the view and pass the $critical to it
-		return View::make('critical.show')->with('critical', $critical);
+		return view('critical.show')->with('critical', $critical);
 	}
 
 
@@ -104,7 +104,7 @@ class CriticalController extends Controller {
 		$critical = Critical::find($id);
 
 		//Open the Edit View and pass to it the $critical
-		return View::make('critical.edit')->with('critical', $critical)->with('measures', $measures);
+		return view('critical.edit')->with('critical', $critical)->with('measures', $measures);
 	}
 
 

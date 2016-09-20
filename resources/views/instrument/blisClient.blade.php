@@ -25,7 +25,7 @@
 				{{ Form::open(array('method' => 'PUT', 'id' => 'form-edit-client')) }}
 					<div class="form-group">
 						{{ Form::label('equipment', trans('messages.equipment')) }}
-						{{ Form::select('client', array(0 => ' - ')+$client,
+						{{ Form::select('client', $client,
 							'', array('class' => 'form-control', 'id' => 'client', 'onchange' => "fetch_equipment_details()")) }}
 					</div>
 					<div id="eq_con_details" name="eq_con_details"></div>

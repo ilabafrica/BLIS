@@ -27,7 +27,7 @@ class MicroCriticalController extends Controller {
 		//List all microcriticals
 		$microcritical = MicroCritical::orderBy('id', 'ASC')->get();
 		//Load the view and pass the microcriticals
-		return View::make('microcritical.index')->with('microcritical', $microcritical);
+		return view('microcritical.index')->with('microcritical', $microcritical);
 	}
 
 
@@ -39,7 +39,7 @@ class MicroCriticalController extends Controller {
 	public function create()
 	{
 		//Create microcritical
-		return View::make('microcritical.create');
+		return view('microcritical.create');
 	}
 
 
@@ -76,7 +76,7 @@ class MicroCriticalController extends Controller {
 		//show a microcritical
 		$microcritical = MicroCritical::find($id);
 		//show the view and pass the $microcritical to it
-		return View::make('microcritical.show')->with('microcritical',$microcritical);
+		return view('microcritical.show')->with('microcritical',$microcritical);
 	}
 
 
@@ -92,7 +92,7 @@ class MicroCriticalController extends Controller {
 		$microcritical = MicroCritical::find($id);
 
 		//Open the Edit View and pass to it the $microcritical
-		return View::make('microcritical.edit')->with('microcritical', $microcritical);
+		return view('microcritical.edit')->with('microcritical', $microcritical);
 	}
 
 

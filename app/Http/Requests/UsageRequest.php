@@ -23,7 +23,11 @@ class UsageRequest extends Request {
 	{
 		$id = $this->ingnoreId();
 		return [
-            'stock_id'   => 'required:inv_usage,stock_id,'.$id,
+			'stock_id'   => 'required:inv_usage,stock_id,'.$id,
+			'request_id'   => 'required:inv_usage,request_id,'.$id,
+			'issued_by'   => 'required:inv_usage,issued_by,'.$id,
+			'received_by'   => 'required:inv_usage,received_by,'.$id,
+
         ];
 	}
 	/**
@@ -32,6 +36,9 @@ class UsageRequest extends Request {
 	public function ingnoreId(){
 		$id = $this->route('stocks.usage');
 		$stock_id = $this->input('stock_id');
-		return Usage::where(compact('stock_id'))->exists() ? $id : '';
+		$request_id = $this->input('request_id');
+		$issued_by = $this->input('issued_by');
+		$received_by = $this->input('received_by');
+		return Usage::where(compact('stock_id', 'request_id', 'issued_by', 'received_by'))->exists() ? $id : '';
 	}
 }

@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-       <li><a href="{{{URL::route('stock.index')}}}">{{ trans_choice('messages.stock', 2) }}</a></li>
+       <li><a href="{{{URL::route('stock.index')}}}">{{ Lang::choice('messages.stock', 2) }}</a></li>
 	 	  <li class="active">{{ trans('messages.stock-usage') }}</li>
 	</ol>
 </div>
@@ -34,7 +34,7 @@
                             array('class' => 'form-control standard-datepicker')) }}
                 </div>
                 <div class="form-group">
-                    {{ Form::label('request', trans_choice('messages.top-up', 1)) }}
+                    {{ Form::label('request', Lang::choice('messages.top-up', 1)) }}
                     @foreach($requests as $request)
                         @if( (count($request->usage)>0 && ($request->quantity_ordered-$request->issued())>0) || count($request->usage)==0)
                         <div class="radio col-sm-offset-3">
@@ -67,7 +67,7 @@
     	</div>
         <div class="col-md-4">
             <ul class="list-group">
-                <li class="list-group-item"><strong>{{ trans_choice('messages.item', 1).': '.$stock->item->name }}</strong></li>
+                <li class="list-group-item"><strong>{{ Lang::choice('messages.item', 1).': '.$stock->item->name }}</strong></li>
                 <li class="list-group-item"><h5><strong>{{ trans("messages.unit").': ' }}</strong>{{ $stock->item->unit }}</h5></li>
                 <li class="list-group-item"><h5><strong>{{ trans('messages.lot-no').': ' }}</strong>{{ $stock->lot }}</h5></li>
                 <li class="list-group-item"><h5><strong>{{ trans('messages.available-qty').': ' }}</strong>{{ $stock->quantity() }}</h5></li>                      

@@ -3,8 +3,8 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-       <li><a href="{{{URL::route('item.index')}}}">{{ trans_choice('messages.stock', 2) }}</a></li>
-	 	  <li class="active">{{ trans('messages.new').' '.trans_choice('messages.stock', 1) }}</li>
+       <li><a href="{{{URL::route('item.index')}}}">{{ Lang::choice('messages.stock', 2) }}</a></li>
+	 	  <li class="active">{{ trans('messages.new').' '.Lang::choice('messages.stock', 1) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -18,7 +18,7 @@
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
-		{{ trans_choice('messages.stock', 2) }}
+		{{ Lang::choice('messages.stock', 2) }}
 	</div>
 	<div class="panel-body">
 		   {{ Form::open(array('route' => 'stock.store', 'id' => 'form-store-stocks')) }}
@@ -41,7 +41,7 @@
                 {{ Form::text('manufacturer', Input::old('manufacturer'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('supplier', trans_choice('messages.supplier', 1)) }}
+                {{ Form::label('supplier', Lang::choice('messages.supplier', 1)) }}
                 {{ Form::select('supplier_id', $suppliers, '', array('class' => 'form-control')) }}
             </div>
             <div class="form-group">

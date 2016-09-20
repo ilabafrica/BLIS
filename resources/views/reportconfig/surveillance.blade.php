@@ -39,7 +39,7 @@
 					<div class="col-sm-5 col-md-3">
 		                <select class="form-control" name="surveillance[{{ $diseaseTest->id }}][test-type]"> 
 		                    <option value="0"></option>
-		                    @foreach (TestType::all() as $testType)
+		                    @foreach (App\Models\TestType::all() as $testType)
 		                        <option value="{{ $testType->id }}"
 		                        	{{($testType->id == $diseaseTest->test_type_id) ? 'selected="selected"' : '' }}>
 		                        	{{ $testType->name }}</option>
@@ -87,7 +87,7 @@
 			<div class="col-sm-5 col-md-3">
                 <select class="form-control test-type" name=""> 
 					<option value="0"></option>
-					@foreach (TestType::all() as $testType)
+					@foreach (App\Models\TestType::all() as $testType)
 					    <option value="{{ $testType->id }}">{{ $testType->name }}</option>
 					@endforeach
             	</select>

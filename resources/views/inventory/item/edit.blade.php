@@ -3,8 +3,8 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-       <li><a href="{{{URL::route('item.index')}}}">{{ trans_choice('messages.item', 2) }}</a></li>
-	 	  <li class="active">{{ trans('messages.edit').' '.trans_choice('messages.item', 1) }}</li>
+       <li><a href="{{{URL::route('item.index')}}}">{{ Lang::choice('messages.item', 2) }}</a></li>
+	 	  <li class="active">{{ trans('messages.edit').' '.Lang::choice('messages.item', 1) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -18,13 +18,13 @@
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
-		{{ trans_choice('messages.item',2) }}
+		{{ Lang::choice('messages.item',2) }}
 	</div>
 	<div class="panel-body">
 		   {{ Form::model($item, array('route' => array('item.update', $item->id), 'method' => 'PUT',
                'id' => 'form-edit-items')) }}
             <div class="form-group">
-                {{ Form::label('name', trans_choice('messages.name', 1)) }}
+                {{ Form::label('name', Lang::choice('messages.name', 1)) }}
                 {{ Form::text('name', Input::old('name'), array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
