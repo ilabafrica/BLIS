@@ -19,8 +19,8 @@ class SupplierController extends Controller {
 	public function index()
 	{
 		//
-		$suppliers = Supplier::orderBy('name', 'ASC')->get();
-		return view('supplier.index', compact('suppliers'))->with('suppliers', $suppliers);
+		 $suppliers = Supplier::orderBy('name', 'ASC')->get();
+		return view('inventory.supplier.index')->with('suppliers', $suppliers);
 	}
 
 	/**
@@ -40,20 +40,21 @@ class SupplierController extends Controller {
 	 */
 	public function store(SupplierRequest $request)
 	{
+		// store
 		$supplier = new Supplier;
-		$supplier->name = $request->name;
-		$supplier->phone = $request->phone;
-		$supplier->email = $request->email;
-		$supplier->address = $request->address;
+		$supplier->name= $request->name;
+		$supplier->phone= $request->phone;
+		$supplier->email= $request->email;
+		$supplier->address= $request->address;
 		$supplier->user_id = Auth::user()->id;
-
 		try{
 			$supplier->save();
 			$url = session('SOURCE_URL');
-
-	        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'));
+        
+        	return redirect()->to($url)
+				->with('message',  trans('messages.record-successfully-saved'));
 		}catch(QueryException $e){
-			Log::error($e);
+			\Log::error($e);
 		}
 	}
 
@@ -97,20 +98,20 @@ class SupplierController extends Controller {
 	public function update(SupplierRequest $request, $id)
 	{
 		$supplier = Supplier::find($id);
-		$supplier->name = $request->name;
-		$supplier->phone = $request->phone;
-		$supplier->email = $request->email;
-		$supplier->address = $request->address;
+		$supplier->name= $request->name;
+		$supplier->address= $request->address;
+		$supplier->phone= $request->phone;
+		$supplier->email= $request->email;
 		$supplier->user_id = Auth::user()->id;
+		$supplier->save();
 		try{
 			$supplier->save();
 			$url = session('SOURCE_URL');
 
-			return redirect()->to($url)
-				->with('message', trans('terms.record-successfully-updated'))
-				->with('activesupplier', $supplier->id);
+        	return redirect()->to($url)
+			->with('message', trans('messages.record-successfully-updated')) ->with('activesupplier', $supplier ->id);
 		}catch(QueryException $e){
-			Log::error($e);
+			\Log::error($e);
 		}
 	}	
 	/**
@@ -125,13 +126,13 @@ class SupplierController extends Controller {
 		$supplier = Supplier::find($id);
 		if(count($supplier->stocks)>0)
 		{
-			return Redirect::route('supplier.index')->with('message', trans('messages.failure-delete-record'));
+			return redirect()->to('supplier.index')->with('message', trans('messages.failure-delete-record'));
 		}
 		else
 		{
 			$supplier->delete();
 			// redirect
-			return Redirect::route('supplier.index')->with('message', trans('messages.record-successfully-deleted'));
+			return redirect()->to('supplier.index')->with('message', trans('messages.record-successfully-deleted'));
 		}
 	}
 }

@@ -31,7 +31,7 @@ class ControlMeasure extends Model {
 	* @return boolean
 	*/
 	public function isNumeric(){
-		if($this->control_measure_type_id == Measure::NUMERIC){
+		if($this->control_measure_type_id == App\Models\Measure::NUMERIC){
 			return true;
 		}
 		else 
@@ -44,7 +44,7 @@ class ControlMeasure extends Model {
 	* @return boolean
 	*/
 	public function isAlphanumeric(){
-		if($this->control_measure_type_id == Measure::ALPHANUMERIC){
+		if($this->control_measure_type_id == App\Models\Measure::ALPHANUMERIC){
 			return true;
 		}
 		else 

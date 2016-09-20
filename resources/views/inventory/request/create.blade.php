@@ -3,8 +3,8 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-       <li><a href="{{{URL::route('request.index')}}}">{{ trans_choice('messages.request', 2) }}</a></li>
-	 	  <li class="active">{{ trans('messages.new').' '.trans_choice('messages.request', 1) }}</li>
+       <li><a href="{{{URL::route('request.index')}}}">{{ Lang::choice('messages.request', 2) }}</a></li>
+	 	  <li class="active">{{ trans('messages.new').' '.Lang::choice('messages.request', 1) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -18,13 +18,13 @@
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
-		{{ trans_choice('messages.request', 2) }}
+		{{ Lang::choice('messages.request', 2) }}
 	</div>
 	<div class="panel-body">
 		   {{ Form::open(array('route' => 'request.store', 'id' => 'form-store-requests')) }}
 
             <div class="form-group">
-                {{ Form::label('item', trans_choice('messages.item', 1)) }}
+                {{ Form::label('item', Lang::choice('messages.item', 1)) }}
                 {{ Form::select('item_id', $items, '', array('class' => 'form-control')) }}
             </div>
             <div class="form-group">
@@ -32,7 +32,7 @@
                 {{ Form::text('quantity_remaining', Input::old('quantity_remaining'), array('class' => 'form-control')) }}
             </div>
             <div class="form-group">
-                {{ Form::label('test-category', trans_choice('messages.test-category', 1)) }}
+                {{ Form::label('test-category', Lang::choice('messages.test-category', 1)) }}
                 {{ Form::select('test_category_id', $testCategories, '', array('class' => 'form-control')) }}
             </div>            
             <div class="form-group">

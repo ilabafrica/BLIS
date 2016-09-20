@@ -7,8 +7,6 @@ use App\Models\User;
 use Config;
 use Response;
 use Auth;
-use Session;
-use Lang;
 use Input;
 
 class RoleController extends Controller {

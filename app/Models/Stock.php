@@ -10,14 +10,14 @@ class Stock extends Model {
     */
     public function supplier()
     {
-        return $this->belongsTo('App\Models\Supplier', 'supplier_id');
+        return $this->belongsTo('App\Models\Supplier');
     }
     /*
     *   Relationship with item
     */
     public function item()
     {
-        return $this->belongsTo('App\Models\Item', 'item_id');
+        return $this->belongsTo('App\Models\Item');
     }
     /*
     *   Relationship with usage
@@ -31,8 +31,10 @@ class Stock extends Model {
     */
     public function quantity()
     {
-    	$available = $this->quantity_supplied;
-    	$used = $this->usage->sum('quantity_used');
-    	return $available-$used;
+        $used = 0;
+        $available = $this->quantity_supplied;
+        if(count($this->usage)>0)
+           $used = $this->usage->sum('quantity_used');
+        return $available-$used;
     }
 }

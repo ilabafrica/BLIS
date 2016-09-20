@@ -2,6 +2,7 @@
 
 use App\Http\Requests\ItemRequest;
 use App\Models\Item;
+use App\Models\Barcode;
 use Response;
 use Session;
 use Auth;
@@ -16,10 +17,14 @@ class ItemController extends Controller {
 	 */
 	public function index()
 	{
-		//	Get all items
-		$items = Item::all();
-		return view('item.index', compact('items'));
+		//List all items
+		$items =Item::orderBy('name', 'ASC')->get();
+		//	Barcode
+		$barcode = Barcode::first();
+		//Load the view and pass the items
+		return view('inventory.item.index')->with('items', $items)->with('barcode', $barcode);
 	}
+
 
 	/**
 	 * Show the form for creating a new resource.
@@ -28,8 +33,10 @@ class ItemController extends Controller {
 	 */
 	public function create()
 	{
-		return view('item.create');
+		//Create Item
+		return view('inventory.item.create');
 	}
+
 
 	/**
 	 * Store a newly created resource in storage.
@@ -38,18 +45,27 @@ class ItemController extends Controller {
 	 */
 	public function store(ItemRequest $request)
 	{
+		//store
 		$item = new Item;
-        $item->name = $request->name;
-        $item->unit = $request->unit;
-        $item->remarks = $request->remarks;
-        $item->min_level = $request->min_level;
-        $item->max_level = $request->max_level;
-        $item->user_id = 1;
-        $item->save();
-        $url = session('SOURCE_URL');
+		$item->name = Input::get('name');
+        $item->unit = Input::get('unit');
+        $item->remarks = Input::get('remarks');
+        $item->min_level = Input::get('min_level');
+        $item->max_level = Input::get('max_level');
+        $item->storage_req = Input::get('storage_req');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_item', $item ->id);
+		$item->user_id = Auth::user()->id;
+		try{
+			$item->save();
+			$url = session('SOURCE_URL');
+        
+        	return redirect()->to($url)
+				->with('message', trans('messages.record-successfully-saved')) ->with('activeitem', $item ->id);
+		}catch(QueryException $e){
+			\Log::error($e);
+		}
 	}
+
 
 	/**
 	 * Display the specified resource.
@@ -59,11 +75,14 @@ class ItemController extends Controller {
 	 */
 	public function show($id)
 	{
-		//show a item
-		$item = Item::find($id);
+		//show a Item
+		$item =Item::find($id);
+		//	Barcode
+		$barcode = Barcode::first();
 		//show the view and pass the $item to it
-		return view('item.show', compact('item'));
+		return view('inventory.item.show')->with('item', $item)->with('barcode', $barcode);
 	}
+
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -73,11 +92,13 @@ class ItemController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//	Get item
-		$item = Item::find($id);
+		//Get the Item
+		$item =Item::find($id);
 
-        return view('item.edit', compact('item'));
+		//Open the Edit View and pass to it the $item
+		return view('inventory.item.edit')->with('item', $item);
 	}
+
 
 	/**
 	 * Update the specified resource in storage.
@@ -85,38 +106,27 @@ class ItemController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(ItemRequest $request, $id)
+	public function update($id)
 	{
-		$item = Item::findOrFail($id);
-		$item->name = $request->name;
-        $item->unit = $request->unit;
-        $item->remarks = $request->remarks;
-        $item->min_level = $request->min_level;
-        $item->max_level = $request->max_level;
-        $item->user_id = 1;
-        $item->save();
-        
-        $url = session('SOURCE_URL');
-
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-updated'))->with('active_item', $item ->id);
-	}	
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function delete($id)
-	{
-		//Soft delete the item
+		//store
 		$item = Item::find($id);
-		$item->delete();
+		$item->name = Input::get('name');
+        $item->unit = Input::get('unit');
+        $item->remarks = Input::get('remarks');
+        $item->min_level = Input::get('min_level');
+        $item->max_level = Input::get('max_level');
+        $item->storage_req = Input::get('storage_req');
+
+		$item->user_id = Auth::user()->id;
+		$item->save();
 
 		// redirect
 		$url = session('SOURCE_URL');
-
-        return redirect()->to($url)->with('message', trans('messages.record-successfully-deleted'));
+        
+        return redirect()->to($url)
+			->with('message', trans('messages.record-successfully-updated')) ->with('activeitem', $item ->id);
 	}
+
 
 	/**
 	 * Remove the specified resource from storage.
@@ -129,16 +139,24 @@ class ItemController extends Controller {
 		//
 	}
 	/**
-	 * generate barcode
+	 * Remove the specified resource from storage (soft delete).
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function barcode($id)
+	public function delete($id)
 	{
-		//Get the specific item
-		$item = Item::find($id);
-		//show the view and pass the $item to it
-		return DNS1D::getBarcodeHTML($item->id, "CODABAR");
+		//Soft delete the Item
+		$item =Item::find($id);		
+		$url = session('SOURCE_URL'); 
+		if(count($item->stocks)>0 || count($item->requests)>0)
+		{
+			return redirect()->to($url)->with('message', trans('messages.failure-delete-record'));
+		}
+		else
+		{
+			$item->delete();
+        	return redirect()->to($url)->with('message', trans('messages.record-successfully-deleted'));
+        }
 	}
 }

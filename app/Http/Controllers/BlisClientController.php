@@ -7,7 +7,6 @@ use Auth;
 use Session;
 use Lang;
 
-
 class BlisClientController extends Controller {
 
 	/**
@@ -18,8 +17,8 @@ class BlisClientController extends Controller {
 	public function index()
 	{
 		//	Get available equipment
-		$client = BlisClient::lists('equipment_name', 'id');
-		return View::make('instrument.blisClient')->with('client', $client);
+		$client = ['' => ' - '] + BlisClient::lists('equipment_name', 'id');
+		return view('instrument.blisClient')->with('client', $client);
 	}
 
 	/**
