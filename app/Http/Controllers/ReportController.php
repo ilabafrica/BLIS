@@ -206,7 +206,7 @@ class ReportController extends Controller
         $records = Input::get('records');
         $testCategory = Input::get('section_id');
         $testType = Input::get('test_type');
-        $labSections = TestCategory::lists('name', 'id');
+        $labSections = [''=>trans('messages.select-lab-section')] + TestCategory::lists('name', 'id')->all();
         if($testCategory)
             $testTypes = TestCategory::find($testCategory)->testTypes->lists('name', 'id');
         else
@@ -446,7 +446,7 @@ class ReportController extends Controller
             $tests = $tests->whereBetween('time_created', array($from, $toPlusOne));
         }
 
-        $allDates = $tests->lists('time_created');
+        $allDates = $tests->lists('time_created')->toArray();
         asort($allDates);
         $yearMonth = function($value){return strtotime(substr($value, 0, 7));};
         $allDates = array_map($yearMonth, $allDates);
@@ -935,7 +935,7 @@ class ReportController extends Controller
         }
         $testCategory = Input::get('section_id');
         $testType = Input::get('test_type');
-        $labSections = TestCategory::lists('name', 'id');
+        $labSections = [''=>trans('messages.select-lab-section')] + TestCategory::lists('name', 'id')->all();
         $interval = Input::get('period');
         $error = null;
         $accredited = array();
@@ -1166,23 +1166,22 @@ class ReportController extends Controller
         //edit or leave surveillance entries as is
         if (Input::get('surveillance')) {
             $diseases = Input::get('surveillance');
-
             foreach ($diseases as $id => $disease) {
                 $allSurveillanceIds[] = $id;
                 $surveillance = ReportDisease::find($id);
-                $surveillance->test_type_id = $disease['test-type'];
+                $surveillance->test_type_id = $disease['test_type'];
                 $surveillance->disease_id = $disease['disease'];
                 $surveillance->save();
             }
         }
         
         //save new surveillance entries
-        if (Input::get('new-surveillance')) {
-            $diseases = Input::get('new-surveillance');
+        if (Input::get('new_surveillance')) {
+            $diseases = Input::get('new_surveillance');
 
             foreach ($diseases as $id => $disease) {
                 $surveillance = new ReportDisease;
-                $surveillance->test_type_id = $disease['test-type'];
+                $surveillance->test_type_id = $disease['test_type'];
                 $surveillance->disease_id = $disease['disease'];
                 $surveillance->save();
                 $allSurveillanceIds[] = $surveillance->id;

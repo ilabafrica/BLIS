@@ -17,7 +17,7 @@ class BlisClientController extends Controller {
 	public function index()
 	{
 		//	Get available equipment
-		$client = ['' => ' - '] + BlisClient::lists('equipment_name', 'id');
+		$client = ['' => ' - '] + BlisClient::lists('equipment_name', 'id')->all();
 		return view('instrument.blisClient')->with('client', $client);
 	}
 

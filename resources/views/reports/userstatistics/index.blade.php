@@ -43,7 +43,7 @@
 		        	{{ Form::label('user', trans_choice('messages.user',1)) }}
 		        </div>
 		        <div class="col-md-10">
-		            {{ Form::select('user', array(0 => '-- All --')+App\Models\User::all()->sortBy('name')->lists('name','id'),
+		            {{ Form::select('user', array(0 => '-- All --')+App\Models\User::orderBy('name', 'asc')->lists('name','id')->all(),
 		            	isset($input['user'])?$input['user']:0, array('class' => 'form-control')) }}
 		        </div>
 	        </div>

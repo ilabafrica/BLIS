@@ -281,11 +281,11 @@ Route::group(array('middleware' => ['auth']), function()
             "as"   => "facility.delete",
             "uses" => "FacilityController@delete"
         ));
-        Route::any("/reportconfig/surveillance", array(
+        Route::post("/reportconfig/surveillance", array(
             "as"   => "reportconfig.surveillance",
             "uses" => "ReportController@surveillanceConfig"
         ));
-        Route::any("/reportconfig/disease", array(
+        Route::post("/reportconfig/disease", array(
             "as"   => "reportconfig.disease",
             "uses" => "ReportController@disease"
         ));

@@ -37,7 +37,7 @@
 	        	{{ Form::label('test_type', trans_choice('messages.test-category',1)) }}
 	        </div>
 	        <div class="col-md-8">
-	            {{ Form::select('test_category', array(0 => '-- All --')+App\Models\TestCategory::all()->sortBy('name')->lists('name','id'),
+	            {{ Form::select('test_category', array(0 => '-- All --')+App\Models\TestCategory::orderBy('name','asc')->lists('name','id')->all(),
 	            	isset($input['test_category'])?$input['test_category']:0, array('class' => 'form-control')) }}
 	        </div>
         </div>

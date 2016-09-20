@@ -101,7 +101,7 @@
 			    @forelse($ungroupedTests as $key => $value)
 
 			    <tr>
-			    	<td>{{ TestType::find($key)->name }}</td>
+			    	<td>{{ App\Models\TestType::find($key)->name }}</td>
 			    	<td>{{ $value['complete'] }}</td>
 			    	<td>{{ $value['pending'] }}</td>
 			    </tr>

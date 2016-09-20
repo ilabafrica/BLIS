@@ -44,7 +44,7 @@
 						{{ Form::label('description',  trans_choice('messages.test-category', 2)) }}
 					</div>
 					<div class="col-sm-2">
-						{{ Form::select('section_id', array(''=>trans('messages.select-lab-section'))+$labSections, 
+						{{ Form::select('section_id', $labSections, 
 							    		Request::old('testCategory') ? Request::old('testCategory') : $testCategory, 
 											array('class' => 'form-control', 'id' => 'section_id')) }}
 				    </div>
