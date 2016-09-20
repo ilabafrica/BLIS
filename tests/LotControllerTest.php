@@ -27,7 +27,7 @@ class LotControllerTest extends TestCase
 	 */
 	private function setVariables(){
 		//Setting the current user
-		$this->be(User::find(4));
+		$this->be(User::find(1));
 
 		$this->input = array(
 			'lot_no'=>'2015',

@@ -24,6 +24,7 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testIndex()
 	{
+		$this->be(User::find(1));
 		$this->call('GET', '/control');
 		$this->assertViewHas('controls');
 	}
@@ -33,6 +34,7 @@ class ControlControllerTest extends TestCase {
 	*/
 	public function testCreate()
 	{
+		$this->be(User::find(1));
 		$this->call('GET', '/control/create');
 		$this->assertViewHas('measureTypes');
 		$this->assertViewHas('instruments');
