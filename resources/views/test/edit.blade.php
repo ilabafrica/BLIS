@@ -261,12 +261,12 @@
 	                <div class="col-md-6">
 	                    <div class="panel panel-info">  <!-- Patient Details -->
 	                        <div class="panel-heading">
-	                            <h3 class="panel-title">{{trans("menu.patient-details")}}</h3>
+	                            <h3 class="panel-title">{{trans("messages.patient-details")}}</h3>
 	                        </div>
 	                        <div class="panel-body">
 	                            <div class="container-fluid">
 	                            	<div class="display-details">
-                                        <p class="view"><strong>{{trans("menu.patient-number")}}</strong>
+                                        <p class="view"><strong>{{trans("messages.patient-number")}}</strong>
 	                                        {{$test->visit->patient->patient_number}}</p>
 	                                    <p class="view"><strong>{{ trans_choice('messages.name',1) }}</strong>
                                 	        {{$test->visit->patient->name}}</p>
@@ -321,7 +321,7 @@
 	                   	</div>
 	                    <div class="panel panel-info">  <!-- Test Results -->
 	                        <div class="panel-heading">
-	                            <h3 class="panel-title">{{trans("menu.test-details")}}</h3>
+	                            <h3 class="panel-title">{{trans("messages.test-details")}}</h3>
 	                        </div>
 	                        <div class="panel-body">
 	                            <div class="container-fluid">

@@ -15,7 +15,7 @@
             <div class="container-fluid">
                 <div class="row less-gutter">
                     <div class="col-md-11">
-						<span class="glyphicon glyphicon-adjust"></span>{{trans('messages.new-test')}}
+						<span class="glyphicon glyphicon-adjust"></span> {{trans('messages.new-test')}}
                     </div>
                     <div class="col-md-1">
                         <a class="btn btn-sm btn-primary pull-right" href="#" onclick="window.history.back();return false;"
@@ -39,10 +39,10 @@
 						<div class="col-md-12">
 							<div class="panel panel-info">
 								<div class="panel-heading">
-									<h3 class="panel-title">{{trans("menu.patient-details")}}</h3>
+									<h3 class="panel-title">{{trans("messages.patient-details")}}</h3>
 								</div>
 								<div class="panel-body inline-display-details">
-									<span><strong>{{trans("menu.patient-number")}}</strong> {{ $patient->patient_number }}</span>
+									<span><strong>{{trans("messages.patient-number")}}</strong> {{ $patient->patient_number }}</span>
 									<span><strong>{{ trans_choice('messages.name',1) }}</strong> {{ $patient->name }}</span>
 									<span><strong>{{trans("messages.age")}}</strong> {{ $patient->getAge() }}</span>
 									<span><strong>{{trans("messages.gender")}}</strong>

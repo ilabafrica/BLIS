@@ -70,7 +70,7 @@ class TestController extends Controller {
 		$testStatus = array('all')+TestStatus::all()->lists('name','id')->toArray();
 
 		foreach ($testStatus as $key => $value) {
-			$testStatus[$key] = trans("terms.$value");
+			$testStatus[$key] = trans("messages.$value");
 		}
 
 

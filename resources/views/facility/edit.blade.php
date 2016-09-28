@@ -24,7 +24,7 @@
 			{{ Form::model($facility, array('route' => array('facility.update', $facility->id),
 				'method' => 'PUT', 'id' => 'form-edit-facility')) }}
 				<div class="form-group">
-					{{ Form::label('name', trans('messages.name')) }}
+					{{ Form::label('name', trans_choice('messages.name',1)) }}
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group actions-row">
