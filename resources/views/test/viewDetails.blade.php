@@ -87,23 +87,18 @@
 							<p class="view"><strong>{{trans('messages.verified-by')}}</strong>
 								{{$test->verifiedBy->name or trans('messages.verification-pending')}}</p>
 							@endif
-							@if((!$test->specimen->isRejected()) && ($test->isCompleted() || $test->isVerified()))
-							<!-- Not Rejected and (Verified or Completed)-->
-							<p class="view-striped"><strong>{{trans('messages.turnaround-time')}}</strong>
-								{{$test->getFormattedTurnaroundTime()}}</p>
-							@endif
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="panel panel-info">  <!-- Patient Details -->
 							<div class="panel-heading">
-								<h3 class="panel-title">{{trans("menu.patient-details")}}</h3>
+								<h3 class="panel-title">{{trans("messages.patient-details")}}</h3>
 							</div>
 							<div class="panel-body">
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-md-3">
-											<p><strong>{{trans("menu.patient-number")}}</strong></p></div>
+											<p><strong>{{trans("messages.patient-number")}}</strong></p></div>
 										<div class="col-md-9">
 											{{$test->visit->patient->external_patient_number}}</div></div>
 									<div class="row">
@@ -233,21 +228,21 @@
 						</div> <!-- ./ panel -->
 						<div class="panel panel-info">  <!-- Test Results -->
 							<div class="panel-heading">
-								<h3 class="panel-title">{{trans("menu.test-results")}}</h3>
+								<h3 class="panel-title">{{trans("messages.test-results")}}</h3>
 							</div>
 							<div class="panel-body">
 								<div class="container-fluid">
 								@foreach($test->testResults as $result)
 									<div class="row">
 										<div class="col-md-4">
-											<p><strong>{{ Measure::find($result->measure_id)->name }}</strong></p>
+											<p><strong>{{ $result->measure->name }}</strong></p>
 										</div>
 										<div class="col-md-3">
 											{{$result->result}}	
 										</div>
 										<div class="col-md-5">
-	        								{{ Measure::getRange($test->visit->patient, $result->measure_id) }}
-											{{ Measure::find($result->measure_id)->unit }}
+	        								{{ $result->measure->getRange($test->visit->patient, $result->measure_id) }}
+											{{ $result->measure->unit }}
 										</div>
 									</div>
 								@endforeach

@@ -1,9 +1,11 @@
 <?php namespace App\Http\Controllers;
-set_time_limit(0); //60 seconds = 1 minute
+
+use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Requests\TestRequest;
 
 use App\Models\Test;
+use App\Models\Measure;
 use App\Models\TestStatus;
 use App\Models\Visit;
 use App\Models\Referral;
@@ -180,8 +182,8 @@ class TestController extends Controller {
 	public function reject($specimenID)
 	{
 		$specimen = Specimen::find($specimenID);
-		$reasons = RejectionReason::lists('reason', 'id');
-		return view('test.reject', compact('specimen', 'reasons'));
+		$rejectionReasons = RejectionReason::lists('reason', 'id')->all();
+		return view('test.reject', compact('specimen', 'rejectionReasons'));
 	}
 
 	/**
@@ -190,32 +192,26 @@ class TestController extends Controller {
 	 * @param
 	 * @return
 	 */
-	public function rejectAction()
+	public function rejectAction(Request $request)
 	{
 		//Reject justifying why.
 		$rules = array(
 			'rejectionReason' => 'required|non_zero_key',
 			'reject_explained_to' => 'required',
 		);
-		$validator = Validator::make(Input::all(), $rules);
+		$this->validate($request, $rules);
 
-		if ($validator->fails()) {
-			return redirect()->to('test.reject', array(Input::get('specimen_id')))
-				->withInput()
-				->withErrors($validator);
-		} else {
-			$specimen = Specimen::find(Input::get('specimen_id'));
-			$specimen->rejection_reason_id = Input::get('rejectionReason');
-			$specimen->specimen_status_id = Specimen::REJECTED;
-			$specimen->rejected_by = Auth::user()->id;
-			$specimen->time_rejected = date('Y-m-d H:i:s');
-			$specimen->reject_explained_to = Input::get('reject_explained_to');
-			$specimen->save();
-			
-			$url = session('SOURCE_URL');
-			
-			return redirect()->to($url)->with('message', 'terms.success-rejecting-specimen')->with('activeTest', array($specimen->test->id));
-		}
+		$specimen = Specimen::find(Input::get('specimen_id'));
+		$specimen->rejection_reason_id = Input::get('rejectionReason');
+		$specimen->specimen_status_id = Specimen::REJECTED;
+		$specimen->rejected_by = Auth::user()->id;
+		$specimen->time_rejected = date('Y-m-d H:i:s');
+		$specimen->reject_explained_to = Input::get('reject_explained_to');
+		$specimen->save();
+		
+		$url = session('SOURCE_URL');
+		
+		return redirect()->to($url)->with('message', 'terms.success-rejecting-specimen')->with('activeTest', array($specimen->test->id));
 	}
 
 	/**

@@ -259,12 +259,12 @@ class Test extends Model
 		$tat_h = intval(($tat-($tat_y*(365*24*60*60))-($tat_w*(7*24*60*60))-($tat_d*(24*60*60)))/(60*60));
 		$tat_m = intval(($tat-($tat_y*(365*24*60*60))-($tat_w*(7*24*60*60))-($tat_d*(24*60*60))-($tat_h*(60*60)))/(60));
 		$tat_s = intval(($tat-($tat_y*(365*24*60*60))-($tat_w*(7*24*60*60))-($tat_d*(24*60*60))-($tat_h*(60*60))-($tat_m*(60))));
-		if($tat_y > 0) $ftat = $tat_y." ".trans_choice('terms.year',$tat_y)." ";
-		if($tat_w > 0) $ftat .= $tat_w." ".trans_choice('terms.week',$tat_w)." ";
-		if($tat_d > 0) $ftat .= $tat_d." ".trans_choice('terms.day',$tat_d)." ";
-		if($tat_h > 0) $ftat .= $tat_h." ".trans_choice('terms.hour',$tat_h)." ";
-		if($tat_m > 0) $ftat .= $tat_m." ".trans_choice('terms.minute',$tat_m)." ";
-		if($tat_s > 0) $ftat .= $tat_s." ".trans_choice('terms.second',$tat_s);
+		if($tat_y > 0) $ftat = $tat_y." ".trans_choice('messages.year',$tat_y)." ";
+		if($tat_w > 0) $ftat .= $tat_w." ".trans_choice('messages.week',$tat_w)." ";
+		if($tat_d > 0) $ftat .= $tat_d." ".trans_choice('messages.day',$tat_d)." ";
+		if($tat_h > 0) $ftat .= $tat_h." ".trans_choice('messages.hour',$tat_h)." ";
+		if($tat_m > 0) $ftat .= $tat_m." ".trans_choice('messages.minute',$tat_m)." ";
+		if($tat_s > 0) $ftat .= $tat_s." ".trans_choice('messages.second',$tat_s);
 
 		return $ftat;
 	}

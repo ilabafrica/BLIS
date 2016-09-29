@@ -28,7 +28,7 @@ class PatientController extends Controller {
 		$patients = Patient::search($search)->orderBy('id', 'desc')->paginate(config('blis.page-items'))->appends(Input::except('_token'));
 
 		if (count($patients) == 0) {
-		 	Session::flash('message', trans('terms.no-records-found'));
+		 	Session::flash('message', trans('messages.no-records-found'));
 		}
 
 		// Load the view and pass the patients
@@ -67,7 +67,7 @@ class PatientController extends Controller {
 		$patient->save();
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-saved'))->with('active_patient', $patient ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-saved'))->with('active_patient', $patient ->id);
 	}
 
 	/**
@@ -121,7 +121,7 @@ class PatientController extends Controller {
 		$patient->save();
         $url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-updated'))->with('active_patient', $patient ->id);
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-updated'))->with('active_patient', $patient ->id);
 	}
 
 	/**
@@ -151,7 +151,7 @@ class PatientController extends Controller {
 		// redirect
 		$url = session('SOURCE_URL');
 
-        return redirect()->to($url)->with('message', trans('terms.record-successfully-deleted'));
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-deleted'));
 	}
 
 	/**
