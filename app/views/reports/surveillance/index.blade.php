@@ -33,17 +33,13 @@
 	    	</div>
 	    </div>
 	    <div class="col-sm-4">
-			<div class="col-sm-3">
+			<div class="col-sm-6">
 			  	{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'),
 	                array('class' => 'btn btn-info', 'id' => 'filter', 'type' => 'submit')) }}
 	        </div>
-	        <div class="col-sm-4">
+	        <div class="col-sm-6">
 				{{Form::submit(trans('messages.export-to-word'),
 		    		array('class' => 'btn btn-success', 'id'=>'word', 'name'=>'word'))}}
-			</div>
-			<div class="col-sm-1">
-				{{Form::submit(trans('messages.export-to-excel'),
-		    		array('class' => 'btn btn-success', 'id'=>'excel', 'name'=>'excel'))}}
 			</div>
 	    </div>
 	</div>
@@ -91,15 +87,30 @@
 				</thead>
 				<tbody>
 					@foreach(Disease::all() as $disease)
-						<?php if(empty(count($disease->reportDiseases))) continue; ?>
+						 <?php
+                                                        $disease_count;
+                                                        if(method_exists($disease, 'reportDiseases')) //check if the method exists first otherwise a no value returns 
+                                                                                                        //results to 'connect reset html page' a problem noted in in ubuntu 12.04
+                                                        {$disease_count = count($disease->reportDiseases); } else
+                                                        {$disease_count = null; }
+                                                        if(empty($disease_count)) continue; 
+                                                ?>
+
 						<tr>
 							<td>{{ $disease->name }}</td>
-							<td>{{ $surveillance[$disease->id.'_less_five_total'] }}</td> <!-- less than five total tested -->
-							<td>{{ $surveillance[$disease->id.'_less_five_positive'] }}</td> <!-- less than five positive -->
-							<td>{{ $surveillance[$disease->id.'_total'] - $surveillance[$disease->id.'_less_five_total'] }}</td> <!-- greater than five total tested -->
-							<td>{{ $surveillance[$disease->id.'_positive'] - $surveillance[$disease->id.'_less_five_positive'] }}</td> <!-- greater than five positive -->
-							<td>{{ $surveillance[$disease->id.'_total'] }}</td> <!-- total tested-->
-							<td>{{ $surveillance[$disease->id.'_positive'] }}</td> <!-- total positive-->
+							<td>{{ $surveillance[$disease->id.
+								'_less_five_total'] }}</td>
+							<td>{{ $surveillance[$disease->id.
+								'_less_five_positive'] }}</td>
+							<td>{{ $surveillance[$disease->id.
+								'_total'] - $surveillance[$disease->id.
+								'_less_five_total'] }}</td>
+							<td>{{ $surveillance[$disease->id.
+								'_positive'] - $surveillance[$disease->id.
+								'_less_five_positive'] }}</td>
+							<td>{{ $surveillance[$disease->id.
+								'_total'] }}</td>
+							<td>{{ $surveillance[$disease->id.'_positive'] }}</td>
 						</tr>
 					@endforeach
 				</tbody>
