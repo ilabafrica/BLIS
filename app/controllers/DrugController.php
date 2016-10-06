@@ -46,7 +46,7 @@ class DrugController extends \BaseController {
 	
 		//process
 		if($validator->fails()){
-			return Redirect::back()->withErrors($validator);
+			return Redirect::back()->withErrors($validator)->WithInput();
 		}else{
 			//store
 			$drug = new Drug;

@@ -75,7 +75,7 @@ class TestTypeController extends \BaseController {
 		//dd(Input::get('new-measures'));
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::route('testtype.create')->withErrors($validator);
+			return Redirect::route('testtype.create')->withErrors($validator)->WithInput();
 		} else {
 			// store 
 			$testtype = new TestType;

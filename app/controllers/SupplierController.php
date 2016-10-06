@@ -37,7 +37,7 @@ class SupplierController extends \BaseController {
 
 		
 		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator);
+			return Redirect::back()->withErrors($validator)->WithInput();
 		} else {
 			// store
 			$supplier = new Supplier;

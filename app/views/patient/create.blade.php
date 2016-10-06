@@ -25,11 +25,11 @@
 				<div class="form-group">
 					{{ Form::label('patient_number', trans('messages.patient-number')) }}
 					{{ Form::text('patient_number', $lastInsertId,
-						array('class' => 'form-control')) }}
+						array('class' => 'form-control', 'maxlength' => 16)) }}
 				</div>
 				<div class="form-group">
 					{{ Form::label('name', trans('messages.names')) }}
-					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
+					{{ Form::text('name', Input::old('name'), array('class' => 'form-control', 'maxlength' => 50)) }}
 				</div>
 				<div class="form-group">
 					{{ Form::label('dob', trans('messages.date-of-birth')) }}

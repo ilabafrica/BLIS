@@ -168,7 +168,8 @@
                                             </span>
                                         @elseif($test->specimen->isAccepted())
                                             <span class='label label-success'>
-                                                {{trans('messages.specimen-accepted-label')}}</span>
+                                                {{trans('messages.specimen-accepted-label')}}
+                                            </span>
                                         @elseif($test->specimen->isRejected())
                                             <span class='label label-danger'>
                                                 {{trans('messages.specimen-rejected-label')}}</span>
@@ -184,7 +185,10 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 {{trans('messages.view-details')}}
                             </a>
-                            
+                             <a class="btn btn-sm btn-midnight-blue barcode-button" onclick="print_barcode({{ "'".$test->specimen->id."'".', '."'".$barcode->encoding_format."'".', '."'".$barcode->barcode_width."'".', '."'".$barcode->barcode_height."'".', '."'".$barcode->text_size."'" }})" title="{{trans('messages.barcode')}}">
+                                    <span class="glyphicon glyphicon-barcode"></span>
+                                    {{trans('messages.barcode')}}
+                             </a>
                         @if ($test->isNotReceived()) 
                             @if(Auth::user()->can('receive_external_test') && $test->isPaid())
                                 <a class="btn btn-sm btn-default receive-test" href="javascript:void(0)"
@@ -220,16 +224,15 @@
                         @endif
                         @if ($test->specimen->isAccepted() && !($test->isVerified()))
                             @if(Auth::user()->can('reject_test_specimen') && !($test->specimen->isReferred()))
-                                <a class="btn btn-sm btn-danger" id="reject-{{$test->id}}-link"
+                                @if($test->isPending()) <!-- can only reject specimen if the test is still pending -->
+                                    <a class="btn btn-sm btn-danger" id="reject-{{$test->id}}-link"
                                     href="{{URL::route('test.reject', array($test->specimen_id))}}"
                                     title="{{trans('messages.reject-title')}}">
                                     <span class="glyphicon glyphicon-thumbs-down"></span>
                                     {{trans('messages.reject')}}
-                                </a>
-                                <a class="btn btn-sm btn-midnight-blue barcode-button" onclick="print_barcode({{ "'".$test->specimen->id."'".', '."'".$barcode->encoding_format."'".', '."'".$barcode->barcode_width."'".', '."'".$barcode->barcode_height."'".', '."'".$barcode->text_size."'" }})" title="{{trans('messages.barcode')}}">
-                                    <span class="glyphicon glyphicon-barcode"></span>
-                                    {{trans('messages.barcode')}}
-                                </a>
+                                    </a>
+                                @endif
+                               
                             @endif
                             @if ($test->isPending())
                                 @if(Auth::user()->can('start_test'))
@@ -306,7 +309,7 @@
               <div class="col-lg-12">
                 <div class="input-group">
                   <input type="text" class="form-control search-text" 
-                    placeholder="{{ trans('messages.search-patient-placeholder') }}">
+                         placeholder="{{ trans('messages.search-patient-placeholder') }}" autofocus="TRUE">
                   <span class="input-group-btn">
                     <button class="btn btn-default search-patient" type="button">
                         {{ trans('messages.patient-search-button') }}</button>

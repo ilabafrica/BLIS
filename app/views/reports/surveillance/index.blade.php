@@ -87,7 +87,15 @@
 				</thead>
 				<tbody>
 					@foreach(Disease::all() as $disease)
-						<?php if(empty(count($disease->reportDiseases))) continue; ?>
+						 <?php
+                                                        $disease_count;
+                                                        if(method_exists($disease, 'reportDiseases')) //check if the method exists first otherwise a no value returns 
+                                                                                                        //results to 'connect reset html page' a problem noted in in ubuntu 12.04
+                                                        {$disease_count = count($disease->reportDiseases); } else
+                                                        {$disease_count = null; }
+                                                        if(empty($disease_count)) continue; 
+                                                ?>
+
 						<tr>
 							<td>{{ $disease->name }}</td>
 							<td>{{ $surveillance[$disease->id.

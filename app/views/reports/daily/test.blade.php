@@ -38,9 +38,13 @@
 				  	{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
 		                array('class' => 'btn btn-info', 'id' => 'filter', 'type' => 'submit')) }}
 		        </div>
-		        <div class="col-sm-1">
+		        <div class="col-sm-3">
 					{{Form::submit(trans('messages.export-to-word'), 
 			    		array('class' => 'btn btn-success', 'id'=>'word', 'name'=>'word'))}}
+				</div>
+				 <div class="col-sm-1">
+					{{Form::submit(trans('messages.export-to-excel'), 
+			    		array('class' => 'btn btn-success', 'id'=>'excel', 'name'=>'excel'))}}
 				</div>
 			</div>
 		</div>
@@ -48,42 +52,55 @@
 	<div class='row spacer'>
 		<div class="col-sm-12">
 	    	<div class="row">
-				<div class="col-sm-2">
-				  	<label class="radio-inline">
-						{{ Form::radio('records', 'tests', true, array('data-toggle' => 'radio', 
-						  'id' => 'tests')) }} {{trans('messages.test-records')}}
-					</label>
-				</div>
-				<div class="col-sm-2">
-				    <label class="radio-inline">
-						{{ Form::radio('records', 'patients', false, array('data-toggle' => 'radio',
-						  'id' => 'patients', Entrust::can('can_access_ccc_reports')?'disabled':'' )) }} {{trans('messages.patient-records')}}
-					</label>
-				</div>
-				<div class="col-sm-2">
-				    <label class="radio-inline">
-						{{ Form::radio('records', 'rejections', false, array('data-toggle' => 'radio',
-						  'id' => 'specimens', Entrust::can('can_access_ccc_reports')?'disabled':'' )) }} {{trans('messages.rejected-specimen')}}
-					</label>
-				</div>
-				<div class="col-sm-2">
-					<label class="radio-inline">
-			    		{{ Form::radio('pending_or_all', 'pending', ($pendingOrAll=='pending')?true:false, array('data-toggle' => 'radio',
-						'id' => 'pending')) }} {{trans('messages.pending-tests')}}
-					</label>
-				</div>
-				<div class="col-sm-2">
-					<label class="radio-inline">
-						{{ Form::radio('pending_or_all', 'complete', ($pendingOrAll=='complete')?true:false, array('data-toggle' => 'radio',
-						'id' => 'pending')) }} {{trans('messages.complete-tests')}}
-					</label>
-				</div>
-				<div class="col-sm-2">
-				    <label class="radio-inline">
-				    	{{ Form::radio('pending_or_all', 'all', ($pendingOrAll=='all')?true:false, array('data-toggle' => 'radio',
-						  'id' => 'all')) }} {{trans('messages.all-tests')}}
-					</label>
-				</div>
+		    	<div class="col-lg-6">
+		    		<div class="panel panel-default">
+		    			 <div class="panel-body">
+	    			 		<div class="col-sm-3">
+							  	<label class="radio-inline">
+									{{ Form::radio('records', 'tests', true, array('data-toggle' => 'radio', 
+									  'id' => 'tests')) }} {{trans('messages.test-records')}}
+								</label>
+							</div>
+							<div class="col-sm-3">
+							    <label class="radio-inline">
+									{{ Form::radio('records', 'patients', false, array('data-toggle' => 'radio',
+									  'id' => 'patients', Entrust::can('can_access_ccc_reports')?'disabled':'' )) }} {{trans('messages.patient-records')}}
+								</label>
+							</div>
+							<div class="col-sm-3">
+							    <label class="radio-inline">
+									{{ Form::radio('records', 'rejections', false, array('data-toggle' => 'radio',
+									  'id' => 'specimens', Entrust::can('can_access_ccc_reports')?'disabled':'' )) }} {{trans('messages.rejected-specimen')}}
+								</label>
+							</div>
+	    			 	</div>
+		    		</div>
+		    	</div>
+
+		    	<div class="col-lg-6">
+		    		<div class="panel panel-default">
+		    			 <div class="panel-body">
+	    			 		<div class="col-sm-3">
+								<label class="radio-inline">
+						    		{{ Form::radio('pending_or_all', 'pending', ($pendingOrAll=='pending')?true:false, array('data-toggle' => 'radio',
+									'id' => 'pending')) }} {{trans('messages.pending-tests')}}
+								</label>
+							</div>
+							<div class="col-sm-3">
+								<label class="radio-inline">
+									{{ Form::radio('pending_or_all', 'complete', ($pendingOrAll=='complete')?true:false, array('data-toggle' => 'radio',
+									'id' => 'pending')) }} {{trans('messages.complete-tests')}}
+								</label>
+							</div>
+							<div class="col-sm-3">
+							    <label class="radio-inline">
+							    	{{ Form::radio('pending_or_all', 'all', ($pendingOrAll=='all')?true:false, array('data-toggle' => 'radio',
+									  'id' => 'all')) }} {{trans('messages.all-tests')}}
+								</label>
+							</div>
+	    			 	</div>
+		    		</div>
+		    	</div>
 		  	</div>
 	  	</div>
   	</div>

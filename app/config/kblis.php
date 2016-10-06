@@ -17,7 +17,7 @@ return array(
 	|
 	*/
 
-	'version' => 'v2.5',
+	'version' => 'v2.6',
 
 	/*
 
@@ -37,7 +37,7 @@ return array(
 	|
 	*/
 
-	'organization' => 'Basic Laboratory Information System',
+	'organization' => 'I-TECH Basic Laboratory Information System',
 	
 
 

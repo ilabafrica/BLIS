@@ -64,7 +64,7 @@
 							<h3 class="view"><strong>{{ Lang::choice('messages.test-type',1) }}</strong>
 								{{ $test->testType->name or trans('messages.unknown') }}</h3>
 							<p class="view"><strong>{{trans('messages.visit-number')}}</strong>
-								{{$test->visit->visit_number or trans('messages.unknown') }}</p>
+								{{$test->visit->id or trans('messages.unknown') }}</p>
 							<p class="view"><strong>{{trans('messages.date-ordered')}}</strong>
 								{{ $test->isExternal()?$test->external()->request_date:$test->time_created }}</p>
 							<p class="view"><strong>{{trans('messages.lab-receipt-date')}}</strong>
@@ -105,7 +105,7 @@
 										<div class="col-md-3">
 											<p><strong>{{trans("messages.patient-number")}}</strong></p></div>
 										<div class="col-md-9">
-											{{$test->visit->patient->external_patient_number}}</div></div>
+											{{$test->visit->patient->patient_number}}</div></div>
 									<div class="row">
 										<div class="col-md-3">
 											<p><strong>{{ Lang::choice('messages.name',1) }}</strong></p></div>

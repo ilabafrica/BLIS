@@ -23,7 +23,7 @@ class Test extends Eloquent
 	/**
 	 * Other constants
 	 */
-	const POSITIVE = '+';
+	const POSITIVE = 'Positive';
 
 	/**
 	 * Visit relationship
@@ -539,50 +539,79 @@ class Test extends Eloquent
 		$positiveRangesQuery = '';
 
 		//Formating the positive ranges into part of the the query string
-		foreach ($positiveRanges as $positiveRange) {
+		//ZEEK: not the best design, causes the query to be unreasonably big. Isn't what we need a 'Positive' result
+		/*foreach ($positiveRanges as $positiveRange) {
 			if ($idCount == 0) {
 				$positiveRangesQuery = "tr.result='".$positiveRange."'";
 			} else {
 				$positiveRangesQuery = $positiveRangesQuery." or tr.result='".$positiveRange."'";
 			}
 			$idCount++;
-		}
+		}*/
+                if (count($positiveRanges) > 0)
+                { 
+                    /*Stool culture organims results are neither positive or negative.
+                     * Since they are free text like 'Shingella isolated', it is complicated using a standard query
+                     * due to the possiblity of user typing wide range of non standard text. The reason why querying for non negatives
+                    */
+                    $positiveRangesQuery = "tr.result='Positive' or tr.result<>'Negative'";
+                }
+		//echo print_r($positiveRangesQuery);
 
 		// Query only if there are entries for surveillance
 		if (!empty($surveillances) && !empty($positiveRangesQuery)) {
 			//Select surveillance data for the defined diseases
-			$query = "SELECT ";
+			$query = "SELECT * FROM ";
 			foreach ($surveillances as $surveillance) {
-				$query = $query.
+                            $t_id = '';
+                            $organism_id = 0;
+                            if ($surveillance['disease_id'] == 2)
+                            {
+                                $t_id = 'd.test_id';
+                                $organism_id = 8;
+                            }elseif ($surveillance['disease_id'] == 3)
+                            {
+                                $t_id = 'd.test_id';
+                                $organism_id = 9;
+                            }else
+                            {
+                                $t_id = 't.id';
+                            }
+                            $query = $query."(SELECT ";
+                            $query = $query.
 					"COUNT(DISTINCT if((".$surveillance['test_type_id']."),t.id,NULL)) as ".$surveillance['disease_id']."_total,".
 					"COUNT(DISTINCT if(((".$surveillance['test_type_id'].
 						") and DATE_SUB(NOW(), INTERVAL 5 YEAR)<p.dob),t.id,NULL)) as ".$surveillance['disease_id']."_less_five_total, ".
 					"COUNT(DISTINCT if(((".$surveillance['test_type_id'].") and (".$positiveRangesQuery.
-						")),t.id,NULL)) as ".$surveillance['disease_id']."_positive,".
+						")),".$t_id." ,NULL)) as ".$surveillance['disease_id']."_positive,".
 					"COUNT(DISTINCT if(((".$surveillance['test_type_id'].") and (".$positiveRangesQuery.
-						") and DATE_SUB(NOW(), INTERVAL 5 YEAR)<p.dob),t.id,NULL)) as ".$surveillance['disease_id'].
+						") and DATE_SUB(NOW(), INTERVAL 5 YEAR)<p.dob),".$t_id.",NULL)) as ".$surveillance['disease_id'].
 							"_less_five_positive";
 
-			    //Add no comma if it is the last variable in the array
-			    if($surveillance == end($surveillances)) {
-			        $query = $query." ";
-			    }else{
-			        $query = $query.", ";
-			    }
-			}
-
-			$query = $query." FROM tests t ".
+			    $query = $query." FROM tests t ".
 				"INNER JOIN test_results tr ON t.id=tr.test_id ".
 				"JOIN visits v ON v.id=t.visit_id ".
+                                "LEFT JOIN (SELECT DISTINCT(`test_id`) FROM `drug_susceptibility` WHERE organism_id = ".$organism_id." ) d ON tr.test_id=d.test_id ".
 				"JOIN patients p ON v.patient_id=p.id ";
 				if ($from) {
 					$query = $query."WHERE (time_created BETWEEN '".$from."' AND '".$to."')";
 				}
-
+                                
+                            $query = $query.") AS s".$surveillance['disease_id'];
+                            //Add no JOIN if it is the last variable in the array
+			    if($surveillance == end($surveillances)) {
+			        $query = $query." ";
+			    }else{
+			        $query = $query." JOIN";
+			    }
+                                                        
+			}
+                        //echo $query;
 			$data = DB::select($query);
 			$data = json_decode(json_encode($data), true);
 			return $data[0];
 		}else{
+			
 			return null;
 		}
 	}
@@ -602,7 +631,6 @@ class Test extends Eloquent
 			$measureRanges = $measure->measureRanges;
 
 			foreach ($measureRanges as $measureRange) {
-
 				if ($measureRange->interpretation == Test::POSITIVE) {
 					$positiveRanges[] = $measureRange->alphanumeric;
 				}

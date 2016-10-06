@@ -52,7 +52,7 @@ class InstrumentController extends \BaseController {
 
 		// Validate form input
 		if ($validator->fails()) {
-			return Redirect::route('instrument.create')->withErrors($validator);
+			return Redirect::route('instrument.create')->withErrors($validator)->WithInput();
 		} else {
 			// Save the instrument
 			$newInstrument = new Instrument();

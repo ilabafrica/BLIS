@@ -1,0 +1,17 @@
+INSERT INTO iblis.organisms(name) VALUES ('Escherichia coli');
+INSERT INTO iblis.organisms(name) VALUES ('Pseudomonas aeruginosa');
+INSERT INTO iblis.organisms(name) VALUES ('Klebsiella');
+INSERT INTO iblis.organisms(name) VALUES ('Staphylococcus');
+INSERT INTO iblis.organisms(name) VALUES ('Enterococcus faecalis');
+INSERT INTO iblis.organisms(name) VALUES ('Candida');
+INSERT INTO iblis.organisms(name) VALUES ('Proteus spp');
+INSERT INTO iblis.organisms(name) VALUES ('Salmonella species');
+INSERT INTO iblis.organisms(name) VALUES ('Shigella');
+INSERT INTO iblis.organisms(name) VALUES ('Bordetella pertusis');
+INSERT INTO iblis.organisms(name) VALUES ('Vibrio cholerae');
+INSERT INTO iblis.organisms(name) VALUES ('Gardinerella vaginalis');
+INSERT INTO iblis.organisms(name) VALUES ('Clostridium');
+INSERT INTO iblis.organisms(name) VALUES ('Streptococcus species');
+INSERT INTO iblis.organisms(name) VALUES ('Haemophilus');
+INSERT INTO iblis.organisms(name) VALUES ('Neisseria');
+INSERT INTO iblis.organisms(name) VALUES ('Coliforms');

@@ -1,0 +1,13 @@
+INSERT INTO iblis.drugs(name) VALUES ('Erythromycin 15 µg');
+INSERT INTO iblis.drugs(name) VALUES ('Kanamycin 30 µg');
+INSERT INTO iblis.drugs(name) VALUES ('Neomycin 30 µg');
+INSERT INTO iblis.drugs(name) VALUES ('Novobiocin 30 µg');
+INSERT INTO iblis.drugs(name) VALUES ('Penicillin G 10 units');
+INSERT INTO iblis.drugs(name) VALUES ('Streptomycin 10 µg');
+INSERT INTO iblis.drugs(name) VALUES ('Tetracycline 30 µg');
+INSERT INTO iblis.drugs(name) VALUES ('Chloramphenicol 30 µg');
+INSERT INTO iblis.drugs(name) VALUES ('Amikacin 30 µg');
+INSERT INTO iblis.drugs(name) VALUES ('Amdinocillin  10 µg');
+INSERT INTO iblis.drugs(name) VALUES ('Vancomycin 30 µg');
+INSERT INTO iblis.drugs(name) VALUES ('Levofloxacin 5 µg');
+INSERT INTO iblis.drugs(name) VALUES ('Ciprofloxacin 5 µg');

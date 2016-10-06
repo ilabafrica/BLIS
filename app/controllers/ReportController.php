@@ -123,7 +123,23 @@ class ReportController extends \BaseController {
 							->with('accredited', $accredited);
 	    	return Response::make($content,200, $headers);
 		}
-		else{
+		else if(Input::has('excel')){
+			$date = date("Ymdhi");
+			$fileName = "blispatient_".$id."_".$date.".xls";
+			$headers = array(
+			    "Content-type"=>"text/html",
+			    "Content-Disposition"=>"attachment;Filename=".$fileName
+			);
+			$content = View::make('reports.patient.export')
+							->with('patient', $patient)
+							->with('tests', $tests)
+							->with('from', $from)
+							->with('to', $to)
+							->with('visit', $visit)
+							->with('accredited', $accredited);
+	    	return Response::make($content,200, $headers);
+		}
+		else {
 			return View::make('reports.patient.report')
 						->with('patient', $patient)
 						->with('tests', $tests)
@@ -206,6 +222,19 @@ class ReportController extends \BaseController {
 								->withInput(Input::all());
 		    	return Response::make($content,200, $headers);
 			}
+			else if(Input::has('excel')){
+				$date = date("Ymdhi");
+				$fileName = "daily_visits_log_".$date.".xls";
+				$headers = array(
+				    "Content-type"=>"text/html",
+				    "Content-Disposition"=>"attachment;Filename=".$fileName
+				);
+				$content = View::make('reports.daily.exportPatientLog')
+								->with('visits', $visits)
+								->with('accredited', $accredited)
+								->withInput(Input::all());
+		    	return Response::make($content,200, $headers);
+			}
 			else{
 				return View::make('reports.daily.patient')
 								->with('visits', $visits)
@@ -249,6 +278,21 @@ class ReportController extends \BaseController {
 			if(Input::has('word')){
 				$date = date("Ymdhi");
 				$fileName = "daily_rejected_specimen_".$date.".doc";
+				$headers = array(
+				    "Content-type"=>"text/html",
+				    "Content-Disposition"=>"attachment;Filename=".$fileName
+				);
+				$content = View::make('reports.daily.exportSpecimenLog')
+								->with('specimens', $specimens)
+								->with('testCategory', $testCategory)
+								->with('testType', $testType)
+								->with('accredited', $accredited)
+								->withInput(Input::all());
+		    	return Response::make($content,200, $headers);
+			}
+			else if(Input::has('excel')){
+				$date = date("Ymdhi");
+				$fileName = "daily_rejected_specimen_".$date.".xls";
 				$headers = array(
 				    "Content-type"=>"text/html",
 				    "Content-Disposition"=>"attachment;Filename=".$fileName
@@ -318,6 +362,22 @@ class ReportController extends \BaseController {
 			if(Input::has('word')){
 				$date = date("Ymdhi");
 				$fileName = "daily_test_records_".$date.".doc";
+				$headers = array(
+				    "Content-type"=>"text/html",
+				    "Content-Disposition"=>"attachment;Filename=".$fileName
+				);
+				$content = View::make('reports.daily.exportTestLog')
+								->with('tests', $tests)
+								->with('testCategory', $testCategory)
+								->with('testType', $testType)
+								->with('pendingOrAll', $pendingOrAll)
+								->with('accredited', $accredited)
+								->withInput(Input::all());
+		    	return Response::make($content,200, $headers);
+			}
+			else if(Input::has('excel')){
+				$date = date("Ymdhi");
+				$fileName = "daily_test_records_".$date.".xls";
 				$headers = array(
 				    "Content-type"=>"text/html",
 				    "Content-Disposition"=>"attachment;Filename=".$fileName
@@ -1110,6 +1170,18 @@ class ReportController extends \BaseController {
 							->with('accredited', $accredited)
 							->withInput(Input::all());
 			return Response::make($content,200, $headers);
+		}else if(Input::has('excel')){
+			$fileName = "surveillance_".$date.".xls";
+			$headers = array(
+			    "Content-type"=>"text/html",
+			    "Content-Disposition"=>"attachment;Filename=".$fileName
+			);
+			$content = View::make('reports.surveillance.exportSurveillance')
+							->with('surveillance', $surveillance)
+							->with('tests', $tests)
+							->with('accredited', $accredited)
+							->withInput(Input::all());
+			return Response::make($content,200, $headers);
 		}else{
 			return View::make('reports.surveillance.index')
 					->with('accredited', $accredited)
@@ -1597,17 +1669,6 @@ class ReportController extends \BaseController {
 								$table.='<td>'.$this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, [$range], 1).'</td>';
 							}
 						$table.='</tr>
-						<tr>
-							<td>PSA</td>';
-							$tMeasure = Measure::find(Measure::getMeasureIdByName('PSA'));
-							foreach ($sex as $gender) {
-								$table.='<td>'.$this->getTotalTestResults($tMeasure, [$gender], null, $from, $toPlusOne, null, null).'</td>';
-							}
-							$table.='<td>'.$this->getTotalTestResults($tMeasure, $sex, null, $from, $toPlusOne, null, 1).'</td>';
-							foreach ($ranges as $range) {
-								$table.='<td>'.$this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, [$range], 1).'</td>';
-							}
-						$table.='</tr>
 					</tbody>
 				</table>
 				<table class="table table-condensed report-table-border">
@@ -1895,17 +1956,17 @@ class ReportController extends \BaseController {
 						</tr>
 						<tr>
 							<td>Total</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>L. donovani</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>';
 				$stool = TestType::getTestTypeIdByTestName('Stool for O/C');
@@ -2326,75 +2387,75 @@ class ReportController extends \BaseController {
 						</tr>
 						<tr>
 							<td>Pap Smear</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Tissue Impressions</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td colspan="9">TISSUE ASPIRATES (FNA)</td>
 						</tr>
 						<tr>
 							<td></td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td colspan="9">FLUID CYTOLOGY</td>
 						</tr>
 						<tr>
 							<td>Ascitic fluid</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>CSF</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Pleural fluid</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Others</td>
@@ -2412,69 +2473,69 @@ class ReportController extends \BaseController {
 						</tr>
 						<tr>
 							<td>Cervix</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Prostrate</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Breast</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Ovarian cyst</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Fibroids</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Lymph nodes</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Others</td>
@@ -2875,14 +2936,14 @@ class ReportController extends \BaseController {
 							$table.='</tr>
 						<tr>
 							<td>Formal Gel Test</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
-							<td>N/S</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>Other Tests</td>
@@ -3252,6 +3313,23 @@ class ReportController extends \BaseController {
 		{
 			$date = date("Ymdhi");
 			$fileName = "cd4_report_".$date.".doc";
+			$headers = array(
+			    "Content-type"=>"text/html",
+			    "Content-Disposition"=>"attachment;Filename=".$fileName
+			);
+			$content = View::make('reports.cd4.export')
+				->with('columns', $columns)
+				->with('rows', $rows)
+				->with('accredited', $accredited)
+				->with('test', $test)
+				->with('counts', $counts)
+				->withInput(Input::all());
+	    	return Response::make($content,200, $headers);
+		}
+		else if(Input::has('excel'))
+		{
+			$date = date("Ymdhi");
+			$fileName = "cd4_report_".$date.".xls";
 			$headers = array(
 			    "Content-type"=>"text/html",
 			    "Content-Disposition"=>"attachment;Filename=".$fileName
