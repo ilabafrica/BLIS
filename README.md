@@ -22,8 +22,8 @@ The easiest way to install is using docker, follow instruction [here](https://gi
 ##### FROM SOURCE
 
 1. Install the above mentioned requirements.
-2. Extract this git repository to a local folder
-    <blockquote>git clone git@github.com:ilabafrica/iBLIS.git </blockquote>
+2. Download the source code to your computer
+    <blockquote>https://github.com/ilabafrica/iBLIS/archive/2.6.zip </blockquote>
 3. Change directory to the root folder of the application. Update **composer** then run it in order to install the application dependencies. You may need root permissions to update composer.
     <blockquote>
       composer self-update<br />
