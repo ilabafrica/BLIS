@@ -33,7 +33,7 @@
 			</div>
 			<div class="form-group">
 				{{ Form::label('test_category_id', trans_choice('messages.test-category',1)) }}
-				{{ Form::select('test_category_id', array(0 => '')+$testcategory->lists('name', 'id'),
+				{{ Form::select('test_category_id', $testcategories,
 					Input::old('test_category_id'),	array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">

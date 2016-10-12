@@ -36,7 +36,8 @@ class TestCategoryController extends Controller {
 	public function create()
 	{
 		//Create test category
-		return view('testcategory.create');
+		$testcategory = [''=>''] + TestCategory::lists('name', 'id')->all();
+		return view('testcategory.create')->with('testcategory', $testcategory);
 	}
 
 	/**
@@ -64,9 +65,9 @@ class TestCategoryController extends Controller {
 	public function show($id)
 	{
 		//show a test category
-		$testcategory = TestCategory::find($id);
+		$testcategories = TestCategory::find($id);
 		//show the view and pass the $testcategory to it
-		return view('testcategory.show')->with('testcategory',$testcategory);
+		return view('testcategory.show')->with('testcategories',$testcategories);
 	}
 
 	/**
@@ -79,9 +80,10 @@ class TestCategoryController extends Controller {
 	{
 		//Get the patient
 		$testcategory = TestCategory::find($id);
-
+		$testcategories = [''=>''] + TestCategory::lists('name', 'id')->all();
 		//Open the Edit View and pass to it the $patient
-		return view('testcategory.edit')->with('testcategory', $testcategory);
+		return view('testcategory.edit')->with('testcategory', $testcategory)
+			->with('testcategories', $testcategories);
 	}
 
 	/**
