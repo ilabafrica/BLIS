@@ -34,7 +34,7 @@
 				<p>N/B: INDICATE N/S Where there is no service</p>
 				<div class='row'>
 					<div class="col-sm-12">
-						<strong>URINE ANALYSIS</strong>
+						<!-- <strong>URINE ANALYSIS</strong>
 						<table class="table table-condensed report-table-border">
 							<thead>
 								<tr>
@@ -138,7 +138,7 @@
 									<td></td>
 								</tr>
 							</tbody>
-						</table>
+						</table> -->
 						<table class="table table-condensed report-table-border">
 							<thead>
 								<tr>
