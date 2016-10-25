@@ -33,6 +33,14 @@
 							@endif
 						</div>
 						@endif
+						@if ($test->isVerified() && Auth::user()->hasRole(Role::getAdminRole()->name))
+                            <a class="btn btn-sm btn-info" id="edit-{{$test->id}}-link"
+                                href="{{ URL::route('test.edit', array($test->id)) }}"
+                                title="{{trans('messages.edit-test-results')}}">
+                                <span class="glyphicon glyphicon-edit"></span>
+                                {{trans('messages.edit')}}
+                            </a>
+                        @endif
 						@if($test->isCompleted() || $test->isVerified())
 						<div class="panel-btn">
 							@if(Auth::user()->can('view_reports'))

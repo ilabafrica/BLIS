@@ -325,10 +325,14 @@ class TestController extends \BaseController {
 	public function saveResults($testID)
 	{
 		$test = Test::find($testID);
-		$test->test_status_id = Test::COMPLETED;
+		if($test->isVerified())
+			$test->test_status_id = Test::VERIFIED;
+		else
+			$test->test_status_id = Test::COMPLETED;
 		$test->interpretation = Input::get('interpretation');
 		$test->tested_by = Auth::user()->id;
-		$test->time_completed = date('Y-m-d H:i:s');
+		if(!$test->isVerified())
+			$test->time_completed = date('Y-m-d H:i:s');
 		$test->save();
 		
 		foreach ($test->testType->measures as $measure) {
