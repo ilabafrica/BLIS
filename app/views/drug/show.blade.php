@@ -26,7 +26,7 @@
 		<div class="panel-body">
 			<div class="display-details">
 				<h3 class="view"><strong>{{ Lang::choice('messages.name',1) }}:</strong>{{ $drug->name }} </h3>
-				<p class="view-striped"><strong>{{ trans('messages.description') }}:</strong>
+				<p class="view-striped"><strong>{{ trans('messages.abbreviation') }}:</strong>
 					{{ $drug->description }}</p>
 				
 			</div>
