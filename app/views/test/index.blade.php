@@ -184,7 +184,7 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 {{trans('messages.view-details')}}
                             </a>
-                        @if ($test->isVerified() && Auth::user()->hasRole(Role::getAdminRole()->name))
+                        @if ($test->isVerified() && Auth::user()->can('edit_verified_results'))
                             <a class="btn btn-sm btn-info" id="edit-{{$test->id}}-link"
                                 href="{{ URL::route('test.edit', array($test->id)) }}"
                                 title="{{trans('messages.edit-test-results')}}">
