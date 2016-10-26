@@ -26,6 +26,7 @@
 				<tr>
 					<th>{{ Lang::choice('messages.name',1) }}</th>
 					<th>{{ trans('messages.abbreviation') }}</th>
+					<th>{{ trans('messages.description') }}</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -37,6 +38,7 @@
                         >
 
 					<td>{{ $value->name }}</td>
+					<td>{{ $value->abbreviation }}</td>
 					<td>{{ $value->description }}</td>
 					
 					<td>

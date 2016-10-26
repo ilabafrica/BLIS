@@ -31,8 +31,12 @@
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 				</div>
 				<div class="form-group">
-					{{ Form::label('abbreviation', trans('messages.abbreviation')) }}
-					{{ Form::text('description', Input::old('description'), array('class' => 'form-control')) }}
+					{{ Form::label('abbreviation', trans("messages.abbreviation")) }}					
+					{{ Form::text('abbreviation', Input::old('abbreviation'), array('class' => 'form-control')) }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('description', trans("messages.description")) }}					
+					{{ Form::textarea('description', Input::old('description'), array('class' => 'form-control', 'rows' => '3')) }}
 				</div>
 				<div class="form-group actions-row">
 					{{ Form::button('<span class="glyphicon glyphicon-save"></span> '. trans('messages.save'), 
