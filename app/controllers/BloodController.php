@@ -15,7 +15,7 @@ class BloodController extends \BaseController {
 	public function index()
 	{
 		//List all bbs
-		$bbs = Blood::orderBy('name', 'ASC')->get();
+		$bbs = Blood::orderBy('bag_number', 'ASC')->get();
 		//Load the view and pass the bbs
 		return View::make('blood.index')->with('bbs',$bbs);
 	}
@@ -29,7 +29,8 @@ class BloodController extends \BaseController {
 	public function create()
 	{
 		//Create bb
-		return View::make('blood.create');
+		$groups = array(Blood::ONEGATIVE => 'O-', Blood::OPOSITIVE => 'O+', Blood::ANEGATIVE => 'A-', Blood::APOSITIVE => 'A+', Blood::BNEGATIVE => 'B-', Blood::BPOSITIVE => 'B+', Blood::ABNEGATIVE => 'AB-', Blood::ABPOSITIVE => 'AB+');
+		return View::make('blood.create')->with('groups', $groups);
 	}
 
 
@@ -41,7 +42,11 @@ class BloodController extends \BaseController {
 	public function store()
 	{
 		//Validation
-		$rules = array('name' => 'required|unique:bbs,name');
+		$rules = array('bag_number' => 'required|unique:blood_bank,bag_number');
+		$rules = array('blood_group' => 'required:blood_bank,blood_group');
+		$rules = array('volume' => 'required:blood_bank,volume');
+		$rules = array('date_collected' => 'required:blood_bank,date_collected');
+		$rules = array('expiry_date' => 'required:blood_bank,expiry_date');
 		$validator = Validator::make(Input::all(), $rules);
 	
 		//process
@@ -49,15 +54,18 @@ class BloodController extends \BaseController {
 			return Redirect::back()->withErrors($validator);
 		}else{
 			//store
-			$bb = new bb;
-			$bb->name = Input::get('name');
-			$bb->description = Input::get('description');
+			$bb = new Blood;
+			$bb->bag_number = Input::get('bag_number');
+			$bb->blood_group = Input::get('blood_group');
+			$bb->volume = Input::get('volume');
+			$bb->date_collected = Input::get('date_collected');
+			$bb->expiry_date = Input::get('expiry_date');
 			try{
 				$bb->save();
 				$url = Session::get('SOURCE_URL');
             
             	return Redirect::to($url)
-					->with('message', trans('messages.success-creating-bb')) ->with('activebb', $bb ->id);
+					->with('message', trans('messages.record-successfully-saved')) ->with('activebb', $bb ->id);
 			}catch(QueryException $e){
 				Log::error($e);
 			}
@@ -90,9 +98,10 @@ class BloodController extends \BaseController {
 	{
 		//Get the bb
 		$bb = Blood::find($id);
-
+		$groups = array(Blood::ONEGATIVE => 'O-', Blood::OPOSITIVE => 'O+', Blood::ANEGATIVE => 'A-', Blood::APOSITIVE => 'A+', Blood::BNEGATIVE => 'B-', Blood::BPOSITIVE => 'B+', Blood::ABNEGATIVE => 'AB-', Blood::ABPOSITIVE => 'AB+');
+		$group = $bb->blood_group;
 		//Open the Edit View and pass to it the $bb
-		return View::make('blood.edit')->with('bb', $bb);
+		return View::make('blood.edit')->with('bb', $bb)->with('groups', $groups)->with('group', $group);
 	}
 
 
@@ -105,24 +114,31 @@ class BloodController extends \BaseController {
 	public function update($id)
 	{
 		//Validate
-		$rules = array('name' => 'required');
+		$rules = array('bag_number' => 'required|unique:blood_bank,bag_number');
+		$rules = array('blood_group' => 'required:blood_bank,blood_group');
+		$rules = array('volume' => 'required:blood_bank,volume');
+		$rules = array('date_collected' => 'required:blood_bank,date_collected');
+		$rules = array('expiry_date' => 'required:blood_bank,expiry_date');
 		$validator = Validator::make(Input::all(), $rules);
-
-		// process the login
-		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
-		} else {
-			// Update
+	
+		//process
+		if($validator->fails()){
+			return Redirect::back()->withErrors($validator);
+		}else{
+			//store
 			$bb = Blood::find($id);
-			$bb->name = Input::get('name');
-			$bb->description = Input::get('description');
+			$bb->bag_number = Input::get('bag_number');
+			$bb->blood_group = Input::get('blood_group');
+			$bb->volume = Input::get('volume');
+			$bb->date_collected = Input::get('date_collected');
+			$bb->expiry_date = Input::get('expiry_date');
 			$bb->save();
 
 			// redirect
 			$url = Session::get('SOURCE_URL');
             
             return Redirect::to($url)
-				->with('message', trans('messages.success-updating-bb')) ->with('activetestcategory', $bb ->id);
+				->with('message', trans('messages.record-successfully-updated')) ->with('activebb', $bb ->id);
 		}
 	}
 
@@ -163,6 +179,6 @@ class BloodController extends \BaseController {
 			$url = Session::get('SOURCE_URL');
             
             return Redirect::to($url)
-			->with('message', trans('messages.success-deleting-bb'));
+			->with('message', trans('messages.record-successfully-deleted'));
 	}
 }

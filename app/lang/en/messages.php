@@ -708,8 +708,10 @@ return array(
     /**
     * Blood bank
     */
-    'blood-bag-number'=>    'Blood Bag Number',
+    'blood-bank'      =>    'Blood Bank',
+    'bag-number'      =>    'Blood Bag Number',
     'blood-group'     =>    'Blood Group',
     'volume'          =>    'Volume',
     'date-collected'  =>    'Date Collected',
+    'blood-details'   =>    'Blood Details',
 );
