@@ -14,7 +14,7 @@ class CreateDrugAbbreviationColumn extends Migration {
 	{
 		Schema::table('drugs', function($table)
 		{
-		    $table->string('abbreviation', 10)->after('name');
+		    $table->string('abbreviation', 10)->nullable()->after('name');
 		});
 	}
 
