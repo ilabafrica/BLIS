@@ -23,7 +23,7 @@ class Test extends Eloquent
 	/**
 	 * Other constants
 	 */
-	const POSITIVE = '+';
+	const POSITIVE = 'Positive';
 
 	/**
 	 * Visit relationship
