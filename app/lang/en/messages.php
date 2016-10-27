@@ -705,5 +705,16 @@ return array(
     'microcritical' =>      'Microbiology Critical|Microbiology Critical',
     'add-new'       =>      'Add New',
     'crit-val'      =>      'Critical Values',
+
     'abbreviation'  =>      'Abbreviation',
+
+    /**
+    * Blood bank
+    */
+    'blood-bank'      =>    'Blood Bank',
+    'bag-number'      =>    'Blood Bag Number',
+    'blood-group'     =>    'Blood Group',
+    'volume'          =>    'Volume',
+    'date-collected'  =>    'Date Collected',
+    'blood-details'   =>    'Blood Details',
 );
