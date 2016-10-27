@@ -202,9 +202,9 @@
 								</div>
 							</div>
 							@foreach($test->testType->organisms as $key=>$value)
+                                {{--*/$checker = 0/*--}}
                                 @if(count($test->susceptibility)>0)
-                                    <?php 
-                                        $checker = 0;
+                                    <?php
                                         if(in_array($value->id, $test->susceptibility->lists('organism_id')))
                                             $checker=1;
                                     ?>
