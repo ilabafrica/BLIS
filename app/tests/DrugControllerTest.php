@@ -27,6 +27,7 @@ class DrugControllerTest extends TestCase
     	// Initial sample storage data
 		$this->drugData = array(
 			'name' => 'VANCMYCIN2',
+			'abbreviation' => 'VM',
 			'description' => 'Lets see',
 		);
 
@@ -34,6 +35,7 @@ class DrugControllerTest extends TestCase
 		// Edition sample data
 		$this->drugUpdate = array(
 			'name' => 'VANCMYCIN2',
+			'abbreviation' => 'VM2',
 			'description' => 'Staphylococci species',
 		);
     }
