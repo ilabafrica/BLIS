@@ -33,6 +33,14 @@
 							@endif
 						</div>
 						@endif
+						@if ($test->isVerified() && Auth::user()->can('edit_verified_results'))
+                            <a class="btn btn-sm btn-info" id="edit-{{$test->id}}-link"
+                                href="{{ URL::route('test.edit', array($test->id)) }}"
+                                title="{{trans('messages.edit-test-results')}}">
+                                <span class="glyphicon glyphicon-edit"></span>
+                                {{trans('messages.edit')}}
+                            </a>
+                        @endif
 						@if($test->isCompleted() || $test->isVerified())
 						<div class="panel-btn">
 							@if(Auth::user()->can('view_reports'))
@@ -262,6 +270,19 @@
 								</div>
 							</div> <!-- ./ panel-body -->
 						</div>  <!-- ./ panel -->
+						<div class="panel panel-info">  <!-- Audit trail for results -->
+	                        <div class="panel-heading">
+	                            <h3 class="panel-title">{{trans("messages.previous-results")}}</h3>
+	                        </div>
+	                        <div class="panel-body">
+	                            <div class="container-fluid">
+	                                <div class="display-details">
+	                                    <p class="view-striped"><strong>{{trans('messages.previous-results')}}</strong>
+	                                        <a href="{{URL::route('reports.audit.test', array($test->id))}}">{{trans('messages.audit-report')}}</a></p>
+	                                </div>
+	                            </div>
+	                        </div> <!-- ./ panel-body -->
+	                    </div>  <!-- ./ panel -->
 					</div>
 				</div>
 			</div> <!-- ./ container-fluid -->

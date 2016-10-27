@@ -14,5 +14,6 @@ class DatabaseSeeder extends Seeder {
 		$this->call('TestDataSeeder');
 		$this->call('ConfigSettingSeeder');
 		// $this->call('CCCSeeder');
+		// $this->call('EditVerifiedSeeder');
 	}
 }

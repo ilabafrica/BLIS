@@ -184,7 +184,6 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 {{trans('messages.view-details')}}
                             </a>
-                            
                         @if ($test->isNotReceived()) 
                             @if(Auth::user()->can('receive_external_test') && $test->isPaid())
                                 <a class="btn btn-sm btn-default receive-test" href="javascript:void(0)"
