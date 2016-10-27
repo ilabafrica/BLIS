@@ -270,6 +270,19 @@
 								</div>
 							</div> <!-- ./ panel-body -->
 						</div>  <!-- ./ panel -->
+						<div class="panel panel-info">  <!-- Audit trail for results -->
+	                        <div class="panel-heading">
+	                            <h3 class="panel-title">{{trans("messages.previous-results")}}</h3>
+	                        </div>
+	                        <div class="panel-body">
+	                            <div class="container-fluid">
+	                                <div class="display-details">
+	                                    <p class="view-striped"><strong>{{trans('messages.previous-results')}}</strong>
+	                                        <a href="{{URL::route('reports.audit.test', array($test->id))}}">{{trans('messages.audit-report')}}</a></p>
+	                                </div>
+	                            </div>
+	                        </div> <!-- ./ panel-body -->
+	                    </div>  <!-- ./ panel -->
 					</div>
 				</div>
 			</div> <!-- ./ container-fluid -->
