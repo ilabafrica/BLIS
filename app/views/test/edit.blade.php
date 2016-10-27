@@ -180,8 +180,7 @@
 										<?php 
 											$cnt = 0;
 											$zebra = "";
-											$checked=false; 
-											$checker = '';
+											$checked=""; 
 											$susOrgIds = array();
 											$defaultZone='';
 											$defaultInterp='';
@@ -203,15 +202,15 @@
 								</div>
 							</div>
 							@foreach($test->testType->organisms as $key=>$value)
-								<?php $chckd = null; ?>
-								@if(count($test->susceptibility)>0)
-								<?php
-									if(in_array($value->id, $test->susceptibility->lists('organism_id')))
-										$chckd='checked';
-								?>
-								@endif
-								<?php if($chckd){$display='display:block';}else{$display='display:none';} ?>
-							{{ Form::open(array('','id' => 'drugSusceptibilityForm_'.$value->id, 'name' => 'drugSusceptibilityForm_'.$value->id, 'style'=>$display)) }}
+                                {{--*/$checker = 0/*--}}
+                                @if(count($test->susceptibility)>0)
+                                    <?php
+                                        if(in_array($value->id, $test->susceptibility->lists('organism_id')))
+                                            $checker=1;
+                                    ?>
+                                @endif
+                                <?php if($checker==1){$display='display:block';}else if($checker==0){$display='display:none';} ?>
+                            {{ Form::open(array('','id' => 'drugSusceptibilityForm_'.$value->id, 'name' => 'drugSusceptibilityForm_'.$value->id, 'style'=>$display)) }}
 							<table class="table table-bordered">
 								<thead>
 									<tr>

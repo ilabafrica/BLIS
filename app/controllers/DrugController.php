@@ -42,6 +42,7 @@ class DrugController extends \BaseController {
 	{
 		//Validation
 		$rules = array('name' => 'required|unique:drugs,name');
+		$rules = array('abbreviation' => 'required|unique:drugs,abbreviation');
 		$validator = Validator::make(Input::all(), $rules);
 	
 		//process
@@ -51,6 +52,7 @@ class DrugController extends \BaseController {
 			//store
 			$drug = new Drug;
 			$drug->name = Input::get('name');
+			$drug->abbreviation = Input::get('abbreviation');
 			$drug->description = Input::get('description');
 			try{
 				$drug->save();
@@ -106,6 +108,7 @@ class DrugController extends \BaseController {
 	{
 		//Validate
 		$rules = array('name' => 'required');
+		$rules = array('abbreviation' => 'required|unique:drugs,abbreviation');
 		$validator = Validator::make(Input::all(), $rules);
 
 		// process the login
@@ -115,6 +118,7 @@ class DrugController extends \BaseController {
 			// Update
 			$drug = Drug::find($id);
 			$drug->name = Input::get('name');
+			$drug->abbreviation = Input::get('abbreviation');
 			$drug->description = Input::get('description');
 			$drug->save();
 
@@ -122,7 +126,7 @@ class DrugController extends \BaseController {
 			$url = Session::get('SOURCE_URL');
             
             return Redirect::to($url)
-				->with('message', trans('messages.success-updating-drug')) ->with('activetestcategory', $drug ->id);
+				->with('message', trans('messages.success-updating-drug')) ->with('activedrug', $drug ->id);
 		}
 	}
 
