@@ -77,7 +77,7 @@ class SusceptibilityController extends \BaseController {
 											->get();
 			foreach ($susceptibility as $drugSusceptibility) {
 				$drugSusceptibility->drugName = Drug::find($drugSusceptibility->drug_id)->name;
-				$drugSusceptibility->abbreviation = Drug::find($drugSusceptibility->drug_id)->description;
+				$drugSusceptibility->abbreviation = Drug::find($drugSusceptibility->drug_id)->abbreviation;
 				$drugSusceptibility->pathogen = Organism::find($drugSusceptibility->organism_id)->name;
 				if($drugSusceptibility->interpretation == 'I'){
 					$drugSusceptibility->sensitivity = 'Intermediate';
