@@ -1258,7 +1258,8 @@ class ReportController extends \BaseController {
 		if(!$end) $end = $date;
 		$toPlusOne = date_add(new DateTime($end), date_interval_create_from_date_string('1 day'));
 		$to = date_add(new DateTime($end), date_interval_create_from_date_string('1 day'))->format('Y-m-d');
-		$ageRanges = array('0-5', '5-14', '14-120');
+		//$ageRanges = array('0-5', '5-14', '14-120');
+                $ageRanges = array('0-5', '5-120');
 		$sex = array(Patient::MALE, Patient::FEMALE);
 		$ranges = array('Low', 'Normal', 'High');
 		$specimen_types = array('Urine', 'Pus', 'HVS', 'Throat', 'Stool', 'Blood', 'CSF', 'Water', 'Food', 'Other fluids');
@@ -1406,252 +1407,83 @@ class ReportController extends \BaseController {
                     array_push($hormonalTestList, $arr);
                 }
                 
+                /* Tumor Markers*/
                 
+                $tumorMarkersArr = array ('CEA', 'C15-3');
+                $tumorMarkersList = array();
+                foreach($tumorMarkersArr as $tm) { 
+                    $tumorMarkersId = TestType::getTestTypeIdByTestName($tm);
+                    $tumorMarkers = TestType::find($tumorMarkersId);
+                    $measures = TestTypeMeasure::where('test_type_id', $tumorMarkersId)->orderBy('measure_id', 'DESC')->get();
+                    $tumorMarkersTotalExam = $this->getGroupedTestCounts($tumorMarkers, null, null, $from, $toPlusOne);
+                    /* get measures that were positive */
+                    foreach ($measures as $measure) {
+                        $tMeasure = Measure::find($measure->measure_id);
+                        $arr['name'] = $tMeasure->name;
+                        $arr['total'] = $this->getGroupedTestCounts($tumorMarkers, null, null, $from, $toPlusOne);
+                        $arr['positive'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, null, null);
+                        array_push($tumorMarkersList, $arr);
+                    }
+                }
                 
+                /*CSF Chemistry*/
+                $csfChemistryArr = array ('CSF  glucose analysis', 'CSF protein analysis'); //lipid profile
+                $csfChemistryList = array();
+                foreach($csfChemistryArr as $csfc) {
+                    $csfChemistry = TestType::getTestTypeIdByTestName($csfc);
+                    $csfChemistryObj = TestType::find($csfChemistry);//get the testtype object
+                    $measures = TestTypeMeasure::where('test_type_id', $csfChemistry)->orderBy('measure_id', 'DESC')->get();  
+                    foreach ($measures as $measure) {
+                        $tMeasure = Measure::find($measure->measure_id);
+                        $arr['name'] = $tMeasure->name;
+                        $arr['total'] = $this->getGroupedTestCounts($csfChemistryObj, null, null, $from, $toPlusOne);
+                        $arr['low'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, ['Low'], null);
+                        $arr['high'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, ['High'], null);
+                        array_push($csfChemistryList, $arr);
+                    }
+                }
                 
-				$table.='<table class="table table-condensed report-table-border">
-					<thead>
-						<tr>
-							<th rowspan="2">Lipid Profile</th>
-							<th colspan="2">No. Exam</th>
-							<th colspan="4"> Number positive</th>
-						</tr>
-						<tr>
-							<th>M</th>
-							<th>F</th>
-							<th>Total</th>
-							<th>Low</th>
-							<th>Normal</th>
-							<th>High</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Totals</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr><tr>
-							<td>Amylase</td>';
-							$tMeasure = Measure::find(Measure::getMeasureIdByName('Serum Amylase'));
-							foreach ($sex as $gender) {
-								$table.='<td>'.$this->getTotalTestResults($tMeasure, [$gender], null, $from, $toPlusOne, null, null).'</td>';
-							}
-							$table.='<td>'.$this->getTotalTestResults($tMeasure, $sex, null, $from, $toPlusOne, null, 1).'</td>';
-							foreach ($ranges as $range) {
-								$table.='<td>'.$this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, [$range], 1).'</td>';
-							}
-						$table.='</tr><tr>
-							<td>Total cholestrol</td>';
-							$tMeasure = Measure::find(Measure::getMeasureIdByName('cholestrol'));
-							foreach ($sex as $gender) {
-								$table.='<td>'.$this->getTotalTestResults($tMeasure, [$gender], null, $from, $toPlusOne, null, null).'</td>';
-							}
-							$table.='<td>'.$this->getTotalTestResults($tMeasure, $sex, null, $from, $toPlusOne, null, 1).'</td>';
-							foreach ($ranges as $range) {
-								$table.='<td>'.$this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, [$range], 1).'</td>';
-							}
-						$table.='</tr><tr>
-							<td>Tryglycerides</td>';
-							$tMeasure = Measure::find(Measure::getMeasureIdByName('Tryglycerides'));
-							foreach ($sex as $gender) {
-								$table.='<td>'.$this->getTotalTestResults($tMeasure, [$gender], null, $from, $toPlusOne, null, null).'</td>';
-							}
-							$table.='<td>'.$this->getTotalTestResults($tMeasure, $sex, null, $from, $toPlusOne, null, 1).'</td>';
-							foreach ($ranges as $range) {
-								$table.='<td>'.$this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, [$range], 1).'</td>';
-							}
-						$table.='</tr><tr>
-							<td>HDL</td>';
-							$tMeasure = Measure::find(Measure::getMeasureIdByName('HDL'));
-							foreach ($sex as $gender) {
-								$table.='<td>'.$this->getTotalTestResults($tMeasure, [$gender], null, $from, $toPlusOne, null, null).'</td>';
-							}
-							$table.='<td>'.$this->getTotalTestResults($tMeasure, $sex, null, $from, $toPlusOne, null, 1).'</td>';
-							foreach ($ranges as $range) {
-								$table.='<td>'.$this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, [$range], 1).'</td>';
-							}
-						$table.='</tr><tr>
-							<td>LDL</td>';
-							$tMeasure = Measure::find(Measure::getMeasureIdByName('LDL'));
-							foreach ($sex as $gender) {
-								$table.='<td>'.$this->getTotalTestResults($tMeasure, [$gender], null, $from, $toPlusOne, null, null).'</td>';
-							}
-							$table.='<td>'.$this->getTotalTestResults($tMeasure, $sex, null, $from, $toPlusOne, null, 1).'</td>';
-							foreach ($ranges as $range) {
-								$table.='<td>'.$this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, [$range], 1).'</td>';
-							}
-						$table.='</tr>
-					</tbody>
-				</table>
-				<table class="table table-condensed report-table-border">
-					<thead>
-						<tr>
-							<th rowspan="2">CSF Chemistry</th>
-							<th colspan="2">No. Exam</th>
-							<th colspan="4"> Number positive</th>
-						</tr>
-						<tr>
-							<th>M</th>
-							<th>F</th>
-							<th>Total</th>
-							<th>Low</th>
-							<th>Normal</th>
-							<th>High</th>
-						</tr>
-					</thead>
-					<tbody>';
-				$csf = TestType::getTestTypeIdByTestName('CSF for biochemistry');
-				$bioCsf = TestType::find($csf);
-				$table.='<tr>
-					<td>Totals</td>';
-	        		foreach ($sex as $gender) {
-						$table.='<td>'.$this->getGroupedTestCounts($bioCsf, [$gender], null, $from, $toPlusOne).'</td>';
-					}
-					$table.='<td>'.$this->getGroupedTestCounts($bioCsf, null, null, $from, $toPlusOne).'</td>';
-					foreach ($ageRanges as $ageRange) {
-						$table.='<td>'.$this->getGroupedTestCounts($bioCsf, [Patient::MALE, Patient::FEMALE], $ageRange, $from, $toPlusOne).'</td>';
-					}	
-				$table.='</tr>';
-				$measures = TestTypeMeasure::where('test_type_id', $csf)->orderBy('measure_id', 'DESC')->get();
-				foreach ($measures as $measure) {
-					$name = Measure::find($measure->measure_id)->name;
-					$table.='<tr>
-							<td>'.$name.'</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>';
-				}
-				$table.='</tbody>
-				</table>
-				<table class="table table-condensed report-table-border">
-					<thead>
-						<tr>
-							<th rowspan="2">Body Fluids</th>
-							<th colspan="2">No. Exam</th>
-							<th colspan="4"> Number positive</th>
-						</tr>
-						<tr>
-							<th>M</th>
-							<th>F</th>
-							<th>Total</th>
-							<th>Low</th>
-							<th>Normal</th>
-							<th>High</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Totals</td>
-							<td>0</td>
-							<td>0</td>
-							<td>0</td>
-							<td>0</td>
-							<td>0</td>
-							<td>0</td>
-						</tr>
-						<tr>
-							<td>Proteins</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>Glucose</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>Acid phosphatase</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>Bence jones protein</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
-				<table class="table table-condensed report-table-border">
-					<thead>
-						<tr>
-							<th rowspan="2">Thyroid Function Tests</th>
-							<th colspan="2">No. Exam</th>
-							<th colspan="4"> Number positive</th>
-						</tr>
-						<tr>
-							<th>M</th>
-							<th>F</th>
-							<th>Total</th>
-							<th>Low</th>
-							<th>Normal</th>
-							<th>High</th>
-						</tr>
-					</thead>
-					<tbody>';
-				$tfts = TestType::getTestTypeIdByTestName('TFT');
-				$tft = TestType::find($tfts);
-				$table.='<tr>
-					<td>Totals</td>';
-	        		foreach ($sex as $gender) {
-						$table.='<td>'.$this->getGroupedTestCounts($tft, [$gender], null, $from, $toPlusOne).'</td>';
-					}
-					$table.='<td>'.$this->getGroupedTestCounts($tft, null, null, $from, $toPlusOne).'</td>';
-					foreach ($ageRanges as $ageRange) {
-						$table.='<td>'.$this->getGroupedTestCounts($tft, [Patient::MALE, Patient::FEMALE], $ageRange, $from, $toPlusOne).'</td>';
-					}	
-				$table.='</tr>';
-				$measures = TestTypeMeasure::where('test_type_id', $tfts)->orderBy('measure_id', 'ASC')->get();
-				foreach ($measures as $measure) {
-					$tMeasure = Measure::find($measure->measure_id);
-					$table.='<tr>
-						<td>'.$tMeasure->name.'</td>';
-					foreach ($sex as $gender) {
-						$table.='<td>'.$this->getTotalTestResults($tMeasure, [$gender], null, $from, $toPlusOne, null, null).'</td>';
-					}
-					$table.='<td>'.$this->getTotalTestResults($tMeasure, $sex, null, $from, $toPlusOne, null, 1).'</td>';
-					foreach ($ranges as $range) {
-						$table.='<td>'.$this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, [$range]).'</td>';
-					}
-					$table.='</tr>';
-				}
-				$table.='<tr>
-							<td>Others</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<!-- URINALYSIS -->
-			<!-- PARASITOLOGY -->
+                /*===============*/
+                /* PARASITOLOGY */
+                /*===============*/
+                
+                /* Malaria Test*/
+                $malariaTestId = TestType::getTestTypeIdByTestName('Blood slide for Malaria');
+                $malariaTestList = array();
+                $malariaTest = TestType::find($malariaTestId);
+                $measures = TestTypeMeasure::where('test_type_id', $malariaTestId)->orderBy('measure_id', 'DESC')->get();
+                /* get measures that were positive at a given age range */
+                foreach ($ageRanges as $ageRange) {
+                    if($ageRange == '0-5'){ $arr['name'] = "Malaria BS (Under five years)"; }
+                    else { $arr['name'] = "Malaria BS (5 Years and above)"; }
+                    foreach ($measures as $measure) {
+                        $tMeasure = Measure::find($measure->measure_id);
+                        $arr['total'] = $this->getGroupedTestCounts($malariaTest, null, $ageRange, $from, $toPlusOne);
+                        $arr['positive'] = $this->getTotalTestResults($tMeasure, null, $ageRange, $from, $toPlusOne, null, null);
+                        array_push($malariaTestList, $arr);
+                    }
+                    
+                }
+                                
+                /* Stool Anlaysis */
+                
+                $stoolAnalysisId = TestType::getTestTypeIdByTestName('Stool analysis');
+                $stoolAnalysis = TestType::find($stoolAnalysisId);
+                $measures = TestTypeMeasure::where('test_type_id', $stoolAnalysisId)->orderBy('measure_id', 'DESC')->get();
+                $stoolAnalysisList = array();
+                $stoolAnalysisTotalExam = $this->getGroupedTestCounts($stoolAnalysis, null, null, $from, $toPlusOne);
+                /*get measures that were positive*/
+                foreach ($measures as $measure) {
+                        $tMeasure = Measure::find($measure->measure_id);
+                        if(!in_array($tMeasure->name, [ 'Taenia spp.', 'H. nana', 'H. diminuta', 'Hookworm', 'Roundworms', 'S. mansoni', 'Trichuris trichiura', 'Amoeba'])){continue;}//add measures to be listed the report in the array
+                        $arr['name'] = $tMeasure->name;
+                        $arr['positive'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, null, null);
+                        array_push($stoolAnalysisList, $arr);
+                }
+                
+                /*========================================================================================================*/
+                
+				$table.='<!-- PARASITOLOGY -->
 			<div class="col-sm-12">
 				<strong>PARASITOLOGY</strong>
 				<table class="table table-condensed report-table-border">
@@ -2881,7 +2713,12 @@ class ReportController extends \BaseController {
                                 ->with('liverFunctionTestList', $liverFunctionTestList)
                                 ->with('lipidProfileTotalExam', $lipidProfileTotalExam)
                                 ->with('lipidProfileList', $lipidProfileList)
-                                ->with('hormonalTestList', $hormonalTestList);
+                                ->with('hormonalTestList', $hormonalTestList)
+                                ->with('tumorMarkersList', $tumorMarkersList)
+                                ->with('csfChemistryList', $csfChemistryList)
+                                ->with('malariaTestList', $malariaTestList)
+                                ->with('stoolAnalysisTotalExam', $stoolAnalysisTotalExam)
+                                ->with('stoolAnalysisList', $stoolAnalysisList);
 		}
 	}
 	/**

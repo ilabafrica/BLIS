@@ -214,7 +214,7 @@ class Measure extends Eloquent
 					if($range[0] == 'Low')
 					{
 						$testResults = $testResults->where('result', '<', $mRange->range_lower);
-                                                echo $mRange->range_lower;
+                                                //echo $mRange->range_lower;
 					}
 					else if($range[0] == 'Normal')
 					{
@@ -223,7 +223,7 @@ class Measure extends Eloquent
 					else if($range[0] == 'High')
 					{
 						$testResults = $testResults->where('result', '>', $mRange->range_upper);
-                                                echo $mRange->range_upper;
+                                                //echo $mRange->range_upper;
 					}
 				}
 				else
