@@ -245,7 +245,92 @@
                                                 <td>{{ $measure['positive'] }}</td>
                                             </tr>
                                             @endforeach
+                                        </tbody>
+                                    </table>
+                                     <!-- 4. HAEMATOLOGY -->
+                                    <table class="table table-condensed report-table-border" style="width: 40%">
+                                        <thead>
+                                            <tr style="text-align: center;"><th colspan="4" ><strong>4. HAEMATOLOGY</strong></th> </tr>
+                                            <tr>
+                                                <th colspan="1" style="font-weight: bold">Haematology test</th>
+                                                <th>Total Exam</th>
+                                                <th>HB < 5g/dl</th>
+                                                <th>HB between 5 - 10 g/dl</th>                                                
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach($haematologyTestList as $measure) <!-- Haematology test -->
+                                            @if($measure['name'] == $cd4Flag)
+                                                <tr>
+                                                <td ></td>
+                                                <td></td>
+                                                <td colspan="2" style="font-weight: bold; align-content: center;">Number <500</td>
+                                                </tr>
+                                            @endif
+                                            <tr>
+                                                <td >{{ $measure['name'] }}</td>
+                                                <td>{{ $measure['total'] }}</td>
+                                                @if($measure['name'] == $cd4Flag)<!-- display CD4 county's only 'low' count -->
+                                                    <td colspan="2">{{ $measure['low'] }}</td>
+                                                    @else <!-- display the rest as low and high -->
+                                                    <td>{{ $measure['low'] }}</td>
+                                                    <td>{{ $measure['high'] }}</td>
+                                                @endif
+                                            </tr>
+                                            @endforeach
+                                            <tr style="font-weight: bold"> <!-- Other Haematology tests -->
+                                                <td>Other Haematology tests</td> 
+                                                <td>Total Exam</td>
+                                                <td colspan="2">Positive</td>
+                                            </tr>
+                                            @foreach($otherHaematologyTestsList as $measure) <!-- Tumor Makers -->
+                                                @if($measure['name'] == $ESR_FLAG)
+                                                <tr>
+                                                    <td style="background-color: #CCCCCC;"</td>
+                                                    <td style="background-color: #CCCCCC;"></td>
+                                                    <td colspan="2" style="font-weight: bold">High</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{ $measure['name'] }}</td>
+                                                    <td style="background-color: #CCCCCC;"></td>
+                                                    <td colspan="2">{{ $measure['high'] }}</td>
+                                                </tr>
+                                                @else
+                                                <tr>
+                                                    <td>{{ $measure['name'] }}</td>
+                                                    <td>{{ $measure['total'] }}</td>
+                                                    <td colspan="2" style="background-color: #CCCCCC;"></td>
+                                                </tr>
+                                                @endif
                                             
+                                            @endforeach
+                                             <tr style="font-weight: bold"> <!-- Blood grouping -->
+                                                 <td colspan="2">Blood grouping</td> 
+                                                <td colspan="2">Number</td>
+                                            </tr>
+                                            @foreach($bloodGroupingList as $measure) 
+                                                @if($measure['name'] == $BG_FLAG)
+                                                <tr>
+                                                    <td colspan="2" style="font-weight: bold">Blood Safety</td>
+                                                    <td colspan="2" style="font-weight: bold">Number</td>
+                                                </tr>
+                                                @endif
+                                                <tr>
+                                                    <td colspan="2">{{ $measure['name'] }}</td>
+                                                    <td colspan="2">{{ $measure['total'] }}</td>
+                                                </tr>                                                                                           
+                                            @endforeach
+                                            <tr style="font-weight: bold"> <!-- Blood screening at facility -->
+                                                <td colspan="2">Blood screening at facility</td> 
+                                                <td colspan="2">Number Positive</td>
+                                            </tr>
+                                            @foreach($bloodScreeningList as $measure) 
+                                                <tr>
+                                                    <td colspan="2">{{ $measure['name'] }}</td>
+                                                    <td colspan="2">{{ $measure['positive'] }}</td>
+                                                </tr>                                                                                        
+                                            @endforeach
                                         </tbody>
                                     </table>
 				</div>

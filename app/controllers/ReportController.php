@@ -1481,182 +1481,100 @@ class ReportController extends \BaseController {
                         array_push($stoolAnalysisList, $arr);
                 }
                 
+                /*===============*/
+                /* HAEMATOLOGY */
+                /*===============*/
+                
+                /* Haematology Test*/
+                
+                $haematologyTestArr = array ('Full haemogram/Full blood count', 'HB electrophoresis', 'CD4 count'); //haemotology tests
+                $haematologyTestList = array();
+                $cd4Flag = "";
+                foreach($haematologyTestArr as $ht) {
+                    $arr['name'] = $ht;//test name
+                    $haematologyTestId = TestType::getTestTypeIdByTestName($ht);
+                    $haematologyTestObj = TestType::find($haematologyTestId);//get the testtype object
+                    $measures = TestTypeMeasure::where('test_type_id', $haematologyTestId)->orderBy('measure_id', 'DESC')->get();  
+                    foreach ($measures as $measure) {
+                        $tMeasure = Measure::find($measure->measure_id);
+                        if(!in_array($tMeasure->name, ['Haemoglobin', 'HB electrophoresis', 'CD4 count'])){continue;}
+                        $arr['total'] = $this->getGroupedTestCounts($haematologyTestObj, null, null, $from, $toPlusOne);
+                        //for CD4 count
+                        if($tMeasure->name == 'CD4 count')
+                        {
+                            $arr['low'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, ['Low', 500], null);
+                            $cd4Flag = $tMeasure->name;
+                        }else
+                        {
+                            $arr['low'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, ['Low', 5], null);
+                        }
+                        $arr['high'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, ['High', 5, 10], null);
+                        array_push($haematologyTestList, $arr);
+                    }
+                }
+                
+                /* Other Haematology Tests*/
+                
+                $otherHaematologyTestsArr = array ('Peripheral Blood films', 'Sickling test', 
+                    'Bone marrow aspirates', 'Reticulocyte count', 'Erythrocyte sedimentation rate (ESR)');
+                $otherHaematologyTestsList = array();
+                $ESR_FLAG = "Erythrocyte sedimentation rate (ESR)";
+                foreach($otherHaematologyTestsArr as $oht) { 
+                    $otherHaematologyTestsId = TestType::getTestTypeIdByTestName($oht);
+                    $otherHaematologyTests = TestType::find($otherHaematologyTestsId);
+                    $measures = TestTypeMeasure::where('test_type_id', $otherHaematologyTestsId)->orderBy('measure_id', 'DESC')->get();
+                    /* get measures that were positive */
+                    foreach ($measures as $measure) {
+                        $tMeasure = Measure::find($measure->measure_id);
+                        $arr['name'] = $tMeasure->name;
+                        $arr['total'] = $this->getGroupedTestCounts($otherHaematologyTests, null, null, $from, $toPlusOne);
+                        $arr['positive'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, null, null);
+                        $arr['high'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, ['High'], null);
+                        array_push($otherHaematologyTestsList, $arr);
+                    }
+                }
+                
+                /* Blood Grouping */
+                
+                $bloodGroupingArr = array ('Blood grouping', 'Blood unit grouped', 'Blood units received from blood trasnfusion centres',
+                    'Blood units collected at facility', 'Blood units trasnfused', 'Transfusion reactions reported and investigated', 
+                    'Blood crossed matched', 'Blood units discarded');
+                $bloodGroupingList = array();
+                $BG_FLAG = 'Blood units received from blood trasnfusion centres';
+                foreach($bloodGroupingArr as $bg) { 
+                    $bloodGroupingId = TestType::getTestTypeIdByTestName($bg);
+                    $bloodGrouping = TestType::find($bloodGroupingId);
+                    /* get measures that were positive */
+                    $arr['name'] = $bg;
+                    if($bg == 'Blood grouping')
+                    { $arr['total'] = $this->getGroupedTestCounts($bloodGrouping, null, null, $from, $toPlusOne); }
+                    else { $arr['total'] = null;}
+                    array_push($bloodGroupingList, $arr);
+                }
+                
+                 /* Blood screening at facility*/
+                
+                $bloodScreeningArr = array ('Hepatitis C test', 'Hepatitis B test (HBs Ag)', 'HIV ELISA', 'Rapid Plasma Reagin (RPR)');
+                $bloodScreeningList = array();
+                foreach($bloodScreeningArr as $oht) { 
+                    $bloodScreeningId = TestType::getTestTypeIdByTestName($oht);
+                    $bloodScreening = TestType::find($bloodScreeningId);
+                    $measures = TestTypeMeasure::where('test_type_id', $bloodScreeningId)->orderBy('measure_id', 'DESC')->get();
+                    /* get measures that were positive */
+                    foreach ($measures as $measure) {
+                        $tMeasure = Measure::find($measure->measure_id);
+                        $arr['name'] = $tMeasure->name;
+                        $arr['total'] = $this->getGroupedTestCounts($bloodScreening, null, null, $from, $toPlusOne);
+                        $arr['positive'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, null, null);
+                        array_push($bloodScreeningList, $arr);
+                    }
+                }
+                                
+                
                 /*========================================================================================================*/
                 
-				$table.='<!-- PARASITOLOGY -->
-			<div class="col-sm-12">
-				<strong>PARASITOLOGY</strong>
-				<table class="table table-condensed report-table-border">
-					<thead>
-						<tr>
-							<th colspan="5">Blood Smears</th>
-						</tr>
-						<tr>
-							<th rowspan="2">Malaria</th>
-							<th colspan="4">Positive</th>
-						</tr>
-						<tr>
-							<th>Total Done</th>
-							<th>&lt;5yrs</th>
-							<th>5-14yrs</th>
-							<th>&gt;14yrs</th>
-						</tr>
-					</thead>';
-				$bs = TestType::getTestTypeIdByTestName('Bs for mps');
-				$bs4mps = TestType::find($bs);
-				$table.='<tbody>
-						<tr>
-							<td></td>
-							<td>'.$this->getGroupedTestCounts($bs4mps, null, null, $from, $toPlusOne).'</td>';
-						foreach ($ageRanges as $ageRange) {
-							$table.='<td>'.$this->getGroupedTestCounts($bs4mps, null, $ageRange, $from, $toPlusOne).'</td>';
-						}
-					$table.='</tr>
-						<tr style="text-align:right;">
-							<td>Falciparum</td>
-							<td style="background-color: #CCCCCC;"></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr style="text-align:right;">
-							<td>Ovale</td>
-							<td style="background-color: #CCCCCC;"></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr style="text-align:right;">
-							<td>Malariae</td>
-							<td style="background-color: #CCCCCC;"></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr style="text-align:right;">
-							<td>Vivax</td>
-							<td style="background-color: #CCCCCC;"></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><strong>Borrelia</strong></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><strong>Microfilariae</strong></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><strong>Trypanosomes</strong></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td colspan="5"><strong>Genital Smears</strong></td>
-						</tr>
-						<tr>
-							<td>Total</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>T. vaginalis</td>
-							<td style="background-color: #CCCCCC;"></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>S. haematobium</td>
-							<td style="background-color: #CCCCCC;"></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>Yeast cells</td>
-							<td style="background-color: #CCCCCC;"></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>Others</td>
-							<td style="background-color: #CCCCCC;"></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td colspan="5"><strong>Spleen/bone marrow</strong></td>
-						</tr>
-						<tr>
-							<td>Total</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>L. donovani</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>';
-				$stool = TestType::getTestTypeIdByTestName('Stool for O/C');
-				$stoolForOc = TestType::find($stool);
-				$measures = TestTypeMeasure::where('test_type_id', $stool)->orderBy('measure_id', 'DESC')->get();
-				$table.='<td colspan="5"><strong>Stool</strong></td>
-						</tr>
-						<tr>
-							<td>Total</td>
-							<td>'.$this->getGroupedTestCounts($stoolForOc, null, null, $from, $toPlusOne).'</td>';
-							foreach ($ageRanges as $ageRange) {
-								$table.='<td>'.$this->getGroupedTestCounts($stoolForOc, null, $ageRange, $from, $toPlusOne).'</td>';
-							}
-						$table.='</tr>';
-						foreach ($measures as $measure) {
-							$tMeasure = Measure::find($measure->measure_id);
-							foreach ($tMeasure->measureRanges as $range) {
-								if($range->alphanumeric=='O#C not seen'){ continue; }
-							$table.='<tr>
-									<td>'.$range->alphanumeric.'</td>';
-								$table.='<td style="background-color: #CCCCCC;"></td>';
-								foreach ($ageRanges as $ageRange) {
-									$table.='<td>'.$this->getTotalTestResults($tMeasure, null, $ageRange, $from, $toPlusOne, [$range->alphanumeric]).'</td>';
-								}
-								$table.='</tr>';
-							}
-						}
-						$table.='<tr>
-							<td colspan="5"><strong>Lavages</strong></td>
-						</tr>
-						<tr>
-							<td>Total</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<!-- PARASITOLOGY -->
-			<!-- BACTERIOLOGY -->
+				$table.='<!-- BACTERIOLOGY -->
+			
 			<div class="col-sm-12">
 				<strong>BACTERIOLOGY</strong>
 				<div class="row">
@@ -2718,7 +2636,14 @@ class ReportController extends \BaseController {
                                 ->with('csfChemistryList', $csfChemistryList)
                                 ->with('malariaTestList', $malariaTestList)
                                 ->with('stoolAnalysisTotalExam', $stoolAnalysisTotalExam)
-                                ->with('stoolAnalysisList', $stoolAnalysisList);
+                                ->with('stoolAnalysisList', $stoolAnalysisList)
+                                ->with('cd4Flag', $cd4Flag)
+                                ->with('haematologyTestList', $haematologyTestList)
+                                ->with('ESR_FLAG', $ESR_FLAG)
+                                ->with('otherHaematologyTestsList', $otherHaematologyTestsList)
+                                ->with('BG_FLAG', $BG_FLAG)
+                                ->with('bloodGroupingList', $bloodGroupingList)
+                                ->with('bloodScreeningList', $bloodScreeningList);
 		}
 	}
 	/**

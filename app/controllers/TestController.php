@@ -172,8 +172,8 @@ class TestController extends \BaseController {
 					->with('activeTest', $activeTest);
 		}
 	}
-
-	/**
+        
+        /**
 	 * Display Rejection page 
 	 *
 	 * @param
@@ -310,7 +310,6 @@ class TestController extends \BaseController {
 		}
 		$result['measureid'] = Input::get('measureid');
 		$result['measurevalue'] = Input::get('measurevalue');
-		$result['testId'] = Input::get('testId');
 
 		$measure = new Measure;
 		return $measure->getResultInterpretation($result);
@@ -333,21 +332,6 @@ class TestController extends \BaseController {
 		
 		foreach ($test->testType->measures as $measure) {
 			$testResult = TestResult::firstOrCreate(array('test_id' => $testID, 'measure_id' => $measure->id));
-			$audit = false;
-			//Log in Audit if the values have changed
-			if ($testResult->result != Input::get('m_'.$measure->id)){
-				$testResultAudit = new AuditResult();
-				if($testResult->result == null){
-					$testResultAudit->previous_results = "";
-				}
-				else {
-					$testResultAudit->previous_results = $testResult->result;
-				}
-				$testResultAudit->test_result_id = $testResult->id;
-				$testResultAudit->user_id = Auth::user()->id;
-				$audit = true;
-			}
-
 			$testResult->result = Input::get('m_'.$measure->id);
 
 			$inputName = "m_".$measure->id;
@@ -359,9 +343,6 @@ class TestController extends \BaseController {
 				return Redirect::back()->withErrors($validator)->withInput(Input::all());
 			} else {
 				$testResult->save();
-				if ($audit == true){
-					$testResultAudit->save();
-				}
 			}
 		}
 
