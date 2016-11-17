@@ -85,10 +85,10 @@
                                         <tbody>
                                             <tr>
                                                 <td style="font-weight: bold">Urine Chemistry</td>
-                                                <td>{{ $urineChemestryTotalExam }}</td>
+                                                <td>{{ $moh706List['urineChemestryTotalExam'] }}</td>
                                                 <td style="background-color: #CCCCCC;"></td>
                                             </tr>
-                                            @foreach($urineChemistryList as $measure)
+                                            @foreach($moh706List['urineChemistryList'] as $measure)
                                                 <tr>
                                                 <td >{{ $measure['name'] }}</td>
                                                 <td style="background-color: #CCCCCC;"></td>
@@ -97,10 +97,10 @@
                                             @endforeach
                                             <tr>
                                                 <td style="font-weight: bold">Urine Microscopy</td>
-                                                <td>{{ $urineMicroscopyTotalExam }}</td>
+                                                <td>{{ $moh706List['urineMicroscopyTotalExam'] }}</td>
                                                 <td style="background-color: #CCCCCC;"></td>
                                             </tr>
-                                            @foreach($urineMicroscopyList as $measure)
+                                            @foreach($moh706List['urineMicroscopyList'] as $measure)
                                                 <tr>
                                                 <td >{{ $measure['name'] }}</td>
                                                 <td style="background-color: #CCCCCC;"></td>
@@ -123,7 +123,7 @@
 
                                         <tbody>
                                             <!-- Blood sugar test -->
-                                            @foreach($bloodSugarTestList as $measure)
+                                            @foreach($moh706List['bloodSugarTestList'] as $measure)
                                                 <tr>
                                                 <td >{{ $measure['name'] }}</td>
                                                 <td>{{ $measure['total'] }}</td>
@@ -134,11 +134,11 @@
                                             <!-- renal function test -->
                                             <tr>
                                                 <td style="font-weight: bold">Renal Function Test</td> 
-                                                <td>{{ $renalFunctionTestTotalExam }}</td>
+                                                <td>{{ $moh706List['renalFunctionTestTotalExam'] }}</td>
                                                 <td style="background-color: #CCCCCC;"></td>
                                                 <td style="background-color: #CCCCCC;"></td>
                                             </tr>
-                                            @foreach($renalFunctionTestList as $measure)
+                                            @foreach($moh706List['renalFunctionTestList'] as $measure)
                                                 <tr>
                                                 <td >{{ $measure['name'] }}</td>
                                                 <td style="background-color: #CCCCCC;"></td>
@@ -149,11 +149,11 @@
                                             <!-- liver function test -->
                                             <tr>
                                                 <td style="font-weight: bold">Liver Function Test</td> 
-                                                <td>{{ $liverFunctionTestTotalExam }}</td>
+                                                <td>{{ $moh706List['liverFunctionTestTotalExam'] }}</td>
                                                 <td style="background-color: #CCCCCC;"></td>
                                                 <td style="background-color: #CCCCCC;"></td>
                                             </tr>
-                                            @foreach($liverFunctionTestList as $measure) 
+                                            @foreach($moh706List['liverFunctionTestList'] as $measure) 
                                             <tr>
                                                 <td >{{ $measure['name'] }}</td>
                                                 <td style="background-color: #CCCCCC;"></td>
@@ -164,11 +164,11 @@
                                             <!-- Lipid Profile -->
                                             <tr>
                                                 <td style="font-weight: bold">Lipid Profile</td> 
-                                                <td>{{ $lipidProfileTotalExam }}</td>
+                                                <td>{{ $moh706List['lipidProfileTotalExam'] }}</td>
                                                 <td style="background-color: #CCCCCC;"></td>
                                                 <td style="background-color: #CCCCCC;"></td>
                                             </tr>
-                                            @foreach($lipidProfileList as $measure) 
+                                            @foreach($moh706List['lipidProfileList'] as $measure) 
                                                 <tr>
                                                 <td>{{ $measure['name'] }}</td>
                                                 <td>{{ $measure['total'] }}</td>
@@ -183,7 +183,7 @@
                                                 <td>Low</td>
                                                 <td>High</td>
                                             </tr>
-                                            @foreach($hormonalTestList as $measure) 
+                                            @foreach($moh706List['hormonalTestList'] as $measure) 
                                                 <tr>
                                                 <td >{{ $measure['name'] }}</td>
                                                 <td>{{ $measure['total'] }}</td>
@@ -197,7 +197,7 @@
                                                 <td>Total Exam</td>
                                                 <td colspan="2">Positive</td>
                                             </tr>
-                                            @foreach($tumorMarkersList as $measure) 
+                                            @foreach($moh706List['tumorMarkersList'] as $measure) 
                                                 <tr>
                                                 <td>{{ $measure['name'] }}</td>
                                                 <td>{{ $measure['total'] }}</td>
@@ -211,7 +211,7 @@
                                                 <td>Low</td>
                                                 <td>High</td>
                                             </tr>
-                                            @foreach($csfChemistryList as $measure) 
+                                            @foreach($moh706List['csfChemistryList'] as $measure) 
                                                 <tr>
                                                 <td>{{ $measure['name'] }}</td>
                                                 <td>{{ $measure['total'] }}</td>
@@ -233,7 +233,7 @@
                                         </thead>
 
                                         <tbody>
-                                            @foreach($malariaTestList as $measure) <!-- Blood sugar test -->
+                                            @foreach($moh706List['malariaTestList'] as $measure) <!-- Blood sugar test -->
                                                 <tr>
                                                 <td >{{ $measure['name'] }}</td>
                                                 <td colspan="2">{{ $measure['total'] }}</td>
@@ -242,10 +242,10 @@
                                             @endforeach
                                             <tr>
                                                 <td style="font-weight: bold">Stool Examination</td> 
-                                                <td colspan="2">{{ $stoolAnalysisTotalExam }}</td>
+                                                <td colspan="2">{{ $moh706List['stoolAnalysisTotalExam'] }}</td>
                                                 <td style="font-weight: bold">Number Positive</td>
                                             </tr>
-                                            @foreach($stoolAnalysisList as $measure)<!-- renal function test -->
+                                            @foreach($moh706List['stoolAnalysisList'] as $measure)<!-- renal function test -->
                                                 <tr>
                                                 <td >{{ $measure['name'] }}</td>
                                                 <td colspan="2" style="background-color: #CCCCCC;"></td>
@@ -267,8 +267,8 @@
                                         </thead>
 
                                         <tbody>
-                                            @foreach($haematologyTestList as $measure) <!-- Haematology test -->
-                                            @if($measure['name'] == $CD4_FLAG)
+                                            @foreach($moh706List['haematologyTestList'] as $measure) <!-- Haematology test -->
+                                            @if($measure['name'] == $moh706List['CD4_FLAG'])
                                                 <tr>
                                                 <td ></td>
                                                 <td></td>
@@ -276,9 +276,9 @@
                                                 </tr>
                                             @endif
                                             <tr>
-                                                <td >{{ $measure['name'] }}</td>
+                                                <td>{{ $measure['name'] }}</td>
                                                 <td>{{ $measure['total'] }}</td>
-                                                @if($measure['name'] == $CD4_FLAG)<!-- display CD4 count's only 'low' count -->
+                                                @if($measure['name'] == $moh706List['CD4_FLAG'])<!-- display CD4 count's only 'low' count -->
                                                     <td colspan="2">{{ $measure['low'] }}</td>
                                                     @else <!-- display the rest as low and high -->
                                                     <td>{{ $measure['low'] }}</td>
@@ -291,8 +291,8 @@
                                                 <td>Total Exam</td>
                                                 <td colspan="2">Positive</td>
                                             </tr>
-                                            @foreach($otherHaematologyTestsList as $measure) <!-- Tumor Makers -->
-                                                @if($measure['name'] == $ESR_FLAG)
+                                            @foreach($moh706List['otherHaematologyTestsList'] as $measure) <!-- Tumor Makers -->
+                                                @if($measure['name'] == $moh706List['ESR_FLAG'])
                                                 <tr>
                                                     <td style="background-color: #CCCCCC;"</td>
                                                     <td style="background-color: #CCCCCC;"></td>
@@ -316,8 +316,8 @@
                                                  <td colspan="2">Blood grouping</td> 
                                                 <td colspan="2">Number</td>
                                             </tr>
-                                            @foreach($bloodGroupingList as $measure) 
-                                                @if($measure['name'] == $BG_FLAG)
+                                            @foreach($moh706List['bloodGroupingList'] as $measure) 
+                                                @if($measure['name'] == $moh706List['BG_FLAG'])
                                                 <tr>
                                                     <td colspan="2" style="font-weight: bold">Blood Safety</td>
                                                     <td colspan="2" style="font-weight: bold">Number</td>
@@ -332,7 +332,7 @@
                                                 <td colspan="2">Blood screening at facility</td> 
                                                 <td colspan="2">Number Positive</td>
                                             </tr>
-                                            @foreach($bloodScreeningList as $measure) 
+                                            @foreach($moh706List['bloodScreeningList'] as $measure) 
                                                 <tr>
                                                     <td colspan="2">{{ $measure['name'] }}</td>
                                                     <td colspan="2">{{ $measure['positive'] }}</td>
@@ -353,7 +353,7 @@
 
                                         <tbody>
                                         <!-- Tumor Makers -->
-                                        @foreach($bacterolgicalSampleList as $measure) 
+                                        @foreach($moh706List['bacterolgicalSampleList'] as $measure) 
                                             <tr>
                                                 <td>{{ $measure['name'] }}</td>
                                                 <td>{{ $measure['count'] }}</td>
@@ -367,7 +367,7 @@
                                                 <td>Total Exam</td>
                                                 <td>Number Positive</td>
                                             </tr>
-                                        @foreach($stoolCultureList as $measure) 
+                                        @foreach($moh706List['stoolCultureList'] as $measure) 
                                             <tr>
                                                 <td colspan="2">{{ $measure['name'] }}</td>
                                                 <td>{{ $measure['total'] }}</td>
@@ -378,7 +378,7 @@
                                                 <td colspan="2">Stool Isolates</td> 
                                                 <td colspan="2">Number Positive</td>
                                             </tr>
-                                        @foreach($stoolIsolateList as $measure) 
+                                        @foreach($moh706List['stoolIsolateList'] as $measure) 
                                             <tr>
                                                 <td colspan="2">{{ $measure['name'] }}</td>
                                                 <td colspan="2">{{ $measure['positive'] }}</td>
@@ -386,8 +386,8 @@
                                         @endforeach
                                          <!-- Bacterial Meningitis -->
                                         <tr><td colspan="4" style="font-weight: bold; align-content: center;">Bacterial Meningitis</td></tr>
-                                        @foreach($bacterialMeningitisList as $measure)
-                                            @if($measure['name'] == $CSF_FLAG)
+                                        @foreach($moh706List['bacterialMeningitisList'] as $measure)
+                                            @if($measure['name'] == $moh706List['CSF_FLAG'])
                                             <tr style="font-weight: bold;">
                                                 <td>Bacterial Meningitis</td>
                                                 <td>Total exam</td>
@@ -401,13 +401,13 @@
                                             </tr>
                                             @endif
                                             <tr>
-                                                @if($measure['name'] == $CSF_FLAG)<!-- display CSF -->
+                                                @if($measure['name'] == $moh706List['CSF_FLAG'])<!-- display CSF -->
                                                     <td>{{ $measure['name'] }}</td>
                                                     <td>{{ $measure['total'] }}</td>
                                                     <td>{{ $measure['positive'] }}</td>
                                                     <td>{{ $measure['contaminated'] }}</td>
                                                 @else 
-                                                    @if($measure['name'] == $BP_FLAG)
+                                                    @if($measure['name'] == $moh706List['BP_FLAG'])
                                                         <tr>
                                                             <td colspan="4" style="font-weight: bold; align-content: center;">
                                                                 Bacterial Pathogens from other types of specimen
@@ -425,7 +425,7 @@
                                             <td>Total Exam</td>
                                             <td>Positive</td>
                                         </tr>
-                                        @foreach($sputumList as $measure) 
+                                        @foreach($moh706List['sputumList'] as $measure) 
                                         <tr>
                                             <td colspan="2">{{ $measure['name'] }}</td>
                                             <td>{{ $measure['total'] }}</td>
