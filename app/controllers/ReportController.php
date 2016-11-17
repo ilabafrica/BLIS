@@ -1251,6 +1251,7 @@ class ReportController extends \BaseController {
 	 */
 	public function moh706(){
 		//	Variables definition
+                //$moh706List = array();
 		$date = date('Y-m-d');
 		$from = Input::get('start');
 		if(!$from) $from = date('Y-m-01');
@@ -1267,9 +1268,9 @@ class ReportController extends \BaseController {
 						  'E. coli', 'C. neoformans', 'Cardinella vaginalis', 'Haemophilus', 'Bordotella pertusis', 'Pseudomonas', 
 						  'Coliforms', 'Faecal coliforms', 'Enterococcus faecalis', 'Total viable counts-22C', 'Total viable counts-37C', 
 						  'Clostridium', 'Others');
-
+                
 		//	Get specimen_types for microbiology
-		$labSecId = TestCategory::getTestCatIdByName('microbiology');
+		$labSecId = TestCategory::getTestCatIdByName('Microbiology');
 		$specTypeIds = DB::select(DB::raw("select distinct(specimen_types.id) as spec_id from testtype_specimentypes".
 										  " join test_types on test_types.id=testtype_specimentypes.test_type_id".
 										  " join specimen_types on testtype_specimentypes.specimen_type_id=specimen_types.id".
@@ -1303,6 +1304,7 @@ class ReportController extends \BaseController {
                         $arr['positive'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, null, null);
                         array_push($urineChemistryList, $arr);
                 }
+                //$moh706List['urineChemistryList'] = $urineChemistryList;
 				
                 /*Urine Microscopy*/
                 $measures = TestTypeMeasure::where('test_type_id', $urinaId)->orderBy('measure_id', 'DESC')->get();
@@ -1316,6 +1318,7 @@ class ReportController extends \BaseController {
                 $arr['positive'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, null, null);
                 array_push($urineMicroscopyList, $arr);
                 }
+                //$moh706List['urineMicroscopyList'] = $urineMicroscopyList;
                 /*===============*/
                 /*BLOOD CHEMISTRY*/
                 /*===============*/
@@ -1489,7 +1492,7 @@ class ReportController extends \BaseController {
                 
                 $haematologyTestArr = array ('Full haemogram/Full blood count', 'HB electrophoresis', 'CD4 count'); //haemotology tests
                 $haematologyTestList = array();
-                $cd4Flag = "";
+                $CD4_FLAG = "CD4 count";
                 foreach($haematologyTestArr as $ht) {
                     $arr['name'] = $ht;//test name
                     $haematologyTestId = TestType::getTestTypeIdByTestName($ht);
@@ -1503,7 +1506,6 @@ class ReportController extends \BaseController {
                         if($tMeasure->name == 'CD4 count')
                         {
                             $arr['low'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, ['Low', 500], null);
-                            $cd4Flag = $tMeasure->name;
                         }else
                         {
                             $arr['low'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, ['Low', 5], null);
@@ -1556,8 +1558,8 @@ class ReportController extends \BaseController {
                 
                 $bloodScreeningArr = array ('Hepatitis C test', 'Hepatitis B test (HBs Ag)', 'HIV ELISA', 'Rapid Plasma Reagin (RPR)');
                 $bloodScreeningList = array();
-                foreach($bloodScreeningArr as $oht) { 
-                    $bloodScreeningId = TestType::getTestTypeIdByTestName($oht);
+                foreach($bloodScreeningArr as $bsf) { 
+                    $bloodScreeningId = TestType::getTestTypeIdByTestName($bsf);
                     $bloodScreening = TestType::find($bloodScreeningId);
                     $measures = TestTypeMeasure::where('test_type_id', $bloodScreeningId)->orderBy('measure_id', 'DESC')->get();
                     /* get measures that were positive */
@@ -1569,9 +1571,133 @@ class ReportController extends \BaseController {
                         array_push($bloodScreeningList, $arr);
                     }
                 }
-                                
                 
-                /*========================================================================================================*/
+                /*===============*/
+                /* BACTERIOLOGY */
+                /*===============*/
+                
+                /* Bacteriological sample*/
+                $bacterolgicalSampleList = array();
+                $sampleTypesList = array('Urine', 'Pus Swab', 'High vaginal swab', 'Throat Swab', 'Rectal swab', 
+                            'Whole blood', 'Water Samples', 'Food samples', 'Urethral swab');
+                $positiveCount = 0;
+                foreach ($specTypeIds as $key) 
+                    {
+                        $specimenType = SpecimenType::find($key->spec_id)->name;
+                        if(!in_array($specimenType, $sampleTypesList)){
+                                continue;
+                        }
+                        if($specimenType == "High vaginal swab") {
+                            $specimenType = $specimenType." (HVS) "; //conform with the testtype name
+                        }
+                        $cultureId = TestType::getTestTypeIdByTestName($specimenType.' Culture');
+                        $culture = TestType::find($cultureId);
+                        $measures = TestTypeMeasure::where('test_type_id', $cultureId)->orderBy('measure_id', 'DESC')->get();
+                        //number of culture positive for every bacteriological sample
+                        foreach ($measures as $measure) {
+                            $tMeasure = Measure::find($measure->measure_id);
+                            $positiveCount =+ $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, null, null);//aggregate positive cultures' measure
+                        }
+                        
+                        $totalCount = DB::select(DB::raw("select count(specimen_id) as per_spec_count from tests".
+                                                                                         " join specimens on tests.specimen_id=specimens.id".
+                                                                                         " join test_types on tests.test_type_id=test_types.id".
+                                                                                         " where specimens.specimen_type_id=?".
+                                                                                         " and test_types.test_category_id=?".
+                                                                                         " and test_status_id in(?,?)".
+                                                                                         " and tests.time_created BETWEEN ? and ?;"), 
+                                                                                        [$key->spec_id, $labSecId, Test::COMPLETED, Test::VERIFIED, $from, $toPlusOne]);
+                        $arr['name'] = $specimenType;
+                        $arr['count'] = $totalCount[0]->per_spec_count;
+                        $arr['total'] = $this->getGroupedTestCounts($culture, null, null, $from, $toPlusOne);//total cultures for every bacteriological sample
+                        $arr['positive'] = $positiveCount;
+                        array_push($bacterolgicalSampleList, $arr);
+                    }
+                    
+                /* Stool culture */
+
+                $stoolCultureList = array();
+                $stoolCultureId = TestType::getTestTypeIdByTestName("Stool culture");
+                $stoolCulture = TestType::find($stoolCultureId);
+                $measures = TestTypeMeasure::where('test_type_id', $stoolCultureId)->orderBy('measure_id', 'DESC')->get();
+                /* get measures that were positive */
+                foreach ($measures as $measure) {
+                    $tMeasure = Measure::find($measure->measure_id);
+                    $arr['name'] = $tMeasure->name;
+                    $arr['total'] = $this->getGroupedTestCounts($stoolCulture, null, null, $from, $toPlusOne);
+                    $arr['positive'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, null, null);
+                    array_push($stoolCultureList, $arr);
+                }
+
+                /* Stool Isolates */
+                $stoolIsolateList = array();
+                $stoolIsolates = ['Salmonella species','Shigella', 'Escherichia coli', 'Vibrio cholerae' ];
+                foreach ($stoolIsolates as $isolate)
+                {
+                    $arr['name'] = $isolate;
+                    foreach ($sampleTypesList as $sampleType) 
+                    {
+                        $arr['positive'] = TestResult::microCounts($isolate,$sampleType, $from, $toPlusOne)[0]->total;
+                    } 
+                    array_push($stoolIsolateList, $arr);
+                }
+                
+                /* Bacterial Meningitis*/
+                
+                $bacterialMeningitisArr = array ('CSF  culture', 'Neisseria meningitidis A', 'Neisseria meningitidis B', 'Neisseria meningitidis C',
+                                        'Neisseria meningitidis W135', 'Neisseria meningitidis X', 'Neisseria meningitidis Y', 
+                                        'Neisseria meningitidis (indeterminate)', 'Streptococcus pneumoniae','Haemophilus influenzae (type b)',
+                                        'Cryptococcal Meningitis', 'B. anthracis', 'Y. pestis');
+                $CSF_FLAG = "CSF  culture";
+                $BP_FLAG = "B. anthracis";
+                $bacterialMeningitisList = array();
+                foreach($bacterialMeningitisArr as $bm) { 
+                    $bacterialMeningitisId = TestType::getTestTypeIdByTestName($bm);
+                    $bacterialMeningitis = TestType::find($bacterialMeningitisId);
+                    $measures = TestTypeMeasure::where('test_type_id', $bacterialMeningitisId)->orderBy('measure_id', 'DESC')->get();
+                    /* get measures that were positive */
+                    foreach ($measures as $measure) {
+                        $tMeasure = Measure::find($measure->measure_id);
+                        $arr['name'] = $tMeasure->name;
+                        
+                        $arr['positive'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, null, null);
+                        if($tMeasure->name == 'CSF  culture')
+                        {
+                            $arr['total'] = $this->getGroupedTestCounts($bacterialMeningitis, null, null, $from, $toPlusOne);
+                            $arr['contaminated'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, null, null);
+                        }                       
+                        array_push($bacterialMeningitisList, $arr);
+                    }
+                }
+                
+                /* Sputum*/
+                
+                $sputumArr = array('Sputum for AFB', 'TB new suspects', 'TB followup', 'GeneXpert', 'MDR TB');
+                $sputumList = array();
+                foreach($sputumArr as $sp)
+                {
+                    $sputumId = TestType::getTestTypeIdByTestName($sp);
+                    $sputum = TestType::find($sputumId);
+                    $measures = TestTypeMeasure::where('test_type_id', $sputumId)->orderBy('measure_id', 'DESC')->get();
+                    /* get measures that were positive */
+                    foreach ($measures as $measure) {
+                        $tMeasure = Measure::find($measure->measure_id);
+                        $arr['name'] = $tMeasure->name;
+                        $arr['total'] = $this->getGroupedTestCounts($sputum, null, null, $from, $toPlusOne);
+                        $arr['positive'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, null, null);
+                        array_push($sputumList, $arr);
+                    }
+                    if($sp != "Sputum for AFB")
+                    {
+                        /*TODO: complete below report after design work is complete */
+                        $arr['name'] = $sp;
+                        $arr['total'] = 0;
+                        $arr['positive'] = 0;
+                        array_push($sputumList, $arr);
+                    }
+                }
+        
+        /*========================================================================================================*/
                 
 				$table.='<!-- BACTERIOLOGY -->
 			
@@ -2611,7 +2737,38 @@ class ReportController extends \BaseController {
 			    "Content-type"=>"text/html",
 			    "Content-Disposition"=>"attachment;Filename=".$fileName
 			);
-			$content = $table;
+			//$content = $table;
+                        $content = View::make('reports.moh.706')
+                                ->with('from', $from)
+                                ->with('end', $end)
+                                ->with('urineChemestryTotalExam', $urineChemestryTotalExam)
+                                ->with('urineChemistryList', $urineChemistryList)
+                                ->with('urineMicroscopyTotalExam', $urineMicroscopyTotalExam)
+                                ->with('urineMicroscopyList', $urineMicroscopyList)
+                                ->with('bloodSugarTestList', $bloodSugarTestList)
+                                ->with('renalFunctionTestTotalExam', $renalFunctionTestTotalExam)
+                                ->with('renalFunctionTestList', $renalFunctionTestList)
+                                ->with('liverFunctionTestTotalExam', $liverFunctionTestTotalExam)
+                                ->with('liverFunctionTestList', $liverFunctionTestList)
+                                ->with('lipidProfileTotalExam', $lipidProfileTotalExam)
+                                ->with('lipidProfileList', $lipidProfileList)
+                                ->with('hormonalTestList', $hormonalTestList)
+                                ->with('tumorMarkersList', $tumorMarkersList)
+                                ->with('csfChemistryList', $csfChemistryList)
+                                ->with('malariaTestList', $malariaTestList)
+                                ->with('stoolAnalysisTotalExam', $stoolAnalysisTotalExam)
+                                ->with('stoolAnalysisList', $stoolAnalysisList)
+                                ->with('CD4_FLAG', $CD4_FLAG)
+                                ->with('haematologyTestList', $haematologyTestList)
+                                ->with('ESR_FLAG', $ESR_FLAG)
+                                ->with('otherHaematologyTestsList', $otherHaematologyTestsList)
+                                ->with('BG_FLAG', $BG_FLAG)
+                                ->with('bloodGroupingList', $bloodGroupingList)
+                                ->with('bloodScreeningList', $bloodScreeningList)
+                                ->with('bacterolgicalSampleList', $bacterolgicalSampleList)
+                                ->with('stoolCultureList', $stoolCultureList)
+                                ->with('stoolIsolateList', $stoolIsolateList);
+                        
 	    	return Response::make($content,200, $headers);
 		}
 		else{
@@ -2637,13 +2794,20 @@ class ReportController extends \BaseController {
                                 ->with('malariaTestList', $malariaTestList)
                                 ->with('stoolAnalysisTotalExam', $stoolAnalysisTotalExam)
                                 ->with('stoolAnalysisList', $stoolAnalysisList)
-                                ->with('cd4Flag', $cd4Flag)
+                                ->with('CD4_FLAG', $CD4_FLAG)
                                 ->with('haematologyTestList', $haematologyTestList)
                                 ->with('ESR_FLAG', $ESR_FLAG)
                                 ->with('otherHaematologyTestsList', $otherHaematologyTestsList)
                                 ->with('BG_FLAG', $BG_FLAG)
                                 ->with('bloodGroupingList', $bloodGroupingList)
-                                ->with('bloodScreeningList', $bloodScreeningList);
+                                ->with('bloodScreeningList', $bloodScreeningList)
+                                ->with('bacterolgicalSampleList', $bacterolgicalSampleList)
+                                ->with('stoolCultureList', $stoolCultureList)
+                                ->with('stoolIsolateList', $stoolIsolateList)
+                                ->with('CSF_FLAG', $CSF_FLAG)
+                                ->with('BP_FLAG', $BP_FLAG)
+                                ->with('bacterialMeningitisList', $bacterialMeningitisList)
+                                ->with('sputumList', $sputumList);
 		}
 	}
 	/**
