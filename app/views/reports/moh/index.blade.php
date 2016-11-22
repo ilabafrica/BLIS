@@ -450,7 +450,7 @@
                                             <tr>
                                                 <td colspan="2">{{ $measure['name'] }}</td>
                                                 <td>{{ $measure['total'] }}</td>
-                                                <td>{{ $measure['malignant'] }}</td>
+                                                <td>{{ $measure['positive'] }}</td> <!-- malignant -->
                                             </tr>                                           
                                         @endforeach
                                         <!-- Fine Needles Aspirates -->
@@ -463,7 +463,7 @@
                                             <tr>
                                                 <td colspan="2">{{ $measure['name'] }}</td>
                                                 <td>{{ $measure['total'] }}</td>
-                                                <td>{{ $measure['malignant'] }}</td>
+                                                <td>{{ $measure['positive'] }}</td> <!-- malignant -->
                                             </tr>                                                                                        
                                         @endforeach
                                         <!-- Fluid Cytology -->
@@ -476,7 +476,7 @@
                                             <tr>
                                                 <td colspan="2">{{ $measure['name'] }}</td>
                                                 <td>{{ $measure['total'] }}</td>
-                                                <td>{{ $measure['malignant'] }}</td>
+                                                <td>{{ $measure['positive'] }}</td> <!-- malignant -->
                                             </tr>                                                                                        
                                         @endforeach
                                         <!-- Bone Marrow Studies -->
@@ -489,8 +489,33 @@
                                             <tr>
                                                 <td colspan="2">{{ $measure['name'] }}</td>
                                                 <td>{{ $measure['total'] }}</td>
-                                                <td>{{ $measure['malignant'] }}</td>
+                                                <td>{{ $measure['positive'] }}</td> <!-- malignant -->
                                             </tr>                                                                                        
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                              <!-- 7. SEROLOGY -->
+                                    <table class="table table-condensed report-table-border" style="width: 40%">
+                                        <thead>
+                                            <tr style="text-align: center;"><th colspan="4" ><strong>6. HISTOLOGY AND CYTOLOGY</strong></th> </tr>
+                                            <tr>
+                                                <th colspan="2" style="font-weight: bold">Serological Test</th>
+                                                <th>Total Exam</th>
+                                                <th>Number Positive</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <!-- Serological test -->
+                                        @foreach($moh706List['serologyList'] as $measure) 
+                                            <tr>
+                                                <td colspan="2">{{ $measure['name'] }}</td>
+                                                <td>{{ $measure['total'] }}</td>
+                                                @if($measure['name'] != $moh706List['CRAG_FLAG'])
+                                                    <td>{{ $measure['positive'] }}</td>
+                                                @else
+                                                    <td style="background-color: #CCCCCC;"></td>
+                                                @endif                                                
+                                            </tr>                                           
                                         @endforeach
                                         
                                         </tbody>

@@ -1759,12 +1759,22 @@ class ReportController extends \BaseController {
                 $moh706List['fluidCytologyList'] = $this->histologyCytologySerology(array('Ascitic fluid','CSF', 'Pleural fluid', 'Urine'), $from, $toPlusOne);
                 /* Tissue Histology*/
                 $moh706List['fluidCytologyList'] = $this->histologyCytologySerology(
-                        array('Cervix','Prostrate', 'Breast tissue', 'Ovarian cyst', 'Uterus', 'Skin', 'Head and neck', 'Dental', 'GIT', 'Lymph nodes	'), 
+                        array('Cervix','Prostrate', 'Breast tissue', 'Ovarian cyst', 'Uterus', 'Skin', 'Head and neck', 'Dental', 'GIT', 'Lymph nodes'), 
                         $from, 
                         $toPlusOne);
                 /* Bone Murrow Studies*/
                 $moh706List['boneMurrowStudiesList'] = $this->histologyCytologySerology(array('Bone marrow aspirates','Trephine biopsy'), $from, $toPlusOne);
                 
+                /*========================*/
+                /* SEROLOGY */
+                /*========================*/
+                /* Serology test */
+                $moh706List['serologyList'] = $this->histologyCytologySerology(
+                        array('VDRL','TPHA', 'ASOT test', 'HIV rapid testing', 'Brucella test', 'Rheumatoid factor', 'Helicobacter pylori',
+                            'Hepatitis A test', 'Hepatitis B test (HBs Ag)', 'Hepatitis C test', 'HCG', 'CRAG test'), 
+                        $from, 
+                        $toPlusOne);
+                $moh706List['CRAG_FLAG'] = 'CRAG test';
         /*========================================================================================================*/
                 
 				$table.='<!-- BACTERIOLOGY -->
