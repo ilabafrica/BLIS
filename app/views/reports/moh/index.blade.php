@@ -434,6 +434,67 @@
                                         @endforeach
                                         </tbody>
                                     </table>
+                                         <!-- 6. HISTOLOGY AND CYTOLOGY -->
+                                    <table class="table table-condensed report-table-border" style="width: 40%">
+                                        <thead>
+                                            <tr style="text-align: center;"><th colspan="4" ><strong>6. HISTOLOGY AND CYTOLOGY</strong></th> </tr>
+                                            <tr>
+                                                <th colspan="2" style="font-weight: bold">Smears</th>
+                                                <th>Total Exam</th>
+                                                <th>Malignant</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <!-- Smears -->
+                                        @foreach($moh706List['smearsList'] as $measure) 
+                                            <tr>
+                                                <td colspan="2">{{ $measure['name'] }}</td>
+                                                <td>{{ $measure['total'] }}</td>
+                                                <td>{{ $measure['malignant'] }}</td>
+                                            </tr>                                           
+                                        @endforeach
+                                        <!-- Fine Needles Aspirates -->
+                                            <tr style="font-weight: bold"> 
+                                                <td colspan="2">Fine Needles Aspirates</td> 
+                                                <td>Total Exam</td>
+                                                <td>Malignant</td>
+                                            </tr>
+                                        @foreach($moh706List['aspiratesList'] as $measure) 
+                                            <tr>
+                                                <td colspan="2">{{ $measure['name'] }}</td>
+                                                <td>{{ $measure['total'] }}</td>
+                                                <td>{{ $measure['malignant'] }}</td>
+                                            </tr>                                                                                        
+                                        @endforeach
+                                        <!-- Fluid Cytology -->
+                                            <tr style="font-weight: bold"> 
+                                                <td colspan="2"> Fluid Cytology </td> 
+                                                <td>Total Exam</td>
+                                                <td>Malignant</td>
+                                            </tr>
+                                        @foreach($moh706List['fluidCytologyList'] as $measure) 
+                                            <tr>
+                                                <td colspan="2">{{ $measure['name'] }}</td>
+                                                <td>{{ $measure['total'] }}</td>
+                                                <td>{{ $measure['malignant'] }}</td>
+                                            </tr>                                                                                        
+                                        @endforeach
+                                        <!-- Bone Marrow Studies -->
+                                            <tr style="font-weight: bold"> 
+                                                <td colspan="2">Bone Marrow Studies</td> 
+                                                <td>Total Exam</td>
+                                                <td>Malignant</td>
+                                            </tr>
+                                        @foreach($moh706List['boneMurrowStudiesList'] as $measure) 
+                                            <tr>
+                                                <td colspan="2">{{ $measure['name'] }}</td>
+                                                <td>{{ $measure['total'] }}</td>
+                                                <td>{{ $measure['malignant'] }}</td>
+                                            </tr>                                                                                        
+                                        @endforeach
+                                        
+                                        </tbody>
+                                    </table>
 				</div>
 			</div>
 		</div>

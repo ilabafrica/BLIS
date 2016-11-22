@@ -1245,6 +1245,26 @@ class ReportController extends \BaseController {
 		}
 		return $measureobj->totalTestResults($gender, $ageRange, $from, $to, $range, $positive);
 	}
+        public function histologyCytologySerology($testArr,$from, $toPlusOne)//sub routine to process histology and cytology. The test sub sections repeat similarly
+            {
+                    /* Fine Needles Aspirates */
+                $testsList = array();
+                foreach($testArr as $ts)
+                {
+                    $testsId = TestType::getTestTypeIdByTestName($ts);                   
+                    $aspirates = TestType::find($testsId);
+                    $measures = TestTypeMeasure::where('test_type_id', $testsId)->orderBy('measure_id', 'DESC')->get();
+                    /* get measures that were positive at a given age range */
+                    foreach ($measures as $measure) {
+                        $tMeasure = Measure::find($measure->measure_id);
+                        $arr['name'] = $tMeasure->name;
+                        $arr['total'] = $this->getGroupedTestCounts($aspirates, null, null, $from, $toPlusOne);
+                        $arr['positive'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, null, null);
+                        array_push($testsList, $arr);
+                    }
+                }
+                return $testsList;
+            }
         /**
 	 * MOH 706
 	 *
@@ -1726,7 +1746,25 @@ class ReportController extends \BaseController {
                     }
                 }
                 $moh706List['sputumList'] = $sputumList;
-        
+                
+                /*========================*/
+                /* HISTOLOGY AND CYTOLOGY */
+                /*========================*/
+                
+                /* Smears */
+                $moh706List['smearsList'] = $this->histologyCytologySerology(array('Pap Smear', 'Tissue Impression', 'Touch preparations'), $from, $toPlusOne); 
+                /* Fine needles aspirates*/
+                $moh706List['aspiratesList'] = $this->histologyCytologySerology(array('Thyroid','Lymph nodes', 'Liver', 'Breast', 'Soft tissue masses'), $from, $toPlusOne);
+                /* Fluid cytology*/
+                $moh706List['fluidCytologyList'] = $this->histologyCytologySerology(array('Ascitic fluid','CSF', 'Pleural fluid', 'Urine'), $from, $toPlusOne);
+                /* Tissue Histology*/
+                $moh706List['fluidCytologyList'] = $this->histologyCytologySerology(
+                        array('Cervix','Prostrate', 'Breast tissue', 'Ovarian cyst', 'Uterus', 'Skin', 'Head and neck', 'Dental', 'GIT', 'Lymph nodes	'), 
+                        $from, 
+                        $toPlusOne);
+                /* Bone Murrow Studies*/
+                $moh706List['boneMurrowStudiesList'] = $this->histologyCytologySerology(array('Bone marrow aspirates','Trephine biopsy'), $from, $toPlusOne);
+                
         /*========================================================================================================*/
                 
 				$table.='<!-- BACTERIOLOGY -->
