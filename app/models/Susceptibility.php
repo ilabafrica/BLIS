@@ -42,4 +42,15 @@ class Susceptibility extends Eloquent
     									->first();
     	return $susceptibility;
     }
+    
+    /*
+    *	Function to return drug susceptibility test given organismId and drugId
+    *
+    */
+    public static function getDrugSusceptibilityTesting($organism_id, $drug_id, $interpretation){
+    	$susceptibility = Susceptibility::where('organism_id', $organism_id)
+    									->where('drug_id', $drug_id)
+                                                                        ->where('interpretation', $interpretation);
+    	return $susceptibility->count();
+    }
 }

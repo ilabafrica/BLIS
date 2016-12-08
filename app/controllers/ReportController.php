@@ -1775,6 +1775,82 @@ class ReportController extends \BaseController {
                         $from, 
                         $toPlusOne);
                 $moh706List['CRAG_FLAG'] = 'CRAG test';
+                
+                /*=====================================*/
+                /* SPECIMEN REFERRAL TO HIGHTER LEVELS */
+                /*=====================================*/     
+                $specimenReferralList = array();
+                if($referredSpecimens)
+                {
+                    foreach ($referredSpecimens as $referredSpecimen) {
+                        $referredSpecimen->spec;
+                        $referredSpecimen->tot;
+                        $referredSpecimen->facility;
+                        
+                        $arr['name'] = $referredSpecimen->spec;
+                        $arr['total'] = $referredSpecimen->tot;
+                        $arr['positive'] = $referredSpecimen->facility;//TODO: need to be No. of results received
+                        array_push($specimenReferralList, $arr);
+                    }
+                }
+                $moh706List['specimenReferralList'] = $specimenReferralList;
+                
+                /*===============================*/
+                /*  DRUG SUSCEPTIBILITY TESTING  */
+                /*===============================*/
+                $drugsArr = array('Ampicillin','Chloramphenicol','Ceftriaxone','Penicillin', 'Oxacillin', 'Ciprofloxacin', 
+                   'Nalidixic acid','Trimethoprim-sulphamethoxazole', 'Tetracycline', 'Augumentin');//hold the list of drugs to be reported
+                $drugsArrDb = array('Chloramphenicol','Penicillin', 'Ciprofloxacin',  'Tetracycline');//hold the list of drugs to be reported
+                $drugs = Drug::all();//get all drugs from the catalog
+                $drugList = array();
+                $organismsArr = array('Haemophilus','Neisseria','Streptococcus',
+                    'Salmonella','Shigella', 'Vibrio');//hold the list of drugs to be reported
+                $organisms = Organism::all();
+                $organismsList = array();
+                //print_r(Organism::find(Organism::getOrganismIdByName('Shigella')));
+                
+                
+                //Haemophilus Neisseria Streptococcus
+                /*foreach ($drugs as $drug){
+                    $arr['name'] = $drug->name;
+                    array_push($drugList, $arr);
+                }*/
+                foreach ($drugsArrDb as $dg){
+                    $drugID = Drug::getDrugIdByName($dg);
+                    $drug = Drug::find($drugID);
+                    $arr['name'] = $dg ; //$drug->name;
+                    array_push($drugList, $arr);
+                }
+                $moh706List['drugs'] = $drugList;
+                
+                /*foreach ($organisms as $organism){
+                    $arr['name'] = $organism->name;
+                    array_push($organismsList, $arr);
+                }*/
+                $sensitivity=Susceptibility::getDrugSusceptibilityTesting(15, 1,'I');
+                foreach($organismsArr as $org)
+                {
+                   $orgID = Organism::getOrganismIdByName($org);
+                   $organism  = Organism::find($orgID);
+                   $arr['name'] = $organism->name;
+                   $arr['drug'] = array();
+                   foreach ($drugsArrDb as $dg){//create drug sensisity 
+                        $drugID = Drug::getDrugIdByName($dg);
+                        $ar['s'] = Susceptibility::getDrugSusceptibilityTesting($orgID, $drugID,'S');
+                        $ar['i'] = Susceptibility::getDrugSusceptibilityTesting($orgID, $drugID,'I');
+                        $ar['r'] = Susceptibility::getDrugSusceptibilityTesting($orgID, $drugID,'R');
+                        /* ==  DEBUGGING SCRIPT == */
+                        //$output = "<script>console.log( 'Debug Objects: " .$dg. "' );</script>";
+                        //echo $output;
+                        /* ==  DEBUGGING SCRIPT == */
+                        array_push($arr['drug'], $ar);
+                    }
+                   array_push($organismsList, $arr);
+                }
+                $moh706List['organisms'] = $organismsList;
+                
+                
+                
         /*========================================================================================================*/
                 
 				$table.='<!-- BACTERIOLOGY -->

@@ -52,6 +52,26 @@ class Organism extends Eloquent
 		// Add the new mapping
 		DB::table('organism_drugs')->insert($drugsAdded);
 	}
+        
+        /**
+	* Given the organism name we return the organism ID
+	*
+	* @param $organismName the name of the organism
+	*/
+	public static function getOrganismIdByName($organismName)
+	{
+		try 
+		{
+			$organismName = trim($organismName);
+			$organism = Organism::where('name', 'like', '%'.$organismName.'%')->orderBy('name')->firstOrFail();
+			return $organism->id;
+		} catch (ModelNotFoundException $e) 
+		{
+			Log::error("The organism ` $organismName ` does not exist:  ". $e->getMessage());
+			//TODO: send email?
+			return null;
+		}
+	}
 	/**
 	 * Drug-susceptibility relationship
 	 */

@@ -520,6 +520,65 @@
                                         
                                         </tbody>
                                     </table>
+                                              
+                                    <!-- 8. SPECIMEN REFERRAL TO HIGHER LEVELS -->
+                                    <table class="table table-condensed report-table-border" style="width: 40%">
+                                        <thead>
+                                            <tr style="text-align: center;"><th colspan="4" ><strong>8. SPECIMEN REFERRAL TO HIGHER LEVELS</strong></th> </tr>
+                                            <tr>
+                                                <th colspan="2" style="font-weight: bold">Specimen Referral</th>
+                                                <th>No. of specimens</th>
+                                                <th>No. of results received</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <!-- Specimen Referral -->
+                                        @foreach($moh706List['specimenReferralList'] as $measure) 
+                                            <tr>
+                                                <td colspan="2">{{ $measure['name'] }}</td>
+                                                <td>{{ $measure['total'] }}</td>
+                                                <td>{{ $measure['positive'] }}</td>
+                                            </tr>                                           
+                                        @endforeach
+                                        
+                                        </tbody>
+                                    </table>
+                                    
+                                    <!-- 9. DRUG SUSCEPTIBILITY TESTING -->
+                                    <table class="table table-condensed report-table-border" style="width: 40%">
+                                        <thead>
+                                            <tr style="text-align: center;"><th colspan="21" ><strong>9. DRUG SUSCEPTIBILITY TESTING</strong></th> </tr>
+                                            <tr>
+                                                <th colspan="2" style="font-weight: bold">Drug Sensitivity Pattern</th>
+                                                @foreach($moh706List['drugs'] as $drug)
+                                                    <th colspan="3" style="font-size: 12px"> {{ $drug['name'] }}</th>
+                                                @endforeach
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2"></th>
+                                                @foreach($moh706List['drugs'] as $drug)
+                                                    <th style="font-size: 10px">S</th>
+                                                    <th style="font-size: 10px">I</th>
+                                                    <th style="font-size: 10px">R</th>
+                                                @endforeach
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <!-- Specimen Referral -->
+                                        @foreach($moh706List['organisms'] as $organism) 
+                                            <tr>
+                                                <td colspan="2">{{ $organism['name'] }}</td>
+                                                @for ($i = 0; $i < count($moh706List['drugs']); $i++)<!-- populate each sensitivity on each drug per organism -->
+                                                    <td style="font-size: 10px">{{ $organism['drug'][$i]['s']}}</td>
+                                                    <td style="font-size: 10px">{{ $organism['drug'][$i]['i']}}</td>
+                                                    <td style="font-size: 10px">{{ $organism['drug'][$i]['r']}}</td>
+                                                @endfor
+                                            </tr>                                           
+                                        @endforeach
+                                        
+                                        </tbody>
+                                    </table>
+                                    
 				</div>
 			</div>
 		</div>
