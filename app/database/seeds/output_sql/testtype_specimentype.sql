@@ -1,9 +1,9 @@
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Full haemogram/Full blood count'), (SELECT id FROM iblis.specimen_types WHERE name = 'Whole blood'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'White blood cells'), (SELECT id FROM iblis.specimen_types WHERE name = 'Whole blood'));
-INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Erythrocyte sedimentation rate (ESR)'), (SELECT id FROM iblis.specimen_types WHERE name = 'Whole blood'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'White blood cells (WBC)'), (SELECT id FROM iblis.specimen_types WHERE name = 'Whole blood'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Haemoglobin'), (SELECT id FROM iblis.specimen_types WHERE name = 'Whole blood'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
@@ -39,19 +39,19 @@ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Throat swab culture'), (S
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Throat swab gram stain'), (SELECT id FROM iblis.specimen_types WHERE name = 'Throat Swab'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'High vaginal swab (HVS) culture'), (SELECT id FROM iblis.specimen_types WHERE name = 'High vaginal swab'));
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'High vaginal swab culture'), (SELECT id FROM iblis.specimen_types WHERE name = 'High vaginal swab'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'High vaginal swab (HVS) gram stain'), (SELECT id FROM iblis.specimen_types WHERE name = 'High vaginal swab'));
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'High vaginal swab gram stain'), (SELECT id FROM iblis.specimen_types WHERE name = 'High vaginal swab'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Urethral swab culture'), (SELECT id FROM iblis.specimen_types WHERE name = 'Urethral swab'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Urethral swab gram stain'), (SELECT id FROM iblis.specimen_types WHERE name = 'Urethral swab'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Ascitic fluid  culture'), (SELECT id FROM iblis.specimen_types WHERE name = 'Ascetic fluid'));
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Ascitic fluid culture'), (SELECT id FROM iblis.specimen_types WHERE name = 'Ascetic fluid'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Pleural effusion for culture'), (SELECT id FROM iblis.specimen_types WHERE name = 'Pleural fluid'));
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Pleural effusion culture'), (SELECT id FROM iblis.specimen_types WHERE name = 'Pleural fluid'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'CSF  culture'), (SELECT id FROM iblis.specimen_types WHERE name = 'CSF'));
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'CSF culture'), (SELECT id FROM iblis.specimen_types WHERE name = 'CSF'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'CSF for Indian ink test'), (SELECT id FROM iblis.specimen_types WHERE name = 'CSF'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
@@ -59,7 +59,7 @@ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Sputum for AFB'), (SELECT
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Sputum for Gene Xpert'), (SELECT id FROM iblis.specimen_types WHERE name = 'Sputum'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'CSF  glucose analysis'), (SELECT id FROM iblis.specimen_types WHERE name = 'CSF'));
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'CSF glucose analysis'), (SELECT id FROM iblis.specimen_types WHERE name = 'CSF'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'CSF protein analysis'), (SELECT id FROM iblis.specimen_types WHERE name = 'CSF'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
@@ -117,9 +117,9 @@ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Occult blood test'), (SEL
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Thyroid function tests'), (SELECT id FROM iblis.specimen_types WHERE name = 'Serum'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Pregnancy test'), (SELECT id FROM iblis.specimen_types WHERE name = 'Urine'));
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Pregnancy test (HCG)'), (SELECT id FROM iblis.specimen_types WHERE name = 'Urine'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Rapid Plasma Reagin (RPR)'), (SELECT id FROM iblis.specimen_types WHERE name = 'Serum'));
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Rapid Plasma Reagin (RPR)/VDRL'), (SELECT id FROM iblis.specimen_types WHERE name = 'Serum'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Helicobacter pylori'), (SELECT id FROM iblis.specimen_types WHERE name = 'Serum'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
@@ -145,13 +145,7 @@ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'HIV ELISA'), (SELECT id F
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Viral Load'), (SELECT id FROM iblis.specimen_types WHERE name = 'Dried blood spot (DBS)'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Bleeding time'), (SELECT id FROM iblis.specimen_types WHERE name = 'Whole blood'));
-INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Clotting time'), (SELECT id FROM iblis.specimen_types WHERE name = 'Whole blood'));
-INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Prothrombin test'), (SELECT id FROM iblis.specimen_types WHERE name = 'Whole blood'));
-INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Partial prothrombin test'), (SELECT id FROM iblis.specimen_types WHERE name = 'Whole blood'));
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Coagulation Profile'), (SELECT id FROM iblis.specimen_types WHERE name = 'Whole blood'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Acid Phosphatase'), (SELECT id FROM iblis.specimen_types WHERE name = 'Serum'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
@@ -181,7 +175,15 @@ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'KOH preparation'), (SELEC
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Tissue Impression'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue smears'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Fine Needle aspirates'), (SELECT id FROM iblis.specimen_types WHERE name = 'Smear'));
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Fine Needle aspirates Thyroid'), (SELECT id FROM iblis.specimen_types WHERE name = 'Smear'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Fine Needle aspirates Lymph node'), (SELECT id FROM iblis.specimen_types WHERE name = 'Smear'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Fine Needle aspirates Liver'), (SELECT id FROM iblis.specimen_types WHERE name = 'Smear'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Fine Needle aspirates Breast'), (SELECT id FROM iblis.specimen_types WHERE name = 'Smear'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Fine Needle aspirates soft tissue masses'), (SELECT id FROM iblis.specimen_types WHERE name = 'Smear'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Pap Smear'), (SELECT id FROM iblis.specimen_types WHERE name = 'Smear'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
@@ -191,17 +193,17 @@ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'CSF'), (SELECT id FROM ib
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Pleural fluid'), (SELECT id FROM iblis.specimen_types WHERE name = 'Smear'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Cervix'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue'));
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Cervix tissue'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Prostrate'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue'));
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Prostrate tissue'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Breast'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue'));
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Breast Tissue'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Ovarian cyst'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Fibroids'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Lymph nodes'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue'));
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Lymph nodes tissue'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Hepatitis A test'), (SELECT id FROM iblis.specimen_types WHERE name = 'Serum'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
@@ -211,4 +213,30 @@ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Widal Test'), (SELECT id 
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
 VALUES ((SELECT id FROM iblis.test_types WHERE name = 'TPHA'), (SELECT id FROM iblis.specimen_types WHERE name = 'Plasma'));
 INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
-VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Cryptococcal antigen'), (SELECT id FROM iblis.specimen_types WHERE name = 'Serum'));
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Cryptococcal antigen (CRAG) Test'), (SELECT id FROM iblis.specimen_types WHERE name = 'Serum'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Carcinoembryonic antigen test (CEA)'), (SELECT id FROM iblis.specimen_types WHERE name = 'Serum'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Cancer antigen 15-3 (C15-3)'), (SELECT id FROM iblis.specimen_types WHERE name = 'Serum'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Malaria Rapid Diagnostic Test'), (SELECT id FROM iblis.specimen_types WHERE name = 'Whole blood'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Sputum culture'), (SELECT id FROM iblis.specimen_types WHERE name = 'Sputum'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Touch preparations'), (SELECT id FROM iblis.specimen_types WHERE name = 'Smear'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Bone marrow aspirate'), (SELECT id FROM iblis.specimen_types WHERE name = 'Smear'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Trephine biopsy'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Ovary tissue'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Uterus tissue'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Skin tissue'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Head and Neck tissue'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Dental tissue'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue'));
+INSERT INTO iblis.testtype_specimentypes(test_type_id, specimen_type_id) 
+VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Gastro intestinal tract (GIT) tissue'), (SELECT id FROM iblis.specimen_types WHERE name = 'Tissue'));

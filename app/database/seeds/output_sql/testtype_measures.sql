@@ -7,15 +7,17 @@ INSERT INTO iblis.testtype_measures(test_type_id, measure_id)
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Full haemogram/Full blood count'), (SELECT id FROM iblis.measures WHERE name = 'White blood cells (WBC)'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'White blood cells'), (SELECT id FROM iblis.measures WHERE name = 'Neutrophils'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Full haemogram/Full blood count'), (SELECT id FROM iblis.measures WHERE name = 'Neutrophils'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'White blood cells'), (SELECT id FROM iblis.measures WHERE name = 'Lymphocytes'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Full haemogram/Full blood count'), (SELECT id FROM iblis.measures WHERE name = 'Lymphocytes'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'White blood cells'), (SELECT id FROM iblis.measures WHERE name = 'Monocytes'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Full haemogram/Full blood count'), (SELECT id FROM iblis.measures WHERE name = 'Monocytes'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'White blood cells'), (SELECT id FROM iblis.measures WHERE name = 'Eosinophils'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Full haemogram/Full blood count'), (SELECT id FROM iblis.measures WHERE name = 'Eosinophils'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'White blood cells'), (SELECT id FROM iblis.measures WHERE name = 'Basophils'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Full haemogram/Full blood count'), (SELECT id FROM iblis.measures WHERE name = 'Basophils'));
+INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Full haemogram/Full blood count'), (SELECT id FROM iblis.measures WHERE name = 'Platelets'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Erythrocyte sedimentation rate (ESR)'), (SELECT id FROM iblis.measures WHERE name = 'Erythrocyte sedimentation rate (ESR)'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
@@ -33,13 +35,7 @@ INSERT INTO iblis.testtype_measures(test_type_id, measure_id)
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Direct coombs test'), (SELECT id FROM iblis.measures WHERE name = 'Direct coombs test'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Blood slide for Malaria'), (SELECT id FROM iblis.measures WHERE name = 'Falciparum'));
-INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Blood slide for Malaria'), (SELECT id FROM iblis.measures WHERE name = 'Ovale'));
-INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Blood slide for Malaria'), (SELECT id FROM iblis.measures WHERE name = 'Malariae'));
-INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Blood slide for Malaria'), (SELECT id FROM iblis.measures WHERE name = 'Vivax'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Blood slide for Malaria'), (SELECT id FROM iblis.measures WHERE name = 'Malaria'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Urinalysis'), (SELECT id FROM iblis.measures WHERE name = 'PH'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
@@ -93,7 +89,7 @@ INSERT INTO iblis.testtype_measures(test_type_id, measure_id)
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Stool analysis'), (SELECT id FROM iblis.measures WHERE name = 'Isospora belli'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Stool analysis'), (SELECT id FROM iblis.measures WHERE name = 'E hystolytica'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Stool analysis'), (SELECT id FROM iblis.measures WHERE name = 'Entamoeba hystolytica'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Stool analysis'), (SELECT id FROM iblis.measures WHERE name = 'Giardia lamblia'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
@@ -107,19 +103,19 @@ INSERT INTO iblis.testtype_measures(test_type_id, measure_id)
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Throat swab gram stain'), (SELECT id FROM iblis.measures WHERE name = 'Throat swab gram stain'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'High vaginal swab (HVS) culture'), (SELECT id FROM iblis.measures WHERE name = 'High vaginal swab (HVS) culture'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'High vaginal swab culture'), (SELECT id FROM iblis.measures WHERE name = 'High vaginal swab culture'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'High vaginal swab (HVS) gram stain'), (SELECT id FROM iblis.measures WHERE name = 'High vaginal swab (HVS) gram stain'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'High vaginal swab gram stain'), (SELECT id FROM iblis.measures WHERE name = 'High vaginal swab gram stain'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Urethral swab culture'), (SELECT id FROM iblis.measures WHERE name = 'Urethral swab culture'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Urethral swab gram stain'), (SELECT id FROM iblis.measures WHERE name = 'Urethral swab gram stain'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Ascitic fluid  culture'), (SELECT id FROM iblis.measures WHERE name = 'Ascitic fluid  culture'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Ascitic fluid culture'), (SELECT id FROM iblis.measures WHERE name = 'Ascitic fluid culture'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Pleural effusion for culture'), (SELECT id FROM iblis.measures WHERE name = 'Pleural effusion for culture'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Pleural effusion culture'), (SELECT id FROM iblis.measures WHERE name = 'Pleural effusion culture'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'CSF  culture'), (SELECT id FROM iblis.measures WHERE name = 'CSF  culture'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'CSF culture'), (SELECT id FROM iblis.measures WHERE name = 'CSF culture'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'CSF for Indian ink test'), (SELECT id FROM iblis.measures WHERE name = 'CSF for Indian ink test'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
@@ -127,7 +123,7 @@ INSERT INTO iblis.testtype_measures(test_type_id, measure_id)
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Sputum for Gene Xpert'), (SELECT id FROM iblis.measures WHERE name = 'MDR TB'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'CSF  glucose analysis'), (SELECT id FROM iblis.measures WHERE name = 'CSF  glucose analysis'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'CSF glucose analysis'), (SELECT id FROM iblis.measures WHERE name = 'CSF glucose analysis'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'CSF protein analysis'), (SELECT id FROM iblis.measures WHERE name = 'CSF protein analysis'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
@@ -189,9 +185,9 @@ INSERT INTO iblis.testtype_measures(test_type_id, measure_id)
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Thyroid function tests'), (SELECT id FROM iblis.measures WHERE name = 'Triiodothyromine (T3)'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Pregnancy test'), (SELECT id FROM iblis.measures WHERE name = 'Pregnancy test'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Pregnancy test (HCG)'), (SELECT id FROM iblis.measures WHERE name = 'Pregnancy test (HCG)'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Rapid Plasma Reagin (RPR)'), (SELECT id FROM iblis.measures WHERE name = 'Rapid Plasma Reagin (RPR)'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Rapid Plasma Reagin (RPR)/VDRL'), (SELECT id FROM iblis.measures WHERE name = 'Rapid Plasma Reagin (RPR)/VDRL'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Helicobacter pylori'), (SELECT id FROM iblis.measures WHERE name = 'Helicobacter pylori'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
@@ -217,13 +213,13 @@ INSERT INTO iblis.testtype_measures(test_type_id, measure_id)
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Viral Load'), (SELECT id FROM iblis.measures WHERE name = 'Viral Load'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Bleeding time'), (SELECT id FROM iblis.measures WHERE name = 'Bleeding time'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Coagulation Profile'), (SELECT id FROM iblis.measures WHERE name = 'Bleeding time'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Clotting time'), (SELECT id FROM iblis.measures WHERE name = 'Clotting time'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Coagulation Profile'), (SELECT id FROM iblis.measures WHERE name = 'Platelets Count'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Prothrombin test'), (SELECT id FROM iblis.measures WHERE name = 'Prothrombin test'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Coagulation Profile'), (SELECT id FROM iblis.measures WHERE name = 'International Normalized Ratio (INR)'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Partial prothrombin test'), (SELECT id FROM iblis.measures WHERE name = 'Partial prothrombin test'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Coagulation Profile'), (SELECT id FROM iblis.measures WHERE name = 'Activated Partial prothrombin time'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Acid Phosphatase'), (SELECT id FROM iblis.measures WHERE name = 'Acid Phosphatase'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
@@ -253,7 +249,15 @@ INSERT INTO iblis.testtype_measures(test_type_id, measure_id)
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Tissue Impression'), (SELECT id FROM iblis.measures WHERE name = 'Tissue Impression'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Fine Needle aspirates'), (SELECT id FROM iblis.measures WHERE name = 'Fine Needle aspirates'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Fine Needle aspirates Thyroid'), (SELECT id FROM iblis.measures WHERE name = 'Fine Needle aspirates Thyroid'));
+INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Fine Needle aspirates Lymph node'), (SELECT id FROM iblis.measures WHERE name = 'Fine Needle aspirates Lymph node'));
+INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Fine Needle aspirates Liver'), (SELECT id FROM iblis.measures WHERE name = 'Fine Needle aspirates Liver'));
+INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Fine Needle aspirates Breast'), (SELECT id FROM iblis.measures WHERE name = 'Fine Needle aspirates Breast'));
+INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Fine Needle aspirates soft tissue masses'), (SELECT id FROM iblis.measures WHERE name = 'Fine Needle aspirates soft tissue masses'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Pap Smear'), (SELECT id FROM iblis.measures WHERE name = 'Pap Smear'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
@@ -263,17 +267,17 @@ INSERT INTO iblis.testtype_measures(test_type_id, measure_id)
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Pleural fluid'), (SELECT id FROM iblis.measures WHERE name = 'Pleural fluid'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Cervix'), (SELECT id FROM iblis.measures WHERE name = 'Cervix'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Cervix tissue'), (SELECT id FROM iblis.measures WHERE name = 'Cervix tissue'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Prostrate'), (SELECT id FROM iblis.measures WHERE name = 'Prostrate'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Prostrate tissue'), (SELECT id FROM iblis.measures WHERE name = 'Prostrate tissue'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Breast'), (SELECT id FROM iblis.measures WHERE name = 'Breast'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Breast Tissue'), (SELECT id FROM iblis.measures WHERE name = 'Breast Tissue'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Ovarian cyst'), (SELECT id FROM iblis.measures WHERE name = 'Ovarian cyst'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Fibroids'), (SELECT id FROM iblis.measures WHERE name = 'Fibroids'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Lymph nodes'), (SELECT id FROM iblis.measures WHERE name = 'Lymph nodes'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Lymph nodes tissue'), (SELECT id FROM iblis.measures WHERE name = 'Lymph nodes tissue'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Hepatitis A test'), (SELECT id FROM iblis.measures WHERE name = 'Hepatitis A test'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
@@ -283,4 +287,26 @@ INSERT INTO iblis.testtype_measures(test_type_id, measure_id)
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
  VALUES ((SELECT id FROM iblis.test_types WHERE name = 'TPHA'), (SELECT id FROM iblis.measures WHERE name = 'TPHA'));
 INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
- VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Cryptococcal antigen'), (SELECT id FROM iblis.measures WHERE name = 'Cryptococcal antigen'));
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Cryptococcal antigen (CRAG) Test'), (SELECT id FROM iblis.measures WHERE name = 'Cryptococcal antigen (CRAG) Test'));
+INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Carcinoembryonic antigen test (CEA)'), (SELECT id FROM iblis.measures WHERE name = 'Carcinoembryonic antigen test (CEA)'));
+INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Cancer antigen 15-3 (C15-3)'), (SELECT id FROM iblis.measures WHERE name = 'Cancer antigen 15-3 (C15-3)'));
+INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Touch preparations'), (SELECT id FROM iblis.measures WHERE name = 'Touch preparations'));
+INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Bone marrow aspirate'), (SELECT id FROM iblis.measures WHERE name = 'Bone marrow aspirate'));
+INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Trephine biopsy'), (SELECT id FROM iblis.measures WHERE name = 'Trephine biopsy'));
+INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Ovary tissue'), (SELECT id FROM iblis.measures WHERE name = 'Ovary tissue'));
+INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Uterus tissue'), (SELECT id FROM iblis.measures WHERE name = 'Uterus tissue'));
+INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Skin tissue'), (SELECT id FROM iblis.measures WHERE name = 'Skin tissue'));
+INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Head and Neck tissue'), (SELECT id FROM iblis.measures WHERE name = 'Head and Neck tissue'));
+INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Dental tissue'), (SELECT id FROM iblis.measures WHERE name = 'Dental tissue'));
+INSERT INTO iblis.testtype_measures(test_type_id, measure_id) 
+ VALUES ((SELECT id FROM iblis.test_types WHERE name = 'Gastro intestinal tract (GIT) tissue'), (SELECT id FROM iblis.measures WHERE name = 'Gastro intestinal tract (GIT) tissue'));

@@ -171,11 +171,26 @@ class CatalogConfigSeeder extends DatabaseSeeder
             DB::statement($stmt);
         }
         $this->command->info('Testtype_measures seeded');
+        
+        /*======================*/
+        /*12. Seed culture_worksheet*/
+        /*======================*/
+        // Note: these dump files must be generated with DELETE (or TRUNCATE) + INSERT statements
+        $sql = file_get_contents(__DIR__ . '/output_sql/culture_worksheet.sql');
+
+        
+        // split the statements, so DB::statement can execute them.
+        $statements = array_filter(array_map('trim', explode(';', $sql)));
+
+        foreach ($statements as $stmt) {
+            DB::statement($stmt);
+        }
+        $this->command->info('culture_worksheet seeded');
 
        /*======================*/
         /* Instruments table */
         /*======================*/
-        $id = DB::table('test_types')->where('name', 'White blood cells')->pluck('id');
+        $id = DB::table('test_types')->where('name', 'White blood cells (WBC)')->pluck('id');
         $this->command->info('test_statuses seeded'.$id);
         $instrumentsData = array(
             "name" => "Celltac F Mek 8222",

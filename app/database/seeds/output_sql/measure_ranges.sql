@@ -1,41 +1,53 @@
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Red blood cells (RBC)'), '12',  '100',  '0', '4.4', '5.7',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Red blood cells (RBC)'), '12',  '100',  '1', '4.0', '5.2',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Red blood cells (RBC)'), '12',  '100',  '1', '4', '5.2',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Hematocrit'), '12',  '100',  '0', '42.0', '52.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Hematocrit'), '12',  '100',  '0', '42', '52',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Hematocrit'), '12',  '100',  '1', '37.0', '46.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Hematocrit'), '12',  '100',  '1', '37', '46',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Haemoglobin'), '12',  '100',  '0', '14.0', '17.4',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Haemoglobin'), '12',  '100',  '0', '14', '17.4',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Haemoglobin'), '12',  '100',  '1', '12.3', '15.7',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'White blood cells (WBC)'), '12',  '100',  '2', '4.0', '10.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'White blood cells (WBC)'), '12',  '100',  '2', '4', '10',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Neutrophils'), '12',  '100',  '2', '45.0', '75.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Neutrophils'), '12',  '100',  '2', '45', '75',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Lymphocytes'), '12',  '100',  '2', '16.0', '46.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Lymphocytes'), '12',  '100',  '2', '16', '46',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Monocytes'), '12',  '100',  '2', '4.0', '11.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Monocytes'), '12',  '100',  '2', '4', '11',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Eosinophils'), '12',  '100',  '2', '0.0', '8.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Eosinophils'), '12',  '100',  '2', '0', '8',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Basophils'), '12',  '100',  '2', '0.0', '3.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Basophils'), '12',  '100',  '2', '0', '3',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Erythrocyte sedimentation rate (ESR)'), '0',  '100',  '0', '0.0', '6.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Platelets'), '0',  '100',  '2', '150', '400',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Erythrocyte sedimentation rate (ESR)'), '12',  '100',  '1', '0.0', '10.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Erythrocyte sedimentation rate (ESR)'), '12',  '100',  '0', '<6', '6',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Haemoglobin'), '12',  '100',  '0', '14.0', '17.4',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Erythrocyte sedimentation rate (ESR)'), '12',  '100',  '1', '<10', '10',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Neutrophils'), '12',  '100',  '2', '45', '75',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Lymphocytes'), '12',  '100',  '2', '16', '46',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Monocytes'), '12',  '100',  '2', '4', '11',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Eosinophils'), '12',  '100',  '2', '0', '8',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Basophils'), '12',  '100',  '2', '0', '3',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Haemoglobin'), '17',  '100',  '0', '14', '17.4',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Haemoglobin'), '17',  '100',  '1', '12.3', '15.7',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Reticulocyte count'), '17',  '100',  '2', '0.5', '2.5',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Reticulocyte count'), '3 months',  '100',  '2', '0.5', '2.5',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Sickling test'), '1',  '100', '', '', '',  'Positive','Positive');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Sickling test'), '',  '', '', '', '',  'Positive','Positive');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Sickling test'), '1',  '100', '', '', '',  'Negative','Negative');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Sickling test'), '',  '', '', '', '',  'Negative','Negative');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Blood grouping'), '',  '', '', '', '',  'Blood Group A+','Blood Group A+');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
@@ -65,27 +77,15 @@ INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_low
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Direct coombs test'), '',  '', '', '', '',  'Negative','Negative');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Falciparum'), '',  '', '', '', '',  'Positive','Positive');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Malaria'), '',  '', '', '', '',  'Positive','Positive');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Falciparum'), '',  '', '', '', '',  'Negative','Negative');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Malaria'), '',  '', '', '', '',  'Negative','Negative');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Ovale'), '',  '', '', '', '',  'Positive','Positive');
-INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Ovale'), '',  '', '', '', '',  'Negative','Negative');
-INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Malariae'), '',  '', '', '', '',  'Positive','Positive');
-INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Malariae'), '',  '', '', '', '',  'Negative','Negative');
-INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Vivax'), '',  '', '', '', '',  'Positive','Positive');
-INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Vivax'), '',  '', '', '', '',  'Negative','Negative');
-INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'PH'), '',  '',  '2', '5.0', '7.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'PH'), '0',  '100',  '2', '5', '7',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Specific Gravity'), '0',  '100',  '2', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Glucose'), '0',  '100',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Glucose'), '',  '',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Ketones'), '',  '',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
@@ -135,7 +135,7 @@ INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_low
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Isospora belli'), '',  '',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'E hystolytica'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Entamoeba hystolytica'), '',  '',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Giardia lamblia'), '',  '',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
@@ -149,19 +149,19 @@ INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_low
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Throat swab gram stain'), '',  '',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'High vaginal swab (HVS) culture'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'High vaginal swab culture'), '',  '',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'High vaginal swab (HVS) gram stain'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'High vaginal swab gram stain'), '',  '',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Urethral swab culture'), '',  '',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Urethral swab gram stain'), '',  '',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Ascitic fluid  culture'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Ascitic fluid culture'), '',  '',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Pleural effusion for culture'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Pleural effusion culture'), '',  '',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'CSF  culture'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'CSF culture'), '',  '',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'CSF for Indian ink test'), '',  '',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
@@ -169,81 +169,81 @@ INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_low
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'MDR TB'), '',  '',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'CSF  glucose analysis'), '',  '',  '2', '2.8', '4.4',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'CSF glucose analysis'), '0',  '100',  '2', '2.8', '4.4',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'CSF protein analysis'), '0',  '100',  '2', '20.0', '40.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'CSF protein analysis'), '0',  '100',  '2', '20', '40',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'SGOT/AST'), '0',  '100',  '2', '0.0', '35.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'SGOT/AST'), '0',  '100',  '2', '0', '35',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'SGPT/ALT'), '0',  '100',  '2', '3.0', '36.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'SGPT/ALT'), '0',  '100',  '2', '3', '36',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Total Protein'), '0',  '100',  '2', '60.0', '80.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Total Protein'), '0',  '100',  '2', '60', '80',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Albumin'), '0',  '100',  '2', '3.5', '5.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Albumin'), '0',  '100',  '2', '3.5', '5',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Total Bilirubin'), '0',  '100',  '2', '0.0', '1.5',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Total Bilirubin'), '0',  '100',  '2', '<1.5', '1.5',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Direct Bilirubin'), '0',  '100',  '2', '0.0', '0.4',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Direct Bilirubin'), '0',  '100',  '2', '<0.4', '0.4',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Alkaline Phosphatase'), '0',  '100',  '2', '35.0', '100.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Alkaline Phosphatase'), '0',  '100',  '2', '35', '100',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Gamma GT'), '0',  '100',  '0', '8.0', '61.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Gamma GT'), '0',  '100',  '0', '8', '61',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Gamma GT'), '0',  '100',  '1', '5.0', '36.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Gamma GT'), '0',  '100',  '1', '5', '36',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Urea'), '0',  '100',  '2', '2.5', '8.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Urea'), '0',  '100',  '2', '2.5', '8',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Potassium'), '0',  '100',  '2', '3.5', '5.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Potassium'), '0',  '100',  '2', '3.5', '5',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Sodium'), '0',  '100',  '2', '135.0', '145.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Sodium'), '0',  '100',  '2', '135', '145',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Chloride'), '0',  '100',  '2', '96.0', '105.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Chloride'), '0',  '100',  '2', '96', '105',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Creatinine'), '0',  '100',  '0', '70.0', '120.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Creatinine'), '0',  '100',  '0', '70', '120',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Creatinine'), '0',  '100',  '1', '50.0', '90.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Creatinine'), '0',  '100',  '1', '50', '90',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Phosphorous'), '0',  '100',  '2', '0.8', '1.5',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Uric acid'), '0',  '100',  '2', '180.0', '420.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Uric acid'), '0',  '100',  '2', '180', '420',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Calcium'), '0',  '100',  '2', '8.7', '10.3',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Amylase'), '0',  '100',  '2', '0.0', '160.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Amylase'), '0',  '100',  '2', '<160', '160',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Total cholestrol'), '0',  '100',  '2', '0.0', '5.2',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Total cholestrol'), '0',  '100',  '2', '<5.2', '5.2',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'LDL'), '0',  '100',  '2', '0.0', '2.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'LDL'), '0',  '100',  '2', '<2.0', '2',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'HDL'), '0',  '100',  '2', '0.0', '1.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'HDL'), '0',  '100',  '2', '<1.0', '1',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Triglycerides'), '0',  '100',  '2', '0.0', '2.2',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Triglycerides'), '0',  '100',  '2', '<2.2', '2.2',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Fasting blood sugar'), '0',  '100',  '2', '3.3', '5.8',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Random Blood sugar'), '0',  '100',  '2', '4.4', '7.8',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'OGTT'), '0',  '100',  '2', 'n/a', 'n/a',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'OGTT'), '0',  '100',  '2', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'HBA1C'), '0',  '100',  '2', '4.0', '6.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'HBA1C'), '0',  '100',  '2', '4', '6',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Occult blood test'), '0',  '100', '', '', '',  'Positive','Positive');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Occult blood test'), '',  '', '', '', '',  'Positive','Positive');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Occult blood test'), '0',  '100', '', '', '',  'Negative','Negative');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Occult blood test'), '',  '', '', '', '',  'Negative','Negative');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Thyroid stimulating hormone (TSH)'), '',  '',  '2', '0.4', '5.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Thyroid stimulating hormone (TSH)'), '0',  '100',  '2', '0.4', '5',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Thyroxine (T4)'), '0',  '100',  '2', '0.7', '1.2',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Triiodothyromine (T3)'), '0',  '100',  '2', '227.0', '422.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Triiodothyromine (T3)'), '0',  '100',  '2', '227', '422',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Pregnancy test'), '0',  '100', '', '', '',  'Positive','Positive');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Pregnancy test (HCG)'), '',  '', '', '', '',  'Positive','Positive');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Pregnancy test'), '0',  '100', '', '', '',  'Negative','Negative');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Pregnancy test (HCG)'), '',  '', '', '', '',  'Negative','Negative');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Rapid Plasma Reagin (RPR)'), '',  '', '', '', '',  'Reactive','Reactive');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Rapid Plasma Reagin (RPR)/VDRL'), '',  '', '', '', '',  'Reactive','Reactive');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Rapid Plasma Reagin (RPR)'), '',  '', '', '', '',  'Non-reactive','Non-reactive');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Rapid Plasma Reagin (RPR)/VDRL'), '',  '', '', '', '',  'Non-reactive','Non-reactive');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Helicobacter pylori'), '',  '', '', '', '',  'Positive','Positive');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
@@ -279,82 +279,120 @@ INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_low
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Early infant diagnosis'), '',  '', '', '', '',  'Negative','Negative');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'CD4 count'), '',  '',  '2', ' 500', '1600.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'CD4 count'), '0',  '100',  '2', '500', '1600',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'CD4 %'), '0',  '100',  '2', '25.0', '65.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'CD4 %'), '0',  '100',  '2', '25', '65',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'HIV ELISA'), '0',  '100', '', '', '',  'Positive','Positive');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'HIV ELISA'), '',  '', '', '', '',  'Positive','Positive');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'HIV ELISA'), '0',  '100', '', '', '',  'Negative','Negative');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'HIV ELISA'), '',  '', '', '', '',  'Negative','Negative');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Viral Load'), '',  '',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Bleeding time'), '',  '',  '2', '1.0', '9.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Bleeding time'), '0',  '100',  '2', '1', '9',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Clotting time'), '0',  '100',  '2', '11.0', '13.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Platelets Count'), '0',  '100',  '2', '150', '400',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Prothrombin test'), '0',  '100',  '2', 'n/a', 'n/a',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'International Normalized Ratio (INR)'), '0',  '100',  '2', '0.9', '1.2',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Partial prothrombin test'), '0',  '100',  '2', '30.0', '50.0',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Activated Partial prothrombin time'), '0',  '100',  '2', '30', '50',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Acid Phosphatase'), '0',  '100',  '2', '0.0', '0.8',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Acid Phosphatase'), '0',  '100',  '2', '0', '0.8',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
  VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Bence Jones proteins'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Vibrio cholerae'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Vibrio cholerae'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Blood culture'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Blood culture'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Water'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Water'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Food'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Food'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Borelia'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Borelia'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Microfilariae'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Microfilariae'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Trypanosomes'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Trypanosomes'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'HB electrophoresis'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'HB electrophoresis'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Bone marrow aspirates'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Bone marrow aspirates'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Peripheral Blood films'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Peripheral Blood films'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Fungi'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Fungi'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Tissue Impression'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Tissue Impression'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Fine Needle aspirates'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Fine Needle aspirates Thyroid'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Pap Smear'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Fine Needle aspirates Lymph node'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Ascitic fluid'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Fine Needle aspirates Liver'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'CSF'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Fine Needle aspirates Breast'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Pleural fluid'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Fine Needle aspirates soft tissue masses'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Cervix'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Pap Smear'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Prostrate'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Ascitic fluid'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Breast'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'CSF'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Ovarian cyst'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Pleural fluid'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Fibroids'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Cervix tissue'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Lymph nodes'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Prostrate tissue'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Hepatitis A test'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Breast Tissue'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Brucella test'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Ovarian cyst'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Widal Test'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Fibroids'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'TPHA'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Lymph nodes tissue'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Cryptococcal antigen'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Hepatitis A test'), '0',  '100',  '', '', '',  '','');
 INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
- VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Helicobacter pylori'), '',  '',  '', '', '',  '','');
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Brucella test'), '0',  '100',  '', '', '',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Widal Test'), '0',  '100',  '', '', '',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'TPHA'), '0',  '100',  '', '', '',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Cryptococcal antigen (CRAG) Test'), '0',  '100',  '', '', '',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Helicobacter pylori'), '0',  '100',  '', '', '',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Carcinoembryonic antigen test (CEA)'), '0',  '100',  '2', '0', '<2.5',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Cancer antigen 15-3 (C15-3)'), '0',  '100',  '2', '0', '< 30',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Malaria'), '0',  '100', '', '', '',  'Positive','Positive');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Malaria'), '0',  '100', '', '', '',  'Negative','Negative');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'MDR TB '), '0',  '100', '', '', '',  'Positive','Positive');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'MDR TB '), '0',  '100', '', '', '',  'Negatvie','Negatvie');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Touch preparations'), '0',  '100',  '', '', '',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Bone marrow aspirate'), '0',  '100',  '', '', '',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Trephine biopsy'), '0',  '100',  '', '', '',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Ovary tissue'), '0',  '100',  '', '', '',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Uterus tissue'), '0',  '100',  '', '', '',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Skin tissue'), '0',  '100',  '', '', '',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Head and Neck tissue'), '0',  '100',  '', '', '',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Dental tissue'), '0',  '100',  '', '', '',  '','');
+INSERT INTO iblis.measure_ranges(measure_id, age_min, age_max, gender, range_lower, range_upper, alphanumeric, interpretation) 
+ VALUES ( (SELECT id FROM iblis.measures WHERE name = 'Gastro intestinal tract (GIT) tissue'), '0',  '100',  '', '', '',  '','');
