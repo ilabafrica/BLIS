@@ -171,6 +171,39 @@ class TestType extends Eloquent
 			return null;
 		}
 	}
+        
+        /** 
+	* Return the counts of all reffered TestTypes for the given date range
+	*
+	* @param $from, $to
+	*/
+	public function getRefferedCount($testID, $from, $to){
+		$data =  DB::table('specimens')->select(DB::raw("tests.test_type_id"))
+				->join('referrals', 'specimens.referral_id', '=', 'referrals.id')
+				->join('tests', 'specimens.id', '=', 'tests.specimen_id')
+				->whereNotNull('referral_id')
+                                ->where('status', 1)
+                                ->where('tests.test_type_id', $this->id)
+                                ->whereBetween('time_accepted', [$from, $to]);
+		return $data->count();
+	}
+        
+        /** 
+	* Return the counts of results recieved from all reffered TestTypes for the given date range
+	* @param $from, $to
+	*/
+	public function getRefferedResultRecievedCount($testID, $from, $to){
+		$data =  DB::table('test_results')->select(DB::raw("test_id"))
+				->join('tests', 'test_results.test_id', '=', 'tests.id')
+				->join('specimens', 'tests.specimen_id', '=', 'specimens.id')
+                                ->join('referrals', 'specimens.referral_id', '=', 'referrals.id')
+				->whereNotNull('referral_id')
+                                ->where('status', 1)
+                                ->where('result', '<>', '')
+                                ->where('tests.test_type_id', $this->id)
+                                ->whereBetween('time_accepted', [$from, $to]);
+		return $data->count();
+	}
 
 	/**
 	* Get TestTypes that support prevalence counts

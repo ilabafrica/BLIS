@@ -1231,10 +1231,30 @@ class ReportController extends \BaseController {
 	**/
 	public function getGroupedTestCounts($ttypeob, $gender=null, $ageRange=null, $from=null, $to=null)
 	{
-		if($ttypeob == null){
-			return 0;
-		}
-		return $ttypeob->groupedTestCount($gender, $ageRange, $from, $to);
+            if($ttypeob == null){
+                    return 0;
+            }
+            return $ttypeob->groupedTestCount($gender, $ageRange, $from, $to);
+	}
+        /** ZEEK
+	* Function to check object state before getReferredSpecimenCount
+	**/
+	public function getReferredSpecimenCount($ttypeob, $id, $from=null, $to=null)
+	{
+            if($ttypeob == null){
+                    return 0;
+            }
+            return $ttypeob->getRefferedCount($ttypeob->id, $from, $to);
+	}
+        /** ZEEK
+	* Function to check object state before reffered results received count
+	**/
+	public function getReferredSpecimenReceivedResult($ttypeob, $id, $from=null, $to=null)
+	{
+            if($ttypeob == null){
+                    return 0;
+            }
+            return $ttypeob->getRefferedResultRecievedCount($ttypeob->id, $from, $to);
 	}
 	/**
 	* Function to check object state before totalTestResults
@@ -1251,17 +1271,22 @@ class ReportController extends \BaseController {
                 $testsList = array();
                 foreach($testArr as $ts)
                 {
+                    $positive = 0;
                     $testsId = TestType::getTestTypeIdByTestName($ts);                   
                     $aspirates = TestType::find($testsId);
                     $measures = TestTypeMeasure::where('test_type_id', $testsId)->orderBy('measure_id', 'DESC')->get();
+                    $arr['name'] = $ts;
+                    $arr['total'] = $this->getGroupedTestCounts($aspirates, null, null, $from, $toPlusOne);
                     /* get measures that were positive at a given age range */
                     foreach ($measures as $measure) {
                         $tMeasure = Measure::find($measure->measure_id);
-                        $arr['name'] = $tMeasure->name;
-                        $arr['total'] = $this->getGroupedTestCounts($aspirates, null, null, $from, $toPlusOne);
-                        $arr['positive'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, null, null);
-                        array_push($testsList, $arr);
+                        //$arr['name'] = $tMeasure->name;
+                        //$arr['total'] = $this->getGroupedTestCounts($aspirates, null, null, $from, $toPlusOne);
+                        //$arr['positive'] = $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, null, null);
+                        $positive += $this->getTotalTestResults($tMeasure, null, null, $from, $toPlusOne, null, null);
                     }
+                    $arr['positive'] = $positive;
+                    array_push($testsList, $arr);
                 }
                 return $testsList;
             }
@@ -1444,7 +1469,7 @@ class ReportController extends \BaseController {
                 
                 /* Tumor Markers*/
                 
-                $tumorMarkersArr = array ('CEA', 'C15-3');
+                $tumorMarkersArr = array ('Carcinoembryonic antigen test (CEA)', 'Cancer antigen 15-3 (C15-3)');
                 $tumorMarkersList = array();
                 foreach($tumorMarkersArr as $tm) { 
                     $tumorMarkersId = TestType::getTestTypeIdByTestName($tm);
@@ -1754,7 +1779,8 @@ class ReportController extends \BaseController {
                 /* Smears */
                 $moh706List['smearsList'] = $this->histologyCytologySerology(array('Pap Smear', 'Tissue Impression', 'Touch preparations'), $from, $toPlusOne); 
                 /* Fine needles aspirates*/
-                $moh706List['aspiratesList'] = $this->histologyCytologySerology(array('Thyroid','Lymph nodes', 'Liver', 'Breast', 'Soft tissue masses'), $from, $toPlusOne);
+                $moh706List['aspiratesList'] = $this->histologyCytologySerology(array('Thyroid function tests','Lymph nodes tissue', 
+                    'Fine Needle aspirates Liver', 'Fine Needle aspirates Breast', 'Fine Needle aspirates soft tissue masses'), $from, $toPlusOne);
                 /* Fluid cytology*/
                 $moh706List['fluidCytologyList'] = $this->histologyCytologySerology(array('Ascitic fluid','CSF', 'Pleural fluid', 'Urine'), $from, $toPlusOne);
                 /* Tissue Histology*/
@@ -1780,16 +1806,54 @@ class ReportController extends \BaseController {
                 /* SPECIMEN REFERRAL TO HIGHTER LEVELS */
                 /*=====================================*/     
                 $specimenReferralList = array();
-                if($referredSpecimens)
+                $specimenReferals = array( 
+                    "CD4" => array ("CD4 count"),
+                    "Viral Load" => array ("Viral Load"),
+                    "EID" => array ("Early infant diagnosis"),
+                    "Discordant/discrepant" => array ("Discordant/discrepant"),
+                    "TB Culture" => array ("Sputum culture"),
+                    "Virological" => array ("Viral load", "Rota Virus", "Yellow fever", "Herpes simplex", 
+                                        "Polio", "Dangue Fever", "Hepatitis B test (HBs Ag)", "Hepatitis C test", "Culture for haemophilus influenza", 
+                                        "Rabiess", "Measles"),
+                    "Clinical Chemistry" => array ("CSF  glucose analysis", "CSF protein analysis", "SGOT/ASTr", "SGPT/ALT", 
+                                        "Total Protein", "Albumin", "Total Bilirubin", "Direct Bilirubin", "Alkaline Phosphatase", 
+                                        "Gamma GT", "Urea", "Potassium", "Sodium", "Chloride", "Creatinine", "Phosphorous", "Uric acid", 
+                                        "Calcium", "Amylase", "Total cholestrol", "LDL", "HDL", "Triglycerides", "Fasting blood sugar",
+                                        "Random Blood sugar", "OGTT", "HBA1C", "Occult blood test", "Thyroid function tests", "Thyroid function tests",
+                                        "Acid Phosphatase", "Bence Jones proteins", "Carcinoembryonic antigen test (CEA)", "Cancer antigen 15-3 (C15-3)"),
+                    "Histology/cytology" => array ("Tissue Impression", "Fine Needle aspirates Thyroid", "Fine Needle aspirates Lymph node", "Fine Needle aspirates Liver", 
+                                        "Fine Needle aspirates Breast", "Fine Needle aspirates soft tissue masses", "Pap Smear", "Ascitic fluid", "CSF", 
+                                        "Pleural fluid", "Cervix tissue", "Prostrate tissue", "Breast Tissue","Ovarian cyst", "Fibroids","Lymph nodes tissue", 
+                                        "Touch preparations","Bone marrow aspirate", "Trephine biopsy","Ovary tissue", "Uterus tissue","Skin tissue", 
+                                        "Head and Neck tissue","Dental tissue", "Gastro intestinal tract (GIT) tissue"),
+                    "Haematology" => array ("Full haemogram/Full blood count", "White blood cells", "Platelets", "Erythrocyte sedimentation rate (ESR)", 
+                                        "Haemoglobin", "Reticulocyte count", "Sickling test", "CD4 count", "CD4 %", "Coagulation Profile", "HB electrophoresis", 
+                                        "Bone marrow aspirate", "Peripheral Blood films"),
+                    "Parasitology" => array ("Blood slide for Malaria", "Stool analysis Taenia spp", "Stool analysis H.nana", "Stool analysis H.diminuta", 
+                                        "Stool analysis Hookworm", "Stool analysis Roundworms", "Stool analysis S. mansoni", "Stool analysis Trichuris trichiura", 
+                                        "Stool analysis Strongyloides stercoralis", "Stool analysis Isospora belli", "Stool analysis Entamoeba hystolytica",
+                                        "Stool analysis Giardia lamblia", "Borelia", "Microfilariae", "Trypanosomes", "Malaria  Rapid Diagnostic Test"),
+                    "Blood samples for transfusion screening" => array ("Early infant diagnosis")
+                     );
+                
+                if($specimenReferals)
                 {
-                    foreach ($referredSpecimens as $referredSpecimen) {
-                        $referredSpecimen->spec;
-                        $referredSpecimen->tot;
-                        $referredSpecimen->facility;
-                        
-                        $arr['name'] = $referredSpecimen->spec;
-                        $arr['total'] = $referredSpecimen->tot;
-                        $arr['positive'] = $referredSpecimen->facility;//TODO: need to be No. of results received
+                    foreach($specimenReferals as $specName => $value)
+                    { 
+                        $specimenTotal = 0;
+                        $resultsReceivedTotal = 0;
+                                                
+                        foreach($value as $tests){
+                            $testId = TestType::getTestTypeIdByTestName(trim($tests));
+                            $specRef = TestType::find($testId);
+                            $specimenTotal += $this->getReferredSpecimenCount($specRef, $testId, $from, $toPlusOne);
+                            $resultsReceivedTotal += $this->getReferredSpecimenReceivedResult($specRef, $testId, $from, $toPlusOne);
+                            //$output = "<script>console.log( 'TEST ID: " .$testId. ":::: TEST NAME: ".$tests."');</script>";
+                            //echo $output;
+                        }
+                        $arr['name'] = $specName;
+                        $arr['total'] = $specimenTotal;
+                        $arr['positive'] = $resultsReceivedTotal;//TODO: need to be No. of results received
                         array_push($specimenReferralList, $arr);
                     }
                 }
@@ -1799,12 +1863,11 @@ class ReportController extends \BaseController {
                 /*  DRUG SUSCEPTIBILITY TESTING  */
                 /*===============================*/
                 $drugsArr = array('Ampicillin','Chloramphenicol','Ceftriaxone','Penicillin', 'Oxacillin', 'Ciprofloxacin', 
-                   'Nalidixic acid','Trimethoprim-sulphamethoxazole', 'Tetracycline', 'Augumentin');//hold the list of drugs to be reported
-                $drugsArrDb = array('Chloramphenicol','Penicillin', 'Ciprofloxacin',  'Tetracycline');//hold the list of drugs to be reported
+                   'Nalidixic acid','Trimethoprim-sulphamethoxazole', 'Tetracycline', 'Augmentin');//hold the list of drugs to be reported
                 $drugs = Drug::all();//get all drugs from the catalog
                 $drugList = array();
                 $organismsArr = array('Haemophilus','Neisseria','Streptococcus',
-                    'Salmonella','Shigella', 'Vibrio');//hold the list of drugs to be reported
+                    'Salmonella','Shigella', 'Vibrio', 'Bacillus anthracis', 'Yersinia pestis');//hold the list of drugs to be reported
                 $organisms = Organism::all();
                 $organismsList = array();
                 //print_r(Organism::find(Organism::getOrganismIdByName('Shigella')));
@@ -1815,7 +1878,7 @@ class ReportController extends \BaseController {
                     $arr['name'] = $drug->name;
                     array_push($drugList, $arr);
                 }*/
-                foreach ($drugsArrDb as $dg){
+                foreach ($drugsArr as $dg){
                     $drugID = Drug::getDrugIdByName($dg);
                     $drug = Drug::find($drugID);
                     $arr['name'] = $dg ; //$drug->name;
@@ -1834,7 +1897,7 @@ class ReportController extends \BaseController {
                    $organism  = Organism::find($orgID);
                    $arr['name'] = $organism->name;
                    $arr['drug'] = array();
-                   foreach ($drugsArrDb as $dg){//create drug sensisity 
+                   foreach ($drugsArr as $dg){//create drug sensisity 
                         $drugID = Drug::getDrugIdByName($dg);
                         $ar['s'] = Susceptibility::getDrugSusceptibilityTesting($orgID, $drugID,'S');
                         $ar['i'] = Susceptibility::getDrugSusceptibilityTesting($orgID, $drugID,'I');

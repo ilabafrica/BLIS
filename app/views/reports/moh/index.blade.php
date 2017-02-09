@@ -497,7 +497,7 @@
                                               <!-- 7. SEROLOGY -->
                                     <table class="table table-condensed report-table-border" style="width: 40%">
                                         <thead>
-                                            <tr style="text-align: center;"><th colspan="4" ><strong>6. HISTOLOGY AND CYTOLOGY</strong></th> </tr>
+                                            <tr style="text-align: center;"><th colspan="4" ><strong>7. SEROLOGY</strong></th> </tr>
                                             <tr>
                                                 <th colspan="2" style="font-weight: bold">Serological Test</th>
                                                 <th>Total Exam</th>
@@ -545,9 +545,9 @@
                                     </table>
                                     
                                     <!-- 9. DRUG SUSCEPTIBILITY TESTING -->
-                                    <table class="table table-condensed report-table-border" style="width: 40%">
+                                    <table class="table table-condensed report-table-border" style="width: 100%">
                                         <thead>
-                                            <tr style="text-align: center;"><th colspan="21" ><strong>9. DRUG SUSCEPTIBILITY TESTING</strong></th> </tr>
+                                            <tr style="text-align: center;"><th colspan="32" ><strong>9. DRUG SUSCEPTIBILITY TESTING</strong></th> </tr>
                                             <tr>
                                                 <th colspan="2" style="font-weight: bold">Drug Sensitivity Pattern</th>
                                                 @foreach($moh706List['drugs'] as $drug)
