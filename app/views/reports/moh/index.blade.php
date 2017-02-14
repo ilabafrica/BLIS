@@ -71,8 +71,9 @@
 				<br />
 				<p>{{ Lang::choice('messages.no-service', 1) }}</p>
 				<div class='row'>
-                                    <!-- 1. URINE ANALYSIS -->
-                                    <table class="table table-condensed report-table-border" style="width: 40%">
+                                    <div class="col-lg-6">
+                                        <!-- 1. URINE ANALYSIS -->
+                                    <table class="table table-condensed report-table-border" style="width: 100%">
                                         <thead>
                                             <tr style="text-align: center;"><th colspan="3" ><strong>1. URINE ANALYSIS</strong></th> </tr>
                                             <tr>
@@ -81,7 +82,6 @@
                                                 <th> Number positive</th>
                                             </tr>
                                         </thead>
-
                                         <tbody>
                                             <tr>
                                                 <td style="font-weight: bold">Urine Chemistry</td>
@@ -110,7 +110,7 @@
                                         </tbody>
                                     </table>
                                     <!-- 2. BLOOD CHEMISTRY -->
-                                    <table class="table table-condensed report-table-border" style="width: 40%">
+                                    <table class="table table-condensed report-table-border" style="width: 100%">
                                         <thead>
                                             <tr style="text-align: center;"><th colspan="4" ><strong>2. BLOOD CHEMISTRY</strong></th> </tr>
                                             <tr>
@@ -120,7 +120,6 @@
                                                 <th>High</th>
                                             </tr>
                                         </thead>
-
                                         <tbody>
                                             <!-- Blood sugar test -->
                                             @foreach($moh706List['bloodSugarTestList'] as $measure)
@@ -222,7 +221,7 @@
                                         </tbody>
                                     </table>
                                     <!-- 3. PARASITOLOGY -->
-                                    <table class="table table-condensed report-table-border" style="width: 40%">
+                                    <table class="table table-condensed report-table-border" style="width: 100%">
                                         <thead>
                                             <tr style="text-align: center;"><th colspan="4" ><strong>3. PARASITOLOGY</strong></th> </tr>
                                             <tr>
@@ -231,7 +230,6 @@
                                                 <th>Number Positive</th>
                                             </tr>
                                         </thead>
-
                                         <tbody>
                                             @foreach($moh706List['malariaTestList'] as $measure) <!-- Blood sugar test -->
                                                 <tr>
@@ -255,7 +253,7 @@
                                         </tbody>
                                     </table>
                                      <!-- 4. HAEMATOLOGY -->
-                                    <table class="table table-condensed report-table-border" style="width: 40%">
+                                    <table class="table table-condensed report-table-border" style="width: 100%">
                                         <thead>
                                             <tr style="text-align: center;"><th colspan="4" ><strong>4. HAEMATOLOGY</strong></th> </tr>
                                             <tr>
@@ -265,7 +263,6 @@
                                                 <th>HB between 5 - 10 g/dl</th>                                                
                                             </tr>
                                         </thead>
-
                                         <tbody>
                                             @foreach($moh706List['haematologyTestList'] as $measure) <!-- Haematology test -->
                                             @if($measure['name'] == $moh706List['CD4_FLAG'])
@@ -310,7 +307,6 @@
                                                     <td colspan="2" style="background-color: #CCCCCC;"></td>
                                                 </tr>
                                                 @endif
-                                            
                                             @endforeach
                                              <tr style="font-weight: bold"> <!-- Blood grouping -->
                                                  <td colspan="2">Blood grouping</td> 
@@ -339,8 +335,11 @@
                                                 </tr>                                                                                        
                                             @endforeach
                                         </tbody>
+                                    </table>
+                                    </div>
+                                    <div class="col-lg-6">
                                         <!-- 5. BACTERIOLOGY -->
-                                    <table class="table table-condensed report-table-border" style="width: 40%">
+                                    <table class="table table-condensed report-table-border" style="width: 100%">
                                         <thead>
                                             <tr style="text-align: center;"><th colspan="4" ><strong>5. BACTERIOLOGY</strong></th> </tr>
                                             <tr>
@@ -350,7 +349,6 @@
                                                 <th>No. Culture Positive</th>                                                
                                             </tr>
                                         </thead>
-
                                         <tbody>
                                         <!-- Tumor Makers -->
                                         @foreach($moh706List['bacterolgicalSampleList'] as $measure) 
@@ -434,8 +432,8 @@
                                         @endforeach
                                         </tbody>
                                     </table>
-                                         <!-- 6. HISTOLOGY AND CYTOLOGY -->
-                                    <table class="table table-condensed report-table-border" style="width: 40%">
+                                        <!-- 6. HISTOLOGY AND CYTOLOGY -->
+                                    <table class="table table-condensed report-table-border" style="width: 100%">
                                         <thead>
                                             <tr style="text-align: center;"><th colspan="4" ><strong>6. HISTOLOGY AND CYTOLOGY</strong></th> </tr>
                                             <tr>
@@ -495,7 +493,7 @@
                                         </tbody>
                                     </table>
                                               <!-- 7. SEROLOGY -->
-                                    <table class="table table-condensed report-table-border" style="width: 40%">
+                                    <table class="table table-condensed report-table-border" style="width: 100%">
                                         <thead>
                                             <tr style="text-align: center;"><th colspan="4" ><strong>7. SEROLOGY</strong></th> </tr>
                                             <tr>
@@ -519,10 +517,9 @@
                                         @endforeach
                                         
                                         </tbody>
-                                    </table>
-                                              
+                                    </table>                                              
                                     <!-- 8. SPECIMEN REFERRAL TO HIGHER LEVELS -->
-                                    <table class="table table-condensed report-table-border" style="width: 40%">
+                                    <table class="table table-condensed report-table-border" style="width: 100%">
                                         <thead>
                                             <tr style="text-align: center;"><th colspan="4" ><strong>8. SPECIMEN REFERRAL TO HIGHER LEVELS</strong></th> </tr>
                                             <tr>
@@ -543,7 +540,7 @@
                                         
                                         </tbody>
                                     </table>
-                                    
+                                    </div>
                                     <!-- 9. DRUG SUSCEPTIBILITY TESTING -->
                                     <table class="table table-condensed report-table-border" style="width: 100%">
                                         <thead>
@@ -575,10 +572,8 @@
                                                 @endfor
                                             </tr>                                           
                                         @endforeach
-                                        
                                         </tbody>
                                     </table>
-                                    
 				</div>
 			</div>
 		</div>
