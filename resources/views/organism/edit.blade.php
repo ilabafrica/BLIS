@@ -51,12 +51,12 @@
 							{{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
 							<?php
 								$cnt++;
-								$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
+								$zebra = (((int)$cnt/4)%2==1?"row-striped":"");								
 							?>
 							<div class="col-md-3">
 								<label  class="checkbox">
 									<input type="checkbox" name="drugs[]" value="{{ $value->id}}" 
-										{{ in_array($value->id, $organism->drugs->lists('id'))?"checked":"" }} />
+										{{ in_array($value->id, $organism->drugs->toarray())?"checked":"" }} />
 										{{$value->name }}
 								</label>
 							</div>

@@ -1,4 +1,4 @@
-@extends("layout")
+@extends("layout") 
 @section("content")
 
 	<div>
@@ -27,15 +27,15 @@
 
 				<div class="form-group">
 					{{ Form::label('measure_id', trans_choice('messages.measure', 1)) }}
-					{{ Form::select('measure_id', array(0 => '')+$measures,
+					{{ Form::select('measure_id',$measures,
 						Input::old('measure_id'),	array('class' => 'form-control')) }}
 				</div>
                 <div class="form-group">
                 	{{ Form::label('gender', trans_choice('messages.gender', 1)) }}
                 	<div>
-                		<label class="radio-inline">{{ Form::radio('gender', Patient::MALE, true) }}{{trans('messages.male')}}</label>
-                        <label class="radio-inline">{{ Form::radio("gender", Patient::FEMALE, false) }}{{trans('messages.female')}}</label>
-                        <label class="radio-inline">{{ Form::radio("gender", Patient::BOTH, false) }}{{trans('messages.both')}}</label>
+                		<label class="radio-inline">{{ Form::radio('gender', App\Models\Patient::MALE, true) }}{{trans('messages.male')}}</label>
+                        <label class="radio-inline">{{ Form::radio("gender", App\Models\Patient::FEMALE, false) }}{{trans('messages.female')}}</label>
+                        <label class="radio-inline">{{ Form::radio("gender", App\Models\Patient::BOTH, false) }}{{trans('messages.both')}}</label>
                     </div>
                 </div>
 				<div class="form-group">

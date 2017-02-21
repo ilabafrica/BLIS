@@ -6,7 +6,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         {{ Form::label('new-measures[][name]', trans_choice('messages.name',1)) }}
-                       <input class="form-control name" name="" type="text">
+                       <input class="form-control name" name="namemeasure" type="text">
                     </div>
                 </div>
                 <div class="col-md-3">

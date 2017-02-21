@@ -107,7 +107,7 @@
 					{{ Form::label('description', trans_choice('messages.test-type', 1)) }}
 				</div>
 				<div class="col-sm-3">
-					{{ Form::select('test_type', array('' => trans('messages.select-test-type'))+$testTypes, 
+					{{ Form::select('test_type', $testTypes, 
 							    		Request::old('testType') ? Request::old('testType') : $testType, 
 											array('class' => 'form-control', 'id' => 'test_type')) }}
 				</div>
@@ -116,7 +116,7 @@
 	</div>
 	@else
 		{{ Form::hidden('section_id', App\Models\TestCategory::getTestCatIdByName('VIROLOGY')) }}
-		{{ Form::hidden('test_type', TestType::getTestTypeIdByTestName('Viral Load')) }}
+		{{ Form::hidden('test_type', App\Models\TestType::getTestTypeIdByTestName('Viral Load')) }}
 	@endif
 	{{ Form::close() }}
 </div>
@@ -150,7 +150,7 @@
 					@endif
 
 					@if($testType)
-						{{' ('.TestType::find($testType)->name.') '}}
+						{{' ('.App\Models\TestType::find($testType)->name.') '}}
 					@endif
 					{{ trans_choice('messages.total',1).' '.$counts .'<br>'}}
 					<?php $from = isset($input['start'])?$input['start']:date('d-m-Y');?>
@@ -191,7 +191,7 @@
 						<td>{{ $test->testedBy->name or trans('messages.pending') }}</td>
 						<td>
 							@foreach($test->testResults as $result)
-								<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
+								<p>{{App\Models\Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
 							@endforeach
 						</td>
 						<td>{{ $test->interpretation }}</td>

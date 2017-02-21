@@ -395,8 +395,9 @@ $(function(){
 	$('.tests-log').on( "click", ".start-test", function(e) {
 		var testID = $(this).data('test-id');
 		var url = $(this).data('url');
+		// alert(url);
+		
 		$.post(url, { id: testID}).done(function(){});
-
 		var parent = $(e.currentTarget).parent();
 		// First replace the status
 		var newStatus = $('.started-test-accepted-specimen').html();
@@ -556,40 +557,40 @@ $(function(){
 
 	function addNewMeasureAttributes (measureID) {
 		$('.measure-section.new-'+measureID+' input.name').attr(
-			'name', 'new-measures['+measureID+'][name]');
+			'name', 'new_measures['+measureID+'][name]');
 		$('.measure-section.new-'+measureID+' select.measure_type_id').attr(
-			'name', 'new-measures['+measureID+'][measure_type_id]');
+			'name', 'new_measures['+measureID+'][measure_type_id]');
 		$('.measure-section.new-'+measureID+' input.unit').attr(
-			'name', 'new-measures['+measureID+'][unit]');
+			'name', 'new_measures['+measureID+'][unit]');
 		$('.measure-section.new-'+measureID+' input.expected').attr(
-			'name', 'new-measures['+measureID+'][expected]');
+			'name', 'new_measures['+measureID+'][expected]');
 		$('.measure-section.new-'+measureID+' textarea.description').attr(
-			'name', 'new-measures['+measureID+'][description]');
+			'name', 'new_measures['+measureID+'][description]');
 	}
 
 	function addMeasureRangeAttributes (measureTypeId,measureID) {
 		if (measureTypeId == 0) {
 			$('.measurevalue.new-measure-'+measureID+' input.agemin').attr(
-				'name', 'new-measures['+measureID+'][agemin][]');
+				'name', 'new_measures['+measureID+'][agemin][]');
 			$('.measurevalue.new-measure-'+measureID+' input.agemax').attr(
-				'name', 'new-measures['+measureID+'][agemax][]');
+				'name', 'new_measures['+measureID+'][agemax][]');
 			$('.measurevalue.new-measure-'+measureID+' select.gender').attr(
-				'name', 'new-measures['+measureID+'][gender][]');
+				'name', 'new_measures['+measureID+'][gender][]');
 			$('.measurevalue.new-measure-'+measureID+' input.rangemin').attr(
-				'name', 'new-measures['+measureID+'][rangemin][]');
+				'name', 'new_measures['+measureID+'][rangemin][]');
 			$('.measurevalue.new-measure-'+measureID+' input.rangemax').attr(
-				'name', 'new-measures['+measureID+'][rangemax][]');
+				'name', 'new_measures['+measureID+'][rangemax][]');
 			$('.measurevalue.new-measure-'+measureID+' input.interpretation').attr(
-				'name', 'new-measures['+measureID+'][interpretation][]');
+				'name', 'new_measures['+measureID+'][interpretation][]');
 			$('.measurevalue.new-measure-'+measureID+' input.measurerangeid').attr(
-				'name', 'new-measures['+measureID+'][measurerangeid][]');
+				'name', 'new_measures['+measureID+'][measurerangeid][]');
 		} else{
 			$('.measurevalue.new-measure-'+measureID+' input.val').attr(
-				'name', 'new-measures['+measureID+'][val][]');
+				'name', 'new_measures['+measureID+'][val][]');
 			$('.measurevalue.new-measure-'+measureID+' input.interpretation').attr(
-				'name', 'new-measures['+measureID+'][interpretation][]');
+				'name', 'new_measures['+measureID+'][interpretation][]');
 			$('.measurevalue.new-measure-'+measureID+' input.measurerangeid').attr(
-				'name', 'new-measures['+measureID+'][measurerangeid][]');
+				'name', 'new_measures['+measureID+'][measurerangeid][]');
 		}
 	}
 

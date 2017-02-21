@@ -57,7 +57,7 @@ class TestTypeController extends Controller {
 	 */
 	public function store(TestTypeRequest $request)
 	{
-
+		
 		$testtype = new TestType;
 		$testtype->name = trim($request->name);
 		$testtype->description = $request->description;
@@ -69,8 +69,7 @@ class TestTypeController extends Controller {
 
 		$testtype->save();
 		$measureIds = array();
-		$inputNewMeasures = $request->new_measures;
-		
+		$inputNewMeasures = $request->new_measures;		
 		$measures = New MeasureController;
 		$measureIds = $measures->store($inputNewMeasures);
 		$testtype->setMeasures($measureIds);

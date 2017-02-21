@@ -5,6 +5,7 @@ use App\Http\Requests;
 use App\Http\Requests\TestRequest;
 
 use App\Models\Test;
+use App\Models\TestResult;
 use App\Models\Measure;
 use App\Models\TestStatus;
 use App\Models\Visit;
@@ -22,6 +23,8 @@ use Session;
 use Lang;
 use Config;
 use DNS1D;
+use Validator;
+use DB;
 /**
  * Contains test resources  
  * 
@@ -267,51 +270,27 @@ class TestController extends Controller {
 	 */
 	public function start()
 	{
+
 		$test = Test::find(Input::get('id'));
+
+		// echo $test;die;
 		$test->test_status_id = Test::STARTED;
 		$test->time_started = date('Y-m-d H:i:s');
 		$test->save();
-
-		return $test->test_status_id;
-	}
-
-	/**
-	 * Display Result Entry page
-	 *
-	 * @param
-	 * @return
-	 */
-	public function enterResults($testID)
-	{
-		$test = Test::find($testID);
-		if($test->testType->instruments->count() > 0){
-			//Delete the celtac dump file
-			//TO DO: Clean up and use configs + Handle failure
-			$EMPTY_FILE_URL = "http://192.168.1.88/celtac/emptyfile.php";
-			@file_get_contents($EMPTY_FILE_URL);
-		}
-		return view('test.enterResults', compact('test'));
-	}
-
-	/**
-	 * Returns test result intepretation
-	 * @param
-	 * @return
-	 */
-	public function getResultInterpretation()
-	{
-		$result = array();
-		//save if it is available
+		// $result = array();
+		// //save if it is available
 		
-		if (Input::get('age')) {
-			$result['birthdate'] = Input::get('age');
-			$result['gender'] = Input::get('gender');
-		}
-		$result['measureid'] = Input::get('measureid');
-		$result['measurevalue'] = Input::get('measurevalue');
+		// if (Input::get('age')) {
+		// 	$result['birthdate'] = Input::get('age');
+		// 	$result['gender'] = Input::get('gender');
+		// }
+		// $result['measureid'] = Input::get('measureid');
+		// $result['measurevalue'] = Input::get('measurevalue');
 
-		$measure = new Measure;
-		return $measure->getResultInterpretation($result);
+		// $measure = new Measure;
+		// return $measure->getResultInterpretation($result);
+		return $test->test_status_id;
+		// echo  $test->test_status_id;
 	}
 
 	/**
@@ -336,7 +315,7 @@ class TestController extends Controller {
 		}
 
 		//Fire of entry saved/edited event
-		Event::fire('test.saved', array($testID));
+		// Event::fire('test.saved', array($testID));
 
 		$input = Session::get('TESTS_FILTER_INPUT');
 		Session::put('fromRedirect', 'true');
@@ -350,7 +329,8 @@ class TestController extends Controller {
 		}
 
 		// redirect
-		return Redirect::action('TestController@index')
+		
+		return redirect()->to('test')
 					->with('message', trans('terms.record-successfully-saved'))
 					->with('activeTest', array($test->id))
 					->withInput($input);
@@ -396,7 +376,8 @@ class TestController extends Controller {
 		$test->save();
 
 		//Fire of entry verified event
-		Event::fire('test.verified', array($testID));
+		
+		// Event::fire('test.verified', array($testID));
 
 		return view('test.viewDetails', compact('test'));
 	}
@@ -410,8 +391,10 @@ class TestController extends Controller {
 	public function showRefer($specimenId)
 	{
 		$specimen = Specimen::find($specimenId);
-		$facilities = Facility::lists('name', 'id');
+
+		$facilities = Facility::lists('name', 'id') ;
 		//Referral facilities
+
 		return view('test.refer', compact('specimen', 'facilities'));
 	}
 

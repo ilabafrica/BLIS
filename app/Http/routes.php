@@ -84,13 +84,13 @@ Route::group(array('middleware' => ['auth']), function()
     Route::group(array('middleware' => ['permission:manage_test_catalog']), function()
     {
         Route::resource('specimentype', 'SpecimenTypeController');
-        Route::delete("/specimentype/{id}/delete", array(
+        Route::any("/specimentype/{id}/delete", array(
             "as"   => "specimentype.delete",
             "uses" => "SpecimenTypeController@delete"
         ));
         Route::resource('testcategory', 'TestCategoryController');
         
-        Route::delete("/testcategory/{id}/delete", array(
+        Route::any("/testcategory/{id}/delete", array(
             "as"   => "testcategory.delete",
             "uses" => "TestCategoryController@delete"
         ));
@@ -112,7 +112,7 @@ Route::group(array('middleware' => ['auth']), function()
         Route::resource('specimenrejection', 'SpecimenRejectionController');
         Route::any("/specimenrejection/{id}/delete", array(
             "as"   => "specimenrejection.delete",
-            "uses" => "SpecimenRejectionController@delete"
+            "uses" => "SpecimenRejectionController@destroy"
         ));
         Route::resource('drug', 'DrugController');
         
@@ -281,11 +281,11 @@ Route::group(array('middleware' => ['auth']), function()
             "as"   => "facility.delete",
             "uses" => "FacilityController@delete"
         ));
-        Route::post("/reportconfig/surveillance", array(
+        Route::any("/reportconfig/surveillance", array(
             "as"   => "reportconfig.surveillance",
             "uses" => "ReportController@surveillanceConfig"
         ));
-        Route::post("/reportconfig/disease", array(
+        Route::any("/reportconfig/disease", array(
             "as"   => "reportconfig.disease",
             "uses" => "ReportController@disease"
         ));

@@ -2,6 +2,7 @@
 
 use App\Models\Barcode;
 use Input;
+use Session;
 
 // todo: create tests for this class
 class BarcodeController extends Controller {

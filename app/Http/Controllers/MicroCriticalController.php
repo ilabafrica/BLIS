@@ -6,7 +6,7 @@ use Response;
 use Auth;
 use Session;
 use Lang;
-
+use Log;
 use Illuminate\Database\QueryException;
 
 /**
@@ -48,7 +48,7 @@ class MicroCriticalController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(MicroCritical $request)
+	public function store(MicroCriticalRequest $request)
 	{
 		//store
 		$microcritical = new MicroCritical;
@@ -102,7 +102,7 @@ class MicroCriticalController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(MicroCritical $request, $id)
+	public function update(MicroCriticalRequest $request, $id)
 	{
 		// Update
 		$microcritical = MicroCritical::find($id);

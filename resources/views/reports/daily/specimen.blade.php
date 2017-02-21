@@ -76,7 +76,7 @@
 					{{ Form::label('section_id', trans_choice('messages.test-category', 2)) }}
 				</div>
 			  	<div class="col-sm-3">
-					{{ Form::select('section_id', array(''=>trans('messages.select-lab-section'))+$labSections, 
+					{{ Form::select('section_id', $labSections, 
 						Request::old('testCategory') ? Request::old('testCategory') : $testCategory, 
 							array('class' => 'form-control', 'id' => 'section_id')) }}
 				</div>
@@ -88,7 +88,7 @@
 					{{ Form::label('description', trans_choice('messages.test-type', 2)) }}
 				</div>
 				<div class="col-sm-3">
-					{{ Form::select('test_type', array('' => trans('messages.select-test-type'))+$testTypes, 
+					{{ Form::select('test_type', $testTypes, 
 						Request::old('testType') ? Request::old('testType') : $testType, 
 							array('class' => 'form-control', 'id' => 'test_type')) }}
 				</div>
@@ -118,7 +118,7 @@
 						{{' - '.App\Models\TestCategory::find($testCategory)->name}}
 					@endif
 					@if($testType)
-						{{' ('.TestType::find($testType)->name.') '}}
+						{{' ('.App\Models\TestType::find($testType)->name.') '}}
 					@endif
 					<?php $from = isset($input['start'])?$input['start']:date('Y-m-d'); ?>
 					<?php $to = isset($input['end'])?$input['end']:date('Y-m-d'); ?>

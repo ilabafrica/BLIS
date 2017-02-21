@@ -26,9 +26,9 @@
 				<p class="view"><strong>{{ trans_choice('messages.test-category',1) }}</strong>
 					{{ $testtype->testCategory->name }}</p>
 				<p class="view-striped"><strong>{{trans('messages.compatible-specimen')}}</strong>
-					{{ implode(", ", $testtype->specimenTypes->lists('name')) }}</p>
+					{{ $testtype->specimenTypes->lists('name')->implode(", ") }}</p>
 				<p class="view"><strong>{{ trans_choice('messages.measure',1) }}</strong>
-					{{ implode(", ", $testtype->measures->lists('name')) }}</p>
+					{{ $testtype->measures->lists('name')->implode(", ") }}</p>
 				<p class="view-striped"><strong>{{trans('messages.turnaround-time')}}</strong>
 					{{ $testtype->targetTAT }}</p>
 				<p class="view"><strong>{{trans('messages.prevalence-threshold')}}</strong>

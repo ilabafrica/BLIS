@@ -33,7 +33,7 @@
 	        	{{ Form::label('test_type', trans_choice('messages.test-type',1)) }}
 	        </div>
 	        <div class="col-md-9">
-	            {{ Form::select('test_type', array(0 => '-- All Tests --')+TestType::supportPrevalenceCounts()->lists('name','id'),
+	            {{ Form::select('test_type', $testType,
 	            	isset($input['test_type'])?$input['test_type']:0, array('class' => 'form-control')) }}
 	        </div>
         </div>

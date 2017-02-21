@@ -34,8 +34,10 @@
 			</div>
 			<div class="form-group">
 				{{ Form::label('test_category_id', trans_choice('messages.test-category',1)) }}
-				{{ Form::select('test_category_id', array(0 => '')+$testcategory->lists('name', 'id'),
-					Input::old('test_category_id'), array('class' => 'form-control')) }}
+				
+				{{  Form::select('test_category_id', $testcategories,
+					Input::old('test_category_id'), array('class' => 'form-control')) 
+				 }}
 			</div>
 			<div class="form-group">
 				{{ Form::label('specimen_types', trans('messages.select-specimen-types')) }}
@@ -43,18 +45,19 @@
 					<div class="container-fluid">
 						<?php 
 							$cnt = 0;
-							$zebra = "";
+							$zebra = "";							
 						?>
 						@foreach($specimentypes as $key=>$value)
 							{{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
 							<?php
 								$cnt++;
 								$zebra = (((int)$cnt/4)%2==1?"row-striped":"");
+								
 							?>
 							<div class="col-md-3">
 								<label  class="checkbox">
 									<input type="checkbox" name="specimentypes[]" value="{{ $value->id}}" 
-										{{ in_array($value->id, $testtype->specimenTypes->lists('id'))?"checked":"" }} />
+									{{ in_array($value->id, $testtype->specimenTypes->toarray())?"checked":"" }} />
 										{{$value->name }}
 								</label>
 							</div>

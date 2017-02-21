@@ -1,4 +1,4 @@
-@extends("layout")
+	@extends("layout")
 @section("content")
 <div>
 	<ol class="breadcrumb">
@@ -33,8 +33,8 @@
 			</div>
 			<div class="form-group">
 				{{ Form::label('test_category_id', trans_choice('messages.test-category',1)) }}
-				{{ Form::select('test_category_id', array(0 => '')+$testcategory->lists('name', 'id'),
-					Input::old('test_category_id'),	array('class' => 'form-control')) }}
+				{{ Form::select('test_category_id', $testcategories,
+					Input::old('test_category_id'),	array('class' => 'form-control'))}}
 			</div>
 			<div class="form-group">
 				{{ Form::label('specimen_types', trans('messages.select-specimen-types')) }}

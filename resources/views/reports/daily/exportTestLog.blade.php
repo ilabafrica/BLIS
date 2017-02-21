@@ -61,7 +61,7 @@
 				<td>{{ $test->testType->name }}</td>
 				<td>{{ $test->testedBy->name or trans('messages.pending') }}</td>
 				<td>@foreach($test->testResults as $result)
-					<p>{{Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
+					<p>{{App\Models\Measure::find($result->measure_id)->name}}: {{$result->result}}</p>
 				@endforeach</td>
 				<td>{{ $test->interpretation }}</td>
 				<td>{{ $test->time_completed or trans('messages.pending') }}</td>

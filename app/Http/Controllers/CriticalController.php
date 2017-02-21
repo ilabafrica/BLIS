@@ -2,11 +2,12 @@
 use App\Http\Requests;
 use App\Http\Requests\CriticalRequest;
 use App\Models\Critical;
+use App\Models\Measure;
 use Response;
 use Auth;
 use Session;
 use Lang;
-
+use Log;
 use Illuminate\Database\QueryException;
 
 /**
@@ -50,8 +51,9 @@ class CriticalController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(Critical $request)
+	public function store(CriticalRequest $request)
 	{
+		
 		//store
 		$critical = new Critical;
 		$critical->parameter = $request->measure_id;
@@ -63,11 +65,17 @@ class CriticalController extends Controller {
 		$critical->critical_low = $request->critical_low;
 		$critical->critical_high = $request->critical_high;
 		$critical->unit = $request->unit;
+		// $critical->save();
+			// $url = session('SOURCE_URL');
+        
+        	// return redirect()->to('critical')
+				// ->with('message', trans('messages.record-successfully-saved')) ->with('activecritical', $critical ->id);
 		try{
+			
 			$critical->save();
 			$url = session('SOURCE_URL');
         
-        	return redirect()->to($url)
+        	return redirect()->to('critical')
 				->with('message', trans('messages.record-successfully-saved')) ->with('activecritical', $critical ->id);
 		}catch(QueryException $e){
 			Log::error($e);
@@ -114,7 +122,7 @@ class CriticalController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(Critical $request, $id)
+	public function update(CriticalRequest $request, $id)
 	{
 		// Update
 		$critical = Critical::find($id);
@@ -157,22 +165,11 @@ class CriticalController extends Controller {
 	{
 		//Soft delete the critical
 		$critical = Critical::find($id);
-
-		/*$testCategoryInUse = TestType::where('test_category_id', '=', $id)->first();
-		if (empty($testCategoryInUse)) {
-		    // The test category is not in use
-			$testcategory->delete();
-		} else {
-		    // The test category is in use
-		    $url = session('SOURCE_URL');
-            
-            return redirect()->to($url)
-		    	->with('message', trans('messages.failure-test-category-in-use'));
-		}*/
+		$critical->delete();
+				
 		// redirect
-			$url = session('SOURCE_URL');
+		$url = session('SOURCE_URL');
             
-            return redirect()->to($url)
-			->with('message', trans('messages.record-successfully-deleted'));
+        return redirect()->to($url)->with('message', trans('messages.record-successfully-deleted'));
 	}
 }

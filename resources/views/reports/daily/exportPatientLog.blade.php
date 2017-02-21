@@ -29,12 +29,14 @@
 			<tr>
 				<td>{{count($visits)}}</td>
 				<td>
-					{{--*/ $male = 0 /*--}}
-					@forelse($visits as $visit)
-					  @if($visit->patient->gender==Patient::MALE)
-					   	{{--*/ $male++ /*--}}
-					  @endif
-					@endforeach
+					<?php
+						$male = 0;
+						foreach ($visits as $visit) {
+							if ($visit->patient->gender == App\Models\Patient::MALE) {
+								$male ++;
+							}
+						}
+					?>
 					{{$male}}
 				</td>
 				<td>{{count($visits)-$male}}</td>

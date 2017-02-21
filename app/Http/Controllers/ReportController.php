@@ -32,6 +32,7 @@ use DateTime;
 use Session;
 use DB;
 use Lang;
+use Collection;
 use Jenssegers\Date\Date as Carbon;
 
 class ReportController extends Controller
@@ -134,7 +135,8 @@ class ReportController extends Controller
         //  Get patient details
         $patient = Patient::find($id);
         //  Check if tests are accredited
-        $accredited = $this->accredited($tests);
+        $accredited = $this->accredited($tests); 
+      
         $verified = array();
         foreach ($tests as $test) {
             if($test->isVerified())
@@ -399,6 +401,7 @@ class ReportController extends Controller
         $today = date('Y-m-d');
         $year = date('Y');
         $testTypeID = Input::get('test_type');
+        $testType = [''=>trans('messages.select-lab-section')] + TestType::supportPrevalenceCounts()->lists('name', 'id')->all();
 
         //  Apply filters if any
         if(Input::has('filter')){
@@ -426,6 +429,7 @@ class ReportController extends Controller
         return view('reports.prevalence.index')
                         ->with('data', $data)
                         ->with('chart', $chart)
+                        ->with('testType', $testType)
                         ->withInput(Input::all());
     }
 
@@ -470,7 +474,8 @@ class ReportController extends Controller
         $from = Input::get('start');
         $to = Input::get('end');
         $months = json_decode(self::getMonths($from, $to));
-        $testTypes = new Illuminate\Database\Eloquent\Collection();
+        
+        // $testTypes = new Illuminate\Database\Eloquent\Collection();
 
         if($testTypeID == 0){
             
@@ -1162,26 +1167,25 @@ class ReportController extends Controller
     public function surveillanceConfig(){
         
         $allSurveillanceIds = array();
-        
+       
         //edit or leave surveillance entries as is
         if (Input::get('surveillance')) {
             $diseases = Input::get('surveillance');
             foreach ($diseases as $id => $disease) {
                 $allSurveillanceIds[] = $id;
                 $surveillance = ReportDisease::find($id);
-                $surveillance->test_type_id = $disease['test_type'];
+                $surveillance->test_type_id = $disease['test-type'];
                 $surveillance->disease_id = $disease['disease'];
                 $surveillance->save();
             }
         }
-        
+         
         //save new surveillance entries
-        if (Input::get('new_surveillance')) {
-            $diseases = Input::get('new_surveillance');
-
+        if (Input::get('new-surveillance')) {
+            $diseases = Input::get('new-surveillance');
             foreach ($diseases as $id => $disease) {
                 $surveillance = new ReportDisease;
-                $surveillance->test_type_id = $disease['test_type'];
+                $surveillance->test_type_id = $disease['test-type'];
                 $surveillance->disease_id = $disease['disease'];
                 $surveillance->save();
                 $allSurveillanceIds[] = $surveillance->id;

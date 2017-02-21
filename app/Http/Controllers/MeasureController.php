@@ -19,9 +19,9 @@ class MeasureController extends Controller {
      * @return Response
      */
     public function store($measures)
-    {
-        // dd($measures);
+    {       
         $measureIds = array();
+        
         foreach ($measures as $data) {
             $measure = new Measure;
             $measure->name = trim($data['name']);

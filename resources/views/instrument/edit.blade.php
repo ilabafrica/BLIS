@@ -42,7 +42,7 @@
 			</div>
 			<div class="form-group">
 				{{ Form::label('test_types', trans('messages.supported-test-types')) }}
-				{{ Form::text('test_types', implode(",", $instrument->testTypes()->lists('name')),
+				{{ Form::text('test_types', $instrument->testTypes()->lists('name')->implode(','),
 					 array('class' => 'form-control', 'readonly')) }}
 			</div>
 		</div>

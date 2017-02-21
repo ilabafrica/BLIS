@@ -29,7 +29,7 @@
                 {{ HTML::ul($errors->all()) }}
             </div>
         @endif
-        {{ Form::open(array('route' => 'test.referAction')) }}
+      {{ Form::open(array('route' => 'test.referAction')) }}
             {{ Form::hidden('specimen_id', $specimen->id) }}
             <div class="panel-body">
                 <div class="display-details">
@@ -48,10 +48,9 @@
                     <div>{{ Form::radio('referral-status', '1', false) }}<span class='input-tag'>
                         {{trans('messages.out')}}</span></div>
                 </div>
-                <div class="form-group">
+                 <div class="form-group">
                     {{ Form::label('facility', Lang::choice("messages.facility",1)) }}
-                    {{ Form::select('facility_id', array(0 => '')+$facilities->lists('name', 'id'), Input::old('facility_id'),
-                        array('class' => 'form-control')) }}
+                    {{ Form::select('facility_id',$facilities, Input::old('facility_id'), array('class'=>'form-control')) }}
                 </div>
                 <div class="form-group">
                     {{ Form::label('person', trans("messages.person")) }}
@@ -63,7 +62,7 @@
                     {{Form::textarea('contacts', Input::old('contacts'),
                         array('class' => 'form-control'))}}
                 </div>
-                <div class="form-group actions-row">
+                 <div class="form-group actions-row">
                     {{ Form::button("<span class='glyphicon glyphicon-thumbs-up'></span> ".trans('messages.refer'),
                         ['class' => 'btn btn-danger', 'onclick' => 'submit()']) }}
                 </div>

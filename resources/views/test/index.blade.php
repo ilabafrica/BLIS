@@ -233,9 +233,9 @@
                             @endif
                             @if ($test->isPending())
                                 @if(Auth::user()->can('start_test'))
-                                    <a class="btn btn-sm btn-warning start-test" href="javascript:void(0)"
+                                    <a class="btn btn-sm btn-warning start-test" href=""
                                         data-test-id="{{$test->id}}" data-url="{{ URL::route('test.start') }}"
-                                        title="{{trans('messages.start-test-title')}}">
+                                        title="we start">
                                         <span class="glyphicon glyphicon-play"></span>
                                         {{trans('messages.start-test')}}
                                     </a>

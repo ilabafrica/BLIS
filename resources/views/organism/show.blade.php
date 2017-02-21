@@ -29,7 +29,7 @@
 				<p class="view-striped"><strong>{{ trans('messages.description') }}:</strong>
 					{{ $organism->description }}</p>
 				<p class="view-striped"><strong>{{ trans('messages.compatible-drugs') }}:</strong>
-					{{ implode(", ", $organism->drugs->lists('name')) }}
+					{{ $organism->drugs->lists('name')->implode(", ") }}
 				</p>
 			</div>
 		</div>

@@ -23,6 +23,6 @@ class Critical extends Model
 	 */
 	public function measure()
 	{
-	  return $this->belongsTo('Measure', 'parameter');
+	  return $this->belongsTo('App\Models\Measure', 'parameter');
 	}
 }

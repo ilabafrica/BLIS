@@ -8,6 +8,8 @@ use Response;
 use Auth;
 use Session;
 use Lang;
+use Validator;
+use Input;
 /**
  *Contains functions for managing instruments
  *
@@ -69,7 +71,7 @@ class InstrumentController extends Controller {
 			$newInstrument->hostname = Input::get('hostname');
 
 			$newInstrument->save();
-			return redirect()->to('instrument.index')->with('message', trans('messages.success-creating-instrument'));
+			return redirect()->to('instrument')->with('message', trans('messages.success-creating-instrument'));
 		}
 	}
 
@@ -137,7 +139,7 @@ class InstrumentController extends Controller {
 				Log::error($e);
 			}
 
-			return redirect()->to('instrument.index')->with('message', $message);
+			return redirect()->to('instrument')->with('message', $message);
 		}
 	}
 
@@ -167,7 +169,7 @@ class InstrumentController extends Controller {
 		$instrument->delete();
 
 		// redirect
-		return redirect()->to('instrument.index')->with('message', trans('messages.success-deleting-instrument'));
+		return redirect()->to('instrument')->with('message', trans('messages.success-deleting-instrument'));
 	}
 
 	/**
@@ -194,7 +196,7 @@ class InstrumentController extends Controller {
 	 */
 	public function importDriver()
 	{
-		$route = (Input::get('import_file') !== null)?Input::get('import_file'):"instrument.index";
+		$route = (Input::get('import_file') !== null)?Input::get('import_file'):"instrument";
 
         $rules = array(
             'import_file' => 'required|max:500'
@@ -204,7 +206,7 @@ class InstrumentController extends Controller {
         $message = null;
 
         if ($validator->fails()) {
-            return redirect()->to('instrument.index')->withErrors($validator);
+            return redirect()->to('instrument')->withErrors($validator);
         } else {
             if (Input::hasFile('import_file')) {
             	$message = Instrument::saveDriver(Input::file('import_file'));

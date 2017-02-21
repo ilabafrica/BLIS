@@ -28,7 +28,7 @@
 				<p class="view-striped"><strong>{{trans('messages.host-name')}}</strong>
 					{{ $instrument->hostname }}</p>
 				<p class="view-striped"><strong>{{trans('messages.compatible-test-types')}}</strong>
-					{{ implode(", ", $instrument->testTypes->lists('name')) }}</p>
+					{{ $instrument->testTypes->lists('name')->implode(',') }}</p>				
 				<p class="view-striped"><strong>{{trans('messages.date-created')}}</strong>
 					{{ $instrument->created_at }}</p>
 			</div>
