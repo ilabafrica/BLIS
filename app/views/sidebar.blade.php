@@ -212,6 +212,11 @@
 					<span class="glyphicon glyphicon-stats"></span> {{ Lang::choice('messages.report', 2)}}</a>
 			</div>
 			<div class="sub-menu {{$active[5]}}">
+				<div class="sub-menu-title">
+							<a href="{{ URL::route('reports.adhocreport.index')}}">
+								<span class=""></span>
+								{{trans('messages.adhoc-report')}}</a>
+				</div>
 				<div class="sub-menu-title">{{trans('messages.daily-reports')}}</div>
 				<ul class="sub-menu-items">
 					<li>
