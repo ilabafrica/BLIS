@@ -33,7 +33,7 @@
 					<div class="col-sm-2">
                     
 						{{ Form::label('start', trans("messages.from")) }}</div><div class="col-sm-1">
-						<input type="date" ng-model="selected.from" class="standard-datepicker" />
+						<input type="text" ng-model="selected.from" class="standard-datepicker" />
 			        	
 			        </div>
 		        </div>
@@ -44,13 +44,13 @@
 				        {{ Form::label('end', trans("messages.to")) }}
 				    </div>
 				    <div class="col-sm-1">
-		               <input type="date" ng-model="selected.to"  class="standard-datepicker"/>
+		               <input type="text" ng-model="selected.to"  class="standard-datepicker"/>
 		            </div>
 	            </div>
             </div>
 	    </div>
         <div>
-                       <strong>  <p>Pick the report type</p> </strong>
+                       <strong>  <p>Select the report type</p> </strong>
                         <div class="form-group">
                 <select name="reportSelect" id="reportSelect" ng-model="selected.reportTypes" class="form-control" ng-click="reporting()">
                 <option ng-repeat="option in reportTypes" value="<%option.id%>" ng-bind="option.name" ><span></span></option>
@@ -69,28 +69,72 @@
 
         </div>
         <div ng-if="selected.reportTypes==1 && selected.patientNo">
-            <strong><p>Pick the Sections to be displayed</p></strong>
+            <strong><p>Select Columns to be displayed</p></strong>
             <label ng-repeat="section in sections" class="form-group" >
             <input type="checkbox" ng-model="selected.section[section.id]" ng-change="checkedItems(selected.section,section.id)">  <span class="" ng-bind="section.name"> </span>
             </label>
    </div>
 
         <div ng-if="specimen && selected.reportTypes==1" class="form-group">
-            <p>Pick the Specimen columns to be displayed</p>
+            <p>Select Specimen columns to be displayed</p>
             <label ng-repeat="specimenColumn in specimenColumns" class="form-group" >
             <input type="checkbox" ng-model="selected.specimenColumn[specimenColumn.id]">  <span class="" ng-bind="specimenColumn.name"> </span>
             </label>
 
         </div>
         <div ng-if="results && selected.reportTypes==1" class="form-group">
-            <p>Pick the Results columns to be displayed</p>
+            <p>Select Results columns to be displayed</p>
             <label ng-repeat="resultsColumn in resultsColumns" class="form-group" >
             <input type="checkbox" ng-model="selected.resultsColumn[resultsColumn.id]">  <span class="" ng-bind="resultsColumn.name"> </span>
             </label>
 
         </div>
+		<!--Test Menus-->
+		<div ng-if="selected.reportTypes==2" class="form-group">
+		<strong><p>Select a Test</p> </strong>
+                        <div class="form-group">
+                <select name="testSelect" id="testSelect" ng-model="selected.test" class="form-control">
+                <option ng-repeat="option in testtypes.data" value="<%option.id%>" ng-bind="option.name" ><span></span></option>
+                </select>
+                </div>
+		</div>
+		<div ng-if="selected.reportTypes==2 && selected.test" class="form-group">
+		<strong><p>Select a Gender</p> </strong> 
+                <div class="form-group">
+						<label ng-repeat="gender in genders" class="form-group" >
+						<input type="checkbox" ng-model="selected.gender[gender.id]">  <span class="" ng-bind="gender.name"> </span>
+						</label>
+                
+                </div>
+		</div>
+		<div ng-if="selected.reportTypes==2 && selected.gender" class="form-group">
+		<strong><p>Specify Lower Age Limit</p> </strong>
+                        <div class="form-group">
+                <label>
+            <input type="number" ng-model="selected.lowerage" value="" class="form-control"><span></span>
+            </label>
+                
+                </div>
+				<strong><p>Specify Upper Age Limit</p> </strong>
+                       
+                <label>
+            <input type="number" ng-model="selected.upperage" value="" class="form-control"><span></span>
+            </label>
+                
+		</div>
+		
          </div>
-        <div class="">
+		 <div ng-if="selected.reportTypes==2 && selected.upperage && selected.lowerage" class="form-group">
+		<strong><p>Select Columns to Display</p> </strong>
+                <div class="form-group">
+						<label ng-repeat="testsColumn in testsColumns" class="form-group" >
+						<input type="checkbox" ng-model="selected.columns[testsColumn.id]">  <span class="" ng-bind="testsColumn.name"> </span>
+						</label>
+                </div>
+				
+		</div>
+         </div>
+        <div class="" ng-if="selected.reportTypes==2 && selected.columns">
 			<div class="form-group actions-row">
 				{{ Form::button(
 					trans('messages.generate_report'),
