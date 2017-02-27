@@ -98,7 +98,7 @@ class LotController extends Controller {
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
-			return Redirect::to('lot/'.$id.'/edit')->withErrors($validator)->withInput();
+			return Redirect()->to('lot/'.$id.'/edit')->withErrors($validator)->withInput();
 		} else {
 			// Add
 			$lot = Lot::findOrFail($id);
@@ -109,7 +109,7 @@ class LotController extends Controller {
 			$lot->save();
 
 			$url = session('SOURCE_URL');
-			return Redirect::to($url)
+			return Redirect()->to($url)
 					->with('message', trans('messages.successfully-updated-lot'));
 		}
 	}
@@ -140,7 +140,7 @@ class LotController extends Controller {
 		$lot->delete();
 
 		// redirect
-		return redirect()->to('lot.index')->with('message', trans('messages.success-deleting-lot'));
+		return redirect()->to('lot')->with('message', trans('messages.success-deleting-lot'));
 	}
 
 

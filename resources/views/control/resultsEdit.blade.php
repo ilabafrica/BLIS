@@ -33,7 +33,7 @@
                         </div>
                         <div class="form-group">
                             {{ Form::label('lots', trans('messages.lot-number')) }}
-                            {{ Form::select('lot_id', array(''=>'')+$lots, Input::old('lot')?Input::old('lot'):$lot, array('class' => 'form-control')) }}
+                            {{ Form::select('lot_id', array(''=>'')+$lots ->toArray(), Input::old('lot')?Input::old('lot'):$lot, array('class' => 'form-control')) }}
                         </div>
                         @foreach($controlTest->control->controlMeasures as $key => $controlMeasure)
                             <div class="form-group">

@@ -83,10 +83,11 @@
 			@endif
 		</p>
 	</strong
+
 		<div class="table-responsive">
 
 		  @forelse($tc as $key)
-		  {{--*/ $testCat = App\Models\TestCategory::find($key) /*--}}
+		  @php $testCat = App\Models\TestCategory::find($key) @endphp
 		  {{ $testCat->name }}
 		  <table class="table table-striped table-bordered">
 		  	<tbody>
@@ -103,7 +104,7 @@
 		  			@endforeach
 		  		</tr>
 		  		@forelse($testCat->criticals()->groupBy('measure_id')->lists('measure_id') as $measureId)
-		  		{{--*/ $measure = Measure::find($measureId) /*--}}
+		  		@php $measure = Measure::find($measureId) @endphp
 		  		<tr>
 			  		<td>{{ $measure->name }}</td>
 			  		<td>@foreach($gender as $sex)

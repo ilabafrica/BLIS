@@ -67,11 +67,12 @@ class ControlMeasureController extends Controller {
      */
     public function editMeasuresRanges($measures, $control)
     {
+        
         foreach ($measures as $measure) {
             $controlMeasure = ControlMeasure::find($measure['id']);
             $controlMeasure->name = $measure['name'];
             $controlMeasure->control_measure_type_id = $measure['measure_type_id'];
-            $controlMeasure->expected_result = $measure['expected'];
+            // $controlMeasure->expected_result = $measure['expected'];
             $controlMeasure->unit = $measure['unit'];
 
             DB::transaction(function() use ($controlMeasure, $measure, $control) {

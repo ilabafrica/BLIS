@@ -6,7 +6,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReportRequest;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Collection;
 
 use App\Models\User;
 use App\Models\Test;
@@ -24,6 +24,7 @@ use App\Models\SpecimenType;
 use App\Models\TestCategory;
 use App\Models\ReportDisease;
 use App\Models\TestTypeMeasure;
+use App\Models\CritVal;
 
 use Input;
 use Response;
@@ -32,7 +33,7 @@ use DateTime;
 use Session;
 use DB;
 use Lang;
-use Collection;
+// use Collection;
 use Jenssegers\Date\Date as Carbon;
 
 class ReportController extends Controller
@@ -476,12 +477,13 @@ class ReportController extends Controller
         $months = json_decode(self::getMonths($from, $to));
         
         // $testTypes = new Illuminate\Database\Eloquent\Collection();
+        $testTypes = new Collection();
 
         if($testTypeID == 0){
             
             $testTypes = TestType::supportPrevalenceCounts();
         }else{
-            $testTypes->add(TestType::find($testTypeID));
+            $testTypes->push(TestType::find($testTypeID));
         }
 
         $options = '{
@@ -1109,6 +1111,8 @@ class ReportController extends Controller
             $control = Control::find($controlId);
             $controlTests = ControlTest::where('control_id', '=', $controlId)
                                         ->whereBetween('created_at', $dates)->get();
+
+                                        // dd($controlTests);die;
             $leveyJennings = $this->leveyJennings($control, $dates);
             return view('reports.qualitycontrol.results')
                 ->with('control', $control)
@@ -3197,7 +3201,8 @@ class ReportController extends Controller
 
             $average = round($total / $count, 2);
 
-            $standardDeviation = $this->stat_standard_deviation($results);
+            $standardDeviation = $this->stat_standard_deviation($results ->toArray());
+            // dd($standardDeviation);die;
             $standardDeviation  = round($standardDeviation, 2);
 
             $response[] = array('success' => true,
@@ -3431,7 +3436,7 @@ class ReportController extends Controller
         $ageRanges = array('0-5', '5-15', '15-120');    //  Age ranges - will definitely change in configurations
         $gender = array(Patient::MALE, Patient::FEMALE);    //  Array for gender - male/female
         //  Get test categories with critical values
-        $tc = CritVal::lists('test_category_id');
+        $tc = CritVal::lists('test_category_id')->toArray();
         $tc = array_unique($tc);
 
         if(Input::has('word'))

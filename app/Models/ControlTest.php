@@ -21,4 +21,8 @@ class ControlTest extends Model {
 	{
 		return $this->belongsTo('App\Models\Control');
 	}
+	public function lot()
+	{
+		return $this->belongsTo('App\Models\Lot');
+	}
 }

@@ -780,7 +780,7 @@ $(function(){
 					+" <td>"+elem.zone+"</td>"
 					+" <td>"+elem.interpretation+"</td>"
 					+"</tr>";
-					suscept+=elem.drugName+" - "+elem.sensitivity+", ";
+					suscept+=elem.abbreviation+" - "+elem.interpretation+", ";
 				});
 
 				//$(".sense"+tid).val($(".sense"+tid).val()+elem.drugName+" - "+elem.sensitivity+", ");

@@ -77,7 +77,7 @@
 						</a>
 
 						<!-- show barcode generation button -->
-						{{--*/ $barcode_separator = '$' /*--}}
+						<?php $barcode_separator = '$' ?>
 						<a class="btn btn-sm btn-midnight-blue" href="#" onclick="print_barcode({{ "'".$value->id.$barcode_separator.$item->id."'".', '."'".$barcode->encoding_format."'".', '."'".$barcode->barcode_width."'".', '."'".$barcode->barcode_height."'".', '."'".$barcode->text_size."'" }})">
 							<span class="glyphicon glyphicon-barcode"></span>
 							{{ trans('messages.barcode') }}

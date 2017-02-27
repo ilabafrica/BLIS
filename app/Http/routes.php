@@ -525,6 +525,10 @@ Route::group(array('middleware' => ['auth']), function()
             "as"   => "request.delete",
             "uses" => "TopupController@delete"
         ));
+        /*
+        *   Routes for blood-bank
+        */
+        Route::resource('blood', 'BloodController');
     });
     // Billing
     Route::resource('charge', 'ChargeController');

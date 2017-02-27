@@ -26,7 +26,7 @@ class StockController extends Controller {
 		//	Barcode
 		$barcode = Barcode::first();
 		//Load the view and pass the stocks
-		return View::make('inventory.stock.index')->with('item', $item)->with('barcode', $barcode);
+		return view('inventory.stock.index')->with('item', $item)->with('barcode', $barcode);
 	}
 
 	/**
@@ -41,7 +41,7 @@ class StockController extends Controller {
 		$item = Item::find($id);
 		//	Get suppliers for select list
 		$suppliers = Supplier::lists('name', 'id');
-		return View::make('inventory.stock.create')->with('item', $item)->with('suppliers', $suppliers);
+		return view('inventory.stock.create')->with('item', $item)->with('suppliers', $suppliers);
 	}
 
 	/**

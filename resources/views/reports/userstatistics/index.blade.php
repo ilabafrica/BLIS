@@ -132,7 +132,7 @@
 					<tbody>
 						<?php $i = 1;?>
 						@forelse($reportData as $row)
-							<?php $patient = Patient::find($row->id);?>
+							<?php $patient = App\Models\Patient::find($row->id);?>
 							<tr>
 								<td>{{$i++}}</td>
 								<td>{{$patient->patient_number}}</td>
@@ -160,7 +160,7 @@
 					</thead>
 					<tbody>
 						@forelse($reportData as $row)
-							<?php $specimen = Specimen::find($row->id);?>
+							<?php $specimen = App\Models\Specimen::find($row->id);?>
 							<tr>
 								<td>{{$specimen->id}}</td>
 								<td>{{$specimen->specimenType->name}}</td>
@@ -188,7 +188,7 @@
 					</thead>
 					<tbody>
 						@forelse($reportData as $row)
-							<?php $test = Test::find($row->id);?>
+							<?php $test = App\Models\Test::find($row->id);?>
 							<tr>
 								<td>{{$test->id}}</td>
 								<td>{{$test->testType->name}}</td>

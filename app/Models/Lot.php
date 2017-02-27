@@ -22,4 +22,9 @@ class Lot extends Model {
 	public function instrument(){
 		return $this->belongsTo('App\Models\Instrument');
 	}
+
+
+	public function controlTests(){
+		return $this->hasMany('App\Models\ControlTest');
+	}
 }

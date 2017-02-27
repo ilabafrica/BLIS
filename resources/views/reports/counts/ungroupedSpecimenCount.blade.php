@@ -102,7 +102,7 @@
 			    @forelse($ungroupedSpecimen as $key => $value)
 
 			    <tr>
-			    	<td>{{ SpecimenType::find($key)->name }}</td>
+			    	<td>{{ App\Models\SpecimenType::find($key)->name }}</td>
 			    	<td>{{ $value['accepted'] }}</td>
 			    	<td>{{ $value['rejected'] }}</td>
 			    	<td>{{ $value['total'] }}</td>

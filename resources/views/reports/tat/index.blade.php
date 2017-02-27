@@ -56,7 +56,7 @@
 				    	{{ Form::label('description', trans_choice('messages.test-type', 1)) }}
 				    </div>
 					<div class="col-sm-2">
-					    {{ Form::select('test_type', array('' => trans('messages.select-test-type'))+$testTypes, 
+					    {{ Form::select('test_type', $testTypes, 
 							    		Request::old('testType') ? Request::old('testType') : $testType, 
 											array('class' => 'form-control', 'id' => 'test_type')) }}
 			        </div>

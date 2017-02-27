@@ -34,7 +34,7 @@ class ControlResultsController extends Controller {
 			$controlResult->control_test_id = $controlTestId;
 			$controlResult->save();
 		}
-		return redirect()->to('control.resultsIndex')->with('message', trans('messages.success-updating-control-result'));
+		return redirect()->to('control')->with('message', trans('messages.success-updating-control-result'));
 	}
 
 

@@ -33,7 +33,7 @@
 	        	{{ Form::label('specimen_type', trans_choice('messages.specimen-type',1)) }}
 	        </div>
 	        <div class="col-md-9">
-	            {{ Form::select('specimen_type', array(0 => '-- All Specimen --')+SpecimenType::lists('name','id'),
+	            {{ Form::select('specimen_type', array(0 => '-- All Specimen --')+App\Models\SpecimenType::lists('name','id')->toArray(),
 	            	isset($input['spec_type'])?$input['spec_type']:0, array('class' => 'form-control')) }}
 	        </div>
         </div>

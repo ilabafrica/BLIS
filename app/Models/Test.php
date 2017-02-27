@@ -30,7 +30,7 @@ class Test extends Model
 	/**
 	 * Other constants
 	 */
-	const POSITIVE = '+';
+	const POSITIVE = 'Positive';
 
 	/**
 	 * Visit relationship

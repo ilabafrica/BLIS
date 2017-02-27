@@ -132,7 +132,7 @@ class SupplierController extends Controller {
 		{
 			$supplier->delete();
 			// redirect
-			return redirect()->to('supplier.index')->with('message', trans('messages.record-successfully-deleted'));
+			return redirect()->to('supplier')->with('message', trans('messages.record-successfully-deleted'));
 		}
 	}
 }

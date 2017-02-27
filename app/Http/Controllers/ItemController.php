@@ -7,6 +7,7 @@ use Response;
 use Session;
 use Auth;
 use Lang;
+use Input;
 
 class ItemController extends Controller {
 

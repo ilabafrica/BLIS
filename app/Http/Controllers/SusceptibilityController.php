@@ -44,24 +44,30 @@ class SusceptibilityController extends Controller {
 
 		for($i=0; $i<count($test); $i++){
 			$sensitivity = Susceptibility::getDrugSusceptibility($test[$i], $organism[$i], $drug[$i]);
-			if(count($sensitivity)>0){
-				$drugSusceptibility = Susceptibility::find($sensitivity->id);
-				$drugSusceptibility->user_id = $user_id;
-				$drugSusceptibility->test_id = $test[$i];
-				$drugSusceptibility->organism_id = $organism[$i];
-				$drugSusceptibility->drug_id = $drug[$i];
-				$drugSusceptibility->zone = $zone[$i];
-				$drugSusceptibility->interpretation = $interpretation[$i];
-				$drugSusceptibility->save();
-			}else{
-				$drugSusceptibility = new Susceptibility;
-				$drugSusceptibility->user_id = $user_id;
-				$drugSusceptibility->test_id = $test[$i];
-				$drugSusceptibility->organism_id = $organism[$i];
-				$drugSusceptibility->drug_id = $drug[$i];
-				$drugSusceptibility->zone = $zone[$i];
-				$drugSusceptibility->interpretation = $interpretation[$i];
-				$drugSusceptibility->save();
+			if($zone[$i]!=NULL || $interpretation[$i]!=NULL)
+			{
+				if(count($sensitivity)>0){
+					$drugSusceptibility = Susceptibility::find($sensitivity->id);
+					$drugSusceptibility->user_id = $user_id;
+					$drugSusceptibility->test_id = $test[$i];
+					$drugSusceptibility->organism_id = $organism[$i];
+					$drugSusceptibility->drug_id = $drug[$i];
+					$drugSusceptibility->zone = $zone[$i];
+					$drugSusceptibility->interpretation = $interpretation[$i];
+					$drugSusceptibility->save();
+				}
+				else
+				{
+					
+					$drugSusceptibility = new Susceptibility;
+					$drugSusceptibility->user_id = $user_id;
+					$drugSusceptibility->test_id = $test[$i];
+					$drugSusceptibility->organism_id = $organism[$i];
+					$drugSusceptibility->drug_id = $drug[$i];
+					$drugSusceptibility->zone = $zone[$i];
+					$drugSusceptibility->interpretation = $interpretation[$i];
+					$drugSusceptibility->save();
+				}
 			}
 			
 		}
@@ -74,6 +80,7 @@ class SusceptibilityController extends Controller {
 											->get();
 			foreach ($susceptibility as $drugSusceptibility) {
 				$drugSusceptibility->drugName = Drug::find($drugSusceptibility->drug_id)->name;
+				$drugSusceptibility->abbreviation = Drug::find($drugSusceptibility->drug_id)->abbreviation;
 				$drugSusceptibility->pathogen = Organism::find($drugSusceptibility->organism_id)->name;
 				if($drugSusceptibility->interpretation == 'I'){
 					$drugSusceptibility->sensitivity = 'Intermediate';

@@ -3,10 +3,13 @@
 use App\Http\Requests;
 use App\Http\Requests\DrugRequest;
 use App\Models\Drug;
+use App\Models\Organism;
 use Response;
 use Auth;
 use Session;
 use Lang;
+use DB;
+use Redirect;
 /**
  * Contains drugs resources  
  * 
@@ -127,17 +130,20 @@ class DrugController extends Controller {
 		//Soft delete the drug
 		$drug = Drug::find($id);
 
-		/*$testCategoryInUse = TestType::where('test_category_id', '=', $id)->first();
-		if (empty($testCategoryInUse)) {
+		// DB::table('organism_drugs')->where('organism_id', '=', $drug)->first();
+		$drugInUse = DB::table('organism_drugs')->where('drug_id', $id)->count();
+		// dd($drugInUse); die;
+		// Organism::where('drug_id', '=', $id)->first();
+		if ($drugInUse==0) {
 		    // The test category is not in use
-			$testcategory->delete();
+			$drug->delete();
 		} else {
 		    // The test category is in use
 		    $url = session('SOURCE_URL');
             
             return Redirect::to($url)
-		    	->with('message', trans('terms.failure-test-category-in-use'));
-		}*/
+		    	->with('message', trans('Not Successfull, Drug in Use'));
+		}
 		// redirect
 		$url = session('SOURCE_URL');
 

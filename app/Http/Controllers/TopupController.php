@@ -3,6 +3,8 @@
 use App\Models\Item;
 use App\Models\Topup;
 use App\Models\TestCategory;
+use App\Http\Requests;
+use App\Http\Requests\TopupRequest;
 use Auth;
 
 class TopupController extends Controller {
@@ -135,7 +137,7 @@ class TopupController extends Controller {
 		{
 			$request->delete();
 			// redirect
-			return redirect()->to('request.index')->with('message', trans('messages.record-successfully-deleted'));
+			return redirect()->to('request')->with('message', trans('messages.record-successfully-deleted'));
 		}
 	}
 }

@@ -32,7 +32,7 @@
 	        	{{ Form::label('control', trans_choice('messages.control',1)) }}
 	        </div>
 	        <div class="col-md-9">
-	            {{ Form::select('control', array(null => '')+ $control->lists('name', 'id'),
+	            {{ Form::select('control', $control->lists('name', 'id'),
 	            	isset($input['control'])?$input['control']:0, array('class' => 'form-control')) }}
 	        </div>
         </div>

@@ -47,6 +47,7 @@
 			$active[6] = "active"; break;
 		case 'supplier': 
 		case 'item': 
+		case 'blood': 
 		case 'request':
 		case 'stock':
 			$active[7] = "active"; break;
@@ -364,6 +365,12 @@
 						<div>
 							<a href="{{ URL::route("item.index")}}">
 								<span class="glyphicon glyphicon-tag"></span> {{ trans_choice('messages.item', 2)}}</a>
+						</div>
+					</li>
+					<li>
+						<div>
+							<a href="{{ URL::route("blood.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ trans('messages.blood-bank') }}</a>
 						</div>
 					</li>
 					@endif

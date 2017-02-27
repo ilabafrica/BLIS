@@ -9,6 +9,7 @@ use App\Models\ControlMeasureResult;
 use App\Models\Instrument;
 use App\Models\Control;
 use App\Models\ControlTest;
+use App\Models\Lot;
 class ControlController extends Controller {
 
 	/**
@@ -155,7 +156,7 @@ class ControlController extends Controller {
 		$control = Control::find($id);
 		$control->delete();
 		// redirect
-		return redirect()->to('control.index')->with('message', trans('messages.success-deleting-control'));
+		return redirect()->to('control')->with('message', trans('messages.success-deleting-control'));
 	}
 
 	/**
@@ -233,6 +234,6 @@ class ControlController extends Controller {
 			$controlResult->user_id = Auth::user()->id;
 			$controlResult->save();
 		}
-		return redirect()->to('control.resultsIndex')->with('message', trans('messages.success-adding-control-result'));
+		return redirect()->to('control')->with('message', trans('messages.success-adding-control-result'));
 	}
 }

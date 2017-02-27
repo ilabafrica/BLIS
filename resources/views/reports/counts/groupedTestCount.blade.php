@@ -112,7 +112,7 @@
 		  		<tr>
 			  		<td>{{ $testType->name }}</td>
 			  		<td>@foreach($gender as $sex)
-			  				{{ $sex==Patient::MALE?trans("messages.male"):trans("messages.female") }}<br />
+			  				{{ $sex==App\Models\Patient::MALE?trans("messages.male"):trans("messages.female") }}<br />
 			  			@endforeach
 			  		</td>
 			  		@foreach($ageRanges as $ageRange)

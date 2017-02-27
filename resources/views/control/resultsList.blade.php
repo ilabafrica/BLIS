@@ -32,7 +32,7 @@
                 <tr>
                     <td>{{$controlResult->lot->lot_no}}</td>
                     <td>{{$controlResult->control->name}}</td>
-                    <td>{{implode(', ', $controlResult->controlResults->lists('results'))}}</td>
+                    <td>{{$controlResult->controlResults->lists('results')->implode(', ')}}</td>
                     <td>{{$controlResult->performed_by}}</td>
                     <td>{{$controlResult->created_at}}</td>
                     <td>

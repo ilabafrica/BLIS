@@ -31,7 +31,7 @@ class Item extends Model
         $used = 0;
         $available = $this->stocks->sum('quantity_supplied');
         if(count($this->stocks)>0)
-            $used = App\Models\Usage::whereIn('stock_id', $this->stocks->lists('id'))->sum('quantity_used');
+            $used = Usage::whereIn('stock_id', $this->stocks->lists('id'))->sum('quantity_used');
         return $available-$used;
     }
 }
