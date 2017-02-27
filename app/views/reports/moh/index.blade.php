@@ -84,27 +84,32 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td style="font-weight: bold">Urine Chemistry</td>
+                                                <?php $num = 1; ?>
+                                                <td style="font-weight: bold">1.{{$num}} Urine Chemistry</td>
                                                 <td>{{ $moh706List['urineChemestryTotalExam'] }}</td>
                                                 <td style="background-color: #CCCCCC;"></td>
+                                                <?php $num++ ?>
                                             </tr>
                                             @foreach($moh706List['urineChemistryList'] as $measure)
-                                                <tr>
-                                                <td >{{ $measure['name'] }}</td>
+                                                <tr>       
+                                                <td >1.{{$num}} {{ $measure['name'] }}</td>
                                                 <td style="background-color: #CCCCCC;"></td>
                                                 <td>{{ $measure['positive'] }}</td>
+                                                <?php $num++ ?>
                                             </tr>
                                             @endforeach
                                             <tr>
-                                                <td style="font-weight: bold">Urine Microscopy</td>
+                                                <td style="font-weight: bold">1.{{$num}} Urine Microscopy</td>
                                                 <td>{{ $moh706List['urineMicroscopyTotalExam'] }}</td>
                                                 <td style="background-color: #CCCCCC;"></td>
+                                                <?php $num++ ?>
                                             </tr>
                                             @foreach($moh706List['urineMicroscopyList'] as $measure)
                                                 <tr>
-                                                <td >{{ $measure['name'] }}</td>
+                                                <td >1.{{$num}} {{ $measure['name'] }}</td>
                                                 <td style="background-color: #CCCCCC;"></td>
                                                 <td>{{ $measure['positive'] }}</td>
+                                                <?php $num++ ?>
                                             </tr>
                                             @endforeach
                                         </tbody>
