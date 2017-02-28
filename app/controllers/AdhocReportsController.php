@@ -46,7 +46,9 @@ class AdhocReportsController extends \BaseController {
 		$visitId = Input::get('visit_id');
 		//check which report is submitted
 		if($reportid==2){
-		return	$this->testReport($from,$to,$testType,$date,$testColumns,$lowerage,$upperage,$gender);
+			return	$this->testReport($from,$to,$testType,$date,$testColumns,$lowerage,$upperage,$gender);
+		}else if($reportid==3){
+			return $this->specimenReport($from,$to,$testType,$date,$testColumns,$lowerage,$upperage,$gender);
 		}
 		//	Check checkbox if checked and assign the 'checked' value
 		if (Input::get('tests') === '1') {
@@ -139,22 +141,6 @@ class AdhocReportsController extends \BaseController {
 	*
 	*/
 	public function testReport($from,$to,$testType,$date,$testColumns,$lowerage,$upperage,$selected_gender){
-			/*$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
-			$testCategories = TestCategory::all();
-			$testTypes = TestType::find($testType);
-			$ageRanges = array('0-5', '5-15', '15-120');	//	Age ranges - will definitely change in configurations
-			$gender = array(Patient::MALE, Patient::FEMALE); 	//	Array for gender - male/female
-
-			
-			
-			return View::make('adhocreport.testsreport')
-						->with('testCategories', $testCategories)
-						->with('ageRanges', $ageRanges)
-						->with('gender', $gender)
-						->with('testColumns',$testColumns)
-						->with('testType',$testTypes)
-					//->with('accredited', $accredited)
-						->withInput(Input::all());*/
 			$reportsController=new ReportController;
 			$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
 			$testCategories = TestCategory::all();
@@ -191,6 +177,44 @@ class AdhocReportsController extends \BaseController {
 						//->with('accredited', $accredited)
 						->withInput(Input::all());
 		
+	}
+
+	public function specimenReport($from,$to,$specimenType,$date,$testColumns,$lowerage,$upperage,$selected_gender){
+		 	$specimentype=new SpecimenType;
+			$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+			$testCategories = TestCategory::all();
+			$specimenTypes = SpecimenType::find($specimenType);
+			$ageRanges = array($lowerage.'-'.$upperage);	//	Age ranges - will definitely change in configurations
+			
+			$gender = array(Patient::MALE, Patient::FEMALE); 	//	Array for gender - male/female
+
+			$perAgeRange = array();	// array for counts data for each test type and age range
+			$perTestType = array();	//	array for counts data per testype
+			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+				Session::flash('message', trans('messages.check-date-range'));
+			}
+			foreach ($specimenTypes as $specimenType) {
+				$countAll = $specimenTypes->groupedSpecimenCount([Patient::MALE, Patient::FEMALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$countMale = $specimenTypes->groupedSpecimenCount([Patient::MALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$countFemale = $specimenTypes->groupedSpecimenCount([Patient::FEMALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$perSpecimenType[$specimenTypes->id] = ['countAll'=>$countAll, 'countMale'=>$countMale, 'countFemale'=>$countFemale];
+				foreach ($ageRanges as $ageRange) {
+					$maleCount = $specimenTypes->groupedSpecimenCount([Patient::MALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
+					$femaleCount = $specimenTypes->groupedSpecimenCount([Patient::FEMALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
+					$perAgeRange[$specimenTypes->id][$ageRange] = ['male'=>$maleCount, 'female'=>$femaleCount];
+				}
+			}
+			return View::make('adhocreport.specimenreport')
+						->with('testCategories', $testCategories)
+						->with('ageRanges', $ageRanges)
+						->with('gender', $selected_gender)
+						->with('specimenType', $specimenTypes)
+						->with('perAgeRange', $perAgeRange)
+						->with('testColumns',$testColumns)
+						->with('genderCount',count($selected_gender))
+						->with('perSpecimenType', $perSpecimenType)
+						//->with('accredited', $accredited)
+						->withInput(Input::all());
 	}
 
 }

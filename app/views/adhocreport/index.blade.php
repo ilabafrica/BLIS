@@ -98,7 +98,16 @@
                 </select>
                 </div>
 		</div>
-		<div ng-if="selected.reportTypes==2 && selected.test" class="form-group">
+		<!--Specimen Items-->
+		<div ng-if="selected.reportTypes==3" class="form-group">
+		<strong><p>Select a Specimen</p> </strong>
+                        <div class="form-group">
+                <select name="testSelect" id="testSelect" ng-model="selected.specimen" class="form-control">
+                <option ng-repeat="option in specimentypes.data" value="<%option.id%>" ng-bind="option.name" ><span></span></option>
+                </select>
+                </div>
+		</div>
+		<div ng-if="selected.reportTypes==2 || selected.reportTypes==3 && selected.test || selected.specimen" class="form-group">
 		<strong><p>Select a Gender</p> </strong> 
                 <div class="form-group">
 						<label ng-repeat="gender in genders" class="form-group" >
@@ -107,7 +116,7 @@
                 
                 </div>
 		</div>
-		<div ng-if="selected.reportTypes==2 && selected.gender" class="form-group">
+		<div ng-if="selected.reportTypes==2 || selected.reportTypes==3 && selected.gender" class="form-group">
 		<strong><p>Specify Lower Age Limit</p> </strong>
                         <div class="form-group">
                 <label>
@@ -124,7 +133,7 @@
 		</div>
 		
          </div>
-		 <div ng-if="selected.reportTypes==2 && selected.upperage && selected.lowerage" class="form-group">
+		 <div ng-if="selected.reportTypes==2 || selected.reportTypes==3 && selected.upperage && selected.lowerage" class="form-group">
 		<strong><p>Select Columns to Display</p> </strong>
                 <div class="form-group">
 						<label ng-repeat="testsColumn in testsColumns" class="form-group" >
@@ -134,7 +143,7 @@
 				
 		</div>
          </div>
-        <div class="" ng-if="selected.reportTypes==2 && selected.columns">
+        <div class="" ng-if="selected.reportTypes==2 || selected.reportTypes==3 && selected.columns">
 			<div class="form-group actions-row">
 				{{ Form::button(
 					trans('messages.generate_report'),

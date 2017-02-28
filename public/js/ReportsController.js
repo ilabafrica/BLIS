@@ -84,6 +84,11 @@ app.controller('ReportsFilterController', function ReportsFilterController($scop
   $http.get('testtype?raw=true').then(function(data){
        $scope.testtypes=data;
     });
+
+  //Get specimens types 
+  $http.get('specimentype?raw=true').then(function(data){
+       $scope.specimentypes=data;
+    });
   //Test Columns
   $scope.testsColumns   =[
       {
@@ -152,7 +157,14 @@ app.controller('ReportsFilterController', function ReportsFilterController($scop
       //return;
     }else if($scope.selected.reportTypes==3){
       $scope.dataPost.report=$scope.selected.reportTypes;
-      return;
+      $scope.dataPost.testColumns=testColumns;
+      $scope.dataPost.testType=$scope.selected.specimen;
+      $scope.dataPost.to=$scope.selected.to;
+      $scope.dataPost.from=$scope.selected.from;
+      $scope.dataPost.gender=gender;
+      $scope.dataPost.lowerage=$scope.selected.lowerage;
+      $scope.dataPost.upperage=$scope.selected.upperage;
+      
     }else{
       $scope.dataPost.report=$scope.selected.reportTypes;
       return;

@@ -17,6 +17,12 @@ class SpecimenTypeController extends \BaseController {
 	{
 		// List all the active specimentypes
 			$specimentypes = SpecimenType::orderBy('name', 'ASC')->get();
+		
+		//load a raw set of specimens
+
+		if(Input::has('raw')){
+			return Response::json($specimentypes);
+		}
 
 		// Load the view and pass the specimentypes
 		return View::make('specimentype.index')->with('specimentypes', $specimentypes);
