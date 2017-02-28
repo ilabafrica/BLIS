@@ -24,7 +24,7 @@ Route::group(array("before" => "guest"), function()
         "as" => "api.receiver",
         "uses" => "InterfacerController@receiveLabRequest"
     ));
-    Route::get('/api/testinfo', array(
+    Route::post('/api/testinfo', array(
         "uses" => "InterfacerController@getTestMeasureInfo"
     ));
     Route::get('/api/specimeninfo', array(

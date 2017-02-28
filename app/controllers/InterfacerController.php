@@ -87,17 +87,17 @@ class InterfacerController extends \BaseController{
     * @param testId testID to get the measure info for
     * @return json of the test info
     */
-    public function getTestMeasureInfo($key, $testId)
+    public function getTestMeasureInfo()
     {
+        $key = Input::get('key');
+        $testId = Input::get('testId');
         //Auth
         $authKey = $key;
         if(!$this->authenticate($authKey)){
             return json_encode(array('error' => 'Authentication failed'));
         }
-        //Validate params
-        $testId = $testId;
         //return test info
-        $measures = DB::select('select id, name from measures where id in (select measure_id from testtype_measures where test_type_id = ?', $testId);
-        return json_encode($measures);
+        $test = Test::with('testType', 'testType.measures')->find($testId);
+        return json_encode($test);
     }
 }
