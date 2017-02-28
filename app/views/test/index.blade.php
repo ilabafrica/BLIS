@@ -7,43 +7,47 @@
         </ol>
     </div>
     @if (Session::has('message'))
-        <div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
+        @if(isset(Session::get('message')->danger))
+            <div class="alert alert-danger">{{ trans(Session::get('message')->danger) }}</div>
+        @elseif(isset(Session::get('message')->info))
+            <div class="alert alert-info">{{ trans(Session::get('message')->info) }}</div>
+        @endif
     @endif
 
     <div class='container-fluid'>
         {{ Form::open(array('route' => array('test.index'))) }}
             <div class='row'>
                 <div class='col-md-3'>
-                    <div class='col-md-2'>
-                        {{ Form::label('date_from', trans('messages.from')) }}
-                    </div>
-                    <div class='col-md-10'>
-                        {{ Form::text('date_from', Input::get('date_from'), 
-                            array('class' => 'form-control standard-datepicker')) }}
-                    </div>
+                        {{ Form::label('search', trans('messages.search'), array('class' => 'sr-only')) }}
+                        {{ Form::text('search', Input::get('search'),
+                            array('class' => 'form-control', 'placeholder' => 'Search')) }}
                 </div>
-                <div class='col-md-3'>
-                    <div class='col-md-2'>
-                        {{ Form::label('date_to', trans('messages.to')) }}
-                    </div>
-                    <div class='col-md-10'>
-                        {{ Form::text('date_to', Input::get('date_to'), 
-                            array('class' => 'form-control standard-datepicker')) }}
-                    </div>
-                </div>
-                <div class='col-md-3'>
-                    <div class='col-md-5'>
+                <div class='col-md-4'>
+                    <div class='col-md-3'>
                         {{ Form::label('test_status', trans('messages.test-status')) }}
                     </div>
-                    <div class='col-md-7'>
+                    <div class='col-md-6'>
                         {{ Form::select('test_status', $testStatus,
                             Input::get('test_status'), array('class' => 'form-control')) }}
                     </div>
                 </div>
                 <div class='col-md-2'>
-                        {{ Form::label('search', trans('messages.search'), array('class' => 'sr-only')) }}
-                        {{ Form::text('search', Input::get('search'),
-                            array('class' => 'form-control', 'placeholder' => 'Search')) }}
+                    <div class='col-md-3'>
+                        {{ Form::label('date_from', trans('messages.from')) }}
+                    </div>
+                    <div class='col-md-9'>
+                        {{ Form::text('date_from', Input::get('date_from'), 
+                            array('class' => 'form-control standard-datepicker')) }}
+                    </div>
+                </div>
+                <div class='col-md-2'>
+                    <div class='col-md-3'>
+                        {{ Form::label('date_to', trans('messages.to')) }}
+                    </div>
+                    <div class='col-md-9'>
+                        {{ Form::text('date_to', Input::get('date_to'), 
+                            array('class' => 'form-control standard-datepicker')) }}
+                    </div>
                 </div>
                 <div class='col-md-1'>
                         {{ Form::submit(trans('messages.search'), array('class'=>'btn btn-primary')) }}
@@ -180,7 +184,6 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 {{trans('messages.view-details')}}
                             </a>
-                            
                         @if ($test->isNotReceived()) 
                             @if(Auth::user()->can('receive_external_test') && $test->isPaid())
                                 <a class="btn btn-sm btn-default receive-test" href="javascript:void(0)"
@@ -221,6 +224,10 @@
                                     title="{{trans('messages.reject-title')}}">
                                     <span class="glyphicon glyphicon-thumbs-down"></span>
                                     {{trans('messages.reject')}}
+                                </a>
+                                <a class="btn btn-sm btn-midnight-blue barcode-button" onclick="print_barcode({{ "'".$test->specimen->id."'".', '."'".$barcode->encoding_format."'".', '."'".$barcode->barcode_width."'".', '."'".$barcode->barcode_height."'".', '."'".$barcode->text_size."'" }})" title="{{trans('messages.barcode')}}">
+                                    <span class="glyphicon glyphicon-barcode"></span>
+                                    {{trans('messages.barcode')}}
                                 </a>
                             @endif
                             @if ($test->isPending())
@@ -437,4 +444,11 @@
             {{trans('messages.refer-sample')}}
         </a>
     </div> <!-- /. referral-button -->
+    <!-- Barcode begins -->
+    
+    <div id="count" style='display:none;'>0</div>
+    <div id ="barcodeList" style="display:none;"></div>
+
+    <!-- jQuery barcode script -->
+    <script type="text/javascript" src="{{ asset('js/barcode.js') }} "></script>
 @stop

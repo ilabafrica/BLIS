@@ -63,7 +63,8 @@
                                         'data-url' => URL::route('test.resultinterpretation'),
                                         'data-age' => $test->visit->patient->dob,
                                         'data-gender' => $test->visit->patient->gender,
-                                        'data-measureid' => $measure->id
+                                        'data-measureid' => $measure->id,
+                                        'data-test_id' => $test->id
                                         ))
                                     }}
                                     <span class='units'>
@@ -165,20 +166,10 @@
                                             <?php 
                                                 $cnt = 0;
                                                 $zebra = "";
-                                                $checked=false; 
-                                                $checker = '';
+                                                $checked="";
                                                 $susOrgIds = array();
                                             ?>
                                             @foreach($test->testType->organisms as $key=>$value)
-                                                @if(count($test->susceptibility)>0)
-                                                    @foreach($test->susceptibility as $drugSusceptibility)
-                                                        <?php
-                                                        array_push($susOrgIds, $drugSusceptibility->organism_id);
-                                                        if(in_array($value->id, $susOrgIds))
-                                                            $checked='checked';
-                                                        ?>
-                                                    @endforeach
-                                                @endif
                                                 {{ ($cnt%4==0)?"<div class='row $zebra'>":"" }}
                                                 <?php
                                                     $cnt++;
@@ -186,7 +177,7 @@
                                                 ?>
                                                 <div class="col-md-4">
                                                     <label  class="checkbox">
-                                                        <input type="checkbox" name="organism[]" value="{{ $value->id}}" {{ $checked }} onchange="javascript:showSusceptibility(<?php echo $value->id; ?>)" />{{$value->name}}
+                                                        <input type="checkbox" name="organism[]" value="{{ $value->id}}" {{ count($test->susceptibility)>0?(in_array($value->id, $test->susceptibility->lists('organism_id'))?'checked':''):'' }} onchange="javascript:showSusceptibility(<?php echo $value->id; ?>)" />{{$value->name}}
                                                     </label>
                                                 </div>
                                                 {{ ($cnt%4==0)?"</div>":"" }}
@@ -195,16 +186,14 @@
                                     </div>
                                 </div>
                                 @foreach($test->testType->organisms as $key=>$value)
+                                    {{--*/$checker = 0/*--}}
                                     @if(count($test->susceptibility)>0)
-                                        @foreach($test->susceptibility as $drugSusceptibility)
-                                            <?php
-                                            array_push($susOrgIds, $drugSusceptibility->organism_id);
-                                            if(in_array($value->id, $susOrgIds))
-                                                $checker='checked';
-                                            ?>
-                                        @endforeach
+                                        <?php 
+                                            if(in_array($value->id, $test->susceptibility->lists('organism_id')))
+                                                $checker=1;
+                                        ?>
                                     @endif
-                                    <?php if($checker=='checked'){$display='display:block';}else if($checker!='checked'){$display='display:none';} ?>
+                                    <?php if($checker==1){$display='display:block';}else if($checker==0){$display='display:none';} ?>
                                 {{ Form::open(array('','id' => 'drugSusceptibilityForm_'.$value->id, 'name' => 'drugSusceptibilityForm_'.$value->id, 'style'=>$display)) }}
                                 <table class="table table-bordered">
                                     <thead>
@@ -242,10 +231,10 @@
                                 </table>
                                 {{ Form::close() }}
                                 @endforeach
-                              </div>
-                            </div> <!-- ./ panel-body -->
+                            </div><!-- ./ panel-body -->
                         </div>
                         @endif
+                        </div>
                         <div class="col-md-6">
                             <div class="panel panel-info">  <!-- Patient Details -->
                                 <div class="panel-heading">

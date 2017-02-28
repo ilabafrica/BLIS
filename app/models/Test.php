@@ -23,7 +23,7 @@ class Test extends Eloquent
 	/**
 	 * Other constants
 	 */
-	const POSITIVE = '+';
+	const POSITIVE = 'Positive';
 
 	/**
 	 * Visit relationship
@@ -114,8 +114,12 @@ class Test extends Eloquent
 		if($this->external_id == null){
 			return false;
 		}
-		else 
+		else if(ExternalDump::where('test_id', $this->id)){
+			return false;
+		}
+		else{ 
 			return true;
+		}
 	}
 
 	/**

@@ -16,9 +16,10 @@ class Lot extends Eloquent {
     protected $dates = ['deleted_at'];
 
 	/**
-	* Relationship between lot and instrument
+	* Relationship with tests
 	*/
-	public function instrument(){
-		return $this->belongsTo('Instrument');
+	public function tests()
+	{
+		return $this->hasMany('ControlTest');
 	}
 }

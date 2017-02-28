@@ -35,6 +35,14 @@
                     <div class="col-md-6">
                     {{ Form::open(array('route' => array('control.saveResults',$control->id), 'method' => 'POST',
                         'id' => 'form-enter-results')) }}
+                        <div class="form-group">
+                            {{ Form::label('performed-by', trans('messages.performed-by')) }}
+                            {{ Form::text('performed_by', Input::old('performed_by'), array('class' => 'form-control')) }}
+                        </div>
+                        <div class="form-group">
+                            {{ Form::label('lots', trans('messages.lot-number')) }}
+                            {{ Form::select('lot_id', array('') + $lots, '', array('class' => 'form-control')) }}
+                        </div>
                         @foreach($control->controlMeasures as $key => $controlMeasure)
                             <div class="form-group">
                                 @if ( $controlMeasure->isNumeric() ) 
@@ -76,18 +84,13 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <p><strong>{{trans("messages.lot-number")}}</strong></p></div>
-                                        <div class="col-md-9">
-                                            {{ $control->lot->number }}</div></div>
-                                    <div class="row">
-                                        <div class="col-md-3">
                                             <p><strong>{{ Lang::choice('messages.control-name',1) }}</strong></p></div>
                                         <div class="col-md-9">
                                             {{ $control->name }}</div></div>
                                     <div class="row">
                                         <div class="col-md-3">
                                             <p><strong>{{Lang::choice("messages.instrument",1)}}</strong></p></div>
-                                        <div class="col-md-9"> {{ $control->lot->instrument->name }}</div>
+                                        <div class="col-md-9"> {{ $control->instrument->name }}</div>
                                     </div>
                                 </div>
                             </div> <!-- ./ panel-body -->

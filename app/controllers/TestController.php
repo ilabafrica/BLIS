@@ -58,10 +58,14 @@ class TestController extends \BaseController {
 		// Pagination
 		$tests = $tests->paginate(Config::get('kblis.page-items'))->appends($input);
 
+		//	Barcode
+		$barcode = Barcode::first();
+
 		// Load the view and pass it the tests
 		return View::make('test.index')
 					->with('testSet', $tests)
 					->with('testStatus', $statuses)
+					->with('barcode', $barcode)
 					->withInput($input);
 	}
 
@@ -306,6 +310,7 @@ class TestController extends \BaseController {
 		}
 		$result['measureid'] = Input::get('measureid');
 		$result['measurevalue'] = Input::get('measurevalue');
+		$result['testId'] = Input::get('testId');
 
 		$measure = new Measure;
 		return $measure->getResultInterpretation($result);
@@ -320,14 +325,33 @@ class TestController extends \BaseController {
 	public function saveResults($testID)
 	{
 		$test = Test::find($testID);
-		$test->test_status_id = Test::COMPLETED;
+		if($test->isVerified())
+			$test->test_status_id = Test::VERIFIED;
+		else
+			$test->test_status_id = Test::COMPLETED;
 		$test->interpretation = Input::get('interpretation');
 		$test->tested_by = Auth::user()->id;
-		$test->time_completed = date('Y-m-d H:i:s');
+		if(!$test->isVerified())
+			$test->time_completed = date('Y-m-d H:i:s');
 		$test->save();
 		
 		foreach ($test->testType->measures as $measure) {
 			$testResult = TestResult::firstOrCreate(array('test_id' => $testID, 'measure_id' => $measure->id));
+			$audit = false;
+			//Log in Audit if the values have changed
+			if ($testResult->result != Input::get('m_'.$measure->id)){
+				$testResultAudit = new AuditResult();
+				if($testResult->result == null){
+					$testResultAudit->previous_results = "";
+				}
+				else {
+					$testResultAudit->previous_results = $testResult->result;
+				}
+				$testResultAudit->test_result_id = $testResult->id;
+				$testResultAudit->user_id = Auth::user()->id;
+				$audit = true;
+			}
+
 			$testResult->result = Input::get('m_'.$measure->id);
 
 			$inputName = "m_".$measure->id;
@@ -339,12 +363,24 @@ class TestController extends \BaseController {
 				return Redirect::back()->withErrors($validator)->withInput(Input::all());
 			} else {
 				$testResult->save();
+				if ($audit == true){
+					$testResultAudit->save();
+				}
 			}
 		}
 
+		$info =  new stdclass();
 		//Fire of entry saved/edited event
-		Event::fire('test.saved', array($testID));
-
+		$verification = RequireVerification::get()->first();
+		if ($verification->allowProbativeResults()) {
+			Event::fire('test.saved', array($testID));
+			$info->info = trans('messages.success-saving-results');
+		}
+		else {
+			//Alert user of the fact that results will not be sent 
+			//until they are verified.
+			$info->danger = trans('messages.verifification-warning');
+		}
 		$input = Session::get('TESTS_FILTER_INPUT');
 		Session::put('fromRedirect', 'true');
 
@@ -355,10 +391,10 @@ class TestController extends \BaseController {
 			$pageParts = explode('=', $urlParts['page']);
 			$input['page'] = $pageParts[1];
 		}
-
+		
 		// redirect
 		return Redirect::action('TestController@index')
-					->with('message', trans('messages.success-saving-results'))
+					->with('message', $info)
 					->with('activeTest', array($test->id))
 					->withInput($input);
 	}
@@ -403,8 +439,11 @@ class TestController extends \BaseController {
 
 		//Fire of entry verified event
 		Event::fire('test.verified', array($testID));
+		$url = Session::get('SOURCE_URL');
 
-		return View::make('test.viewDetails')->with('test', $test);
+		return Redirect::route('test.viewDetails', array($testID))
+			->with('message', trans('messages.success-verifying-results'))
+			->with('test', $test);
 	}
 
 	/**

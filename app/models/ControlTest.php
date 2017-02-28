@@ -15,8 +15,15 @@ class ControlTest extends Eloquent {
 	/**
 	* Relationship between control test and its control
 	*/
-	public function Control()
+	public function control()
 	{
 		return $this->belongsTo('Control');
+	}
+	/**
+	* Relationship with lots
+	*/
+	public function lot()
+	{
+		return $this->belongsTo('Lot');
 	}
 }

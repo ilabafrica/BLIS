@@ -443,7 +443,7 @@ class TestControllerTest extends TestCase
 
       $crawler = $this->client->request('GET', $url);
 
-      $this->assertCount(4, $crawler->filter('div.panel'));
+      $this->assertCount(5, $crawler->filter('div.panel'));
     }
 
     /*

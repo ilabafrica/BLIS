@@ -99,10 +99,10 @@ label, input {
     padding-left: 200px;
 }
     .form-group > label {
-        width: 200px;
+        width: 150px;
     }
     .form-group .form-control {
-        width: 270px;
+        width: 170px;
     }
     .form-group .form-pane {
         clear:both;
@@ -425,3 +425,245 @@ table.table.report-table-border > thead > tr > th,
 table.table.report-table-border > tbody > tr > td{
     border: 1px solid #DDDDDD;
 }
+/*** Start button colors ***/
+    .btn.btn-green {
+        background-color: #2ECC71;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-green:hover {
+        opacity: .8;
+    }
+    .btn.btn-green-sea {
+        background-color: #16A085;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-green-sea:hover {
+        opacity: .8;
+    }
+    .btn.btn-emerald {
+        background-color: #2ECC71;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-emerald:hover {
+        opacity: .8;
+    }
+    .btn.btn-nephritis {
+        background-color: #27AE60;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-nephritis:hover {
+        opacity: .8;
+    }
+    .btn.btn-peter-river {
+        background-color: #3498DB;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-peter-river:hover {
+        opacity: .8;
+    }
+    .btn.btn-belize-hole {
+        background-color: #2980B9;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-belize-hole:hover {
+        opacity: .8;
+    }
+    .btn.btn-amethyst {
+        background-color: #9B59B6;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-amethyst:hover {
+        opacity: .8;
+    }
+    .btn.btn-wisteria {
+        background-color: #8E44AD;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-wisteria:hover {
+        opacity: .8;
+    }
+    .btn.btn-wet-asphalt {
+        background-color: #34495E;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-wet-asphalt:hover {
+        opacity: .8;
+    }
+    .btn.btn-midnight-blue {
+        background-color: #2C3E50;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-midnight-blue:hover {
+        opacity: .8;
+    }
+    .btn.btn-sun-flower {
+        background-color: #F1C40F;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-sun-flower:hover {
+        opacity: .8;
+    }
+    .btn.btn-orange {
+        background-color: #F39C12;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-orange:hover {
+        opacity: .8;
+    }
+    .btn.btn-carrot {
+        background-color: #E67E22;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-carrot:hover {
+        opacity: .8;
+    }
+    .btn.btn-pumpkin {
+        background-color: #D35400;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-pumpkin:hover {
+        opacity: .8;
+    }
+    .btn.btn-alizarin {
+        background-color: #E74C3C;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-alizarin:hover {
+        opacity: .8;
+    }
+    .btn.btn-pomegranate {
+        background-color: #C0392B;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-pomegranate:hover {
+        opacity: .8;
+    }
+    .btn.btn-clouds {
+        background-color: #ECF0F1;
+        color: gray;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-pomegranate:hover {
+        opacity: .8;
+    }
+    .btn.btn-silver {
+        background-color: #BDC3C7;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-silver:hover {
+        opacity: .8;
+    }
+    .btn.btn-concrete {
+        background-color: #95A5A6;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-concrete:hover {
+        opacity: .8;
+    }
+    .btn.btn-asbestos {
+        background-color: #7F8C8D;
+        color: #ffffff;
+        -webkit-transition:all 0.5s ease;
+        -moz-transition:all 0.5s ease;
+        -o-transition:all 0.5s ease;
+        -ms-transition:all 0.5s ease;
+        transition:all 0.5s ease;
+    }
+    .btn.btn-asbestos:hover {
+        opacity: .8;
+    }
+    /*** End button colors ***/

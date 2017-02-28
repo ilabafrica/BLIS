@@ -180,6 +180,20 @@ class InstrumentController extends \BaseController {
 	}
 
 	/**
+	 * Pull test results from an instrument as JSON. /For controls
+	 *
+	 * @return Response
+	 */
+	public function getControlResult()
+	{
+		$controlID = Input::get("control_id");
+		$control = Control::find($controlID);
+		$instrument = Instrument::where('name','Celltac F Mek 8222')->first();
+ 		// Fetch the results
+		return $instrument->fetchControlResult($control);
+	}
+
+	/**
 	 * Save an imported implemention of the Intrumentation class.
 	 *
 	 * @param String route

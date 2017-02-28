@@ -39,6 +39,7 @@ Route::group(array("before" => "guest"), function()
     ));
     
 });
+
 /* Routes accessible AFTER logging in */
 Route::group(array("before" => "auth"), function()
 {
@@ -75,6 +76,10 @@ Route::group(array("before" => "auth"), function()
         "as"   => "instrument.getResult",
         "uses" => "InstrumentController@getTestResult"
     ));
+    Route::any("/instrument/getcontrolresult", array(
+        "as"   => "instrument.getControlResult",
+        "uses" => "InstrumentController@getControlResult"
+    ));
     Route::group(array("before" => "checkPerms:manage_test_catalog"), function()
     {
         Route::resource('specimentype', 'SpecimenTypeController');
@@ -93,6 +98,10 @@ Route::group(array("before" => "auth"), function()
         Route::get("/measure/{id}/delete", array(
             "as"   => "measure.delete",
             "uses" => "MeasureController@delete"
+        ));
+        Route::post("/measure/{id}/reorder", array(
+            "as"   => "measure.reorder",
+            "uses" => "MeasureController@reorder"
         ));
         Route::resource('testtype', 'TestTypeController');
         Route::get("/testtype/{id}/delete", array(
@@ -116,6 +125,19 @@ Route::group(array("before" => "auth"), function()
             "as"   => "organism.delete",
             "uses" => "OrganismController@delete"
         ));
+        Route::resource('critical', 'CriticalController');
+        
+        Route::get("/critical/{id}/delete", array(
+            "as"   => "critical.delete",
+            "uses" => "CriticalController@delete"
+        ));
+
+        Route::resource('microcritical', 'MicroCriticalController');
+        
+        Route::get("/microcritical/{id}/delete", array(
+            "as"   => "microcritical.delete",
+            "uses" => "MicroCriticalController@delete"
+        ));
     });
     Route::group(array("before" => "checkPerms:manage_lab_configurations"), function()
     {
@@ -127,6 +149,15 @@ Route::group(array("before" => "auth"), function()
         Route::any("/instrument/importdriver", array(
             "as"   => "instrument.importDriver",
             "uses" => "InstrumentController@importDriver"
+        ));
+        Route::get("/requireverification", array(
+            "as"   => "requireverification.edit",
+            "uses" => "RequireVerificationController@edit"
+        ));
+
+        Route::put("/requireverification", array(
+            "as"   => "requireverification.update",
+            "uses" => "RequireVerificationController@update"
         ));
     });
     Route::any("/test", array(
@@ -257,6 +288,20 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reportconfig.disease",
             "uses" => "ReportController@disease"
         ));
+
+        Route::resource("barcode", "BarcodeController");
+        Route::any("/blisclient", array(
+            "as"   => "blisclient.index",
+            "uses" => "BlisClientController@index"
+        ));
+        Route::any("/blisclient/details", array(
+            "as"   => "blisclient.details",
+            "uses" => "BlisClientController@details"
+        ));
+        Route::any("/blisclient/properties", array(
+            "as"   => "blisclient.properties",
+            "uses" => "BlisClientController@properties"
+        ));
     });
     
     //  Check if able to manage reports
@@ -307,6 +352,16 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.aggregate.userStatistics",
             "uses" => "ReportController@userStatistics"
         ));
+
+        Route::any("/moh706", array(
+            "as"   => "reports.aggregate.moh706",
+            "uses" => "ReportController@moh706"
+        ));
+
+        Route::any("/cd4", array(
+            "as"   => "reports.aggregate.cd4",
+            "uses" => "ReportController@cd4"
+        ));
         
         Route::get("/qualitycontrol", array(
             "as"   => "reports.qualityControl",
@@ -323,6 +378,18 @@ Route::group(array("before" => "auth"), function()
         Route::post("/inventory", array(
             "as"   => "reports.inventory",
             "uses" => "ReportController@stockLevel"
+        ));
+        Route::any("/rejection", array(
+            "as"   => "reports.aggregate.rejection",
+            "uses" => "ReportController@specimenRejectionChart"
+        ));
+        Route::any("/testaudit/{testid}", array(
+            "as"   => "reports.audit.test",
+            "uses" => "ReportController@viewTestAuditReport"
+        ));
+        Route::any("/critval", array(
+            "as"   => "reports.aggregate.critval",
+            "uses" => "ReportController@critical"
         ));
     });
     Route::group(array("before" => "checkPerms:manage_qc"), function()
@@ -402,12 +469,6 @@ Route::group(array("before" => "auth"), function()
             "as"   => "issue.dispatch",
             "uses" => "IssueController@dispatch"
         ));
-        //Metrics
-        Route::resource('metric', 'MetricController');
-        Route::get("/metric/{id}/delete", array(
-            "as"   => "metric.delete",
-            "uses" => "MetricController@delete"
-        ));
         //Suppliers
         Route::resource('supplier', 'SupplierController');
         
@@ -415,11 +476,57 @@ Route::group(array("before" => "auth"), function()
             "as"   => "supplier.delete",
             "uses" => "SupplierController@delete"
         ));
-        //Receipts
-        Route::resource('receipt', 'ReceiptController');
-        Route::get("/receipt/{id}/delete", array(
-            "as"   => "receipt.delete",
-            "uses" => "ReceiptController@delete"
+        /*
+        *   Routes for items
+        */
+        Route::resource('item', 'ItemController');
+        Route::get("/item/{id}/delete", array(
+            "as"   => "item.delete",
+            "uses" => "ItemController@delete"
         ));
+        /*
+        *   Routes for stocks
+        */
+        Route::resource('stock', 'StockController');
+        Route::any("stock/{id}/log", array(
+            "as"   => "stocks.log",
+            "uses" => "StockController@index"
+        ));
+        Route::any("stock/{id}/create", array(
+            "as"   => "stocks.create",
+            "uses" => "StockController@create"
+        ));
+        Route::any("stock/{id}/usage/{req?}", array(
+            "as"   => "stocks.usage",
+            "uses" => "StockController@usage"
+        ));
+        Route::post("stock/saveusage", array(
+            "as"   => "stock.saveUsage",
+            "uses" => "StockController@stockUsage"
+        ));
+        Route::any("stock/{id}/show", array(
+            "as"   => "stocks.show",
+            "uses" => "StockController@show"
+        ));
+        Route::any("stock/{id}/lot", array(
+            "as"   => "stocks.lot",
+            "uses" => "StockController@lot"
+        ));
+        Route::any("lt/usage", array(
+            "as"   => "lt.update",
+            "uses" => "StockController@lotUsage"
+        ));
+        /*
+        *   Routes for requests
+        */
+        Route::resource('request', 'TopupController');
+        Route::get("/request/{id}/delete", array(
+            "as"   => "request.delete",
+            "uses" => "TopupController@delete"
+        ));
+        /*
+        *   Routes for blood-bank
+        */
+        Route::resource('blood', 'BloodController');
     });
 });

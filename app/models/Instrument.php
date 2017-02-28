@@ -196,10 +196,39 @@ class Instrument extends Eloquent
 				$resultWithIDs['m_'.$measureFound->first()->id] = $value;
 			}
 		}
-
 		// Send back a json result
 		return json_encode($resultWithIDs);
 	}
+
+	/**
+	 * Fetch results from celtac for controls
+	 *
+	 * @param $controlType
+	 * @return Response json
+	 */
+	public function fetchControlResult($control){
+
+ 		// Invoke the Instrument Class to get the results
+		$result = (new $this->driver_name($this->ip))->getResult();
+
+
+		// Change measure names to measure_ids in the returned array
+		$resultWithIDs = array();
+
+		foreach ($result as $measureName => $value) {
+			$measureFound = $control->controlMeasures->filter(
+				function($measure) use ($measureName){
+					if($measure->name == $measureName) return $measure;
+			});
+
+			if(empty($measureFound->toArray())){
+				$resultWithIDs[$measureName] = $value;
+			}else{
+				$resultWithIDs['m_'.$measureFound->first()->id] = $value;
+			}
+		}
+	}
+
 	/**
 	 * Lots relationship
 	 */

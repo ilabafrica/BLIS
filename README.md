@@ -1,10 +1,12 @@
 ![image](https://travis-ci.org/ilabafrica/iBLIS.svg?branch=master)
 
-kBLIS
+BLIS
 =====
 
-kBLIS is a port of the Basic Laboratory Information System (<a href="https://github.com/C4G/BLIS">BLIS</a>) to the Laravel PHP Framework by iLabAfrica.
+BLIS is a port of the Basic Laboratory Information System (<a href="https://github.com/C4G/BLIS">BLIS</a>) to the Laravel PHP Framework by iLabAfrica.
 BLIS was originally developed by C4G. 
+
+You can test and view the application [here](http://blis.ilabafrica.ac.ke:8080/).
 
 Requirements
 ------------
@@ -12,8 +14,13 @@ Requirements
 2. <a href='http://php.net/'>PHP</a> (>= 5.4).
 3. <a href='https://getcomposer.org/'>Composer</a> - Dependency manager for PHP.
 
-Quick Start
+Installation
 -----------
+##### DOCKER
+The easiest way to install is using docker, follow instruction [here](https://github.com/ilabafrica/iblis-contrib-docker) to install via docker. 
+
+##### FROM SOURCE
+
 1. Install the above mentioned requirements.
 2. Extract this git repository to a local folder
     <blockquote>git clone git@github.com:ilabafrica/iBLIS.git </blockquote>
@@ -24,7 +31,7 @@ Quick Start
     </blockquote>
 4. Update the application configuration files to suit your local settings:
   - Set the "Application URL" in `/app/config/app.php`
-  - Set the database connection details in `/app/config/database.php`
+  - Create a database and set the database connection details in `/app/config/database.php`
   - The organization name in `/app/config/kblis.php`
 
 5. Run the migrations to create the required database tables.
@@ -36,3 +43,7 @@ Quick Start
 7. If you are running the application on a webserver eg. apache, ensure that the webserver has write permissions to the /app/storage folder.
    Ideally the web-root should be the /public folder.
    The default login credentials are '*administrator*' '*password*'.
+
+Troubleshooting
+----------------
+Ensure that you enable mod_rewrite, `sudo a2enmod rewrite` if you are using apache. This should solve the problem of routing failures.

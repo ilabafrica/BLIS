@@ -41,7 +41,7 @@ class TestType extends Eloquent
 	 */
 	public function measures()
 	{
-	  return $this->belongsToMany('Measure', 'testtype_measures');
+	  return $this->belongsToMany('Measure', 'testtype_measures')->withPivot('ordering')->orderBy('ordering');
 	}
 
 	/**
@@ -261,7 +261,7 @@ class TestType extends Eloquent
 	*
 	* @param $from, $to
 	*/
-	public static function getPrevalenceCounts($from, $to, $testTypeID = 0){
+	public static function getPrevalenceCounts($from, $to, $testTypeID = 0, $ageRange=null){
 		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
 
 		// TODO: Should be changed to a more flexible format i.e. that supports localization
@@ -297,8 +297,23 @@ class TestType extends Eloquent
 							->orWhere('measure_ranges.alphanumeric', '=', 'Negative')
 							->orWhere('measure_ranges.interpretation', '=', 'Positive')
 							->orWhere('measure_ranges.interpretation', '=', 'Negative');
-				})
-				->whereBetween('time_created', array($from, $toPlusOne))
+				});
+			if($ageRange){
+				$data = $data->join('visits', 'tests.visit_id', '=', 'visits.id')
+							   ->join('patients', 'visits.patient_id', '=', 'patients.id');
+							  
+							   		$age = explode('-', $ageRange);
+									$ageStart = $age[0];
+									$ageEnd = $age[1];
+									$now = new DateTime('now');
+									$clonedDate = clone $now;
+									$finishDate = $clonedDate->sub(new DateInterval('P'.$ageStart.'Y'))->format('Y-m-d');
+									$clonedDate = clone $now;
+									$startDate = $clonedDate->sub(new DateInterval('P'.$ageEnd.'Y'))->format('Y-m-d');
+							   		$data = $data->whereBetween('dob', [$startDate, $finishDate]);
+							  
+			}	
+				$data = $data->whereBetween('time_created', array($from, $toPlusOne))
 				->groupBy('test_types.id')
 				->get();
 		return $data;
@@ -327,25 +342,27 @@ class TestType extends Eloquent
 	*/
 	public function groupedTestCount($gender=null, $ageRange=null, $from=null, $to=null){
 			$tests = Test::where('test_type_id', $this->id)
-						 ->whereIn('test_status_id', [Test::PENDING, Test::STARTED, Test::COMPLETED, Test::VERIFIED]);
+						 ->whereIn('test_status_id', [Test::COMPLETED, Test::VERIFIED]);
 			if($to && $from){
 				$tests = $tests->whereBetween('time_created', [$from, $to]);
 			}
-			if($gender){
+			if($ageRange || $gender){
 				$tests = $tests->join('visits', 'tests.visit_id', '=', 'visits.id')
-							   ->join('patients', 'visits.patient_id', '=', 'patients.id')
-							   ->whereIn('gender', $gender);
-			}
-			if($ageRange){
-				$ageRange = explode('-', $ageRange);
-				$ageStart = $ageRange[0];
-				$ageEnd = $ageRange[1];
-
-				$now = new DateTime('now');
-				$finishDate = $now->sub(new DateInterval('P'.$ageStart.'Y'))->format('Y-m-d');
-				$startDate = $now->sub(new DateInterval('P'.$ageEnd.'Y'))->format('Y-m-d');
-
-				$tests = $tests->whereBetween('dob', [$startDate, $finishDate]);
+							   ->join('patients', 'visits.patient_id', '=', 'patients.id');
+							   if($gender){
+							   		$tests = $tests->whereIn('gender', $gender);
+							   	}
+							   	if($ageRange){
+							   		$age = explode('-', $ageRange);
+									$ageStart = $age[0];
+									$ageEnd = $age[1];
+									$now = new DateTime('now');
+									$clonedDate = clone $now;
+									$finishDate = $clonedDate->sub(new DateInterval('P'.$ageStart.'Y'))->format('Y-m-d');
+									$clonedDate = clone $now;
+									$startDate = $clonedDate->sub(new DateInterval('P'.$ageEnd.'Y'))->format('Y-m-d');
+							   		$tests = $tests->whereBetween('dob', [$startDate, $finishDate]);
+							   	}
 			}
 
 		return $tests->count();
@@ -383,5 +400,29 @@ class TestType extends Eloquent
 		}
 		else 
 			return true;
+	}
+	/**
+	 * Get cd4 counts based on either baseline/follow-up and <500/>500
+	 *
+	 * @return counts
+	 */
+	public function cd4($from = null, $to = null, $range, $comment)
+	{
+		$tests = array();
+		$measureIds = Measure::where('name', 'CD4')->lists('id');
+		$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+		$tests = $this->tests()->whereBetween('time_created', [$from, $toPlusOne])->lists('id');
+		$results = TestResult::whereIn('test_id', $tests)->whereIn('measure_id', $measureIds)->where('result', $comment)->lists('test_id');
+		$qualifier = TestResult::whereIn('test_id', $tests)->whereIn('measure_id', $measureIds)->whereRaw("result REGEXP '^[0-9]+$'");
+		if($range == '< 500')
+		{
+			$qualifier = $qualifier->where('result', '<', 500);
+		}
+		else if($range == '> 500')
+		{
+			$qualifier = $qualifier->where('result', '>', 500);
+		}
+		$qualifier = $qualifier->lists('test_id');
+		return count(array_intersect(array_unique($qualifier), array_unique($results)));
 	}
 }
