@@ -3088,26 +3088,33 @@ class ReportController extends \BaseController {
 		if(!$to) $to = $date;
 		
 		$reportTypes = array('Monthly', 'Quarterly');
-		
+		$items = Item::lists('name');
 
 		$selectedReport = Input::get('report_type');	
-		if(!$selectedReport)$selectedReport = 0;
+		$selectedItem = Input::get('item');	
 
-		switch ($selectedReport) {
-			case '0':
+		
+		// if(!$selectedReport)$selectedReport = 0;
+
+		// switch ($selectedReport) {
+		// 	case '0':
 			
-				$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
-				$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
-				break;
-			case '1':
-				$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
-				$reportTitle = Lang::choice('messages.quarterly-stock-level-report-title',1);
-				break;
-				default:
-				$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
-				$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
-				break;
-		}
+		// 		$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
+		// 		$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
+		// 		break;
+		// 	case '1':
+		// 		$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
+		// 		$reportTitle = Lang::choice('messages.quarterly-stock-level-report-title',1);
+		// 		break;
+		// 		default:
+		// 		$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
+		// 		$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
+		// 		break;
+		// }
+		
+		$reportData = Usage::all();
+		// dd($items);die;
+		$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
 
 		$reportTitle = str_replace("[FROM]", $from, $reportTitle);
 		$reportTitle = str_replace("[TO]", $to, $reportTitle);
@@ -3116,6 +3123,7 @@ class ReportController extends \BaseController {
 					->with('reportTypes', $reportTypes)
 					->with('reportData', $reportData)
 					->with('reportTitle', $reportTitle)
+					->with('items', $items)
 					->with('selectedReport', $selectedReport)
 					->withInput(Input::all());
 	}
@@ -3423,5 +3431,16 @@ class ReportController extends \BaseController {
 						->with('to', $to)
 						->with('toPlusOne', $toPlusOne);
 		}
+	}
+	public function item()
+	{
+		$accredited = array();
+		$items = Topup::all()->lists('name', 'id');
+		$accredited = array();
+		$tests = array();
+		return View::make('reports.qualitycontrol.index')
+			->with('accredited', $accredited)
+			->with('tests', $tests)
+			->with('controls', $controls);
 	}
 }
