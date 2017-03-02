@@ -63,7 +63,7 @@
       <div ng-hide="report">
       <div ng-if="selected.reportTypes==1" class="form-group">
             <strong><p>Enter the Patient No </p></strong>
-            <label class="form-group" >
+            <label class="" >
             <input type="number" ng-model="selected.patientNo" value="" class="form-control"><span></span>
             </label>
 
