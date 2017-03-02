@@ -52,7 +52,7 @@ class RoleController extends \BaseController {
 		foreach ($users as $userkey => $user) {
 			foreach ($roles as $roleKey => $role) {
 				//If checkbox is clicked attach the role
-				if(!empty($arrayUserRoleMapping[$userkey][$roleKey]))
+				if(!$user->isAssignedRole($role->name) && !empty($arrayUserRoleMapping[$userkey][$roleKey]))
 				{
 					$user->attachRole($role);
 				}
@@ -63,8 +63,7 @@ class RoleController extends \BaseController {
 			}
 		}
 
-		$url = Session::get('SOURCE_URL');
-		return Redirect::to($url)->with('message', trans('messages.success-updating-role'));
+		return Redirect::route('role.assign')->with('message', trans('messages.success-updating-role'));
 	}
 
 	/**
