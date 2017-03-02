@@ -38,7 +38,9 @@ class InterfacerController extends \BaseController{
     /**
     * Save results of a particular test
     * @param key For authentication
-    * @param test results to be saved 
+    * @param testId Id of test
+    * @param measureid measure of result to be saved
+    * @param result result to be saved
     * @return json with success or failure
     **/
     public function saveTestResults()
@@ -49,16 +51,19 @@ class InterfacerController extends \BaseController{
             return json_encode(array('error' => 'Authentication failed'));
         }
         //save results
-        $testId = Input::get('testId');
-        $test = Test::find($testId);
-        $testResults = Input::get('results');
+        $testId = Input::get('testid');
+        $result = Input::get('result');
+        $measureId = Input::get('measureid');
 
-        foreach ($test->testType->measures as $measure) {
-            $testResult = TestResult::firstOrCreate(array('test_id' => $testID, 'measure_id' => $measure->id));
-            //Validate results
-            $testResult->result = $testResults[$measure->id];
-            $testResult->save();
-        }
+        $testResult = TestResult::firstOrCreate(array('test_id' => $testId, 'measure_id' => $measureId));
+        //Validate results
+        $testResult->result = $result;
+
+        //TODO: Try catch to handle failure
+        $testResult->save();
+        
+        //Return success or failures
+        return Response::json(array('fixed'));
     }
 
     /**
@@ -67,7 +72,7 @@ class InterfacerController extends \BaseController{
     * @param Filters to get specific info
     * @return json of the test info
     */
-    public function getSpecimenInfo()
+    public function getTests()
     {
         //Auth
         $authKey = Input::get('key');
@@ -75,10 +80,19 @@ class InterfacerController extends \BaseController{
             return json_encode(array('error' => 'Authentication failed'));
         }
         //Validate params
-        $specimenFilter =  Input::get('specimenFilter');
-        $testFilter = Input::get('testFilter');
-        //return test info
-        return Specimen::where('id', $specimenFilter)->with('test.testType.measures')->first();
+        $testType = Input::get('testtype');
+        $dateFrom = Input::get('datefrom');
+        $dateTo = Input::get('dateto');
+
+        //Search by name / Date
+        $testType = TestType::where('name', $testType)->first();
+
+        if( !empty($testType) ){
+            $tests = Test::where('test_type_id', $testType->id)->get();
+        }
+        //Search by ID
+        //$tests = Specimen::where('visit_id', $testFilter);
+        return Response::json($tests);
     }
 
     /**
@@ -87,7 +101,7 @@ class InterfacerController extends \BaseController{
     * @param testId testID to get the measure info for
     * @return json of the test info
     */
-    public function getTestMeasureInfo()
+    public function getTestInfo()
     {
         $key = Input::get('key');
         $testId = Input::get('testId');
@@ -97,7 +111,7 @@ class InterfacerController extends \BaseController{
             return json_encode(array('error' => 'Authentication failed'));
         }
         //return test info
-        $test = Test::with('testType', 'testType.measures')->find($testId);
-        return json_encode($test);
+        $test = Test::with('testType', 'testType.measures', 'specimen.specimenType')->where('visit_id', $testId);
+        return Response::json($test);
     }
 }

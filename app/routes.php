@@ -25,12 +25,12 @@ Route::group(array("before" => "guest"), function()
         "uses" => "InterfacerController@receiveLabRequest"
     ));
     Route::post('/api/testinfo', array(
-        "uses" => "InterfacerController@getTestMeasureInfo"
+        "uses" => "InterfacerController@getTestInfo"
     ));
-    Route::get('/api/specimeninfo', array(
-        "uses" => "InterfacerController@getSpecimenInfo"
+    Route::post('/api/searchtests', array(
+        "uses" => "InterfacerController@getTests"
     ));
-    Route::get('/api/saveTestResults', array(
+    Route::post('/api/saveresults', array(
         "uses" => "InterfacerController@saveTestResults"
     ));
     Route::any('/', array(
