@@ -3087,46 +3087,57 @@ class ReportController extends \BaseController {
 		$to = Input::get('end');
 		if(!$to) $to = $date;
 		
-		$reportTypes = array('Monthly', 'Quarterly');
-		$items = Item::lists('name');
+		$reportTypes = array('Monthly', 'Quarterly');		
+		$items = Item::lists( 'name', 'id');
 
 		$selectedReport = Input::get('report_type');	
 		$selectedItem = Input::get('item');	
+		$selected_record_type = Input::get('records');	
 
-		
-		// if(!$selectedReport)$selectedReport = 0;
+		$reportData = Usage::where('stock_id',  $selectedItem)->get();
+		// echo $from.' and '.$to.' and '.$selected_record_type;
+		if($from||$to){
 
-		// switch ($selectedReport) {
-		// 	case '0':
-			
-		// 		$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
-		// 		$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
-		// 		break;
-		// 	case '1':
-		// 		$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
-		// 		$reportTitle = Lang::choice('messages.quarterly-stock-level-report-title',1);
-		// 		break;
-		// 		default:
-		// 		$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
-		// 		$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
-		// 		break;
-		// }
-		
-		$reportData = Usage::all();
-		// dd($items);die;
+			if(!$to) $to = $date;
+
+			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+					$error = trans('messages.check-date-range');
+			}
+			else
+			{
+				$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+				$usageData=Usage::where('stock_id',  $selectedItem)->whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
+
+				$supplyData=Stock::where('item_id',  $selectedItem)->whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
+			}
+		}
+		// print_r($supplyData);die;
 		$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
 
 		$reportTitle = str_replace("[FROM]", $from, $reportTitle);
 		$reportTitle = str_replace("[TO]", $to, $reportTitle);
 		
-		return View::make('reports.inventory.index')
+			
+		if($selected_record_type =='supply'){
+			return View::make('reports.inventory.supply')
 					->with('reportTypes', $reportTypes)
-					->with('reportData', $reportData)
+					->with('supplyData', $supplyData)
 					->with('reportTitle', $reportTitle)
 					->with('items', $items)
 					->with('selectedReport', $selectedReport)
 					->withInput(Input::all());
+		}
+		else{
+			return View::make('reports.inventory.index')
+					->with('reportTypes', $reportTypes)
+					->with('reportData', $usageData)
+					->with('reportTitle', $reportTitle)
+					->with('items', $items)
+					->with('selectedReport', $selectedReport)
+					->withInput(Input::all());
+		}
 	}
+
 	/**
 	* Function to calculate the mean, SD, and UCL, LCL
 	* for a given control measure.

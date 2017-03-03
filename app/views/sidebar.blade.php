@@ -1,4 +1,4 @@
-@section("sidebar")
+	@section("sidebar")
 <?php
 	$active = array("","","","","","", "", "", "", "");
 	$key = explode("?",str_replace("/", "?", Request::path()));
@@ -228,6 +228,15 @@
 						</div>
 					</li>
 				</ul>
+				<div class="sub-menu-title" style="display:block;">{{trans('messages.inventory-reports')}}</div>
+				<ul class="sub-menu-items" style="display:block;">
+					<li>
+						<div><a href="{{ URL::route('reports.inventory')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.stock-levels')}}</a>
+						</div>
+					</li>
+					</ul>
 				<div class="sub-menu-title">{{trans('messages.aggregate-reports')}}</div>
 				<ul class="sub-menu-items">
 					<li>
@@ -297,15 +306,7 @@
 						</div>
 					</li>
 				</ul>
-				<div class="sub-menu-title" style="display:none;">{{trans('messages.inventory-reports')}}</div>
-				<ul class="sub-menu-items" style="display:none;">
-					<li>
-						<div><a href="{{ URL::route('reports.inventory')}}">
-							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.stock-levels')}}</a>
-						</div>
-					</li>
-					</ul>
+				
 
 			</div>
 		</li>
