@@ -209,24 +209,4 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $tests->get();
 	}
 
-	/**
-	 * Check if the current user is assigned a role
-	 *
-	 * @return boolean
-	 */
-	public function isAssignedRole($roleName)
-	{
-
-		$assignedRole = false;
-
-		foreach ($this->roles as $role) {
-			if ($roleName == $role->name) {
-				$assignedRole = true;
-				break;
-			}
-		}
-
-		return $assignedRole;
-	}
-
 }
