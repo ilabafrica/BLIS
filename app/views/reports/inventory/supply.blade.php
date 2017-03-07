@@ -33,18 +33,7 @@
 				        array('class' => 'form-control standard-datepicker')) }}
 		        </div>
 	    	</div>
-	    </div>
-	     <div class="col-md-3"><!-- Select Monthly, Quaterly or Yearly Report-->
-	    	<div class="row">
-		        <div class="col-md-6">
-		        	{{ Form::label('report_type', Lang::choice('messages.report-type',1)) }}
-		        </div>
-		        <div class="col-md-6">
-		            {{ Form::select('report_type', $reportTypes,
-		            	isset($input['report_type'])?$input['report_type']:0, array('class' => 'form-control')) }}
-		        </div>
-	        </div>
-	    </div>
+	    </div>	   
 	    <div class="col-md-2"><!-- Select type of item -->
 	    	<div class="row">
 		        <div class="col-md-4">
@@ -113,9 +102,7 @@
 							<th>{{Lang::choice('messages.ordered',1)}}</th>
 							<th>{{Lang::choice('messages.supplied',1)}}</th>
 							<th>{{Lang::choice('messages.cost-per-unit',1)}}</th>
-							<th>{{Lang::choice('messages.expiry',1)}}</th>
-							<!-- <th>{{Lang::choice('messages.qty-issued',1)}}</th> -->
-							<!-- <th>{{Lang::choice('messages.current-bal',1)}}</th> -->
+							<th>{{Lang::choice('messages.expiry',1)}}</th>							
 						</tr>
 					</thead>
 					<tbody>

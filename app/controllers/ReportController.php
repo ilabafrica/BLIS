@@ -3095,7 +3095,7 @@ class ReportController extends \BaseController {
 		$selected_record_type = Input::get('records');	
 
 		$reportData = Usage::where('stock_id',  $selectedItem)->get();
-		// echo $from.' and '.$to.' and '.$selected_record_type;
+		
 		if($from||$to){
 
 			if(!$to) $to = $date;
@@ -3111,13 +3111,13 @@ class ReportController extends \BaseController {
 				$supplyData=Stock::where('item_id',  $selectedItem)->whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
 			}
 		}
-		// print_r($supplyData);die;
+		
 		$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
 
 		$reportTitle = str_replace("[FROM]", $from, $reportTitle);
 		$reportTitle = str_replace("[TO]", $to, $reportTitle);
 		
-			
+		//if the user selects supply option	
 		if($selected_record_type =='supply'){
 			return View::make('reports.inventory.supply')
 					->with('reportTypes', $reportTypes)
@@ -3127,6 +3127,7 @@ class ReportController extends \BaseController {
 					->with('selectedReport', $selectedReport)
 					->withInput(Input::all());
 		}
+		//If the user selects usage option
 		else{
 			return View::make('reports.inventory.index')
 					->with('reportTypes', $reportTypes)
@@ -3137,7 +3138,7 @@ class ReportController extends \BaseController {
 					->withInput(Input::all());
 		}
 	}
-
+		
 	/**
 	* Function to calculate the mean, SD, and UCL, LCL
 	* for a given control measure.
