@@ -38,7 +38,7 @@ class SpecimenRejectionController extends \BaseController {
      */
     public function store()
     {
-        $rules = array('reason'=> 'required');
+        $rules = array('reason'=> 'required|unique:rejection_reasons,reason');
 
         $validator = Validator::make(Input::all(), $rules);
 
