@@ -16,9 +16,16 @@
 					  @if($testColumn['name']==Lang::choice('messages.total-tests', 2))
 		  			<th rowspan="2">{{trans('messages.total-tests')}}</th>
 					  @endif
+					
 				@endforeach
+				@forelse($statusColumns as $statusColumn)
+					<th rowspan="2">{{$statusColumn['name']}}</th>
+					@empty
+
+					@endforelse
 		  		</tr>
 				  <tr>
+				  
 				  @foreach($testColumns as $testColumn)
 				 @if($testColumn['name']==Lang::choice('messages.age-ranges', 2))
 				  @foreach($ageRanges as $ageRange)
@@ -28,7 +35,7 @@
 				   @endif
 				   @endforeach
 		  		
-		  		
+		  		@foreach($testType as $testType)
 		  		<tr>
 				  @foreach($testColumns as $testColumn)
 				  	@if($testColumn['name']==Lang::choice('messages.test-type', 2))
@@ -65,7 +72,17 @@
 					@endif
 					
 				@endforeach
-			  	</tr>  		
+				@forelse($statusColumns as $statusColumn)
+				 @foreach($perStatus[$testType->id] as $status)
+				 @if($statusColumn['name']==$status['name'])
+				<td>{{$status['count']}}</td>
+				@endif
+				@endforeach
+				@empty
+				<td>No Values</td>
+				@endforelse
+			  	</tr>
+				  @endforeach  		
 		  	</tbody>
 		  </table>
 		 

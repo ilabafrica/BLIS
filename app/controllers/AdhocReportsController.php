@@ -35,6 +35,7 @@ class AdhocReportsController extends \BaseController {
 		$reportid=Input::get('report');
 		$testType=Input::get('testType');
 		$testColumns=Input::get('testColumns');
+		$statusColumns=Input::get('statusColumns');
 		$lowerage=Input::get('lowerage');
 		$upperage=Input::get('upperage');
 		$gender=Input::get('gender');
@@ -46,7 +47,7 @@ class AdhocReportsController extends \BaseController {
 		$visitId = Input::get('visit_id');
 		//check which report is submitted
 		if($reportid==2){
-			return	$this->testReport($from,$to,$testType,$date,$testColumns,$lowerage,$upperage,$gender);
+			return	$this->testReport($from,$to,$testType,$date,$testColumns,$lowerage,$upperage,$gender,$statusColumns);
 		}else if($reportid==3){
 			return $this->specimenReport($from,$to,$testType,$date,$testColumns,$lowerage,$upperage,$gender);
 		}
@@ -140,31 +141,60 @@ class AdhocReportsController extends \BaseController {
 	/**
 	*
 	*/
-	public function testReport($from,$to,$testType,$date,$testColumns,$lowerage,$upperage,$selected_gender){
+	public function testReport($from,$to,$testType,$date,$testColumns,$lowerage,$upperage,$selected_gender,$statusColumns){
 			$reportsController=new ReportController;
 			$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
 			$testCategories = TestCategory::all();
-			$testTypes = TestType::find($testType);
+			if($testType!=-1){
+				$testTypes = TestType::where('id',$testType)->get();
+			}else{
+				$testTypes = TestType::all();
+			}
+			
 			$ageRanges = array($lowerage.'-'.$upperage);	//	Age ranges - will definitely change in configurations
 			
 			$gender = array(Patient::MALE, Patient::FEMALE); 	//	Array for gender - male/female
 
 			$perAgeRange = array();	// array for counts data for each test type and age range
 			$perTestType = array();	//	array for counts data per testype
+			$perStatus=array();
 			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
 				Session::flash('message', trans('messages.check-date-range'));
 			}
 			foreach ($testTypes as $testType) {
-				$countAll = $reportsController->getGroupedTestCounts($testTypes, null, null, $from, $toPlusOne->format('Y-m-d H:i:s'));
-				$countMale = $reportsController->getGroupedTestCounts($testTypes, [Patient::MALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
-				$countFemale = $reportsController->getGroupedTestCounts($testTypes, [Patient::FEMALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
-				$perTestType[$testTypes->id] = ['countAll'=>$countAll, 'countMale'=>$countMale, 'countFemale'=>$countFemale];
+				
+				$countAll = $reportsController->getGroupedTestCounts($testType, null, null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$countMale = $reportsController->getGroupedTestCounts($testType, [Patient::MALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$countFemale = $reportsController->getGroupedTestCounts($testType, [Patient::FEMALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$perTestType[$testType->id] = ['countAll'=>$countAll, 'countMale'=>$countMale, 'countFemale'=>$countFemale];
 				foreach ($ageRanges as $ageRange) {
-					$maleCount = $reportsController->getGroupedTestCounts($testTypes, [Patient::MALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
-					$femaleCount = $reportsController->getGroupedTestCounts($testTypes, [Patient::FEMALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
-					$perAgeRange[$testTypes->id][$ageRange] = ['male'=>$maleCount, 'female'=>$femaleCount];
+					$maleCount = $reportsController->getGroupedTestCounts($testType, [Patient::MALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
+					$femaleCount = $reportsController->getGroupedTestCounts($testType, [Patient::FEMALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
+					$perAgeRange[$testType->id][$ageRange] = ['male'=>$maleCount, 'female'=>$femaleCount];
+				}
+				$count=0;
+				foreach($statusColumns as $status){
+					$tests = Test::where('test_status_id', $status['id'])
+					->where('test_type_id',$testType->id)
+					->where(function($q) use ($from, $to)
+						{
+							if($from)$q->where('time_created', '>=', $from);
+
+							if($to){
+								$to = $to . ' 23:59:59';
+								$q->where('time_created', '<=', $to);
+							}
+						})
+					->get();
+					$a=array(
+						'name'=>$status['name'],
+						'count'=>count($tests)
+					);
+					$perStatus["$testType->id"][$count]=$a;
+					$count++;
 				}
 			}
+			//print_r($perStatus); exit;
 			return View::make('adhocreport.testsreport')
 						->with('testCategories', $testCategories)
 						->with('ageRanges', $ageRanges)
@@ -172,8 +202,10 @@ class AdhocReportsController extends \BaseController {
 						->with('testType', $testTypes)
 						->with('perAgeRange', $perAgeRange)
 						->with('testColumns',$testColumns)
+						->with('statusColumns',$statusColumns)
 						->with('genderCount',count($selected_gender))
 						->with('perTestType', $perTestType)
+						->with('perStatus', $perStatus)
 						//->with('accredited', $accredited)
 						->withInput(Input::all());
 		

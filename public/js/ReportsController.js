@@ -82,6 +82,7 @@ app.controller('ReportsFilterController', function ReportsFilterController($scop
   }
    //Get Tests
   $http.get('testtype?raw=true').then(function(data){
+       data.data.push({'id':-1,'name':"All Tests"});
        $scope.testtypes=data;
     });
 
@@ -115,6 +116,38 @@ app.controller('ReportsFilterController', function ReportsFilterController($scop
       name: 'Female'
     }
   ];
+  //Test Statuses
+  const NOT_RECEIVED = 1;
+	const PENDING = 2;
+	const STARTED = 3;
+	const COMPLETED = 4;
+	const VERIFIED = 5;
+
+	/**
+	 * Other constants
+	 */
+	const POSITIVE = 'Positive';
+  $scope.teststatuses=[
+  {
+    id:1, 
+    name:'NOT_RECEIVED'},
+    {
+      id:2,
+      name:'PENDING'
+    },
+    {
+      id:3,
+      name:'STARTED'
+    },
+    {
+      id:4,
+      name:'COMPLETED'
+    },
+    {
+      id:5,
+      name:'VERIFIED'
+    }
+  ]
   $scope.generateReport=function(){
     $scope.thisCanBeusedInsideNgBindHtml ="";
     $scope.dataPost={};
@@ -135,7 +168,11 @@ app.controller('ReportsFilterController', function ReportsFilterController($scop
      for(var o in $scope.selected.gender) {
         gender.push($scope.genders[o-1]);
     }
-    console.log($scope.selected.columns);
+    var status=new Array;
+     for(var o in $scope.selected.statuscolumns) {
+        status.push($scope.teststatuses[o-1]);
+    }
+   
     if($scope.selected.reportTypes==1){
       $scope.dataPost.report=$scope.selected.reportTypes;
       $scope.dataPost.specimen=specimen;
@@ -148,12 +185,13 @@ app.controller('ReportsFilterController', function ReportsFilterController($scop
       $scope.dataPost.report=$scope.selected.reportTypes;
       $scope.dataPost.testColumns=testColumns;
       $scope.dataPost.testType=$scope.selected.test;
+      $scope.dataPost.statusColumns=status;
       $scope.dataPost.to=$scope.selected.to;
       $scope.dataPost.from=$scope.selected.from;
       $scope.dataPost.gender=gender;
       $scope.dataPost.lowerage=$scope.selected.lowerage;
       $scope.dataPost.upperage=$scope.selected.upperage;
-      //console.log($scope.dataPost);
+      console.log($scope.dataPost);
       //return;
     }else if($scope.selected.reportTypes==3){
       $scope.dataPost.report=$scope.selected.reportTypes;
@@ -178,6 +216,7 @@ app.controller('ReportsFilterController', function ReportsFilterController($scop
        $scope.selected.columns="";
        $scope.selected.gender="";
        $scope.selected.reportTypes="";
+       $scope.selected.statuscolumns="";
        
     });
     }
