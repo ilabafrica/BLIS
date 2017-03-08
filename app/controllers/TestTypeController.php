@@ -2,6 +2,7 @@
 
 use Illuminate\Database\QueryException;
 
+
 /**
  *Contains functions for managing test types
  *
@@ -19,7 +20,11 @@ class TestTypeController extends \BaseController {
 			$testtypes = TestType::orderBy('name', 'ASC')->get();
 
 		// Load the view and pass the testtypes
+		if(Input::has('raw')){
+			return Response::json($testtypes);
+		}else{
 		return View::make('testtype.index')->with('testtypes', $testtypes);
+		}
 	}
 
 	/**

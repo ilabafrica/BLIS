@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="iBlis">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,7 +21,7 @@
         <script type="text/javascript" src="{{ asset('js/jquery-barcode-2.0.2.js') }} "></script>
         <title>{{ Config::get('kblis.name') }} {{ Config::get('kblis.version') }}</title>
     </head>
-    <body>
+    <body  class="ng-cloak">
         <div id="wrap">
             @include("header")
             <div class="container-fluid">
@@ -37,4 +37,9 @@
         </div>
         @include("footer")
     </body>
+    <script src="{{ URL::asset('bower_components/angular/angular.js')}}"></script>
+    <script src="{{ URL::asset('bower_components/angular-route/angular-route.js')}}"></script>
+    <script src="{{ URL::asset('js/app.js')}}"></script>
+    <script src="{{ URL::asset('js/ReportsController.js')}}"></script>
+    <script src="{{ URL::asset('js/ReportsFactory.js')}}"></script>
 </html>

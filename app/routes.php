@@ -384,6 +384,14 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.aggregate.critval",
             "uses" => "ReportController@critical"
         ));
+        Route::get("/adhocreport", array(
+            "as"   => "reports.adhocreport.index",
+            "uses" => "AdhocReportsController@index"
+        ));
+        Route::post("/adhocreport", array(
+            "as"   => "reports.adhocreport.show",
+            "uses" => "AdhocReportsController@store"
+        ));
     });
     Route::group(array("before" => "checkPerms:manage_qc"), function()
     {

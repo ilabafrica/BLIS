@@ -439,7 +439,9 @@ return array(
     'less-five'    =>  '< 5 Years',
     'greater-five'    =>  '≥ 5 Years',
     'laboratory-report' => 'LABORATORY REPORT',
-
+    'adhoc-report' => 'Custom Reports',
+    'select-report-filters'=>"Select Filters to Generate Custom Report",
+    'generate_report'=>"Generate Report",
     /* Infection Report*/
     'age-ranges'    =>  'Age Ranges',
     'infection-report' => 'Infection Report',

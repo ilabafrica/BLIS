@@ -1,6 +1,6 @@
 	@section("sidebar")
 <?php
-	$active = array("","","","","","", "", "", "", "");
+	$active = array("","","","","","", "", "", "", "", "");
 	$key = explode("?",str_replace("/", "?", Request::path()));
 	switch ($key[0]) {
 		case 'home': $active[0] = "active"; break;
@@ -24,6 +24,7 @@
 		case 'critical':
 		case 'microcritical':
 			$active[4] = "active"; break;
+		case 'adhocreport': 
 		case 'patientreport': 
 		case 'dailylog': 
 		case 'prevalence':
@@ -212,6 +213,11 @@
 					<span class="glyphicon glyphicon-stats"></span> {{ Lang::choice('messages.report', 2)}}</a>
 			</div>
 			<div class="sub-menu {{$active[5]}}">
+				<div class="sub-menu-title">
+							<a href="{{ URL::route('reports.adhocreport.index')}}">
+								<span class=""></span>
+								{{trans('messages.adhoc-report')}}</a>
+				</div>
 				<div class="sub-menu-title">{{trans('messages.daily-reports')}}</div>
 				<ul class="sub-menu-items">
 					<li>
