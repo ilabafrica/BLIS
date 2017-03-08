@@ -1,6 +1,6 @@
 @section("sidebar")
 <?php
-	$active = array("","","","","","", "", "", "", "");
+	$active = array("","","","","","", "", "", "", "", "");
 	$key = explode("?",str_replace("/", "?", Request::path()));
 	switch ($key[0]) {
 		case 'home': $active[0] = "active"; break;
@@ -24,6 +24,7 @@
 		case 'critical':
 		case 'microcritical':
 			$active[4] = "active"; break;
+		case 'adhocreport': 
 		case 'patientreport': 
 		case 'dailylog': 
 		case 'prevalence':
