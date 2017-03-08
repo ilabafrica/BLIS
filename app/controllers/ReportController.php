@@ -107,6 +107,19 @@ class ReportController extends \BaseController {
 			else
 				continue;
 		}
+		if(Input::get('adhoc')=='1'){
+
+			return Response::json(array(
+				'patient'=>$patient,
+				'tests'=>$tests,
+				'pending'=>$pending,
+				'error'=>$error,
+				'visit'=>$visit,
+				'accredited'=>$accredited,
+				'verified'=>$verified
+			));
+		}
+
 		if(Input::has('word')){
 			$date = date("Ymdhi");
 			$fileName = "blispatient_".$id."_".$date.".doc";
