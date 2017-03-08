@@ -88,6 +88,7 @@ app.controller('ReportsFilterController', function ReportsFilterController($scop
 
   //Get specimens types 
   $http.get('specimentype?raw=true').then(function(data){
+       data.data.push({'id':-1,'name':"All Specimens"});
        $scope.specimentypes=data;
     });
   //Test Columns

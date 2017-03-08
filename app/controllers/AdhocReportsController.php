@@ -184,9 +184,6 @@ class AdhocReportsController extends \BaseController {
 				$startDate = $now->sub(new DateInterval('P'.$ageEnd.'Y'))->format('Y-m-d');
 
 				foreach($statusColumns as $status){
-				
-				
-
 					$tests = Test::
 					join('visits', 'tests.visit_id', '=', 'visits.id')
 					->join('patients', 'visits.patient_id', '=', 'patients.id')
@@ -201,11 +198,6 @@ class AdhocReportsController extends \BaseController {
 								$q->where('time_created', '<=', $to);
 							}
 						})->whereBetween('dob',[$startDate, $finishDate])->get();
-					/*if($ageRange){
-						$tests->whereBetween('dob',[$startDate, $finishDate]);
-					}*/
-					
-					//$tests->get();
 					$a=array(
 						'name'=>$status['name'],
 						'count'=>count($tests)
@@ -232,10 +224,15 @@ class AdhocReportsController extends \BaseController {
 	}
 
 	public function specimenReport($from,$to,$specimenType,$date,$testColumns,$lowerage,$upperage,$selected_gender){
+			if($specimenType!=-1){
+				$specimenTypes = SpecimenType::where('id',$specimenType)->get();
+			}else{
+				$specimenTypes = SpecimenType::all();
+			}
 		 	$specimentype=new SpecimenType;
 			$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
 			$testCategories = TestCategory::all();
-			$specimenTypes = SpecimenType::find($specimenType);
+			
 			$ageRanges = array($lowerage.'-'.$upperage);	//	Age ranges - will definitely change in configurations
 			
 			$gender = array(Patient::MALE, Patient::FEMALE); 	//	Array for gender - male/female
@@ -246,21 +243,21 @@ class AdhocReportsController extends \BaseController {
 				Session::flash('message', trans('messages.check-date-range'));
 			}
 			foreach ($specimenTypes as $specimenType) {
-				$countAll = $specimenTypes->groupedSpecimenCount([Patient::MALE, Patient::FEMALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
-				$countMale = $specimenTypes->groupedSpecimenCount([Patient::MALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
-				$countFemale = $specimenTypes->groupedSpecimenCount([Patient::FEMALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
-				$perSpecimenType[$specimenTypes->id] = ['countAll'=>$countAll, 'countMale'=>$countMale, 'countFemale'=>$countFemale];
+				$countAll = $specimenType->groupedSpecimenCount([Patient::MALE, Patient::FEMALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$countMale = $specimenType->groupedSpecimenCount([Patient::MALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$countFemale = $specimenType->groupedSpecimenCount([Patient::FEMALE], null, $from, $toPlusOne->format('Y-m-d H:i:s'));
+				$perSpecimenType[$specimenType->id] = ['countAll'=>$countAll, 'countMale'=>$countMale, 'countFemale'=>$countFemale];
 				foreach ($ageRanges as $ageRange) {
-					$maleCount = $specimenTypes->groupedSpecimenCount([Patient::MALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
-					$femaleCount = $specimenTypes->groupedSpecimenCount([Patient::FEMALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
-					$perAgeRange[$specimenTypes->id][$ageRange] = ['male'=>$maleCount, 'female'=>$femaleCount];
+					$maleCount = $specimenType->groupedSpecimenCount([Patient::MALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
+					$femaleCount = $specimenType->groupedSpecimenCount([Patient::FEMALE], $ageRange, $from, $toPlusOne->format('Y-m-d H:i:s'));
+					$perAgeRange[$specimenType->id][$ageRange] = ['male'=>$maleCount, 'female'=>$femaleCount];
 				}
 			}
 			return View::make('adhocreport.specimenreport')
 						->with('testCategories', $testCategories)
 						->with('ageRanges', $ageRanges)
 						->with('gender', $selected_gender)
-						->with('specimenType', $specimenTypes)
+						->with('specimenTypes', $specimenTypes)
 						->with('perAgeRange', $perAgeRange)
 						->with('testColumns',$testColumns)
 						->with('genderCount',count($selected_gender))

@@ -28,7 +28,7 @@
 				   @endif
 				   @endforeach
 		  		
-		  		
+		  		@foreach($specimenTypes as $specimenType)
 		  		<tr>
 				  @forelse($testColumns as $testColumn)
 				  	@if($testColumn['name']==Lang::choice('messages.test-type', 2))
@@ -68,7 +68,8 @@
 			  		<td>{{ trans('messages.no-records-found') }}</td>
 			  	</tr>
 			  	@endforelse
-			  	</tr>  		
+			  	</tr>  	
+				  @endforeach	
 		  	</tbody>
 		  </table>
 		 
