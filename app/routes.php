@@ -369,6 +369,9 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.inventory",
             "uses" => "ReportController@stockLevel"
         ));
+        
+        Route::get('search/autocomplete', 'ReportController@autocomplete');
+
         Route::any("/rejection", array(
             "as"   => "reports.aggregate.rejection",
             "uses" => "ReportController@specimenRejectionChart"

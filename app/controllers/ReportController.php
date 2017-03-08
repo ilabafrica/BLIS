@@ -3091,10 +3091,8 @@ class ReportController extends \BaseController {
 		$items = Item::lists( 'name', 'id');
 
 		$selectedReport = Input::get('report_type');	
-		$selectedItem = Input::get('item');	
-		$selected_record_type = Input::get('records');	
-
-		$reportData = Usage::where('stock_id',  $selectedItem)->get();
+		$selectedItem = Input::get('search_item_id');	
+		$selected_record_type = Input::get('records');	 
 		
 		if($from||$to){
 
@@ -3102,16 +3100,30 @@ class ReportController extends \BaseController {
 
 			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
 					$error = trans('messages.check-date-range');
+					
 			}
 			else
 			{
 				$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
-				$usageData=Usage::where('stock_id',  $selectedItem)->whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
+
 
 				$supplyData=Stock::where('item_id',  $selectedItem)->whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
+
+				$selectedStockID = $supplyData->first()->id;
+
+				$usageData=Usage::where('stock_id', $selectedStockID)->whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
+				
 			}
 		}
-		
+		if ($selectedItem ==0 || $selectedItem=='') {
+			$itemName = 'No Item';
+		}
+		else
+		{
+			$itemData = Item::find($selectedItem);
+				$itemName = $itemData->name;
+		}
+	
 		$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
 
 		$reportTitle = str_replace("[FROM]", $from, $reportTitle);
@@ -3119,6 +3131,11 @@ class ReportController extends \BaseController {
 		
 		//if the user selects supply option	
 		if($selected_record_type =='supply'){
+
+			$reportTitle = Lang::choice('Supply of '.$itemName,1);
+			$reportTitle = str_replace("[FROM]", $from, $reportTitle);
+			$reportTitle = str_replace("[TO]", $to, $reportTitle);
+			
 			return View::make('reports.inventory.supply')
 					->with('reportTypes', $reportTypes)
 					->with('supplyData', $supplyData)
@@ -3129,6 +3146,10 @@ class ReportController extends \BaseController {
 		}
 		//If the user selects usage option
 		else{
+			$reportTitle = Lang::choice('Usage of '.$itemName,1);
+			$reportTitle = str_replace("[FROM]", $from, $reportTitle);
+			$reportTitle = str_replace("[TO]", $to, $reportTitle);
+			
 			return View::make('reports.inventory.index')
 					->with('reportTypes', $reportTypes)
 					->with('reportData', $usageData)
@@ -3138,6 +3159,31 @@ class ReportController extends \BaseController {
 					->withInput(Input::all());
 		}
 	}
+
+	/*
+		Function to autoload items from the database
+	*/
+
+	public function autoComplete() {
+        $term = Input::get('term');
+	
+		$results = array();
+		
+		$queries = DB::table('inv_items')
+			->where('name', 'LIKE', '%'.$term.'%')
+			->take(5)->get();
+		
+		foreach ($queries as $query)
+		{
+		    $results[] = [ 'id' => $query->id, 'value' => $query->name];
+		}
+		if (empty($results)>0) {
+			# code...
+		    $results[] = [ 'id' => 0, 'value' => 'No Records found'];
+		} 
+		return Response::json($results);
+       
+    }
 		
 	/**
 	* Function to calculate the mean, SD, and UCL, LCL

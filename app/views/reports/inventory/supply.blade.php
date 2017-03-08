@@ -9,6 +9,7 @@
 </div>
 
 {{ Form::open(array('route' => array('reports.inventory'), 'class' => 'form-inline', 'role' => 'form')) }}
+	{{ Form::hidden('search_item_id', '', array('id' => 'search_item_id')) }}
 
 <div class='container-fluid'>
 	<div class="row">
@@ -40,11 +41,10 @@
 		        	{{ Form::label('item', Lang::choice('messages.item',1)) }}
 		        </div>
 		        <div class="col-md-8">
-		            {{ Form::select('item', $items,
-		            	isset($input['item'])?$input['item']:0, array('class' => 'form-control')) }}
+		             {{ Form::text('search_item', '', array('class' => 'form-control', 'id' => 'search_item', 'placeholder' => 'Search Item'))}}
 		        </div>
 	        </div>
-	    </div>	   
+	    </div>   
     </div><!-- /.row -->
     <br />
 	<div class="row">

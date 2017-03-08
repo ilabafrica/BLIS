@@ -9,6 +9,7 @@
 </div>
 
 {{ Form::open(array('route' => array('reports.inventory'), 'class' => 'form-inline', 'role' => 'form')) }}
+	{{ Form::hidden('search_item_id', '', array('id' => 'search_item_id')) }}
 
 <div class='container-fluid'>
 	<div class="row">
@@ -33,15 +34,14 @@
 				        array('class' => 'form-control standard-datepicker')) }}
 		        </div>
 	    	</div>
-	    </div>	    
-	    <div class="col-md-2"><!-- Select type of item -->
+	    </div>
+	     <div class="col-md-2"><!-- Select type of item -->
 	    	<div class="row">
 		        <div class="col-md-4">
 		        	{{ Form::label('item', Lang::choice('messages.item',1)) }}
 		        </div>
 		        <div class="col-md-8">
-		            {{ Form::select('item', $items,
-		            	isset($input['item'])?$input['item']:0, array('class' => 'form-control')) }}
+		             {{ Form::text('search_item', '', array('class' => 'form-control', 'id' => 'search_item', 'placeholder' => 'Search Item'))}}
 		        </div>
 	        </div>
 	    </div>	   
@@ -96,7 +96,7 @@
 						<tr>
 							<th></th>							
 							<th>{{Lang::choice('messages.supplier',1)}}</th>
-							<th>{{Lang::choice('messages.batch-no',1)}}</th>
+							<th>{{Lang::choice('messages.date-of-usage',1)}}</th>
 							<th>{{Lang::choice('messages.signed-out',1)}}</th>
 							<th>{{Lang::choice('messages.issued-by',1)}}</th>
 							<th>{{Lang::choice('messages.received-by',1)}}</th>
