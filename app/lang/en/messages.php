@@ -584,7 +584,7 @@ return array(
     'status'        =>  'Status',
     'issued'        =>  'Issued',
     'not-issued'    =>  'Pending',
-
+    'supply'        =>'Supply',
     /**
     *
     * Quality controls

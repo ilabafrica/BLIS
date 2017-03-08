@@ -3100,38 +3100,105 @@ class ReportController extends \BaseController {
 		$to = Input::get('end');
 		if(!$to) $to = $date;
 		
-		$reportTypes = array('Monthly', 'Quarterly');
-		
+		$reportTypes = array('Monthly', 'Quarterly');		
+		$items = Item::lists( 'name', 'id');
 
 		$selectedReport = Input::get('report_type');	
-		if(!$selectedReport)$selectedReport = 0;
+		$selectedItem = Input::get('search_item_id');	
+		$selected_record_type = Input::get('records'); 
+		
+		if($from||$to){
 
-		switch ($selectedReport) {
-			case '0':
+			if(!$to) $to = $date;
+
+			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+					$error = trans('messages.check-date-range');
+					
+			}
+			else
+			{
+				$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+				if($selected_record_type=="usage"){ 
+				$usageData=Usage::whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
+				//print_r($usageData);exit;
+				}elseif($selectedItem=='' && $selected_record_type=="supply"){
+					$supplyData=Stock::whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
 			
-				$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
-				$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
-				break;
-			case '1':
-				$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
-				$reportTitle = Lang::choice('messages.quarterly-stock-level-report-title',1);
-				break;
-				default:
-				$reportData = Receipt::getIssuedCommodities($from, $to.' 23:59:59');
-				$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
-				break;
+				}else{
+					$supplyData=Stock::where('item_id',  $selectedItem)->whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
+				}		
+			}
 		}
+		if ($selectedItem ==0 || $selectedItem=='') {
+			$itemName = 'No Item';
+		}
+		else
+		{
+			$itemData = Item::find($selectedItem);
+				$itemName = $itemData->name;
+		}
+	
+		$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
 
 		$reportTitle = str_replace("[FROM]", $from, $reportTitle);
 		$reportTitle = str_replace("[TO]", $to, $reportTitle);
 		
-		return View::make('reports.inventory.index')
+		//if the user selects supply option	
+		if($selected_record_type =='supply'){
+
+			$reportTitle = Lang::choice('Supply of '.$itemName,1);
+			$reportTitle = str_replace("[FROM]", $from, $reportTitle);
+			$reportTitle = str_replace("[TO]", $to, $reportTitle);
+			
+			return View::make('reports.inventory.supply')
 					->with('reportTypes', $reportTypes)
-					->with('reportData', $reportData)
+					->with('supplyData', $supplyData)
 					->with('reportTitle', $reportTitle)
+					->with('items', $items)
 					->with('selectedReport', $selectedReport)
 					->withInput(Input::all());
+		}
+		//If the user selects usage option
+		else{
+			$reportTitle = Lang::choice('Usage of '.$itemName,1);
+			$reportTitle = str_replace("[FROM]", $from, $reportTitle);
+			$reportTitle = str_replace("[TO]", $to, $reportTitle);
+			
+			return View::make('reports.inventory.index')
+					->with('reportTypes', $reportTypes)
+					->with('reportData', $usageData)
+					->with('reportTitle', $reportTitle)
+					->with('items', $items)
+					->with('selectedReport', $selectedReport)
+					->withInput(Input::all());
+		}
 	}
+
+	/*
+		Function to autoload items from the database
+	*/
+
+	public function autoComplete() {
+        $term = Input::get('term');
+	
+		$results = array();
+		
+		$queries = DB::table('inv_items')
+			->where('name', 'LIKE', '%'.$term.'%')
+			->take(5)->get();
+		
+		foreach ($queries as $query)
+		{
+		    $results[] = [ 'id' => $query->id, 'value' => $query->name];
+		}
+		if (empty($results)>0) {
+			# code...
+		    $results[] = [ 'id' => 0, 'value' => 'No Records found'];
+		} 
+		return Response::json($results);
+       
+    }
+		
 	/**
 	* Function to calculate the mean, SD, and UCL, LCL
 	* for a given control measure.
@@ -3436,5 +3503,16 @@ class ReportController extends \BaseController {
 						->with('to', $to)
 						->with('toPlusOne', $toPlusOne);
 		}
+	}
+	public function item()
+	{
+		$accredited = array();
+		$items = Topup::all()->lists('name', 'id');
+		$accredited = array();
+		$tests = array();
+		return View::make('reports.qualitycontrol.index')
+			->with('accredited', $accredited)
+			->with('tests', $tests)
+			->with('controls', $controls);
 	}
 }

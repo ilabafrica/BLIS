@@ -34,8 +34,8 @@
 				        array('class' => 'form-control standard-datepicker')) }}
 		        </div>
 	    	</div>
-	    </div>
-	     <div class="col-md-2"><!-- Select type of item -->
+	    </div>	   
+	    <div class="col-md-2"><!-- Select type of item -->
 	    	<div class="row">
 		        <div class="col-md-4">
 		        	{{ Form::label('item', Lang::choice('messages.item',1)) }}
@@ -44,7 +44,7 @@
 		             {{ Form::text('search_item', '', array('class' => 'form-control', 'id' => 'search_item', 'placeholder' => 'Search Item'))}}
 		        </div>
 	        </div>
-	    </div>	   
+	    </div>   
     </div><!-- /.row -->
     <br />
 	<div class="row">
@@ -95,24 +95,30 @@
 					<thead>
 						<tr>
 							<th></th>							
+							<th>{{Lang::choice('messages.lot-number',1)}}</th>
+							<th>{{Lang::choice('messages.batch-no',1)}}</th>
 							<th>{{Lang::choice('messages.supplier',1)}}</th>
-							<th>{{Lang::choice('messages.date-of-usage',1)}}</th>
-							<th>{{Lang::choice('messages.signed-out',1)}}</th>
-							<th>{{Lang::choice('messages.issued-by',1)}}</th>
-							<th>{{Lang::choice('messages.received-by',1)}}</th>
+							<th>{{Lang::choice('messages.manufacturer',1)}}</th>
+							<th>{{Lang::choice('messages.ordered',1)}}</th>
+							<th>{{Lang::choice('messages.supplied',1)}}</th>
+							<th>{{Lang::choice('messages.cost-per-unit',1)}}</th>
+							<th>{{Lang::choice('messages.expiry',1)}}</th>							
 						</tr>
 					</thead>
 					<tbody>
 						<?php $i = 1; 
-						if (!empty($reportData)){?>
-						@foreach($reportData as $row)
+						if (!empty($supplyData)){?>
+						@foreach($supplyData as $row)
 						<tr>
 							<td>{{$i++}}</td>							
-							<td>{{Stock::find($row->stock_id)->name}}</td>
-							<td>{{$row->date_of_usage}}</td>
-							<td>{{$row->quantity_used}}</td>
-							<td>{{$row->issued_by}}</td>
-							<td>{{$row->received_by}}</td>
+							<td>{{$row->lot_no}}</td>
+							<td>{{$row->batch_no}}</td>
+							<td>{{Supplier::find($row->supplier_id)->name}}</td>
+							<td>{{$row->manufacturer}}</td>
+							<td>{{$row->quantity_ordered}}</td>
+							<td>{{$row->quantity_supplied}}</td>
+							<td>{{$row->cost_per_unit}}</td>
+							<td>{{$row->expiry_date}}</td>
 						@endforeach
 
 						<?php } else {?>

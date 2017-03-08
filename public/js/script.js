@@ -463,6 +463,7 @@ $(function(){
 			showInputs: false,
 			minuteStep: 5
 		});
+
 });
 	/**
 	 *-----------------------------------
@@ -488,6 +489,22 @@ $(function(){
 			$('#new-test-modal #patient_id').val(theRadio.val());
 			$('#new-test-modal .modal-footer .next').prop('disabled', false);
 		});
+	});
+
+	/*
+		Function to autoload items from the database
+	*/
+	$(document).ready(function() {
+		$( "#search_item" ).autocomplete({
+			  source: "search/autocomplete",
+			  minLength: 3,
+			  select: function(event, ui) {
+			  	console.log(ui);
+			  	$('#search_item').val(ui.item.value);
+			  	$('#search_item_id').val(ui.item.id);
+			  }
+		});
+
 	});
 
 	/**
