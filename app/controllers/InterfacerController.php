@@ -77,22 +77,26 @@ class InterfacerController extends \BaseController{
         //Auth
         $authKey = Input::get('key');
         if(!$this->authenticate($authKey)){
-            return json_encode(array('error' => 'Authentication failed'));
+            return Response::json(array('error' => 'Authentication failed'), '403');
         }
         //Validate params
         $testType = Input::get('testtype');
         $dateFrom = Input::get('datefrom');
         $dateTo = Input::get('dateto');
 
+        if( empty($testType))
+        {
+            return Response::json(array('error' => 'No test provided'), '404');
+        }
         //Search by name / Date
         $testType = TestType::where('name', $testType)->first();
 
         if( !empty($testType) ){
-            $tests = Test::where('test_type_id', $testType->id)->get();
+            $tests = Test::with('visit.patient', 'testType.measures')->where('test_type_id', $testType->id)->get();
         }
         //Search by ID
         //$tests = Specimen::where('visit_id', $testFilter);
-        return Response::json($tests);
+        return Response::json($tests, '200');
     }
 
     /**
