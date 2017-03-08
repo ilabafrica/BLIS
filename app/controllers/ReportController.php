@@ -3092,7 +3092,7 @@ class ReportController extends \BaseController {
 
 		$selectedReport = Input::get('report_type');	
 		$selectedItem = Input::get('search_item_id');	
-		$selected_record_type = Input::get('records');	 
+		$selected_record_type = Input::get('records'); 
 		
 		if($from||$to){
 
@@ -3105,14 +3105,15 @@ class ReportController extends \BaseController {
 			else
 			{
 				$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
-
-
-				$supplyData=Stock::where('item_id',  $selectedItem)->whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
-
-				$selectedStockID = $supplyData->first()->id;
-
-				$usageData=Usage::where('stock_id', $selectedStockID)->whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
-				
+				if($selected_record_type=="usage"){ 
+				$usageData=Usage::whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
+				//print_r($usageData);exit;
+				}elseif($selectedItem=='' && $selected_record_type=="supply"){
+					$supplyData=Stock::whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
+			
+				}else{
+					$supplyData=Stock::where('item_id',  $selectedItem)->whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
+				}		
 			}
 		}
 		if ($selectedItem ==0 || $selectedItem=='') {
