@@ -3118,7 +3118,7 @@ class ReportController extends \BaseController {
 			else
 			{
 				$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
-				if($selected_record_type=="usage"){ 
+				if($selected_record_type=="usage" || $selected_record_type==''){ 
 				$usageData=Usage::whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
 				//print_r($usageData);exit;
 				}elseif($selectedItem=='' && $selected_record_type=="supply"){
