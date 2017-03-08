@@ -173,8 +173,24 @@ class AdhocReportsController extends \BaseController {
 					$perAgeRange[$testType->id][$ageRange] = ['male'=>$maleCount, 'female'=>$femaleCount];
 				}
 				$count=0;
+
+				//Filter by age range
+				$ageRange = explode('-', $ageRanges[0]);
+				$ageStart = $ageRange[0];
+				$ageEnd = $ageRange[1];
+				
+				$now = new DateTime('now');
+				$finishDate = $now->sub(new DateInterval('P'.$ageStart.'Y'))->format('Y-m-d');
+				$startDate = $now->sub(new DateInterval('P'.$ageEnd.'Y'))->format('Y-m-d');
+
 				foreach($statusColumns as $status){
-					$tests = Test::where('test_status_id', $status['id'])
+				
+				
+
+					$tests = Test::
+					join('visits', 'tests.visit_id', '=', 'visits.id')
+					->join('patients', 'visits.patient_id', '=', 'patients.id')
+					->where('test_status_id', $status['id'])
 					->where('test_type_id',$testType->id)
 					->where(function($q) use ($from, $to)
 						{
@@ -184,8 +200,12 @@ class AdhocReportsController extends \BaseController {
 								$to = $to . ' 23:59:59';
 								$q->where('time_created', '<=', $to);
 							}
-						})
-					->get();
+						})->whereBetween('dob',[$startDate, $finishDate])->get();
+					/*if($ageRange){
+						$tests->whereBetween('dob',[$startDate, $finishDate]);
+					}*/
+					
+					//$tests->get();
 					$a=array(
 						'name'=>$status['name'],
 						'count'=>count($tests)
@@ -194,7 +214,7 @@ class AdhocReportsController extends \BaseController {
 					$count++;
 				}
 			}
-			//print_r($perStatus); exit;
+			// print_r($perStatus); exit;
 			return View::make('adhocreport.testsreport')
 						->with('testCategories', $testCategories)
 						->with('ageRanges', $ageRanges)
