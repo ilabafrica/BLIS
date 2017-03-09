@@ -6,7 +6,7 @@
 		  <li class="active">{{ Lang::choice('messages.report', 2) }}</li>
 		</ol>
 	</div>
-	{{ Form::open(array('route' => array('reports.patient.index'), 'class'=>'form-inline', 'role'=>'form', 'method'=>'POST')) }}
+	<!--{{ Form::open(array('route' => array('reports.patient.index'), 'class'=>'form-inline', 'role'=>'form', 'method'=>'POST')) }}
 		<div class="form-group">
 
 		    {{ Form::label('search', "search", array('class' => 'sr-only')) }}
@@ -16,7 +16,7 @@
 			{{ Form::button("<span class='glyphicon glyphicon-search'></span> ".trans('messages.search'), 
 		        array('class' => 'btn btn-primary', 'id' => 'filter', 'type' => 'submit')) }}
 		</div>
-	{{ Form::close() }}
+	{{ Form::close() }}-->
 	<br>
 <div class="panel panel-primary">
 	<div class="panel-heading ">
@@ -28,7 +28,7 @@
 	    @if(Session::has('message'))
 			<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
 		@endif
-	    <table class="table table-striped table-hover table-condensed">
+	    <table class="table table-striped table-hover table-condensed search-table">
 			<thead>
 				<tr>
 					<th>{{ trans('messages.patient-id') }}</th>
