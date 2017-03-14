@@ -52,7 +52,7 @@ class InterfacerController extends \BaseController{
         }
         //save results
         // $result = Input::get('result');
-        $results = "{3:16=17, 3:17=23, 3:18=43, 21:40=2, 21:41=14, 21:41=11, 30:43=2, 30:23=1, 30:24=2 }";
+        $results = Input::get('result');
         $resultsArray = explode(", ", $results);
         foreach ($resultsArray as $key => $result) {
             $ms = explode(":", $result);
