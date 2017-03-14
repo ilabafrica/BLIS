@@ -67,6 +67,9 @@ class InterfacerController extends \BaseController{
                 $testResult->result = $result;
                 //TODO: Try catch to handle failure
                 $testResult->save();
+
+                $test = Test::find($testId);
+                $test->test_status_id = Test::COMPLETED;
             }
             catch(\QueryException $qe){
                 echo "Failed";
@@ -103,6 +106,11 @@ class InterfacerController extends \BaseController{
 
         if( !empty($testType) ){
             $tests = Test::with('visit.patient', 'testType.measures')
+                 ->where(function($query)
+                    {
+                        $query->where('test_status_id', Test::PENDING)
+                              ->orWhere('test_status_id', Test::STARTED);
+                    })
                 ->where('test_type_id', $testType->id)
                 ->where('time_created', '>', $dateFrom)
                 ->where('time_created', '<', $dateTo)
