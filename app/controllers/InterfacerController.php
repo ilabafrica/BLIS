@@ -51,17 +51,27 @@ class InterfacerController extends \BaseController{
             return json_encode(array('error' => 'Authentication failed'));
         }
         //save results
-        $testId = Input::get('testid');
-        $result = Input::get('result');
-        $measureId = Input::get('measureid');
+        // $result = Input::get('result');
+        $results = "{3:16=17, 3:17=23, 3:18=43, 21:40=2, 21:41=14, 21:41=11, 30:43=2, 30:23=1, 30:24=2 }";
+        $resultsArray = explode(", ", $results);
+        foreach ($resultsArray as $key => $result) {
+            $ms = explode(":", $result);
+            $rs = explode("=", $ms[1]);
+            $testId  = str_replace("{", "", $ms[0]);
+            $measureId = $rs[0];
+            $res = $rs[1];
 
-        $testResult = TestResult::firstOrCreate(array('test_id' => $testId, 'measure_id' => $measureId));
-        //Validate results
-        $testResult->result = $result;
-
-        //TODO: Try catch to handle failure
-        $testResult->save();
-        
+            try {
+                $testResult = TestResult::firstOrCreate(array('test_id' => $testId, 'measure_id' => $measureId));
+                //Validate results
+                $testResult->result = $result;
+                //TODO: Try catch to handle failure
+                $testResult->save();
+            }
+            catch(\QueryException $qe){
+                echo "Failed";
+            }
+        }
         //Return success or failures
         return Response::json(array('fixed'));
     }
@@ -92,7 +102,11 @@ class InterfacerController extends \BaseController{
         $testType = TestType::where('name', $testType)->first();
 
         if( !empty($testType) ){
-            $tests = Test::with('visit.patient', 'testType.measures')->where('test_type_id', $testType->id)->get();
+            $tests = Test::with('visit.patient', 'testType.measures')
+                ->where('test_type_id', $testType->id)
+                ->where('time_created', '>', $dateFrom)
+                ->where('time_created', '<', $dateTo)
+                ->get();
         }
         //Search by ID
         //$tests = Specimen::where('visit_id', $testFilter);
