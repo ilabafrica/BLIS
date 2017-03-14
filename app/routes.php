@@ -297,6 +297,8 @@ Route::group(array("before" => "auth"), function()
     //  Check if able to manage reports
     Route::group(array("before" => "checkPerms:view_reports"), function()
     {
+        Route::get('specimentype', 'SpecimenTypeController@index');
+        Route::get('testtype', 'TestTypeController@index');
         Route::any("/patientreport", array(
             "as"   => "reports.patient.index",
             "uses" => "ReportController@loadPatients"
