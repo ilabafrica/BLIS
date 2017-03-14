@@ -52,31 +52,41 @@ class InterfacerController extends \BaseController{
         }
         //save results
         // $result = Input::get('result');
-        $results = Input::get('result');
+        $results = Input::get('results');
         $resultsArray = explode(", ", $results);
         foreach ($resultsArray as $key => $result) {
             $ms = explode(":", $result);
             $rs = explode("=", $ms[1]);
             $testId  = str_replace("{", "", $ms[0]);
             $measureId = $rs[0];
-            $res = $rs[1];
+            $res = str_replace("}", "", $rs[1]);
 
             try {
-                $testResult = TestResult::firstOrCreate(array('test_id' => $testId, 'measure_id' => $measureId));
-                //Validate results
-                $testResult->result = $result;
-                //TODO: Try catch to handle failure
-                $testResult->save();
-
                 $test = Test::find($testId);
-                $test->test_status_id = Test::COMPLETED;
+                if($test->test_status_id == Test::PENDING || $test->test_status_id == Test::STARTED){
+                    $testResult = TestResult::firstOrCreate(array('test_id' => $testId, 'measure_id' => $measureId));
+                    //Validate results
+                    $testResult->result = $res;
+                    //TODO: Try catch to handle failure
+                    $testResult->save();
+                    $test = Test::find($testId);
+                    $test->test_status_id = Test::COMPLETED;
+                    $test->tested_by = 1;
+                    if($test->test_status_id == Test::PENDING){
+                        $test->time_started = date('Y-m-d H:i:s');
+                    }
+                    $test->time_completed = date('Y-m-d H:i:s');
+                    $test->save();
+                }
+                else {
+                    return Response::json(array('Ignored'));
+                }
             }
             catch(\QueryException $qe){
-                echo "Failed";
+                return Response::json(array('Failed'));
             }
         }
-        //Return success or failures
-        return Response::json(array('fixed'));
+        return Response::json(array('Success'));
     }
 
     /**
