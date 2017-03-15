@@ -374,6 +374,8 @@
 								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.item', 2)}}</a>
 						</div>
 					</li>
+					@endif
+					@if(Entrust::can('view_blood_bank'))
 					<li>
 						<div>
 							<a href="{{ URL::route("blood.index")}}">

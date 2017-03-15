@@ -4,6 +4,7 @@ use Zizaco\Entrust\EntrustPermission;
 
 class Permission extends EntrustPermission
 {
+    protected $fillable=['name','display_name'];
     /**
      * Checks if the Permission has a Role by its name.
      *
