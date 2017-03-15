@@ -1,19 +1,26 @@
 <?php
 
 class MedbossInterfacer implements InterfacerInterface {
-
+:
     public function retrieve($patientId)
     {
+    if(!is_numeric(substr($patientId,0 ,2 ))){
+        return false;   
+    }
         //Setup mssql connection
         $connection = $this->connectToMedboss();
+    if(!$connection){
+        return false;
+    }
 
         $labRequests = mssql_query("SELECT * FROM $this->labRequestView WHERE (PatientNumber='$patientId')", $connection);
-        
-        while($patientData = mssql_fetch_object($labRequests, $connection))
-        {
+        while($patientData = @mssql_fetch_object($labRequests))
+        {   
             //save received data in staging table and to internal tables
             $this->process($patientData);
         }
+
+            mssql_close($connection);
     }
 
     public function process($labRequest)
@@ -29,7 +36,7 @@ class MedbossInterfacer implements InterfacerInterface {
             $patient->name = $labRequest->FullNames;
             $gender = array('M' => Patient::MALE, 'F' => Patient::FEMALE, 'U' => Patient::UNKNOWN); 
             $patient->gender = $gender[$labRequest->Sex];
-            $patient->dob = $this->getDobFromAge($labRequest->Age);
+            $patient->dob = $this->getDobFromAge($labRequest->Age, $labRequest->DateOfRequest);
             $patient->address = $labRequest->PoBox;
             $patient->phone_number = $labRequest->PatientsContact;
             $patient->created_by = User::EXTERNAL_SYSTEM_USER;
@@ -39,9 +46,9 @@ class MedbossInterfacer implements InterfacerInterface {
         }
 
         //We check if the test exists in our system if not we just save the request in stagingTable
-        $testTypeId = TestType::getTestTypeIdByTestName($labRequest->investigation);
+        $testTypeId = TestType::getTestTypeIdByTestName($labRequest->Name);
 
-        if(is_null($testTypeId) && $labRequest->parentLabNo == '0')
+        if(is_null($testTypeId))
         {
             $this->saveToExternalDump($labRequest, ExternalDump::TEST_NOT_FOUND);
             return;
@@ -92,7 +99,6 @@ class MedbossInterfacer implements InterfacerInterface {
         }
         
         $this->saveToExternalDump($labRequest, null);
-        mssql_close($connection);
     }
 
      /**
@@ -146,16 +152,10 @@ class MedbossInterfacer implements InterfacerInterface {
         $dateResultEntered = date_format($resultsEntered, 'Y-m-d');
         $timeResultEntered = date_format($resultsEntered, 'h:i:s');
 
-        $results = getFormattedResults($testId);
+        $results = $this->getFormattedResults($testId);
 
-        $lab_request_no = intval($lab_request_no);
-
-        if ($externalDump->first()->result_returned == 1) {
-            $query = mssql_query("UPDATE BlissLabResults SET TestResults = '$result_ent' WHERE RequestID = '$externalId' ");
-        }else{
-            $query = mssql_query("INSERT INTO BlissLabResults (RequestID,OfferedBy,DateOffered, TimeOffered, TestResults)
-                    VALUES ('$externalId','$userId','$dateResultEntered','$timeResultEntered','$result_ent') ");
-        }
+        $query = @mssql_query("INSERT INTO BlissLabResults (RequestID,OfferedBy,DateOffered, TimeOffered, TestResults)
+                VALUES ('$externalId','$userId','$dateResultEntered','$timeResultEntered','$results') ");
         
         if ($query) {
             //Set status in external lab-request to `sent`
@@ -169,28 +169,29 @@ class MedbossInterfacer implements InterfacerInterface {
             $updatedExternalRequest->save();
             Log::error("MSSQL Query Error => ".mssql_get_last_message());
         }
-        mssql_close($link);
     }
 
     public function connectToMedboss()
     {
         #MedBoss MSSQL Server Parameters
         //$server = '192.168.184.121:1432';
-        $server = '192.168.6.4';
+        $server = '192.168.1.101';
         $username = 'kapsabetadmin';
         $password = 'kapsabet';
         $database = '[Kapsabet]';
         $this->labRequestView  = 'LabRequestQueryForBliss';
-
-        $link = mssql_connect($server, $username, $password);
+    
+        $link = @mssql_connect($server, $username, $password);
         
         if (!$link)
         {
             Log::error("MSSQL connection Error: => ".mssql_get_last_message());
+            return false; 
         }
         
         if (!mssql_select_db($database, $link)){
             Log::error("MSSQL Database Selection Error: => ".mssql_get_last_message());
+        return false;   
         }
         return $link;
     }
