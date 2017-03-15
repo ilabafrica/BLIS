@@ -10,6 +10,7 @@
 |
 */
 /* Routes accessible before logging in */
+
 Route::group(array("before" => "guest"), function()
 {
     /*
@@ -22,6 +23,15 @@ Route::group(array("before" => "guest"), function()
     Route::post('/api/receiver', array(
         "as" => "api.receiver",
         "uses" => "InterfacerController@receiveLabRequest"
+    ));
+    Route::post('/api/testinfo', array(
+        "uses" => "InterfacerController@getTestInfo"
+    ));
+    Route::post('/api/searchtests', array(
+        "uses" => "InterfacerController@getTests"
+    ));
+    Route::post('/api/saveresults', array(
+        "uses" => "InterfacerController@saveTestResults"
     ));
     Route::any('/', array(
         "as" => "user.login",
@@ -297,6 +307,8 @@ Route::group(array("before" => "auth"), function()
     //  Check if able to manage reports
     Route::group(array("before" => "checkPerms:view_reports"), function()
     {
+        Route::get('specimentype', 'SpecimenTypeController@index');
+        Route::get('testtype', 'TestTypeController@index');
         Route::any("/patientreport", array(
             "as"   => "reports.patient.index",
             "uses" => "ReportController@loadPatients"
