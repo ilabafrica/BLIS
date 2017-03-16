@@ -50,8 +50,7 @@ class PatientController extends \BaseController {
 		$rules = array(
 			'patient_number' => 'required|unique:patients,patient_number',
 			'name'       => 'required',
-			'gender' => 'required',
-			'dob' => 'required'
+			'gender' => 'required'
 		);
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -64,7 +63,14 @@ class PatientController extends \BaseController {
 			$patient->patient_number = Input::get('patient_number');
 			$patient->name = Input::get('name');
 			$patient->gender = Input::get('gender');
-			$patient->dob = Input::get('dob');
+			if(Input::get('ageselector')==0){
+				//calculate date from age
+				$age=Input::get('age');
+				$patient->dob =$this->getDobFromAge($age,date("Y-m-d"));
+			}else{
+				$patient->dob = Input::get('dob');
+			}
+			
 			$patient->email = Input::get('email');
 			$patient->address = Input::get('address');
 			$patient->phone_number = Input::get('phone_number');
@@ -195,5 +201,12 @@ class PatientController extends \BaseController {
 	{
         return Patient::search(Input::get('text'))->take(Config::get('kblis.limit-items'))->get()->toJson();
 	}
+	
+	public function getDobFromAge($age, $requestDate)
+    {
+        $requestDate = new DateTime($requestDate);
+        $dob = date_sub($requestDate,date_interval_create_from_date_string($age.' years'));
+        return $dob;
+    }
 
 }

@@ -30,8 +30,21 @@
 				<div class="form-group">
 					{{ Form::label('name', trans('messages.names')) }}
 					{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
-				</div>
+				</div> 
 				<div class="form-group">
+					{{ Form::label('ageselector', 'Age Input Selector') }}
+					<div>{{ Form::radio('ageselector', '0', true) }}
+					<span class="input-tag">Age</span>
+					<div>{{ Form::radio("ageselector", '1', false) }}
+					<span class="input-tag">Date Picker</span></div></div>
+					
+				</div>
+				<div class="form-group" id="age">
+					{{ Form::label('dob', 'Age') }}
+					{{ Form::text('age', Input::old('dob'), 
+						array('class' => 'form-control', 'placeholder'=>'Enter the age in years')) }}
+				</div>
+				<div class="form-group" id="date-picker">
 					{{ Form::label('dob', trans('messages.date-of-birth')) }}
 					{{ Form::text('dob', Input::old('dob'), 
 						array('class' => 'form-control standard-datepicker')) }}

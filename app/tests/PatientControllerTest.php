@@ -25,6 +25,7 @@ class PatientControllerTest extends TestCase
 			'patient_number' => '6666',//Must be unique!
 			'name' => 'Bob Tzhebuilder',
 			'dob' => '1930-07-05',
+			'ageselector'=>1,
 			'gender' => '0',//male
 			'email' => 'builderone@concretejungle.com',
 			'address' => '788347 W3-x2 Down.croncrete',
