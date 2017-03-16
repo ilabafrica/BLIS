@@ -1,7 +1,6 @@
 <?php
 
 class MedbossInterfacer implements InterfacerInterface {
-:
     public function retrieve($patientId)
     {
     if(!is_numeric(substr($patientId,0 ,2 ))){
