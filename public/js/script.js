@@ -828,7 +828,14 @@ $(function(){
 	function showSusceptibility(id){
 		$('#drugSusceptibilityForm_'+id).toggle(this.checked);
 	}
+	$(document).ready(function () {
+		$('#date-picker').hide();
 
+		$('input[name=ageselector]').change(function() {
+		$('#age').toggle($(this).val() === '0');
+		$('#date-picker').toggle($(this).val() === '1');
+		});
+	});
 	/*End toggle susceptibility*/
 	/* Fetch equipment details without page reload */
 	function fetch_equipment_details()
