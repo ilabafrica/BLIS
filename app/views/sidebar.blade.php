@@ -353,10 +353,10 @@
 				</ul>
 			</div>
 		</li>
-		@if(Entrust::can('manage_inventory') || Entrust::can('request_topup'))
+		@if(Entrust::can('manage_inventory') || Entrust::can('request_topup') || Entrust::can('view_blood_bank'))
 		<li>
 			<div class="main-menu {{$active[7]}}">
-				<a href="{{ URL::route("item.index")}}">
+				<a href="#">
 					<span class="glyphicon glyphicon-download-alt"></span> {{ Lang::choice('messages.inventory', 1)}}</a>
 			</div>
 			<div class="sub-menu {{$active[7]}}">

@@ -537,9 +537,10 @@ Route::group(array("before" => "auth"), function()
             "as"   => "request.delete",
             "uses" => "TopupController@delete"
         ));
-        /*
-        *   Routes for blood-bank
-        */
+    });
+    Route::group(array("before" => "checkPerms:view_blood_bank"), function()
+    {
+        //Routes for blood-bank
         Route::resource('blood', 'BloodController');
     });
 });
