@@ -37,6 +37,7 @@
 		case 'cd4':
 		case 'qualitycontrol':
 		case 'inventory':
+		case 'inventoryusage':
 		case 'rejection':
 		case 'testaudit':
 		case 'critval':
