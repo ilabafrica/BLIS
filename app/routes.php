@@ -381,6 +381,15 @@ Route::group(array("before" => "auth"), function()
             "as"   => "reports.inventory",
             "uses" => "ReportController@stockLevel"
         ));
+
+          Route::get("/inventoryusage", array(
+            "as"   => "reports.inventoryusage",
+            "uses" => "ReportController@usageLevel"
+        ));
+        Route::post("/inventoryusage", array(
+            "as"   => "reports.inventoryusage",
+            "uses" => "ReportController@usageLevel"
+        ));
         
         Route::get('search/autocomplete', 'ReportController@autocomplete');
 

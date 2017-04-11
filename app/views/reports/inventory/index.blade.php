@@ -4,11 +4,11 @@
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
 	  <li class="active">{{ Lang::choice('messages.report',2) }}</li>
-	  <li class="active">{{ trans('messages.stock-level-report') }}</li>
+	  <li class="active">{{ trans('messages.stock-usage') }}</li>
 	</ol>
 </div>
 
-{{ Form::open(array('route' => array('reports.inventory'), 'class' => 'form-inline', 'role' => 'form')) }}
+{{ Form::open(array('route' => array('reports.inventoryusage'), 'class' => 'form-inline', 'role' => 'form')) }}
 	{{ Form::hidden('search_item_id', '', array('id' => 'search_item_id')) }}
 
 <div class='container-fluid'>
@@ -35,7 +35,7 @@
 		        </div>
 	    	</div>
 	    </div>
-	     <div class="col-md-2"><!-- Select type of item -->
+	     <div class="col-md-4"><!-- Select type of item -->
 	    	<div class="row">
 		        <div class="col-md-4">
 		        	{{ Form::label('item', Lang::choice('messages.item',1)) }}
@@ -44,32 +44,13 @@
 		             {{ Form::text('search_item', '', array('class' => 'form-control', 'id' => 'search_item', 'placeholder' => 'Search Item'))}}
 		        </div>
 	        </div>
-	    </div>	   
+	    </div>	
+	    <div class="col-md-2"> <!--View Button -->
+    		{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'),
+    		array('class' => 'btn btn-info', 'id' => 'filter', 'type' => 'submit')) }}
+     	</div>   
     </div><!-- /.row -->
-    <br />
-	<div class="row">
-    <div class='row spacer'></div>
-		<div class="col-md-12">
-	    	<div class="row">
-				<div class="col-sm-4"><!-- Usage Radio Button-->
-				  	<label class="radio-inline">
-						{{ Form::radio('records', 'usage', true, array('data-toggle' => 'radio', 
-						  'id' => 'usage')) }} {{trans('messages.usage')}}
-					</label>
-				</div>
-				<div class="col-sm-4"> <!-- Supply Radio Button-->
-				    <label class="radio-inline">
-						{{ Form::radio('records', 'supply', false, array('data-toggle' => 'radio',
-						  'id' => 'supply' )) }} {{trans('messages.supply')}}
-					</label>
-				</div>	
-	    		<div class="col-md-4"> <!--View Button -->
-		    		{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'),
-		    		array('class' => 'btn btn-info', 'id' => 'filter', 'type' => 'submit')) }}
-		     	</div>
-			</div>
-       </div>	
-  	</div><!-- /.row -->
+   
 </div><!-- /.container-fluid -->
 
 {{ Form::close() }}
@@ -79,8 +60,8 @@
 <div class="panel panel-primary">
 
 	<div class="panel-heading ">
-		<span class="glyphicon glyphicon-user"></span>
-		{{ trans('messages.stock-level-report') }}
+		<span class="glyphicon glyphicon-notes"></span>
+		{{ trans('messages.stock-usage') }}
 	</div>
 
 	<div class="panel-body">
@@ -89,15 +70,16 @@
 		@endif	
 
 		<div class="table-responsive">
-			<div><strong>{{$reportTitle}}</strong></div><br />
 			<table class="table table-striped table-hover table-condensed search-table">
 				
 					<thead>
 						<tr>
-							<th></th>							
+							<th>No.</th>							
+							<th>{{Lang::choice('messages.item',1)}}</th>
 							<th>{{Lang::choice('messages.supplier',1)}}</th>
 							<th>{{Lang::choice('messages.date-of-usage',1)}}</th>
 							<th>{{Lang::choice('messages.signed-out',1)}}</th>
+							<th>{{Lang::choice('messages.available-qty',1)}}</th>
 							<th>{{Lang::choice('messages.issued-by',1)}}</th>
 							<th>{{Lang::choice('messages.received-by',1)}}</th>
 						</tr>
@@ -108,9 +90,11 @@
 						@foreach($reportData as $row)
 						<tr>
 							<td>{{$i++}}</td>							
-							<td>{{Stock::find($row->stock_id)->name}}</td>
+							<td>{{$row->stock->item->name}}</td>
+							<td>{{$row->stock->supplier->name}}</td>
 							<td>{{$row->date_of_usage}}</td>
 							<td>{{$row->quantity_used}}</td>
+							<td>{{$row->stock->item->quantity()}}</td>
 							<td>{{$row->issued_by}}</td>
 							<td>{{$row->received_by}}</td>
 						@endforeach

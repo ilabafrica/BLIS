@@ -3099,6 +3099,53 @@ class ReportController extends \BaseController {
 
 		$to = Input::get('end');
 		if(!$to) $to = $date;
+
+		$reportTypes = array('Monthly', 'Quarterly');		
+		$items = Item::lists( 'name', 'id');		
+		$selectedItem = Input::get('search_item_id');	
+
+		if($from||$to){
+
+			if(!$to) $to = $date;
+
+			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
+					$error = trans('messages.check-date-range');					
+			}
+			else
+			{
+				$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
+
+				// to be displayed by default when opening the supply report
+				if( $selectedItem)
+				{ 
+					$supplyData=Stock::where('item_id',  $selectedItem)->whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
+							
+				}else{
+					$supplyData=Stock::whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
+				}		
+			}
+		}	
+		$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
+		$reportTitle = str_replace("[FROM]", $from, $reportTitle);
+		$reportTitle = str_replace("[TO]", $to, $reportTitle);
+		
+		return View::make('reports.inventory.supply')
+		->with('reportTypes', $reportTypes)
+		->with('supplyData', $supplyData)
+		->with('reportTitle', $reportTitle)
+		->with('items', $items)
+		->withInput(Input::all());		
+	}
+
+	public function usageLevel(){
+		
+		//	Fetch form filters
+		$date = date('Y-m-d');
+		$from = Input::get('start');
+		if(!$from) $from = date('Y-m-01');
+
+		$to = Input::get('end');
+		if(!$to) $to = $date;
 		
 		$reportTypes = array('Monthly', 'Quarterly');		
 		$items = Item::lists( 'name', 'id');
@@ -3106,72 +3153,41 @@ class ReportController extends \BaseController {
 		$selectedReport = Input::get('report_type');	
 		$selectedItem = Input::get('search_item_id');	
 		$selected_record_type = Input::get('records'); 
-		
-		if($from||$to){
 
-			if(!$to) $to = $date;
+		if($from||$to){			
 
 			if(strtotime($from)>strtotime($to)||strtotime($from)>strtotime($date)||strtotime($to)>strtotime($date)){
-					$error = trans('messages.check-date-range');
-					
+					$error = trans('messages.check-date-range');					
 			}
 			else
 			{
 				$toPlusOne = date_add(new DateTime($to), date_interval_create_from_date_string('1 day'));
-				if($selected_record_type=="usage" || $selected_record_type==''){ 
-				$usageData=Usage::whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
-				//print_r($usageData);exit;
-				}elseif($selectedItem=='' && $selected_record_type=="supply"){
-					$supplyData=Stock::whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
-			
-				}else{
-					$supplyData=Stock::where('item_id',  $selectedItem)->whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
-				}		
-			}
-		}
-		if ($selectedItem ==0 || $selectedItem=='') {
-			$itemName = 'No Item';
-		}
-		else
-		{
-			$itemData = Item::find($selectedItem);
-				$itemName = $itemData->name;
-		}
-	
-		$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
+				if ($selectedItem) {
+					$stock = Stock::where('item_id',$selectedItem)->get();
 
+					//If a particular item is chosen, loop through eachone in the supply/stock table to see the records of each item's usage
+					foreach ($stock as $key => $stock_item) {
+							
+						$usageData=	$stock_item->usage()->whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
+					}
+				}
+				else
+				{
+					//If no item was selected, display all items usage by default.
+					$usageData=Usage::whereBetween('created_at', array($from, $toPlusOne->format('Y-m-d H:i:s')))->get();
+				}			
+			}
+		}		
+		$reportTitle = Lang::choice('messages.monthly-stock-level-report-title',1);
 		$reportTitle = str_replace("[FROM]", $from, $reportTitle);
 		$reportTitle = str_replace("[TO]", $to, $reportTitle);
 		
-		//if the user selects supply option	
-		if($selected_record_type =='supply'){
-
-			$reportTitle = Lang::choice('Supply of '.$itemName,1);
-			$reportTitle = str_replace("[FROM]", $from, $reportTitle);
-			$reportTitle = str_replace("[TO]", $to, $reportTitle);
-			
-			return View::make('reports.inventory.supply')
-					->with('reportTypes', $reportTypes)
-					->with('supplyData', $supplyData)
-					->with('reportTitle', $reportTitle)
-					->with('items', $items)
-					->with('selectedReport', $selectedReport)
-					->withInput(Input::all());
-		}
-		//If the user selects usage option
-		else{
-			$reportTitle = Lang::choice('Usage of '.$itemName,1);
-			$reportTitle = str_replace("[FROM]", $from, $reportTitle);
-			$reportTitle = str_replace("[TO]", $to, $reportTitle);
-			
-			return View::make('reports.inventory.index')
-					->with('reportTypes', $reportTypes)
-					->with('reportData', $usageData)
-					->with('reportTitle', $reportTitle)
-					->with('items', $items)
-					->with('selectedReport', $selectedReport)
-					->withInput(Input::all());
-		}
+		return View::make('reports.inventory.index')
+				->with('reportTypes', $reportTypes)
+				->with('reportData', $usageData)
+				->with('reportTitle', $reportTitle)
+				->with('items', $items)
+				->withInput(Input::all());		
 	}
 
 	/*
