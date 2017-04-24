@@ -114,7 +114,7 @@ class Test extends Eloquent
 		if($this->external_id == null){
 			return false;
 		}
-		else if(ExternalDump::where('test_id', $this->id)){
+		else if(empty(ExternalDump::where('test_id', $this->id)->first())){
 			return false;
 		}
 		else{ 
