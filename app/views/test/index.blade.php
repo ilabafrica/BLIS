@@ -83,7 +83,7 @@
             </div>
         </div>
         <div class="panel-body">
-            <table class="table table-striped table-hover table-condensed">
+            <table class="table table-hover table-condensed">
                 <thead>
                     <tr>
                         <th>{{trans('messages.date-ordered')}}</th>
@@ -98,11 +98,26 @@
                     </tr>
                 </thead>
                 <tbody>
+              
                 @foreach($testSet as $key => $test)
-                    <tr 
+
+                      <?php
+                $rowclass = 'low_priority_tr';
+                    if ($test->priority == '1'){
+                $rowclass = 'high_priority_tr';
+                    
+                    }elseif ($test->priority == '2') {
+                        $rowclass = 'completed_high_priority_tr';
+                    }
+
+                ?>
+
+                    <tr class="{{$rowclass}}"
                         @if(Session::has('activeTest'))
                             {{ in_array($test->id, Session::get('activeTest'))?"class='info'":""}}
                         @endif
+
+                        
                         >
                         <td>{{ date('d-m-Y H:i', strtotime($test->time_created));}}</td>  <!--Date Ordered-->
                         <td>{{ empty($test->visit->patient->external_patient_number)?

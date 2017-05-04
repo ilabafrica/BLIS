@@ -343,6 +343,9 @@ return array(
      *   Tests Results
      */
     'edit-test-results' => 'Edit Test Results',
+    'high-priority'=>'High Priority',
+    'low-priority'=>'Low Priority',
+    'priority'=>'Priority',
     'enter-results' => 'Enter Results',
     'enter-results-title' => 'Enter Test Results',
     'enter-test-results' => 'Enter Test Results',

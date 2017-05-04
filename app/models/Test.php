@@ -21,6 +21,13 @@ class Test extends Eloquent
 	const VERIFIED = 5;
 
 	/**
+	 *Test Priority
+	 */
+	const LOW_PRIORITY = '0';
+	const HIGH_PRIORITY = '1';
+	const COMPLETED_HIGH_PRIORITY = '2';
+
+	/**
 	 * Other constants
 	 */
 	const POSITIVE = 'Positive';

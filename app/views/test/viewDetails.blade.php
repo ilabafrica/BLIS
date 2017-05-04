@@ -17,6 +17,15 @@
                     <div class="col-md-11">
 						<span class="glyphicon glyphicon-cog"></span>{{trans('messages.test-details')}}
 
+						<div class="panel-btn">
+							@if(Auth::user()->can('edit_test_results'))
+								<a class="btn btn-sm btn-warning" href="{{ URL::to('test/'.$test->id.'/high_priority') }}">
+									<span class="glyphicon glyphicon-arrow-up"></span>
+									{{trans('messages.high-priority')}}
+								</a>
+							@endif							
+						</div>
+
 						@if($test->isCompleted() && $test->specimen->isAccepted())
 						<div class="panel-btn">
 							@if(Auth::user()->can('edit_test_results'))
@@ -99,6 +108,14 @@
 							<!-- Not Rejected and (Verified or Completed)-->
 							<p class="view-striped"><strong>{{trans('messages.turnaround-time')}}</strong>
 								{{$test->getFormattedTurnaroundTime()}}</p>
+							@endif
+							<!-- Test Priority-->
+							@if($test->priority == Test::HIGH_PRIORITY)
+							<p class="view bg-info"><strong>{{trans('messages.priority')}}</strong>
+								{{ trans('messages.high-priority') }}</p>
+							@else
+							<p class="view"><strong>{{trans('messages.priority')}}</strong>
+								{{ trans('messages.low-priority') }} </p>
 							@endif
 						</div>
 					</div>
