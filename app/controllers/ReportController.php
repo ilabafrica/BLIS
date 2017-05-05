@@ -136,6 +136,23 @@ class ReportController extends \BaseController {
 							->with('accredited', $accredited);
 	    	return Response::make($content,200, $headers);
 		}
+
+		else if(Input::has('pdf')){
+			$date = date("Ymdhi");
+			$fileName = "blispatient_".$id."_".$date.".pdf";
+
+			$content = View::make('reports.patient.exportpdf')
+							->with('patient', $patient)
+							->with('tests', $tests)
+							->with('from', $from)
+							->with('to', $to)
+							->with('visit', $visit)
+							->with('accredited', $accredited);
+
+			$pdf = App::make('dompdf');
+			$pdf->loadHTML($content);
+			return $pdf->download($fileName);
+		}
 		else{
 			return View::make('reports.patient.report')
 						->with('patient', $patient)
