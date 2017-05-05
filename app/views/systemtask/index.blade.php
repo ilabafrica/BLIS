@@ -32,7 +32,7 @@
 				</tr>
 			</thead>
 			<tbody>
-			{{$tasks}}
+			
 			@foreach($tasks as $task)
 				<tr @if(Session::has('activefacility'))
                             {{(Session::get('activefacility') == $task->id)?"class='info'":""}}
@@ -48,6 +48,12 @@
 							<span class="glyphicon glyphicon-edit"></span>
 							{{ trans('messages.edit') }}
 						</a>
+
+					<!--Manually run a script-->
+					<!--<a class="btn btn-sm btn-warning" href="{{ URL::to("systemtask/" . $task->id . "/execute") }}" >
+							<span class="glyphicon glyphicon-gear"></span>
+							Execute Now
+						</a>-->
 					<!-- delete this facility (uses delete method found at GET /facility/{id}/delete -->
 						<button class="btn btn-sm btn-danger delete-item-link"
 							data-toggle="modal" data-target=".confirm-delete-modal"

@@ -37,7 +37,7 @@
 				</div>
 				<div class="form-group">
 					{{ Form::label('name', 'Time Intervals') }}
-					{{ Form::text('interval', Input::old('interval'), array('class' => 'form-control')) }}
+					{{ Form::text('interval', Input::old('interval'), array('class' => 'form-control', 'placeholder'=>'Choose between 0-59 minutes')) }}
 				</div>
 				<div class="form-group actions-row">
 					{{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 

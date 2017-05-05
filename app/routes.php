@@ -57,6 +57,9 @@ Route::group(array("before" => "auth"), function()
         ));
     });
     Route::resource('systemtask', 'SystemTaskController');
+    Route::get('systemtask/{id}/execute','SystemTaskController@execute');
+    Route::get('systemtask/{id}/delete','SystemTaskController@delete');
+
     Route::any("/logout", array(
         "as"   => "user.logout",
         "uses" => "UserController@logoutAction"

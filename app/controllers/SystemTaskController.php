@@ -1,5 +1,6 @@
 <?php
-
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 class SystemTaskController extends \BaseController {
 
 	/**
@@ -51,6 +52,9 @@ class SystemTaskController extends \BaseController {
 			// redirect
 			try{
 				$systemtask->save();
+
+				//Update the crontabs
+				$this->updateCron();
 				$url = Session::get('SOURCE_URL');
 				return Redirect::to('/systemtask')
 					->with('message', "The task has been added");
@@ -111,9 +115,11 @@ class SystemTaskController extends \BaseController {
 			// redirect
 			try{
 				$systemtask->save();
+				//Update the crontabs
+				$this->updateCron();
 				$url = Session::get('SOURCE_URL');
 				return Redirect::to('/systemtask')
-					->with('message', "The task has been added");
+					->with('message', "The task has been updated");
 			} catch(QueryException $e){
 				Log::error($e);
 			}
@@ -134,14 +140,73 @@ class SystemTaskController extends \BaseController {
 
 		//Soft delete
 		$task->delete();
-
+		//Update the crontabs
+		$this->updateCron();
 		// redirect
 		$url = Session::get('SOURCE_URL');
 			
-			return Redirect::to($url)
+			return Redirect::to('/systemtask')
 
-			->with('message', trans('messages.successfully-deleted-facility'));
+			->with('message', "The tasks has been removed");
 	}
 
+	//Function to update crontabs
+	
+	 function updateCron(){
 
+	 	//Fetch the available System tasks
+	 	$systemtask=SystemTask::all();
+	 	
+	 	//Clear the cron tabs
+	 	$process1 = new Process('crontab -r');
+		$process1->run();
+		
+		echo $process1->getOutput();
+
+	 	//Create a string with the system tasks and command
+	 	foreach ($systemtask as $task) {
+	 		if ($task->intervals>=0 && $task->intervals<=59) {
+	 			$crontab="";
+	 			$crontab.="\"".$task->intervals;
+	 			$crontab.=" 0";
+	 			$crontab.=" *";
+	 			$crontab.=" *";
+	 			$crontab.=" *";
+	 			$crontab.=" ".$task->command." ".$task->script_location."\"\n";
+
+	 			$process2 = new Process("(crontab -l ; echo $crontab) | crontab -");
+				$process2->run();
+
+				// executes after the command finishes
+				if (!$process2->isSuccessful()) {
+				    throw new ProcessFailedException($process2);
+				}
+	 		}
+	 		
+	 	}
+	 	
+
+	}
+	//Executes cron on demand
+	public function execute($id){
+		$task=SystemTask::find($id);
+		$crontab="";
+		$crontab.="\"".$task->intervals;
+		$crontab.=" 0";
+		$crontab.=" *";
+		$crontab.=" *";
+		$crontab.=" *";
+		$crontab.=" ".$task->command." ".$task->script_location."\"\n";
+
+		$process2 = new Process("cron $crontab");
+		$process2->run();
+
+		// executes after the command finishes
+		if (!$process2->isSuccessful()) {
+		    throw new ProcessFailedException($process2);
+		}
+
+		return Redirect::to('/systemtask')
+					->with('message', "The task has been executed");
+	}
 }
