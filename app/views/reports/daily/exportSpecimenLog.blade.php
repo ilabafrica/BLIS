@@ -1,7 +1,18 @@
 <html>
 <head>
-{{ HTML::style('css/bootstrap.min.css') }}
 {{ HTML::style('css/bootstrap-theme.min.css') }}
+<style type="text/css">
+	#content table, #content th, #content td {
+	   border: 1px solid black;
+	   font-size:12px;
+	}
+	#content p{
+		font-size:12px;
+	 }
+	.table {
+		 border-collapse: collapse;
+	 }
+</style>
 </head>
 <body>
 @include("reportHeader")
@@ -27,6 +38,7 @@
 	<br>
 	<table class="table table-bordered">
 		<tbody>
+		<tr>
 			<th>{{trans('messages.specimen-number-title')}}</th>
 			<th>{{trans('messages.specimen')}}</th>
 			<th>{{trans('messages.lab-receipt-date')}}</th>
@@ -35,6 +47,7 @@
 			<th>{{trans('messages.rejection-reason-title')}}</th>
 			<th>{{trans('messages.reject-explained-to')}}</th>
 			<th>{{trans('messages.date-rejected')}}</th>
+		</tr>
 			@forelse($specimens as $specimen)
 			<tr>
 				<td>{{ $specimen->id }}</td>

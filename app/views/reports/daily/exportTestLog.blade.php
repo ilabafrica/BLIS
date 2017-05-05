@@ -1,8 +1,19 @@
 <html>
 <head>
-{{ HTML::style('css/bootstrap.min.css') }}
 {{ HTML::style('css/bootstrap-theme.min.css') }}
 </head>
+<style type="text/css">
+	#content table, #content th, #content td {
+	   border: 1px solid black;
+	   font-size:12px;
+	}
+	#content p{
+		font-size:12px;
+	 }
+	.table {
+		 border-collapse: collapse;
+	 }
+</style>
 <body>
 @include("reportHeader")
 <div id="content" class="Section2">
@@ -38,6 +49,7 @@
 	<br>
 	<table class="table table-bordered">
 		<tbody>
+			<tr>
 			<th>{{ trans('messages.patient-id') }}</th>
 			<th>{{ trans('messages.visit-number') }}</th>
 			<th>{{ trans('messages.patient-name') }}</th>
@@ -50,6 +62,7 @@
 			<th>{{trans('messages.test-remarks')}}</th>
 			<th>{{trans('messages.results-entry-date')}}</th>
 			<th>{{trans('messages.verified-by')}}</th>
+			</tr>
 			@forelse($tests as $key => $test)
 			<tr>
 				<td>{{ $test->visit->patient->id }}</td>
@@ -68,7 +81,7 @@
 				<td>{{ $test->verifiedBy->name or trans('messages.verification-pending') }}</td>
 			</tr>
 			@empty
-			<tr><td colspan="9">{{trans('messages.no-records-found')}}</td></tr>
+			<tr><td colspan="12">{{trans('messages.no-records-found')}}</td></tr>
 			@endforelse
 		</tbody>
 	</table>

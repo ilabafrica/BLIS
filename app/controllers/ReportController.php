@@ -236,6 +236,19 @@ class ReportController extends \BaseController {
 								->withInput(Input::all());
 		    	return Response::make($content,200, $headers);
 			}
+			else if(Input::has('pdf')){
+				$date = date("Ymdhi");
+				$fileName = "daily_visits_log_".$date.".pdf";
+
+				$content = View::make('reports.daily.exportPatientLog')
+								->with('visits', $visits)
+								->with('accredited', $accredited)
+								->withInput(Input::all());
+				$pdf = App::make('dompdf');
+				$pdf->loadHTML($content);
+				return $pdf->download($fileName);
+		    	
+			}
 			else{
 				return View::make('reports.daily.patient')
 								->with('visits', $visits)
@@ -290,6 +303,21 @@ class ReportController extends \BaseController {
 								->with('accredited', $accredited)
 								->withInput(Input::all());
 		    	return Response::make($content,200, $headers);
+			}
+			else if(Input::has('pdf')){
+				$date = date("Ymdhi");
+				$fileName = "daily_rejected_specimen_".$date.".pdf";
+
+				$content = View::make('reports.daily.exportSpecimenLog')
+								->with('specimens', $specimens)
+								->with('testCategory', $testCategory)
+								->with('testType', $testType)
+								->with('accredited', $accredited)
+								->withInput(Input::all());
+				$pdf = App::make('dompdf');
+				$pdf->loadHTML($content);
+				return $pdf->download($fileName);
+		    	
 			}
 			else
 			{
@@ -360,6 +388,22 @@ class ReportController extends \BaseController {
 								->with('accredited', $accredited)
 								->withInput(Input::all());
 		    	return Response::make($content,200, $headers);
+			}
+			else if(Input::has('pdf')){
+				$date = date("Ymdhi");
+				$fileName = "daily_test_records_".$date.".pdf";
+
+				$content = View::make('reports.daily.exportTestLog')
+								->with('tests', $tests)
+								->with('testCategory', $testCategory)
+								->with('testType', $testType)
+								->with('pendingOrAll', $pendingOrAll)
+								->with('accredited', $accredited)
+								->withInput(Input::all());
+				$pdf = App::make('dompdf');
+				$pdf->loadHTML($content);
+				return $pdf->download($fileName);
+		    	
 			}
 			else
 			{

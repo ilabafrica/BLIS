@@ -42,7 +42,7 @@
 			            {{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
 			                    array('class' => 'btn btn-primary', 'id' => 'filter', 'type' => 'submit')) }}
 		            </div>
-		            @if(count($verified) != count($tests))
+		            @if(count($verified) == count($tests))
 		            <div class="col-sm-3">
 				        {{ Form::submit('Export word', array('class' => 'btn btn-success', 
 				        	'id' => 'word', 'name' => 'word')) }}
