@@ -1035,14 +1035,29 @@ class ReportController extends \BaseController {
 		$testCategory = Input::get('test_category');
 
 		$infectionData = Test::getInfectionData($from, $toPlusOne, $testCategory);	// array for counts data for each test type and age range
-		
-		return View::make('reports.infection.index')
+		if(Input::has('pdf')){
+			$fileName = "surveillance_".$date.".pdf";
+			$content = View::make('reports.infection.exportinfection')
+							->with('gender', $gender)
+					->with('ageRanges', $ageRanges)
+					->with('ranges', $ranges)
+					->with('infectionData', $infectionData)
+					->with('accredited', $accredited)
+					->withInput(Input::all());
+
+			$pdf = App::make('dompdf');
+			$pdf->loadHTML($content);
+			return $pdf->stream();
+		}
+		else {
+			return View::make('reports.infection.index')
 					->with('gender', $gender)
 					->with('ageRanges', $ageRanges)
 					->with('ranges', $ranges)
 					->with('infectionData', $infectionData)
 					->with('accredited', $accredited)
 					->withInput(Input::all());
+		}
 	}
 
 	/**
@@ -1184,7 +1199,20 @@ class ReportController extends \BaseController {
 							->with('accredited', $accredited)
 							->withInput(Input::all());
 			return Response::make($content,200, $headers);
-		}else{
+		}
+		else if(Input::has('pdf')){
+			$fileName = "surveillance_".$date.".pdf";
+			$content = View::make('reports.surveillance.exportSurveillance')
+							->with('surveillance', $surveillance)
+							->with('tests', $tests)
+							->with('accredited', $accredited)
+							->withInput(Input::all());
+
+			$pdf = App::make('dompdf');
+			$pdf->loadHTML($content);
+			return $pdf->download($fileName);
+		}
+		else{
 			return View::make('reports.surveillance.index')
 					->with('accredited', $accredited)
 					->with('tests', $tests)
