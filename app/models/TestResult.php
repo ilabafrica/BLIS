@@ -23,6 +23,14 @@ class TestResult extends Eloquent
 	{
 		return $this->belongsTo('Test');
 	}
+
+	/**
+	 * Result attribute mutator
+	 */
+	public function getResultAttribute($val)
+	{
+		return htmlspecialchars($val);
+	}
 	/**
 	 * Results Audit relationship
 	 */
