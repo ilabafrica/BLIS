@@ -37,6 +37,7 @@
 		case 'cd4':
 		case 'qualitycontrol':
 		case 'inventory':
+		case 'inventoryusage':
 		case 'rejection':
 		case 'testaudit':
 		case 'critval':
@@ -239,7 +240,13 @@
 					<li>
 						<div><a href="{{ URL::route('reports.inventory')}}">
 							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.stock-levels')}}</a>
+							{{trans('messages.supply')}}</a>
+						</div>
+					</li>
+					<li>
+						<div><a href="{{ URL::route('reports.inventoryusage')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.usage')}}</a>
 						</div>
 					</li>
 					</ul>
