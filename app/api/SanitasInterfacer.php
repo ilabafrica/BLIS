@@ -197,7 +197,7 @@ class SanitasInterfacer implements InterfacerInterface{
     public function process($labRequest)
     {
         //First: Check if patient exists, if true dont save again
-        $patient = Patient::where('external_patient_number', '=', $labRequest->patient->id)->get();
+        $patient = Patient::where('external_patient_number', '=', $labRequest->patient->id)->where('name', '=', $labRequest->patient->fullName)->get();
 
         if (!$patient->first())
         {
