@@ -198,9 +198,24 @@ class SanitasInterfacer implements InterfacerInterface{
     {
         //First: Check if patient exists, if true dont save again
         $patient = Patient::where('external_patient_number', '=', $labRequest->patient->id)->get();
-        
+
         if (!$patient->first())
         {
+            $patient = new Patient();
+            $patient->external_patient_number = $labRequest->patient->id;
+            $patient->patient_number = $labRequest->patient->id;
+            $patient->name = $labRequest->patient->fullName;
+            $gender = array('Male' => Patient::MALE, 'Female' => Patient::FEMALE); 
+            
+            $patient->gender = $gender[$labRequest->patient->gender];
+
+            $patient->dob = $labRequest->patient->dateOfBirth;
+            $patient->address = $labRequest->address->address;
+            $patient->phone_number = $labRequest->address->phoneNumber;
+            $patient->created_by = User::EXTERNAL_SYSTEM_USER;
+            $patient->save();
+        }
+        elseif($patient->first() && strcmp($patient->first()->name, $labRequest->patient->fullName)!=0 ){
             $patient = new Patient();
             $patient->external_patient_number = $labRequest->patient->id;
             $patient->patient_number = $labRequest->patient->id;
@@ -261,7 +276,7 @@ class SanitasInterfacer implements InterfacerInterface{
         {
             //Check via the labno, if this is a duplicate request and we already saved the test 
             $test = Test::where('external_id', '=', $labRequest->labNo)->get();
-            if (!$test->first())
+            if (!$test->first() || ($test->first() && $test->first()->visit->visit_number != $labRequest->patientVisitNumber))
             {
                 //Specimen
                 $specimen = new Specimen();
