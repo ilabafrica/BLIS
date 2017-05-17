@@ -215,21 +215,6 @@ class SanitasInterfacer implements InterfacerInterface{
             $patient->created_by = User::EXTERNAL_SYSTEM_USER;
             $patient->save();
         }
-        elseif($patient->first() && strcmp($patient->first()->name, $labRequest->patient->fullName)!=0 ){
-            $patient = new Patient();
-            $patient->external_patient_number = $labRequest->patient->id;
-            $patient->patient_number = $labRequest->patient->id;
-            $patient->name = $labRequest->patient->fullName;
-            $gender = array('Male' => Patient::MALE, 'Female' => Patient::FEMALE); 
-            
-            $patient->gender = $gender[$labRequest->patient->gender];
-
-            $patient->dob = $labRequest->patient->dateOfBirth;
-            $patient->address = $labRequest->address->address;
-            $patient->phone_number = $labRequest->address->phoneNumber;
-            $patient->created_by = User::EXTERNAL_SYSTEM_USER;
-            $patient->save();
-        }
         else{
             $patient = $patient->first();
         }
@@ -249,7 +234,7 @@ class SanitasInterfacer implements InterfacerInterface{
         }
         //Check if visit exists, if true dont save again
         $visitType = array('ip' => 'In-patient', 'op' => 'Out-patient');//Should be a constant
-        $visit = Visit::where('visit_number', '=', $labRequest->patientVisitNumber)->where('visit_type', '=', $visitType[$labRequest->orderStage])->get();
+        $visit = Visit::where('visit_number', '=', $labRequest->patientVisitNumber)->where('visit_type', '=', $visitType[$labRequest->orderStage])->where('patient_id', '=', $patient->id)->get();
         if (!$visit->first())
         {
             $visit = new Visit();
@@ -275,8 +260,8 @@ class SanitasInterfacer implements InterfacerInterface{
         if($labRequest->parentLabNo == '0')
         {
             //Check via the labno, if this is a duplicate request and we already saved the test 
-            $test = Test::where('external_id', '=', $labRequest->labNo)->get();
-            if (!$test->first() || ($test->first() && $test->first()->visit->visit_number != $labRequest->patientVisitNumber))
+            $test = Test::where('external_id', '=', $labRequest->labNo)->where('visit_id', '=', $visit->id)->get();
+            if (!$test->first())
             {
                 //Specimen
                 $specimen = new Specimen();
