@@ -6,9 +6,12 @@
 	  <li class="active">{{ Lang::choice('messages.item', 2) }}</li>
 	</ol>
 </div>
-@if (Session::has('message'))
-	<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
+@foreach($items as $key => $value)
+@if ( $value->quantity()  <  $value->min_level)
+	<div class="alert alert-info">{{ "$value->name needs to be restocked" }}</div>
 @endif
+@endforeach
+
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
