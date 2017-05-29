@@ -1,63 +1,24 @@
-@extends("layout")
-@section("content")
-<div>
-	<ol class="breadcrumb">
-	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-	  <li class="active">{{ Lang::choice('messages.report',2) }}</li>
-	  <li class="active">{{ trans('messages.infection-report') }}</li>
-	</ol>
-</div>
-{{ Form::open(array('route' => array('reports.aggregate.infection'), 'class' => 'form-inline', 'role' => 'form')) }}
-<!-- <div class='container-fluid'> -->
-	<div class="row">
-		<div class="col-md-3">
-	    	<div class="row">
-				<div class="col-md-3">
-					{{ Form::label('start', trans("messages.from")) }}
-				</div>
-				<div class="col-md-3">
-					{{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
-				        array('class' => 'form-control standard-datepicker')) }}
-			    </div>
-	    	</div>
-	    </div>
-	    <div class="col-md-3">
-	    	<div class="row">
-				<div class="col-md-2	">
-			    	{{ Form::label('end', trans("messages.to")) }}
-			    </div>
-				<div class="col-md-3">
-				    {{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
-				        array('class' => 'form-control standard-datepicker')) }}
-		        </div>
-	    	</div>
-	    </div>
-        <div class="col-md-6">
-	        <div class="col-md-3">
-	        	{{ Form::label('test_type', Lang::choice('messages.test-category',1)) }}
-	        </div>
-	        <div class="col-md-4">
-	            {{ Form::select('test_category', array(0 => '-- All --')+TestCategory::all()->sortBy('name')->lists('name','id'),
-	            	isset($input['test_category'])?$input['test_category']:0, array('class' => 'form-control')) }}
-	        </div>
-	        <div class="col-md-2">
-		    {{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
-		        array('class' => 'btn btn-info', 'id' => 'filter', 'type' => 'submit')) }}
-		    </div>
-		    <div class="col-sm-1">
-				{{Form::submit('Export to PDF', 
-		    		array('class' => 'btn btn-success', 'id'=>'pdf', 'name'=>'pdf'))}}
-			</div>
-        </div>
-	</div>
-<!-- </div> -->
-{{ Form::close() }}
-<br />
-<div class="panel panel-primary">
-	<div class="panel-heading ">
-		<span class="glyphicon glyphicon-user"></span>
-		{{ trans('messages.infection-report') }}
-	</div>
+<html>
+<head>
+{{ HTML::style('css/bootstrap-theme.min.css') }}
+<style type="text/css">
+	#content table, #content th, #content td {
+	   border: 1px solid black;
+	   font-size:12px;
+	}
+	#content p{
+		font-size:12px;
+	 }
+	.table {
+		 border-collapse: collapse;
+		 table-layout:fixed;
+		 width: 600px;
+	 }
+</style>
+</head>
+<body>
+	@include("reportHeader")
+	<div id="content">
 	<div class="panel-body">
 	@if (Session::has('message'))
 		<div class="alert alert-info">{{ trans(Session::get('message')) }}</div>
@@ -211,6 +172,5 @@
 			</table>
 		</div>
 	</div>
-</div>
-
-@stop
+</body>
+</html>

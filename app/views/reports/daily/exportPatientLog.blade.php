@@ -1,7 +1,18 @@
 <html>
 <head>
-{{ HTML::style('css/bootstrap.min.css') }}
 {{ HTML::style('css/bootstrap-theme.min.css') }}
+<style type="text/css">
+	#content table, #content th, #content td {
+	   border: 1px solid black;
+	   font-size:12px;
+	}
+	#content p{
+		font-size:12px;
+	 }
+	.table {
+		 border-collapse: collapse;
+	 }
+</style>
 </head>
 <body>
 @include("reportHeader")
@@ -23,9 +34,11 @@
 			<tr>
 				<th colspan="3">{{trans('messages.summary')}}</th>
 			</tr>
-			<th>{{trans('messages.total-visits')}}</th>
-			<th>{{trans('messages.male')}}</th>
-			<th>{{trans('messages.female')}}</th>
+			<tr>
+				<th>{{trans('messages.total-visits')}}</th>
+				<th>{{trans('messages.male')}}</th>
+				<th>{{trans('messages.female')}}</th>
+			</tr>
 			<tr>
 				<td>{{count($visits)}}</td>
 				<td>
@@ -44,6 +57,7 @@
 	<br>
   	<table class="table table-bordered"  width="100%">
 		<tbody align="left">
+		<tr>
 			<th>{{trans('messages.patient-number')}}</th>
 			<th>{{trans('messages.patient-name')}}</th>
 			<th>{{trans('messages.age')}}</th>
@@ -51,6 +65,7 @@
 			<th>{{trans('messages.specimen-number-title')}}</th>
 			<th>{{trans('messages.specimen-type-title')}}</th>
 			<th>{{ Lang::choice('messages.test', 2) }}</th>
+		</tr>
 			@forelse($visits as $visit)
 			<tr>
 				<td>{{ $visit->patient->id }}</td>

@@ -10,7 +10,7 @@
 <div class='container-fluid'>
 {{ Form::open(array('route' => array('reports.aggregate.surveillance'), 'class' => 'form-inline', 'role' => 'form')) }}
 <div class="row">
-		<div class="col-sm-4">
+		<div class="col-sm-3">
 	    	<div class="row">
 				<div class="col-sm-2">
 					{{ Form::label('start', trans("messages.from")) }}
@@ -21,7 +21,7 @@
 	   			</div>
 	    	</div>
 	    </div>
-	    <div class="col-sm-4">
+	    <div class="col-sm-3">
 	    	<div class="row">
 				<div class="col-sm-2">
 					{{ Form::label('end', trans("messages.to")) }}
@@ -33,11 +33,16 @@
 	    	</div>
 	    </div>
 	    <div class="col-sm-4">
-			<div class="col-sm-6">
+			<div class="col-sm-2">
 			  	{{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'),
 	                array('class' => 'btn btn-info', 'id' => 'filter', 'type' => 'submit')) }}
 	        </div>
-	        <div class="col-sm-6">
+			<div class="col-sm-2"></div>
+	        <div class="col-sm-4">
+					{{Form::submit('Export to PDF', 
+			    		array('class' => 'btn btn-success', 'id'=>'pdf', 'name'=>'pdf'))}}
+				</div>
+	        <div class="col-sm-4">
 				{{Form::submit(trans('messages.export-to-word'),
 		    		array('class' => 'btn btn-success', 'id'=>'word', 'name'=>'word'))}}
 			</div>

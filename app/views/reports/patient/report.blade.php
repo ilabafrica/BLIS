@@ -11,7 +11,7 @@
     {{ Form::open(array('url' => 'patientreport/'.$patient->id, 'class' => 'form-inline', 'id' => 'form-patientreport-filter', 'method'=>'POST')) }}
 		{{ Form::hidden('patient', $patient->id, array('id' => 'patient')) }}
 		<div class="row">
-			<div class="col-sm-3">
+			<div class="col-sm-2">
 				<label class="checkbox-inline">
 	        		{{ Form::checkbox('pending', "1", isset($pending)) }}{{trans('messages.include-pending-tests')}}
 				</label>
@@ -36,16 +36,20 @@
 		            </div>
 	            </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
 				<div class="row">
-		            <div class="col-sm-4">
+		            <div class="col-sm-3">
 			            {{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
 			                    array('class' => 'btn btn-primary', 'id' => 'filter', 'type' => 'submit')) }}
 		            </div>
 		            @if(count($verified) == count($tests))
-		            <div class="col-sm-1">
-				        {{ Form::submit(trans('messages.export-to-word'), array('class' => 'btn btn-success', 
+		            <div class="col-sm-3">
+				        {{ Form::submit('Export word', array('class' => 'btn btn-success', 
 				        	'id' => 'word', 'name' => 'word')) }}
+				    </div>
+				    <div class="col-sm-3">
+				        {{ Form::submit('Export pdf', array('class' => 'btn btn-success', 
+				        	'id' => 'pdf', 'name' => 'pdf')) }}
 				    </div>
 				    @endif
 			    </div>
