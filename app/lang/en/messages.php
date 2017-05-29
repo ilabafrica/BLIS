@@ -595,6 +595,8 @@ return array(
     */
     'quality-control' => 'Quality Control|Quality Controls',
     'instrument' => 'Instrument|Instruments',
+    'calibration' => 'Calibration',
+    'maintenance' => 'Maintenance',
     'lot' => 'Lot|Lots',
     'control' => 'Control|Controls',
     'list-controls' => 'List of controls',
@@ -734,4 +736,21 @@ return array(
     'command'=>'Command',
     'script_location'=>'Script Location',
     'interval'=>'Execution Interval',
+    
+    /**
+    * other
+    */
+    'list-calibrations'   =>    'Calibration',
+    'list-maintenance'   =>    'Maintenance',
+    'performed_by'   =>    'Performed By',
+    'reason'   =>    'Reason',
+    'start'   =>    'Start',
+    'end'   =>    'End',
+    'instrument_lbl'   =>    'Instrument',
+    'new-calibration' => 'Add New Calibration',
+    'new-maintenance' => 'Add New Maintenance',
+    'success-creating-calibration' => 'Calibration Successfully Added',
+    'success-creating-Maintenance' => 'Maintenance Successfully Added'
+
+
 );

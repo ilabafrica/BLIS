@@ -8,6 +8,8 @@
 		case 'test': $active[2] = "active"; break;
 		case 'labconfig': 
 		case 'instrument':
+		case 'calibration':
+		case 'maintenance':
 		case 'reportconfig':
 		case 'requireverification':
 		case 'barcode':
@@ -103,6 +105,27 @@
 						</div>
 					</li>
 				</ul>
+
+				<!-- <ul class="sub-menu-items">
+					<li>
+						<div>
+							<a href="{{ URL::route('calibration.index')}}">
+								<span class="glyphicon glyphicon-tag"></span>
+								{{Lang::choice('messages.calibration', 2)}}</a>
+						</div>
+					</li>
+				</ul>
+
+				<ul class="sub-menu-items">
+					<li>
+						<div>
+							<a href="{{ URL::route('maintenance.index')}}">
+								<span class="glyphicon glyphicon-tag"></span>
+								{{Lang::choice('messages.maintenance', 2)}}</a>
+						</div>
+					</li>
+				</ul>
+ -->
 				<ul class="sub-menu-items">
 					<li>
 						<div>
