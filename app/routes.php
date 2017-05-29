@@ -20,6 +20,8 @@ Route::group(array("before" => "guest"), function()
     | Proposed route for the BLIS api, we will receive api calls 
     | from other systems from this route.
     */
+    
+    
     Route::post('/api/receiver', array(
         "as" => "api.receiver",
         "uses" => "InterfacerController@receiveLabRequest"
@@ -54,7 +56,10 @@ Route::group(array("before" => "auth"), function()
             "uses" => "UserController@delete"
         ));
     });
-    
+    Route::resource('systemtask', 'SystemTaskController');
+    Route::get('systemtask/{id}/execute','SystemTaskController@execute');
+    Route::get('systemtask/{id}/delete','SystemTaskController@delete');
+
     Route::any("/logout", array(
         "as"   => "user.logout",
         "uses" => "UserController@logoutAction"
@@ -550,6 +555,7 @@ Route::group(array("before" => "auth"), function()
             "as"   => "request.delete",
             "uses" => "TopupController@delete"
         ));
+
     });
     Route::group(array("before" => "checkPerms:view_blood_bank"), function()
     {

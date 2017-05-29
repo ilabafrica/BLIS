@@ -13,6 +13,7 @@
 		case 'barcode':
 		case 'blisclient':
 		case 'facility': 
+		case 'systemtasks': 
 			$active[3] = "active"; break;
 		case 'testcategory': 
 		case 'testtype': 
@@ -141,6 +142,16 @@
 						<div><a href="{{ URL::route("blisclient.index") }}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{ trans('messages.interfaced-equipment')}}</a>
+						</div>
+					</li>
+				</ul>
+				<ul class="sub-menu-items">
+					<li>
+						<div>
+							<a href="{{ URL::route("facility.index") }}">
+								<span class="glyphicon glyphicon-tag"></span>
+									{{Lang::choice('messages.system-tasks',2)}}
+							</a>
 						</div>
 					</li>
 				</ul>

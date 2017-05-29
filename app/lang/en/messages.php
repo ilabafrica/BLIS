@@ -723,4 +723,15 @@ return array(
     'volume'          =>    'Volume',
     'date-collected'  =>    'Date Collected',
     'blood-details'   =>    'Blood Details',
+
+    /**
+     * System Tasks
+     */
+    'task'  =>'Task',
+    'tasks' =>'Tasks',
+    'add-task'=>'Add Task',
+    'system-tasks'=>'System Tasks',
+    'command'=>'Command',
+    'script_location'=>'Script Location',
+    'interval'=>'Execution Interval',
 );
