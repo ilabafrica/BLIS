@@ -464,6 +464,8 @@ $(function(){
 			minuteStep: 5
 		});
 
+		$('.high_priority_tr').effect('pulsate', {times: 3}, 600);
+
 });
 	/**
 	 *-----------------------------------
@@ -504,7 +506,12 @@ $(function(){
 			  	$('#search_item_id').val(ui.item.id);
 			  }
 		});
-
+	/*
+		Function for high priority tests
+	*/
+		$('.high_priority_tr').effect('pulsate', {times: 3}, 2000);
+		$('.high_priority_tr').css('background-color', '#ffcccc');
+		$('.completed_high_priority_tr').css('background-color', '#ccffcc');
 	});
 
 	/**

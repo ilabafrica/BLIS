@@ -157,6 +157,7 @@ class TestController extends \BaseController {
 					$test->visit_id = $visit->id;
 					$test->test_type_id = $testTypeID;
 					$test->specimen_id = $specimen->id;
+					$test->priority = Input::get('priority');
 					$test->test_status_id = Test::PENDING;
 					$test->created_by = Auth::user()->id;
 					$test->requested_by = Input::get('physician');
@@ -325,6 +326,12 @@ class TestController extends \BaseController {
 	public function saveResults($testID)
 	{
 		$test = Test::find($testID);
+
+		$priority = $test->priority;
+		if ($priority==Test::HIGH_PRIORITY) {
+			$test->priority = Test::COMPLETED_HIGH_PRIORITY;		
+		}
+
 		if($test->isVerified())
 			$test->test_status_id = Test::VERIFIED;
 		else
@@ -531,4 +538,19 @@ class TestController extends \BaseController {
 
 		return View::make('test.viewDetails')->with('test', $test);
 	}
+		/**
+	 * Update a Test's SpecimenType
+	 *
+	 * @param
+	 * @return
+	 */
+	public function high_priority($id)
+	{
+		$test = Test::find($id);
+		$test->priority = 1;
+		$test->save();
+
+		return Redirect::route('test.viewDetails', array($id));
+	}
+
 }

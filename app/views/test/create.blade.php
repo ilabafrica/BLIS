@@ -60,6 +60,10 @@
 								{{Form::text('physician', Input::old('physician'), array('class' => 'form-control'))}}
 							</div>
 							<div class="form-group">
+								{{ Form::label('priority', trans("messages.high-priority")) }}
+								{{Form::checkbox('priority')}}
+							</div>
+							<div class="form-group">
 								{{ Form::label('tests', trans("messages.select-tests")) }}
 								<div class="form-pane">
 

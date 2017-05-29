@@ -168,7 +168,7 @@ Route::group(array("before" => "auth"), function()
     "as"   => "test.resultinterpretation",
     "uses" => "TestController@getResultInterpretation"
     ));
-     Route::any("/test/{id}/receive", array(
+    Route::any("/test/{id}/receive", array(
         "before" => "checkPerms:receive_external_test",
         "as"   => "test.receive",
         "uses" => "TestController@receive"
@@ -232,6 +232,10 @@ Route::group(array("before" => "auth"), function()
         "before" => "checkPerms:edit_test_results",
         "as"   => "test.edit",
         "uses" => "TestController@edit"
+    ));
+    Route::get("/test/{test}/high_priority", array(
+        "as"   => "test.high_priority",
+        "uses" => "TestController@high_priority"
     ));
      Route::post("/test/{test}/saveresults", array(
         "before" => "checkPerms:edit_test_results",
