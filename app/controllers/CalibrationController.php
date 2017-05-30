@@ -90,7 +90,7 @@ class CalibrationController extends \BaseController {
 		$Calibration = Calibration::find($id);
 
 		//Open the Edit View and pass to it the $Calibration
-		return View::make('Calibration.edit')->with('Calibration', $Calibration);
+		return View::make('Calibration.edit')->with('calibration', $Calibration);
 	}
 
 	/**

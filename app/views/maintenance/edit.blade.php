@@ -3,18 +3,18 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li><a href="{{ URL::route('instrument.index') }}">{{Lang::choice('messages.instrument',2)}}</a></li>
-	  <li class="active">{{trans('messages.edit-instrument')}}</li>
+	  <li><a href="{{ URL::route('maintenance.index') }}">{{Lang::choice('messages.maintenance',2)}}</a></li>
+	  <li class="active">{{trans('messages.edit-maintenance')}}</li>
 	</ol>
 </div>
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-edit"></span>
-		{{trans('messages.edit-instrument')}}
+		{{trans('messages.edit-maintenance')}}
 	</div>
-	{{ Form::model($instrument, array(
-			'route' => array('instrument.update', $instrument->id), 'method' => 'PUT',
-			'id' => 'form-edit-instrument'
+	{{ Form::model($maintenance, array(
+			'route' => array('maintenance.update', $maintenance->id), 'method' => 'PUT',
+			'id' => 'form-edit-maintenance'
 		)) }}
 		<div class="panel-body">
 			@if($errors->all())
@@ -24,27 +24,27 @@
 			@endif
 
 			<div class="form-group">
-				{{ Form::label('name', Lang::choice('messages.name',1)) }}
-				{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
+				{{ Form::label('performed_by', Lang::choice('messages.performed_by',1)) }}
+				{{ Form::text('performed_by', Input::old('performed_by'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('description', trans('messages.description')) }}
-				{{ Form::textarea('description', Input::old('description'), 
+				{{ Form::label('instrument', trans('messages.instrument')) }}
+				{{ Form::textarea('instrument', Input::old('instrument'), 
 					array('class' => 'form-control', 'rows' => '2' )) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('ip', trans('messages.ip')) }}
-				{{ Form::text('ip', Input::old('ip'), array('class' => 'form-control')) }}
+				{{ Form::label('reason', trans('messages.reason')) }}
+				{{ Form::text('reason', Input::old('reason'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('hostname', trans('messages.host-name')) }}
-				{{ Form::text('hostname', Input::old('hostname'), array('class' => 'form-control')) }}
+				{{ Form::label('start', trans('messages.start')) }}
+				{{ Form::text('start', Input::old('start'), array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
-				{{ Form::label('test_types', trans('messages.supported-test-types')) }}
-				{{ Form::text('test_types', implode(",", $instrument->testTypes()->lists('name')),
-					 array('class' => 'form-control', 'readonly')) }}
+				{{ Form::label('end', trans('messages.end')) }}
+				{{ Form::text('end', Input::old('end'), array('class' => 'form-control')) }}
 			</div>
+			
 		</div>
 		<div class="panel-footer">
 			<div class="form-group actions-row">
