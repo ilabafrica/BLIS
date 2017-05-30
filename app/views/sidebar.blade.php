@@ -26,6 +26,7 @@
 		case 'organism':
 		case 'critical':
 		case 'microcritical':
+		case 'customfield':
 			$active[4] = "active"; break;
 		case 'adhocreport': 
 		case 'patientreport': 
@@ -62,14 +63,6 @@
 	}
 ?>
 	<ul class="nav nav-sidebar">
-	@if(Entrust::can('can_access_ccc_reports'))
-		<li>
-			<div class="main-menu {{$active[5]}}">
-				<a href="{{ URL::route('reports.daily.log')}}">
-					<span class="glyphicon glyphicon-stats"></span> {{ Lang::choice('messages.report', 2)}}</a>
-			</div>
-		</li>
-	@else
 		<li>
 			<div class="main-menu {{$active[0]}}">
 				<a href="{{ URL::route('user.home')}}" title="{{trans('messages.home')}}">
@@ -235,6 +228,12 @@
 						<div>
 							<a href="{{ URL::route("microcritical.index")}}">
 								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.microcritical', 2)}}</a>
+						</div>
+					</li>
+					<li>
+						<div><a href="{{ URL::route("customfield.index")}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							Custom Fields</a>
 						</div>
 					</li>
 				</ul>
@@ -466,6 +465,5 @@
 			</div>
 		</li>
 		@endif
-	@endif
 	</ul>
 @show

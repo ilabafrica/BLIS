@@ -253,6 +253,16 @@
 										</div>
 									</div>
 								@endif
+									@foreach($customFieldValues as $customFieldValue)
+									<div class="row">
+										<div class="col-md-4">
+											<p><strong>{{$customFieldValue->customField->label}}</strong></p>
+										</div>
+										<div class="col-md-8">
+											{{ $customFieldValue->data_value }}
+										</div>
+									</div>
+									@endforeach
 								</div>
 							</div>
 						</div> <!-- ./ panel -->

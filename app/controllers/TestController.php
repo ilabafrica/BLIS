@@ -96,13 +96,14 @@ class TestController extends \BaseController {
 		if ($patientID == 0) {
 			$patientID = Input::get('patient_id');
 		}
-
+		$customfields = CustomField::all();
 		$testTypes = TestType::where('orderable_test', 1)-> orderBy('name', 'asc')->get();
 		$patient = Patient::find($patientID);
 
 		//Load Test Create View
 		return View::make('test.create')
 					->with('testtypes', $testTypes)
+					->with('customfields', $customfields)
 					->with('patient', $patient);
 	}
 
@@ -162,6 +163,14 @@ class TestController extends \BaseController {
 					$test->created_by = Auth::user()->id;
 					$test->requested_by = Input::get('physician');
 					$test->save();
+					
+					$customfields = CustomField::all();
+					foreach($customfields as $customfield){
+						$customFieldValue = new CustomFieldValue();
+						$customFieldValue->custom_field_id = Input::get('cust_field_id_'.$customfield->id);
+						$customFieldValue->data_value = Input::get('custom_field_text_'.$customfield->id);
+						$customFieldValue->save();
+					}
 
 					$activeTest[] = $test->id;
 				}
@@ -427,7 +436,8 @@ class TestController extends \BaseController {
 	 */
 	public function viewDetails($testID)
 	{
-		return View::make('test.viewDetails')->with('test', Test::find($testID));
+		$customFieldValues = CustomFieldValue::all();
+		return View::make('test.viewDetails')->with('test', Test::find($testID))->with('customFieldValues', $customFieldValues);
 	}
 
 	/**
