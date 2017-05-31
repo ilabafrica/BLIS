@@ -31,7 +31,7 @@ class MaintenanceController extends \BaseController {
 	{
 		
 		//Create Maintenance view
-		return View::make('Maintenance.create')->with('Mai`ntenances');
+		return View::make('Maintenance.create')->with('Maintenances');
 	}
 
 	/**
@@ -93,7 +93,7 @@ class MaintenanceController extends \BaseController {
 		$Maintenance = Maintenance::find($id);
 
 		//Open the Edit View and pass to it the $Maintenance
-		return View::make('Maintenance.edit')->with('Maintenance', $Maintenance);
+		return View::make('maintenance.edit')->with('maintenance', $Maintenance);
 	}
 
 	/**

@@ -143,6 +143,11 @@ Route::group(array("before" => "auth"), function()
             "as"   => "microcritical.delete",
             "uses" => "MicroCriticalController@delete"
         ));
+        Route::resource('customfield', 'CustomFieldController');
+        Route::get("/customfield/{id}/delete", array(
+            "as"   => "customfield.delete",
+            "uses" => "CustomFieldController@destroy"
+        ));
     });
     Route::group(array("before" => "checkPerms:manage_lab_configurations"), function()
     {
@@ -569,7 +574,6 @@ Route::group(array("before" => "auth"), function()
             "as"   => "request.delete",
             "uses" => "TopupController@delete"
         ));
-
     });
     Route::group(array("before" => "checkPerms:view_blood_bank"), function()
     {

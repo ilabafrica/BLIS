@@ -59,6 +59,13 @@
 								{{ Form::label('physician', trans("messages.physician")) }}
 								{{Form::text('physician', Input::old('physician'), array('class' => 'form-control'))}}
 							</div>
+							@foreach($customfields as $key => $customfield)
+							<div class="form-group">
+								{{ Form::label('custom_field_label_'.$customfield->id, $customfield->label) }}
+								{{Form::text('custom_field_text_'.$customfield->id, Input::old('custom_field_text_'.$customfield->id), array('class' => 'form-control'))}}
+								{{ Form::hidden('cust_field_id_'.$customfield->id, $customfield->id) }}
+							</div>
+							@endforeach
 							<div class="form-group">
 								{{ Form::label('priority', trans("messages.high-priority")) }}
 								{{Form::checkbox('priority')}}

@@ -98,8 +98,7 @@ require app_path().'/events.php';
 /*
 *	Trap all errors and display the custom errors page instead of unsavoury error stack trace.
 */
-/*App::error(function($exception, $code)
+App::error(function($exception, $code)
 {
     return Response::view('errors', array(), $code);
  });
-*/

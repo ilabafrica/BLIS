@@ -10,6 +10,7 @@
     <body>
         <div class="content error-page">
             <h1><i>Oops!</i> It looks like the page requested doesn't exist!.</h1>
+            <h3>Please contact the administrator for more help</h3>
             <div>
                 <a class="btn btn-default" href="/">Return to home page</a>
             </div>
