@@ -180,8 +180,10 @@ class Measure extends Eloquent
 	 *
 	 * @return boolean
 	 */
-	public static function getRange($patient, $measureId)
+	public static function getRange($patient, $measureId, $time_entered = null)
 	{
+		$lower = null;
+		$upper = null;
 		$age = $patient->getAge('Y');
 		$measureRange = MeasureRange::where('measure_id', '=', $measureId)
 									->where('age_min', '<=',  $age)
@@ -199,7 +201,32 @@ class Measure extends Eloquent
 					return null;
 				}
 			}
-			return "(".$lowerUpper->range_lower." - ".$lowerUpper->range_upper.")";
+			if($time_entered)
+			{	
+				if($lowerUpper->isRevised() && $lowerUpper->referencedRange($time_entered))
+				{
+					$history = $lowerUpper->referencedRange($time_entered);
+					if($history->key == 'range_lower')
+						$lower = $history->old_value;
+					else
+						$lower = $lowerUpper->range_lower;
+					if($history->key == 'range_upper')
+						$upper = $history->old_value;
+					else
+						$upper = $lowerUpper->range_upper;
+				}
+				else
+				{
+					$lower = $lowerUpper->range_lower;
+					$upper = $lowerUpper->range_upper;
+				}
+			}
+			else
+			{
+				$lower = $lowerUpper->range_lower;
+				$upper = $lowerUpper->range_upper;
+			}
+			return "(".$lower." - ".$upper.")";
 		}
 		return null;
 	}
@@ -331,4 +358,11 @@ class Measure extends Eloquent
 							$counter = $counter->count();
 		return $counter;
 	}
+	/**
+	 * Enabling revisionable
+	 *
+	 */
+	use Venturecraft\Revisionable\RevisionableTrait;
+
+    protected $revisionEnabled = true;
 }

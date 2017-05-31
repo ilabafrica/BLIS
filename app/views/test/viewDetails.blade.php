@@ -271,7 +271,7 @@
 											{{$result->result}}	
 										</div>
 										<div class="col-md-5">
-	        								{{ Measure::getRange($test->visit->patient, $result->measure_id) }}
+	        								{{ Measure::getRange($test->visit->patient, $result->measure_id, $result->time_entered) }}
 											{{ Measure::find($result->measure_id)->unit }}
 										</div>
 									</div>

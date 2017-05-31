@@ -55,7 +55,7 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'blis_bg',
+			'database'  => 'iblis',
 			'username'  => 'root',
 			'password'  => '',
 			'charset'   => 'utf8',

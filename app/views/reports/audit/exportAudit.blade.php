@@ -126,7 +126,7 @@
 													<tbody>
 														<tr>
 															<td>{{trans('messages.current-result')}}: {{ $result->result }}
-															{{ Measure::getRange($test->visit->patient, $result->measure_id) }}
+															{{ Measure::getRange($test->visit->patient, $result->measure_id, $result->time_entered) }}
 															{{ Measure::find($result->measure_id)->unit }}
 															</td>
 															<td>{{trans('messages.entered-by')}}: {{ $test->testedBy->name}}</td>
