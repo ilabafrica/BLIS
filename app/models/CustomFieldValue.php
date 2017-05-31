@@ -6,6 +6,6 @@ class CustomFieldValue extends Eloquent
 
     public function customField()
     {
-        return $this->belongsTo('CustomField');
+        return $this->belongsTo('CustomField')->withTrashed();
     }
 }
