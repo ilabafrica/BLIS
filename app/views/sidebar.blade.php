@@ -13,7 +13,7 @@
 		case 'reportconfig':
 		case 'requireverification':
 		case 'barcode':
-		case 'blisclient':
+		// case 'blisclient':
 		case 'facility': 
 		case 'systemtasks': 
 			$active[3] = "active"; break;
@@ -153,14 +153,15 @@
 						</div>
 					</li>
 				</ul>
-				<ul class="sub-menu-items">
+				<!-- <ul class="sub-menu-items">
 					<li>
 						<div><a href="{{ URL::route("blisclient.index") }}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{ trans('messages.interfaced-equipment')}}</a>
 						</div>
 					</li>
-				</ul>
+
+				</ul> -->
 				<ul class="sub-menu-items">
 					<li>
 						<div>
