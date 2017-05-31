@@ -32,7 +32,7 @@ class CalibrationController extends \BaseController {
 	
 
 		//Create Calibration view
-		return View::make('Calibration.create')->with('Calibrations');
+		return View::make('calibration.create')->with('Calibrations');
 	}
 
 	/**
@@ -51,7 +51,7 @@ class CalibrationController extends \BaseController {
 
 		// Validate form input
 		if ($validator->fails()) {
-			return Redirect::route('Calibration.create')->withErrors($validator);
+			return Redirect::route('calibration.create')->withErrors($validator);
 		} else {
 			// Save the Calibration
 			$newCalibration = new Calibration();
@@ -75,7 +75,7 @@ class CalibrationController extends \BaseController {
 		$Calibration = Calibration::find($id);
 
 		//Show the view and pass the $Calibration to it
-		return View::make('Calibration.show')->with('Calibration', $Calibration);
+		return View::make('calibration.show')->with('Calibration', $Calibration);
 	}
 
 	/**
@@ -90,7 +90,7 @@ class CalibrationController extends \BaseController {
 		$Calibration = Calibration::find($id);
 
 		//Open the Edit View and pass to it the $Calibration
-		return View::make('Calibration.edit')->with('calibration', $Calibration);
+		return View::make('calibration.edit')->with('calibration', $Calibration);
 	}
 
 	/**
@@ -157,7 +157,7 @@ class CalibrationController extends \BaseController {
 		$Calibration->delete();
 
 		// redirect
-		return Redirect::route('Calibration.index')->with('message', trans('messages.success-deleting-Calibration'));
+		return Redirect::route('calibration.index')->with('message', trans('messages.success-deleting-Calibration'));
 	}
 
 	/**
