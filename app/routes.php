@@ -159,7 +159,21 @@ Route::group(array("before" => "auth"), function()
             "as"   => "requireverification.update",
             "uses" => "RequireVerificationController@update"
         ));
+
+        Route::resource('calibration', 'CalibrationController');
+        Route::get("/calibration/{id}/delete", array(
+            "as"   => "calibration.delete",
+            "uses" => "CalibrationController@delete"
+        ));
+
+        Route::resource('maintenance', 'MaintenanceController');
+        Route::get("/maintenance/{id}/delete", array(
+            "as"   => "maintenance.delete",
+            "uses" => "MaintenanceController@delete"
+        ));
+
     });
+    
     Route::any("/test", array(
         "as"   => "test.index",
         "uses" => "TestController@index"
