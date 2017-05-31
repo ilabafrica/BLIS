@@ -42,7 +42,6 @@
 			            {{ Form::button("<span class='glyphicon glyphicon-filter'></span> ".trans('messages.view'), 
 			                    array('class' => 'btn btn-primary', 'id' => 'filter', 'type' => 'submit')) }}
 		            </div>
-		            @if(count($verified) == count($tests))
 		            <div class="col-sm-3">
 				        {{ Form::submit('Export word', array('class' => 'btn btn-success', 
 				        	'id' => 'word', 'name' => 'word')) }}
@@ -51,7 +50,6 @@
 				        {{ Form::submit('Export pdf', array('class' => 'btn btn-success', 
 				        	'id' => 'pdf', 'name' => 'pdf')) }}
 				    </div>
-				    @endif
 			    </div>
 		    </div>
 	    </div>
@@ -173,7 +171,7 @@
 								@endforeach</td>
 							<td>{{ $test->interpretation == '' ? 'N/A' : $test->interpretation }}</td>
 							<td>{{ $test->testedBy->name or trans('messages.pending')}}</td>
-							<td>{{ $test->testResults->last()->time_entered }}</td>
+							<td>{{ $test->time_entered }}</td>
 							<td>{{ $test->time_completed }}</td>
 							<td>{{ $test->verifiedBy->name or trans('messages.verification-pending')}}</td>
 							<td>{{ $test->time_verified }}</td>
