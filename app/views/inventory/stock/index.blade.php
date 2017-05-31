@@ -53,9 +53,11 @@
 					<td>{{ $value->remarks }}</td>
                  	
 					<td>
+					
 					<!-- show the stock (uses the show method found at GET /stock/{id} -->
-						<a class="btn btn-sm btn-success" href="{{ URL::to("stock/" . $value->id) }}" >
+						<a class="btn btn-sm btn-success" href="{{ URL::to("stock/" . $value->id) }}"  >
 							<span class="glyphicon glyphicon-eye-open"></span>
+							
 							{{ trans('messages.view') }}
 						</a> 
 						<!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
@@ -71,14 +73,14 @@
 						</a>
 						@endif
 						<!-- Usage for this lot -->
-						<a class="btn btn-sm btn-wisteria" href="{{ URL::to("stock/" . $value->id . "/show") }}">
+						<a class="btn btn-sm btn-wisteria" href="{{ URL::to("stock/" . $value->id . "/show") }}"{{ date('Y-m-d')>$value->expiry_date?'disabled':''}}>
 							<span class="glyphicon glyphicon-bookmark"></span>
 							{{ trans('messages.usage') }}
 						</a>
 
 						<!-- show barcode generation button -->
 						{{--*/ $barcode_separator = '$' /*--}}
-						<a class="btn btn-sm btn-midnight-blue" href="#" onclick="print_barcode({{ "'".$value->id.$barcode_separator.$item->id."'".', '."'".$barcode->encoding_format."'".', '."'".$barcode->barcode_width."'".', '."'".$barcode->barcode_height."'".', '."'".$barcode->text_size."'" }})">
+						<a class="btn btn-sm btn-midnight-blue" href="#" onclick="print_barcode({{ "'".$value->id.$barcode_separator.$item->id."'".', '."'".$barcode->encoding_format."'".', '."'".$barcode->barcode_width."'".', '."'".$barcode->barcode_height."'".', '."'".$barcode->text_size."'" }})"{{ date('Y-m-d')>$value->expiry_date?'disabled':''}}>
 							<span class="glyphicon glyphicon-barcode"></span>
 							{{ trans('messages.barcode') }}
 						</a>
