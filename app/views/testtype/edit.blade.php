@@ -123,16 +123,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
-						{{ Form::label('orderable_test', trans('messages.orderable-test')) }}
-						{{ Form::checkbox('orderable_test', 1, Input::old('orderable_test')) }}
-					</div>
-					<div class="form-group">
-						{{ Form::label('accredited', trans('messages.accredited')) }}
-						{{ Form::checkbox('accredited', "1", $testtype->isAccredited(), array()) }}
-					</div>
-				</div>
-				<div class="tab-pane col-md-6" id="reorder">
+					<div class="tab-pane col-md-6" id="reorder">
 					</br>
 					<ul class="list-group list-group-sm sortable" data-test-id="{{$testtype->id}}">
 					@foreach($testtype->measures as $key=>$measure)
@@ -144,6 +135,16 @@
 					@endforeach
 					</ul>
 				</div>
+					
+				</div>
+				<div class="form-group">
+						{{ Form::label('orderable_test', trans('messages.orderable-test')) }}
+						{{ Form::checkbox('orderable_test', 1, Input::old('orderable_test')) }}
+					</div>
+					<div class="form-group">
+						{{ Form::label('accredited', trans('messages.accredited')) }}
+						{{ Form::checkbox('accredited', "1", $testtype->isAccredited(), array()) }}
+					</div>
 			</div>
 		</div>
 		<div class="panel-footer">
