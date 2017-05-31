@@ -17,5 +17,11 @@ class MeasureType extends Eloquent
     {
         return $this->hasMany('Measure');
     }
+	/**
+	 * Enabling revisionable
+	 *
+	 */
+	use Venturecraft\Revisionable\RevisionableTrait;
 
+    protected $revisionEnabled = true;
 }

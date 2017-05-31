@@ -165,7 +165,7 @@
 								@foreach($test->testResults as $result)
 									<p>
 										{{ Measure::find($result->measure_id)->name }}: {{ $result->result }}
-										{{ Measure::getRange($test->visit->patient, $result->measure_id) }}
+										{{ Measure::getRange($test->visit->patient, $result->measure_id, $result->time_entered) }}
 										{{ Measure::find($result->measure_id)->unit }}
 									</p>
 								@endforeach</td>

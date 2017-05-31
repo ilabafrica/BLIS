@@ -34,4 +34,42 @@ class MeasureRange extends Eloquent
 	{
 	  return $this->belongsTo('Measure');
 	}
+	/**
+	 * Enabling revisionable
+	 *
+	 */
+	use Venturecraft\Revisionable\RevisionableTrait;
+
+    protected $revisionEnabled = true;
+
+    /**
+	 *  Check to if the measure range is revised
+	 *
+	 * @return boolean
+	 */
+	public function isRevised()
+	{
+		if($this->revisionHistory->count() > 0)
+			return true;
+		else 
+			return false;
+	}
+	/**
+	 *  Get referenced range in the list of revised ranges
+	 *
+	 * @return range
+	 */
+	public function referencedRange($time_entered = null)
+	{
+		if($time_entered)
+		{
+			$history = $this->revisionHistory()->where('created_at', '>=', $time_entered)->orderBy('created_at', 'ASC')->count();
+			if($history > 0)
+				return $this->revisionHistory()->where('created_at', '>=', $time_entered)->orderBy('created_at', 'ASC')->first();
+			else
+				return null;
+		}
+		else
+			return null;
+	}
 }
