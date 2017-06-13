@@ -586,6 +586,8 @@ $(function(){
 
 	function addMeasureRangeAttributes (measureTypeId,measureID) {
 		if (measureTypeId == 0) {
+			$('.measurevalue.new-measure-'+measureID+' select.interval').attr(
+				'name', 'new-measures['+measureID+'][interval][]');
 			$('.measurevalue.new-measure-'+measureID+' input.agemin').attr(
 				'name', 'new-measures['+measureID+'][agemin][]');
 			$('.measurevalue.new-measure-'+measureID+' input.agemax').attr(
@@ -612,6 +614,8 @@ $(function(){
 
 	function editMeasureRangeAttributes (measureTypeId,measureID) {
 		if (measureTypeId == 0) {
+			$('.measurevalue.'+measureID+' select.interval').attr(
+				'name', 'measures['+measureID+'][interval][]');
 			$('.measurevalue.'+measureID+' input.agemin').attr(
 				'name', 'measures['+measureID+'][agemin][]');
 			$('.measurevalue.'+measureID+' input.agemax').attr(

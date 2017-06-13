@@ -27,6 +27,8 @@ class Measure extends Eloquent
 	const ALPHANUMERIC = 2;
 	const AUTOCOMPLETE = 3;
 	const FREETEXT = 4;
+	const MONTH_INTERVAL = 0;
+	const YEAR_INTERVAL = 1;
 
 	/**
 	 * Measure Range relationship
