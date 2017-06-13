@@ -62,6 +62,9 @@ class Measure extends Eloquent
 		$interpretation = '';
 		$testId = $result['testId'];		
 		$testType = Test::find($testId)->testType;
+		if(empty($result['measurevalue']) || preg_match("/[a-zA-Z]/i", $result['measurevalue']) ){
+			return null;
+		}
 		try {
 			
 			if ($measure->hasCritical()) {
