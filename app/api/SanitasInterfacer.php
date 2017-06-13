@@ -260,7 +260,8 @@ class SanitasInterfacer implements InterfacerInterface{
         if($labRequest->parentLabNo == '0')
         {
             //Check via the labno, if this is a duplicate request and we already saved the test 
-            $test = Test::where('external_id', '=', $labRequest->labNo)->where('visit_id', '=', $visit->id)->get();
+            $today = date('Y-m-d');
+            $test = Test::where('external_id', '=', $labRequest->labNo)->whereDate('time_created', '=', $today)->get();
             if (!$test->first())
             {
                 //Specimen
