@@ -49,6 +49,8 @@ class Patient extends Eloquent
 		switch ($format) {
 			case 'Y':
 				$age = $interval->y;break;
+			case 'M':
+				$age = $interval->m;break;
 			case 'YY':
 				$age = $interval->y ." years ";break;
 			default:
