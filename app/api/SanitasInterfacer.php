@@ -262,7 +262,7 @@ class SanitasInterfacer implements InterfacerInterface{
             //Check via the labno, if this is a duplicate request and we already saved the test
 
             $test = Test::where('external_id', '=', $labRequest->labNo)->orderby('time_created', 'desc')->get();
-            if (!$test->first() || $test->visit->patient_id != $patient->id)
+            if (!$test->first() || $test->first()->visit->patient_id != $patient->id)
             {
                 //Specimen
                 $specimen = new Specimen();
