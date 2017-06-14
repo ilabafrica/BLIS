@@ -48,15 +48,21 @@ class MeasureController extends \BaseController {
                     if($val['interval'][$i]==Measure::MONTH_INTERVAL){
                     $measurerange->age_min = ($val['agemin'][$i]/12);
                     $measurerange->age_max = ($val['agemax'][$i]/12);
-                    }else{
+                    }else if($val['interval'][$i]==Measure::YEAR_INTERVAL){
                     $measurerange->age_min = $val['agemin'][$i];
                     $measurerange->age_max = $val['agemax'][$i];
+                    }else if ($val['interval'][$i]=="2") {
+                    $measurerange->age_min = ($val['agemin'][$i]/365);
+                    $measurerange->age_max = ($val['agemax'][$i]/365);
                     }
                     $measurerange->gender = $val['gender'][$i];
                     $measurerange->range_lower = $val['rangemin'][$i];
                     $measurerange->range_upper = $val['rangemax'][$i];
                     $measurerange->interpretation = $val['interpretation'][$i];
                     $measurerange->save();
+
+
+                    
                  }
             }else if( $measure->isAlphanumeric() || $measure->isAutocomplete() ) {
                 $val['val'] = $data['val'];
@@ -118,9 +124,12 @@ class MeasureController extends \BaseController {
                         if($val['interval'][$i]==Measure::MONTH_INTERVAL){
                         $measurerange->age_min = ($val['agemin'][$i]/12);
                         $measurerange->age_max = ($val['agemax'][$i]/12);
-                        }else{
+                        }else if($val['interval'][$i]==Measure::YEAR_INTERVAL){
                         $measurerange->age_min = $val['agemin'][$i];
                         $measurerange->age_max = $val['agemax'][$i];
+                        }else if ($val['interval'][$i]=="2") {
+                        $measurerange->age_min = ($val['agemin'][$i]/365);
+                        $measurerange->age_max = ($val['agemax'][$i]/365);
                         }
                         $measurerange->gender = $val['gender'][$i];
                         $measurerange->range_lower = $val['rangemin'][$i];

@@ -29,6 +29,7 @@ class Measure extends Eloquent
 	const FREETEXT = 4;
 	const MONTH_INTERVAL = 0;
 	const YEAR_INTERVAL = 1;
+	const DAYS_INTERVAL = 2;
 
 	/**
 	 * Measure Range relationship
@@ -186,12 +187,19 @@ class Measure extends Eloquent
 	{
 		$months = $patient->getAge('M');
 		$years = $patient->getAge('Y');
+		$days=$patient->getAge('D');
 		if($years==0){
 			$age=$months/12;
 			$measureRange = MeasureRange::where('measure_id', '=', $measureId)
 									->where('age_min', '<=',  $age)
 									->where('age_max', '>=', $age);
-		}else{
+		}else if($months==0){
+			$age=$months/365;
+			$measureRange = MeasureRange::where('measure_id', '=', $measureId)
+									->where('age_min', '<=',  $age)
+									->where('age_max', '>=', $age);
+		}
+		else{
 			$age=$years;
 			$measureRange = MeasureRange::where('measure_id', '=', $measureId)
 									->where('age_min', '<=',  $age)
