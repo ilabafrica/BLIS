@@ -259,9 +259,10 @@ class SanitasInterfacer implements InterfacerInterface{
         //Check if parentLabNO is 0 thus its the main test and not a measure
         if($labRequest->parentLabNo == '0')
         {
-            //Check via the labno, if this is a duplicate request and we already saved the test 
+            //Check via the labno, if this is a duplicate request and we already saved the test
+
             $test = Test::where('external_id', '=', $labRequest->labNo)->orderby('time_created', 'desc')->get();
-            if (!$test->first())
+            if (!$test->first() || $test->visit->patient_id != $patient->id)
             {
                 //Specimen
                 $specimen = new Specimen();
