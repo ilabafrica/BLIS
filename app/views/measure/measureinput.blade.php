@@ -64,8 +64,8 @@
     <div class="hidden numericHeaderLoader">
         <div class="col-md-12">
             <div class="col-md-4">
-                <span class="col-md-6 range-title">{{trans('messages.measure-age-range')}}</span>
-                <span class="col-md-6 range-title">{{trans('messages.gender')}}</span>
+                <span class="col-md-10 range-title">{{trans('messages.measure-age-range')}}</span>
+                <span class="col-md-2 range-title">{{trans('messages.gender')}}</span>
             </div>
             <div class="col-md-3">
                 <span class="col-md-12 range-title">{{trans('messages.measure-range')}}</span>
@@ -83,12 +83,20 @@
     </div><!-- numericHeader -->
     <div class="hidden numericInputLoader">
         <div class="col-md-12 measure-input">
-            <div class="col-md-4">
-                <input class="col-md-2 agemin" name="" type="text" title="{{trans('messages.lower-age-limit')}}">
+            <div class="col-md-6">
+                <?php $selection_interval = array("","","");?>
+                <?php $selection_interval[$value->interval] = "selected='selected'"; ?>
+                <select class="col-md-3 interval" name="">
+                    <option value="0" {{ $selection_interval[0] }}>Months</option>
+                    <option value="1" {{ $selection_interval[1] }}>Years</option>
+                    <option value="2" {{ $selection_interval[2] }}>Days</option>
+                </select>
                 <span class="col-md-1">:</span>
-                <input class="col-md-2 agemax" name="" type="text" title="{{trans('messages.upper-age-limit')}}">
+                <input class="col-md-2 agemin" name="" type="text" min="1" title="{{trans('messages.lower-age-limit')}}">
+                <span class="col-md-1">:</span>
+                <input class="col-md-2 agemax" name="" type="text" min="1" title="{{trans('messages.upper-age-limit')}}">
                 <span class="col-md-1"></span>
-                <select class="col-md-4 gender" name="">
+                <select class="col-md-3 gender" name="">
                     <option value="0">{{trans('messages.male')}}</option>
                     <option value="1">{{trans('messages.female')}}</option>
                     <option value="2">{{trans('messages.both')}}</option>
