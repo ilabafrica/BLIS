@@ -64,7 +64,7 @@
                             <div class="col-md-6">
                                  <?php $selection_interval = array("","");?>
                                     <?php 
-                                    if ($value->age_min>0 && $value->age_min<1) {
+                                    if ($value->age_max>0 && $value->age_min<1) {
                                        $selection_interval[0] = "selected='selected'"; 
                                     }else{
                                         $selection_interval[1] = "selected='selected'"; 
@@ -76,18 +76,18 @@
                                 </select>
                                 <span class="col-md-1">:</span>
                                 @if($value->age_min<1 )
-                                <input class="col-md-2" name="measures[{{$measure->id}}][agemin][]" type="text" min="1" value="{{ round($value->age_min*12) }}"
+                                <input class="col-md-2" name="measures[{{$measure->id}}][agemin][]" type="text" value="{{ round($value->age_min*12) }}"
                                     title="{{trans('messages.lower-age-limit')}}">
                                 
                                 <span class="col-md-1">:</span>
-                                <input class="col-md-2" name="measures[{{$measure->id}}][agemax][]" type="text" min="1" value="{{ round($value->age_max*12) }}"
+                                <input class="col-md-2" name="measures[{{$measure->id}}][agemax][]" type="text" value="{{ round($value->age_max*12) }}"
                                     title="{{trans('messages.upper-age-limit')}}">
                                 @else
-                                 <input class="col-md-2" name="measures[{{$measure->id}}][agemin][]" type="text" min="1" value="{{ $value->age_min }}"
+                                 <input class="col-md-2" name="measures[{{$measure->id}}][agemin][]" type="text" value="{{ $value->age_min }}"
                                     title="{{trans('messages.lower-age-limit')}}">
                                 
                                 <span class="col-md-1">:</span>
-                                <input class="col-md-2" name="measures[{{$measure->id}}][agemax][]" type="text" min="1" value="{{ $value->age_max }}"
+                                <input class="col-md-2" name="measures[{{$measure->id}}][agemax][]" type="text" value="{{ $value->age_max }}"
                                     title="{{trans('messages.upper-age-limit')}}">
                                 @endif    
                                     <?php $selection = array("","","");?>
