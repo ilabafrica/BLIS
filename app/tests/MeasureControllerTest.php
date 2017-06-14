@@ -260,6 +260,7 @@ class MeasureControllerTest extends TestCase
 				'name' => 'Numeric',
 				'measure_type_id' => '1',
 				'unit' => 'nUnit',
+				'interval'=>"0",
 				'description' => 'nDescription',
 				'agemin' =>['11', '21'], 
 				'agemax' => ['41', '51'], 
