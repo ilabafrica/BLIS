@@ -6,5 +6,5 @@ before_install:
 before_script:
     composer install
 script:
-    -php artisan migrate
-    -phpunit --coverage-text
+    - php artisan migrate
+    - phpunit --coverage-text
