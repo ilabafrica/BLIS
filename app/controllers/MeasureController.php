@@ -34,17 +34,24 @@ class MeasureController extends \BaseController {
             if ($measure->isNumeric()) {
                 $val['agemin'] = $data['agemin'];
                 $val['agemax'] = $data['agemax'];
-                $val['gender'] = $data['gender'];
+                $val['agemax'] = $data['agemax'];
+                $val['interval'] = $data['interval'];
                 $val['rangemin'] = $data['rangemin'];
                 $val['rangemax'] = $data['rangemax'];
                 $val['interpretation'] = $data['interpretation'];
-
+                
                 // Add ranges for this measure
                 for ($i=0; $i < count($val['agemin']); $i++) { 
                     $measurerange = new MeasureRange;
                     $measurerange->measure_id = $measure->id;
+                    //Check if months has been chosen
+                    if($val['interval'][$i]==Measure::MONTH_INTERVAL){
+                    $measurerange->age_min = ($val['agemin'][$i]/12);
+                    $measurerange->age_max = ($val['agemax'][$i]/12);
+                    }else{
                     $measurerange->age_min = $val['agemin'][$i];
                     $measurerange->age_max = $val['agemax'][$i];
+                    }
                     $measurerange->gender = $val['gender'][$i];
                     $measurerange->range_lower = $val['rangemin'][$i];
                     $measurerange->range_upper = $val['rangemax'][$i];
@@ -88,6 +95,7 @@ class MeasureController extends \BaseController {
                     $val['agemin'] = $data['agemin'];
                     $val['agemax'] = $data['agemax'];
                     $val['gender'] = $data['gender'];
+                    $val['interval'] = $data['interval'];
                     $val['rangemin'] = $data['rangemin'];
                     $val['rangemax'] = $data['rangemax'];
                 }else{
@@ -107,8 +115,13 @@ class MeasureController extends \BaseController {
                     $measurerange->measure_id = $measure->id;
 
                     if ($measureTypeId == Measure::NUMERIC){
+                        if($val['interval'][$i]==Measure::MONTH_INTERVAL){
+                        $measurerange->age_min = ($val['agemin'][$i]/12);
+                        $measurerange->age_max = ($val['agemax'][$i]/12);
+                        }else{
                         $measurerange->age_min = $val['agemin'][$i];
                         $measurerange->age_max = $val['agemax'][$i];
+                        }
                         $measurerange->gender = $val['gender'][$i];
                         $measurerange->range_lower = $val['rangemin'][$i];
                         $measurerange->range_upper = $val['rangemax'][$i];

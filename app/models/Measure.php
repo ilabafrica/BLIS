@@ -27,6 +27,8 @@ class Measure extends Eloquent
 	const ALPHANUMERIC = 2;
 	const AUTOCOMPLETE = 3;
 	const FREETEXT = 4;
+	const MONTH_INTERVAL = 0;
+	const YEAR_INTERVAL = 1;
 
 	/**
 	 * Measure Range relationship
@@ -185,10 +187,20 @@ class Measure extends Eloquent
 	 */
 	public static function getRange($patient, $measureId)
 	{
-		$age = $patient->getAge('Y');
-		$measureRange = MeasureRange::where('measure_id', '=', $measureId)
+		$months = $patient->getAge('M');
+		$years = $patient->getAge('Y');
+		if($years==0){
+			$age=$months/12;
+			$measureRange = MeasureRange::where('measure_id', '=', $measureId)
 									->where('age_min', '<=',  $age)
 									->where('age_max', '>=', $age);
+		}else{
+			$age=$years;
+			$measureRange = MeasureRange::where('measure_id', '=', $measureId)
+									->where('age_min', '<=',  $age)
+									->where('age_max', '>=', $age);
+		}
+		
 		if(count($measureRange->get()) >= 1){
 			if(count($measureRange->get()) == 1){
 				$lowerUpper = $measureRange->first();

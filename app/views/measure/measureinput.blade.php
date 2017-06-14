@@ -83,12 +83,19 @@
     </div><!-- numericHeader -->
     <div class="hidden numericInputLoader">
         <div class="col-md-12 measure-input">
-            <div class="col-md-4">
-                <input class="col-md-2 agemin" name="" type="text" title="{{trans('messages.lower-age-limit')}}">
+            <div class="col-md-6">
+                <?php $selection_interval = array("","");?>
+                <?php $selection_interval[$value->interval] = "selected='selected'"; ?>
+                <select class="col-md-3" name="measures[{{$measure->id}}][interval][]">
+                    <option value="0" {{ $selection_interval[0] }}>Months</option>
+                    <option value="1" {{ $selection_interval[1] }}>Years</option>
+                </select>
                 <span class="col-md-1">:</span>
-                <input class="col-md-2 agemax" name="" type="text" title="{{trans('messages.upper-age-limit')}}">
+                <input class="col-md-2 agemin" name="" type="text" min="1" title="{{trans('messages.lower-age-limit')}}">
+                <span class="col-md-1">:</span>
+                <input class="col-md-2 agemax" name="" type="text" min="1" title="{{trans('messages.upper-age-limit')}}">
                 <span class="col-md-1"></span>
-                <select class="col-md-4 gender" name="">
+                <select class="col-md-3 gender" name="">
                     <option value="0">{{trans('messages.male')}}</option>
                     <option value="1">{{trans('messages.female')}}</option>
                     <option value="2">{{trans('messages.both')}}</option>
