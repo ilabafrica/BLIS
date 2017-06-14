@@ -139,11 +139,13 @@ class MeasureControllerTest extends TestCase
 		$this->assertEquals($measurerangeupdated[5]['age_min'], $this->inputNumericUpdate[0]['agemin'][0]);
 		$this->assertEquals($measurerangeupdated[5]['age_max'], $this->inputNumericUpdate[0]['agemax'][0]);
 		$this->assertEquals($measurerangeupdated[5]['gender'], $this->inputNumericUpdate[0]['gender'][0]);
+		$this->assertEquals($measurerangeupdated[5]['interval'], $this->inputNumericUpdate[0]['interval'][0]);
 		$this->assertEquals($measurerangeupdated[5]['range_lower'], $this->inputNumericUpdate[0]['rangemin'][0]);
 		$this->assertEquals($measurerangeupdated[5]['range_upper'], $this->inputNumericUpdate[0]['rangemax'][0]);
 
 		$this->assertEquals($measurerangeupdated[4]['age_min'], $this->inputNumericUpdate[0]['agemin'][1]);
 		$this->assertEquals($measurerangeupdated[4]['age_max'], $this->inputNumericUpdate[0]['agemax'][1]);
+		$this->assertEquals($measurerangeupdated[4]['interval'], $this->inputNumericUpdate[0]['interval'][1]);
 		$this->assertEquals($measurerangeupdated[4]['gender'], $this->inputNumericUpdate[0]['gender'][1]);
 		$this->assertEquals($measurerangeupdated[4]['range_lower'], $this->inputNumericUpdate[0]['rangemin'][1]);
 		$this->assertEquals($measurerangeupdated[4]['range_upper'], $this->inputNumericUpdate[0]['rangemax'][1]);
@@ -210,6 +212,7 @@ class MeasureControllerTest extends TestCase
 				'name' => 'UricAcid',
 				'measure_type_id' => '1',
 				'unit' => 'mg/dl',
+				'interval' => '0',
 				'description' => 'Description',
 				'agemin' =>['1', '2'], 
 				'agemax' => ['4', '5'], 
