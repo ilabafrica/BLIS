@@ -5,5 +5,6 @@ before_install:
     composer self-update
 before_script:
     composer install
+    php artisan migrate
 script:
     phpunit --coverage-text
