@@ -34,7 +34,7 @@ class MeasureController extends \BaseController {
             if ($measure->isNumeric()) {
                 $val['agemin'] = $data['agemin'];
                 $val['agemax'] = $data['agemax'];
-                $val['agemax'] = $data['agemax'];
+                $val['gender'] = $data['gender'];
                 $val['interval'] = $data['interval'];
                 $val['rangemin'] = $data['rangemin'];
                 $val['rangemax'] = $data['rangemax'];
