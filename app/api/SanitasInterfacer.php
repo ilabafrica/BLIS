@@ -301,7 +301,13 @@ class SanitasInterfacer implements InterfacerInterface{
     public function saveToExternalDump($labRequest, $testId)
     {
         //Dumping all the received requests to stagingTable
-        $dumper = ExternalDump::firstOrNew(array('lab_no' => $labRequest->labNo, 'patient_id' => $labRequest->patient->id));
+        $dump = ExternalDump::where('lab_no', '=', $labRequest->labNo)->where('patient_id', '=', $labRequest->patient->id)->get();
+        if(!$dump->first()){
+            $dumper = new ExternalDump();
+        }
+        else {
+            $dumper = $dump->first();
+        }
         $dumper->lab_no = $labRequest->labNo;
         $dumper->parent_lab_no = $labRequest->parentLabNo;
         if($dumper->test_id == null){
