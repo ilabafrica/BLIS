@@ -30,8 +30,10 @@ class CriticalController extends \BaseController {
 	{
 		// Get measures list
 		$measures = Measure::lists('name', 'id');
+		//	Get units
+		$units = [Critical::DAYS => "Days", Critical::MONTHS => "Months", Critical::YEARS => "Years"];
 		// Create critical
-		return View::make('critical.create')->with('measures', $measures);
+		return View::make('critical.create')->with('measures', $measures)->with('units', $units);
 	}
 
 
@@ -61,6 +63,7 @@ class CriticalController extends \BaseController {
 			$critical->critical_low = Input::get('critical_low');
 			$critical->critical_high = Input::get('critical_high');
 			$critical->unit = Input::get('unit');
+			$critical->age_unit = Input::get('age_unit');
 			try{
 				$critical->save();
 				$url = Session::get('SOURCE_URL');
@@ -101,9 +104,11 @@ class CriticalController extends \BaseController {
 		$measures = Measure::lists('name', 'id');
 		//Get the critical
 		$critical = Critical::find($id);
-
+		
+		//	Get units
+		$units = [Critical::DAYS => "Days", Critical::MONTHS => "Months", Critical::YEARS => "Years"];
 		//Open the Edit View and pass to it the $critical
-		return View::make('critical.edit')->with('critical', $critical)->with('measures', $measures);
+		return View::make('critical.edit')->with('critical', $critical)->with('measures', $measures)->with('units', $units);
 	}
 
 
@@ -134,6 +139,7 @@ class CriticalController extends \BaseController {
 			$critical->critical_low = Input::get('critical_low');
 			$critical->critical_high = Input::get('critical_high');
 			$critical->unit = Input::get('unit');
+			$critical->age_unit = Input::get('age_unit');
 			$critical->save();
 
 			// redirect

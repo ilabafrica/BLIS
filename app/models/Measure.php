@@ -76,8 +76,28 @@ class Measure extends Eloquent
 				$interval = $birthDate->diff($now);
 				$seconds = ($interval->days * 24 * 3600) + ($interval->h * 3600) + ($interval->i * 60) + ($interval->s);
 				$age = $seconds/(365*24*60*60);
+				$age_in_years = $age;	//	Age in years
+				$age_in_months = $age*12;	//	Age in months
+				$age_in_days = $age*365;	//	Age in days
+				$units = NULL;
+				$critical = Critical::where('parameter', $measure->id);
+				if($age_in_years >= 1)
+				{
+					$units = Critical::YEARS;
+					$critical = $critical->where('age_min', '<=', $age_in_years)->where('age_max', '>=', $age_in_years);
+				}
+				else if($age_in_months >= 1)
+				{
+					$units = Critical::MONTHS;
+					$critical = $critical->where('age_min', '<=', $age_in_months)->where('age_max', '>=', $age_in_months);
+				}
+				else if($age_in_days >= 1)
+				{
+					$units = Critical::DAYS;
+					$critical = $critical->where('age_min', '<=', $age_in_days)->where('age_max', '>=', $age_in_days);
+				}
+				$critical = $critical->where('age_unit', $units);
 				$gender = $result['gender'];
-				$critical = Critical::where('parameter', $measure->id)->where('age_min', '<=', $age)->where('age_max', '>=', $age);
 				$crit = clone $critical;
 				$first_check = $crit->where('gender', $gender)->first();
 				if($first_check)
@@ -86,13 +106,13 @@ class Measure extends Eloquent
 					$critical = $critical->where('gender', Patient::BOTH);
 				$critical = $critical->first();
 				// $measurerange = $measurerange->where('age_min', '<=', $age)
-			// 	// 	->where('age_max', '>=', $age)
-			// 	// 	->where('range_lower', '<=', $result['measurevalue'])
-			// 	// 	->where('range_upper', '>=', $result['measurevalue'])
-			// 	// 	->whereIn('gender', array($result['gender'], 2));
-			// } else{
-			// 	$measurerange = $measurerange->where('alphanumeric', '=', $result['measurevalue']);
-			// }
+				// 	// 	->where('age_max', '>=', $age)
+				// 	// 	->where('range_lower', '<=', $result['measurevalue'])
+				// 	// 	->where('range_upper', '>=', $result['measurevalue'])
+				// 	// 	->whereIn('gender', array($result['gender'], 2));
+				// } else{
+				// 	$measurerange = $measurerange->where('alphanumeric', '=', $result['measurevalue']);
+				// }
 				// var_dump($critical->critical_low. ' '.$critical->critical_high.' '.$result['measurevalue']);
 				if($result['measurevalue'] < $critical->critical_low || $result['measurevalue'] > $critical->critical_high){
 					$interpretation = "critical";

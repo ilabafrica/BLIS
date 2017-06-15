@@ -55,7 +55,7 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'iblis',
+			'database'  => 'bls',
 			'username'  => 'root',
 			'password'  => '',
 			'charset'   => 'utf8',
@@ -111,7 +111,7 @@ return array(
 
 	'redis' => array(
 
-		'cluster' => false,
+		'cluster' => true,
 
 		'default' => array(
 			'host'     => '127.0.0.1',

@@ -13,7 +13,7 @@
 	<div class="panel panel-primary">
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-adjust"></span>
-			{{trans('messages.create-critical')}}
+			{{trans('messages.add-new')}}
 		</div>
 		<div class="panel-body">
 		<!-- if there are creation errors, they will show here -->
@@ -38,6 +38,11 @@
                         <label class="radio-inline">{{ Form::radio("gender", Patient::BOTH, false) }}{{trans('messages.both')}}</label>
                     </div>
                 </div>
+				<div class="form-group">
+					{{ Form::label('age-units', "Age Units") }}			
+					{{ Form::select('age_unit', array(0 => '')+$units,
+						Input::old('age_unit'),	array('class' => 'form-control')) }}
+				</div>
 				<div class="form-group">
 					{{ Form::label('age-min', Lang::choice('messages.age-min', 1)) }}
 					{{ Form::text('age_min', Input::old('age_min'), array('class' => 'form-control')) }}

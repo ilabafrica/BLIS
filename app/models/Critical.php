@@ -24,4 +24,10 @@ class Critical extends Eloquent
 	{
 	  return $this->belongsTo('Measure', 'parameter');
 	}
+	/**
+	 * Units for critical ages
+	 */
+	const DAYS = 1;
+	const MONTHS = 2;
+	const YEARS = 3;
 }

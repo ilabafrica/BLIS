@@ -40,6 +40,11 @@
                     </div>
                 </div>
 				<div class="form-group">
+					{{ Form::label('age-units', "Age Units") }}			
+					{{ Form::select('age_unit', array(0 => '')+$units,
+						Input::old('age_unit'),	array('class' => 'form-control')) }}
+				</div>
+				<div class="form-group">
 					{{ Form::label('age-min', Lang::choice('messages.age-min', 1)) }}
 					{{ Form::text('age_min', Input::old('age_min'), array('class' => 'form-control')) }}
 				</div>
