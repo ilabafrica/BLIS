@@ -63,24 +63,15 @@ class InterfacerController extends \BaseController{
 
             try {
                 $test = Test::find($testId);
-                if($test->test_status_id == Test::PENDING || $test->test_status_id == Test::STARTED){
                     $testResult = TestResult::firstOrCreate(array('test_id' => $testId, 'measure_id' => $measureId));
                     //Validate results
                     $testResult->result = $res;
                     //TODO: Try catch to handle failure
                     $testResult->save();
                     $test = Test::find($testId);
-                    $test->test_status_id = Test::COMPLETED;
                     $test->tested_by = 1;
-                    if($test->test_status_id == Test::PENDING){
-                        $test->time_started = date('Y-m-d H:i:s');
-                    }
                     $test->time_completed = date('Y-m-d H:i:s');
                     $test->save();
-                }
-                else {
-                    return Response::json(array('Ignored'));
-                }
             }
             catch(\QueryException $qe){
                 return Response::json(array('Failed'));
@@ -118,8 +109,7 @@ class InterfacerController extends \BaseController{
             $tests = Test::with('visit.patient', 'testType.measures')
                  ->where(function($query)
                     {
-                        $query->where('test_status_id', Test::PENDING)
-                              ->orWhere('test_status_id', Test::STARTED);
+                        $query->where('test_status_id', Test::STARTED);
                     })
                 ->where('test_type_id', $testType->id)
                 ->where('time_created', '>', $dateFrom)
