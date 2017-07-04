@@ -64,7 +64,7 @@
                             <div class="col-md-6">
                                  <?php $selection_interval = array("","","");?>
                                     <?php 
-                                    if ($value->age_max<0.08219178082) {
+                                    if ($value->age_max<=0.08493150684) {
                                        $selection_interval[2] = "selected='selected'"; 
                                     }else if($value->age_min>=0 && !$value->age_min>1){
                                         $selection_interval[0] = "selected='selected'"; 
@@ -85,7 +85,7 @@
                                 <span class="col-md-1">:</span>
                                 <input class="col-md-2" name="measures[{{$measure->id}}][agemax][]" type="text" value="{{ round($value->age_max*365) }}"
                                     title="{{trans('messages.upper-age-limit')}}">
-                                @elseif($value->age_min>=0.083333 && $value->age_max!==0 && $value->age_max<1)
+                                @elseif($value->age_min>=0.083333 && $value->age_max!==0 && $value->age_max<=1)
                                  <input class="col-md-2" name="measures[{{$measure->id}}][agemin][]" type="text" value="{{ round($value->age_min*12) }}"
                                     title="{{trans('messages.lower-age-limit')}}">
                                 
