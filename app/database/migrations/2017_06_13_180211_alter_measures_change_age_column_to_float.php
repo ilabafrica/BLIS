@@ -13,8 +13,8 @@ class AlterMeasuresChangeAgeColumnToFloat extends Migration {
 	public function up()
 	{
 	
-		 //DB::statement('ALTER TABLE measure_ranges MODIFY age_min  FLOAT;');
-		 //DB::statement('ALTER TABLE measure_ranges MODIFY age_max  FLOAT;');
+		 DB::statement('ALTER TABLE measure_ranges MODIFY age_min  FLOAT;');
+		 DB::statement('ALTER TABLE measure_ranges MODIFY age_max  FLOAT;');
 	}
 
 	/**
@@ -24,8 +24,8 @@ class AlterMeasuresChangeAgeColumnToFloat extends Migration {
 	 */
 	public function down()
 	{
-		 //DB::statement('ALTER TABLE measure_ranges MODIFY age_min  INTEGER;');
-		 //DB::statement('ALTER TABLE measure_ranges MODIFY age_max  INTEGER;');
+		 DB::statement('ALTER TABLE measure_ranges MODIFY age_min  INTEGER;');
+		 DB::statement('ALTER TABLE measure_ranges MODIFY age_max  INTEGER;');
 	}
 
 }

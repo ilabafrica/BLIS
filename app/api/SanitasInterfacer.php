@@ -307,6 +307,9 @@ class SanitasInterfacer implements InterfacerInterface{
         if($dumper->test_id == null){
             $dumper->test_id = $testId;
         }
+        else if($dumper->test_id != null && $testId != null && $dumper->test_id != $testId){
+            $dumper->test_id = $testId;
+        }
         $dumper->requesting_clinician = $labRequest->requestingClinician;
         $dumper->investigation = $labRequest->investigation;
         $dumper->provisional_diagnosis = '';
