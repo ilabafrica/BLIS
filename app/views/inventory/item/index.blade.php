@@ -16,22 +16,17 @@
 		<div class="panel-btn">
 			<a class="btn btn-sm btn-info" href="{{ URL::route('item.create') }}">
 				<span class="glyphicon glyphicon-plus-sign"></span>
-				{{ trans('messages.add').' '.Lang::choice('messages.item', 1) }}
+				{{ trans('messages.add')}} {{ trans('messages.new')}} {{Lang::choice('messages.item', 1) }}
 			</a>
 		</div>
 	</div>
 	<div class="panel-body">
-<table class="table table-striped table-hover table-condensed search-table">
+		<table class="table table-striped table-hover table-condensed search-table">
 			<thead>
 				<tr>
 					<th>{{ Lang::choice('messages.name', 1) }}</th>
-					<th>{{ trans('messages.unit') }}</th>
-					<th>{{ trans('messages.quantity') }}</th>
-					<th>{{ trans('messages.min-level') }}</th>
-					<th>{{ trans('messages.max-level') }}</th>
-					<th>{{ trans('messages.remarks') }}</th>
-					<th>{{ trans('messages.storage') }}</th>
-					<th>{{ trans('messages.actions') }}</th>
+					<th style="text-align: right;">{{ trans('messages.quantity') }}</th>
+					<th style="text-align: center;">{{ trans('messages.actions') }}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -41,46 +36,41 @@
                         @endif
                     >
                  	<td>{{ $value->name }}</td>
-                 	<td>{{ $value->unit }}</td>
-                 	<td>{{ $value->quantity() }}</td>
-                 	<td>{{ $value->min_level }}</td>
-                 	<td>{{ $value->max_level }}</td>
-                 	<td>{{ $value->remarks }}</td>
-                 	<td>{{ $value->storage_req }}</td>
+                 	<td style="text-align: right;">{{ $value->quantity() }} {{ $value->unit }}</td>
                  	
-					<td>
+					<td style="text-align: right;">
 					<!-- show the item (uses the show method found at GET /item/{id} -->
 						<a class="btn btn-sm btn-success" href="{{ URL::to("item/" . $value->id) }}" >
 							<span class="glyphicon glyphicon-eye-open"></span>
 							{{ trans('messages.view') }}
 						</a> 
-					<!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
-					<a class="btn btn-sm btn-info" href="{{ URL::route('item.edit', array($value->id)) }}" >
-							<span class="glyphicon glyphicon-edit"></span>
-							{{ trans('messages.edit') }}
-					</a>
-					<!-- Barcode -->
-					<a class="btn btn-sm btn-midnight-blue barcode-button" onclick="print_barcode({{ "'".$value->id."'".', '."'".$barcode->encoding_format."'".', '."'".$barcode->barcode_width."'".', '."'".$barcode->barcode_height."'".', '."'".$barcode->text_size."'" }})" title="{{trans('messages.barcode')}}">
-                        <span class="glyphicon glyphicon-barcode"></span>
-                        {{ trans('messages.barcode') }}
-                    </a>
-                    <!-- show button for logging stock usage -->
-					<a class="btn btn-sm btn-wisteria" href="{{ URL::to("stock/" . $value->id)."/log" }}" >
-						<span class="glyphicon glyphicon-bookmark"></span>
-						{{ trans('messages.log-usage') }}
-					</a>
-					<!-- show button for adding stock -->
-					<a class="btn btn-sm btn-sun-flower" href="{{ URL::to("stock/" . $value->id)."/create" }}" >
-						<span class="glyphicon glyphicon-shopping-cart"></span>
-						{{ trans('messages.add-stock') }}
-					</a>
-						<!-- delete this commodity (uses the delete method found at GET /inventory/{id}/delete -->
-					<button class="btn btn-sm btn-danger delete-item-link" 
-							data-toggle="modal" data-target=".confirm-delete-modal"	
-							data-id="{{ URL::route('item.delete', array($value->id)) }}">
-							<span class="glyphicon glyphicon-trash"></span>
-							{{ trans('messages.delete') }}
-					</button>
+						<!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
+						<a class="btn btn-sm btn-info" href="{{ URL::route('item.edit', array($value->id)) }}" >
+								<span class="glyphicon glyphicon-edit"></span>
+								{{ trans('messages.edit') }}
+						</a>
+	                    <!-- show button for logging stock usage -->
+						<a class="btn btn-sm btn-wisteria" href="{{ URL::to("stock/" . $value->id)."/log" }}" >
+							<span class="glyphicon glyphicon-bookmark"></span>
+							{{ trans('messages.log-usage') }}
+						</a>
+						<!-- show button for adding stock -->
+						<a class="btn btn-sm btn-sun-flower" href="{{ URL::to("stock/" . $value->id)."/create" }}" >
+							<span class="glyphicon glyphicon-shopping-cart"></span>
+							{{ trans('messages.receive') }} {{ Lang::choice('messages.stock',1) }}
+						</a>
+						<!-- Barcode -->
+						<a class="btn btn-sm btn-midnight-blue barcode-button" onclick="print_barcode({{ "'".$value->id."'".', '."'".$barcode->encoding_format."'".', '."'".$barcode->barcode_width."'".', '."'".$barcode->barcode_height."'".', '."'".$barcode->text_size."'" }})" title="{{trans('messages.barcode')}}">
+	                        <span class="glyphicon glyphicon-barcode"></span>
+	                        {{ trans('messages.barcode') }}
+	                    </a>
+							<!-- delete this commodity (uses the delete method found at GET /inventory/{id}/delete -->
+						<button class="btn btn-sm btn-danger delete-item-link" 
+								data-toggle="modal" data-target=".confirm-delete-modal"	
+								data-id="{{ URL::route('item.delete', array($value->id)) }}">
+								<span class="glyphicon glyphicon-trash"></span>
+								{{ trans('messages.delete') }}
+						</button>
 					</td>
 				</tr>
 				@endforeach

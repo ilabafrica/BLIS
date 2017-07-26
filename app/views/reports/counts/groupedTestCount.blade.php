@@ -4,7 +4,7 @@
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
 	  <li class="active">{{ Lang::choice('messages.report',2) }}</li>
-	  <li class="active">{{ trans('messages.counts') }}</li>
+	  <li class="active">{{ Lang::choice('messages.count',2) }}</li>
 	</ol>
 </div>
 <div class='container-fluid'>
@@ -73,7 +73,7 @@
 <div class="panel panel-primary">
 	<div class="panel-heading ">
 		<span class="glyphicon glyphicon-user"></span>
-		{{ trans('messages.counts') }}
+		{{ Lang::choice('messages.count',2) }}
 	</div>
 	<div class="panel-body">
 	@if (Session::has('message'))

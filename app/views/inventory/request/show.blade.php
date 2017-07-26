@@ -16,7 +16,7 @@
 		<div class="panel-heading ">
 			<span class="glyphicon glyphicon-adjust"></span>
 			{{ Lang::choice('messages.request', 1).' '.trans('messages.details') }}
-			<div class="panel-btn">
+			<div class="panel-btn hide">
 				<a class="btn btn-sm btn-info" href="{{ URL::route('request.edit', array($request->id)) }}">
 					<span class="glyphicon glyphicon-edit"></span>
 					{{ trans('messages.edit') }}
@@ -26,16 +26,16 @@
 		<div class="panel-body">
 			<div class="display-details">
 				<h3 class="view"><strong>{{ Lang::choice('messages.item', 1) }}:</strong>{{ $request->item->name }} </h3>
-				<p class="view-striped"><strong>{{ trans('messages.quantity-remaining') }}:</strong>
-					{{ $request->quantity_remaining }}</p>
 				<p class="view-striped"><strong>{{ Lang::choice('messages.test-category', 1) }}:</strong>
 					{{ $request->testCategory->name }}</p>
+				<p class="view-striped"><strong>{{ trans('messages.quantity') }} {{ trans('messages.requested') }}:</strong>
+					{{ $request->quantity_ordered }}</p>
+				<p class="view-striped"><strong>{{ trans('messages.requested-by') }}:</strong>
+					{{ $request->user->name }}</p>
+				<p class="view-striped"><strong>{{ trans('messages.quantity-remaining') }}:</strong>
+					{{ $request->quantity_remaining }}</p>
 				<p class="view-striped"><strong>{{ trans('messages.tests-done') }}:</strong>
 					{{ $request->tests_done }}</p>
-				<p class="view-striped"><strong>{{ trans('messages.order-quantity') }}:</strong>
-					{{ $request->quantity_ordered }}</p>
-				<p class="view-striped"><strong>{{ trans('messages.ordered-by') }}:</strong>
-					{{ $request->user->name }}</p>
 				<p class="view-striped"><strong>{{ trans('messages.remarks') }}:</strong>
 					{{ $request->remarks }}</p>
 			</div>

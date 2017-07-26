@@ -3,7 +3,8 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-       <li><a href="{{{URL::route('stock.index')}}}">{{ Lang::choice('messages.stock', 2) }}</a></li>
+      <li><a href="{{{URL::route('item.index')}}}">{{ Lang::choice('messages.item', 2) }}</a></li>
+      <li><a href="{{{URL::route('stocks.log',array($lt->stock->item->id))}}}">{{ Lang::choice('messages.stock', 2) }}</a></li>
 	 	  <li class="active">{{ trans('messages.stock-usage') }}</li>
 	</ol>
 </div>
@@ -34,16 +35,33 @@
                     {{ Form::text('date_of_usage', Input::old('date_of_usage'), 
                             array('class' => 'form-control standard-datepicker')) }}
                 </div>
-                <div class="form-group">
-                    {{ Form::label('request', Lang::choice('messages.top-up', 1)) }}
+                <div class="panel panel-default">
+                    <table class="table table-striped table-hover table-condensed search-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>{{trans('messages.date')}}</th>
+                                <th>{{trans('messages.requested-by')}}</th>
+                                <th>{{Lang::choice('messages.test-category',1)}}</th>
+                                <th>{{trans('messages.quantity')}}</th>
+                                <th>{{trans('messages.remarks')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                     @foreach($requests as $record)
-                    <div class="radio col-sm-offset-3">
-                        <label>
-                            <input type="radio" name="request_id" id="request_id" value="{{$record->id}}" {{ ($request == $record->id) ? 'checked' : ''}}>
-                            {{ $record->item->name.'('.(count($record->usage)>0?$record->quantity_ordered-$record->issued():$record->quantity_ordered).') - '.$record->testCategory->name.'('.($record->remarks?$record->remarks:$record->user->name).')' }}
-                        </label>
-                    </div>
+                            <tr>
+                                <td>
+                                    <input type="radio" name="request_id" id="request_id" value="{{$record->id}}" {{ ($request == $record->id) ? 'checked' : ''}}>
+                                </td>
+                                <td>{{ $record->created_at}}</td>
+                                <td>{{ $record->user->name}}</td>
+                                <td>{{$record->testCategory->name}}</td>
+                                <td>{{(count($record->usage)>0?$record->quantity_ordered-$record->issued():$record->quantity_ordered)}}</td>
+                                <td>{{$record->remarks}}</td>
+                            </tr>
                     @endforeach
+                        </tbody>
+                    </table>
                 </div>
                 <div class="form-group">
                     {{ Form::label('issued-by', trans('messages.issued-by')) }}

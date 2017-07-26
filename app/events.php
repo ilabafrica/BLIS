@@ -3,7 +3,7 @@
 // Display all SQL executed in Eloquent
 Event::listen('illuminate.query', function($query)
 {
-        Log::info($query);
+        // Log::info($query);
 });
 
 Event::listen('test.saved', function($testId)

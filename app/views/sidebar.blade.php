@@ -215,10 +215,10 @@
 			</div>
 			<div class="sub-menu {{$active[5]}}">
 				<div class="sub-menu-title">
-							<a href="{{ URL::route('reports.adhocreport.index')}}">
-								<span class=""></span>
-								{{trans('messages.adhoc-report')}}</a>
+					<a href="{{ URL::route('reports.adhocreport.index')}}">
+						{{trans('messages.adhoc-report')}}</a>
 				</div>
+				<ul class="sub-menu-items"></ul>
 				<div class="sub-menu-title">{{trans('messages.daily-reports')}}</div>
 				<ul class="sub-menu-items">
 					<li>
@@ -235,6 +235,7 @@
 						</div>
 					</li>
 				</ul>
+				@if(Entrust::can('manage_inventory'))
 				<div class="sub-menu-title" style="display:block;">{{trans('messages.inventory-reports')}}</div>
 				<ul class="sub-menu-items" style="display:block;">
 					<li>
@@ -249,7 +250,14 @@
 							{{trans('messages.usage')}}</a>
 						</div>
 					</li>
-					</ul>
+					<li>
+						<div><a href="{{ URL::route('reports.stockcount')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{Lang::choice('messages.stock',1)}} {{Lang::choice('messages.count',1)}}</a>
+						</div>
+					</li>
+				</ul>
+				@endif
 				<div class="sub-menu-title">{{trans('messages.aggregate-reports')}}</div>
 				<ul class="sub-menu-items">
 					<li>
@@ -267,7 +275,7 @@
 					<li>
 						<div><a href="{{ URL::route('reports.aggregate.counts')}}">
 							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.counts')}}</a>
+							{{Lang::choice('messages.count',2)}}</a>
 						</div>
 					</li>
 					<li>
@@ -382,19 +390,19 @@
 						</div>
 					</li>
 					@endif
-					@if(Entrust::can('view_blood_bank'))
-					<li>
-						<div>
-							<a href="{{ URL::route("blood.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ trans('messages.blood-bank') }}</a>
-						</div>
-					</li>
-					@endif
 					@if(Entrust::can('request_topup'))
 					<li>
 						<div>
 							<a href="{{ URL::route("request.index")}}">
 								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.top-up', 2)}}</a>
+						</div>
+					</li>
+					@endif
+					@if(Entrust::can('view_blood_bank'))
+					<li>
+						<div>
+							<a href="{{ URL::route("blood.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ trans('messages.blood-bank') }}</a>
 						</div>
 					</li>
 					@endif

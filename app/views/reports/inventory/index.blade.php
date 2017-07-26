@@ -15,10 +15,10 @@
 	<div class="row">
 		<div class="col-md-3"><!-- From Datepicker-->
 	    	<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-2">
 					{{ Form::label('start', trans("messages.from")) }}
 				</div>
-				<div class="col-md-8">
+				<div class="col-md-10">
 					{{ Form::text('start', isset($input['start'])?$input['start']:date('Y-m-d'), 
 				        array('class' => 'form-control standard-datepicker')) }}
 			    </div>
@@ -26,10 +26,10 @@
 	    </div>
 	    <div class="col-md-3"><!-- To Datepicker-->
 	    	<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-2">
 			    	{{ Form::label('end', trans("messages.to")) }}
 			    </div>
-				<div class="col-md-8">
+				<div class="col-md-10">
 				    {{ Form::text('end', isset($input['end'])?$input['end']:date('Y-m-d'), 
 				        array('class' => 'form-control standard-datepicker')) }}
 		        </div>
@@ -37,10 +37,10 @@
 	    </div>
 	     <div class="col-md-4"><!-- Select type of item -->
 	    	<div class="row">
-		        <div class="col-md-4">
+		        <div class="col-md-2">
 		        	{{ Form::label('item', Lang::choice('messages.item',1)) }}
 		        </div>
-		        <div class="col-md-8">
+		        <div class="col-md-10">
 		             {{ Form::text('search_item', '', array('class' => 'form-control', 'id' => 'search_item', 'placeholder' => 'Search Item'))}}
 		        </div>
 	        </div>

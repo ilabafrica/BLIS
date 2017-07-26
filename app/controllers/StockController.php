@@ -10,7 +10,7 @@ class StockController extends \BaseController {
 	public function index($id)
 	{
 		//	Get item
-		$item = Item::find($id);
+		$item = Item::with('stocks.usage')->find($id);
 		//	Barcode
 		$barcode = Barcode::first();
 		//Load the view and pass the stocks
@@ -314,4 +314,36 @@ class StockController extends \BaseController {
 		    }
 		}
 	}
+
+	public function stockCountReport(){
+		
+
+		$theDate = Input::get('the_date') . " 23:59:59"; //Practically midnight.
+		Log::info($theDate);
+
+		$wholeQuery = "SELECT name, 
+						SUM(quantity_supplied) AS quantity_supplied, 
+						SUM(quantity_used) AS quantity_used 
+						FROM (
+							SELECT i.id,
+								i.name, 
+								IFNULL(s.quantity_supplied,0) AS quantity_supplied, 
+								IFNULL(SUM(u.quantity_used),0) AS quantity_used 
+							FROM inv_items AS i 
+								LEFT JOIN inv_supply AS s ON i.id = s.item_id AND s.created_at <= '$theDate' 
+								LEFT JOIN inv_usage AS u ON s.id = u.stock_id AND u.created_at <= '$theDate'
+							GROUP BY s.id) AS q 
+						GROUP BY q.id 
+						ORDER BY q.name";
+
+		$reportData = DB::table(DB::raw("({$wholeQuery}) as sub"))->get();
+
+		$reportTitle = " as at $theDate";
+		
+		return View::make('reports.inventory.stockCount')
+			->with('reportData', $reportData)
+			->with('reportTitle', $reportTitle)
+			->withInput(Input::all());		
+	}
+
 }

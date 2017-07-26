@@ -382,7 +382,16 @@ Route::group(array("before" => "auth"), function()
             "uses" => "ReportController@stockLevel"
         ));
 
-          Route::get("/inventoryusage", array(
+        Route::get("/stockcount", array(
+            "as"   => "reports.stockcount",
+            "uses" => "StockController@stockCountReport"
+        ));
+        Route::post("/stockcount", array(
+            "as"   => "reports.stockcount",
+            "uses" => "StockController@stockCountReport"
+        ));
+
+        Route::get("/inventoryusage", array(
             "as"   => "reports.inventoryusage",
             "uses" => "ReportController@usageLevel"
         ));

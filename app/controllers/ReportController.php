@@ -3152,7 +3152,9 @@ class ReportController extends \BaseController {
 
 		$selectedReport = Input::get('report_type');	
 		$selectedItem = Input::get('search_item_id');	
-		$selected_record_type = Input::get('records'); 
+		$selected_record_type = Input::get('records');
+
+		$usageData = null;
 
 		if($from||$to){			
 

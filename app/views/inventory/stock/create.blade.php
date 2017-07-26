@@ -3,8 +3,9 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-       <li><a href="{{{URL::route('item.index')}}}">{{ Lang::choice('messages.stock', 2) }}</a></li>
-	 	  <li class="active">{{ trans('messages.new').' '.Lang::choice('messages.stock', 1) }}</li>
+      <li><a href="{{{URL::route('item.index')}}}">{{ Lang::choice('messages.item', 2) }}</a></li>
+      <li><a href="{{{URL::route('stocks.log',array($item->id))}}}">{{ Lang::choice('messages.stock', 2) }}</a></li>
+	  <li class="active">{{ trans('messages.new').' '.Lang::choice('messages.stock', 1) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -17,8 +18,8 @@
 @endif
 <div class="panel panel-primary">
 	<div class="panel-heading ">
-		<span class="glyphicon glyphicon-user"></span>
-		{{ Lang::choice('messages.stock', 2) }}
+		<span class="glyphicon glyphicon-shopping-cart"></span>
+		{{trans('messages.receive')}} {{trans('messages.new')}} {{$item->name}} {{Lang::choice('messages.stock', 2) }}
 	</div>
 	<div class="panel-body">
 		   {{ Form::open(array('route' => 'stock.store', 'id' => 'form-store-stocks')) }}
@@ -46,11 +47,11 @@
             </div>
             <div class="form-group">
                 {{ Form::label('supplied', trans('messages.supplied')) }}
-                {{ Form::text('quantity_supplied', Input::old('quantity_supplied'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::number('quantity_supplied', Input::old('quantity_supplied'),array('class' => 'form-control', 'rows' => '2')) }} {{$item->unit}}
             </div>
             <div class="form-group">
                 {{ Form::label('cost-per-unit', trans('messages.cost-per-unit')) }}
-                {{ Form::text('cost_per_unit', Input::old('cost_per_unit'),array('class' => 'form-control', 'rows' => '2')) }}
+                {{ Form::number('cost_per_unit', Input::old('cost_per_unit'),array('class' => 'form-control', 'rows' => '2')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('date-received', trans('messages.date-received')) }}
