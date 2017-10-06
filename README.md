@@ -45,7 +45,7 @@ The easiest way to install is using docker, follow instruction [here](https://gi
 7. If you are running the application on a webserver eg. apache, ensure that the webserver has write permissions to the `<APP_HOME>/app/storage` folder.
    The web-root should be the `<APP_HOME>/public` folder.
 
-   See below a sample apache *namedhost* virtualhost configuration file.
+   See below a sample apache (v 2.4.25 on Ubuntu) *namedhost* virtualhost configuration file.
    ````
    <VirtualHost *:80>
         ServerName blis
@@ -83,7 +83,7 @@ Road Map
 
 Collaboration
 --------------
-We welcome all forms of collaboration: coding, testing, documentation (writing/proof reading), feature/enhancement suggestions, ... Please review our contribution guidelines on the [wiki page](https://github.com/APHLK/BLIS/wiki).
+We **welcome** all forms of collaboration: coding, testing, documentation (writing/proof reading), feature/enhancement suggestions, ... Please review our contribution guidelines on the [wiki page](https://github.com/APHLK/BLIS/wiki).
 
 1. Review the [issue list](https://github.com/APHLK/BLIS/issues) for an issue you wish to resolve or create a new issue for a bug or enhancement.
 2. Create a branch
