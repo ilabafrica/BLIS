@@ -23,7 +23,7 @@ The easiest way to install is using docker, follow instruction [here](https://gi
 
 1. Install the above mentioned requirements.
 2. Extract this git repository to a local folder
-    <blockquote>git clone git@github.com:ilabafrica/iBLIS.git </blockquote>
+    <blockquote>git clone git@github.com:APHLK/BLIS.git </blockquote>
 3. Change directory to the root folder of the application. Update **composer** then run it in order to install the application dependencies. You may need root permissions to update composer.
     <blockquote>
       composer self-update<br />
@@ -46,4 +46,4 @@ The easiest way to install is using docker, follow instruction [here](https://gi
 
 Troubleshooting
 ----------------
-Ensure that you enable mod_rewrite, `sudo a2enmod rewrite` if you are using apache. This should solve the problem of routing failures.
+1. Routing failures: Ensure that you enable mod_rewrite, `sudo a2enmod rewrite` if you are using apache. Perform the analogous action if using another web server.
