@@ -68,9 +68,10 @@ class TestDataSeeder extends DatabaseSeeder
         $test_categories = TestCategory::create(array("name" => "PARASITOLOGY","description" => ""));
         $lab_section_microbiology = TestCategory::create(array("name" => "MICROBIOLOGY","description" => ""));
 
+        $this->command->info('test_categories seeded');     
+        
+
         $this->command->info('test_categories seeded');
-        
-        
         /* Measure Types */
         $measureTypes = array(
             array("id" => "1", "name" => "Numeric Range"),

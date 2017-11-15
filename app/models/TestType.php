@@ -67,6 +67,13 @@ class TestType extends Eloquent
 	  return $this->belongsToMany('Organism', 'testtype_organisms');
 	}
 	/**
+	* Panal relationship
+	*/
+	public function panel()
+	{
+		return $this->belongsTo('Panal','panel_id');
+	}
+	/**
 	 * Set compatible specimen types
 	 *
 	 * @return void

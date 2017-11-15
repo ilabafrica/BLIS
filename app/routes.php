@@ -159,7 +159,16 @@ Route::group(array("before" => "auth"), function()
             "as"   => "requireverification.update",
             "uses" => "RequireVerificationController@update"
         ));
-    });
+        Route::resource('panel', 'PanelController');
+        Route::get("/panel",array(
+            "as"=>"panel.index",
+            "uses"=>"PanelController@index"
+        ));
+        Route::get("/panel/{id}/delete",array(
+            "as" =>"panel.delete",
+            "uses" =>"PanelController@delete"
+            ));
+    });    
     Route::any("/test", array(
         "as"   => "test.index",
         "uses" => "TestController@index"

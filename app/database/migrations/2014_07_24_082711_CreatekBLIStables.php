@@ -117,17 +117,30 @@ class CreatekBLIStables extends Migration {
             $table->softDeletes();
             $table->foreign('measure_id')->references('id')->on('measures');
         });
-
+        
+         Schema::create('panel', function(Blueprint $table)
+        {
+            $table->increments('id')->unsigned();
+            $table->string('name', 100);
+            $table->string('description', 100)->nullable();
+            
+            
+            $table->softDeletes();
+            $table->timestamps();
+        });
+         
         Schema::create('test_types', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
             $table->string('name', 100);
             $table->string('description', 100)->nullable();
             $table->integer('test_category_id')->unsigned();
+            $table->integer('panel_id')->unsigned();
             $table->string('targetTAT', 50)->nullable();
             $table->string('prevalence_threshold', 50)->nullable();
             
             $table->foreign('test_category_id')->references('id')->on('test_categories');
+            $table->foreign('panel_id')->references('id')->on('panel');
 
             $table->softDeletes();
             $table->timestamps();
@@ -307,7 +320,7 @@ class CreatekBLIStables extends Migration {
             $table->foreign('instrument_id')->references('id')->on('instruments');
             $table->foreign('test_type_id')->references('id')->on('test_types');
             $table->unique(array('instrument_id','test_type_id'));
-        });
+        });             
 	}
 
 	/**
@@ -340,6 +353,7 @@ class CreatekBLIStables extends Migration {
         Schema::dropIfExists('patients');
         Schema::dropIfExists('tokens');
         Schema::dropIfExists('users');
+        Schema::dropIfExists('panel');
 	}
 
 

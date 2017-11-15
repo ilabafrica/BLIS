@@ -21,7 +21,7 @@ class InstrumentController extends \BaseController {
 		// Load the view and pass the instruments
 		return View::make('instrument.index')->with('instruments', $instruments);
 	}
-
+	   
 	/**
 	 * Show the form for creating a new instrument.
 	 *
