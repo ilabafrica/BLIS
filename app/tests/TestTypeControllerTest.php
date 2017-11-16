@@ -29,6 +29,7 @@ class TestTypeControllerTest extends TestCase
 			'name' => 'BSforMPS',
 			'description' => 'Blood Smear',
 			'targetTAT' => '25',
+			'panel_id'  =>'1',
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'Whatisdis',
 			'specimentypes' =>  ['1'],
@@ -48,6 +49,7 @@ class TestTypeControllerTest extends TestCase
 			'name' => 'BS for MPS aka Malaria yo',
 			'description' => 'Blood Smears',
 			'targetTAT' => '20',
+			'panel_id'  =>'1',
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'specimentypes' =>  ['1'],
@@ -67,6 +69,7 @@ class TestTypeControllerTest extends TestCase
 			'name' => 'Culture for sensitivity ',
 			'description' => 'blaaa ',
 			'targetTAT' => '20',
+			'panel_id'  =>'1',
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'specimentypes' =>  ['1'],
@@ -85,6 +88,7 @@ class TestTypeControllerTest extends TestCase
 			'name' => ' Culture for sensitivity',
 			'description' => 'blaa ',
 			'targetTAT' => '20',
+			'panel_id'  =>'1',
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'specimentypes' =>  ['1'],
@@ -103,6 +107,7 @@ class TestTypeControllerTest extends TestCase
 			'name' => ' Culture for sensitivity ',
 			'description' => 'blaa ',
 			'targetTAT' => '20',
+			'panel_id'  =>'1',
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'specimentypes' =>  ['1'],
@@ -121,6 +126,7 @@ class TestTypeControllerTest extends TestCase
 			'name' => 'Culture for sensitivity',
 			'description' => 'blaaa ',
 			'targetTAT' => '20',
+			'panel_id'  =>'1',
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'specimentypes' =>  ['1'],
@@ -148,14 +154,16 @@ class TestTypeControllerTest extends TestCase
     	$testType = new TestTypeController;
     	$testType->store();
 		$testTypestored = TestType::orderBy('id','desc')->take(1)->get()->toArray();
-
+        //dd($testTypestored);
 		$testTypeSaved = TestType::find($testTypestored[0]['id']);
 
 		$this->assertEquals($testTypeSaved->name , $this->testTypeData['name']);
 		$this->assertEquals($testTypeSaved->description , $this->testTypeData['description']);
 		$this->assertEquals($testTypeSaved->targetTAT , $this->testTypeData['targetTAT']);
 		$this->assertEquals($testTypeSaved->prevalence_threshold , $this->testTypeData['prevalence_threshold']);
+		$this->assertEquals($testTypeSaved->panel_id, $this->testTypeData['panel_id']);
 		$this->assertEquals($testTypeSaved->test_category_id , $this->testTypeData['test_category_id']);
+
 
 		//Getting the Measure related to this test type
 		$testTypeMeasure = $testTypeSaved->measures->toArray();
@@ -188,6 +196,7 @@ class TestTypeControllerTest extends TestCase
 		$this->assertEquals($testTypeSavedUpdated->description , $this->testTypeDataUpdate['description']);
 		$this->assertEquals($testTypeSavedUpdated->targetTAT , $this->testTypeDataUpdate['targetTAT']);
 		$this->assertEquals($testTypeSavedUpdated->prevalence_threshold , $this->testTypeDataUpdate['prevalence_threshold']);
+		$this->assertEquals($testTypeSavedUpdated->panel_id , $this->testTypeDataUpdate['panel_id']);
 		$this->assertEquals($testTypeSavedUpdated->test_category_id , $this->testTypeDataUpdate['test_category_id']);
 		
 		$testTypeMeasureUpdated = TestType::find($testTypestored[0]['id'])->measures->toArray();

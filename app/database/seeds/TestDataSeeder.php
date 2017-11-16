@@ -74,8 +74,8 @@ class TestDataSeeder extends DatabaseSeeder
         $this->command->info('test_categories seeded');
 
         /**Panel Seed**/
-          $panels = Panel::create(array('name'=>'test','description'=>""));
-          $panels_testType = Panel::create(array("name"=>"Panel test","description"=>""));
+          $panels = Panel::create(array('name'=>'Panel X','description'=>""));
+          $panels_testType = Panel::create(array("name"=>"Panel Y","description"=>""));
         $this->command->info('Panel table seeded');  
 
         /* Measure Types */

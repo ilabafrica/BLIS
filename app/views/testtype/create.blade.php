@@ -37,6 +37,11 @@
 					Input::old('test_category_id'),	array('class' => 'form-control')) }}
 			</div>
 			<div class="form-group">
+				{{ Form::label('panel_id', Lang::choice('messages.panel-type',1)) }}
+				{{Form::select('panel_id',array (0 =>'')+$paneltype->lists('name','id'),
+				Input::old('panel_id'),array('class' =>'form-control')) }}
+			</div>
+			<div class="form-group">
 				{{ Form::label('specimen_types', trans('messages.select-specimen-types')) }}
 				<div class="form-pane panel panel-default">
 					<div class="container-fluid">

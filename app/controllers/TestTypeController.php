@@ -37,6 +37,7 @@ class TestTypeController extends \BaseController {
 		$measures = Measure::orderBy('name')->get();
 		$specimentypes = SpecimenType::orderBy('name')->get();
 		$testcategory = TestCategory::all();
+		$paneltype = Panel::all();
         $measuretype = MeasureType::all()->sortBy('id');
         $organisms = Organism::orderBy('name')->get();
 
@@ -46,7 +47,8 @@ class TestTypeController extends \BaseController {
 					->with('measures', $measures)
        				->with('measuretype', $measuretype)
 					->with('specimentypes', $specimentypes)
-					->with('organisms', $organisms);
+					->with('organisms', $organisms)
+					->with('paneltype',$paneltype);
 	}
 
 	/**
@@ -59,6 +61,7 @@ class TestTypeController extends \BaseController {
 		//
 		$rules = array(
 			'name' => 'required|unique:test_types,name',
+			'panel_id' => 'required|non_zero_key',
 			'test_category_id' => 'required|non_zero_key',
 			'specimentypes' => 'required',
 			'new-measures' => 'required',
@@ -86,6 +89,7 @@ class TestTypeController extends \BaseController {
 			$testtype = new TestType;
 			$testtype->name = trim(Input::get('name'));
 			$testtype->description = Input::get('description');
+			$testtype->panel_id = Input::get('panel_id');
 			$testtype->test_category_id = Input::get('test_category_id');
 			$testtype->targetTAT = Input::get('targetTAT');
 			$testtype->prevalence_threshold = Input::get('prevalence_threshold');
@@ -163,6 +167,7 @@ class TestTypeController extends \BaseController {
 	{
 		$rules = array(
 			'name' => 'required',
+			'panel_id' => 'required|non_zero_key',
 			'test_category_id' => 'required|non_zero_key',
 			'specimentypes' => 'required',
 		);
@@ -176,6 +181,7 @@ class TestTypeController extends \BaseController {
 			$testtype = TestType::find($id);
 			$testtype->name = trim(Input::get('name'));
 			$testtype->description = Input::get('description');
+			$testtype->panel_id = Input::get('panel_id');
 			$testtype->test_category_id = Input::get('test_category_id');
 			$testtype->targetTAT = Input::get('targetTAT');
 			$testtype->prevalence_threshold = Input::get('prevalence_threshold');

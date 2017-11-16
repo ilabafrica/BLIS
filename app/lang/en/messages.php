@@ -738,4 +738,5 @@ return array(
     'panel-details'     => 'Panel Details',
     'edit-panel'        => 'Edit Panel',
     'panel_id'          => 'Panel ID',
+    'panel-type'        =>  'Panel Type',
 );
