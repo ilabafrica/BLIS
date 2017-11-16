@@ -137,7 +137,7 @@ class PanelController extends \BaseController {
 
 	public function delete($id)
 	{
-		/
+		
 		$panel = Panel::find($id);
 		
 

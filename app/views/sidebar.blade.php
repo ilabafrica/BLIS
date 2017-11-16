@@ -105,7 +105,7 @@
 				<ul class="sub-menu-items">
 					<li>
 						<div>
-							<a href="{{ URL::route('panel.index')}}">
+							<a href="{{ URL::route("panel.index") }}">
 								<span class="glyphicon glyphicon-tag"></span>
 								{{Lang::choice('messages.panels', 2)}}</a>
 						</div>
