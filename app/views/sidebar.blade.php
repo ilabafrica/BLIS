@@ -101,16 +101,7 @@
 								{{Lang::choice('messages.instrument', 2)}}</a>
 						</div>
 					</li>
-				</ul>
-				<ul class="sub-menu-items">
-					<li>
-						<div>
-							<a href="{{ URL::route("panel.index") }}">
-								<span class="glyphicon glyphicon-tag"></span>
-								{{Lang::choice('messages.panels', 2)}}</a>
-						</div>
-					</li>
-				</ul>				
+				</ul>								
 				<ul class="sub-menu-items">
 					<li>
 						<div>
@@ -181,6 +172,14 @@
 							<a href="{{ URL::route("specimenrejection.index")}}">
 								<span class="glyphicon glyphicon-tag"></span> {{trans('messages.specimen-rejection')}}</a>
 						</div>
+					</li>
+					<li>	
+					    <div>					
+							<a href="{{ URL::route("panel.index") }}">
+								<span class="glyphicon glyphicon-tag"></span>
+								{{Lang::choice('messages.panels', 2)}}
+							</a>
+						</div>							
 					</li>					
 					<li>
 						<div>

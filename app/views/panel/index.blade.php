@@ -28,8 +28,7 @@
 	<div class="panel-body">
 		<table class="table table-striped table-hover table-condensed search-table">
 			<thead>
-				<tr>
-					<th>{{Lang::choice('messages.panel_id',1)}}</th>
+				<tr>					
 					<th>{{trans('messages.panel_name')}}</th>
 					<th>{{trans('messages.panel_description')}}</th>
 					<th>{{trans('messages.actions')}}</th>
@@ -37,8 +36,7 @@
 			</thead>
 		<tbody>
 			@foreach($panels as $key => $value)
-				<tr> 
-				    <td>{{$value->id}}</td>
+				<tr> 				    
 					<td>{{$value->name}}</td>
 					<td>{{$value->description}}</td>					
 
