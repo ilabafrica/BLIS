@@ -10,14 +10,9 @@ class PanelController extends \BaseController {
 	 */
 	public function index()
 	{
-
-		$panels = Panel::orderBy('name', 'asc')->get();
-	  
-	    
+		$panels = Panel::orderBy('name', 'asc')->get();	    
 		return View::make('panel.index')->with('panels',$panels);
 	}
-
-
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -25,11 +20,8 @@ class PanelController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
 		return View::make('panel.create');
 	}
-
-
 	/**
 	 * Store a newly created resource in storage.
 	 *
@@ -37,9 +29,8 @@ class PanelController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
 		$rules = array(
-			'name' => 'required',
+			'name' => 'required|unique:panel,name',
 			 );
 		$validator = Validator::make(Input::all(),$rules);
 
@@ -57,8 +48,6 @@ class PanelController extends \BaseController {
 			return Redirect::route('panel.index')->with('message',trans('messages.success-adding-panel'));
 		}
 	}
-
-
 	/**
 	 * Display the specified resource.
 	 *
@@ -67,12 +56,9 @@ class PanelController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
 		$panel = Panel::find($id);
-
 		return View::make('panel.show')->with('panel',$panel);
 	}
-
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -82,13 +68,9 @@ class PanelController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
 		$panel = Panel::find($id);
-
 		return View::make('panel.edit')->with('panel',$panel);
 	}
-
-
 	/**
 	 * Update the specified resource in storage.
 	 *
@@ -97,12 +79,10 @@ class PanelController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
 		$rules = array(
 			'name' => 'required',
 			);
 		$validator = Validator::make(Input::all(),$rules);
-
 		if ($validator->fails()){
 			return Redirect::back()->withErrors($validator);
 		} else {
@@ -110,7 +90,6 @@ class PanelController extends \BaseController {
 			$panel = Panel::find($id);
 			$panel->name = Input::get('name');
 			$panel->description  = Input::get('description');
-
 			try{
 				$panel->save();
 				$message = trans ('messages.success-updating-panel');
@@ -118,12 +97,9 @@ class PanelController extends \BaseController {
 				$message = trans('messages.failure-updating-panel');
 				Log::error($e);
 			}
-
 			return  Redirect::route('panel.index')->with('message',$message);
 		}
 	}
-
-
 	/**
 	 * Remove the specified resource from storage.
 	 *
@@ -136,28 +112,19 @@ class PanelController extends \BaseController {
 	}
 
 	public function delete($id)
-	{
-		
+	{		
 		$panel = Panel::find($id);
-		
-
 		$panelInUse = TestType::where('panel_id', '=', $id)->first();
 		if (empty($panelInUse)) {
 		    
 		   $panel->delete();			
-		} else {
-		    
+		} else {		    
 		    $url = Session::get('SOURCE_URL');
             
-            return Redirect::to($url)
+            return Redirect::route('panel.index')
 		    	->with('message', trans('messages.failure-panel-in-use'));
-		}
-		
+		}		
 			$url = Session::get('SOURCE_URL');
-            return Redirect::route('panel.index')->with('message',trans('messages.success-deleting-panel'));
-            
+            return Redirect::route('panel.index')->with('message',trans('messages.success-deleting-panel'));            
 	}
-		
-		
-
 }

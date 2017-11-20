@@ -116,18 +116,7 @@ class CreatekBLIStables extends Migration {
 
             $table->softDeletes();
             $table->foreign('measure_id')->references('id')->on('measures');
-        });
-        
-         Schema::create('panel', function(Blueprint $table)
-        {
-            $table->increments('id')->unsigned();
-            $table->string('name', 100);
-            $table->string('description', 100)->nullable();
-            
-            
-            $table->softDeletes();
-            $table->timestamps();
-        });
+        });         
          
         Schema::create('test_types', function(Blueprint $table)
         {
@@ -135,13 +124,11 @@ class CreatekBLIStables extends Migration {
             $table->string('name', 100);
             $table->string('description', 100)->nullable();
             $table->integer('test_category_id')->unsigned();
-            $table->integer('panel_id')->unsigned();
             $table->string('targetTAT', 50)->nullable();
             $table->string('prevalence_threshold', 50)->nullable();
             
             $table->foreign('test_category_id')->references('id')->on('test_categories');
-            $table->foreign('panel_id')->references('id')->on('panel');
-
+            
             $table->softDeletes();
             $table->timestamps();
         });

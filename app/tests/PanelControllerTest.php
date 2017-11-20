@@ -26,14 +26,14 @@ class PanelControllerTest extends TestCase
     {
     	// Initial sample storage data
 		$this->panelTestData = array(
-			'name' => 'Panel X',
+			'name' => 'PanelX',
 			'description' => 'Good Condition',
 		);
 
 		
 		// Edition sample data
 		$this->panelTestDataUpdate = array(
-			'name' => 'Panel Y',
+			'name' => 'PanelY',
 			'description' => 'Please share ',
 		);
     }
@@ -50,8 +50,7 @@ class PanelControllerTest extends TestCase
         Input::replace($this->panelTestData);
         $testPanel = new PanelController;
         $testPanel->store();
-		$testPanelstored = Panel::orderBy('id','desc')->take(1)->get()->toArray();
-
+		$testPanelstored = Panel::orderBy('id','desc')->take(1)->get()->toArray();        
 		$testPanelSaved = Panel::find($testPanelstored[0]['id']);
 		$this->assertEquals($testPanelSaved->name , $this->panelTestData['name']);
 		$this->assertEquals($testPanelSaved->description ,$this->panelTestData['description']);
