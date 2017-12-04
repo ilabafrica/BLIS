@@ -233,12 +233,12 @@ class TestDataSeeder extends DatabaseSeeder
         $this->command->info('measures seeded');
         
         /* Test Types table */
-        $testTypeBS = TestType::create(array("name" => "BS for mps","panel_id"=>$panels->id, "test_category_id" => $test_categories->id, "orderable_test" => 1));
-        $testTypeStoolCS = TestType::create(array("name" => "Stool for C/S","panel_id"=>$panels_testType->id, "test_category_id" => $lab_section_microbiology->id));
-        $testTypeGXM = TestType::create(array("name" => "GXM","panel_id"=>$panels->id, "test_category_id" => $test_categories->id));
-        $testTypeHB = TestType::create(array("name" => "HB","panel_id"=>$panels->id, "test_category_id" => $test_categories->id, "orderable_test" => 1));
-        $testTypeUrinalysis = TestType::create(array("name" => "Urinalysis","panel_id"=>$panels_testType->id, "test_category_id" => $test_categories->id));
-        $testTypeWBC = TestType::create(array("name" => "WBC","panel_id"=>$panels->id, "test_category_id" => $test_categories->id));
+        $testTypeBS = TestType::create(array("name" => "BS for mps", "test_category_id" => $test_categories->id, "orderable_test" => 1));
+        $testTypeStoolCS = TestType::create(array("name" => "Stool for C/S", "test_category_id" => $lab_section_microbiology->id));
+        $testTypeGXM = TestType::create(array("name" => "GXM", "test_category_id" => $test_categories->id));
+        $testTypeHB = TestType::create(array("name" => "HB", "test_category_id" => $test_categories->id, "orderable_test" => 1));
+        $testTypeUrinalysis = TestType::create(array("name" => "Urinalysis", "test_category_id" => $test_categories->id));
+        $testTypeWBC = TestType::create(array("name" => "WBC", "test_category_id" => $test_categories->id));
 
         $this->command->info('test_types seeded');
 
@@ -880,15 +880,15 @@ class TestDataSeeder extends DatabaseSeeder
         $this->command->info('Lab Sections seeded');
 
         /* Test Types for prevalence */
-        $test_types_salmonella = TestType::create(array("name" => "Salmonella Antigen Test","panel_id"=>$panels->id, "test_category_id" => $test_categories->id));
-        $test_types_direct = TestType::create(array("name" => "Direct COOMBS Test","panel_id"=>$panels->id, "test_category_id" => $lab_section_trans->id));
-        $test_types_du = TestType::create(array("name" => "DU Test","panel_id"=>$panels_testType->id, "test_category_id" => $lab_section_trans->id));
-        $test_types_sickling = TestType::create(array("name" => "Sickling Test","panel_id"=>$panels->id, "test_category_id" => $lab_section_hematology->id));
-        $test_types_borrelia = TestType::create(array("name" => "Borrelia","panel_id"=>$panels_testType->id, "test_category_id" => $test_categories->id));
-        $test_types_vdrl = TestType::create(array("name" => "VDRL","panel_id"=>$panels->id, "test_category_id" => $lab_section_serology->id));
-        $test_types_pregnancy = TestType::create(array("name" => "Pregnancy Test","panel_id"=>$panels_testType->id, "test_category_id" => $lab_section_serology->id));
-        $test_types_brucella = TestType::create(array("name" => "Brucella","panel_id"=>$panels->id, "test_category_id" => $lab_section_serology->id));
-        $test_types_pylori = TestType::create(array("name" => "H. Pylori","panel_id"=>$panels_testType->id, "test_category_id" => $lab_section_serology->id));
+        $test_types_salmonella = TestType::create(array("name" => "Salmonella Antigen Test", "test_category_id" => $test_categories->id));
+        $test_types_direct = TestType::create(array("name" => "Direct COOMBS Test", "test_category_id" => $lab_section_trans->id));
+        $test_types_du = TestType::create(array("name" => "DU Test", "test_category_id" => $lab_section_trans->id));
+        $test_types_sickling = TestType::create(array("name" => "Sickling Test", "test_category_id" => $lab_section_hematology->id));
+        $test_types_borrelia = TestType::create(array("name" => "Borrelia", "test_category_id" => $test_categories->id));
+        $test_types_vdrl = TestType::create(array("name" => "VDRL", "test_category_id" => $lab_section_serology->id));
+        $test_types_pregnancy = TestType::create(array("name" => "Pregnancy Test", "test_category_id" => $lab_section_serology->id));
+        $test_types_brucella = TestType::create(array("name" => "Brucella", "test_category_id" => $lab_section_serology->id));
+        $test_types_pylori = TestType::create(array("name" => "H. Pylori", "test_category_id" => $lab_section_serology->id));
 
         $this->command->info('Test Types seeded');
 

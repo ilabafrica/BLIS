@@ -23,7 +23,9 @@ class Panel extends Eloquent
 	 *
 	 */
 	public function testType(){
-         return $this->hasMany('TestType', 'panel_id');
+         return $this->belongsToMany('TestType', 'Test_Type_Panels');
       }
-    	
+    // public function testtypepanel(){
+    // 	return $this->hasMany('TestTypePanel');
+    // }	
 }

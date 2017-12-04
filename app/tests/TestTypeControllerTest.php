@@ -29,7 +29,7 @@ class TestTypeControllerTest extends TestCase
 			'name' => 'BSforMPS',
 			'description' => 'Blood Smear',
 			'targetTAT' => '25',
-			'panel_id'  =>'1',
+			'paneltypes'  =>['1'],
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'Whatisdis',
 			'specimentypes' =>  ['1'],
@@ -49,7 +49,7 @@ class TestTypeControllerTest extends TestCase
 			'name' => 'BS for MPS aka Malaria yo',
 			'description' => 'Blood Smears',
 			'targetTAT' => '20',
-			'panel_id'  =>'1',
+			'paneltypes'  =>['1'],
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'specimentypes' =>  ['1'],
@@ -69,7 +69,7 @@ class TestTypeControllerTest extends TestCase
 			'name' => 'Culture for sensitivity ',
 			'description' => 'blaaa ',
 			'targetTAT' => '20',
-			'panel_id'  =>'1',
+			'paneltypes'  =>['1'],
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'specimentypes' =>  ['1'],
@@ -88,7 +88,7 @@ class TestTypeControllerTest extends TestCase
 			'name' => ' Culture for sensitivity',
 			'description' => 'blaa ',
 			'targetTAT' => '20',
-			'panel_id'  =>'1',
+			'paneltypes'  =>['1'],
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'specimentypes' =>  ['1'],
@@ -107,7 +107,7 @@ class TestTypeControllerTest extends TestCase
 			'name' => ' Culture for sensitivity ',
 			'description' => 'blaa ',
 			'targetTAT' => '20',
-			'panel_id'  =>'1',
+			'paneltypes'  =>['1'],
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'specimentypes' =>  ['1'],
@@ -126,7 +126,7 @@ class TestTypeControllerTest extends TestCase
 			'name' => 'Culture for sensitivity',
 			'description' => 'blaaa ',
 			'targetTAT' => '20',
-			'panel_id'  =>'1',
+			'paneltypes'  =>['1'],
 			'test_category_id' => '1',
 			'prevalence_threshold' => 'ffffffffffuuuuuuuuuu',
 			'specimentypes' =>  ['1'],
@@ -160,8 +160,7 @@ class TestTypeControllerTest extends TestCase
 		$this->assertEquals($testTypeSaved->name , $this->testTypeData['name']);
 		$this->assertEquals($testTypeSaved->description , $this->testTypeData['description']);
 		$this->assertEquals($testTypeSaved->targetTAT , $this->testTypeData['targetTAT']);
-		$this->assertEquals($testTypeSaved->prevalence_threshold , $this->testTypeData['prevalence_threshold']);
-		$this->assertEquals($testTypeSaved->panel_id, $this->testTypeData['panel_id']);
+		$this->assertEquals($testTypeSaved->prevalence_threshold , $this->testTypeData['prevalence_threshold']);		
 		$this->assertEquals($testTypeSaved->test_category_id , $this->testTypeData['test_category_id']);
 
 
@@ -172,6 +171,11 @@ class TestTypeControllerTest extends TestCase
 		//Getting the Specimen type related to this test type
 		$testTypeSpecimenType = $testTypeSaved->specimenTypes->toArray();
 		$this->assertEquals($testTypeSpecimenType[0]['id'], $this->testTypeData['specimentypes'][0]);
+
+		//Getting the Panel type related to this test type
+		$testTypePanelType = $testTypeSaved->Panel->toArray();
+		$this->assertEquals($testTypePanelType[0]['id'], $this->testTypeData['paneltypes'][0]);
+
   	}
 
   	/**
@@ -195,8 +199,7 @@ class TestTypeControllerTest extends TestCase
 		$this->assertEquals($testTypeSavedUpdated->name , $this->testTypeDataUpdate['name']);
 		$this->assertEquals($testTypeSavedUpdated->description , $this->testTypeDataUpdate['description']);
 		$this->assertEquals($testTypeSavedUpdated->targetTAT , $this->testTypeDataUpdate['targetTAT']);
-		$this->assertEquals($testTypeSavedUpdated->prevalence_threshold , $this->testTypeDataUpdate['prevalence_threshold']);
-		$this->assertEquals($testTypeSavedUpdated->panel_id , $this->testTypeDataUpdate['panel_id']);
+		$this->assertEquals($testTypeSavedUpdated->prevalence_threshold , $this->testTypeDataUpdate['prevalence_threshold']);		
 		$this->assertEquals($testTypeSavedUpdated->test_category_id , $this->testTypeDataUpdate['test_category_id']);
 		
 		$testTypeMeasureUpdated = TestType::find($testTypestored[0]['id'])->measures->toArray();
@@ -206,6 +209,11 @@ class TestTypeControllerTest extends TestCase
 		$testTypeSpecimenTypeUpdated = TestType::find($testTypestored[0]['id'])->specimenTypes->toArray();
 		
 		$this->assertEquals($testTypeSpecimenTypeUpdated[0]['id'], $this->testTypeDataUpdate['specimentypes'][0]);
+
+		//Getting the Panel type related to this test type
+		$testTypePanelTypeUpdated = TestType::find($testTypestored[0]['id'])->Panel->toArray();
+		
+		$this->assertEquals($testTypePanelTypeUpdated[0]['id'], $this->testTypeDataUpdate['paneltypes'][0]);
 	}
 	
 	/**

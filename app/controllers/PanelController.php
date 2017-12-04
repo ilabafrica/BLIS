@@ -114,8 +114,8 @@ class PanelController extends \BaseController {
 	public function delete($id)
 	{		
 		$panel = Panel::find($id);
-		$panelInUse = TestType::where('panel_id', '=', $id)->first();
-		if (empty($panelInUse)) {
+		$panelInUseByTestType =  $panel->testType->toArray();		
+		if (empty($panelInUseByTestType)) {
 		    
 		   $panel->delete();			
 		} else {		    
