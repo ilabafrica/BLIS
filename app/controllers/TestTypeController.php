@@ -18,7 +18,6 @@ class TestTypeController extends \BaseController {
 	{
 		// List all the active testtypes
 			$testtypes = TestType::orderBy('name', 'ASC')->get();
-         //dd($testtypes);
 		// Load the view and pass the testtypes
 		if(Input::has('raw')){
 			return Response::json($testtypes);
@@ -88,7 +87,7 @@ class TestTypeController extends \BaseController {
 			// store 
 			$testtype = new TestType;
 			$testtype->name = trim(Input::get('name'));
-			$testtype->description = Input::get('description');		
+			$testtype->description = Input::get('description');
 			$testtype->test_category_id = Input::get('test_category_id');
 			$testtype->targetTAT = Input::get('targetTAT');
 			$testtype->prevalence_threshold = Input::get('prevalence_threshold');
@@ -139,7 +138,7 @@ class TestTypeController extends \BaseController {
 	public function edit($id)
 	{
 		//Get the testtype
-		$testtype = TestType::find($id);				
+		$testtype = TestType::find($id);
 		$measures = Measure::all();
         $measuretype = MeasureType::all()->sortBy('id');
         $paneltype = Panel::orderBy('name')->get();
@@ -182,7 +181,7 @@ class TestTypeController extends \BaseController {
 			// Update
 			$testtype = TestType::find($id);
 			$testtype->name = trim(Input::get('name'));
-			$testtype->description = Input::get('description');	
+			$testtype->description = Input::get('description');
 			$testtype->test_category_id = Input::get('test_category_id');
 			$testtype->targetTAT = Input::get('targetTAT');
 			$testtype->prevalence_threshold = Input::get('prevalence_threshold');

@@ -116,8 +116,8 @@ class CreatekBLIStables extends Migration {
 
             $table->softDeletes();
             $table->foreign('measure_id')->references('id')->on('measures');
-        });         
-         
+        });
+
         Schema::create('test_types', function(Blueprint $table)
         {
             $table->increments('id')->unsigned();
@@ -128,7 +128,7 @@ class CreatekBLIStables extends Migration {
             $table->string('prevalence_threshold', 50)->nullable();
             
             $table->foreign('test_category_id')->references('id')->on('test_categories');
-            
+
             $table->softDeletes();
             $table->timestamps();
         });
@@ -307,7 +307,7 @@ class CreatekBLIStables extends Migration {
             $table->foreign('instrument_id')->references('id')->on('instruments');
             $table->foreign('test_type_id')->references('id')->on('test_types');
             $table->unique(array('instrument_id','test_type_id'));
-        });             
+        });
 	}
 
 	/**
@@ -340,10 +340,5 @@ class CreatekBLIStables extends Migration {
         Schema::dropIfExists('patients');
         Schema::dropIfExists('tokens');
         Schema::dropIfExists('users');
-        Schema::dropIfExists('panel');
 	}
-
-
-
-
 }

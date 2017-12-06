@@ -10,7 +10,7 @@ class Panel extends Eloquent
 	 */
 	use SoftDeletingTrait;
 	protected $dates = ['deleted_at'];
-    	
+
 	/**
 	 * The database table used by the model.
 	 *
@@ -23,9 +23,6 @@ class Panel extends Eloquent
 	 *
 	 */
 	public function testType(){
-         return $this->belongsToMany('TestType', 'Test_Type_Panels');
-      }
-    // public function testtypepanel(){
-    // 	return $this->hasMany('TestTypePanel');
-    // }	
+	    return $this->belongsToMany('TestType', 'test_type_panels');
+	}
 }

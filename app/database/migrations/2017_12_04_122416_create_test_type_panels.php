@@ -17,10 +17,9 @@ class CreateTestTypePanels extends Migration {
 			$table->integer('panel_id')->unsigned();
 			$table->integer('test_type_id')->unsigned();
 
-			$table->foreign('panel_id')->references('id')->on('panel');	
-            $table->foreign('test_type_id')->references('id')->on('test_types');
-            $table->unique(array('test_type_id','panel_id'));
-				
+			$table->foreign('panel_id')->references('id')->on('panel');
+			$table->foreign('test_type_id')->references('id')->on('test_types');
+			$table->unique(array('test_type_id','panel_id'));
 		});
 	}
 

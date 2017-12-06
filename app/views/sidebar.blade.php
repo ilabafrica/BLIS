@@ -23,6 +23,7 @@
 		case 'organism':
 		case 'critical':
 		case 'microcritical':
+		case 'panel':
 			$active[4] = "active"; break;
 		case 'adhocreport': 
 		case 'patientreport': 

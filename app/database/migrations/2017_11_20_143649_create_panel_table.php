@@ -17,7 +17,6 @@ class CreatePanelTable extends Migration {
 			$table->increments('id')->unsigned();
             $table->string('name',100)->unique();
             $table->string('description',100)->nullable();
-
             $table->softDeletes();
             $table->timestamps();
 		});
@@ -30,7 +29,7 @@ class CreatePanelTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('panel');		
+		Schema::drop('panel');
 	}
 
 }
