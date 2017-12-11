@@ -22,7 +22,8 @@ class Panel extends Eloquent
 	 * Test types relationship
 	 *
 	 */
-	public function testType(){
+	public function testTypes()
+    {
 	    return $this->belongsToMany('TestType', 'test_type_panels');
 	}
 }

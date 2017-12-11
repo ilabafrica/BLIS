@@ -114,11 +114,11 @@ class PanelController extends \BaseController {
 	public function delete($id)
 	{		
 		$panel = Panel::find($id);
-		$panelInUseByTestType =  $panel->testType->toArray();		
+		$panelInUseByTestType =  $panel->testTypes->toArray();
 		if (empty($panelInUseByTestType)) {
 		    
-		   $panel->delete();			
-		} else {		    
+		   $panel->delete();
+		} else {
 		    $url = Session::get('SOURCE_URL');
             
             return Redirect::route('panel.index')

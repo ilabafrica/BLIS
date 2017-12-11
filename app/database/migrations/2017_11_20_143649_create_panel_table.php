@@ -29,7 +29,7 @@ class CreatePanelTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('panel');
+		Schema::dropIfExists('panel');
 	}
 
 }

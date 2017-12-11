@@ -71,7 +71,7 @@ class TestType extends Eloquent
 	*/
 	public function panel()
 	{
-
+	    return $this->belongsToMany('Panel', 'test_type_panels');
 	}
 	/**
 	 * Set compatible specimen types
