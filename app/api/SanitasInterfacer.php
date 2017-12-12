@@ -219,8 +219,8 @@ class SanitasInterfacer implements InterfacerInterface{
             $patient = $patient->first();
         }
 
-        //We check if the test exists in our system if not we just save the request in stagingTable
-        if($labRequest->parentLabNo == '0')
+//        //We check if the test exists in our system if not we just save the request in stagingTable
+        if($labRequest->parentLabNo == '0' || $this->isPanelTest($labRequest))
         {
             $testTypeId = TestType::getTestTypeIdByTestName($labRequest->investigation);
         }
@@ -257,7 +257,7 @@ class SanitasInterfacer implements InterfacerInterface{
 
         $test = null;
         //Check if parentLabNO is 0 thus its the main test and not a measure
-        if($labRequest->parentLabNo == '0')
+        if($labRequest->parentLabNo == '0' || $this->isPanelTest($labRequest))
         {
             //Check via the labno, if this is a duplicate request and we already saved the test
 
@@ -330,5 +330,30 @@ class SanitasInterfacer implements InterfacerInterface{
         $dumper->waiver_no = '';
         $dumper->system_id = "sanitas";
         $dumper->save();
+    }
+
+    public function isPanelTest($labRequest)
+    {
+        //If parent is panel test
+        if($labRequest->parentLabNo != '0'){
+//            dd(ExternalDump::orderBy('id', 'desc')->first());
+            $parent = ExternalDump::where('lab_no', $labRequest->parentLabNo)->first();
+            $panel = $this->getPanelByName($parent->investigation);
+            if (isset($panel)) {
+                //If is one of the child test of panel
+                foreach ($panel->testTypes as $testType) {
+                    if($testType->name == $labRequest->investigation) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    public function getPanelByName($investigation)
+    {
+        $panelName = trim($investigation);
+        $panel = Panel::where('name', 'like', $panelName)->where('active', 1)->orderBy('name')->first();
+        return $panel;
     }
 }

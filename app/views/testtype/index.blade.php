@@ -40,7 +40,7 @@
 					<td>{{ $value->name }}</td>
 					<td>{{ $value->description }}</td>
 					<td>{{ $value->targetTAT }}</td>
-					<td>{{ $value->prevalence_threshold }}</td>
+					<td>{{ $value->prevalence_threshold}}</td>
 					<td>
 						<!-- show the testtype (uses the show method found at GET /testtype/{id} -->
 						<a class="btn btn-sm btn-success" href="{{ URL::to("testtype/" . $value->id) }}">

@@ -9,6 +9,7 @@
         <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/bootstrap-theme.min.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/dataTables.bootstrap.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/layout.css') }}" />
+        <link rel="stylesheet" href="{{ URL::asset('css/bootstrap-multiselect.css') }}" />
         <script type="text/javascript" src="{{ URL::asset('js/jquery.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('js/jquery-ui-min.js') }}"></script>
         <script type="text/javascript" src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
@@ -42,4 +43,5 @@
     <script src="{{ URL::asset('js/app.js')}}"></script>
     <script src="{{ URL::asset('js/ReportsController.js')}}"></script>
     <script src="{{ URL::asset('js/ReportsFactory.js')}}"></script>
+    <script src="{{ URL::asset('js/bootstrap-multiselect.js')}}"></script>
 </html>

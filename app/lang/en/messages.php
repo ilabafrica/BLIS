@@ -726,4 +726,23 @@ return array(
     'volume'          =>    'Volume',
     'date-collected'  =>    'Date Collected',
     'blood-details'   =>    'Blood Details',
+
+    /**
+    *Panels
+    */
+    'panels'            =>'Panels',
+    'list-panel'        => 'List Panels',
+    'new-panel'         =>'New Panel',
+    'panel_name'        => 'Panel Name',
+    'panel_description' => 'Description',
+    'add-panel'         => 'Add Panel',
+    'success-adding-panel' => ' Successfully Added Panel',
+    'success-updating-panel'=>'Successfully updated panel',
+    'failure-updating-panel'=>'Failed to update panel',
+    'success-deleting-panel'=> 'Successfully Deleted Panel',
+    'failure-panel-in-use'=> 'The panel is in use',
+    'panel-details'     => 'Panel Details',
+    'edit-panel'        => 'Edit Panel',
+    'panel_id'          => 'Panel ID',
+    'panel-type'        =>  'Panel Type',
 );
