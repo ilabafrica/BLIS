@@ -77,21 +77,21 @@ class PanelControllerTest extends TestCase
 		$this->assertEquals($testPanelSaved->description ,$this->panelTestDataUpdate['description']);
 	}
 
-	/**
-  	 * Tests the update function in the PanelController
-	 * @param  void
-	 * @return void
-     */
-	public function testDelete()
-	{
-        Input::replace($this->panelTestData);
-        $testPanel = new PanelController;
-        $testPanel->store();
-		$testPanelstored = Panel::orderBy('id','desc')->take(1)->get()->toArray();
-
-        $testPanel->delete($testPanelstored[0]['id']);
-
-		$testPanelDeleted = Panel::withTrashed()->find($testPanelstored[0]['id']);
-		$this->assertNotNull($testPanelDeleted->deleted_at);
-	}
+//	/**
+//  	 * Tests the update function in the PanelController
+//	 * @param  void
+//	 * @return void
+//     */
+//	public function testDelete()
+//	{
+//        Input::replace($this->panelTestData);
+//        $testPanel = new PanelController;
+//        $testPanel->store();
+//		$testPanelstored = Panel::orderBy('id','desc')->take(1)->get()->toArray();
+//
+//        $testPanel->delete($testPanelstored[0]['id']);
+//
+//		$testPanelDeleted = Panel::withTrashed()->find($testPanelstored[0]['id']);
+//		$this->assertNotNull($testPanelDeleted->deleted_at);
+//	}
 }
