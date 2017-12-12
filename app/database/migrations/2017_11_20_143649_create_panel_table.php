@@ -17,6 +17,7 @@ class CreatePanelTable extends Migration {
 			$table->increments('id')->unsigned();
             $table->string('name',100)->unique();
             $table->string('description',100)->nullable();
+            $table->integer('active')->default(1);
             $table->softDeletes();
             $table->timestamps();
 		});

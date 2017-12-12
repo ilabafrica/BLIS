@@ -111,20 +111,13 @@ class PanelController extends \BaseController {
 		//
 	}
 
-	public function delete($id)
-	{		
+	public function deactivate($id)
+    {
+        //panel
 		$panel = Panel::find($id);
-		$panelInUseByTestType =  $panel->testTypes->toArray();
-		if (empty($panelInUseByTestType)) {
-		    
-		   $panel->delete();
-		} else {
-		    $url = Session::get('SOURCE_URL');
-            
-            return Redirect::route('panel.index')
-		    	->with('message', trans('messages.failure-panel-in-use'));
-		}		
-			$url = Session::get('SOURCE_URL');
-            return Redirect::route('panel.index')->with('message',trans('messages.success-deleting-panel'));            
+		$panel->active === 0 ? $panel->active = 1 : $panel->active = 0;
+        $panel->save();
+		$url = Session::get('SOURCE_URL');
+		return Redirect::route('panel.index')->with('message', 'Panel deactivated');
 	}
 }

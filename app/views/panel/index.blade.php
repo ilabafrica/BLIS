@@ -36,12 +36,10 @@
 			</thead>
 		<tbody>
 			@foreach($panels as $key => $value)
-				<tr> 				    
+				<tr {{{ ($value->active == '0') ? 'class=warning' : ''}}}>
 					<td>{{$value->name}}</td>
-					<td>{{$value->description}}</td>					
-
+					<td>{{$value->description}}</td>
 					<td>
-
 						<!-- show the panel details -->
 						<a class="btn btn-sm btn-success" href="{{ URL::route('panel.show', array($value->id)) }}">
 							<span class="glyphicon glyphicon-eye-open"></span>
@@ -54,11 +52,11 @@
 							{{trans('messages.edit')}}
 						</a>
 						<!-- delete this panel -->
-						<button class="btn btn-sm btn-danger delete-item-link"
-							data-toggle="modal" data-target=".confirm-delete-modal"	
+						<button class="btn btn-sm {{{ ($value->active == '0') ? 'btn-warning' : 'btn-danger'}}} delete-item-link"
+							data-toggle="modal" data-target=".confirm-delete-modal"
 							data-id="{{URL::route('panel.delete',array($value->id))}}">
 							<span class="glyphicon glyphicon-trash"></span>
-							{{trans('messages.delete')}}
+							{{{ ($value->active == '0') ? 'activate' : 'deactivate'}}}
 						</button>
 
 					</td>

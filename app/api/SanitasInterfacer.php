@@ -350,7 +350,7 @@ class SanitasInterfacer implements InterfacerInterface{
     public function getPanelByName($investigation)
     {
         $panelName = trim($investigation);
-        $panel = Panel::where('name', 'like', $panelName)->orderBy('name')->first();
+        $panel = Panel::where('name', 'like', $panelName)->where('active', 1)->orderBy('name')->first();
         return $panel;
     }
 }
