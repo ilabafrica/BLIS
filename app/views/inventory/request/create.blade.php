@@ -17,8 +17,8 @@
 @endif
 <div class="panel panel-primary">
 	<div class="panel-heading ">
-		<span class="glyphicon glyphicon-user"></span>
-		{{ Lang::choice('messages.request', 2) }}
+		<span class="glyphicon glyphicon-shopping-cart"></span>
+		Make {{ Lang::choice('messages.request', 1) }}
 	</div>
 	<div class="panel-body">
 		   {{ Form::open(array('route' => 'request.store', 'id' => 'form-store-requests')) }}
@@ -29,7 +29,7 @@
             </div>
             <div class="form-group">
                 {{ Form::label('quantity-remaining', trans('messages.quantity-remaining')) }}
-                {{ Form::text('quantity_remaining', Input::old('quantity_remaining'), array('class' => 'form-control')) }}
+                {{ Form::number('quantity_remaining', Input::old('quantity_remaining'), array('class' => 'form-control')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('test-category', Lang::choice('messages.test-category', 1)) }}
@@ -37,11 +37,11 @@
             </div>            
             <div class="form-group">
                 {{ Form::label('tests', trans('messages.tests-done')) }}
-                {{ Form::text('tests_done', Input::old('tests_done'), array('class' => 'form-control')) }}
+                {{ Form::number('tests_done', Input::old('tests_done'), array('class' => 'form-control')) }}
             </div>            
             <div class="form-group">
-                {{ Form::label('quantity', trans('messages.order-quantity')) }}
-                {{ Form::text('quantity_ordered', Input::old('quantity_ordered'), array('class' => 'form-control')) }}
+                {{ Form::label('quantity', trans('messages.quantity')." ".trans('messages.requested')) }}
+                {{ Form::number('quantity_ordered', Input::old('quantity_ordered'), array('class' => 'form-control')) }}
             </div>
              <div class="form-group">
                 {{ Form::label('remarks', trans('messages.remarks')) }}

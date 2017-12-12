@@ -45,6 +45,7 @@
 					{{ $item->storage_req }}</p>
 				
 			</div>
+
 		</div>
 	</div>
 @stop

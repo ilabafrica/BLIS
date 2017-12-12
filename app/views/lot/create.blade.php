@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-	  <li><a href="{{ URL::route('instrument.index') }}">{{Lang::choice('messages.lot',2)}}</a></li>
+	  <li><a href="{{URL::route('lot.index')}}}">{{Lang::choice('messages.lot',2)}}</a></li>
 	  <li class="active">{{trans('messages.add-lot')}}</li>
 	</ol>
 </div>

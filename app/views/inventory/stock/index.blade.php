@@ -3,6 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
+      <li><a href="{{{URL::route('item.index')}}}">{{ Lang::choice('messages.item', 2) }}</a></li>
 	  <li class="active">{{ Lang::choice('messages.stock', 2) }}</li>
 	</ol>
 </div>
@@ -11,12 +12,12 @@
 @endif
 <div class="panel panel-primary">
 	<div class="panel-heading ">
-		<span class="glyphicon glyphicon-user"></span>
-		{{ Lang::choice('messages.stock', 2) }}
+		<span class="glyphicon glyphicon-shopping-cart"></span>
+		{{$item->name}} {{ Lang::choice('messages.stock', 2) }}
 		<div class="panel-btn">
 			<a class="btn btn-sm btn-info" href="{{ URL::to('stock/'.$item->id.'/create') }}">
 				<span class="glyphicon glyphicon-plus-sign"></span>
-				{{ trans('messages.add').' '.Lang::choice('messages.stock', 1) }}
+				{{ trans('messages.add')}} {{ trans('messages.new')}} {{Lang::choice('messages.stock', 1) }}
 			</a>
 		</div>
 	</div>
@@ -26,13 +27,11 @@
 				<tr>
 					<th>{{ trans('messages.lot-no') }}</th>
 					<th>{{ trans('messages.batch-no') }}</th>
-					<th>{{ trans('messages.quantity') }}</th>
-					<th>{{ trans('messages.unit') }}</th>
-					<th>{{ trans('messages.expiry') }}</th>
 					<th>{{ trans('messages.manufacturer') }}</th>
-					<th>{{ Lang::choice('messages.supplier', 1) }}</th>
-					<th>{{ trans('messages.date-received') }}</th>
-					<th>{{ trans('messages.remarks') }}</th>
+					<th>{{ trans('messages.supplied') }}</th>
+					<th>{{ trans('messages.quantity') }} {{ trans('messages.issued') }}</th>
+					<th>{{ trans('messages.balance') }}</th>
+					<th>{{ trans('messages.expiry') }}</th>
 					<th>{{ trans('messages.actions') }}</th>
 				</tr>
 			</thead>
@@ -44,13 +43,16 @@
                     >
                  	<td>{{ $value->lot }}</td>
                  	<td>{{ $value->batch_no }}</td>
-					<td>{{ $value->quantity() }}</td>
-					<td>{{ $item->unit }}</td>
-					<td>{{ $value->expiry_date }}</td>
 					<td>{{ $value->manufacturer }}</td>
-					<td>{{ $value->supplier->name }}</td>
-					<td>{{ $value->date_of_reception }}</td>
-					<td>{{ $value->remarks }}</td>
+					<td style="text-align: center;">{{ $value->quantity_supplied }} {{ $item->unit }}</td>
+					<td style="text-align: center;">
+						<?php $quantity_used = 0; ?>
+						@foreach ($value->usage as $usage)
+							<?php $quantity_used += $usage->quantity_used; ?>
+						@endforeach
+						{{ $quantity_used }} {{ $item->unit }}</td>
+					<td style="text-align: center;">{{ $value->quantity() }} {{ $item->unit }}</td>
+					<td>{{ $value->expiry_date }}</td>
                  	
 					<td>
 					<!-- show the stock (uses the show method found at GET /stock/{id} -->
@@ -59,7 +61,7 @@
 							{{ trans('messages.view') }}
 						</a> 
 						<!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
-						<a class="btn btn-sm btn-info" href="{{ URL::route('stock.edit', array($value->id)) }}" >
+						<a class="btn btn-sm btn-info hide" href="{{ URL::route('stock.edit', array($value->id)) }}" >
 								<span class="glyphicon glyphicon-edit"></span>
 								{{ trans('messages.edit') }}
 						</a>
@@ -71,7 +73,7 @@
 						</a>
 						@endif
 						<!-- Usage for this lot -->
-						<a class="btn btn-sm btn-wisteria" href="{{ URL::to("stock/" . $value->id . "/show") }}">
+						<a class="btn btn-sm btn-wisteria hide" href="{{ URL::to("stock/" . $value->id . "/show") }}">
 							<span class="glyphicon glyphicon-bookmark"></span>
 							{{ trans('messages.usage') }}
 						</a>

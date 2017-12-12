@@ -25,11 +25,11 @@
                'id' => 'form-edit-requests')) }}
             <div class="form-group">
                 {{ Form::label('item', Lang::choice('messages.item', 1)) }}
-                {{ Form::select('item_id', $items, '', array('class' => 'form-control')) }}
+                {{ Form::select('item_id', $items, $item, array('class' => 'form-control')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('quantity-remaining', trans('messages.quantity-remaining')) }}
-                {{ Form::text('quantity_remaining', Input::old('quantity_remaining'), array('class' => 'form-control')) }}
+                {{ Form::number('quantity_remaining', Input::old('quantity_remaining'), array('class' => 'form-control')) }}
             </div>
             <div class="form-group">
                 {{ Form::label('test-category', Lang::choice('messages.test-category', 1)) }}
@@ -37,11 +37,11 @@
             </div>            
             <div class="form-group">
                 {{ Form::label('tests', trans('messages.tests-done')) }}
-                {{ Form::text('tests_done', Input::old('tests_done'), array('class' => 'form-control')) }}
+                {{ Form::number('tests_done', Input::old('tests_done'), array('class' => 'form-control')) }}
             </div>           
             <div class="form-group">
                 {{ Form::label('quantity', trans('messages.order-quantity')) }}
-                {{ Form::text('quantity_ordered', Input::old('quantity_ordered'), array('class' => 'form-control')) }}
+                {{ Form::number('quantity_ordered', Input::old('quantity_ordered'), array('class' => 'form-control')) }}
             </div>
              <div class="form-group">
                 {{ Form::label('remarks', trans('messages.remarks')) }}

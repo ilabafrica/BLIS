@@ -11,12 +11,12 @@
 @endif
 <div class="panel panel-primary">
 	<div class="panel-heading ">
-		<span class="glyphicon glyphicon-user"></span>
-		{{ Lang::choice('messages.request', 2) }}
+		<span class="glyphicon glyphicon-shopping-cart"></span>
+		{{ Lang::choice('messages.inventory', 1) }} {{ Lang::choice('messages.request', 2) }}
 		<div class="panel-btn">
 			<a class="btn btn-sm btn-info" href="{{ URL::route('request.create') }}">
 				<span class="glyphicon glyphicon-plus-sign"></span>
-				{{ trans('messages.add').' '.Lang::choice('messages.request', 1) }}
+				{{trans('messages.new')}} {{ Lang::choice('messages.item',1)}} {{Lang::choice('messages.request', 1) }}
 			</a>
 		</div>
 	</div>
@@ -24,56 +24,58 @@
 		<table class="table table-striped table-hover table-condensed search-table">
 			<thead>
 				<tr>
+					<th>{{ trans('messages.date') }}</th>
+					<th>{{ trans('messages.requested-by') }}</th>
 					<th>{{ Lang::choice('messages.item', 1) }}</th>
-					<th>{{ trans('messages.quantity-remaining') }}</th>
-					<th>{{ Lang::choice('messages.test-category', 1) }}</th>
-					<th>{{ trans('messages.tests-done') }}</th>
-					<th>{{ trans('messages.order-quantity') }}</th>
-					<th>{{ trans('messages.status') }}</th>
-					<th>{{ trans('messages.ordered-by') }}</th>
-					<th>{{ trans('messages.remarks') }}</th>
+					<th>{{ trans('messages.quantity') }} {{ trans('messages.requested') }}</th>
+					<th>{{ trans('messages.quantity') }} {{ trans('messages.issued') }}</th>
 					<th>{{ trans('messages.actions') }}</th>
 				</tr>
 			</thead>
 			<tbody>
 			@foreach($requests as $key => $value)
 				<tr @if(Session::has('activerequest'))
-                            {{(Session::get('activerequest') == $value->id)?"class='info'":""}}
-                        @endif
+                        {{(Session::get('activerequest') == $value->id)?"class='info'":""}}
+                    @endif
                     >
-                 	<td>{{ $value->item->name }}</td>
-                 	<td>{{ $value->quantity_remaining }}</td>
-                 	<td>{{ $value->testCategory->name }}</td>
-                 	<td>{{ $value->tests_done }}</td>
-                 	<td>{{ $value->quantity_ordered }}</td>
-                 	<td>@if(!$value->usage->first())<span class="label label-default">{{ trans('messages.not-issued') }}</span>@else <button class="btn btn-success btn-sm" type="button"> {{ trans('messages.issued') }} <span class="badge">{{ $value->issued() }}</span></button> @endif</td>
+                 	<td>{{ $value->created_at }}</td>
                  	<td>{{ $value->user->name }}</td>
-                 	<td>{{ $value->remarks }}</td>
-                 	
+                 	<td>
+                 		{{ $value->item->name }}
+                 		@if(!$value->usage->first())
+                 			<span class="label label-default">{{ trans('messages.not-issued') }}</span>
+                 		@else 
+                 			<span class="label label-success"> {{trans('messages.issued')}} </span>
+                 		@endif
+                 	</td>
+                 	<td style="text-align: center;">{{ $value->quantity_ordered }}</td>
+                 	<td style="text-align: center;">{{ $value->issued() }}</td>
 					<td>
 					<!-- show the request (uses the show method found at GET /request/{id} -->
-						<a class="btn btn-sm btn-success" href="{{ URL::to("request/" . $value->id) }}" >
+						<a class="btn btn-sm btn-success" href='{{ URL::to("request/" . $value->id) }}' title="{{ trans('messages.view') }}">
 							<span class="glyphicon glyphicon-eye-open"></span>
 							{{ trans('messages.view') }}
 						</a> 
-					<!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
-					<a class="btn btn-sm btn-info" href="{{ URL::route('request.edit', array($value->id)) }}" >
-							<span class="glyphicon glyphicon-edit"></span>
-							{{ trans('messages.edit') }}
-					</a>
+						@if(!$value->usage->first())
+						<!-- edit this commodity (uses the edit method found at GET /inventory/{id}/edit -->
+						<a class="btn btn-sm btn-info" href="{{ URL::route('request.edit', array($value->id)) }}" title="{{ trans('messages.edit') }}">
+								<span class="glyphicon glyphicon-edit"></span>
+								{{ trans('messages.edit') }}
+						</a>
 
-					<!-- Update dtock button -->
-				    <a class="btn btn-sm btn-sun-flower" style="display:none;" href="{{ URL::to("stock/" . $value->id."/usage") }}" >
-						<span class="glyphicon glyphicon-info-sign"></span>
-						{{ trans('messages.update-stock') }}
-					</a>
-						<!-- delete this commodity (uses the delete method found at GET /inventory/{id}/delete -->
-					<button class="btn btn-sm btn-danger delete-item-link" 
-							data-toggle="modal" data-target=".confirm-delete-modal"	
-							data-id="{{ URL::route('request.delete', array($value->id)) }}">
-							<span class="glyphicon glyphicon-trash"></span>
-							{{ trans('messages.delete') }}
-					</button>
+						<!-- Update dtock button -->
+					    <a class="btn btn-sm btn-sun-flower hide" href='{{ URL::to("stock/" . $value->id."/usage") }}' title="{{ trans('messages.update-stock') }}">
+							<span class="glyphicon glyphicon-info-sign"></span>
+							{{ trans('messages.update-stock') }}
+						</a>
+							<!-- delete this commodity (uses the delete method found at GET /inventory/{id}/delete -->
+						<button class="btn btn-sm btn-danger delete-item-link" 
+								data-toggle="modal" data-target=".confirm-delete-modal"	
+								data-id="{{ URL::route('request.delete', array($value->id)) }}" title="{{ trans('messages.delete') }}">
+								<span class="glyphicon glyphicon-trash"></span>
+								{{ trans('messages.delete') }}
+						</button>
+                 		@endif
 					</td>
 				</tr>
 				@endforeach

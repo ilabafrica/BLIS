@@ -20,7 +20,9 @@ class TopupController extends \BaseController {
 	public function create()
 	{
 		$items = Item::lists('name', 'id');
+		asort($items);
 		$testCategories = TestCategory::lists('name', 'id');
+		asort($testCategories);
 		return View::make('inventory.request.create')
 			->with('testCategories', $testCategories)
 			->with('items', $items);
@@ -85,8 +87,10 @@ class TopupController extends \BaseController {
 	{
 		$request = Topup::find($id);
 		$items = Item::lists('name', 'id');
+		asort($items);
 		$item = $request->item_id;
 		$testCategories = TestCategory::lists('name', 'id');
+		asort($testCategories);
 		$testCategory = $request->test_category_id;
 		return View::make('inventory.request.edit')
 			->with('testCategories', $testCategories)

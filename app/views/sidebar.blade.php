@@ -215,43 +215,14 @@
 			</div>
 			<div class="sub-menu {{$active[5]}}">
 				<div class="sub-menu-title">
-							<a href="{{ URL::route('reports.adhocreport.index')}}">
-								<span class=""></span>
-								{{trans('messages.adhoc-report')}}</a>
+					<a href="{{ URL::route('reports.adhocreport.index')}}">
+						{{trans('messages.adhoc-report')}}</a>
 				</div>
-				<div class="sub-menu-title">{{trans('messages.daily-reports')}}</div>
-				<ul class="sub-menu-items">
-					<li>
-						<div>
-							<a href="{{ URL::route('reports.patient.index')}}">
-								<span class="glyphicon glyphicon-tag"></span>
-								{{trans('messages.patient-report')}}</a>
-						</div>
-					</li>
-					<li>
-						<div><a href="{{ URL::route('reports.daily.log')}}">
-							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.daily-log')}}</a>
-						</div>
-					</li>
-				</ul>
-				<div class="sub-menu-title" style="display:block;">{{trans('messages.inventory-reports')}}</div>
-				<ul class="sub-menu-items" style="display:block;">
-					<li>
-						<div><a href="{{ URL::route('reports.inventory')}}">
-							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.supply')}}</a>
-						</div>
-					</li>
-					<li>
-						<div><a href="{{ URL::route('reports.inventoryusage')}}">
-							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.usage')}}</a>
-						</div>
-					</li>
-					</ul>
-				<div class="sub-menu-title">{{trans('messages.aggregate-reports')}}</div>
-				<ul class="sub-menu-items">
+				<div class="sub-menu-title" ng-click="aggregateReports=!aggregateReports">
+					<span class="caret"></span>
+					{{trans('messages.aggregate-reports')}}
+				</div>
+				<ul class="sub-menu-items" ng-hide="aggregateReports">
 					<li>
 						<div><a href="{{ URL::route('reports.aggregate.prevalence')}}">
 							<span class="glyphicon glyphicon-tag"></span>
@@ -267,7 +238,7 @@
 					<li>
 						<div><a href="{{ URL::route('reports.aggregate.counts')}}">
 							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.counts')}}</a>
+							{{Lang::choice('messages.count',2)}}</a>
 						</div>
 					</li>
 					<li>
@@ -289,18 +260,6 @@
 						</div>
 					</li>
 					<li>
-						<div><a href="{{ URL::route('reports.aggregate.moh706')}}">
-							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.moh-706')}}</a>
-						</div>
-					</li>					
-					<li>
-						<div><a href="{{ URL::route('reports.aggregate.cd4')}}">
-							<span class="glyphicon glyphicon-tag"></span>
-							{{trans('messages.cd4-report')}}</a>
-						</div>
-					</li>
-					<li>
 						<div><a href="{{ URL::route('reports.qualityControl')}}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{Lang::choice('messages.quality-control', 2)}}</a>
@@ -316,6 +275,69 @@
 						<div><a href="{{ URL::route('reports.aggregate.critval')}}">
 							<span class="glyphicon glyphicon-tag"></span>
 							{{Lang::choice('messages.crit-val', 1)}}</a>
+						</div>
+					</li>
+				</ul>
+				<div class="sub-menu-title" ng-click="dailyReports=!dailyReports">
+					<span class="caret"></span>
+					{{trans('messages.daily-reports')}}
+				</div>
+				<ul class="sub-menu-items" ng-hide="dailyReports">
+					<li>
+						<div>
+							<a href="{{ URL::route('reports.patient.index')}}">
+								<span class="glyphicon glyphicon-tag"></span>
+								{{trans('messages.patient-report')}}</a>
+						</div>
+					</li>
+					<li>
+						<div><a href="{{ URL::route('reports.daily.log')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.daily-log')}}</a>
+						</div>
+					</li>
+				</ul>
+				@if(Entrust::can('manage_inventory'))
+				<div class="sub-menu-title" ng-click="inventoryReports=!inventoryReports">
+					<span class="caret"></span>
+					{{trans('messages.inventory-reports')}}
+				</div>
+				<ul class="sub-menu-items" ng-hide="inventoryReports">
+					<li>
+						<div><a href="{{ URL::route('reports.inventory')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.supply')}}</a>
+						</div>
+					</li>
+					<li>
+						<div><a href="{{ URL::route('reports.inventoryusage')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.usage')}}</a>
+						</div>
+					</li>
+					<li>
+						<div><a href="{{ URL::route('reports.stockcount')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{Lang::choice('messages.stock',1)}} {{Lang::choice('messages.count',1)}}</a>
+						</div>
+					</li>
+				</ul>
+				@endif
+				<div class="sub-menu-title" ng-click="statutoryReports=!statutoryReports">
+					<span class="caret"></span>
+					{{trans('messages.statutory-reports')}}
+				</div>
+				<ul class="sub-menu-items" ng-hide="statutoryReports">
+					<li>
+						<div><a href="{{ URL::route('reports.aggregate.moh706')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.moh-706')}}</a>
+						</div>
+					</li>					
+					<li>
+						<div><a href="{{ URL::route('reports.aggregate.cd4')}}">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{trans('messages.cd4-report')}}</a>
 						</div>
 					</li>
 				</ul>
@@ -382,19 +404,19 @@
 						</div>
 					</li>
 					@endif
-					@if(Entrust::can('view_blood_bank'))
-					<li>
-						<div>
-							<a href="{{ URL::route("blood.index")}}">
-								<span class="glyphicon glyphicon-tag"></span> {{ trans('messages.blood-bank') }}</a>
-						</div>
-					</li>
-					@endif
 					@if(Entrust::can('request_topup'))
 					<li>
 						<div>
 							<a href="{{ URL::route("request.index")}}">
 								<span class="glyphicon glyphicon-tag"></span> {{ Lang::choice('messages.top-up', 2)}}</a>
+						</div>
+					</li>
+					@endif
+					@if(Entrust::can('view_blood_bank'))
+					<li>
+						<div>
+							<a href="{{ URL::route("blood.index")}}">
+								<span class="glyphicon glyphicon-tag"></span> {{ trans('messages.blood-bank') }}</a>
 						</div>
 					</li>
 					@endif

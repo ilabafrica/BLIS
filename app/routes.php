@@ -382,7 +382,16 @@ Route::group(array("before" => "auth"), function()
             "uses" => "ReportController@stockLevel"
         ));
 
-          Route::get("/inventoryusage", array(
+        Route::get("/stockcount", array(
+            "as"   => "reports.stockcount",
+            "uses" => "StockController@stockCountReport"
+        ));
+        Route::post("/stockcount", array(
+            "as"   => "reports.stockcount",
+            "uses" => "StockController@stockCountReport"
+        ));
+
+        Route::get("/inventoryusage", array(
             "as"   => "reports.inventoryusage",
             "uses" => "ReportController@usageLevel"
         ));
@@ -460,19 +469,6 @@ Route::group(array("before" => "auth"), function()
         ));
     });
     
-    Route::group(array("before" => "checkPerms:request_topup"), function()
-    {
-        //top-ups
-        Route::resource('topup', 'TopUpController');
-        Route::get("/topup/{id}/delete", array(
-            "as"   => "topup.delete",
-            "uses" => "TopUpController@delete"
-        ));
-        Route::get('topup/{id}/availableStock', array(
-            "as"    =>  "issue.dropdown",
-            "uses"  =>  "TopUpController@availableStock"
-        ));
-    });
     Route::group(array("before" => "checkPerms:manage_inventory"), function()
     {
         //Commodities
@@ -538,13 +534,21 @@ Route::group(array("before" => "auth"), function()
             "as"   => "lt.update",
             "uses" => "StockController@lotUsage"
         ));
+    });
+
+    Route::group(array("before" => "checkPerms:request_topup"), function()
+    {
         /*
-        *   Routes for requests
+        *   Routes for requests for inventory items
         */
         Route::resource('request', 'TopupController');
         Route::get("/request/{id}/delete", array(
             "as"   => "request.delete",
             "uses" => "TopupController@delete"
+        ));
+        Route::get('topup/{id}/availableStock', array(
+            "as"    =>  "issue.dropdown",
+            "uses"  =>  "TopupController@availableStock"
         ));
     });
     Route::group(array("before" => "checkPerms:view_blood_bank"), function()

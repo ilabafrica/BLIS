@@ -2,9 +2,9 @@
 @section("content")
 <div>
 	<ol class="breadcrumb">
-	  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-       <li><a href="{{{URL::route('item.index')}}}">{{ Lang::choice('messages.item', 2) }}</a></li>
-	 	  <li class="active">{{ trans('messages.edit').' '.Lang::choice('messages.item', 1) }}</li>
+	    <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
+        <li><a href="{{{URL::route('item.index')}}}">{{ Lang::choice('messages.item', 2) }}</a></li>
+ 	    <li class="active">{{ trans('messages.edit').' '.Lang::choice('messages.item', 1) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))

@@ -1385,7 +1385,7 @@ class ReportController extends \BaseController {
 						</tr>
 					</thead>
 					<tbody>';
-				$bloodChem = TestType::getTestTypeIdByTestName('Blood Sugar');
+				$bloodChem = TestType::getTestTypeIdByTestName('Blood Sugar fasting');
 				$bloodChemistry = TestType::find($bloodChem);
 				$measures = TestTypeMeasure::where('test_type_id', $bloodChem)->orderBy('measure_id', 'DESC')->get();
 					$table.='<tr>
@@ -3152,7 +3152,9 @@ class ReportController extends \BaseController {
 
 		$selectedReport = Input::get('report_type');	
 		$selectedItem = Input::get('search_item_id');	
-		$selected_record_type = Input::get('records'); 
+		$selected_record_type = Input::get('records');
+
+		$usageData = null;
 
 		if($from||$to){			
 

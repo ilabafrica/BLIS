@@ -3,8 +3,9 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('messages.home')}}</a></li>
-       <li><a href="{{{URL::route('stock.index')}}}">{{ Lang::choice('messages.stock', 2) }}</a></li>
-	 	  <li class="active">{{ trans('messages.stock-usage') }}</li>
+      <li><a href="{{{URL::route('item.index')}}}">{{ Lang::choice('messages.item', 2) }}</a></li>
+      <li><a href="{{{URL::route('stocks.log',array($stock->item->id))}}}">{{ Lang::choice('messages.stock', 2) }}</a></li>
+	  <li class="active">{{ trans('messages.issue')}} {{Lang::choice('stock', 2) }}</li>
 	</ol>
 </div>
 @if (Session::has('message'))
@@ -17,8 +18,8 @@
 @endif
 <div class="panel panel-primary">
 	<div class="panel-heading ">
-		<span class="glyphicon glyphicon-user"></span>
-		{{ trans('messages.stock-usage') }}
+		<span class="glyphicon glyphicon-shopping-cart"></span>
+		{{ trans('messages.issue') }} {{$stock->item->name}}
 	</div>
 	<div class="panel-body">
         <div class="col-md-8">
@@ -26,29 +27,47 @@
                 {{ Form::hidden('stock_id', $stock->id) }}
                 <div class="form-group">
                     {{ Form::label('signed-out', trans('messages.signed-out')) }}
-                    {{ Form::text('quantity_used', Input::old('quantity_used'), array('class' => 'form-control')) }}
+                    {{ Form::number('quantity_used', Input::old('quantity_used'), array('class' => 'form-control')) }}
+                    <p class="form-control-static"> {{$stock->item->unit}} </p>
                 </div>
                 <div class="form-group">
                     {{ Form::label('date-of-usage', trans('messages.date-of-usage')) }}
                     {{ Form::text('date_of_usage', Input::old('date_of_usage'), 
                             array('class' => 'form-control standard-datepicker')) }}
                 </div>
-                <div class="form-group">
-                    {{ Form::label('request', Lang::choice('messages.top-up', 1)) }}
-                    @foreach($requests as $request)
-                        @if( (count($request->usage)>0 && ($request->quantity_ordered-$request->issued())>0) || count($request->usage)==0)
-                        <div class="radio col-sm-offset-3">
-                            <label>
-                                <input type="radio" name="request_id" id="request_id" value="{{$request->id}}" {{ ($record == $request->id||Input::old('request_id')) ? 'checked' : ''}}>
-                                {{ $request->item->name.'('.(count($request->usage)>0?$request->quantity_ordered-$request->issued():$request->quantity_ordered).') - '.$request->testCategory->name.'('.($request->remarks?$request->remarks:$request->user->name).')' }}
-                            </label>
-                        </div>
-                        @endif
-                    @endforeach
+                <div class="panel panel-default">
+                    <!-- {{ Form::label('request', Lang::choice('messages.top-up', 1)) }} -->
+                    <table class="table table-striped table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>{{trans('messages.requested-by')}}</th>
+                                <th>{{Lang::choice('messages.test-category',1)}}</th>
+                                <th>{{trans('messages.quantity')}}</th>
+                                <th>{{trans('messages.remarks')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($requests as $request)
+                                @if( (count($request->usage)>0 && ($request->quantity_ordered-$request->issued())>0) || count($request->usage)==0)
+                                <tr>
+                                    <td>
+                                        <input type="radio" name="request_id" id="request_id" value="{{$request->id}}" {{ ($record == $request->id||Input::old('request_id')) ? 'checked' : ''}}>
+                                    </td>
+                                    <td>{{ $request->user->name}}</td>
+                                    <td>{{$request->testCategory->name}}</td>
+                                    <td>{{(count($request->usage)>0?$request->quantity_ordered-$request->issued():$request->quantity_ordered)}}</td>
+                                    <td>{{$request->remarks}}</td>
+                                </tr>
+                                @endif
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
                 <div class="form-group">
                     {{ Form::label('issued-by', trans('messages.issued-by')) }}
-                    {{ Form::text('issued_by', Input::old('issued_by'), array('class' => 'form-control')) }}
+                    <p class="form-control-static">{{Auth::user()->name}}</p>
+                    {{ Form::hidden('issued_by', Auth::user()->name) }}
                 </div>
                 <div class="form-group">
                     {{ Form::label('received-by', trans('messages.received-by')) }}
@@ -60,8 +79,8 @@
                 </div>
 
                 <div class="form-group actions-row">
-                        {{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 
-                            array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
+                    {{ Form::button("<span class='glyphicon glyphicon-save'></span> ".trans('messages.save'), 
+                        array('class' => 'btn btn-primary', 'onclick' => 'submit()')) }}
                 </div>
             {{ Form::close() }}
     	</div>
