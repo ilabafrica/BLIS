@@ -60,7 +60,6 @@ class TestTypeController extends \BaseController {
 		//
 		$rules = array(
 			'name' => 'required|unique:test_types,name',
-			'paneltypes' => 'required',
 			'test_category_id' => 'required|non_zero_key',
 			'specimentypes' => 'required',
 			'new-measures' => 'required',
@@ -168,7 +167,6 @@ class TestTypeController extends \BaseController {
 	{
 		$rules = array(
 			'name' => 'required',
-			'paneltypes' => 'required',
 			'test_category_id' => 'required|non_zero_key',
 			'specimentypes' => 'required',
 		);
