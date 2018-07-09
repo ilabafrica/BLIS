@@ -76,9 +76,9 @@ Road Map
 
 #|Feature|Release Date
 -|-|-
-1.| Create a core API availing all functionality| June 2018
-2.| HTML/CSC/Javascript front end | June 2018
-3.| Use [Mirth](https://www.mirth.com/) for instrument interfaces | June 2018
+1.| Create a core API availing all functionality| September 2018
+2.| HTML/CSC/Javascript front end | September 2018
+3.| Use [Mirth](https://www.mirth.com/) for instrument interfaces | September 2018
 4.| Update documentation| Continuous
 
 Collaboration
