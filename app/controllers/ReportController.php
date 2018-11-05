@@ -136,6 +136,23 @@ class ReportController extends \BaseController {
 							->with('accredited', $accredited);
 	    	return Response::make($content,200, $headers);
 		}
+
+		else if(Input::has('pdf')){
+			$date = date("Ymdhi");
+			$fileName = "blispatient_".$id."_".$date.".pdf";
+
+			$content = View::make('reports.patient.exportpdf')
+							->with('patient', $patient)
+							->with('tests', $tests)
+							->with('from', $from)
+							->with('to', $to)
+							->with('visit', $visit)
+							->with('accredited', $accredited);
+
+			$pdf = App::make('dompdf');
+			$pdf->loadHTML($content);
+			return $pdf->download($fileName);
+		}
 		else{
 			return View::make('reports.patient.report')
 						->with('patient', $patient)
@@ -219,6 +236,19 @@ class ReportController extends \BaseController {
 								->withInput(Input::all());
 		    	return Response::make($content,200, $headers);
 			}
+			else if(Input::has('pdf')){
+				$date = date("Ymdhi");
+				$fileName = "daily_visits_log_".$date.".pdf";
+
+				$content = View::make('reports.daily.exportPatientLog')
+								->with('visits', $visits)
+								->with('accredited', $accredited)
+								->withInput(Input::all());
+				$pdf = App::make('dompdf');
+				$pdf->loadHTML($content);
+				return $pdf->download($fileName);
+		    	
+			}
 			else{
 				return View::make('reports.daily.patient')
 								->with('visits', $visits)
@@ -273,6 +303,21 @@ class ReportController extends \BaseController {
 								->with('accredited', $accredited)
 								->withInput(Input::all());
 		    	return Response::make($content,200, $headers);
+			}
+			else if(Input::has('pdf')){
+				$date = date("Ymdhi");
+				$fileName = "daily_rejected_specimen_".$date.".pdf";
+
+				$content = View::make('reports.daily.exportSpecimenLog')
+								->with('specimens', $specimens)
+								->with('testCategory', $testCategory)
+								->with('testType', $testType)
+								->with('accredited', $accredited)
+								->withInput(Input::all());
+				$pdf = App::make('dompdf');
+				$pdf->loadHTML($content);
+				return $pdf->download($fileName);
+		    	
 			}
 			else
 			{
@@ -343,6 +388,22 @@ class ReportController extends \BaseController {
 								->with('accredited', $accredited)
 								->withInput(Input::all());
 		    	return Response::make($content,200, $headers);
+			}
+			else if(Input::has('pdf')){
+				$date = date("Ymdhi");
+				$fileName = "daily_test_records_".$date.".pdf";
+
+				$content = View::make('reports.daily.exportTestLog')
+								->with('tests', $tests)
+								->with('testCategory', $testCategory)
+								->with('testType', $testType)
+								->with('pendingOrAll', $pendingOrAll)
+								->with('accredited', $accredited)
+								->withInput(Input::all());
+				$pdf = App::make('dompdf');
+				$pdf->loadHTML($content);
+				return $pdf->download($fileName);
+		    	
 			}
 			else
 			{
@@ -974,14 +1035,29 @@ class ReportController extends \BaseController {
 		$testCategory = Input::get('test_category');
 
 		$infectionData = Test::getInfectionData($from, $toPlusOne, $testCategory);	// array for counts data for each test type and age range
-		
-		return View::make('reports.infection.index')
+		if(Input::has('pdf')){
+			$fileName = "surveillance_".$date.".pdf";
+			$content = View::make('reports.infection.exportinfection')
+							->with('gender', $gender)
+					->with('ageRanges', $ageRanges)
+					->with('ranges', $ranges)
+					->with('infectionData', $infectionData)
+					->with('accredited', $accredited)
+					->withInput(Input::all());
+
+			$pdf = App::make('dompdf');
+			$pdf->loadHTML($content);
+			return $pdf->stream();
+		}
+		else {
+			return View::make('reports.infection.index')
 					->with('gender', $gender)
 					->with('ageRanges', $ageRanges)
 					->with('ranges', $ranges)
 					->with('infectionData', $infectionData)
 					->with('accredited', $accredited)
 					->withInput(Input::all());
+		}
 	}
 
 	/**
@@ -1123,7 +1199,20 @@ class ReportController extends \BaseController {
 							->with('accredited', $accredited)
 							->withInput(Input::all());
 			return Response::make($content,200, $headers);
-		}else{
+		}
+		else if(Input::has('pdf')){
+			$fileName = "surveillance_".$date.".pdf";
+			$content = View::make('reports.surveillance.exportSurveillance')
+							->with('surveillance', $surveillance)
+							->with('tests', $tests)
+							->with('accredited', $accredited)
+							->withInput(Input::all());
+
+			$pdf = App::make('dompdf');
+			$pdf->loadHTML($content);
+			return $pdf->download($fileName);
+		}
+		else{
 			return View::make('reports.surveillance.index')
 					->with('accredited', $accredited)
 					->with('tests', $tests)

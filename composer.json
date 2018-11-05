@@ -6,7 +6,8 @@
 	"require": {
 		"laravel/framework": "4.2.*",
 		"zizaco/entrust": "1.2.*",
-		"doctrine/dbal": "^2.5"
+		"doctrine/dbal": "^2.5",
+		"barryvdh/laravel-dompdf": "0.4.*"
 	},
 	"require-dev":{
 		"phpunit/phpunit": "4.2.*",
