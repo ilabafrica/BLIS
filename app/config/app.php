@@ -107,6 +107,8 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
+		'Dingo\Api\Provider\APiServiceProvider',
+		'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
 
 	),
 
@@ -173,8 +175,11 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
-		'SoftDeletingTrait'     => 'Illuminate\Database\Eloquent\SoftDeletingTrait',
+		'SoftDeletingTrait'=> 'Illuminate\Database\Eloquent\SoftDeletingTrait',
 		'Entrust'         => 'Zizaco\Entrust\EntrustFacade',
+		'JWTAuth' 		  => 'Tymon\JWTAuth\Facades\JWTAuth',
+		'JWTFactory' 	  => 'Tymon\JWTAuth\Facades\JWTFactory',
+		'API'			  => 'Dingo\Api\Facade\API',
 	),
 
 );

@@ -9,6 +9,21 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+Route::api('v1', function () {
+    Route::post('api/tpa/login', [  
+        'uses'      => 'AuthenticateController@authenticate',
+        'as'        => 'api.login'
+    ]);
+    Route::post('api/testrequest', [  
+        'uses'      => 'EMRController@receiveTestRequest',
+        'as'        => 'api.receiveTestRequest'
+    ]);
+    Route::get('validate_token',  array(  
+        'protected' => true,
+        'as'        =>  'api.validate_token',
+        'uses'        => 'AuthenticateController@validateToken'
+    ));
+});
 /* Routes accessible before logging in */
 
 Route::group(array("before" => "guest"), function()

@@ -9,14 +9,14 @@ BLIS was originally developed by C4G.
 You can test and view the application [here](http://blis.ilabafrica.ac.ke:8080/).
 
 Requirements (Linux)
-------------
+--------------------
 1. Supported database. Currently only [MySQL](http://dev.mysql.com/downloads/mysql) has been tested. Laravel also supports PostgreSQL, SQLite and SQL Server.
 2. [PHP >= 5.4](http://php.net).
 3. [Composer](https://getcomposer.org) - Dependency manager for PHP.
 4. [git](https://git-scm.com/) - Git is a free and open source distributed version control system
 
 Installation
------------
+------------
 ##### DOCKER
 The easiest way to install is using docker, follow instruction [here](https://github.com/ilabafrica/iblis-contrib-docker) to install via docker. 
 
@@ -82,10 +82,10 @@ Road Map
 4.| Update documentation| Continuous
 
 Collaboration
---------------
+-------------
 We **welcome** all forms of collaboration: coding, testing, documentation (writing/proof reading), feature/enhancement suggestions, ... Please review our contribution guidelines on the [wiki page](https://github.com/APHLK/BLIS/wiki).
 
 1. Review the [issue list](https://github.com/APHLK/BLIS/issues) for an issue you wish to resolve or create a new issue for a bug or enhancement.
-2. Create a branch
-3. Resolve the issue
-4. Send us a pull request
+2. Create a branch.
+3. Resolve the issue.
+4. Send us a pull request.

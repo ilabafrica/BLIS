@@ -209,4 +209,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $tests->get();
 	}
 
+	public function emr()
+    {
+        return $this->hasOne('\ILabAfrica\EMRInterface\EMR', 'third_party_app_id');
+    }
+
 }

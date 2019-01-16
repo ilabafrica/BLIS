@@ -28,6 +28,15 @@ class CreatekBLIStables extends Migration {
             $table->timestamps();
         });
 
+        Schema::create('test_type_categories', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('code', 100)->nullable();
+            $table->string('name', 100);
+
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
         Schema::create('tokens', function(Blueprint $table)
         {
             $table->string('email')->index();
