@@ -59,13 +59,13 @@ class TestController extends \BaseController {
 		$tests = $tests->paginate(Config::get('kblis.page-items'))->appends($input);
 
 		//	Barcode
-		$barcode = Barcode::first();
+	
 
 		// Load the view and pass it the tests
 		return View::make('test.index')
 					->with('testSet', $tests)
 					->with('testStatus', $statuses)
-					->with('barcode', $barcode)
+					// ->with('barcode', $barcode)
 					->withInput($input);
 	}
 

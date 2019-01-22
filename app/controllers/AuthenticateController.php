@@ -17,7 +17,6 @@ class AuthenticateController extends \BaseController{
       // Something went wrong - let the app know.
       return API::response()->array(['error' => 'could_not_create_token'])->statusCode(500);
     }
-    Log::info($token);
     // Return success.
     return API::response()->array(['access_token' => $token])->statusCode(200);
     // return compact('access_token');

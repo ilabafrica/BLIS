@@ -13,7 +13,7 @@
 
 App::before(function($request)
 {
-	//
+	
 });
 
 
@@ -42,6 +42,11 @@ Route::filter('auth', function()
 Route::filter('auth.basic', function()
 {
 	return Auth::basic();
+});
+
+Route::filter('testrq', function($request)
+{
+	dd($request);
 });
 
 /*

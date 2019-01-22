@@ -9,6 +9,10 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+
+
+
+
 Route::api('v1', function () {
     Route::post('api/tpa/login', [  
         'uses'      => 'AuthenticateController@authenticate',
@@ -16,7 +20,8 @@ Route::api('v1', function () {
     ]);
     Route::post('api/testrequest', [  
         'uses'      => 'EMRController@receiveTestRequest',
-        'as'        => 'api.receiveTestRequest'
+        'as'        => 'api.receiveTestRequest',
+        'protected' => true
     ]);
     Route::get('validate_token',  array(  
         'protected' => true,
@@ -179,7 +184,12 @@ Route::group(array("before" => "auth"), function()
             "as" =>"panel.delete",
             "uses" =>"PanelController@deactivate"
             ));
-    });    
+    });  
+
+       Route::any("/map", array(
+        "as"   => "map.index",
+        "uses" => "MappingController@index"
+    ));  
     Route::any("/test", array(
         "as"   => "test.index",
         "uses" => "TestController@index"

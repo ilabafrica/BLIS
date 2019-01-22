@@ -7,6 +7,11 @@ class TestStatus extends Eloquent
 	 *
 	 * @var string
 	 */
+    const pending = 1;
+    const started = 2;
+    const completed = 3;
+    const verified = 4;
+    const cancelled = 5;
 	protected $table = 'test_statuses';
 
 	public $timestamps = false;
