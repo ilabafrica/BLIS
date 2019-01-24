@@ -114,26 +114,28 @@ class EMRController extends \BaseController{
      if ($loginResponse->getStatusCode() == 200) {
           \Log::info('login success');
           $accessToken = json_decode($loginResponse->getBody()->getContents())->access_token;
-          dd($accessToken);
-          \App\Models\ThirdPartyAccess::where('email', 'ml4afrika@play.dev')->update(['access_token' => $accessToken]);
+         
+         ThirdPartyAccess::where('email', 'ml4afrika@play.dev')->update(['access_token' => $accessToken]);
 
-          $this->sendTestResults($testID);
+              return;
+   
       }
   }
 
-  public function sendTestResults($testID)
+  public static  function sendTestResults($testID)
     {
         $diagnosticOrder = DiagnosticOrder::where('test_id',$testID);
 
         // if order is from emr
         if ($diagnosticOrder->count()) {
             $diagnosticOrder->first();
-            $test = Test::find($testID)->load('results');
-            \Log::info($test->thirdPartyCreator->access);
+            $test = Test::find($testID)->load('testResults');
+        
 
-            $thirdPartyAccess = \App\Models\ThirdPartyAccess::where('email',$test->thirdPartyCreator->access->email);
+            $thirdPartyAccess = ThirdPartyAccess::where('email', 'ml4afrika@play.dev');
             if ($thirdPartyAccess->count()) {
                 $accessToken = $thirdPartyAccess->first()->access_token;
+           
             }else{
                 $accessToken = '';
             }
@@ -141,16 +143,9 @@ class EMRController extends \BaseController{
             return;
         }
 
-        if ($test->thirdPartyCreator->emr->data_standard == 'sanitas') {
-
-            $result = '';
-            $jsonResultString = sprintf('{"labNo": "%s","requestingClinician": "%s", "result": "%s", "verifiedby": "%s", "techniciancomment": "%s"}', 
-                                $test->identifier, $test->tested_by, $result, $test->verified_by, $test->comment);
-            $results = "labResult=".urlencode($jsonResultString);
-
-        }elseif($test->thirdPartyCreator->emr->data_standard == 'fhir'){
             $measures = [];
-            foreach ($test->results as $result) {
+            foreach ($test->testResults as $result) {
+              
                 if ($result->measure->measure_type_id == MeasureType::numeric) {
                     $measures[] = [
                         'code' => $result->measure->name,
@@ -159,13 +154,13 @@ class EMRController extends \BaseController{
                 }else if ($result->measure->measure_type_id == MeasureType::alphanumeric) {
                     $measures[] = [
                         'code' => $result->measure->name,
-                        'valueString' => $result->measureRange->display,
+                        'valueString' => $result->result,
                     ];
-                }else if ($result->measure->measure_type_id == MeasureType::multi_alphanumeric) {
+                }else if ($result->measure->measure_type_id == MeasureType::Autocomplete) {
                     // adjust to capture multiple, will need some looping of measure ranges
                     $measures[] = [
                         'code' => $result->measure->name,
-                        'valueString' => $result->measureRange->display,
+                        'valueString' => $result->result,
                     ];
                 }else if ($result->measure->measure_type_id == MeasureType::free_text) {
                     $measures[] = [
@@ -174,12 +169,13 @@ class EMRController extends \BaseController{
                     ];
                 }
             }
+
             $results = [
               "resourceType"=> "DiagnosticReport",
               "contained"=> [
                 [
                   "resourceType"=> "Observation",
-                  "id"=> $test->encounter->patient->identifier,
+                  "id"=> $test->visit->patient->patient_number,
                   "extension"=> [
                     [
                       "url"=> "http=>//www.mhealth4afrika.eu/fhir/StructureDefinition/dataElementCode",
@@ -211,7 +207,7 @@ class EMRController extends \BaseController{
                [
 
                   "resourceType"=> "Observation",
-                  "id"=> $test->encounter->patient->identifier,
+                  "id"=> $test->visit->patient->patient_number,
                   "extension"=> [
                     [
                       "url"=> "http=>//www.mhealth4afrika.eu/fhir/StructureDefinition/dataElementCode",
@@ -257,7 +253,7 @@ class EMRController extends \BaseController{
                 ]
               ],
               "subject"=> [
-                  "reference"=>  $test->encounter->patient->identifier
+                  "reference"=> $test->visit->patient->patient_number
               ],
               "performer"=> [
                 [
@@ -275,28 +271,25 @@ class EMRController extends \BaseController{
                 ]
               ]
             ];
-        }
-
-        $client = new Client();
+        
+        $client = new \GuzzleHttp\Client();
 
         // use verb to decide
-        if ($test->thirdPartyCreator->emr->data_standard == 'sanitas') {
-            $response = $client->request('GET', $test->thirdPartyCreator->emr->result_url.'?'.$results, ['debug' => true]);
-        }else{
-            try {
-                // send results for individual tests
-                $response = $client->request('POST', $test->thirdPartyCreator->emr->result_url, [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-type' => 'application/json',
-                        'Authorization' => 'Bearer '.$accessToken
-                    ],
-                    'json' => $results
-                ]);
-            } catch (\GuzzleHttp\Exception\ClientException $e) {
-                $this->getToken($test->id, $test->thirdPartyCreator->access->email);
-            }
+        try {
+            // send results for individual tests
+            $response = $client->post('http://10.9.41.73/api/ml4afrikaresult', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-type' => 'application/json',
+                    'Authorization' => 'Bearer '.$accessToken
+                ],
+                'json' => $results
+            ]);
+        } 
+        catch (\GuzzleHttp\Exception\ClientException $e) {
+            $accessToken;
         }
+        
         if ($response->getStatusCode() == 200) {
             $diagnosticOrder->update(['diagnostic_order_status_id' => DiagnosticOrderStatus::result_sent]);
         }

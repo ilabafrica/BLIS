@@ -391,9 +391,10 @@ class TestController extends \BaseController {
 			$pageParts = explode('=', $urlParts['page']);
 			$input['page'] = $pageParts[1];
 		}
-
-		EMRController::getToken($test->id, 'ml4afrika@emr.dev');
-		EMRController::sendTestResults($test->id);
+		if(DiagnosticOrder::where('test_id',$test->id)->exists()){
+			EMRController::getToken($test->id);
+			EMRController::sendTestResults($test->id);
+		}
 		
 		// redirect
 		return Redirect::action('TestController@index')
