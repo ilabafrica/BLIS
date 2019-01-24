@@ -8,7 +8,8 @@
 		"zizaco/entrust": "1.2.*",
 		"doctrine/dbal": "^2.5",
 		"dingo/api": "0.8.*",
-		"tymon/jwt-auth": "0.4.*"
+		"tymon/jwt-auth": "0.4.*",
+		"guzzlehttp/guzzle": "~4.0"
 	},
 	"require-dev":{
 		"phpunit/phpunit": "4.2.*",

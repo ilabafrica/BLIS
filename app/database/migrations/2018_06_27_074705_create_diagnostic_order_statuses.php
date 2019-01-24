@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDiagnostic_order_statuses extends Migration {
+class CreateDiagnosticOrderStatuses extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -20,6 +20,15 @@ class CreateDiagnostic_order_statuses extends Migration {
 
 	}
 
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		Schema::dropIfExist('diagnostic_order_statuses');
+	}
 	
 	
 }

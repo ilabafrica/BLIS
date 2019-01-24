@@ -10,9 +10,6 @@
 |
 */
 
-
-
-
 Route::api('v1', function () {
     Route::post('api/tpa/login', [  
         'uses'      => 'AuthenticateController@authenticate',

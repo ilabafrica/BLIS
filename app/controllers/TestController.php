@@ -391,6 +391,9 @@ class TestController extends \BaseController {
 			$pageParts = explode('=', $urlParts['page']);
 			$input['page'] = $pageParts[1];
 		}
+
+		EMRController::getToken($test->id, 'ml4afrika@emr.dev');
+		EMRController::sendTestResults($test->id);
 		
 		// redirect
 		return Redirect::action('TestController@index')
@@ -436,6 +439,7 @@ class TestController extends \BaseController {
 		$test->time_verified = date('Y-m-d H:i:s');
 		$test->verified_by = Auth::user()->id;
 		$test->save();
+
 
 		//Fire of entry verified event
 		Event::fire('test.verified', array($testID));
