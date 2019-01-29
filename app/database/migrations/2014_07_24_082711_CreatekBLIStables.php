@@ -340,6 +340,7 @@ class CreatekBLIStables extends Migration {
 		Schema::dropIfExists('test_phases');
 		Schema::dropIfExists('testtype_specimentypes');
         Schema::dropIfExists('testtype_measures');
+        Schema::dropIfExists('test_type_categories');
         Schema::dropIfExists('test_types');
         Schema::dropIfExists('measure_ranges');
         Schema::dropIfExists('measures');

@@ -30,7 +30,7 @@ class CreateTestTypePanels extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExist('test_type_panels');
+		Schema::dropIfExists('test_type_panels');
 	}
 
 }

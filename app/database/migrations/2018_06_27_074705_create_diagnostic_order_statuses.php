@@ -27,7 +27,7 @@ class CreateDiagnosticOrderStatuses extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExist('diagnostic_order_statuses');
+		Schema::dropIfExists('diagnostic_order_statuses');
 	}
 	
 	

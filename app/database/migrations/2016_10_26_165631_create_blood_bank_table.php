@@ -33,7 +33,7 @@ class CreateBloodBankTable extends Migration {
 	 */
 	public function down()
 	{
-		//
+		Schema::dropIfExists('blood_bank');
 	}
 
 }

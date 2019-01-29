@@ -1,15 +1,10 @@
-
 <?php
-
-
-
 
 class MappingController extends Controller
 {
     
     public static function index(Request $request)
     {
-      
         // $dataElements = DB::connection('mysql')->table('data_elements')->get();
 
         // foreach ($dataElements as $dataElement) {
@@ -21,13 +16,6 @@ class MappingController extends Controller
             ]);
                 
         // }
-         return json_encode('Test Request Received');
+        return json_encode('Test Request Received');
     }
-
-
- 
-
-
-
-
 }

@@ -71,6 +71,15 @@ Route::group(array("before" => "auth"), function()
             "uses" => "UserController@delete"
         ));
     });
+
+    Route::group(array("before" => "admin"), function()
+    {
+        Route::resource("mh4lmapper", 'MH4MapperController');
+        Route::get("mh4lmapper/delete/{id}", array(
+            "as"    => "mh4lmapper.delete",
+            "uses"  => "MH4MapperController@delete"
+        ));
+    });
     
     Route::any("/logout", array(
         "as"   => "user.logout",
