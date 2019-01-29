@@ -22,7 +22,7 @@ class EMRController extends \BaseController{
           'code' => 'required',
           'subject' => 'required',
           'requester' => 'required',
-          'item' => 'required',
+         
       ];
       $validator = Validator::make(Input::all(), $rules);
       //$validator = \Validator::make($request->all(), $rules);
@@ -63,15 +63,15 @@ class EMRController extends \BaseController{
                   $visit->save();
                 
                   // recode each item in DiagnosticOrder to keep track of what has happened to it
-                  foreach (Input::get('item') as $item) {
+                  foreach (Input::get('code')['coding'] as $coding) {
                       // save order items in tests
 
                       $test = new Test;
                       $test->visit_id = $visit->id;
-                      $test->test_type_id = EmrTestTypeAlias::where('emr_alias',$item['test_type_id'])->first()->test_type_id;
+                      $test->test_type_id = EmrTestTypeAlias::where('emr_alias',$coding['code'])->first()->test_type_id;
                       $test->test_status_id = TestStatus::pending;
                       $test->created_by = $userList->id;
-                      $test->requested_by = $requester['agent']['name'];// practitioner
+                      $test->requested_by = Input::get('contained')[1]['name'][0]['given'][0]." ".Input::get('contained')[1]['name'][0]['family'];// practitioner
                       
                       $test->specimen_id = 1;
                       $test->interpretation = 1;
@@ -143,108 +143,100 @@ class EMRController extends \BaseController{
             return;
         }
 
-            $measures = [];
+            
+               $contained = [];
+            $resultRreference = [];
             foreach ($test->testResults as $result) {
-              
+                $resultRreference[] = ["reference" => "#observation".$result->id];
                 if ($result->measure->measure_type_id == MeasureType::numeric) {
-                    $measures[] = [
-                        'code' => $result->measure->name,
-                        'valueString' => $result->result,
+                    $contained[] = [
+                      "resourceType"=> "Observation",
+                      "id"=> "observation".$result->id,//todo: check for identification of tests if such a thing exists
+                      "extension"=> [
+                        [
+                          "url"=> "http=>//www.mhealth4afrika.eu/fhir/StructureDefinition/dataElementCode",
+                          "valueCode"=> $test->testType->id,
+                        ]
+                      ],
+                      "code"=> [
+                        "coding"=> [
+                          [
+                            "system"=> "http=>//loinc.org",
+                            "code"=> "",//todo: update loinc code
+                            "display"=> ""//todo: update loinc display
+                          ]
+                        ]
+                      ],
+                      "effectiveDateTime"=> $test->time_completed,
+                      "performer"=> [
+                        [
+                          "reference"=> $test->testedBy->name,
+                        ]
+                      ],
+                      "valueQuantity"=> [
+                        "value"=> "7",
+                        "unit"=> $result->measure->unit,
+                        "system"=> "",//todo: populate this resource accordingly
+                        "code"=> $result->measure->unit
+                      ]
                     ];
                 }else if ($result->measure->measure_type_id == MeasureType::alphanumeric) {
-                    $measures[] = [
+                    $contained[] = [
+                      "resourceType"=> "Observation",
+                      "id"=> $result->id,//todo: check for identification of tests if such a thing exists
+                      "extension"=> [
+                        [
+                          "url"=> "http=>//www.mhealth4afrika.eu/fhir/StructureDefinition/dataElementCode",
+                          "valueCode"=> $test->testType->alias,
+                        ]
+                      ],
+                      "code"=> [
+                        "coding"=> [
+                          [
+                            "system"=> "http=>//loinc.org",
+                            "code"=> "",//todo: update loinc code
+                            "display"=> ""//todo: update loinc display
+                          ]
+                        ]
+                      ],
+                      "effectiveDateTime"=> $test->time_completed,
+                      "performer"=> [
+                        [
+                          "reference"=> $test->testedBy->name,
+                        ]
+                      ],
+                      "valueQuantity"=> [
+                        "value"=> $result->result,
+                        "unit"=> $result->measure->unit,
+                        "system"=> "",//todo: populate this resource accordingly
+                        "code"=> $result->measure->unit
+                      ]
+                    ];
+                    $contained[] = [
                         'code' => $result->measure->name,
                         'valueString' => $result->result,
                     ];
-                }else if ($result->measure->measure_type_id == MeasureType::Autocomplete) {
+                }else if ($result->measure->measure_type_id == MeasureType::multi_alphanumeric) {
                     // adjust to capture multiple, will need some looping of measure ranges
-                    $measures[] = [
+                    $contained[] = [
                         'code' => $result->measure->name,
                         'valueString' => $result->result,
                     ];
                 }else if ($result->measure->measure_type_id == MeasureType::free_text) {
-                    $measures[] = [
+                    $contained[] = [
                         'code' => $result->measure->name,
                         'valueString' => $result->result,
                     ];
                 }
-            }
+                }
 
-            $results = [
+          $results = [
               "resourceType"=> "DiagnosticReport",
-              "contained"=> [
-                [
-                  "resourceType"=> "Observation",
-                  "id"=> $test->visit->patient->patient_number,
-                  "extension"=> [
-                    [
-                      "url"=> "http=>//www.mhealth4afrika.eu/fhir/StructureDefinition/dataElementCode",
-                      "valueCode"=> "hbCodeExample"
-                    ]
-                ],
-                "code"=> [
-                  "coding"=> [
-                    [
-                      "system"=> "http=>//loinc.org",
-                      "code"=> "718-7",
-                      "display"=> "Hemoglobin [Mass/volume] in Blood"
-                    ]
-                  ]
-                ],
-                "effectiveDateTime"=> $test->time_completed,
-                "performer"=> [
-                  [
-                    "reference"=> $test->testedBy->name,
-                  ]
-                ],
-                  "valueQuantity"=> [
-                    "value"=> $measures,
-                    "unit"=> "g/dl",
-                    "system"=> "http=>//unitsofmeasure.org",
-                    "code"=> "g/dL"
-                  ]
-               ],
-               [
-
-                  "resourceType"=> "Observation",
-                  "id"=> $test->visit->patient->patient_number,
-                  "extension"=> [
-                    [
-                      "url"=> "http=>//www.mhealth4afrika.eu/fhir/StructureDefinition/dataElementCode",
-                      "valueCode"=> "rhCodeExample"
-                    ]
-                  ],
-                  "code"=> [
-                    "coding"=> [
-                      [
-                        "system"=> "http=>//loinc.org",
-                        "code"=> "883-9",
-                        "display"=> "ABO group [Type] in Blood"
-                      ]
-                    ]
-                  ],
-                  "effectiveDateTime"=> $test->time_completed,
-                  "performer"=> [
-                    [
-                      "reference"=> $test->testedBy->name
-                    ]
-                  ],
-                  "valueCodeableConcept"=> [
-                  "coding"=> [
-                    [
-                      "system"=> "http=>//snomed.info/sct",
-                      "code"=> "112144000",
-                      "display"=> "Blood group A (finding)"
-                    ]
-                  ],
-                  "text"=> "A"
-                  ]
-                ]
-              ],
+              "contained"=> $contained,//the individual measures
               "extension"=> [
                 [
                   "url"=> "http=>//www.mhealth4afrika.eu/fhir/StructureDefinition/eventId",
-                  "valueString"=> "exampleEventId"
+                  "valueString"=> $test->visit->patient->patient_number
                 ]
               ],
               "identifier"=> [
@@ -253,7 +245,7 @@ class EMRController extends \BaseController{
                 ]
               ],
               "subject"=> [
-                  "reference"=> $test->visit->patient->patient_number
+                "reference"=>  $test->visit->patient->patient_number
               ],
               "performer"=> [
                 [
@@ -262,15 +254,9 @@ class EMRController extends \BaseController{
                   ]
                 ]
               ],
-              "result"=> [
-                [
-                  "reference"=> "#Observation1"
-                ],
-                [
-                  "reference"=> "#Observation2"
-                ]
-              ]
+              "result"=> $resultRreference
             ];
+
         
         $client = new \GuzzleHttp\Client();
 
