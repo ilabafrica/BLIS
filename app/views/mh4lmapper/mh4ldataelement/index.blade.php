@@ -3,7 +3,7 @@
 <div>
 	<ol class="breadcrumb">
 	  <li><a href="{{{URL::route('user.home')}}}">{{trans('Home')}}</a></li>
-	  <li class="active">{{ Lang::choice('mH4lmapper',2) }}</li>
+	  <li class="active">Test Type Identifiers</li>
 	</ol>
 </div>
 <br>
