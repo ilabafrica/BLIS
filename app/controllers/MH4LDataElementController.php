@@ -27,7 +27,7 @@ class MH4LDataElementController extends Controller
 			// store
 			$mH4LDataElement = new MH4Mapper;
 			$mH4LDataElement->name = Input::get('name');
-			$mH4LDataElement->ndata_element_id = Input::get('data_element_id');
+			$mH4LDataElement->data_element_id = Input::get('data_element_id');
 
 			try{
 				$mH4LDataElement->save();
