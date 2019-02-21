@@ -100,15 +100,18 @@ class MH4MapperController extends Controller
 		return View::make('mh4lmapper.result.index')->with('emrResultAliases', $emrResultAliases);
 	}
 
-	public function mapResultCreate()
+	public function mapResultCreate($measureId)
 	{
-		return View::make('mh4lmapper.result.create');
+
+		$measureRanges  = Measure::find($measureId)->measureRanges;
+		return View::make('mh4lmapper.result.create')->with('measureRanges',$measureRanges);
 	}
 
 	public function mapResultStore()
 	{
-		$emrResultAlias = EmrResultAlias::firstOrCreate([
+		$emrResultAlias = EmrResultAlias::firstOrNew([
 			'emr_test_type_alias_id' => Input::get('emr_test_type_alias_id'),
+			'measure_range_id' => Input::get('measure_range_id'),
 		]);
 		$emrResultAlias->emr_alias = Input::get('emr_alias');
 		$emrResultAlias->save();

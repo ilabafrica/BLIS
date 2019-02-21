@@ -10,7 +10,6 @@ class MH4LDataElementController extends Controller
 
 	public function create()
 	{	
-		//Create Mapping
 		return View::make('mh4lmapper.mh4ldataelement.create');
 	}
 
@@ -39,40 +38,6 @@ class MH4LDataElementController extends Controller
 			}catch(QueryException $e){
 				Log::error($e);
 			}
-		}
-	}
-
-	public function edit($id)
-	{
-		//Get the mapping
-		$mH4LDataElement = MH4Mapper::find($id);
-
-		//Open the Edit View and pass to it the $patient
-		return View::make('mh4lmapper.mh4ldataelement.edit')->with('mH4LDataElement', $mH4LDataElement);
-	}
-
-	public function update($id)
-	{
-		$rules = array(
-			'blistest' 			=> 'required',
-			'mhealthequivalent' => 'required'
-		);
-		$validator = Validator::make(Input::all(), $rules);
-
-		if ($validator->fails()) {
-			return Redirect::to('mh4ldataelement/' . $id . '/edit')
-				->withErrors($validator);
-		} else {
-			// Update
-			$mH4LDataElement = MH4Mapper::find($id);
-			$mH4LDataElement->name = Input::get('name');
-			$mH4LDataElement->data_element_id = Input::get('data_element_id');
-			$mH4LDataElement->save();
-
-			// redirect
-			$url = Session::get('SOURCE_URL');
-			return Redirect::to($url)
-				->with('message', 'The mapping details were successfully updated!');
 		}
 	}
 
