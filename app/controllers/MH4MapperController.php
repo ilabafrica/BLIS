@@ -3,8 +3,8 @@
 class MH4MapperController extends Controller
 {
 	public static function index()
-    {
-    	$mappings = EmrTestTypeAlias::orderBy('emr_alias', 'desc')->with('TestType', 'MH4Mapper')->paginate(Config::get('kblis.page-items'))->appends(Input::except('_token'));
+	{
+		$mappings = EmrTestTypeAlias::orderBy('emr_alias', 'desc')->with('TestType', 'MH4Mapper')->paginate(Config::get('kblis.page-items'))->appends(Input::except('_token'));
 		return View::make('mh4lmapper.index')->with('mappings',$mappings);
 	}
 
@@ -18,7 +18,6 @@ class MH4MapperController extends Controller
 
 	public function store()
 	{
-		//
 		$rules = array(
 			'blistest' 			=> 'required',
 			'mhealthequivalent' => 'required'
@@ -37,14 +36,13 @@ class MH4MapperController extends Controller
 
 			try{
 				$emrTestTypeAlias->save();
-			$url = Session::get('SOURCE_URL');
-			return Redirect::to($url)
-			->with('message', 'Successfully created mapping!');
+				$url = Session::get('SOURCE_URL');
+
+				return Redirect::to($url)
+					->with('message', 'Successfully created mapping!');
 			}catch(QueryException $e){
 				Log::error($e);
 			}
-			
-			// redirect
 		}
 	}
 
@@ -61,7 +59,6 @@ class MH4MapperController extends Controller
 
 	public function update($id)
 	{
-		//
 		$rules = array(
 			'blistest' 			=> 'required',
 			'mhealthequivalent' => 'required'
@@ -81,8 +78,7 @@ class MH4MapperController extends Controller
 			// redirect
 			$url = Session::get('SOURCE_URL');
 			return Redirect::to($url)
-			->with('message', 'The mapping details were successfully updated!');
-
+				->with('message', 'The mapping details were successfully updated!');
 		}
 	}
 
@@ -93,10 +89,40 @@ class MH4MapperController extends Controller
 
 		$emrTestTypeAlias->delete();
 
-		// redirect
-			$url = Session::get('SOURCE_URL');
-			return Redirect::to('mh4lmapper')
+		$url = Session::get('SOURCE_URL');
+		return Redirect::to('mh4lmapper')
 			->with('message', 'The mapping was successfully deleted!');
+	}
+
+	public function mapResultGet($emrTestTypeAliasId)
+	{
+		$emrResultAliases = EmrResultAlias::where('emr_test_type_alias_id', $emrTestTypeAliasId)->get();
+		return View::make('mh4lmapper.result.index')->with('emrResultAliases', $emrResultAliases);
+
+	}
+
+	public function mapResultCreate()
+	{
+		return View::make('mh4lmapper.result.create');
+	}
+
+	public function mapResultStore()
+	{
+		$emrResultAlias = EmrResultAlias::firstOrCreate([
+			'emr_test_type_alias_id' => Input::get('emr_test_type_alias_id'),
+		]);
+		$emrResultAlias->emr_alias = Input::get('emr_alias');
+		$emrResultAlias->save();
+
+		return Redirect::to('mh4mapper.mapresultget')
+			->with('message', 'The result mapping was successfully deleted!');
+	}
+
+	public function mapResultDestroy($id)
+	{
+		$emrResultAlias = EmrResultAlias::find($id)->destroy();
+		return Redirect::to('mh4mapper.mapresultget')
+			->with('message', 'The result mapping was successfully deleted!');
 	}
 
 }

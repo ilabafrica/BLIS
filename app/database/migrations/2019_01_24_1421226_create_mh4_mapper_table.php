@@ -10,7 +10,7 @@ class CreateMh4MapperTable extends Migration {
 	 *
 	 * @return void
 	 */
- public function up()
+    public function up()
     {
         Schema::create('mh4_mapper', function (Blueprint $table) {
             $table->increments('id');

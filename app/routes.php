@@ -79,8 +79,28 @@ Route::group(array("before" => "auth"), function()
             "as"    => "mh4lmapper.delete",
             "uses"  => "MH4MapperController@delete"
         ));
+        Route::resource("mh4ldataelement", 'MH4LDataElementController');
+        Route::get("mh4ldataelement/delete/{id}", array(
+            "as"    => "mh4ldataelement.delete",
+            "uses"  => "MH4LDataElementController@delete"
+        ));
+
+        Route::get("mapresultget/{emrTestTypeAliasId}", array(
+            "as"    => "mh4mapper.mapresultget",
+            "uses"  => "MH4MapperController@mapResultGet"
+        ));
+
+        Route::post("mapresultstore", array(
+            "as"    => "mh4mapper.mapresultstore",
+            "uses"  => "MH4MapperController@mapResultStore"
+        ));
+
+        Route::get("mapresultdestroy", array(
+            "as"    => "mh4mapper.mapresultdestroy",
+            "uses"  => "MH4MapperController@mapResultDestroy"
+        ));
     });
-    
+
     Route::any("/logout", array(
         "as"   => "user.logout",
         "uses" => "UserController@logoutAction"

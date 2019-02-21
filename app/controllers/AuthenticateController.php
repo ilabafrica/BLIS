@@ -19,7 +19,6 @@ class AuthenticateController extends \BaseController{
     }
     // Return success.
     return API::response()->array(['access_token' => $token])->statusCode(200);
-    // return compact('access_token');
   }
 
   public function validateToken(){
