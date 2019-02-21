@@ -96,9 +96,8 @@ class MH4MapperController extends Controller
 
 	public function mapResultGet($emrTestTypeAliasId)
 	{
-		$emrResultAliases = EmrResultAlias::where('emr_test_type_alias_id', $emrTestTypeAliasId)->get();
+		$emrResultAliases = EmrResultAlias::where('emr_test_type_alias_id', $emrTestTypeAliasId)->paginate(Config::get('kblis.page-items'));
 		return View::make('mh4lmapper.result.index')->with('emrResultAliases', $emrResultAliases);
-
 	}
 
 	public function mapResultCreate()
