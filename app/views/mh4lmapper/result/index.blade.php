@@ -50,7 +50,7 @@
 			@endforeach
 			</tbody>
 		</table>
-		<?php echo $emrResultAliass->links(); 
+		<?php echo $emrResultAlias->links();
 		Session::put('SOURCE_URL', URL::full());?>
 	</div>
 </div>
