@@ -3,7 +3,7 @@
 	<div>
 		<ol class="breadcrumb">
 		  <li><a href="{{{URL::route('user.home')}}}">{{ trans('messages.home') }}</a></li>
-		  <li><a href="{{ URL::route('patient.index') }}">{{ Lang::choice('mH4lmapper',2) }}</a></li>
+		  <li><a href="{{ URL::route('mh4lmapper.index') }}">{{ Lang::choice('mH4lmapper',2) }}</a></li>
 		  <li class="active">{{trans('create mH4lmapping')}}</li>
 		</ol>
 	</div>
