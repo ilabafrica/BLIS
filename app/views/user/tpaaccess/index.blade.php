@@ -24,13 +24,13 @@
 		<table class="table table-striped table-hover table-condensed">
 			<thead>
 				<tr>
-					<th>Name</th>
+					<th>UserName</th>
 				</tr>
 			</thead>
 			<tbody>
 			@foreach($thirdPartyAccesses as $thirdPartyAccess)
 				<tr>
-					<td>{{ $thirdPartyAccess->name }}</td>
+					<td>{{ $thirdPartyAccess->username }}</td>
 					<td>
 						<a class="btn btn-sm btn-info" href="{{ URL::to("tpaaccess/" . $thirdPartyAccess->id . "/edit") }}" >
 							<span class="glyphicon glyphicon-edit"></span>
