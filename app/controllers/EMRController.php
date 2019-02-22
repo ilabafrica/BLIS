@@ -65,7 +65,7 @@ class EMRController extends \BaseController{
           $test->test_type_id = EmrTestTypeAlias::where('emr_alias',$coding['code'])->first()->test_type_id;
           $test->test_status_id = TestStatus::pending;
           $test->created_by = $userList->id;
-          $test->requested_by = Input::get('contained')[1]['name'][0]['given'][0]." ".Input::get('contained')[1]['name'][0]['family'];// practitioner
+          $test->requested_by = Input::get('contained')[1]['name'][0]['given'][0]." ".Input::get('contained')[1]['name'][0]['family'];
 
           $test->specimen_id = 1;
           $test->interpretation = 1;
@@ -82,10 +82,8 @@ class EMRController extends \BaseController{
         }
 
         return API::response()->array(['message' => 'Test Request Received']);
-        //return Response::json(['message' => 'Test Request Received']);
       } catch (\Illuminate\Database\QueryException $e) {
         return API::response()->array(['status' => 'error', 'message' =>  $e->getMessage()])->statusCode(500);
-        //return Response::json(['status' => 'error', 'message' => $e]);
       }
     }
   }

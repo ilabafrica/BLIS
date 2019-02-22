@@ -99,6 +99,12 @@ Route::group(array("before" => "auth"), function()
             "as"    => "mh4mapper.mapresultdestroy",
             "uses"  => "MH4MapperController@mapResultDestroy"
         ));
+
+        Route::resource("tpaaccess", 'ThirdPartyAccessController');
+        Route::get("tpaaccess/delete/{id}", array(
+            "as"    => "tpaaccess.delete",
+            "uses"  => "ThirdPartyAccessController@delete"
+        ));
     });
 
     Route::any("/logout", array(

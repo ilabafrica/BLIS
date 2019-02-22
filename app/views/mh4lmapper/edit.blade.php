@@ -60,9 +60,6 @@
 					'<span class="glyphicon glyphicon-save"></span> '.trans('messages.save'), 
 					['class' => 'btn btn-primary', 'type' => 'submit']
 				) }}
-				{{ Form::button(trans('messages.cancel'), 
-					['class' => 'btn btn-default']
-				) }}
 			</div>
 		</div>
 	{{ Form::close() }}

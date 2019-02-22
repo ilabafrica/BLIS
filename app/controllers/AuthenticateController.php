@@ -1,4 +1,4 @@
-<?php  
+<?php
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthenticateController extends \BaseController{
@@ -26,4 +26,4 @@ class AuthenticateController extends \BaseController{
   }
 
 }
-?>      
+?>

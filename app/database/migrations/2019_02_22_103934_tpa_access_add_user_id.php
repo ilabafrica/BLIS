@@ -12,7 +12,9 @@ class TpaAccessAddUserId extends Migration {
 	 */
 	public function up()
 	{
-		//
+		Schema::table('third_party_access', function (Blueprint $table) {
+			$table->string('user_id')->nullable();
+		});
 	}
 
 	/**
