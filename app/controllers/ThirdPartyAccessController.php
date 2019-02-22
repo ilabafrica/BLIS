@@ -20,7 +20,7 @@ class ThirdPartyAccessController extends \BaseController {
 	 */
 	public function create()
 	{
-		$users = User::lists('name', 'id');
+		$users = User::all();
 
 		$grantTypes = [
 			'password',
