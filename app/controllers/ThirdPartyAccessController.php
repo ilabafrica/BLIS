@@ -63,7 +63,7 @@ class ThirdPartyAccessController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$users = User::lists('name', 'id');
+		$users = User::all();
 		$thirdPartyAccess = ThirdPartyAccess::find($id);
 		$grantTypes = [
 			'password',
