@@ -103,7 +103,7 @@ Route::group(array("before" => "auth"), function()
         Route::resource("tpaaccess", 'ThirdPartyAccessController');
         Route::get("tpaaccess/{id}/delete", array(
             "as"    => "tpaaccess.delete",
-            "uses"  => "ThirdPartyAccessController@delete"
+            "uses"  => "ThirdPartyAccessController@destroy"
         ));
     });
 
