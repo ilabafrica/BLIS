@@ -42,7 +42,6 @@ class ThirdPartyAccessController extends \BaseController {
 	public function store()
 	{
 		$rules = [
-			'user_id' => 'user_id',
 			'username' => 'username',
 			'email' => 'email',
 			'password' => 'password',
@@ -103,7 +102,6 @@ class ThirdPartyAccessController extends \BaseController {
 	public function update($id)
 	{
 		$rules = [
-			'user_id' => 'user_id',
 			'username' => 'username',
 			'email' => 'email',
 			'password' => 'password',
@@ -120,9 +118,14 @@ class ThirdPartyAccessController extends \BaseController {
 		} else {
 			// Update
 			$thirdPartyAccess = ThirdPartyAccess::find($id);
-			$thirdPartyAccess->name = Input::get('name');
-			$thirdPartyAccess->description = Input::get('description');
-			$thirdPartyAccess->instrument_id = Input::get('instrument_id');
+			$thirdPartyAccess->user_id = Input::get('user_id');
+			$thirdPartyAccess->username = Input::get('username');
+			$thirdPartyAccess->email = Input::get('email');
+			$thirdPartyAccess->password = Input::get('password');
+			$thirdPartyAccess->grant_type = Input::get('grant_type');
+			$thirdPartyAccess->client_id = Input::get('client_id');
+			$thirdPartyAccess->client_secret = Input::get('client_secret');
+			$thirdPartyAccess->save();
 
 			// redirect
 			return Redirect::to('tpaaccess');
