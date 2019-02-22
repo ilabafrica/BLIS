@@ -50,8 +50,7 @@
 						<select class="form-control" name="grant_type"> 
 							<option value="0"></option>
 							@foreach ($grantTypes as $grantType)
-								<option value="{{ $user->id }}"
-									{{($grantType == $thirdPartyAccess->grant_type) ? 'selected="selected"' : '' }}>
+								<option value="{{ $grantType }}"
 									{{ $grantType }}
 								</option>
 							@endforeach
