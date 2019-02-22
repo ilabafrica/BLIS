@@ -27,14 +27,15 @@
 						@endif
 					</div>
 					<div class="form-group">
-						<select class="form-control" name="user_id"> 
-							<option value="0"></option>
-							@foreach ($users as $user)
-								<option value="{{ $user->id }}"
-									{{ $user->name }}
-								</option>
-							@endforeach
-						</select>
+						<div class="form-group">
+			                <label for="user_id">User</label>
+							<select class="form-control" name="user_id"> 
+								<option value="0"></option>
+								@foreach ($users as $user)
+									<option value="{{ $user->id }}">{{ $user->name }}</option>
+								@endforeach
+							</select>
+						</div>
 						<div class="form-group">
 							{{ Form::label('username', 'Username') }}
 							{{ Form::text('username', Input::old('username'), array('class' => 'form-control')) }}
@@ -47,14 +48,15 @@
 							{{ Form::label('password', 'Password') }}
 							{{ Form::text('password', Input::old('password'), array('class' => 'form-control')) }}
 						</div>
-						<select class="form-control" name="grant_type"> 
-							<option value="0"></option>
-							@foreach ($grantTypes as $grantType)
-								<option value="{{ $grantType }}"
-									{{ $grantType }}
-								</option>
-							@endforeach
-						</select>
+						<div class="form-group">
+			                <label for="grant_type">Grant Type</label>
+							<select class="form-control" name="grant_type"> 
+								<option value="0"></option>
+								@foreach ($grantTypes as $grantType)
+									<option value="{{ $grantType }}">{{ $grantType }}</option>
+								@endforeach
+							</select>
+						</div>
 						<div class="form-group">
 							{{ Form::label('client_id', 'Client Id') }}
 							{{ Form::text('client_id', Input::old('client_id'), array('class' => 'form-control')) }}
