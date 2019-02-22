@@ -24,7 +24,7 @@
 					<select class="form-control" name="user_id"> 
 						<option value="0"></option>
 						@foreach ($users as $user)
-							<option value="{{ $user->id }}">
+							<option value="{{ $user->id }}"
 								{{($user->id == $thirdPartyAccess->user_id) ? 'selected="selected"' : '' }}>
 								{{ $user->name }}
 							</option>
@@ -48,7 +48,7 @@
 					<select class="form-control" name="grant_type"> 
 						<option value="0"></option>
 						@foreach ($grantTypes as $grantType)
-							<option value="{{ $grantType }}">
+							<option value="{{ $grantType }}"
 								{{($grantType == $thirdPartyAccess->grant_type) ? 'selected="selected"' : '' }}>
 								{{ $grantType }}
 							</option>
