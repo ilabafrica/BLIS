@@ -29,7 +29,9 @@ class ThirdPartyAccessController extends \BaseController {
 			'authorization_code',
 		];
 
-		return View::make('user.tpaaccess.create')->with('users', $users);
+		return View::make('user.tpaaccess.create')
+			->with('grantTypes', $grantTypes)
+			->with('users', $users);
 	}
 
 	/**
@@ -86,6 +88,7 @@ class ThirdPartyAccessController extends \BaseController {
 			'authorization_code',
 		];
 		return View::make('user.tpaaccess.edit')
+			->with('grantTypes', $grantTypes)
 			->with('thirdPartyAccess', $thirdPartyAccess)
 			->with('users', $users);
 	}
