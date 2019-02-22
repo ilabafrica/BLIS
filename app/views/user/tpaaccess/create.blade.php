@@ -31,7 +31,6 @@
 							<option value="0"></option>
 							@foreach ($users as $user)
 								<option value="{{ $user->id }}"
-									{{($user->id == $thirdPartyAccess->user_id) ? 'selected="selected"' : '' }}>
 									{{ $user->name }}
 								</option>
 							@endforeach
